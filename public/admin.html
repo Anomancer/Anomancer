@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>ANOMANCER · Lähetyskone Admin</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+  <main id="loginView" class="login-shell" hidden>
+    <form id="loginForm" class="login-card">
+      <p class="kicker">PRIVATE TRANSMISSION CONTROL</p>
+      <h1>LÄHETYSKONE</h1>
+      <p class="muted">Yksityinen admin. Ei sitemapissa, ei navigaatiossa, ei hakukoneille.</p>
+      <label>Salasana<input id="password" type="password" autocomplete="current-password" required></label>
+      <button type="submit">Kirjaudu sisään</button>
+      <p id="loginError" class="error" role="alert"></p>
+    </form>
+  </main>
+
+  <div id="appView" class="app" hidden>
+    <aside class="sidebar">
+      <div class="side-head">
+        <div><p class="kicker">ANOMANCER</p><h2>LÄHETYKSET</h2></div>
+        <button id="newBtn" class="ghost">+ Uusi</button>
+      </div>
+      <div class="filters">
+        <button data-filter="all" class="active">Kaikki</button><button data-filter="published">Julkaistut</button><button data-filter="draft">Luonnokset</button>
+      </div>
+      <div id="repoStatus" class="repo-status"></div>
+      <div id="postList" class="post-list"></div>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar">
+        <div><p class="kicker">TRANSMISSION EDITOR</p><strong id="editingLabel">Uusi lähetys</strong></div>
+        <div class="top-actions"><a href="/lahetykset" target="_blank" rel="noreferrer">Julkinen sivu ↗</a><button id="logoutBtn" class="ghost">Poistu</button></div>
+      </header>
+
+      <div class="editor-grid">
+        <section class="form-panel">
+          <div class="meta-grid">
+            <label>Kieli<select id="lang"><option value="fi">Suomi</option><option value="en">English</option></select></label>
+            <label>Päivä<input id="date" type="date"></label>
+            <label class="wide">Otsikko<input id="title" maxlength="180"></label>
+            <label>Kategoria<select id="category"><option value="ai-agents">AI & agentit</option><option value="tee">TEE</option><option value="systems">Järjestelmät</option><option value="semantics">Semantiikka</option><option value="build">Build log</option><option value="research">Tutkimus</option><option value="field">Kenttämerkinnät</option></select></label>
+            <label>Slug<input id="slug" maxlength="100" placeholder="automaattinen otsikosta"></label>
+            <label class="wide">SEO-kuvaus <span id="descCount" class="count">0 / 220</span><textarea id="description" rows="3" maxlength="220"></textarea></label>
+            <label class="wide">Translation key<input id="translationKey" maxlength="100" placeholder="sama avain FI/EN-versioille"></label>
+          </div>
+          <div class="body-head"><label for="body">Teksti · Markdown</label><span id="wordCount" class="count">0 sanaa · 0 min</span></div>
+          <textarea id="body" class="body-editor" spellcheck="true"></textarea>
+          <div class="actions">
+            <button id="saveDraftBtn" class="secondary">Tallenna luonnos</button>
+            <button id="publishBtn" class="primary">Julkaise</button>
+            <button id="deleteBtn" class="danger" hidden>Poista</button>
+            <a id="liveLink" class="live-link" target="_blank" rel="noreferrer" hidden>Katso live ↗</a>
+          </div>
+          <div id="status" class="status" role="status"></div>
+        </section>
+
+        <aside class="preview-panel">
+          <div class="preview-head"><p class="kicker">ESIKATSELU</p><span id="previewBadge">LUONNOS</span></div>
+          <article id="preview" class="preview article"></article>
+        </aside>
+      </div>
+    </section>
+  </div>
+  <script type="module" src="/admin.js"></script>
+</body>
+</html>

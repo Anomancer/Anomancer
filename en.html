@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="description" content="Aatu Isopahkala&#x27;s main entrance: plain-language Dispatches on AI, language and agent systems, plus a route into Black Hole Core Observatory." />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+  <link rel="canonical" href="https://anomancer.vercel.app/en" />
+  <link rel="alternate" hreflang="fi" href="https://anomancer.vercel.app/" />
+  <link rel="alternate" hreflang="en" href="https://anomancer.vercel.app/en" />
+  <link rel="alternate" hreflang="x-default" href="https://anomancer.vercel.app/" />
+  <meta property="og:site_name" content="ANOMANCER" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ANOMANCER — main entrance" />
+  <meta property="og:description" content="Dispatches on AI, language and verifiable systems. Go deeper into Black Hole Core Observatory." />
+  <meta property="og:url" content="https://anomancer.vercel.app/en" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="fi_FI" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="ANOMANCER — main entrance" />
+  <meta name="twitter:description" content="Dispatches on AI, language and verifiable systems. Go deeper into Black Hole Core Observatory." />
+  <title>ANOMANCER | AI, language and verifiable systems</title>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://anomancer.vercel.app/#website",
+      "url": "https://anomancer.vercel.app/",
+      "name": "ANOMANCER",
+      "inLanguage": [
+        "fi",
+        "en"
+      ],
+      "publisher": {
+        "@id": "https://anomancer.vercel.app/#person"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://anomancer.vercel.app/#person",
+      "name": "Aatu Isopahkala",
+      "url": "https://anomancer.vercel.app/",
+      "knowsAbout": [
+        "artificial intelligence",
+        "AI agents",
+        "language",
+        "semantics",
+        "verifiable systems",
+        "agent orchestration"
+      ]
+    }
+  ]
+}
+  </script>
+<meta name="theme-color" content="#040408" />
+
+
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home">ANOMANCER</a>
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <div class="header-right" id="header-menu">
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#work">Routes</a>
+        <a href="/dispatches">Dispatches</a>
+        <a href="https://bhc-observatory.vercel.app/">Observatory</a>
+      </nav>
+      <div class="lang-switch" aria-label="Language"><a href="/" lang="fi">FI</a><span>/</span><a class="active" href="/en" lang="en">EN</a></div>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero" aria-labelledby="site-title">
+      <div class="hero-inner">
+        <p class="eyebrow">Aatu Isopahkala</p>
+        <h1 id="site-title">ANOMANCER</h1>
+        <p class="tagline">I build layers between people, language and AI.</p>
+        <p class="intro">This is the main entrance. Dispatches explain what I build and why. The Observatory contains the machines, network, research and the deeper material.</p>
+        <a class="scroll-cue" href="#work">Choose a route ↓</a>
+      </div>
+    </section>
+
+    <section id="work" class="section" aria-labelledby="work-title">
+      <div class="section-heading">
+        <p class="eyebrow">Work / Routes</p>
+        <h2 id="work-title">Two doors.</h2>
+        <p>If you want to understand, start with Dispatches. If you want to see what has been built, fall into the Observatory.</p>
+      </div>
+      <div class="gateway-grid">
+        <a class="gateway-card primary" href="/dispatches">
+          <span class="card-kicker">01 · Explanation / Blog</span>
+          <h3>Dispatches</h3>
+          <p>Plain-language writing on AI, language, agent systems, building and what is actually happening inside the machine room.</p>
+          <span class="card-arrow">Open dispatches →</span>
+        </a>
+        <a class="gateway-card" href="https://bhc-observatory.vercel.app/">
+          <span class="card-kicker">02 · Go deeper</span>
+          <h3>Observatory</h3>
+          <p>Applications, architecture, research, network and the wider built ecosystem in one place. Enter at your own risk.</p>
+          <span class="card-arrow">Fall into the Observatory →</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>ANOMANCER · Tampere, Finland</span>
+    <a href="mailto:aatu.isopahkala@proton.me">aatu.isopahkala@proton.me</a>
+  </footer>
+
+  <script>
+    const button = document.querySelector('.menu-toggle');
+    const menu = document.querySelector('#header-menu');
+    button?.addEventListener('click', () => {
+      const open = menu.classList.toggle('is-open');
+      button.setAttribute('aria-expanded', String(open));
+      button.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      menu.classList.remove('is-open');
+      button?.setAttribute('aria-expanded', 'false');
+    }));
+  </script>
+</body>
+</html>
