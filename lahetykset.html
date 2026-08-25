@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Selkokielisiä kirjoituksia tekoälystä, kielestä, agenttijärjestelmistä, tarkistettavasta AI:sta ja rakentamisesta." />
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+<link rel="canonical" href="https://anomancer.vercel.app/lahetykset" />
+<link rel="alternate" hreflang="fi" href="https://anomancer.vercel.app/lahetykset" />
+<link rel="alternate" hreflang="en" href="https://anomancer.vercel.app/dispatches" />
+<link rel="alternate" hreflang="x-default" href="https://anomancer.vercel.app/lahetykset" />
+<meta property="og:site_name" content="ANOMANCER" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Lähetykset | ANOMANCER" />
+<meta property="og:description" content="Selkokielisiä kirjoituksia tekoälystä, kielestä, agenttijärjestelmistä, tarkistettavasta AI:sta ja rakentamisesta." />
+<meta property="og:url" content="https://anomancer.vercel.app/lahetykset" />
+<meta property="og:locale" content="fi_FI" />
+<meta property="og:locale:alternate" content="en_US" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Lähetykset | ANOMANCER" />
+<meta name="twitter:description" content="Selkokielisiä kirjoituksia tekoälystä, kielestä, agenttijärjestelmistä, tarkistettavasta AI:sta ja rakentamisesta." />
+<link rel="alternate" type="application/rss+xml" title="ANOMANCER" href="https://anomancer.vercel.app/rss.xml" />
+<title>Lähetykset | ANOMANCER</title>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "@id": "https://anomancer.vercel.app/lahetykset#blog",
+  "url": "https://anomancer.vercel.app/lahetykset",
+  "name": "ANOMANCER — LÄHETYKSET",
+  "description": "Selkokielisiä kirjoituksia tekoälystä, kielestä, agenttijärjestelmistä, tarkistettavasta AI:sta ja rakentamisesta.",
+  "inLanguage": "fi",
+  "author": {
+    "@type": "Person",
+    "@id": "https://anomancer.vercel.app/#person",
+    "name": "Aatu Isopahkala",
+    "url": "https://anomancer.vercel.app/"
+  }
+}</script>
+<meta name="theme-color" content="#040408" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css" />
+</head><body><header class="site-header"><a class="brand" href="/">ANOMANCER</a><button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button><div class="header-right" id="header-menu"><nav class="main-nav" aria-label="Navigation"><a href="/">Etusivu</a><a href="https://bhc-observatory.vercel.app/">Observatorio</a></nav><div class="lang-switch" aria-label="Language"><a class="active" href="/lahetykset">FI</a><span>/</span><a class="" href="/dispatches">EN</a></div></div></header><main class="section transmission-shell blog-shell"><div class="transmission-intro"><p class="eyebrow">Transmission log</p><h1>LÄHETYKSET</h1><p class="intro">Selityskerros tekoälyyn, kieleen ja rakennettuihin järjestelmiin. Yksi asia kerrallaan, mahdollisimman vähän semanttista sumua.</p></div><div class="blog-layout"><aside class="category-sidebar" aria-label="Categories"><div class="category-sticky"><p class="category-title">Kategoria</p><button class="category-filter is-active" data-filter="all">Kaikki<span>1</span></button><button class="category-filter" data-filter="field">Kenttämerkinnät<span>1</span></button></div></aside><section class="blog-stream"><div id="dispatch-empty" class="dispatch-empty" hidden>Tässä kategoriassa ei ole vielä julkaistuja lähetyksiä.</div><div class="section-minihead"><span>Uusin lähetys</span></div><article class="dispatch-card featured" data-category="field"><div class="dispatch-card-top"><span class="category-tag">Kenttämerkinnät</span><time datetime="2026-08-26">26. elokuuta 2026</time></div><h2><a href="/lahetykset/miksi-tama-sivu-on-olemassa">Miksi tämä sivu on olemassa?</a></h2><p>Lähetykset ovat ANOMANCERin selityskerros: yksi idea, ongelma tai rakennettu järjestelmä kerrallaan ihmiskielelle.</p><div class="dispatch-card-foot"><span>1 min lukuaika</span><a href="/lahetykset/miksi-tama-sivu-on-olemassa">Lue lähetys →</a></div></article><div class="section-minihead archive-head"><span>Kaikki lähetykset</span><span id="dispatch-count">1</span></div><div class="dispatch-grid"></div></section></div></main><footer class="footer"><span>ANOMANCER · Lähetykset</span><a href="/">← Kaikki lähetykset</a></footer><script>const filters=[...document.querySelectorAll('.category-filter')],cards=[...document.querySelectorAll('.dispatch-card')],empty=document.querySelector('#dispatch-empty'),count=document.querySelector('#dispatch-count');filters.forEach(btn=>btn.addEventListener('click',()=>{filters.forEach(b=>b.classList.remove('is-active'));btn.classList.add('is-active');const f=btn.dataset.filter;let n=0;cards.forEach(card=>{const show=f==='all'||card.dataset.category===f;card.hidden=!show;if(show)n++;});if(count)count.textContent=n;if(empty)empty.hidden=n!==0;}));</script><script>const b=document.querySelector('.menu-toggle'),m=document.querySelector('#header-menu');b?.addEventListener('click',()=>{const o=m.classList.toggle('is-open');b.setAttribute('aria-expanded',String(o));});m?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>m.classList.remove('is-open')));</script></body></html>

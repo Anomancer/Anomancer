@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-08-25T23:05:03.269Z",
+  "published": [
+    {
+      "lang": "fi",
+      "slug": "miksi-tama-sivu-on-olemassa",
+      "title": "Miksi tämä sivu on olemassa?",
+      "category": "field",
+      "date": "2026-08-26",
+      "url": "https://anomancer.vercel.app/lahetykset/miksi-tama-sivu-on-olemassa"
+    },
+    {
+      "lang": "en",
+      "slug": "why-this-page-exists",
+      "title": "Why does this page exist?",
+      "category": "field",
+      "date": "2026-08-26",
+      "url": "https://anomancer.vercel.app/dispatches/why-this-page-exists"
+    }
+  ]
+}
