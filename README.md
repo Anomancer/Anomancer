@@ -179,3 +179,15 @@ Desktopin hero-, identiteetti-, reitti-, lähetys- ja artikkeliotsikoiden maksim
 - Added the human-facing Instagram account `@kaikkeudenkasvot` to the FI and EN home footers.
 - Added Instagram to Person `sameAs` structured data.
 - ANOMANCER keeps human-facing contacts here; project/system links remain in the Observatory.
+
+
+## V13.12 · LIVE CLEANUP
+
+- article language switch opens the matching translation when one exists
+- duplicate article H1 matching the page title is removed during render
+- empty category filters are hidden
+- audience filters stay hidden until targeted audience metadata is actually in use
+- Dispatches index footer points to Home with the correct label
+- Finnish library SEO copy no longer claims formal selkokieli
+- RSS is explicitly chronological and independent of pinning
+- paired “Why does this page exist?” articles are polished, aligned and pinned in both languages via migration script
