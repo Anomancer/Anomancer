@@ -142,3 +142,11 @@ Jos GitHub-token vuotaa, peru se GitHubissa heti. Jos session secret vuotaa, vai
 - Korttien, artikkelien, kuvien ja pitkien otsikoiden mobiilileveydet on rajattu turvallisesti.
 - Desktop-tyyli säilyy ennallaan.
 
+## 13.7 · HUMAN GATEWAY
+
+- Erillinen Uusin lähetys -nosto poistettu. Kaikki julkaisut ovat yhdessä tasavertaisessa listassa.
+- Etusivun hero kertoo suoraan hyödyn: monimutkaiset järjestelmät avataan ja käännetään ihmisille.
+- Etusivulle lisätty Kuka minä olen? -osio.
+- Julkinen identiteetti: järjestelmäajattelija, konseptisuunnittelija ja prototyyppaaja.
+- Modular Creative Intelligence kokoaa monialaisen tekemisen yhden ymmärrettävän kehyksen alle.
+- FI/EN-sivut päivitetty samaan rakenteeseen.

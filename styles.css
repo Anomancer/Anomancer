@@ -617,3 +617,52 @@ h1 {
   .dispatch-card h2 { font-size: clamp(1.65rem, 8.3vw, 2.15rem); }
   .brand { letter-spacing: .22em; }
 }
+
+
+/* 13.7 · HUMAN GATEWAY */
+.identity-section {
+  padding-top: 88px;
+  padding-bottom: 92px;
+}
+.identity-grid {
+  display: grid;
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+  gap: clamp(36px, 7vw, 96px);
+  align-items: start;
+}
+.identity-heading { margin-bottom: 0; }
+.identity-heading h2 { max-width: 620px; }
+.identity-copy {
+  max-width: 720px;
+  color: var(--muted);
+  font-size: clamp(1.08rem, 1.7vw, 1.28rem);
+  line-height: 1.68;
+}
+.identity-copy p { margin: 0 0 1.15em; }
+.identity-copy strong { color: rgba(255,255,255,.94); font-weight: 700; }
+.identity-modules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+.identity-modules span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.025);
+  color: rgba(255,255,255,.78);
+  font-size: .84rem;
+  line-height: 1.2;
+}
+@media (max-width: 760px) {
+  .identity-section { padding-top: 64px; padding-bottom: 72px; }
+  .identity-grid { grid-template-columns: 1fr; gap: 24px; }
+  .identity-heading h2 { font-size: clamp(1.9rem, 9vw, 2.6rem); }
+  .identity-copy { font-size: 1.05rem; line-height: 1.62; }
+  .identity-modules { gap: 7px; margin-top: 22px; }
+  .identity-modules span { font-size: .78rem; min-height: 32px; padding: 6px 10px; }
+}
