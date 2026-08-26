@@ -3,7 +3,7 @@ title: "Miksi tämä sivu on olemassa?"
 date: "2026-08-26"
 category: "info-media"
 audience: ["all"]
-description: "Lähetykset ovat Anomancerin selityskerros: yksi idea, ongelma tai rakennettu järjestelmä kerrallaan selkokielelle."
+description: "ANOMANCER purkaa tekoälyä, järjestelmiä, mediaa, kieltä ja teknologiaa ymmärrettävään muotoon ja etsii siitä käytännön hyötyä ihmisille."
 slug: "miksi-tama-sivu-on-olemassa"
 lang: "fi"
 translationKey: "why-this-page-exists"
