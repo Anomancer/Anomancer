@@ -3,10 +3,25 @@ import crypto from 'node:crypto';
 const BASE_URL='https://api.deepseek.com';
 const ALLOWED_MODELS=new Set(['deepseek-v4-flash','deepseek-v4-pro']);
 const RAW_FALLBACK_MAX=30_000;
+const SOURCE_DEFAULT_MAX_OUTPUT_TOKENS=7000;
+const SOURCE_MIN_MAX_OUTPUT_TOKENS=3000;
+const SOURCE_MAX_MAX_OUTPUT_TOKENS=12000;
+const SOURCE_REASONING_EFFORTS=new Set(['low','medium','high']);
 
 function configuredModel(name, fallback){
   const value=String(process.env[name]||fallback).trim();
   return ALLOWED_MODELS.has(value)?value:fallback;
+}
+function integerEnv(name,fallback,min,max){
+  const n=Number.parseInt(String(process.env[name]||''),10);
+  return Number.isFinite(n)?Math.min(max,Math.max(min,n)):fallback;
+}
+function sourceReasoningEffort(){
+  const value=String(process.env.DEEPSEEK_SOURCE_REASONING_EFFORT||'medium').trim().toLowerCase();
+  return SOURCE_REASONING_EFFORTS.has(value)?value:'medium';
+}
+function sourceMaxOutputTokens(){
+  return integerEnv('DEEPSEEK_SOURCE_MAX_OUTPUT_TOKENS',SOURCE_DEFAULT_MAX_OUTPUT_TOKENS,SOURCE_MIN_MAX_OUTPUT_TOKENS,SOURCE_MAX_MAX_OUTPUT_TOKENS);
 }
 
 export function deepseekConfigStatus(){
@@ -14,6 +29,8 @@ export function deepseekConfigStatus(){
     configured:Boolean(process.env.DEEPSEEK_API_KEY),
     defaultModel:configuredModel('DEEPSEEK_MODEL','deepseek-v4-flash'),
     sourceModel:'deepseek-v4-flash',
+    sourceMaxOutputTokens:sourceMaxOutputTokens(),
+    sourceReasoningEffort:sourceReasoningEffort(),
     writerModel:configuredModel('DEEPSEEK_WRITER_MODEL',configuredModel('DEEPSEEK_MODEL','deepseek-v4-flash')),
     criticModel:configuredModel('DEEPSEEK_CRITIC_MODEL',configuredModel('DEEPSEEK_MODEL','deepseek-v4-flash')),
   };
@@ -121,40 +138,82 @@ function cleanUrl(value){
   }catch{return '';}
 }
 
+function normalizeCandidate(item){
+  const url=cleanUrl(item?.url);
+  if(!url)return null;
+  return {
+    title:String(item?.title||url).slice(0,300),
+    url,
+    publisher:String(item?.publisher||'').slice(0,180),
+    date:String(item?.date||'').slice(0,32),
+    why:String(item?.why||'').slice(0,280),
+    supports:String(item?.supports||'').slice(0,420),
+    challenges:String(item?.challenges||'').slice(0,420),
+  };
+}
+
 function normalizeSourceResult(value){
   const input=(value&&typeof value==='object'&&!Array.isArray(value))?value:{};
   const seen=new Set();
   const candidates=[];
   for(const item of Array.isArray(input.candidateSources)?input.candidateSources:[]){
-    const url=cleanUrl(item?.url);
-    if(!url||seen.has(url))continue;
-    seen.add(url);
-    candidates.push({
-      title:String(item?.title||url).slice(0,400),
-      url,
-      publisher:String(item?.publisher||'').slice(0,240),
-      date:String(item?.date||'').slice(0,40),
-      why:String(item?.why||'').slice(0,1200),
-      supports:String(item?.supports||'').slice(0,1200),
-      challenges:String(item?.challenges||'').slice(0,1200),
-    });
+    const normalized=normalizeCandidate(item);
+    if(!normalized||seen.has(normalized.url))continue;
+    seen.add(normalized.url);
+    candidates.push(normalized);
   }
   return {
-    summary:String(input.summary||'').slice(0,5000),
-    searchQueries:(Array.isArray(input.searchQueries)?input.searchQueries:[]).map(x=>String(x).slice(0,500)).filter(Boolean).slice(0,8),
-    candidateSources:candidates.slice(0,12),
-    gaps:(Array.isArray(input.gaps)?input.gaps:[]).map(x=>String(x).slice(0,1000)).filter(Boolean).slice(0,10),
-    warnings:(Array.isArray(input.warnings)?input.warnings:[]).map(x=>String(x).slice(0,1000)).filter(Boolean).slice(0,10),
+    summary:String(input.summary||'').slice(0,900),
+    searchQueries:(Array.isArray(input.searchQueries)?input.searchQueries:[]).map(x=>String(x).slice(0,240)).filter(Boolean).slice(0,6),
+    candidateSources:candidates.slice(0,6),
+    gaps:(Array.isArray(input.gaps)?input.gaps:[]).map(x=>String(x).slice(0,450)).filter(Boolean).slice(0,4),
+    warnings:(Array.isArray(input.warnings)?input.warnings:[]).map(x=>String(x).slice(0,450)).filter(Boolean).slice(0,4),
   };
 }
 
-function sourceRawFallback(raw,warning,status='completed'){
+function extractArrayObjects(raw,key){
+  const text=String(raw||'');
+  const keyIndex=text.indexOf(`"${key}"`);
+  if(keyIndex<0)return [];
+  const arrayStart=text.indexOf('[',keyIndex);
+  if(arrayStart<0)return [];
+  const tail=text.slice(arrayStart+1);
+  const values=[];
+  for(const candidate of balancedJsonCandidates(tail)){
+    if(!candidate.startsWith('{'))continue;
+    try{
+      const parsed=JSON.parse(candidate);
+      if(parsed&&typeof parsed==='object'&&!Array.isArray(parsed))values.push(parsed);
+    }catch{}
+  }
+  return values;
+}
+
+function salvagePartialSourceResult(raw){
+  const seen=new Set();
+  const candidates=[];
+  for(const item of extractArrayObjects(raw,'candidateSources')){
+    const normalized=normalizeCandidate(item);
+    if(!normalized||seen.has(normalized.url))continue;
+    seen.add(normalized.url);
+    candidates.push(normalized);
+    if(candidates.length>=6)break;
+  }
+  return {candidateSources:candidates};
+}
+
+function sourceRawFallback(raw,warning,status='completed',reason=''){
+  const salvaged=salvagePartialSourceResult(raw);
+  const reasonText=reason?`DeepSeek incomplete reason: ${reason}`:'';
+  const recovered=salvaged.candidateSources.length;
   return {
-    summary:'Rakenteinen lähdevastaus ei onnistunut. DeepSeekin näkyvä raakavastaus säilytettiin alle ihmisen tarkistettavaksi.',
+    summary:recovered
+      ? `DeepSeekin vastaus jäi kesken, mutta ${recovered} valmista lähde-ehdokasta saatiin talteen ihmisen tarkistettavaksi.`
+      : 'Rakenteinen lähdevastaus ei onnistunut. DeepSeekin näkyvä raakavastaus säilytettiin alle ihmisen tarkistettavaksi.',
     searchQueries:[],
-    candidateSources:[],
+    candidateSources:salvaged.candidateSources,
     gaps:[],
-    warnings:[warning,status!=='completed'?`DeepSeek Responses API status: ${status}`:''].filter(Boolean),
+    warnings:[warning,status!=='completed'?`DeepSeek Responses API status: ${status}`:'',reasonText].filter(Boolean).slice(0,4),
     rawResponse:String(raw||'').slice(0,RAW_FALLBACK_MAX),
   };
 }
@@ -196,26 +255,32 @@ function responseOutputText(data){
   return chunks.join('\n').trim();
 }
 
-export async function deepseekWebSearchJson({system,user,schema,maxTokens=7000}){
+export async function deepseekWebSearchJson({system,user,schema,maxTokens}){
   const model='deepseek-v4-flash';
+  const requestedTokens=Number.isFinite(Number(maxTokens))
+    ? Math.min(SOURCE_MAX_MAX_OUTPUT_TOKENS,Math.max(SOURCE_MIN_MAX_OUTPUT_TOKENS,Number(maxTokens)))
+    : sourceMaxOutputTokens();
+  const effort=sourceReasoningEffort();
   const data=await dsFetch('/responses',{
     model,
     instructions:system,
     input:user,
     tools:[{type:'web_search'}],
     tool_choice:{type:'web_search'},
-    reasoning:{effort:'high'},
-    max_output_tokens:maxTokens,
+    reasoning:{effort},
+    max_output_tokens:requestedTokens,
     text:{format:{type:'json_schema',name:'anomancer_source_agent',schema}},
     store:false,
   });
   const visible=responseOutputText(data);
   const parsed=parseJsonText(visible,{allowRawFallback:true});
-  const complete=data?.status||'completed';
-  const structured=parsed.ok&&complete==='completed';
+  const responseStatus=String(data?.status||'completed');
+  const incompleteReason=responseStatus==='incomplete'?String(data?.incomplete_details?.reason||'unknown'):'';
+  const structured=parsed.ok&&responseStatus==='completed';
   const result=structured
     ? normalizeSourceResult(parsed.value)
-    : sourceRawFallback(parsed.raw,parsed.warning||'DeepSeekin lähdevastaus jäi epätäydelliseksi.',complete);
+    : sourceRawFallback(parsed.raw,parsed.warning||'DeepSeekin lähdevastaus jäi epätäydelliseksi.',responseStatus,incompleteReason);
+  const reasoningTokens=Number(data?.usage?.output_tokens_details?.reasoning_tokens||0);
   return {
     result,
     meta:{
@@ -223,7 +288,14 @@ export async function deepseekWebSearchJson({system,user,schema,maxTokens=7000})
       usage:data?.usage||null,
       searchedWeb:true,
       structured,
-      responseStatus:complete,
+      responseStatus,
+      incompleteReason,
+      recoveredSourceCount:structured?0:(Array.isArray(result.candidateSources)?result.candidateSources.length:0),
+      visibleOutputChars:visible.length,
+      outputTokens:Number(data?.usage?.output_tokens||0),
+      reasoningTokens,
+      maxOutputTokens:requestedTokens,
+      reasoningEffort:effort,
       runId:data?.id||`local-${crypto.randomUUID()}`,
     },
   };

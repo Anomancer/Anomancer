@@ -54,7 +54,7 @@ export default async function handler(req,res){
     const custom=cleanString(body.instruction,MAX_CUSTOM_CHARS);
     const {system,user}=promptFor(agent,post,custom);
     const response=agent==='source'
-      ? await deepseekWebSearchJson({system,user,schema:SOURCE_SCHEMA,maxTokens:7000})
+      ? await deepseekWebSearchJson({system,user,schema:SOURCE_SCHEMA})
       : await deepseekChatJson({system,user,model:modelFor(agent),maxTokens:agent==='writer'||agent==='voice'?8000:5500,thinking:!['voice'].includes(agent)});
     return json(res,200,{ok:true,agent,result:response.result,meta:response.meta,humanApprovalRequired:true});
   }catch(e){

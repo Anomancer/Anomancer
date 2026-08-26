@@ -47,3 +47,7 @@ DEEPSEEK_TIMEOUT_MS=75000
 - best-effort 24 agenttikutsua / 10 min / sessio + IP
 - DeepSeekin reasoning-sisältöä ei palauteta käyttöliittymään
 - agentin tulos ei tallenna eikä julkaise mitään automaattisesti
+
+## 14.0.3 · Source Agent Completion Control
+
+Pitkät web-haut käyttävät kompaktia lähdebudjettia, näyttävät Responses API:n incomplete-syyn, pelastavat ehjät lähdeobjektit katkenneesta JSONista ja tukevat progressiivista Hae lisää -hakua. Human approval gate säilyy.

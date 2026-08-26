@@ -3,6 +3,8 @@ const box=q('#agentDesk');
 if(box){
   const runBtn=q('#agentRunBtn'), applyBtn=q('#agentApplyBtn'), copyBtn=q('#agentCopyBtn');
   const agentSelect=q('#agentRole'), instruction=q('#agentInstruction'), output=q('#agentOutput'), status=q('#agentStatus'), modelStatus=q('#agentModelStatus');
+  let moreBtn=q('#agentMoreBtn');
+  if(!moreBtn&&runBtn){moreBtn=document.createElement('button');moreBtn.id='agentMoreBtn';moreBtn.type='button';moreBtn.className='secondary';moreBtn.textContent='Hae lisää';moreBtn.hidden=true;runBtn.insertAdjacentElement('afterend',moreBtn);}
   let csrf='',last=null;
 
   const AGENT_LABELS={source:'Lähdeagentti',claims:'Väitevahti',structure:'Rakenneagentti',writer:'Kirjoitusagentti',critic:'Kriitikko',voice:'Äänieditori',package:'Julkaisupaketti'};
@@ -28,40 +30,74 @@ if(box){
     };
   }
   function fire(el){if(el)el.dispatchEvent(new Event('input',{bubbles:true}));}
+  function sourceRows(items=[]){return (Array.isArray(items)?items:[]).filter(x=>x?.url).map(x=>({title:x.title||x.url,url:x.url,publisher:x.publisher||'',date:x.date||''}));}
+  function mergeSources(...groups){const out=[],seen=new Set();for(const group of groups)for(const item of sourceRows(group)){if(seen.has(item.url))continue;seen.add(item.url);out.push(item);}return out;}
+  function incompleteLabel(reason=''){
+    if(reason==='max_output_tokens')return 'vastaus saavutti output-tokenrajan';
+    if(reason==='content_filter')return 'vastaus pysähtyi sisältösuodattimeen';
+    return reason?`vastaus jäi kesken (${reason})`:'vastaus jäi kesken';
+  }
   async function getSession(){
     const r=await fetch('/api/admin/session',{credentials:'same-origin'});const d=await r.json().catch(()=>({}));if(!r.ok||!d.authenticated)throw new Error('Admin-session puuttuu.');csrf=d.csrf||'';return d;
   }
   async function refreshConfig(){
     try{await getSession();const r=await fetch('/api/admin/agents',{credentials:'same-origin'});const d=await r.json();if(!r.ok)throw new Error(d.message||'Agenttien tila ei auennut.');
-      const c=d.deepseek||{};modelStatus.textContent=c.configured?`DeepSeek valmis · ${c.defaultModel}`:'DeepSeek API-avain puuttuu';modelStatus.dataset.kind=c.configured?'ok':'warn';
+      const c=d.deepseek||{};modelStatus.textContent=c.configured?`DeepSeek valmis · ${c.defaultModel} · lähdehaku ${c.sourceReasoningEffort||'medium'}/${c.sourceMaxOutputTokens||7000}`:'DeepSeek API-avain puuttuu';modelStatus.dataset.kind=c.configured?'ok':'warn';
     }catch{modelStatus.textContent='Kirjaudu sisään, niin agenttitila tarkistetaan.';modelStatus.dataset.kind='';}
   }
   function renderResult(agent,result,meta){
-    const title=`${AGENT_LABELS[agent]||agent} · ${meta?.model||'DeepSeek'}${meta?.searchedWeb?' · WEB':''}`;
+    const recovered=Number(meta?.recoveredSourceCount||0);
+    const incomplete=agent==='source'&&meta?.responseStatus==='incomplete';
+    const metaBits=[];
+    if(incomplete)metaBits.push(`INCOMPLETE: ${meta?.incompleteReason||'unknown'}`);
+    if(recovered)metaBits.push(`${recovered} pelastettu`);
+    if(meta?.outputTokens)metaBits.push(`${meta.outputTokens} output-tokenia`);
+    if(meta?.reasoningTokens)metaBits.push(`${meta.reasoningTokens} reasoning`);
+    const title=`${AGENT_LABELS[agent]||agent} · ${meta?.model||'DeepSeek'}${meta?.searchedWeb?' · WEB':''}${metaBits.length?` · ${metaBits.join(' · ')}`:''}`;
     output.textContent=`${title}\n\n${JSON.stringify(result,null,2)}`;
     copyBtn.hidden=false;
+    const sourceCount=agent==='source'&&Array.isArray(result?.candidateSources)?result.candidateSources.length:0;
     const rawFallback=agent==='source'&&meta?.structured===false;
-    applyBtn.hidden=rawFallback||!['source','claims','writer','voice','package'].includes(agent);
-    applyBtn.textContent=agent==='source'?'Lisää lähde-ehdokkaat':agent==='claims'?'Siirrä Evidence Layeriin':agent==='writer'?'Käytä luonnosta':agent==='voice'?'Käytä äänieditointia':'Käytä julkaisupakettia';
+    applyBtn.hidden=(rawFallback&&sourceCount===0)||!['source','claims','writer','voice','package'].includes(agent);
+    applyBtn.textContent=agent==='source'?(rawFallback?'Lisää pelastetut lähteet':'Lisää lähde-ehdokkaat'):agent==='claims'?'Siirrä Evidence Layeriin':agent==='writer'?'Käytä luonnosta':agent==='voice'?'Käytä äänieditointia':'Käytä julkaisupakettia';
+    if(moreBtn)moreBtn.hidden=agent!=='source'||sourceCount===0;
   }
-  async function run(){
+  async function run({more=false}={}){
     try{
-      runBtn.disabled=true;applyBtn.hidden=true;copyBtn.hidden=true;setStatus('Agentti työskentelee…','working');
+      runBtn.disabled=true;if(moreBtn)moreBtn.disabled=true;applyBtn.hidden=true;copyBtn.hidden=true;setStatus(more?'Lähdeagentti etsii lisää ilman duplikaatteja…':'Agentti työskentelee…','working');
       if(!csrf)await getSession();
       const agent=agentSelect.value;
-      const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agent,instruction:instruction.value,post:currentPost()})});
+      const payloadPost=currentPost();
+      const previous=more&&last?.agent==='source'?sourceRows(last.result?.candidateSources):[];
+      if(more&&previous.length)payloadPost.sources=mergeSources(payloadPost.sources,previous);
+      const extra=more?'Lisähaku: etsi enintään 4 uutta vahvaa lähdettä, joita ei vielä ole DRAFT CONTEXT sources -listassa. Keskity erityisesti jäljellä oleviin aukkoihin, vastanäyttöön tai alkuperäislähteisiin. Älä toista aiempia URL-osoitteita.':'';
+      const combinedInstruction=[instruction.value,extra].filter(Boolean).join('\n\n');
+      const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agent,instruction:combinedInstruction,post:payloadPost})});
       const d=await r.json().catch(()=>({}));
       if(!r.ok||!d.ok){if(r.status===403){csrf='';}throw new Error(d.message||d.error||`HTTP ${r.status}`);}
+      if(more&&agent==='source'&&previous.length){
+        const merged=mergeSources(previous,d.result?.candidateSources).slice(0,12);
+        d.result={...d.result,candidateSources:merged};
+        d.meta={...(d.meta||{}),additionalPass:true};
+      }
       last=d;renderResult(agent,d.result,d.meta);
-      if(agent==='source'&&d.meta?.structured===false)setStatus('⚠ Web-haku valmistui, mutta rakenteinen JSON petti. Raakavastaus säilytettiin alle. Mitään ei tallennettu eikä julkaistu.','warn');
-      else setStatus('✓ Ehdotus valmis. Mitään ei tallennettu eikä julkaistu.','ok');
-    }catch(e){setStatus(`✗ ${e.message}`,'err');output.textContent='';}
-    finally{runBtn.disabled=false;}
+      if(agent==='source'&&d.meta?.structured===false){
+        const count=Array.isArray(d.result?.candidateSources)?d.result.candidateSources.length:0;
+        const reason=incompleteLabel(d.meta?.incompleteReason||'');
+        setStatus(count?`⚠ Web-haku valmistui osittain: ${reason}. ${count} valmista lähde-ehdokasta saatiin talteen. Tarkista ne itse ennen käyttöä.`:`⚠ Web-haku valmistui osittain: ${reason}. Raakavastaus säilytettiin. Mitään ei tallennettu eikä julkaistu.`,'warn');
+      }else if(agent==='source'){
+        const count=Array.isArray(d.result?.candidateSources)?d.result.candidateSources.length:0;
+        setStatus(`✓ ${count} lähde-ehdokasta valmis. Mitään ei tallennettu eikä julkaistu. Tarvittaessa voit hakea lisää.`,'ok');
+      }else setStatus('✓ Ehdotus valmis. Mitään ei tallennettu eikä julkaistu.','ok');
+    }catch(e){setStatus(`✗ ${e.message}`,'err');output.textContent='';if(moreBtn)moreBtn.hidden=true;}
+    finally{runBtn.disabled=false;if(moreBtn)moreBtn.disabled=false;}
   }
   function apply(){
     if(!last?.result)return;const a=last.agent,r=last.result;
     if(a==='source'){
-      if(!confirm('Lisätäänkö web-haun lähde-ehdokkaat Lähteet-kenttään? Tarkista URL:t ja sisältö itse ennen julkaisua.'))return;
+      const recovered=last.meta?.structured===false;
+      const prompt=recovered?'Lisätäänkö kesken jääneestä vastauksesta pelastetut lähde-ehdokkaat Lähteet-kenttään? Tarkista jokainen URL ja lähteen sisältö itse ennen julkaisua.':'Lisätäänkö web-haun lähde-ehdokkaat Lähteet-kenttään? Tarkista URL:t ja sisältö itse ennen julkaisua.';
+      if(!confirm(prompt))return;
       const existing=parseSources(q('#sources').value),seen=new Set(existing.map(x=>x.url));
       const add=(Array.isArray(r.candidateSources)?r.candidateSources:[]).filter(x=>x?.url&&!seen.has(x.url)).map(x=>({title:x.title||x.url,url:x.url,publisher:x.publisher||'',date:x.date||''}));
       q('#sources').value=formatSources([...existing,...add]);fire(q('#sources'));setStatus(`✓ Lisättiin ${add.length} lähde-ehdokasta. Tarkistusvastuu jäi ihmiselle.`,'ok');return;
@@ -94,8 +130,10 @@ if(box){
       setStatus('✓ Julkaisupaketti siirretty editoriin. Human approval gate on edelleen kiinni.','ok');
     }
   }
-  runBtn.addEventListener('click',run);applyBtn.addEventListener('click',apply);
+  runBtn.addEventListener('click',()=>run());
+  if(moreBtn)moreBtn.addEventListener('click',()=>run({more:true}));
+  applyBtn.addEventListener('click',apply);
   copyBtn.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(output.textContent);setStatus('✓ Agentin tulos kopioitu.','ok');}catch{setStatus('Kopiointi ei onnistunut selaimessa.','err');}});
-  agentSelect.addEventListener('change',()=>{last=null;applyBtn.hidden=true;copyBtn.hidden=true;output.textContent='';setStatus('');});
+  agentSelect.addEventListener('change',()=>{last=null;applyBtn.hidden=true;copyBtn.hidden=true;if(moreBtn)moreBtn.hidden=true;output.textContent='';setStatus('');});
   setTimeout(refreshConfig,700);
 }
