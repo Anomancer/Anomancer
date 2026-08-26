@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
-import { getSession, requireCsrf } from '../_lib/auth.js';
-import { json, readJson, sameOrigin } from '../_lib/http.js';
-import { putBase64File } from '../_lib/github.js';
+import { getSession, requireCsrf } from '../../server/auth.js';
+import { json, readJson, sameOrigin } from '../../server/http.js';
+import { putBase64File } from '../../server/github.js';
 
 const TYPES={
   'image/webp':'webp',

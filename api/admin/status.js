@@ -1,6 +1,6 @@
-import { getSession } from '../_lib/auth.js';
-import { json } from '../_lib/http.js';
-import { repoInfo, githubConfigStatus } from '../_lib/github.js';
+import { getSession } from '../../server/auth.js';
+import { json } from '../../server/http.js';
+import { repoInfo, githubConfigStatus } from '../../server/github.js';
 export default async function handler(req,res){
   if(req.method!=='GET') return json(res,405,{ok:false,error:'METHOD'});
   if(!getSession(req)) return json(res,401,{ok:false,error:'AUTH'});

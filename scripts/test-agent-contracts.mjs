@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import { validateAgentResult } from '../api/_lib/agent-validation.js';
-import { promptFor } from '../api/_lib/agent-prompts.js';
+import { validateAgentResult } from '../server/agent-validation.js';
+import { promptFor } from '../server/agent-prompts.js';
 
 let ok=0;
 const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`);};

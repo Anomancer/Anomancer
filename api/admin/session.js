@@ -1,6 +1,6 @@
-import { getSession, csrfForSession } from '../_lib/auth.js';
-import { githubConfigStatus } from '../_lib/github.js';
-import { json } from '../_lib/http.js';
+import { getSession, csrfForSession } from '../../server/auth.js';
+import { githubConfigStatus } from '../../server/github.js';
+import { json } from '../../server/http.js';
 export default async function handler(req,res){
   if(req.method!=='GET') return json(res,405,{ok:false,error:'METHOD'});
   const session=getSession(req);

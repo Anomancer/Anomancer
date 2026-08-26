@@ -1,10 +1,10 @@
-# Anomancer 15.9.0 · Workspace Foundation
+# Anomancer 15.9.2 · Workspace Foundation
 
 Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone ja yksityinen Vercel-admin. Julkinen sisältö rakennetaan `public/`-hakemistoon. Admin tallentaa artikkelit GitHub Contents API:n kautta. Agenttien mallikutsut kulkevat palvelinpuolen Model Routerin kautta; DeepSeek säilyy oletuksena ja muut providerit ovat valinnaisia.
 
 ## 15.0 · Core Foundation
 
-Anomancerin Lähetyskone toimii nyt ensimmäisenä natiivina Core-orkesterina. `api/_lib/core-registry.js` määrittää keskitetysti kahdeksan Agent Contractia, niiden roolit, mallireitit, työkalut, toimivallan ja tokenbudjetit. `editorial/1.0.0` määrittää orkesterin vaihejärjestyksen. Jokainen onnistunut agenttiajo tuottaa `anomancer-run-receipt/v1` -kuitin, joka sisältää metadatan sekä input/output-hashit, ei raakaa promptia tai vastausta. Selain ylläpitää näistä paikallista hash-ketjutettua Run Ledgeriä Core-välilehdellä.
+Anomancerin Lähetyskone toimii nyt ensimmäisenä natiivina Core-orkesterina. `server/core-registry.js` määrittää keskitetysti kahdeksan Agent Contractia, niiden roolit, mallireitit, työkalut, toimivallan ja tokenbudjetit. `editorial/1.0.0` määrittää orkesterin vaihejärjestyksen. Jokainen onnistunut agenttiajo tuottaa `anomancer-run-receipt/v1` -kuitin, joka sisältää metadatan sekä input/output-hashit, ei raakaa promptia tai vastausta. Selain ylläpitää näistä paikallista hash-ketjutettua Run Ledgeriä Core-välilehdellä.
 
 15.4 lisäsi Tool Brokerin, 15.5 Model Routerin ja 15.6 server-authoritative Runtime Profilet. 15.7 teki orkesterista ensimmäisen luokan serverisopimuksen. 15.8 lisäsi server-side Run Storen, Run Explorerin ja Usage Meteringin. 15.9 lisää Workspace Foundationin: Runtime Profiles, Custom Orchestras, Runs ja Usage eristyvät työtiloittain, kun taas Agent Registry, Tool Broker ja Model Router pysyvät yhteisenä platform-kerroksena. Nykyinen historia jatkuu automaattisesti `default`-workspacessa ilman migraatiota. Core ei vielä sisällä monen käyttäjän ACL- tai maksukerrosta eikä custom-agenttien luontia.
 
@@ -88,3 +88,6 @@ Asennin ei poista kohteen ylimääräisiä tiedostoja oletuksena. Korvatut tiedo
 - `WORKSPACE_FOUNDATION.md` — workspace-raja, legacy-yhteensopivuus ja server-authoritative scope
 - `CHANGELOG.md` — version 14.3.x muutokset
 
+## 15.9.2 · Hobby Function Layout
+
+Vercelin `/api`-hakemisto sisältää vain deployattavat HTTP-entrypointit. Kaikki jaettu serverikoodi on `server/`-hakemistossa, jotta helper-moduuleita ei lasketa erillisiksi Serverless Functions -funktioiksi Hobby-planilla. 15.9.2 pitää deployattavien `/api/**/*.js`-entrypointtien määrän 12:ssa.

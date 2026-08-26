@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
-import { signSession, verifySession, csrfForSession } from '../api/_lib/auth.js';
+import { signSession, verifySession, csrfForSession } from '../server/auth.js';
 import runtimeHandler from '../api/admin/runtime.js';
 import agentsHandler from '../api/admin/agents.js';
-import { getAgentContract } from '../api/_lib/core-registry.js';
-import { __resetRuntimeStoreForTests, loadRuntimeState, updateRuntimeProfile, resetRuntimeProfile, createRuntimeSnapshot, verifyRuntimeSnapshot, saveRuntimeState, runtimeStoreStatus } from '../api/_lib/runtime-store.js';
+import { getAgentContract } from '../server/core-registry.js';
+import { __resetRuntimeStoreForTests, loadRuntimeState, updateRuntimeProfile, resetRuntimeProfile, createRuntimeSnapshot, verifyRuntimeSnapshot, saveRuntimeState, runtimeStoreStatus } from '../server/runtime-store.js';
 
 let ok=0;const test=async(name,fn)=>{await fn();ok++;console.log(`✓ ${name}`)};
 function resMock(){return{statusCode:200,headers:{},body:'',setHeader(k,v){this.headers[String(k).toLowerCase()]=v},end(v=''){this.body+=v}}}

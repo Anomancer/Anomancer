@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { EventEmitter } from 'node:events';
-import { signSession, verifySession, csrfForSession } from '../api/_lib/auth.js';
-import { __resetRunStoreForTests, appendRunReceipt, checkpointRun, finalizeRun, markRunApplied, listRuns, getRun, verifyRunChain, runStoreStatus } from '../api/_lib/run-store.js';
-import { __resetRuntimeStoreForTests, createRuntimeSnapshot } from '../api/_lib/runtime-store.js';
-import { __resetOrchestraStoreForTests } from '../api/_lib/orchestra-store.js';
+import { signSession, verifySession, csrfForSession } from '../server/auth.js';
+import { __resetRunStoreForTests, appendRunReceipt, checkpointRun, finalizeRun, markRunApplied, listRuns, getRun, verifyRunChain, runStoreStatus } from '../server/run-store.js';
+import { __resetRuntimeStoreForTests, createRuntimeSnapshot } from '../server/runtime-store.js';
+import { __resetOrchestraStoreForTests } from '../server/orchestra-store.js';
 import runsHandler from '../api/admin/runs.js';
 
 let ok=0;const test=async(name,fn)=>{await fn();ok++;console.log(`✓ ${name}`)};

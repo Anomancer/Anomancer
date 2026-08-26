@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { getAgentContract, getModelRoute, normalizeAgentRuntime, MODEL_ROUTE_REGISTRY, CORE_VERSION } from '../api/_lib/core-registry.js';
-import { modelRouterStatus, publicModelRouterSnapshot, routeAgentJson, routeCandidates } from '../api/_lib/model-router.js';
-import { createRunReceipt } from '../api/_lib/core-receipt.js';
-import { SOURCE_SCHEMA } from '../api/_lib/agent-prompts.js';
+import { getAgentContract, getModelRoute, normalizeAgentRuntime, MODEL_ROUTE_REGISTRY, CORE_VERSION } from '../server/core-registry.js';
+import { modelRouterStatus, publicModelRouterSnapshot, routeAgentJson, routeCandidates } from '../server/model-router.js';
+import { createRunReceipt } from '../server/core-receipt.js';
+import { SOURCE_SCHEMA } from '../server/agent-prompts.js';
 
 let ok=0;const test=async(name,fn)=>{await fn();ok++;console.log(`✓ ${name}`)};
 const envKeys=['DEEPSEEK_API_KEY','OPENAI_API_KEY','OPENAI_MODEL','OPENAI_WRITER_MODEL','OPENAI_RESEARCH_MODEL','ANTHROPIC_API_KEY','ANTHROPIC_MODEL','GEMINI_API_KEY','GEMINI_MODEL','ANOMANCER_ROUTE_WRITER_TARGET'];
@@ -11,7 +11,7 @@ const saved=Object.fromEntries(envKeys.map(k=>[k,process.env[k]]));
 function restore(){for(const k of envKeys){if(saved[k]===undefined)delete process.env[k];else process.env[k]=saved[k];}}
 function openAiResponse(value,{model='gpt-test',id='resp-test'}={}){return {id,model,status:'completed',output:[{type:'message',content:[{type:'output_text',text:JSON.stringify(value)}]}],usage:{input_tokens:11,output_tokens:22,total_tokens:33,output_tokens_details:{reasoning_tokens:3}}};}
 
-await test('15.9 säilyttää kolme loogista mallireittiä',()=>{assert.equal(CORE_VERSION,'15.9.0');assert.deepEqual(MODEL_ROUTE_REGISTRY.map(x=>x.id),['research','writer','critic']);assert.equal(getModelRoute('research').defaultTarget,'deepseek.research');assert.ok(getModelRoute('writer').allowedTargets.includes('openai.writer'));assert.ok(getModelRoute('critic').allowedTargets.includes('anthropic.critic'));});
+await test('15.9 säilyttää kolme loogista mallireittiä',()=>{assert.equal(CORE_VERSION,'15.9.2');assert.deepEqual(MODEL_ROUTE_REGISTRY.map(x=>x.id),['research','writer','critic']);assert.equal(getModelRoute('research').defaultTarget,'deepseek.research');assert.ok(getModelRoute('writer').allowedTargets.includes('openai.writer'));assert.ok(getModelRoute('critic').allowedTargets.includes('anthropic.critic'));});
 await test('Runtime Profile saa vaihtaa vain oman loogisen reitin targettiin',()=>{const good=normalizeAgentRuntime('writer',{modelTarget:'openai.writer'}),bad=normalizeAgentRuntime('writer',{modelTarget:'openai.research'});assert.equal(good.modelTarget,'openai.writer');assert.equal(bad.modelTarget,'deepseek.writer');assert.ok(good.limits.modelTargets.includes('gemini.writer'));assert.ok(!good.limits.modelTargets.includes('gemini.research'));});
 await test('Model Router -status ei paljasta API-avaimia',()=>{process.env.OPENAI_API_KEY='secret-openai';process.env.OPENAI_MODEL='gpt-test';const status=modelRouterStatus(),raw=JSON.stringify(status);assert.match(raw,/openai/);assert.doesNotMatch(raw,/secret-openai/);assert.equal(status.providers.find(x=>x.id==='openai').configured,true);restore();});
 await test('julkinen Model Router -snapshot ei paljasta providerien konfiguraatiotilaa',()=>{const pub=publicModelRouterSnapshot(),raw=JSON.stringify(pub);assert.equal(pub.secretsExposed,false);assert.doesNotMatch(raw,/"configured"/);assert.ok(pub.providers.some(x=>x.id==='deepseek'));assert.ok(pub.routes.some(x=>x.id==='writer'));});

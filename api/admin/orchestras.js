@@ -1,7 +1,7 @@
-import { getSession, requireCsrf } from '../_lib/auth.js';
-import { json, readJson, sameOrigin } from '../_lib/http.js';
-import { listAvailableOrchestras, upsertCustomOrchestra, deleteCustomOrchestra, orchestraStoreStatus } from '../_lib/orchestra-store.js';
-import { requireWorkspace, workspaceIdFromRequest } from '../_lib/workspace-store.js';
+import { getSession, requireCsrf } from '../../server/auth.js';
+import { json, readJson, sameOrigin } from '../../server/http.js';
+import { listAvailableOrchestras, upsertCustomOrchestra, deleteCustomOrchestra, orchestraStoreStatus } from '../../server/orchestra-store.js';
+import { requireWorkspace, workspaceIdFromRequest } from '../../server/workspace-store.js';
 function auth(req,res,mutating=false){const session=getSession(req);if(!session){json(res,401,{ok:false,error:'AUTH'});return null;}if(mutating&&(!sameOrigin(req)||!requireCsrf(req,session))){json(res,403,{ok:false,error:'CSRF'});return null;}return session;}
 function publicState(state){return{format:state.format,coreVersion:state.coreVersion,workspaceId:state.workspaceId,revision:state.revision,updatedAt:state.updatedAt,orchestras:state.orchestras};}
 export default async function handler(req,res){const workspaceId=workspaceIdFromRequest(req);

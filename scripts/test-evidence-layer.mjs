@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { serializePost, parseMarkdown, validatePost } from '../api/_lib/content.js';
+import { serializePost, parseMarkdown, validatePost } from '../server/content.js';
 
 const ROOT=process.cwd();
 const FIX=path.join(ROOT,'content','fi','9999-v1318-evidence-fixture.md');

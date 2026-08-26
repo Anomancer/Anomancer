@@ -1,7 +1,7 @@
-import { getSession, requireCsrf } from '../_lib/auth.js';
-import { json, readJson, sameOrigin } from '../_lib/http.js';
-import { listPosts, putFile, deleteFile } from '../_lib/github.js';
-import { parseMarkdown, serializePost, validatePost, newPostPath } from '../_lib/content.js';
+import { getSession, requireCsrf } from '../../server/auth.js';
+import { json, readJson, sameOrigin } from '../../server/http.js';
+import { listPosts, putFile, deleteFile } from '../../server/github.js';
+import { parseMarkdown, serializePost, validatePost, newPostPath } from '../../server/content.js';
 
 function auth(req,res,mutating=false){
   const session=getSession(req);

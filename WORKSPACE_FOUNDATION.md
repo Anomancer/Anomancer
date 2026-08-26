@@ -79,3 +79,12 @@ Workspace Registryllä, Runtime Storella ja Custom Orchestra Storella on revisio
 - custom-agenttien luontia
 
 Näille on nyt kuitenkin selkeä scope: `user → workspace → orchestra → agents → runs → usage` voidaan lisätä seuraavassa pääkerroksessa rikkomatta nykyistä agenttimoottoria.
+
+
+## 15.9.2 Hobby deployment note
+
+The workspace CRUD surface is multiplexed through `api/admin/core.js` using `?resource=workspaces`. This deliberately avoids a thirteenth Vercel Serverless Function on the Hobby plan while preserving the same authenticated + CSRF-protected server-side Workspace Store.
+
+## Hobby deployment layout (15.9.2)
+
+Workspace Foundation käyttää shared server -moduuleja projektin `server/`-hakemistosta. `api/` on varattu vain HTTP-entrypointeille. Tämä pitää Vercel Hobby -deploymentin enintään 12 Serverless Functionissa myös silloin, kun shared helper -moduulien määrä kasvaa.

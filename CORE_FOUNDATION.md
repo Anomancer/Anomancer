@@ -4,7 +4,7 @@
 
 ## Agent Registry
 
-`api/_lib/core-registry.js` on palvelimen kanoninen rekisteri. Jokaisella agentilla on `anomancer-agent/v1` -sopimus, jossa ovat vähintään:
+`server/core-registry.js` on palvelimen kanoninen rekisteri. Jokaisella agentilla on `anomancer-agent/v1` -sopimus, jossa ovat vähintään:
 
 - `id`, `label`, `version`, `role`, `description`
 - `modelRoute`

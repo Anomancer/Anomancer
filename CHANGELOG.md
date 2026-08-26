@@ -1,3 +1,17 @@
+## 15.9.2 · Hobby Function Layout
+
+- siirretty kaikki shared server helperit `api/_lib/` → `server/`, jotta Vercel ei käsittele niitä deployattavina API-funktioina
+- päivitetty API- ja testimportit käyttämään `server/`-hakemistoa
+- Hobby-regressiotesti laskee nyt rekursiivisesti kaikki `api/**/*.js`-tiedostot eikä vain `api/admin`-entrypointteja
+- `/api`-puussa on nyt tasan 12 JavaScript-entrypointtia: 11 admin/API-reittiä + contact
+
+# 15.9.1 — Hobby Function Consolidation
+
+- Consolidated the Workspace admin API into `/api/admin/core?resource=workspaces`.
+- Removed the standalone `/api/admin/workspaces` Serverless Function.
+- Keeps the Vercel Hobby deployment at 12 deployable functions without removing Workspace Foundation features.
+- Added a regression guard for the Hobby function ceiling.
+
 # 15.9.0 — Workspace Foundation
 
 - Lisätty server-side Workspace Registry ja yksityisen Coren workspace-valitsin.
@@ -111,7 +125,7 @@
 - orkesterin kaikki stage-ajot sidotaan samaan `orchestraRunId`:hen
 - uusi Core-välilehti näyttää Agent Poolin, sopimushashit, orkesterit, usage-mittarit ja hash-ketjutetun paikallisen Run Ledgerin
 - julkisen Anomancerin Observatorio-portti vaihdettu Core-reitiksi (`/core`); `/admin` säilyy teknisenä taustareittinä
-- lisätty `api/admin/core`, `api/_lib/core-registry.js`, `api/_lib/core-receipt.js`, `admin-core.js` ja `CORE_FOUNDATION.md`
+- lisätty `api/admin/core`, `server/core-registry.js`, `server/core-receipt.js`, `admin-core.js` ja `CORE_FOUNDATION.md`
 - lisätty Core Foundation -regressiotestit
 
 ## 14.3.1 · 2026-08-26

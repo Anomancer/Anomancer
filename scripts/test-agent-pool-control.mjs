@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { EventEmitter } from 'node:events';
-import { signSession, verifySession, csrfForSession } from '../api/_lib/auth.js';
-import { getAgentContract, normalizeAgentRuntime, normalizeAgentRuntimeMap, AGENT_RUNTIME_FORMAT } from '../api/_lib/core-registry.js';
-import { __resetRuntimeStoreForTests, updateRuntimeProfile, resetRuntimeProfile } from '../api/_lib/runtime-store.js';
+import { signSession, verifySession, csrfForSession } from '../server/auth.js';
+import { getAgentContract, normalizeAgentRuntime, normalizeAgentRuntimeMap, AGENT_RUNTIME_FORMAT } from '../server/core-registry.js';
+import { __resetRuntimeStoreForTests, updateRuntimeProfile, resetRuntimeProfile } from '../server/runtime-store.js';
 import agentsHandler from '../api/admin/agents.js';
 
 let ok=0;const test=async(name,fn)=>{await fn();ok++;console.log(`✓ ${name}`)};

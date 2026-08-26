@@ -1,4 +1,4 @@
-# Anomancer 15.9.0 · Workspace Foundation
+# Anomancer 15.9.2 · Workspace Foundation
 
 Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkisen FI/EN-sivuston, Markdown-sisällöt, Vercel API -funktiot, yksityisen adminin, DeepSeek-agentit, orkesterin, buildin, testit ja dokumentaation.
 
@@ -14,7 +14,7 @@ Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkis
 - slug-aliasit vanhojen artikkeliosoitteiden säilyttämiseen
 - turvallinen, varmuuskopioiva asennusskripti
 
-Julkaisuversio: 15.9.0.
+Julkaisuversio: 15.9.2.
 
 15.7 tekee orkesterista serverillä validoidun ja hashatun Orchestra Contractin. Yksityinen Core voi tallentaa omia orkestereita sekä rakentaa turvallisia parallel-vaiheita. Valittu Orchestra Contract sidotaan HMAC-allekirjoitettuun Runtime Snapshotiin, ja agentti-API valvoo vaihejäsenyyttä ennen mallikutsua.
 

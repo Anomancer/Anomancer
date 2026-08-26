@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { EventEmitter } from 'node:events';
-import { signSession, verifySession, csrfForSession } from '../api/_lib/auth.js';
-import { CORE_VERSION, getOrchestra, normalizeOrchestraDefinition, validateOrchestraDefinition } from '../api/_lib/core-registry.js';
-import { __resetOrchestraStoreForTests, loadOrchestraState, saveOrchestraState, upsertCustomOrchestra, deleteCustomOrchestra, listAvailableOrchestras, orchestraStoreStatus } from '../api/_lib/orchestra-store.js';
-import { __resetRuntimeStoreForTests, createRuntimeSnapshot, verifyRuntimeSnapshot } from '../api/_lib/runtime-store.js';
+import { signSession, verifySession, csrfForSession } from '../server/auth.js';
+import { CORE_VERSION, getOrchestra, normalizeOrchestraDefinition, validateOrchestraDefinition } from '../server/core-registry.js';
+import { __resetOrchestraStoreForTests, loadOrchestraState, saveOrchestraState, upsertCustomOrchestra, deleteCustomOrchestra, listAvailableOrchestras, orchestraStoreStatus } from '../server/orchestra-store.js';
+import { __resetRuntimeStoreForTests, createRuntimeSnapshot, verifyRuntimeSnapshot } from '../server/runtime-store.js';
 import orchestraHandler from '../api/admin/orchestras.js';
 import agentsHandler from '../api/admin/agents.js';
 
@@ -13,7 +13,7 @@ function resMock(){return{statusCode:200,headers:{},body:'',setHeader(k,v){this.
 function reqMock({method='GET',body,headers={}}={}){const r=new EventEmitter();r.method=method;r.headers=headers;r.socket={remoteAddress:'127.0.0.1'};if(body!==undefined)r.body=body;return r;}
 process.env.ANOMANCER_ORCHESTRA_STORE='memory';process.env.ANOMANCER_RUNTIME_STORE='memory';process.env.ADMIN_SESSION_SECRET='o'.repeat(64);__resetOrchestraStoreForTests();__resetRuntimeStoreForTests();
 
-await test('15.9 käyttää Orchestra Contract v2 -rakennetta',()=>{assert.equal(CORE_VERSION,'15.9.0');const editorial=getOrchestra('editorial');assert.equal(editorial.format,'anomancer-orchestra/v2');assert.equal(editorial.steps.length,8);assert.equal(editorial.humanFinalAuthority,true);});
+await test('15.9 käyttää Orchestra Contract v2 -rakennetta',()=>{assert.equal(CORE_VERSION,'15.9.2');const editorial=getOrchestra('editorial');assert.equal(editorial.format,'anomancer-orchestra/v2');assert.equal(editorial.steps.length,8);assert.equal(editorial.humanFinalAuthority,true);});
 await test('custom-orkesteri normalisoituu hashatuksi server-contractiksi',()=>{const o=normalizeOrchestraDefinition({name:'Quick Audit',steps:[{mode:'sequential',agents:['writer']},{mode:'sequential',agents:['claims']}]});assert.match(o.id,/^custom-/);assert.match(o.orchestraHash,/^[a-f0-9]{64}$/);assert.equal(o.humanFinalAuthority,true);});
 await test('bodya muuttava orkesteri vaatii Väitevahdin viimeisen body-muokkauksen jälkeen',()=>{const bad=validateOrchestraDefinition({name:'Bad',steps:[{mode:'sequential',agents:['claims']},{mode:'sequential',agents:['writer']}]});assert.equal(bad.ok,false);assert.ok(bad.errors.some(e=>e.code==='ORCHESTRA_CLAIMS_AFTER_BODY'));});
 await test('Package on pakotettu viimeiseksi yksittäiseksi vaiheeksi',()=>{const bad=validateOrchestraDefinition({name:'Bad package',steps:[{mode:'sequential',agents:['package']},{mode:'sequential',agents:['claims']}]});assert.equal(bad.ok,false);assert.ok(bad.errors.some(e=>e.code==='ORCHESTRA_PACKAGE_LAST'));});

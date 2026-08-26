@@ -4,7 +4,7 @@
 
 ## Tool Registry
 
-`api/_lib/core-registry.js` sisältää kanonisen Tool Registryn. Jokaisella työkalulla on:
+`server/core-registry.js` sisältää kanonisen Tool Registryn. Jokaisella työkalulla on:
 
 - tunniste, versio ja SHA-256 `toolHash`
 - tyyppi ja riskitaso
@@ -16,7 +16,7 @@ Ensimmäinen oikea agentin käyttämä ulkoinen työkalu on `web.search`. Lisäk
 
 ## Policy Gate
 
-`api/_lib/tool-broker.js` arvioi pyynnön fail-closed-järjestyksessä:
+`server/tool-broker.js` arvioi pyynnön fail-closed-järjestyksessä:
 
 1. tunnettu agentti
 2. tunnettu työkalu

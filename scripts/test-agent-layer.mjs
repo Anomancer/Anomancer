@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
 import fs from 'node:fs';
-import { signSession, verifySession, csrfForSession } from '../api/_lib/auth.js';
-import { deepseekChatJson, deepseekWebSearchJson, deepseekConfigStatus } from '../api/_lib/deepseek.js';
-import { promptFor, SOURCE_SCHEMA } from '../api/_lib/agent-prompts.js';
-import { validateAgentResult } from '../api/_lib/agent-validation.js';
+import { signSession, verifySession, csrfForSession } from '../server/auth.js';
+import { deepseekChatJson, deepseekWebSearchJson, deepseekConfigStatus } from '../server/deepseek.js';
+import { promptFor, SOURCE_SCHEMA } from '../server/agent-prompts.js';
+import { validateAgentResult } from '../server/agent-validation.js';
 import agentsHandler from '../api/admin/agents.js';
 
 let ok=0;const test=async(name,fn)=>{await fn();ok++;console.log(`✓ ${name}`)};
@@ -34,6 +34,6 @@ await test('build stageaa agentti-JS:n publiciin',()=>{const build=fs.readFileSy
 
 await test('yleisöadapterin tulos validoidaan ilman Evidence Layer -kirjoitusoikeutta',()=>{const post={...samplePost,audience:['investor'],audienceDepth:'professional'};const r=validateAgentResult('audience',{body:'## Sijoittajalle\n\nRiski ja toimivalta.',adaptationSummary:['Riski nostettu alkuun'],audienceFit:'Painottaa governancea.',preservedCore:['Lupa ei ole sama kuin kyky'],warnings:[],claims:[{status:'supported',text:'EI SAA'}],sources:[{url:'https://evil.example'}]},post);assert.match(r.body,/Sijoittajalle/);assert.equal(r.audienceFit,'Painottaa governancea.');assert.equal('claims' in r,false);assert.equal('sources' in r,false);});
 await test('julkaisupaketti säilyttää ihmisen yleisön ja syvyyden mallin vastauksesta riippumatta',()=>{const post={...samplePost,audience:['teacher'],audienceDepth:'plain'};const r=validateAgentResult('package',{title:'T',description:'D',slug:'t',answer:'A',category:'info-media',audience:['investor'],audienceDepth:'technical',claims:[],sources:[],notes:[]},post);assert.deepEqual(r.audience,['teacher']);assert.equal(r.audienceDepth,'plain');});
-await test('agents API tuntee Audience Layerin ja normalisoi yleisöinputin palvelimella',()=>{const src=fs.readFileSync('api/admin/agents.js','utf8'),registry=fs.readFileSync('api/_lib/core-registry.js','utf8');assert.match(src,/listAgentIds/);assert.match(registry,/id:'audience'/);assert.match(src,/normalizeAudienceInput/);assert.match(src,/audienceDepth:AUDIENCE_DEPTHS/);});
-await test('agenttien output-tokenbudjetit tulevat 15.9 Core Agent Registrystä',()=>{const api=fs.readFileSync('api/admin/agents.js','utf8');const registry=fs.readFileSync('api/_lib/core-registry.js','utf8');assert.match(api,/getAgentContract/);assert.doesNotMatch(api,/AGENT_MAX_TOKENS/);assert.match(registry,/structure[\s\S]{0,800}maxOutputTokens:12000/);assert.match(registry,/writer[\s\S]{0,800}maxOutputTokens:24000/);assert.match(registry,/critic[\s\S]{0,800}maxOutputTokens:12000/);assert.match(registry,/audience[\s\S]{0,800}maxOutputTokens:24000/);assert.match(registry,/voice[\s\S]{0,800}maxOutputTokens:24000/);assert.match(registry,/claims[\s\S]{0,800}maxOutputTokens:16000/);assert.match(registry,/package[\s\S]{0,800}maxOutputTokens:12000/);});
+await test('agents API tuntee Audience Layerin ja normalisoi yleisöinputin palvelimella',()=>{const src=fs.readFileSync('api/admin/agents.js','utf8'),registry=fs.readFileSync('server/core-registry.js','utf8');assert.match(src,/listAgentIds/);assert.match(registry,/id:'audience'/);assert.match(src,/normalizeAudienceInput/);assert.match(src,/audienceDepth:AUDIENCE_DEPTHS/);});
+await test('agenttien output-tokenbudjetit tulevat 15.9 Core Agent Registrystä',()=>{const api=fs.readFileSync('api/admin/agents.js','utf8');const registry=fs.readFileSync('server/core-registry.js','utf8');assert.match(api,/getAgentContract/);assert.doesNotMatch(api,/AGENT_MAX_TOKENS/);assert.match(registry,/structure[\s\S]{0,800}maxOutputTokens:12000/);assert.match(registry,/writer[\s\S]{0,800}maxOutputTokens:24000/);assert.match(registry,/critic[\s\S]{0,800}maxOutputTokens:12000/);assert.match(registry,/audience[\s\S]{0,800}maxOutputTokens:24000/);assert.match(registry,/voice[\s\S]{0,800}maxOutputTokens:24000/);assert.match(registry,/claims[\s\S]{0,800}maxOutputTokens:16000/);assert.match(registry,/package[\s\S]{0,800}maxOutputTokens:12000/);});
 console.log(`\n${ok}/${ok} LÄHETYSKONE AGENTS -testiä läpi`);

@@ -1,5 +1,5 @@
-import { verifyPassword, signSession, sessionCookie } from '../_lib/auth.js';
-import { json, readJson, sameOrigin } from '../_lib/http.js';
+import { verifyPassword, signSession, sessionCookie } from '../../server/auth.js';
+import { json, readJson, sameOrigin } from '../../server/http.js';
 
 export default async function handler(req,res) {
   if (req.method !== 'POST') return json(res,405,{ok:false,error:'METHOD'});

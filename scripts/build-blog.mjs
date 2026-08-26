@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { normalizeSources as normalizeContentSources, normalizeClaims as normalizeContentClaims, normalizeAliases, normalizeAudienceDepth } from '../api/_lib/content.js';
-import { AGENT_REGISTRY, ORCHESTRA_REGISTRY, TOOL_REGISTRY, MODEL_ROUTE_REGISTRY, CORE_VERSION } from '../api/_lib/core-registry.js';
-import { publicModelRouterSnapshot } from '../api/_lib/model-router.js';
+import { normalizeSources as normalizeContentSources, normalizeClaims as normalizeContentClaims, normalizeAliases, normalizeAudienceDepth } from '../server/content.js';
+import { AGENT_REGISTRY, ORCHESTRA_REGISTRY, TOOL_REGISTRY, MODEL_ROUTE_REGISTRY, CORE_VERSION } from '../server/core-registry.js';
+import { publicModelRouterSnapshot } from '../server/model-router.js';
 
 const ROOT = process.cwd();
 const SITE = String(process.env.PUBLIC_SITE_URL || 'https://anomancer.com').replace(/\/$/,'');

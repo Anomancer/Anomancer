@@ -1,6 +1,6 @@
 {
   "format": "anomancer-core-public/v1",
-  "version": "15.9.0",
+  "version": "15.9.2",
   "humanFinalAuthority": true,
   "privacy": {
     "containsRawPrompt": false,
@@ -238,7 +238,7 @@
       "actor": "agent",
       "humanApproval": false,
       "sideEffects": false,
-      "toolHash": "2c6e541d96dd838f1d039c304b15d4fb836ee50bcd3a50db94aa452467d19f39"
+      "toolHash": "bb0ce95bd8a34695e8f9df5b093292f71a451ea76648d72125356a8356bc467c"
     },
     {
       "id": "source.verify",
@@ -251,7 +251,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "5c8daa0dc46813ff81681cce50554540fdb6cd32ceda525e915c1e9a6df38a9f"
+      "toolHash": "1c2dd9d8875e064c244ffa64345f7595f2720c8e84cd6d6d08db6c998e4cf3bd"
     },
     {
       "id": "publication.publish",
@@ -264,7 +264,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "9f4f3a173c42a293e553843972fd887ace2d6d51c77b3405d7422e45faddf280"
+      "toolHash": "43c7f91f0cb002db5ecb4ab194391635ffa96927170ad87f12bfeec08edffb9f"
     },
     {
       "id": "github.write",
@@ -277,7 +277,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "d256426df6647c34d849ea04de8eaeefd09223e4225ed7fef43af24236f29ef8"
+      "toolHash": "375db59bf782d96668e56057cfcccd61c610d8a4c8c42f56ede518cb8675f0f0"
     }
   ],
   "toolBroker": {
@@ -432,7 +432,7 @@
           "json",
           "web_search"
         ],
-        "routeHash": "bdad072558ef9364414f7452979f2ca5b1a742af61a8112380fe13217f5456bb"
+        "routeHash": "72adaeadcfa6c7444571f92f9e94b60ca47bba28be96be0d3dc9e2f721fb8973"
       },
       {
         "id": "writer",
@@ -447,7 +447,7 @@
         "requires": [
           "json"
         ],
-        "routeHash": "fd39499505d3c168346641167d0ebb65a2fc49c783a72e869d1d0a351c9ab62a"
+        "routeHash": "695f1210a525964843c45cf449c20509ceffe0fbf97fd0ed91a0933f69ce3533"
       },
       {
         "id": "critic",
@@ -462,7 +462,7 @@
         "requires": [
           "json"
         ],
-        "routeHash": "b93668e999dcb909969cc82a74e8c48f0c403763e31dcc35c71ff15bcb14152d"
+        "routeHash": "6b17872f7f6a8a95a3b62ccfc190b77410b21ddd0a4175019861d8db306877f3"
       }
     ],
     "fallbackPolicy": "configured-targets-only/transient-errors-only",
@@ -482,7 +482,7 @@
         "json",
         "web_search"
       ],
-      "routeHash": "bdad072558ef9364414f7452979f2ca5b1a742af61a8112380fe13217f5456bb"
+      "routeHash": "72adaeadcfa6c7444571f92f9e94b60ca47bba28be96be0d3dc9e2f721fb8973"
     },
     {
       "id": "writer",
@@ -497,7 +497,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "fd39499505d3c168346641167d0ebb65a2fc49c783a72e869d1d0a351c9ab62a"
+      "routeHash": "695f1210a525964843c45cf449c20509ceffe0fbf97fd0ed91a0933f69ce3533"
     },
     {
       "id": "critic",
@@ -512,7 +512,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "b93668e999dcb909969cc82a74e8c48f0c403763e31dcc35c71ff15bcb14152d"
+      "routeHash": "6b17872f7f6a8a95a3b62ccfc190b77410b21ddd0a4175019861d8db306877f3"
     }
   ],
   "runExplorer": {
