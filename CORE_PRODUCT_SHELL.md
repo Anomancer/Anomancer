@@ -1,4 +1,4 @@
-# Anomancer 15.9 · Core Product Shell
+# Anomancer 16.0 · Core Product Shell
 
 15.2 tekee julkisesta `/core`-näkymästä tuotteen rakennekartan ilman että yksityinen control plane avataan.
 
@@ -27,3 +27,7 @@ Yksityinen Core käyttää nyt server-side Run Storea. Runs ja Usage ovat oikeit
 ## 15.9 · Workspace Boundary
 
 Julkinen `/core` kertoo mitkä kerrokset ovat yhteisiä ja mitkä workspace-kohtaisia, mutta se ei julkaise workspacejen nimiä, lukumääriä tai käyttödataa. Yksityinen `/admin` sisältää workspace-valitsimen ja Workspace Registryn.
+
+## 16.0 · Kaksikielinen pintasopimus
+
+Julkinen tuoterakenne on sama, mutta käyttöliittymä ei ole sekakielinen: `/core` on FI ja `/en/core` EN. Molemmat käyttävät samaa build-time Core-snapshotia ja eri näkyvää sanastoa. Yksityinen `/admin` on suomeksi. Teknisiä ID- ja enum-arvoja ei lokalisoida protokollakerroksessa.

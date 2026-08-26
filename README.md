@@ -1,10 +1,14 @@
-# Anomancer 15.9.2 · Workspace Foundation
+# Anomancer 16.0 · Interface System
 
 Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone ja yksityinen Vercel-admin. Julkinen sisältö rakennetaan `public/`-hakemistoon. Admin tallentaa artikkelit GitHub Contents API:n kautta. Agenttien mallikutsut kulkevat palvelinpuolen Model Routerin kautta; DeepSeek säilyy oletuksena ja muut providerit ovat valinnaisia.
 
+## 16.0 · UI/UX + semanttinen suursiivous
+
+16.0 ei lisää agenttimoottoriin uusia ominaisuuksia. Se muodostaa yhteisen Interface Systemin: design-tokenit, erilliset CSS-vastuut, semanttisen editorinäkymärakenteen, saavutettavuusportit ja tiukan kielirajan. `/core` on suomeksi, `/en/core` englanniksi ja `/admin` suomeksi. FI/EN-Coreilla on erilliset canonical- ja hreflang-reitit, mutta sama turvallinen rakenne-snapshot. Responsiivisuusportit tarkistavat viewport-containmentin, mobiilin breakpointit ja keskeisten ohjauspintojen purkautumisen ilman piilotettua vaakasuuntaista UI-velkaa. Lopullinen visuaalinen selaintarkistus kuuluu deployn jälkeiseen hyväksyntään. Katso `INTERFACE_SYSTEM.md`.
+
 ## 15.0 · Core Foundation
 
-Anomancerin Lähetyskone toimii nyt ensimmäisenä natiivina Core-orkesterina. `server/core-registry.js` määrittää keskitetysti kahdeksan Agent Contractia, niiden roolit, mallireitit, työkalut, toimivallan ja tokenbudjetit. `editorial/1.0.0` määrittää orkesterin vaihejärjestyksen. Jokainen onnistunut agenttiajo tuottaa `anomancer-run-receipt/v1` -kuitin, joka sisältää metadatan sekä input/output-hashit, ei raakaa promptia tai vastausta. Selain ylläpitää näistä paikallista hash-ketjutettua Run Ledgeriä Core-välilehdellä.
+Anomancerin Lähetyskone toimii nyt ensimmäisenä natiivina Core-orkesterina. `server/core-registry.js` määrittää keskitetysti kahdeksan Agent Contractia, niiden roolit, mallireitit, työkalut, toimivallan ja tokenbudjetit. `editorial/1.0.0` määrittää orkesterin vaihejärjestyksen. Jokainen onnistunut agenttiajo tuottaa `anomancer-run-receipt/v1` -kuitin, joka sisältää metadatan sekä input/output-hashit, ei raakaa promptia tai vastausta. 15.0:n alkuperäinen selainledger korvautui 15.8:ssa server-side Run Storella ja hash-ketjutetulla Run Record -historialla.
 
 15.4 lisäsi Tool Brokerin, 15.5 Model Routerin ja 15.6 server-authoritative Runtime Profilet. 15.7 teki orkesterista ensimmäisen luokan serverisopimuksen. 15.8 lisäsi server-side Run Storen, Run Explorerin ja Usage Meteringin. 15.9 lisää Workspace Foundationin: Runtime Profiles, Custom Orchestras, Runs ja Usage eristyvät työtiloittain, kun taas Agent Registry, Tool Broker ja Model Router pysyvät yhteisenä platform-kerroksena. Nykyinen historia jatkuu automaattisesti `default`-workspacessa ilman migraatiota. Core ei vielä sisällä monen käyttäjän ACL- tai maksukerrosta eikä custom-agenttien luontia.
 
@@ -86,7 +90,8 @@ Asennin ei poista kohteen ylimääräisiä tiedostoja oletuksena. Korvatut tiedo
 - `CUSTOM_ORCHESTRAS.md` — Orchestra Contract v2, builder, parallel isolation ja Orchestra Store
 - `RUN_EXPLORER.md` — server-side run history, usage ja replay metadata
 - `WORKSPACE_FOUNDATION.md` — workspace-raja, legacy-yhteensopivuus ja server-authoritative scope
-- `CHANGELOG.md` — version 14.3.x muutokset
+- `INTERFACE_SYSTEM.md` — 16.0 design system, semantiikka, saavutettavuus ja FI/EN-kieliraja
+- `CHANGELOG.md` — release-historia
 
 ## 15.9.2 · Hobby Function Layout
 

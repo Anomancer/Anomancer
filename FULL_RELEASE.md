@@ -1,4 +1,4 @@
-# Anomancer 15.9.2 · Workspace Foundation
+# Anomancer 16.0 · Interface System
 
 Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkisen FI/EN-sivuston, Markdown-sisällöt, Vercel API -funktiot, yksityisen adminin, DeepSeek-agentit, orkesterin, buildin, testit ja dokumentaation.
 
@@ -14,11 +14,15 @@ Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkis
 - slug-aliasit vanhojen artikkeliosoitteiden säilyttämiseen
 - turvallinen, varmuuskopioiva asennusskripti
 
-Julkaisuversio: 15.9.2.
+Julkaisuversio: 16.0.0.
 
 15.7 tekee orkesterista serverillä validoidun ja hashatun Orchestra Contractin. Yksityinen Core voi tallentaa omia orkestereita sekä rakentaa turvallisia parallel-vaiheita. Valittu Orchestra Contract sidotaan HMAC-allekirjoitettuun Runtime Snapshotiin, ja agentti-API valvoo vaihejäsenyyttä ennen mallikutsua.
 
 
+
+## Interface System 16.0
+
+Julkinen `/core`, englanninkielinen `/en/core` ja yksityinen `/admin` ovat nyt saman design-järjestelmän eri pintoja. FI/EN-kieliraja on eksplisiittinen, editorin HTML-semanttiikka käyttää oikeaa tab-mallia ja CSS on jaettu vastuukerroksiin. 16.0 ei muuta agenttien toimivaltaa tai ajomoottorin sopimuksia. Katso `INTERFACE_SYSTEM.md`.
 
 ## Audience Layer 14.3.0
 

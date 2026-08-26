@@ -1,3 +1,18 @@
+# 16.0.0 — Interface System / UI-UX + Semantic Cleanup
+
+- Ei uusia agenttimoottorin ominaisuuksia: release keskittyy käyttöliittymän rakenteeseen, kieleen ja ylläpidettävyyteen.
+- Lisätty yhteinen `ui-tokens.css` design-token-kerros ja erotettu julkinen Core sekä yksityinen control plane omiin CSS-vastuisiin.
+- Editorin vanha `workspace-tabs`-semantiikka korvattu `editor-tabs` / `editor-panel` -rakenteella, jotta `workspace` tarkoittaa vain oikeaa agenttityötilaa.
+- Lisätty oikea ARIA `tablist → tab → tabpanel` -malli, nuolinäppäinnavigointi, `focus-visible`, reduced-motion, contrast-tuki ja 44 px vähimmäiskosketuskohde.
+- `/core` on nyt johdonmukaisesti suomeksi ja uusi `/en/core` johdonmukaisesti englanniksi; reiteillä on omat canonicalit ja vastavuoroiset hreflangit.
+- Dynaaminen Core-sanasto valitaan dokumentin `lang`-attribuutista ilman että teknisiä protokolla-arvoja muutetaan.
+- `/admin` siivottu näkyvältä sanastoltaan suomeksi; kone-enumit esitetään tarvittaessa eksplisiittisinä teknisinä arvoina.
+- Poistettu CSS:n release-arkeologiakommentit ja nimetty osiot nykyisen vastuun perusteella.
+- Korjattu piilotettujen audience-checkboxien aiheuttama näkymätön vaakasuuntainen overflow sekä mobiiliyläpalkin työtilavalitsimen murtuminen.
+- Lisätty `test-ui-semantics.mjs` ja `test-language-boundaries.mjs` pysyviksi regressioporteiksi. Piilotetut tiedostovalitsimet saavat saavutettavat nimet, ja adminin näkyvästä semantiikasta torjutaan myös vanhat 15.x-releasefossiilit.
+- Vercel Hobby -raja säilyy: `/api/**/*.js` sisältää edelleen tasan 12 deployattavaa JavaScript-entrypointtia.
+- Koko release läpäisee 235 numeroitua regressiotestiä sekä build-, domain migration- ja SEO-smoket.
+
 ## 15.9.2 · Hobby Function Layout
 
 - siirretty kaikki shared server helperit `api/_lib/` → `server/`, jotta Vercel ei käsittele niitä deployattavina API-funktioina
@@ -5,12 +20,12 @@
 - Hobby-regressiotesti laskee nyt rekursiivisesti kaikki `api/**/*.js`-tiedostot eikä vain `api/admin`-entrypointteja
 - `/api`-puussa on nyt tasan 12 JavaScript-entrypointtia: 11 admin/API-reittiä + contact
 
-# 15.9.1 — Hobby Function Consolidation
+# 15.9.1 — Hobby-funktioiden yhdistäminen
 
-- Consolidated the Workspace admin API into `/api/admin/core?resource=workspaces`.
-- Removed the standalone `/api/admin/workspaces` Serverless Function.
-- Keeps the Vercel Hobby deployment at 12 deployable functions without removing Workspace Foundation features.
-- Added a regression guard for the Hobby function ceiling.
+- Työtilojen admin-API yhdistettiin reittiin `/api/admin/core?resource=workspaces`.
+- Erillinen `/api/admin/workspaces` Serverless Function poistettiin.
+- Vercel Hobby -deployment pysyy 12 deployattavassa funktiossa ilman Workspace Foundation -ominaisuuksien poistamista.
+- Hobby-funktiorajalle lisättiin regressiovartija.
 
 # 15.9.0 — Workspace Foundation
 

@@ -15,7 +15,6 @@ const AUTHOR_PATH = ENTITY.person.authorPath || '/#about';
 const AUTHOR_URL = `${SITE}${AUTHOR_PATH}`;
 const PERSON_ID = `${SITE}/#person`;
 const WEBSITE_ID = `${SITE}/#website`;
-const CORE = '/core';
 
 const categories = {
   'ai-work': { fi: 'Tekoäly arjessa ja työssä', en: 'AI in everyday life & work' },
@@ -47,7 +46,7 @@ function normalizeCategory(value=''){ const raw=String(value||'').trim(); const 
 function normalizeAudience(value){ let items=Array.isArray(value)?value:(typeof value==='string'&&value.trim()?value.split(','):[]); items=[...new Set(items.map(x=>String(x).trim()).filter(x=>audiences[x]))]; if(!items.length||items.includes('all'))return ['all']; return items; }
 const copy = {
   fi: {
-    blogPath: '/lahetykset', articleBase: '/lahetykset', home: '/', otherBlog: '/dispatches', otherLang: 'EN', selfLang: 'FI',
+    blogPath: '/lahetykset', articleBase: '/lahetykset', home: '/', corePath: '/core', otherBlog: '/dispatches', otherLang: 'EN', selfLang: 'FI',
     title: 'LÄHETYKSET', eyebrow: 'Transmission log',
     intro: 'Vaikeat asiat käännettynä ihmisille. Tekoälyä, työtä, rahaa, mediaa, kieltä, turvallisuutta ja yhteiskunnan järjestelmiä ilman tarpeetonta sisäpiirikieltä.',
     all: 'Kaikki', archive: 'Kaikki lähetykset', read: 'Lue lähetys →', empty: 'Näillä valinnoilla ei löytynyt vielä julkaistuja lähetyksiä.',
@@ -56,7 +55,7 @@ const copy = {
     description: 'Ymmärrettävä tietokirjasto tekoälystä, työstä, mediasta, rahasta, kielestä, turvallisuudesta ja yhteiskunnan järjestelmistä.',
   },
   en: {
-    blogPath: '/dispatches', articleBase: '/dispatches', home: '/en', otherBlog: '/lahetykset', otherLang: 'FI', selfLang: 'EN',
+    blogPath: '/dispatches', articleBase: '/dispatches', home: '/en', corePath: '/en/core', otherBlog: '/lahetykset', otherLang: 'FI', selfLang: 'EN',
     title: 'DISPATCHES', eyebrow: 'Transmission log',
     intro: 'Difficult ideas translated for people. AI, work, money, media, language, safety and social systems without needless insider language.',
     all: 'All', archive: 'All dispatches', read: 'Read dispatch →', empty: 'No published dispatches match these filters yet.',
@@ -206,7 +205,7 @@ function pageHead({lang,title,description,url,type='website',alternates=[],jsonL
   const articleMeta=type==='article'?`${published?`<meta property="article:published_time" content="${escAttr(published)}" />\n`:''}${modified?`<meta property="article:modified_time" content="${escAttr(modified)}" />\n`:''}<meta property="article:author" content="${escAttr(AUTHOR_URL)}" />\n`:'';
   return `<!doctype html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8" />\n<meta name="viewport" content="width=device-width, initial-scale=1" />\n<meta name="description" content="${escAttr(description)}" />\n<meta name="author" content="${escAttr(AUTHOR)}" />\n<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />\n<link rel="canonical" href="${escAttr(url)}" />\n<link rel="author" href="${escAttr(AUTHOR_URL)}" />\n${alternates.map(a=>`<link rel="alternate" hreflang="${a.lang}" href="${escAttr(a.url)}" />`).join('\n')}\n<meta property="og:site_name" content="${escAttr(SITE_NAME)}" />\n<meta property="og:type" content="${type}" />\n<meta property="og:title" content="${escAttr(title)}" />\n<meta property="og:description" content="${escAttr(description)}" />\n<meta property="og:url" content="${escAttr(url)}" />\n${image?`<meta property="og:image" content="${escAttr(image)}" />\n`:``}${articleMeta}<meta property="og:locale" content="${locale}" />\n<meta property="og:locale:alternate" content="${altLocale}" />\n<meta name="twitter:card" content="${image?'summary_large_image':'summary'}" />\n<meta name="twitter:title" content="${escAttr(title)}" />\n<meta name="twitter:description" content="${escAttr(description)}" />\n${image?`<meta name="twitter:image" content="${escAttr(image)}" />\n`:``}${rss?`<link rel="alternate" type="application/rss+xml" title="${escAttr(SITE_NAME)}" href="${rss}" />`:''}\n<title>${esc(title)}</title>\n${jsonLd?`<script type="application/ld+json">${jsonLd}</script>`:''}\n<meta name="theme-color" content="#040408" />\n<link rel="icon" href="/favicon.svg" type="image/svg+xml" />\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">\n<link rel="stylesheet" href="/styles.css" />\n</head>`;
 }
-function header(lang, blog=false, langTargets={}){ const c=copy[lang]; const fiHref=langTargets.fi||copy.fi.blogPath, enHref=langTargets.en||copy.en.blogPath; const labels=lang==='fi'?{menu:'Avaa valikko',nav:'Päänavigaatio',language:'Kieli'}:{menu:'Open menu',nav:'Main navigation',language:'Language'}; return `<header class="site-header"><a class="brand" href="${c.home}">Anomancer</a><button class="menu-toggle" type="button" aria-label="${labels.menu}" aria-controls="header-menu" aria-expanded="false"><span></span><span></span><span></span></button><div class="header-right" id="header-menu"><nav class="main-nav" aria-label="${labels.nav}"><a href="${c.home}">${c.homeLabel}</a>${!blog?`<a href="${c.blogPath}">${c.title}</a>`:''}<a href="${CORE}">${c.core}</a></nav><div class="lang-switch" aria-label="${labels.language}"><a class="${lang==='fi'?'active':''}" href="${fiHref}">FI</a><span>/</span><a class="${lang==='en'?'active':''}" href="${enHref}">EN</a></div></div></header>`; }
+function header(lang, blog=false, langTargets={}){ const c=copy[lang]; const fiHref=langTargets.fi||copy.fi.blogPath, enHref=langTargets.en||copy.en.blogPath; const labels=lang==='fi'?{menu:'Avaa valikko',nav:'Päänavigaatio',language:'Kieli'}:{menu:'Open menu',nav:'Main navigation',language:'Language'}; return `<header class="site-header"><a class="brand" href="${c.home}">Anomancer</a><button class="menu-toggle" type="button" aria-label="${labels.menu}" aria-controls="header-menu" aria-expanded="false"><span></span><span></span><span></span></button><div class="header-right" id="header-menu"><nav class="main-nav" aria-label="${labels.nav}"><a href="${c.home}">${c.homeLabel}</a>${!blog?`<a href="${c.blogPath}">${c.title}</a>`:''}<a href="${c.corePath}">${c.core}</a></nav><div class="lang-switch" aria-label="${labels.language}"><a class="${lang==='fi'?'active':''}" href="${fiHref}">FI</a><span>/</span><a class="${lang==='en'?'active':''}" href="${enHref}">EN</a></div></div></header>`; }
 function menuScript(){ return `<script type="module" src="/site.js"></script>`; }
 function blogJsonLd(lang){ const c=copy[lang],url=`${SITE}${c.blogPath}`; const blog={'@type':'Blog','@id':`${url}#blog`,url,name:`${SITE_NAME} — ${c.title}`,description:c.description,inLanguage:lang,isPartOf:{'@id':WEBSITE_ID},author:{'@id':PERSON_ID},publisher:{'@id':PERSON_ID}}; const page=webpageNode({url,name:`${c.title[0]}${c.title.slice(1).toLowerCase()} | ${SITE_NAME}`,description:c.description,lang}); page['@type']='CollectionPage'; page.mainEntity={'@id':blog['@id']}; return graphJson([websiteNode(),personNode(),page,blog]); }
 function categoryButtons(lang, published){ const c=copy[lang]; const active=categoryOrder.map(id=>[id,published.filter(p=>p.category===id).length]).filter(([,count])=>count>0); return `<button class="category-filter is-active" data-category-filter="all" aria-pressed="true">${c.all}<span>${published.length}</span></button>${active.map(([id,count])=>`<button class="category-filter" data-category-filter="${id}" aria-pressed="false">${categories[id][lang]}<span>${count}</span></button>`).join('')}`; }
@@ -251,7 +250,7 @@ function renderArticle(p,all){
   const body=stripDuplicateTitleHeading(p.body,p.title);
   const evidence=evidenceBlocks(p);
   const skip=lang==='fi'?'Siirry sisältöön':'Skip to content';
-  return `${pageHead({lang,title:`${p.title} | ${SITE_NAME}`,description:p.description,url:ownUrl,type:'article',alternates:alts,jsonLd:articleJsonLd(p),rss:lang==='fi'?`${SITE}/rss.xml`:`${SITE}/rss-en.xml`,image,published:p.date,modified:p.updated||p.date})}<body><a class="skip-link" href="#main-content">${skip}</a>${header(lang,true,langTargets)}<main id="main-content" class="article-shell"><article class="article"><a class="article-back" href="${c.blogPath}">${c.back}</a><div class="article-meta"><span class="category-tag">${categories[p.category][lang]}</span><time datetime="${p.date}">${humanDate(p.date,lang)}</time><span>${readingMinutes(body)} ${c.minRead}</span></div>${audienceTags(p,lang)}<h1>${esc(p.title)}</h1><p class="article-deck">${esc(p.description)}</p><p class="article-byline">${c.byline} <a rel="author" href="${escAttr(AUTHOR_PATH)}">${esc(AUTHOR)}</a></p>${evidence.answer}${cover}<div class="article-body">${markdown(body)}</div>${evidence.evidence}<div class="article-end"><a href="${CORE}">${c.deeper}</a></div></article>${related.length?`<aside class="related"><p class="eyebrow">${c.related}</p><div class="related-grid">${related.map(x=>postCard(x,lang,{headingLevel:3})).join('')}</div></aside>`:''}</main><footer class="footer"><span>${c.footer}</span><a href="${c.blogPath}">${c.back}</a></footer>${menuScript()}</body></html>`;
+  return `${pageHead({lang,title:`${p.title} | ${SITE_NAME}`,description:p.description,url:ownUrl,type:'article',alternates:alts,jsonLd:articleJsonLd(p),rss:lang==='fi'?`${SITE}/rss.xml`:`${SITE}/rss-en.xml`,image,published:p.date,modified:p.updated||p.date})}<body><a class="skip-link" href="#main-content">${skip}</a>${header(lang,true,langTargets)}<main id="main-content" class="article-shell"><article class="article"><a class="article-back" href="${c.blogPath}">${c.back}</a><div class="article-meta"><span class="category-tag">${categories[p.category][lang]}</span><time datetime="${p.date}">${humanDate(p.date,lang)}</time><span>${readingMinutes(body)} ${c.minRead}</span></div>${audienceTags(p,lang)}<h1>${esc(p.title)}</h1><p class="article-deck">${esc(p.description)}</p><p class="article-byline">${c.byline} <a rel="author" href="${escAttr(AUTHOR_PATH)}">${esc(AUTHOR)}</a></p>${evidence.answer}${cover}<div class="article-body">${markdown(body)}</div>${evidence.evidence}<div class="article-end"><a href="${c.corePath}">${c.deeper}</a></div></article>${related.length?`<aside class="related"><p class="eyebrow">${c.related}</p><div class="related-grid">${related.map(x=>postCard(x,lang,{headingLevel:3})).join('')}</div></aside>`:''}</main><footer class="footer"><span>${c.footer}</span><a href="${c.blogPath}">${c.back}</a></footer>${menuScript()}</body></html>`;
 }
 
 function renderAliasRedirect(p,alias){
@@ -288,6 +287,8 @@ function llmsTxt(posts){
     `- [Lähetykset](${SITE}${copy.fi.blogPath})`,
     `- [English](${SITE}/en)`,
     `- [Dispatches](${SITE}${copy.en.blogPath})`,
+    `- [Core FI](${SITE}${copy.fi.corePath})`,
+    `- [Core EN](${SITE}${copy.en.corePath})`,
     `- [Core](${SITE}/core)`,
     '',
     '## Machine-readable resources',
@@ -319,7 +320,7 @@ function discoveryManifest(posts,generatedAt){
     notes:DISCOVERY.notes||[]
   };
 }
-function sitemap(posts){ const urls=[['/',null],['/en',null],['/core',null],[copy.fi.blogPath,null],[copy.en.blogPath,null],...posts.filter(p=>!p.draft).map(p=>[`${copy[p.lang].articleBase}/${p.slug}`,p.date])]; return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(([u,d])=>`  <url><loc>${SITE}${u}</loc>${d?`<lastmod>${d}</lastmod>`:''}</url>`).join('\n')}\n</urlset>\n`; }
+function sitemap(posts){ const urls=[['/',null],['/en',null],['/core',null],['/en/core',null],[copy.fi.blogPath,null],[copy.en.blogPath,null],...posts.filter(p=>!p.draft).map(p=>[`${copy[p.lang].articleBase}/${p.slug}`,p.date])]; return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(([u,d])=>`  <url><loc>${SITE}${u}</loc>${d?`<lastmod>${d}</lastmod>`:''}</url>`).join('\n')}\n</urlset>\n`; }
 function decodeHtmlAttr(s=''){ return String(s).replace(/&#x27;|&#39;/gi,"'").replace(/&quot;/gi,'\"').replace(/&amp;/gi,'&').replace(/&lt;/gi,'<').replace(/&gt;/gi,'>'); }
 function staticHomeJsonLd(lang,title,description,url){ return graphJson([websiteNode(),personNode(),webpageNode({url,name:title,description,lang})]); }
 function syncStaticHome(rel,lang){
@@ -398,13 +399,18 @@ fs.rmSync(PUBLIC, { recursive:true, force:true });
 ensureDir(PUBLIC);
 const publicFiles = [
   'index.html','en.html','core.html','lahetykset.html','dispatches.html','admin.html',
-  'styles.css','admin.css','admin.js','admin-workspaces.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-orchestrator.js','favicon.svg',
+  'ui-tokens.css','styles.css','core.css','admin.css','admin-control-plane.css','admin.js','admin-workspaces.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-orchestrator.js','favicon.svg',
   'site.js','core-public.js','core-public.json',
   'robots.txt','sitemap.xml','rss.xml','rss-en.xml','content-manifest.json','evidence-manifest.json','llms.txt','discovery-manifest.json'
 ];
 for (const rel of publicFiles) {
   const src=path.join(ROOT,rel);
   if (fs.existsSync(src)) fs.copyFileSync(src,path.join(PUBLIC,rel));
+}
+const enCoreSrc=path.join(ROOT,'core-en.html');
+if (fs.existsSync(enCoreSrc)) {
+  ensureDir(path.join(PUBLIC,'en'));
+  fs.copyFileSync(enCoreSrc,path.join(PUBLIC,'en','core.html'));
 }
 for (const dir of ['lahetykset','dispatches']) {
   const src=path.join(ROOT,dir);

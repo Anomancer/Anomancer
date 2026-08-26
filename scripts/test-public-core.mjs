@@ -9,7 +9,7 @@ const vercel=JSON.parse(fs.readFileSync('vercel.json','utf8'));
 const build=fs.readFileSync('scripts/build-blog.mjs','utf8');
 
 test('/core on julkinen staattinen sivu eikä admin-rewrite',()=>{
-  assert.match(html,/PUBLIC CONTROL PLANE VIEW/);
+  assert.match(html,/JULKINEN RAKENNENÄKYMÄ/);
   assert.ok(!(vercel.rewrites||[]).some(r=>r.source==='/core'));
   assert.ok(!vercel.headers.some(h=>h.source==='/core'&&JSON.stringify(h).includes('noindex')));
 });
@@ -19,17 +19,17 @@ test('/admin pysyy yksityisenä',()=>{
 });
 test('julkinen Core ei kutsu admin-API:a',()=>{assert.doesNotMatch(js,/\/api\/admin\//);});
 test('build tuottaa julkisen snapshotin Agent Registrystä',()=>{assert.match(build,/AGENT_REGISTRY/);assert.match(build,/core-public\.json/);assert.match(build,/containsRunHistory:false/);});
-test('Core Registry on 15.9 ja agentteja on edelleen kahdeksan',()=>{assert.equal(CORE_VERSION,'15.9.2');assert.equal(AGENT_REGISTRY.length,8);assert.equal(ORCHESTRA_REGISTRY.length,1);});
+test('Core Registry on 16.0 ja agentteja on edelleen kahdeksan',()=>{assert.equal(CORE_VERSION,'16.0.0');assert.equal(AGENT_REGISTRY.length,8);assert.equal(ORCHESTRA_REGISTRY.length,1);});
 test('julkinen Core näyttää vain built-in Orchestra Contractin mutta tukee step-rakennetta',()=>{const o=ORCHESTRA_REGISTRY[0];assert.equal(o.source,'built-in');assert.ok(Array.isArray(o.steps));assert.equal(o.steps.length,8);assert.doesNotMatch(js,/api\/admin\/orchestras/);});
 test('yhdelläkään agentilla ei ole julkaisuoikeutta',()=>{for(const a of AGENT_REGISTRY) assert.ok(a.authority.deny.includes('publish'));});
-test('public Core kertoo julkisen ja yksityisen rajan',()=>{assert.match(html,/Lasiseinä ei ole avoin ovi/);assert.match(html,/href="\/admin"/);assert.match(html,/Oikeat ajot, promptit ja yksityinen ohjaamo eivät/);});
+test('public Core kertoo julkisen ja yksityisen rajan',()=>{assert.match(html,/Lasiseinä ei ole avoin ovi/);assert.match(html,/href="\/admin"/);assert.match(html,/Oikeat ajot, syötteet ja yksityinen ohjaamo eivät/);});
 test('Corella on yhdeksän alueen tuoterakenne',()=>{
   for(const id of ['overview','agents','orchestras','runs','evidence','models','tools','usage','workspaces']) assert.match(html,new RegExp(`id="${id}"`));
-  for(const label of ['Overview','Agent Pool','Orchestras','Runs','Evidence','Models','Tools','Usage','Workspaces']) assert.match(html,new RegExp(`>${label}<`));
+  for(const label of ['Yleiskuva','Agenttijoukko','Orkesterit','Ajot','Evidenssi','Mallit','Työkalut','Käyttö','Työtilat']) assert.match(html,new RegExp(`>${label}<`));
 });
-test('julkinen Core kertoo Run Explorerin ja Usage Meteringin olevan live mutta pitää account-datan yksityisenä',()=>{assert.match(html,/Actual account usage/);assert.match(html,/>PRIVATE</);assert.match(html,/LIVE EXPLORER/);assert.match(html,/LIVE METERING/);assert.match(html,/Yksityinen Core mittaa nyt oikeat run-/);});
-test('Models, Tools ja Usage johdetaan julkisesta Agent Registrystä',()=>{assert.match(js,/renderModels\(core\)/);assert.match(js,/renderTools\(core\)/);assert.match(js,/renderUsage\(core\)/);assert.match(js,/renderWorkspaces\(core\)/);assert.match(js,/maxOutputTokens/);assert.match(js,/maxOutputTokensCeiling/);assert.match(js,/agent\.tools/);});
+test('julkinen Core kertoo ajojen tarkastelun ja käyttömittauksen olevan käytössä mutta pitää oikean datan yksityisenä',()=>{assert.match(html,/04 · Ajot/);assert.match(html,/08 · Käyttö/);assert.match(html,/>YKSITYINEN</);assert.match(html,/Oikea ajojen tarkastelu kuuluu yksityiseen Coreen/);assert.match(html,/Oikea ajo-, agentti-, palveluntarjoaja- ja kustannusdata pysyy yksityisessä ohjaamossa/);});
+test('Models, Tools ja Usage johdetaan julkisesta Agent Registrystä',()=>{assert.match(js,/renderModels\(core\)/);assert.match(js,/renderTools\(core\)/);assert.match(js,/renderUsage\(core\)/);assert.match(js,/renderWorkspaces\(core\)/);assert.match(js,/maxOutputTokens/);assert.match(js,/maxOutputTokensCeiling/);assert.match(js,/a\.tools/);});
 test('julkinen snapshot näyttää runtime-rajat mutta ei adminin Runtime Profile -tilaa',()=>{assert.match(build,/maxOutputTokensCeiling/);assert.doesNotMatch(build,/RUNTIME_KEY|localStorage/);assert.doesNotMatch(js,/agent-runtime|localStorage/);});
 test('Core-tuotenavigaatio seuraa osioita ilman uutta API-pintaa',()=>{assert.match(js,/IntersectionObserver/);assert.match(html,/data-core-nav="overview"/);assert.doesNotMatch(js,/fetch\([^)]*api/);});
-test('Core lisätään discoveryyn',()=>{assert.match(build,/\['\/core',null\]/);assert.match(build,/\[Core\]/);});
+test('Core lisätään discoveryyn',()=>{assert.match(build,/\['\/core',null\]/);assert.match(build,/Core FI/);assert.match(build,/Core EN/);assert.match(build,/\['\/en\/core',null\]/);});
 console.log(`\n${n}/${n} PUBLIC CORE -testiä läpi`);
