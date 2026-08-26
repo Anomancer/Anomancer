@@ -25,7 +25,9 @@
   .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(8)::after{display:none}
 }
 @media(max-width:600px){
-  .orchestra-stages,.orchestra-stages[data-step-count="8"]{grid-template-columns:1fr;gap:22px}
+  .orchestra-stages,.orchestra-stages[data-step-count="8"]{position:relative;grid-template-columns:1fr;gap:12px;padding-left:28px}
+  .orchestra-stages[data-step-count="8"]::before{content:"";position:absolute;left:9px;top:18px;bottom:18px;width:1px;background:linear-gradient(180deg,rgba(113,125,240,.18),rgba(113,125,240,.62),rgba(113,125,240,.18));pointer-events:none}
   .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(n){grid-column:1;grid-row:auto}
-  .orchestra-stages[data-step-count="8"] .orchestra-step:not(:last-child)::after{display:grid;content:"↓";right:auto;left:50%;top:auto;bottom:-22px;transform:translateX(-50%)}
+  .orchestra-stages[data-step-count="8"] .orchestra-step::before{content:"";position:absolute;left:-23px;top:18px;width:8px;height:8px;border:2px solid #06060b;border-radius:50%;background:#9aa5ff;box-shadow:0 0 0 1px rgba(113,125,240,.34)}
+  .orchestra-stages[data-step-count="8"] .orchestra-step::after{display:none!important}
 }

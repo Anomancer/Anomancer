@@ -13,7 +13,7 @@ test('Coren 8-vaiheinen virta kääntyy toisella rivillä vasemmalle',()=>assert
 test('vanha suursiivous-roadmap on poissa',()=>{assert.doesNotMatch(fi,/Ensin suursiivous/);assert.doesNotMatch(en,/Cleanup first/)});
 test('uusi roadmap on aidosti mahdollinen eikä lupaus',()=>{assert.match(fi,/Mahdolliset seuraavat kerrokset/);assert.match(fi,/eivät luvattuja/);assert.match(en,/Possible next layers/)});
 test('Opettajalle pysyy ensisijaisessa audience-valikossa',()=>assert.match(build,/primary=\['entrepreneur','developer','teacher'\]/));
-test('Kaikille-sisältö näkyy kohdeyleisöä suodatettaessa',()=>assert.match(site,/cardAudiences\.includes\('all'\)/));
+test('16.0.3 korvaa vanhan universaalin audience-tulkinnan eksplisiittisellä kohdennuksella',()=>{assert.doesNotMatch(site,/cardAudiences\.includes\('all'\)\|\|cardAudiences\.includes\(audience\)/);assert.match(site,/audience==='all'\|\|cardAudiences\.includes\(audience\)/)});
 test('henkilökohtaiset kortit ovat samalla vasemmalla sisältölinjalla',()=>assert.match(css,/\.personal-highlights\{max-width:none;margin-left:0;margin-right:0\}/));
 test('yhteysosio ei käytä kolmea yhtäaikaista kapeaa palstaa',()=>{assert.match(css,/\.contact-grid\{grid-template-columns:1fr/);assert.match(css,/\.contact-body\{grid-template-columns:minmax\(0,\.92fr\) minmax\(380px,1\.08fr\)/)});
 test('yhteyslomake käyttää desktopilla kahden sarakkeen perustietoja',()=>assert.match(css,/\.contact-form\{display:grid;grid-template-columns:repeat\(2/));

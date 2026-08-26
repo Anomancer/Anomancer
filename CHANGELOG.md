@@ -1,3 +1,10 @@
+# 16.0.3 — Combo Filter & Mobile Core Surgery
+
+- Lähetykset: aihe + yleisö ovat nyt oikea AND-yhdistelmä. Nimetty yleisö näyttää vain eksplisiittisesti kohdennetun sisällön; `all` pysyy yleisenä sisältönä.
+- Etusivu: yhteysosion koristekuva pienennetty 420 px desktop / 320 px mobile enimmäisleveyteen.
+- Public Core: mobiilin 8-vaiheinen flow vaihtuu kelluvista nuolipalloista vakaaseen pystytimelineen.
+- Private Core: sama mobiilitimeline orkesterivaiheille.
+
 # 16.0.2 — Flow & Public UX Surgery
 
 - Lähetyskoneen 8-vaiheinen orkesteri taittuu nyt 4×2, 2×4 ja 1×8 -poluksi ilman nuolten törmäystä kortteihin.

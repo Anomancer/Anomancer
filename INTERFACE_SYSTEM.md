@@ -88,3 +88,8 @@ Asettelun selainkohtainen tila ei ole agentin Runtime Profile eikä workspace-da
 - Yleisösuodatin käsittelee `all`-sisällön universaalina eikä piilota sitä kohdeyleisöä valittaessa.
 - Etusivun henkilökohtaiset nostot noudattavat samaa vasenta sisältölinjaa kuin muut osiot.
 - Yhteysosio priorisoi lomakkeen käytettävyyttä kolmen yhtäaikaisen kapean palstan sijaan.
+
+
+## 16.0.3 · Combo Filter & Mobile Core Surgery
+
+Lähetysarkiston aihe- ja yleisörajaus muodostavat yhden AND-ehdon. Nimetty yleisö on kohdennusfiltteri eikä `all`-sisältöä tulkita implisiittisesti jokaiseen kohderyhmään. Core käyttää alle 600 px leveydessä pystytimelinea, jossa liitosviiva ja vaihepisteet ovat samassa geometriassa ilman kelluvia nuolipalloja. Yhteysosion koristekuvan koko on rajattu tarkoituksellisesti pieneksi.

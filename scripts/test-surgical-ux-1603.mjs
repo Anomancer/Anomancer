@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { matchesDispatchFilters } from '../site.js';
+let ok=0; const test=(n,f)=>{f();ok++;console.log(`✓ ${n}`)};
+test('kohdeyleisö ei peri Kaikille-sisältöä',()=>{assert.equal(matchesDispatchFilters({category:'info-media',audience:'all'},{category:'all',audience:'teacher'}),false)});
+test('kategoria ja yleisö leikkaavat toisensa',()=>{assert.equal(matchesDispatchFilters({category:'language-learning',audience:'teacher'},{category:'language-learning',audience:'teacher'}),true);assert.equal(matchesDispatchFilters({category:'language-learning',audience:'teacher'},{category:'info-media',audience:'teacher'}),false)});
+test('Kaikki-yleisö näyttää kaikki yleisöt valitun aiheen sisällä',()=>{assert.equal(matchesDispatchFilters({category:'ai-work',audience:'developer'},{category:'ai-work',audience:'all'}),true)});
+test('yhteysosion kuva on kirurgisesti pienempi',()=>{const css=fs.readFileSync('styles.css','utf8');assert.match(css,/contact-art img[\s\S]*width: min\(100%, 420px\)/);assert.match(css,/max-width:600px\)\{\.contact-art img\{width:min\(100%,320px\)/)});
+test('public Core käyttää mobiilissa timeline-raitaa eikä nuolipalloja',()=>{const css=fs.readFileSync('core.css','utf8');assert.match(css,/core-public-stage-line\[data-step-count=\"8\"\]::before/);assert.match(css,/core-public-stage[^}]*::before/);assert.match(css,/core-public-stage[^}]*::after\{display:none!important\}/)});
+test('private Core käyttää samaa mobiilitimeline-periaatetta',()=>{const css=fs.readFileSync('admin-control-plane.css','utf8');assert.match(css,/orchestra-stages\[data-step-count=\"8\"\]::before/);assert.match(css,/orchestra-step::after\{display:none!important\}/)});
+console.log(`\n${ok}/${ok} SURGICAL UX 16.0.3 -testiä läpi`);

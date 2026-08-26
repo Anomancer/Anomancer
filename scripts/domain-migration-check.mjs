@@ -41,6 +41,7 @@ const list=fs.readFileSync(path.join(ROOT,'lahetykset.html'),'utf8');
 const siteJs=fs.readFileSync(path.join(ROOT,'site.js'),'utf8');
 if(list.includes("a.includes('all')||a.includes(aud)")) failures.push('audience-filtteri käyttää vanhaa all+target-logiikkaa');
 if(!list.includes('src="/site.js"')) failures.push('ulkoinen käyttöliittymäskripti puuttuu');
-if(!siteJs.includes("audience==='all'||cardAudiences.includes('all')||cardAudiences.includes(audience)")) failures.push('universaali audience-filtteri puuttuu');
+if(!siteJs.includes("audience==='all'||cardAudiences.includes(audience)")) failures.push('kohdennettu audience-filtteri puuttuu');
+if(siteJs.includes("cardAudiences.includes('all')||cardAudiences.includes(audience)")) failures.push('audience-filtteri vuotaa yleissisällön kohderajaukseen');
 if(failures.length){console.error('DOMAIN MIGRATION FAIL');for(const f of failures)console.error(' -',f);process.exit(1)}
 console.log(`✓ Domain migration OK · ${fi.length} FI-lähetystä · canonical ${SITE}`);

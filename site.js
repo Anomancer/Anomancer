@@ -2,6 +2,18 @@ export function splitAudience(value=''){
   return String(value||'all').trim().split(/\s+/).filter(Boolean);
 }
 
+export function matchesDispatchFilters(card={},filters={}){
+  const category=String(filters.category||'all');
+  const audience=String(filters.audience||'all');
+  const cardCategory=String(card.category||'');
+  const cardAudiences=Array.isArray(card.audience)?card.audience:splitAudience(card.audience);
+  const matchesCategory=category==='all'||cardCategory===category;
+  // Named audience filters are intentionally strict: `all` means general-purpose content,
+  // not an implicit membership in every targeted audience bucket.
+  const matchesAudience=audience==='all'||cardAudiences.includes(audience);
+  return matchesCategory&&matchesAudience;
+}
+
 function setPressed(buttons,active){
   for(const button of buttons){
     const selected=button===active;
@@ -30,11 +42,12 @@ export function initSiteUi(root=document){
   const apply=()=>{
     let visible=0;
     for(const card of cards){
-      const matchesCategory=category==='all'||card.dataset.category===category;
-      const cardAudiences=splitAudience(card.dataset.audience);
-      const matchesAudience=audience==='all'||cardAudiences.includes('all')||cardAudiences.includes(audience);
-      card.hidden=!(matchesCategory&&matchesAudience);
-      if(!card.hidden)visible++;
+      const visibleForFilters=matchesDispatchFilters(
+        {category:card.dataset.category||'',audience:card.dataset.audience||'all'},
+        {category,audience}
+      );
+      card.hidden=!visibleForFilters;
+      if(visibleForFilters)visible++;
     }
     if(count)count.textContent=String(visible);
     if(empty)empty.hidden=visible!==0;

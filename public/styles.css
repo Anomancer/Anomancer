@@ -197,11 +197,13 @@ h1 {
   box-shadow: none;
 }
 .contact-art {
-  margin-top: clamp(28px, 5vw, 48px);
+  display: flex;
+  justify-content: flex-start;
+  margin-top: clamp(24px, 4vw, 40px);
 }
 .contact-art img {
   display: block;
-  width: min(100%, 760px);
+  width: min(100%, 420px);
   height: auto;
   border: 0;
   border-radius: 0;
@@ -910,3 +912,6 @@ body{overflow-x:hidden}h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}.skip-li
 .contact-fallback{justify-self:start}
 @media(max-width:900px){.contact-body{grid-template-columns:1fr}.contact-form{max-width:720px}}
 @media(max-width:600px){.contact-form{grid-template-columns:1fr}.contact-form>label{grid-column:1/-1}.contact-form textarea{min-height:160px}}
+
+/* 16.0.3 contact artwork scale */
+@media(max-width:600px){.contact-art img{width:min(100%,320px)}}

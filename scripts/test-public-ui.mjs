@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { splitAudience } from '../site.js';
+import { splitAudience, matchesDispatchFilters } from '../site.js';
 
 let ok=0;
 const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`);};
@@ -8,6 +8,16 @@ const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`);};
 test('yleisölista pilkkoutuu oikealla whitespace-regexillä',()=>{
   assert.deepEqual(splitAudience('teacher   developer\tinvestor'),['teacher','developer','investor']);
 });
+
+test('aihe ja yleisö toimivat samanaikaisena AND-rajauksena',()=>{
+  const teacherLanguage={category:'language-learning',audience:'teacher'};
+  const generalLanguage={category:'language-learning',audience:'all'};
+  assert.equal(matchesDispatchFilters(teacherLanguage,{category:'language-learning',audience:'teacher'}),true);
+  assert.equal(matchesDispatchFilters(teacherLanguage,{category:'ai-work',audience:'teacher'}),false);
+  assert.equal(matchesDispatchFilters(generalLanguage,{category:'language-learning',audience:'teacher'}),false);
+  assert.equal(matchesDispatchFilters(generalLanguage,{category:'language-learning',audience:'all'}),true);
+});
+
 test('julkinen UI on ulkoisessa moduulissa eikä build-templaten escape-ansassa',()=>{
   const build=fs.readFileSync('scripts/build-blog.mjs','utf8');
   const site=fs.readFileSync('site.js','utf8');
