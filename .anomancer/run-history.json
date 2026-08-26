@@ -1,8 +1,8 @@
 {
   "format": "anomancer-run-store/v1",
   "coreVersion": "15.8.0",
-  "revision": 15,
-  "updatedAt": "2026-08-26T21:09:09.297Z",
+  "revision": 16,
+  "updatedAt": "2026-08-26T21:09:51.540Z",
   "chainHead": "GENESIS",
   "runs": [
     {
@@ -797,7 +797,7 @@
       },
       "startedAt": "2026-08-26T21:08:02.148Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-26T21:09:09.297Z",
+      "updatedAt": "2026-08-26T21:09:51.540Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
@@ -877,15 +877,72 @@
           "finishedAt": "2026-08-26T21:09:08.956Z",
           "durationMs": 66808,
           "humanApprovalRequired": true
+        },
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-ab0f905058f8303a94a1",
+          "orchestraRunId": "5099a35a-d3b9-4934-a4cc-e35e6c5e0c8f",
+          "stageIndex": 1,
+          "agent": {
+            "id": "structure",
+            "label": "Rakenneagentti",
+            "version": "1.0.0",
+            "contractHash": "98a56fa8436de1bdb6612e24a0820a762220900e08382909e77bd8874fd2842d",
+            "role": "editorial-structure"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "writer",
+            "target": "deepseek.writer"
+          },
+          "routing": {
+            "route": "writer",
+            "requestedTarget": "deepseek.writer",
+            "selectedTarget": "deepseek.writer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.writer",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 12000,
+            "modelTarget": "deepseek.writer"
+          },
+          "usage": {
+            "inputTokens": 5822,
+            "outputTokens": 3252,
+            "totalTokens": 9074,
+            "reasoningTokens": 1762,
+            "maxOutputTokens": 12000,
+            "costEuro": null
+          },
+          "tools": [],
+          "toolPolicy": [],
+          "status": "completed",
+          "inputHash": "98fa696ed306f0e6c8387e3016b1ae8f672f162c2cdeaccd74b38481098ae078",
+          "outputHash": "9662e0cde3c6d04156f9de7bb6744133f0c8edb747ab6829409be5778dd1e6bc",
+          "startedAt": "2026-08-26T21:09:11.843Z",
+          "finishedAt": "2026-08-26T21:09:51.195Z",
+          "durationMs": 39352,
+          "humanApprovalRequired": true
         }
       ],
       "usage": {
         "runs": 0,
-        "inputTokens": 61611,
-        "outputTokens": 5111,
-        "totalTokens": 66722,
-        "reasoningTokens": 2429,
-        "durationMs": 66808,
+        "inputTokens": 67433,
+        "outputTokens": 8363,
+        "totalTokens": 75796,
+        "reasoningTokens": 4191,
+        "durationMs": 106160,
         "estimatedCostEuro": 0,
         "pricedReceipts": 0,
         "fallbacks": 0,
@@ -893,14 +950,15 @@
         "toolDenies": 0,
         "toolHumanRequired": 0,
         "providers": {
-          "deepseek": 66722
+          "deepseek": 75796
         },
         "agents": {
-          "source": 66722
+          "source": 66722,
+          "structure": 9074
         },
         "orchestras": {}
       },
-      "receiptCount": 1,
+      "receiptCount": 2,
       "previousRunHash": "",
       "runHash": "",
       "counted": false
