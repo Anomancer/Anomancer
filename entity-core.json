@@ -4,7 +4,9 @@
     "name": "Aatu Isopahkala",
     "authorPath": "/#about",
     "imagePath": "/media/aatu-profile-bw.jpg",
-    "sameAs": ["https://www.instagram.com/kaikkeudenkasvot/"],
+    "sameAs": [
+      "https://www.instagram.com/kaikkeudenkasvot/"
+    ],
     "knowsAbout": [
       "systems thinking",
       "artificial intelligence",
@@ -14,7 +16,9 @@
       "software",
       "prototyping",
       "verifiable systems",
-      "creative technology"
+      "creative technology",
+      "AI agent systems",
+      "multi-agent systems"
     ],
     "homeLocation": "Tampere, Finland"
   }
