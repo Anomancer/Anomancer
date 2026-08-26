@@ -1,50 +1,51 @@
 ---
 title: "Miksi tekoälyagentille pitäisi antaa passi?"
 date: "2026-08-26"
-category: "ai-work"
-description: "Miksi tekoälyagentin pitäisi voida todistaa kuka se on, mitä se saa tehdä ja mitä se teki?"
+category: "software-safety"
+audience: ["all"]
+audienceDepth: "general"
+description: "Tekoälyagentti voi jo hakea tietoa, lukea tiedostoja ja lähettää viestejä. Millä luvalla se toimii, ja miten sen voi osoittaa? Agenttipassi olisi koneellisesti luettava sopimus siitä, mitä agentti saa tehdä."
 slug: "miksi-tekoalyagentille-pitaisi-antaa-passi"
 lang: "fi"
 translationKey: "why-an-ai-agent-needs-a-passport"
-draft: false
-audience: ["all"]
+aliases: []
+coverImage: ""
+coverAlt: ""
+answer: ""
+sources: []
+claims: []
 pinned: false
+draft: false
 ---
 
-Tekoälyagentti ei ole enää pelkkä keskustelukumppani.
+Tekoälyagentti ei ole enää pelkkä keskustelukumppani. Kun mallille annetaan työkaluja, käyttöoikeuksia ja mahdollisuus toimia itsenäisesti, se voi hakea tietoa, lukea tiedostoja, kirjoittaa järjestelmiin tai lähettää viestejä. Silloin herää käytännöllinen kysymys: millä luvalla agentti toimii?
 
-Kun mallille annetaan työkaluja, käyttöoikeuksia ja mahdollisuus suorittaa tehtäviä itsenäisesti, puhutaan jo jostain ihan muusta kuin chatbotista. Agentti voi hakea tietoa, lukea tiedostoja, kirjoittaa järjestelmiin, lähettää viestejä tai käynnistää muita toimintoja.
+Yksi ehdotettu vastaus on agenttipassi. Se ei olisi ihmisen henkilöllisyysasiakirjan kopio. Ajatus on, että agentille annettaisiin koneellisesti luettava sopimus – asiakirja, johon on kirjattu, mitä agentin on tarkoitus tehdä ja mitä se saa tehdä matkalla. Mukaan voisi kuulua tehtävä, käytettävissä olevat työkalut, sallitut resurssit, budjetti, voimassaoloaika ja rajat, joiden yli ei saa mennä.
 
-Siinä vaiheessa pitäisi pystyä vastaamaan aika yksinkertaiseen kysymykseen:
+Tärkeä tarkennus: agenttipassi on vasta ehdotettu tapa hahmottaa ratkaisua, ei vakiintunut järjestelmä. Samasta ongelmasta on liikkeellä myös muita teknisiä malleja, kuten delegaatiotokeneita ja valtuutusprofiileja. ”Passi” on silti hyödyllinen ajatuskoe, koska se tuo esiin jotain, mikä nykyisistä järjestelmistä puuttuu: yhden paikan, josta näkee, mihin agentilla on lupa.
 
-**Millä luvalla tämä agentti toimii?**
+## Kun tekoäly saa työkalut
 
-Tästä syntyy ajatus agenttipassista.
+Niin kauan kuin tekoäly tuottaa pelkkää tekstiä ruudulle, sen suora toimivalta ympäröivään maailmaan on pieni. Mutta kun sama järjestelmä voi tallentaa tiedoston, lähettää viestin tai tehdä tilauksen, hyvä vastaus ei enää riitä. Silloin pitää tietää, millä valtuuksilla se toimii.
 
-Kyse ei olisi mistään ihmisen henkilöllisyystodistuksen kopioimisesta tekoälylle, vaan koneellisesti luettavasta sopimuksesta. Passiin voisi kirjata esimerkiksi agentin tehtävän, käytössä olevat työkalut, sallitut resurssit, budjetin, voimassaoloajan ja rajat, joiden yli ei saa mennä.
+## Oikeudet seuraavat tehtävää
 
-Jos tehtävänä on etsiä tutkimuspapereita verkosta, sähköpostin lähettämiseen ei ole mitään syytä antaa oikeutta. Tiedostojen poistaminen olisi vielä oudompi lupa.
+Keskeinen periaate on yksinkertainen: oikeudet seuraavat tehtävää, eivät agentin yleistä kyvykkyyttä.
 
-Oikeuksien pitäisi seurata tehtävää, ei agentin yleistä kyvykkyyttä.
+Ajatellaan tutkimusagenttia. Tehtävä: etsi uusia tutkimuksia tietystä aiheesta ja tee niistä yhteenveto. Oikeudet: verkkohaku ja julkisten sivujen lukeminen. Kirjoitusoikeus: yksi raporttitiedosto. Budjetti: 50 hakua. Voimassaolo: yhden ajon ajan.
 
-Tämä kuulostaa melkein itsestään selvältä, mutta nykyisissä agenttijärjestelmissä kokonaisuus voi hajota nopeasti eri API-avaimiin, ympäristömuuttujiin, promptteihin, käyttöoikeuksiin ja lokeihin. Jälkikäteen voi olla yllättävän vaikea sanoa, mitä agentin oikeastaan piti saada tehdä. Silloin tapahtumaloki yksin ei ratkaise ongelmaa.
+Sähköposti, muut tiedostot ja muut järjestelmät jäävät kokonaan ulkopuolelle. Jos tehtävänä on etsiä tutkimuspapereita, sähköpostin lähettämiseen tai tiedostojen poistamiseen ei ole mitään syytä antaa oikeutta.
 
-Lokista voidaan nähdä, mitä tapahtui. Vertailukohta puuttuu, jos alkuperäisiä oikeuksia ja tehtävää ei ole määritelty selkeästi. Passi antaisi tämän vertailukohdan.
+Tavoitteena on, että kun työ päättyy, myös oikeudet päättyvät. Tämän tekninen toteutus on kuitenkin yhä keskeneräinen: valtuuksien peruuttaminen ja kierrättäminen ovat vaikeita kysymyksiä, joihin ei ole yhtä vakiintunutta ratkaisua.
 
-Jos ajossa näkyy toiminto, jota alkuperäinen sopimus ei sallinut, poikkeama voidaan havaita suoraan. Sama pätee budjettiin, työkaluihin ja tehtävän kestoon.
+## Loki kertoo, mitä tapahtui – passi kertoisi, mitä oli luvallista
 
-Ajatellaan vaikka tutkimusagenttia.
+Nykyisissä agenttijärjestelmissä valtuudet voivat olla hajallaan eri paikoissa: ohjelmien välisissä tunnisteissa, järjestelmän asetuksissa, agentille annetussa ohjeistuksessa, käyttöoikeuksissa ja tapahtumalokeissa. Jälkikäteen voi olla yllättävän vaikea sanoa, mitä agentin oikeastaan piti saada tehdä.
 
-Tehtävä: etsi uusia tutkimuksia tietystä aiheesta ja tee niistä yhteenveto. Oikeudet: verkkohaku ja julkisten sivujen lukeminen. Kirjoitusoikeus: yksi raporttitiedosto. Budjetti: 50 hakua. Voimassaolo: yhden ajon ajan.
+Tapahtumaloki yksin ei ratkaise ongelmaa. Loki kertoo, mitä tapahtui, mutta ilman alkuperäistä sopimusta puuttuu vertailukohta: millä oli lupa tapahtua? Passi antaisi tämän vertailukohdan. Jos ajossa näkyy toiminto, jota sopimus ei sallinut – tai budjetti ylittyy tai tehtävä venyy yli voimassaoloajan – poikkeama voidaan havaita suoraan.
 
-Sähköposti, muut tiedostot ja muut järjestelmät jäävät kokonaan ulkopuolelle. Kun työ päättyy, myös oikeudet päättyvät.
+## Periaate on tuttu, käytäntö ei
 
-Ei kovin futuristista. Lähinnä normaalia käyttöoikeuksien hallintaa siirrettynä maailmaan, jossa ohjelmisto ei enää vain odota napinpainallusta vaan voi toimia itsenäisesti. Juuri tässä agenttien yleistyminen muuttaa asetelmaa.
+Periaatteessa agenttipassi ei ole kovin futuristinen: ajatus siitä, että käyttöoikeudet rajataan ja kirjataan ennalta, on tuttua käyttöoikeushallinnasta. Mutta siirtäminen autonomisiin agentteihin tuo mukanaan aidosti uusia ongelmia. Valtuudet pitäisi pystyä esittämään niin, että sekä ihminen että ohjelmisto ymmärtävät ne, ja ne pitäisi pystyä myös peruuttamaan luotettavasti. Standardointiluonnoksissa on ehdotettu erilaisia tapoja, mutta yhtenäistä, vakiintunutta järjestelmää ei ole. Avoimeksi jää myös se, miten ihmisvastuu ja sääntely kytketään mukaan.
 
-Kun tekoäly tuottaa vain tekstiä ruudulle, vastuualue pysyy suhteellisen pienenä. Kun sama järjestelmä saa tehdä muutoksia ympäröivään maailmaan, pelkkä hyvä vastaus ei enää riitä.
-
-Tarvitaan myös tapa osoittaa, mitä agentille annettiin tehtäväksi, mitä sillä oli lupa tehdä ja mitä ajon aikana oikeasti tapahtui. Siksi agenttipassi ei ole minusta erityisen eksoottinen ajatus.
-
-Päinvastoin.
-
-Mitä enemmän tekoälylle annetaan toimintavaltaa, sitä oudommaksi muuttuu ajatus siitä, ettei mukana olisi mitään selvää käyttöoikeussopimusta.
+Mitä enemmän tekoälyagentille annetaan toimivaltaa, sitä oudommaksi muuttuu ajatus siitä, ettei mukana olisi mitään selvää käyttöoikeussopimusta. Agenttipassi ei ole eksoottinen keksintö. Päinvastoin – se on looginen seuraus siitä, että ohjelmisto alkaa toimia itsenäisesti, ja siksi myös vastuun pitää olla jäljitettävissä.
