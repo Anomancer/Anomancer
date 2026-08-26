@@ -1,8 +1,8 @@
 {
   "format": "anomancer-runtime-store/v2",
   "coreVersion": "15.8.0",
-  "revision": 1,
-  "updatedAt": "2026-08-26T20:56:29.459Z",
+  "revision": 2,
+  "updatedAt": "2026-08-26T21:07:37.307Z",
   "profiles": {
     "source": {
       "format": "anomancer-agent-runtime/v1",
@@ -116,7 +116,7 @@
       "agentId": "claims",
       "contractHash": "48751e292aea0eaeaa6cb32de9ea903eb70dc8f7498bfbfbbfc84f1c37daac8c",
       "active": true,
-      "maxOutputTokens": 16000,
+      "maxOutputTokens": 26000,
       "modelTarget": "deepseek.critic",
       "limits": {
         "minOutputTokens": 1000,
