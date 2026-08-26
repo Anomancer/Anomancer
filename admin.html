@@ -49,6 +49,17 @@
             <label>Slug<input id="slug" maxlength="100" placeholder="automaattinen otsikosta"></label>
             <label class="wide">SEO-kuvaus <span id="descCount" class="count">0 / 220</span><textarea id="description" rows="3" maxlength="220"></textarea></label>
             <label class="wide">Translation key<input id="translationKey" maxlength="100" placeholder="sama avain FI/EN-versioille"></label>
+            <div class="wide cover-field">
+              <div class="cover-field-head"><span>Kansikuva</span><span class="count">JPG · PNG · WebP → pakataan automaattisesti</span></div>
+              <input id="coverImage" type="hidden">
+              <input id="coverPicker" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+              <div class="cover-controls">
+                <button id="coverSelectBtn" type="button" class="secondary">Valitse / vaihda kuva</button>
+                <button id="coverRemoveBtn" type="button" class="ghost" hidden>Irrota kansikuva</button>
+              </div>
+              <label class="cover-alt">Alt-teksti<input id="coverAlt" maxlength="180" placeholder="Mitä kuvassa näkyy?"></label>
+              <figure id="coverPreview" class="cover-preview" hidden><img id="coverPreviewImg" alt=""></figure>
+            </div>
           </div>
           <div class="public-url-box" aria-live="polite">
             <div class="public-url-copy">
@@ -59,6 +70,12 @@
             <a id="liveLink" class="public-open" target="_blank" rel="noreferrer" hidden>Avaa julkinen lähetys ↗</a>
           </div>
           <div class="body-head"><label for="body">Teksti · Markdown</label><span id="wordCount" class="count">0 sanaa · 0 min</span></div>
+          <div class="media-toolbar">
+            <button id="insertImageBtn" type="button" class="secondary">＋ Lisää kuva tekstiin</button>
+            <span>Kuva pakataan ja lisätään kursorin kohdalle Markdownina.</span>
+            <input id="bodyImagePicker" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+          </div>
+          <div id="mediaStatus" class="media-status" role="status"></div>
           <textarea id="body" class="body-editor" spellcheck="true"></textarea>
           <div class="actions">
             <button id="saveDraftBtn" class="secondary">Tallenna luonnos</button>

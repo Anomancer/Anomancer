@@ -40,6 +40,8 @@ export function validatePost(input) {
   const slug = slugify(input.slug || title);
   const translationKey = slugify(input.translationKey || slug);
   const body = String(input.body || '').replace(/\r\n/g,'\n').trim();
+  const coverImage = String(input.coverImage || '').trim();
+  const coverAlt = String(input.coverAlt || '').trim();
   const draft = Boolean(input.draft);
   if (!title) throw Object.assign(new Error('Otsikko puuttuu.'), { statusCode:400 });
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw Object.assign(new Error('Päivämäärä on virheellinen.'), { statusCode:400 });
@@ -47,12 +49,15 @@ export function validatePost(input) {
   if (!slug) throw Object.assign(new Error('Slug puuttuu.'), { statusCode:400 });
   if (description.length > 220) throw Object.assign(new Error('SEO-kuvaus on liian pitkä (max 220 merkkiä).'), { statusCode:400 });
   if (body.length > 500_000) throw Object.assign(new Error('Teksti on liian pitkä.'), { statusCode:413 });
-  return { lang,title,date,category,description,slug,translationKey,draft,body };
+  if (coverImage && !/^\/media\/[A-Za-z0-9._\/-]+$/.test(coverImage)) throw Object.assign(new Error('Kansikuvan polku on virheellinen.'), { statusCode:400 });
+  if (coverImage && !coverAlt) throw Object.assign(new Error('Kansikuvalta puuttuu alt-teksti.'), { statusCode:400 });
+  if (coverAlt.length > 180) throw Object.assign(new Error('Kansikuvan alt-teksti on liian pitkä (max 180 merkkiä).'), { statusCode:400 });
+  return { lang,title,date,category,description,slug,translationKey,coverImage,coverAlt,draft,body };
 }
 
 export function serializePost(input) {
   const p = validatePost(input);
-  return `---\ntitle: ${JSON.stringify(p.title)}\ndate: ${JSON.stringify(p.date)}\ncategory: ${JSON.stringify(p.category)}\ndescription: ${JSON.stringify(p.description)}\nslug: ${JSON.stringify(p.slug)}\nlang: ${JSON.stringify(p.lang)}\ntranslationKey: ${JSON.stringify(p.translationKey)}\ndraft: ${p.draft}\n---\n\n${p.body}\n`;
+  return `---\ntitle: ${JSON.stringify(p.title)}\ndate: ${JSON.stringify(p.date)}\ncategory: ${JSON.stringify(p.category)}\ndescription: ${JSON.stringify(p.description)}\nslug: ${JSON.stringify(p.slug)}\nlang: ${JSON.stringify(p.lang)}\ntranslationKey: ${JSON.stringify(p.translationKey)}\ncoverImage: ${JSON.stringify(p.coverImage)}\ncoverAlt: ${JSON.stringify(p.coverAlt)}\ndraft: ${p.draft}\n---\n\n${p.body}\n`;
 }
 
 export function newPostPath(post) {

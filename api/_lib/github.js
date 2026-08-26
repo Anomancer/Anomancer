@@ -16,7 +16,7 @@ async function gh(path, options={}) {
       'Accept':'application/vnd.github+json',
       'Authorization':`Bearer ${token}`,
       'X-GitHub-Api-Version':'2022-11-28',
-      'User-Agent':'anomancer-admin-v13',
+      'User-Agent':'anomancer-admin-v14',
       ...(options.headers || {}),
     },
   });
@@ -77,6 +77,17 @@ export async function putFile(filePath, content, { sha, message } = {}) {
   };
   if (sha) body.sha = sha;
   const data = await gh(`/repos/${repo}/contents/${encodeURI(filePath)}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  return { sha:data?.content?.sha || '', commitSha:data?.commit?.sha || '', htmlUrl:data?.content?.html_url || '' };
+}
+
+
+export async function putBase64File(filePath, base64Content, { message } = {}) {
+  const { repo, branch } = config();
+  if (!/^[A-Za-z0-9._\/-]+$/.test(filePath) || filePath.includes('..')) throw Object.assign(new Error('Virheellinen media-polku.'), { statusCode:400 });
+  const data = await gh(`/repos/${repo}/contents/${encodeURI(filePath)}`, {
+    method:'PUT', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ message:message || `media: add ${filePath}`, content:String(base64Content||''), branch }),
+  });
   return { sha:data?.content?.sha || '', commitSha:data?.commit?.sha || '', htmlUrl:data?.content?.html_url || '' };
 }
 

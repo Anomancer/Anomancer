@@ -1,3 +1,14 @@
+# ANOMANCER V13.4 · MEDIA PIPE
+
+V13.4 tuo kuvat samaan julkaisuputkeen tekstien kanssa. Admin pakkaa JPG/PNG/WebP-kuvat selaimessa, tallentaa ne GitHub-repon `media/YYYY/MM/`-hakemistoon ja build kopioi ne julkiseksi `/media/...`-poluksi. Kansikuva tallentuu artikkelin metadataan ja toimii myös artikkelikortissa, Open Graph -kuvana ja JSON-LD:n `image`-kenttänä. Tekstin sisäiset kuvat lisätään Markdowniin kursorin kohdalle.
+
+- **Kansikuva**: Valitse / vaihda kuva + alt-teksti
+- **Lisää kuva tekstiin**: kuva + alt-teksti + valinnainen kuvateksti
+- max 1600 px, WebP-pakkaus selaimessa, max 2 Mt palvelimelle
+- vain JPG / PNG / WebP, palvelin tarkistaa myös tiedoston magic bytes -sisällön
+- kuvat kulkevat: `/admin → GitHub media/ → master → Vercel → /media/`
+- ei uusia salaisuuksia, palveluita tai ympäristömuuttujia
+
 # ANOMANCER V13.3 · PUBLIC URL CONTROL
 
 V13.3 lisää adminiin näkyvän julkisen URL-esikatselun sekä julkaistulle lähetykselle suoran **Avaa julkinen lähetys ↗** -napin. URL päivittyy otsikon, kielen ja slugin mukana. Luonnoksella nappi pysyy piilossa, ja julkaistun slugin muuttamisen jälkeen nappi aktivoituu vasta kun muutos on julkaistu.
@@ -67,7 +78,7 @@ Vercel production environment:
 ```text
 GITHUB_CONTENT_TOKEN=...
 GITHUB_REPO=käyttäjä/repo
-GITHUB_BRANCH=main
+GITHUB_BRANCH=master
 ADMIN_PASSWORD_HASH=scrypt$...
 ADMIN_SESSION_SECRET=...
 ```
