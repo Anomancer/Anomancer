@@ -9,7 +9,7 @@ lang: "en"
 translationKey: "why-this-page-exists"
 coverImage: ""
 coverAlt: ""
-pinned: false
+pinned: true
 draft: false
 ---
 
