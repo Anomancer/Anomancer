@@ -171,3 +171,11 @@ Desktopin hero-, identiteetti-, reitti-, lähetys- ja artikkeliotsikoiden maksim
 - Pinnattujen keskinäinen järjestys on edelleen päivämäärän mukaan.
 - Julkisessa kortissa näkyy pieni Pinnattu/Pinned-merkintä.
 - RSS pysyy kronologisena eikä pinnaus sotke syötteen ajallista luonnetta.
+
+
+## V13.11 · HUMAN CONTACTS
+
+- Updated public contact email to `alakhapositu@proton.me`.
+- Added the human-facing Instagram account `@kaikkeudenkasvot` to the FI and EN home footers.
+- Added Instagram to Person `sameAs` structured data.
+- ANOMANCER keeps human-facing contacts here; project/system links remain in the Observatory.
