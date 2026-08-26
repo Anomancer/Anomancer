@@ -3,9 +3,9 @@ import crypto from 'node:crypto';
 const BASE_URL='https://api.deepseek.com';
 const ALLOWED_MODELS=new Set(['deepseek-v4-flash','deepseek-v4-pro']);
 const RAW_FALLBACK_MAX=30_000;
-const SOURCE_DEFAULT_MAX_OUTPUT_TOKENS=7000;
-const SOURCE_MIN_MAX_OUTPUT_TOKENS=3000;
-const SOURCE_MAX_MAX_OUTPUT_TOKENS=12000;
+const SOURCE_DEFAULT_MAX_OUTPUT_TOKENS=16000;
+const SOURCE_MIN_MAX_OUTPUT_TOKENS=8000;
+const SOURCE_MAX_MAX_OUTPUT_TOKENS=32000;
 const SOURCE_REASONING_EFFORTS=new Set(['low','medium','high']);
 
 function configuredModel(name, fallback){
@@ -259,6 +259,7 @@ export async function deepseekChatJson({system,user,model,maxTokens=5000,thinkin
       structured:true,
       finishReason,
       outputTokens:Number(data?.usage?.completion_tokens||0),
+      maxOutputTokens:Number(maxTokens||0),
       reasoningTokens:Number(data?.usage?.completion_tokens_details?.reasoning_tokens||0),
       runId:data?.id||`local-${crypto.randomUUID()}`,
     },

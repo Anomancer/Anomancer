@@ -1,5 +1,13 @@
 # Changelog
 
+## 14.3.1 · 2026-08-26
+
+- Nostettu agenttien output-tokenbudjetit pitkien artikkelien ja Audience Layer -ajojen katkeilun vähentämiseksi.
+- Uudet budjetit: Source 16k (env 8k–32k), Structure 12k, Writer 24k, Critic 12k, Audience 24k, Voice 24k, Claims 16k, Package 12k.
+- Lisätty chat-agenttien metadataan `maxOutputTokens`, jotta admin-loki näyttää käytön muodossa `käytetty/katto`.
+- Säilytetty tokenrajat enimmäismäärinä: agentti saa lopettaa normaalisti ennen budjetin täyttymistä.
+- Lisätty regressiotesti tokenbudjeteille ja Source-agentin uudelle clampille.
+
 ## 14.3.0 · 2026-08-26
 
 - Lisätty ensimmäisen luokan **Audience Layer** ja uusi `audience`-agentti.

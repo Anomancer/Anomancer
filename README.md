@@ -1,8 +1,8 @@
-# Anomancer 14.3.0 · Full Release
+# Anomancer 14.3.1 · Full Release
 
 Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone ja yksityinen Vercel-admin. Julkinen sisältö rakennetaan `public/`-hakemistoon. Admin tallentaa artikkelit GitHub Contents API:n kautta ja käyttää DeepSeek-agentteja vain ehdotusten tuottamiseen.
 
-## 14.3.0:n tärkeimmät rajat ja Audience Layer
+## 14.3.1:n tärkeimmät rajat ja Audience Layer
 
 - Agentti ei tallenna eikä julkaise.
 - Kohdeyleisö ja syvyystaso ovat ihmisen valitsema `Audience Contract`: agentit saavat muuttaa kehystä, järjestystä, esimerkkejä ja terminologian tiheyttä, mutta eivät evidenssin vahvuutta.
@@ -12,6 +12,21 @@ Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone j
 - `supported`-väite vaatii vähintään yhden tarkistetun lähteen.
 - Orkesterin checkpoint on sidottu artikkelin polkuun ja GitHub-SHA:han; tallentamattomalla uudella tekstillä lisäksi istuntokohtaiseen luonnos-ID:hen.
 - Luonnoksen voi tallentaa keskeneräisenä; julkaisu käyttää tiukempaa validointia.
+
+### Output-tokenbudjetit 14.3.1
+
+| Agentti | Katto |
+| --- | ---: |
+| Source | 16 000 (env 8 000–32 000) |
+| Structure | 12 000 |
+| Writer | 24 000 |
+| Critic | 12 000 |
+| Audience | 24 000 |
+| Voice | 24 000 |
+| Claims | 16 000 |
+| Package | 12 000 |
+
+Rajat ovat enimmäismääriä, eivät tavoitepituuksia. Admin-loki näyttää käytön suhteessa kattoon.
 
 ## Paikallinen käyttö
 

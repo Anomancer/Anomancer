@@ -1,4 +1,4 @@
-# Anomancer 14.3.0 · Lähetyskone Agents
+# Anomancer 14.3.1 · Lähetyskone Agents
 
 14.0 lisää yksityiseen `/admin`-Lähetyskoneeseen DeepSeek-pohjaisen toimituspöydän.
 
@@ -69,3 +69,7 @@ Orkesterin järjestys on nyt `source → structure → writer → critic → voi
 ## 14.3.0 · Audience Layer
 
 Kohdeyleisö ei ole enää vain julkinen filtteri. `audience` + `audienceDepth` muodostavat Audience Contractin, joka ohjaa rakenne-, kirjoitus-, kritiikki-, yleisö- ja äänivaiheita. Erillinen Yleisöadapteri palauttaa Markdown-bodyyn kohdennetun version sekä yhteenvedon siitä, mitä kehystystä muutettiin. Claims ja sources eivät kuulu sen tulossopimukseen. Väitevahti ajaa vasta yleisö- ja äänieditoinnin jälkeen.
+
+## 14.3.1 · Token Headroom
+
+Pitkien ajoketjujen output-katot ovat nyt: Source 16 000 (ympäristömuuttujalla 8 000–32 000), Structure 12 000, Writer 24 000, Critic 12 000, Audience 24 000, Voice 24 000, Claims 16 000 ja Package 12 000 tokenia. Rajat ovat kattoja, eivät tavoitepituuksia. Adminin agenttiloki näyttää myös käytetyt output-tokenit suhteessa agentin kattoon.

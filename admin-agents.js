@@ -43,7 +43,7 @@ if(box){
   }
   async function refreshConfig(){
     try{await getSession();const r=await fetch('/api/admin/agents',{credentials:'same-origin'});const d=await r.json();if(!r.ok)throw new Error(d.message||'Agenttien tila ei auennut.');
-	      const c=d.deepseek||{};modelStatus.textContent=c.configured?`DeepSeek valmis · ${c.defaultModel} · lähdehaku ${c.sourceReasoningEffort||'low'} (teho ${c.sourceReasoningEffective||c.sourceReasoningEffort||'low'}) / ${c.sourceMaxOutputTokens||7000}`:'DeepSeek API-avain puuttuu';modelStatus.dataset.kind=c.configured?'ok':'warn';
+	      const c=d.deepseek||{};modelStatus.textContent=c.configured?`DeepSeek valmis · ${c.defaultModel} · lähdehaku ${c.sourceReasoningEffort||'low'} (teho ${c.sourceReasoningEffective||c.sourceReasoningEffort||'low'}) / ${c.sourceMaxOutputTokens||16000}`:'DeepSeek API-avain puuttuu';modelStatus.dataset.kind=c.configured?'ok':'warn';
     }catch{modelStatus.textContent='Kirjaudu sisään, niin agenttitila tarkistetaan.';modelStatus.dataset.kind='';}
   }
   function renderResult(agent,result,meta){
@@ -52,7 +52,7 @@ if(box){
     const metaBits=[];
     if(incomplete)metaBits.push(`INCOMPLETE: ${meta?.incompleteReason||'unknown'}`);
     if(recovered)metaBits.push(`${recovered} pelastettu`);
-    if(meta?.outputTokens)metaBits.push(`${meta.outputTokens} output-tokenia`);
+    if(meta?.outputTokens)metaBits.push(meta?.maxOutputTokens?`${meta.outputTokens}/${meta.maxOutputTokens} output-tokenia`:`${meta.outputTokens} output-tokenia`);
     if(meta?.reasoningTokens)metaBits.push(`${meta.reasoningTokens} reasoning`);
     const title=`${AGENT_LABELS[agent]||agent} · ${meta?.model||'DeepSeek'}${meta?.searchedWeb?' · WEB':''}${metaBits.length?` · ${metaBits.join(' · ')}`:''}`;
     output.textContent=`${title}\n\n${JSON.stringify(result,null,2)}`;

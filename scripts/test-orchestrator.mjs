@@ -7,7 +7,7 @@ const css=fs.readFileSync('admin.css','utf8');
 const build=fs.readFileSync('scripts/build-blog.mjs','utf8');
 const api=fs.readFileSync('api/admin/agents.js','utf8');
 await import('node:child_process').then(({execFileSync})=>execFileSync(process.execPath,['--check','admin-orchestrator.js'],{stdio:'pipe'}));
-test('adminissa on 14.3 audience-safe Orchestrator ja live terminal',()=>{assert.match(html,/14\.3\.0 · AUDIENCE-SAFE ORCHESTRATOR/);assert.match(html,/orchestraTerminal/);assert.match(html,/HUMAN FINAL AUTHORITY/);});
+test('adminissa on 14.3 audience-safe Orchestrator ja live terminal',()=>{assert.match(html,/14\.3\.1 · AUDIENCE-SAFE ORCHESTRATOR/);assert.match(html,/orchestraTerminal/);assert.match(html,/HUMAN FINAL AUTHORITY/);});
 test('putki sisältää kaikki kahdeksan agenttia oikeassa järjestyksessä',()=>{assert.match(js,/source[\s\S]*structure[\s\S]*writer[\s\S]*critic[\s\S]*audience[\s\S]*voice[\s\S]*claims[\s\S]*package/);});
 test('orkestrointi käyttää vain olemassa olevaa agentti-API:a',()=>{assert.match(js,/\/api\/admin\/agents/);assert.doesNotMatch(js,/api\.github\.com|\/api\/admin\/posts|publishBtn\.click|saveDraftBtn\.click/);});
 test('human approval gate jää viimeiseksi',()=>{assert.match(js,/humanApprovalRequired:true/);assert.match(js,/Lähdeagentin ehdokkaat ovat edelleen ihmisen tarkistettavia/);assert.match(js,/Mitään ei julkaista tällä toiminnolla/);});
@@ -16,7 +16,7 @@ test('live terminal tukee pysäytystä ja turvallista diagnostiikkaa',()=>{asser
 test('orkesterin sisäinen konteksti mahtuu agentti-API:n instruction-rajaan',()=>{assert.match(api,/MAX_CUSTOM_CHARS=12_000/);assert.match(js,/slice\(0,12000\)/);});
 test('build stageaa orchestrator-JS:n publiciin',()=>{assert.match(build,/admin-orchestrator\.js/);});
 test('tilapäinen DeepSeek-virhe saa yhden automaattisen retryn',()=>{assert.match(js,/automaattinen retry 1\/1/);assert.match(js,/attempt===1&&isRetryable/);assert.match(js,/retryAfterMs/);assert.match(js,/DEEPSEEK_EMPTY/);});
-test('checkpoint tallennetaan vain selaimen sessionStorageen',()=>{assert.match(js,/sessionStorage\.setItem\(CHECKPOINT_KEY/);assert.match(js,/sessionStorage\.getItem\(CHECKPOINT_KEY/);assert.match(js,/checkpoint\.v14\.3\.0/);assert.doesNotMatch(js,/localStorage\.setItem/);});
+test('checkpoint tallennetaan vain selaimen sessionStorageen',()=>{assert.match(js,/sessionStorage\.setItem\(CHECKPOINT_KEY/);assert.match(js,/sessionStorage\.getItem\(CHECKPOINT_KEY/);assert.match(js,/checkpoint\.v14\.3\.1/);assert.doesNotMatch(js,/localStorage\.setItem/);});
 test('checkpoint on sidottu luonnoksen identiteettiin ja valmis tulos säilyy',()=>{assert.match(js,/draftIdentity/);assert.match(js,/instanceId/);assert.match(js,/sameDocument/);assert.match(js,/ctx\.status='complete'/);assert.match(js,/function finishRun[\s\S]{0,1200}saveCheckpoint\(ctx\)/);});
 test('virheen jälkeen voidaan retryttää yksi vaihe tai jatkaa checkpointista',()=>{assert.match(html,/orchestraRetryBtn/);assert.match(html,/orchestraResumeBtn/);assert.match(js,/retryFailedStage/);assert.match(js,/resumePipeline/);assert.match(js,/checkpoint säilyi/);});
 test('lähdeagentin fallback tai nolla lähdettä näkyy DEGRADED-tilana',()=>{assert.match(js,/sourceIsDegraded/);assert.match(js,/DEGRADED/);assert.match(css,/data-state=degraded/);assert.match(js,/Älä merkitse väitteitä tuetuiksi tämän lähdevaiheen perusteella/);});

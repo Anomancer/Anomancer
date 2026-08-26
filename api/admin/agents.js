@@ -6,6 +6,7 @@ import { normalizeClaims, normalizeSources } from '../_lib/content.js';
 import { validateAgentResult } from '../_lib/agent-validation.js';
 
 const AGENTS=new Set(['source','claims','structure','writer','critic','audience','voice','package']);
+const AGENT_MAX_TOKENS=Object.freeze({structure:12000,writer:24000,critic:12000,audience:24000,voice:24000,claims:16000,package:12000});
 const MAX_BODY_CHARS=60_000;
 const MAX_CUSTOM_CHARS=12_000;
 const windows=new Map();
@@ -64,7 +65,7 @@ export default async function handler(req,res){
     req.once?.('aborted',abort);
     const response=agent==='source'
       ? await deepseekWebSearchJson({system,user,schema:SOURCE_SCHEMA,signal:abortController.signal})
-      : await deepseekChatJson({system,user,model:modelFor(agent),maxTokens:['writer','audience','voice'].includes(agent)?8000:5500,thinking:!['voice'].includes(agent),signal:abortController.signal});
+      : await deepseekChatJson({system,user,model:modelFor(agent),maxTokens:AGENT_MAX_TOKENS[agent]||12000,thinking:!['voice'].includes(agent),signal:abortController.signal});
     req.removeListener?.('aborted',abort);
     const result=validateAgentResult(agent,response.result,post);
     return json(res,200,{ok:true,agent,result,meta:response.meta,humanApprovalRequired:true});

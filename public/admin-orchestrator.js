@@ -13,7 +13,7 @@ if(desk){
     {id:'claims',label:'Väitevahti'},
     {id:'package',label:'Julkaisupaketti'},
   ];
-  const CHECKPOINT_KEY='anomancer.orchestra.checkpoint.v14.3.0';
+  const CHECKPOINT_KEY='anomancer.orchestra.checkpoint.v14.3.1';
   let running=false,stopRequested=false,controller=null,csrf='',finalRun=null,checkpoint=null,currentStageIndex=-1;
 
   function now(){return new Date().toLocaleTimeString('fi-FI',{hour12:false});}
@@ -108,7 +108,7 @@ ${JSON.stringify(outputs.critic)}`);
   function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
   function safeClone(value){return JSON.parse(JSON.stringify(value));}
   function checkpointPayload(ctx){return{
-    version:'14.3.0',status:ctx.status||'running',draftIdentity:ctx.draftIdentity,initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,stageStates:ctx.stageStates,nextIndex:ctx.nextIndex,failedIndex:ctx.failedIndex,failedError:ctx.failedError||null,baseInstruction:ctx.baseInstruction,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',terminal:terminal.textContent,humanApprovalRequired:true
+    version:'14.3.1',status:ctx.status||'running',draftIdentity:ctx.draftIdentity,initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,stageStates:ctx.stageStates,nextIndex:ctx.nextIndex,failedIndex:ctx.failedIndex,failedError:ctx.failedError||null,baseInstruction:ctx.baseInstruction,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',terminal:terminal.textContent,humanApprovalRequired:true
   };}
   function saveCheckpoint(ctx){
     checkpoint=checkpointPayload(ctx);
@@ -119,7 +119,7 @@ ${JSON.stringify(outputs.critic)}`);
   }
   function clearCheckpoint(){checkpoint=null;try{sessionStorage.removeItem(CHECKPOINT_KEY);}catch{}updateCheckpointActions();}
   function loadCheckpoint(){
-    try{const raw=sessionStorage.getItem(CHECKPOINT_KEY);if(!raw)return null;const value=JSON.parse(raw);if(value?.version!=='14.3.0'||!value?.post||!value?.outputs||!value?.draftIdentity)return null;return value;}catch{return null;}
+    try{const raw=sessionStorage.getItem(CHECKPOINT_KEY);if(!raw)return null;const value=JSON.parse(raw);if(value?.version!=='14.3.1'||!value?.post||!value?.outputs||!value?.draftIdentity)return null;return value;}catch{return null;}
   }
   function updateCheckpointActions(){
     const has=checkpoint&&checkpoint.status!=='complete'&&Number(checkpoint.nextIndex)<PIPELINE.length;
