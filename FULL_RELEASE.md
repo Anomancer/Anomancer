@@ -1,4 +1,4 @@
-# Anomancer 15.6.0 · Server-side Runtime Profiles
+# Anomancer 15.7.0 · Custom Orchestras
 
 Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkisen FI/EN-sivuston, Markdown-sisällöt, Vercel API -funktiot, yksityisen adminin, DeepSeek-agentit, orkesterin, buildin, testit ja dokumentaation.
 
@@ -14,9 +14,9 @@ Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkis
 - slug-aliasit vanhojen artikkeliosoitteiden säilyttämiseen
 - turvallinen, varmuuskopioiva asennusskripti
 
-Julkaisuversio: 15.6.0.
+Julkaisuversio: 15.7.0.
 
-15.6 tekee Runtime Profilesta serverin auktoritatiivisen tilan. ACTIVE/OFF, tokenkatto ja modelTarget tallentuvat pysyvästi erilliseen GitHub runtime-tag-refiin, eivät sisältöhaaraan. Orkesteri käyttää serverin allekirjoittamaa runtime-snapshotia, joten asetukset eivät vaihdu kesken ajon.
+15.7 tekee orkesterista serverillä validoidun ja hashatun Orchestra Contractin. Yksityinen Core voi tallentaa omia orkestereita sekä rakentaa turvallisia parallel-vaiheita. Valittu Orchestra Contract sidotaan HMAC-allekirjoitettuun Runtime Snapshotiin, ja agentti-API valvoo vaihejäsenyyttä ennen mallikutsua.
 
 
 

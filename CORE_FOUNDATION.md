@@ -1,4 +1,4 @@
-# Anomancer 15.6 · Core Foundation + Server Runtime
+# Anomancer 15.7 · Core Foundation + Custom Orchestras
 
 15.0 erottaa ensimmäistä kertaa agentin identiteetin, orkesterin rakenteen ja ajon todistettavan metadatan varsinaisista prompteista.
 
@@ -18,11 +18,11 @@ Prompti ei siis yksin määritä agentin roolia. Sopimus kertoo myös mitä agen
 
 ## Orchestra Registry
 
-`editorial/1.0.0` on ensimmäinen Core-orkesteri:
+`editorial/1.0.0` on ensimmäinen sisäänrakennettu Core-orkesteri:
 
 `source → structure → writer → critic → audience → voice → claims → package`
 
-Orkesterilla on oma `orchestraHash`, human-final-authority ja evidenssipolitiikka. Selain voi käyttää fallback-järjestystä ennen kuin yksityinen Core API on latautunut, mutta onnistuneen autentikoinnin jälkeen rekisteri on orkesterin kanoninen kuvaus.
+15.7:n `anomancer-orchestra/v2` sisältää `steps`-rakenteen, jossa vaihe voi olla sequential tai turvallisesti parallel. Orkesterilla on oma `orchestraHash` ja pakollinen human-final-authority. Yksityinen Custom Orchestra Store voi lisätä serverillä validoituja orkestereita ilman että built-in Editorial muuttuu.
 
 ## Run Receipt
 
@@ -76,3 +76,8 @@ Agent Contract ei enää sido agenttia yhteen fyysiseen provider-targettiin. Sop
 ## 15.6 · Server-side Runtime Profiles
 
 Runtime Profile ei enää elä admin-selaimen localStoragessa. `/api/admin/runtime` lukee ja kirjoittaa server-authoritative-tilan, joka on tuotannossa sidottu erilliseen GitHub tag-refiin. Orkesteri jäädyttää tilan HMAC-allekirjoitettuun snapshotiin ennen ensimmäistä stagea.
+
+
+## 15.7 · Custom Orchestras
+
+Yksityinen Core sisältää Custom Orchestra Builderin ja server-side Orchestra Storen. Orkesterin sopimus validoidaan ennen tallennusta, customit versionoidaan revision-suojalla ja valittu Orchestra Contract jäädytetään samaan HMAC-snapshotiin Runtime Profileiden kanssa. Parallel-vaiheen agentit saavat saman jäädytetyn inputin, eivät näe toistensa vastauksia kesken vaiheen ja Core torjuu päällekkäiset kirjoituspinnat. Tarkempi kuvaus: `CUSTOM_ORCHESTRAS.md`.

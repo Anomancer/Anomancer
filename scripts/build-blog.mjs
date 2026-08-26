@@ -381,7 +381,7 @@ const publicCore={
   modelRouter:publicModelRouterSnapshot(),
   modelRoutes:MODEL_ROUTE_REGISTRY.map(route=>({id:route.id,label:route.label,defaultTarget:route.defaultTarget,allowedTargets:[...route.allowedTargets],requires:[...route.requires],routeHash:route.routeHash})),
   orchestras:ORCHESTRA_REGISTRY.map(orchestra=>({
-    id:orchestra.id,name:orchestra.name,version:orchestra.version,description:orchestra.description,mode:orchestra.mode,stages:[...orchestra.stages],
+    id:orchestra.id,name:orchestra.name,version:orchestra.version,description:orchestra.description,mode:orchestra.mode,steps:(orchestra.steps||[]).map(step=>({mode:step.mode,agents:[...(step.agents||[])]})),stages:[...orchestra.stages],
     humanFinalAuthority:Boolean(orchestra.humanFinalAuthority),evidencePolicy:orchestra.evidencePolicy,audiencePolicy:orchestra.audiencePolicy,orchestraHash:orchestra.orchestraHash
   }))
 };
@@ -396,7 +396,7 @@ fs.rmSync(PUBLIC, { recursive:true, force:true });
 ensureDir(PUBLIC);
 const publicFiles = [
   'index.html','en.html','core.html','lahetykset.html','dispatches.html','admin.html',
-  'styles.css','admin.css','admin.js','admin-core.js','admin-agents.js','admin-orchestrator.js','favicon.svg',
+  'styles.css','admin.css','admin.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-orchestrator.js','favicon.svg',
   'site.js','core-public.js','core-public.json',
   'robots.txt','sitemap.xml','rss.xml','rss-en.xml','content-manifest.json','evidence-manifest.json','llms.txt','discovery-manifest.json'
 ];

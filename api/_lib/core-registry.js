@@ -1,8 +1,9 @@
 import crypto from 'node:crypto';
 
-export const CORE_VERSION='15.6.0';
+export const CORE_VERSION='15.7.0';
 export const AGENT_CONTRACT_FORMAT='anomancer-agent/v1';
-export const ORCHESTRA_FORMAT='anomancer-orchestra/v1';
+export const ORCHESTRA_FORMAT='anomancer-orchestra/v2';
+export const CUSTOM_ORCHESTRA_FORMAT='anomancer-custom-orchestra/v1';
 export const RUN_RECEIPT_FORMAT='anomancer-run-receipt/v1';
 export const AGENT_RUNTIME_FORMAT='anomancer-agent-runtime/v1';
 export const TOOL_POLICY_FORMAT='anomancer-tool-policy/v1';
@@ -129,12 +130,19 @@ const AGENT_MAP=new Map(AGENT_REGISTRY.map(agent=>[agent.id,agent]));
 
 const RAW_ORCHESTRAS=[{
   id:'editorial',name:'Anomancer Editorial',version:'1.0.0',description:'Nykyinen Lähetyskone natiivina Core-orkesterina.',mode:'sequential',
-  stages:['source','structure','writer','critic','audience','voice','claims','package'],
-  humanFinalAuthority:true,evidencePolicy:'candidate-never-equals-verified',audiencePolicy:'adapt-then-recheck-claims'
+  steps:[
+    {id:'step-01',mode:'sequential',agents:['source']},{id:'step-02',mode:'sequential',agents:['structure']},
+    {id:'step-03',mode:'sequential',agents:['writer']},{id:'step-04',mode:'sequential',agents:['critic']},
+    {id:'step-05',mode:'sequential',agents:['audience']},{id:'step-06',mode:'sequential',agents:['voice']},
+    {id:'step-07',mode:'sequential',agents:['claims']},{id:'step-08',mode:'sequential',agents:['package']}
+  ],
+  humanFinalAuthority:true,evidencePolicy:'candidate-never-equals-verified',audiencePolicy:'adapt-then-recheck-claims',source:'built-in'
 }];
+function flattenSteps(steps=[]){return steps.flatMap(step=>Array.isArray(step?.agents)?step.agents:[]);}
 function finalizeOrchestra(input){
-  const orchestra={format:ORCHESTRA_FORMAT,coreVersion:CORE_VERSION,...clone(input)};
-  orchestra.orchestraHash=digest(orchestra);
+  const steps=(input.steps||[]).map((step,index)=>({id:String(step.id||`step-${String(index+1).padStart(2,'0')}`),mode:step.mode==='parallel'?'parallel':'sequential',agents:[...(step.agents||[])]}));
+  const orchestra={format:ORCHESTRA_FORMAT,coreVersion:CORE_VERSION,...clone(input),steps,stages:flattenSteps(steps),humanFinalAuthority:true};
+  const hashable=clone(orchestra);delete hashable.coreVersion;delete hashable.orchestraHash;orchestra.orchestraHash=digest(hashable);
   return Object.freeze(orchestra);
 }
 export const ORCHESTRA_REGISTRY=Object.freeze(RAW_ORCHESTRAS.map(finalizeOrchestra));
@@ -172,6 +180,50 @@ export function listToolIds(){return TOOL_REGISTRY.map(item=>item.id);}
 export function getModelRoute(id){const item=MODEL_ROUTE_MAP.get(String(id||''));return item?clone(item):null;}
 export function listModelRoutes(){return MODEL_ROUTE_REGISTRY.map(clone);}
 export function getOrchestra(id='editorial'){const item=ORCHESTRA_MAP.get(String(id||''));return item?clone(item):null;}
+export function orchestraWriteConflicts(agentIds=[]){
+  const seen=new Map(),conflicts=[];
+  for(const id of agentIds){
+    const contract=getAgentContract(id);if(!contract)continue;
+    for(const field of contract.authority?.write||[]){
+      if(seen.has(field))conflicts.push({field,agents:[seen.get(field),id]});else seen.set(field,id);
+    }
+  }
+  return conflicts;
+}
+export function normalizeOrchestraDefinition(input={},options={}){
+  const custom=options.custom!==false;
+  const idRaw=String(input.id||'').trim().toLowerCase().replace(/[^a-z0-9-]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60);
+  const id=custom?(idRaw.startsWith('custom-')?idRaw:`custom-${idRaw||'orchestra'}`):(idRaw||'editorial');
+  const name=String(input.name||'Untitled Orchestra').trim().slice(0,80)||'Untitled Orchestra';
+  const description=String(input.description||'').trim().slice(0,400);
+  const rawSteps=Array.isArray(input.steps)?input.steps:[];
+  const steps=rawSteps.slice(0,12).map((step,index)=>{
+    const mode=step?.mode==='parallel'?'parallel':'sequential';
+    const agents=[...new Set((Array.isArray(step?.agents)?step.agents:[]).map(x=>String(x||'').trim()).filter(Boolean))].slice(0,3);
+    return {id:`step-${String(index+1).padStart(2,'0')}`,mode,agents};
+  }).filter(step=>step.agents.length);
+  const normalized={format:custom?CUSTOM_ORCHESTRA_FORMAT:ORCHESTRA_FORMAT,coreVersion:CORE_VERSION,id,name,version:String(input.version||'1.0.0').slice(0,24),description,mode:steps.some(step=>step.mode==='parallel')?'mixed':'sequential',steps,stages:flattenSteps(steps),humanFinalAuthority:true,evidencePolicy:'candidate-never-equals-verified',audiencePolicy:'adapt-then-recheck-claims',source:custom?'custom':'built-in'};
+  const hashable=clone(normalized);delete hashable.coreVersion;delete hashable.orchestraHash;delete hashable.updatedAt;delete hashable.createdAt;normalized.orchestraHash=digest(hashable);
+  return normalized;
+}
+export function validateOrchestraDefinition(input={}){
+  const orchestra=normalizeOrchestraDefinition(input,{custom:input?.source!=='built-in'}),errors=[];
+  if(!orchestra.steps.length)errors.push({code:'ORCHESTRA_EMPTY',message:'Orkesterissa pitää olla vähintään yksi vaihe.'});
+  const all=[];
+  for(const [index,step] of orchestra.steps.entries()){
+    if(step.mode==='sequential'&&step.agents.length!==1)errors.push({code:'ORCHESTRA_SEQUENTIAL_ARITY',message:`Vaihe ${index+1}: sequential-vaiheessa pitää olla tasan yksi agentti.`});
+    if(step.mode==='parallel'&&step.agents.length<2)errors.push({code:'ORCHESTRA_PARALLEL_ARITY',message:`Vaihe ${index+1}: parallel-vaiheessa pitää olla vähintään kaksi agenttia.`});
+    for(const id of step.agents){if(!AGENT_MAP.has(id))errors.push({code:'ORCHESTRA_AGENT_UNKNOWN',message:`Tuntematon agentti: ${id}`});all.push(id);}
+    const conflicts=orchestraWriteConflicts(step.agents);if(step.mode==='parallel'&&conflicts.length)errors.push({code:'ORCHESTRA_PARALLEL_WRITE_CONFLICT',message:`Vaihe ${index+1}: rinnakkaisagentit kirjoittaisivat samaan kenttään (${conflicts.map(x=>x.field).join(', ')}).`});
+  }
+  const duplicates=all.filter((id,index)=>all.indexOf(id)!==index);if(duplicates.length)errors.push({code:'ORCHESTRA_DUPLICATE_AGENT',message:`Sama agentti saa esiintyä 15.7:ssa vain kerran: ${[...new Set(duplicates)].join(', ')}`});
+  const position=id=>orchestra.steps.findIndex(step=>step.agents.includes(id));
+  const lastBody=Math.max(position('writer'),position('audience'),position('voice'));
+  const claims=position('claims');if(lastBody>=0&&(claims<0||claims<=lastBody))errors.push({code:'ORCHESTRA_CLAIMS_AFTER_BODY',message:'Väitevahdin pitää olla viimeisen body-muokkauksen jälkeen.'});
+  const packageStep=position('package');if(packageStep>=0){const step=orchestra.steps[packageStep];if(packageStep!==orchestra.steps.length-1||step.mode!=='sequential'||step.agents.length!==1)errors.push({code:'ORCHESTRA_PACKAGE_LAST',message:'Julkaisupaketin pitää olla viimeinen yksittäinen konevaihe.'});}
+  if(orchestra.humanFinalAuthority!==true)errors.push({code:'ORCHESTRA_HUMAN_GATE',message:'Human final authority on pakollinen.'});
+  return {ok:errors.length===0,orchestra,errors};
+}
 export function listAgentIds(){return AGENT_REGISTRY.map(item=>item.id);}
 export function normalizeAgentRuntime(id,input={}){
   const contract=getAgentContract(id);
@@ -206,6 +258,7 @@ export function publicCoreSnapshot({modelRouter=null}={}){
     modelRoutes:MODEL_ROUTE_REGISTRY.map(clone),modelRouter:modelRouter?clone(modelRouter):null,
     humanFinalAuthority:true,
     runtimeControl:{format:AGENT_RUNTIME_FORMAT,persistence:'server-side-durable',mutable:['active','maxOutputTokens','modelTarget'],contractAuthorityImmutable:true,snapshot:'signed-per-orchestra-run'},
+    orchestraControl:{format:CUSTOM_ORCHESTRA_FORMAT,persistence:'server-side-durable',customBuilder:true,parallelIsolation:'same-input-deterministic-merge',humanFinalAuthority:true},
     toolBroker:{format:TOOL_POLICY_FORMAT,enforcement:'server-side-fail-closed',implicitTools:false,humanApprovalClientSpoofable:false,policyLogInRunReceipt:true}
   };
 }

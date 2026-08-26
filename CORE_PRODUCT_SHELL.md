@@ -1,4 +1,4 @@
-# Anomancer 15.2 · Core Product Shell
+# Anomancer 15.7 · Core Product Shell
 
 15.2 tekee julkisesta `/core`-näkymästä tuotteen rakennekartan ilman että yksityinen control plane avataan.
 
@@ -6,7 +6,7 @@
 
 - Overview — Agent Contract, Orchestra Registry ja Run Receipt yhdessä näkymässä.
 - Agent Pool — julkiset sopimustiedot, budjetit ja toimivaltarajat.
-- Orchestras — rekisteröityjen orkestereiden vaihejärjestys ja politiikat.
+- Orchestras — julkinen built-in-topologia; yksityisessä Coressa 15.7 Custom Orchestra Builder, sequential/parallel-vaiheet ja server-side Orchestra Store.
 - Runs — vain rakenteellinen demo; oikea run history pysyy `/admin`issa.
 - Evidence — candidate → claim audit → human verify → publish gate.
 - Models — 15.5:ssa LIVE ROUTER: loogiset reitit, tuetut provider-targetit ja fallback-topologia.

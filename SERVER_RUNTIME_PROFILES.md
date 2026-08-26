@@ -64,3 +64,8 @@ Runtime Store käyttää monotonista `revision`-numeroa. Tallennus lähettää o
 ## Mitä ei vielä ole
 
 15.6:ssa Runtime Store on yksi admin/workspace ennen varsinaista käyttäjä- ja workspace-kerrosta. Seuraava kehitysaskel voi siirtää saman API-sopimuksen workspace-kohtaiseen tietokantaan ilman, että Agent Poolin tai orkesterin käyttöliittymää tarvitsee rakentaa uudelleen.
+
+
+## 15.7 · Orchestra binding
+
+Runtime Snapshot v2 sisältää myös serveriltä ratkaistun Orchestra Contractin ja `orchestraHash`in. Näin Runtime Profileiden lisäksi agenttilista, vaiheiden järjestys ja rinnakkaisryhmät pysyvät jäädytettyinä koko ajon ajan. Agentti-API hyväksyy stage-kutsun vain, jos agentti kuuluu snapshotiin sidotun orkesterin kyseiseen vaiheeseen.

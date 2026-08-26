@@ -1,4 +1,4 @@
-# Anomancer 15.6.0 · Server-side Runtime Profiles
+# Anomancer 15.7.0 · Custom Orchestras
 
 Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone ja yksityinen Vercel-admin. Julkinen sisältö rakennetaan `public/`-hakemistoon. Admin tallentaa artikkelit GitHub Contents API:n kautta. Agenttien mallikutsut kulkevat palvelinpuolen Model Routerin kautta; DeepSeek säilyy oletuksena ja muut providerit ovat valinnaisia.
 
@@ -6,7 +6,7 @@ Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone j
 
 Anomancerin Lähetyskone toimii nyt ensimmäisenä natiivina Core-orkesterina. `api/_lib/core-registry.js` määrittää keskitetysti kahdeksan Agent Contractia, niiden roolit, mallireitit, työkalut, toimivallan ja tokenbudjetit. `editorial/1.0.0` määrittää orkesterin vaihejärjestyksen. Jokainen onnistunut agenttiajo tuottaa `anomancer-run-receipt/v1` -kuitin, joka sisältää metadatan sekä input/output-hashit, ei raakaa promptia tai vastausta. Selain ylläpitää näistä paikallista hash-ketjutettua Run Ledgeriä Core-välilehdellä.
 
-15.4 lisäsi Tool Brokerin ja 15.5 Model Routerin. 15.6 siirtää Agent Poolin Runtime Profilet selaimesta serverin hallitsemaan pysyvään storeen ja jäädyttää jokaisen orkesteriajon runtime-tilan HMAC-allekirjoitettuun snapshotiin. Core ei vielä sisällä käyttäjätili-/maksukerrosta tai custom-agenttien luontia.
+15.4 lisäsi Tool Brokerin, 15.5 Model Routerin ja 15.6 server-authoritative Runtime Profilet. 15.7 tekee orkesterista ensimmäisen luokan serverisopimuksen: yksityisessä Coressa voi rakentaa custom-orkestereita sequential- ja turvallisista parallel-vaiheista. Valittu Orchestra Contract ja Runtime Profilet jäädytetään samaan allekirjoitettuun ajosnapshotiin. Core ei vielä sisällä käyttäjätili-/maksukerrosta tai custom-agenttien luontia.
 
 ## 14.3.1:n tärkeimmät rajat ja Audience Layer
 
@@ -82,5 +82,7 @@ Asennin ei poista kohteen ylimääräisiä tiedostoja oletuksena. Korvatut tiedo
 - `ORCHESTRATOR.md` — kahdeksan agentin putki, checkpointit, retryt ja peruutus
 - `TOOL_BROKER.md` — Tool Registry, Policy Gate, TOOL403 ja Policy Log
 - `MODEL_ROUTER.md` — loogiset mallireitit, provider-targetit ja turvallinen fallback
+- `SERVER_RUNTIME_PROFILES.md` — server-authoritative runtime, snapshotit ja revision-suoja
+- `CUSTOM_ORCHESTRAS.md` — Orchestra Contract v2, builder, parallel isolation ja Orchestra Store
 - `CHANGELOG.md` — version 14.3.x muutokset
 

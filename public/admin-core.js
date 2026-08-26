@@ -54,8 +54,8 @@ async function resetRuntimeProfile(id){
   const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok){if(r.status===403)csrf='';throw Object.assign(new Error(d.message||'Runtime Profilen palautus epäonnistui.'),{code:d.error||'RUNTIME_RESET'});}
   runtimeState=d.runtime;runtimeStore=d.store||runtimeStore;const next=runtimeForAgent(id);window.dispatchEvent(new CustomEvent('anomancer:agent-runtime-change',{detail:{agentId:id,profile:next,profiles:getRuntimeProfiles(),revision:runtimeState.revision}}));return next;
 }
-async function createRuntimeSnapshot(orchestraRunId){
-  await ensureCsrf();const r=await fetch('/api/admin/runtime',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({action:'snapshot',orchestraRunId})});
+async function createRuntimeSnapshot(orchestraRunId,orchestraId='editorial'){
+  await ensureCsrf();const r=await fetch('/api/admin/runtime',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({action:'snapshot',orchestraRunId,orchestraId})});
   const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok){if(r.status===403)csrf='';throw Object.assign(new Error(d.message||'Runtime Snapshotin luonti epäonnistui.'),{code:d.error||'RUNTIME_SNAPSHOT'});}
   return d;
 }

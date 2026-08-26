@@ -58,10 +58,14 @@ export default async function handler(req,res){
     const contract=getAgentContract(agent);
     if(!contract) return json(res,400,{ok:false,error:'AGENT_UNKNOWN'});
     const orchestraRunId=cleanString(body.orchestraRunId,120)||null;
-    let runtime;
+    let runtime,snapshotOrchestra=null;
     if(orchestraRunId){
       if(!body.runtimeSnapshotToken) return json(res,409,{ok:false,error:'RUNTIME_SNAPSHOT_REQUIRED',message:'Orkesteriajo vaatii serverin allekirjoittaman Runtime Snapshotin.'});
       const snapshot=verifyRuntimeSnapshot(body.runtimeSnapshotToken,{orchestraRunId});
+      snapshotOrchestra=snapshot.orchestra||null;
+      const stepIndex=Number.isInteger(body.stageIndex)?body.stageIndex:null;
+      const allowedAgents=stepIndex!==null?snapshotOrchestra?.steps?.[stepIndex]?.agents||[]:[];
+      if(stepIndex===null||!allowedAgents.includes(agent)) return json(res,409,{ok:false,error:'ORCHESTRA_STAGE_MISMATCH',message:'Agentti ei kuulu allekirjoitetun Orchestra Contractin tähän vaiheeseen.'});
       runtime=snapshot.profiles?.[agent];
       if(!runtime) return json(res,409,{ok:false,error:'RUNTIME_SNAPSHOT_AGENT',message:'Agentin Runtime Profile puuttuu orkesterin snapshotista.'});
     }else runtime=await getRuntimeProfile(agent);
@@ -70,7 +74,7 @@ export default async function handler(req,res){
     const custom=cleanString(body.instruction,MAX_CUSTOM_CHARS);
     const {system,user}=promptFor(agent,post,custom);
     const startedAt=new Date();
-    const toolPolicy=authorizeAgentTools({contract,toolIds:contract.tools||[],context:{orchestraRunId,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null}});
+    const toolPolicy=authorizeAgentTools({contract,toolIds:contract.tools||[],context:{orchestraRunId,orchestraId:snapshotOrchestra?.id||null,orchestraHash:snapshotOrchestra?.orchestraHash||null,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null}});
     const abortController=new AbortController();
     const abort=()=>abortController.abort();
     req.once?.('aborted',abort);
@@ -80,7 +84,7 @@ export default async function handler(req,res){
     });
     req.removeListener?.('aborted',abort);
     const result=validateAgentResult(agent,response.result,post);
-    const receipt=createRunReceipt({contract,runtime,post,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
+    const receipt=createRunReceipt({contract,runtime,post,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId,orchestra:snapshotOrchestra,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
     return json(res,200,{ok:true,coreVersion:CORE_VERSION,agent,contract:{id:contract.id,version:contract.version,contractHash:contract.contractHash,role:contract.role,authority:contract.authority,budget:contract.budget,runtimePolicy:contract.runtimePolicy},runtime,toolPolicy,result,meta:response.meta,receipt,humanApprovalRequired:true});
   }catch(e){
     return json(res,e.statusCode||500,{ok:false,error:e.code||'AGENT_FAILED',message:e.message,retryable:Boolean(e.retryable),retryAfterMs:Number(e.retryAfterMs||0),policyDecision:e.policyDecision||null});

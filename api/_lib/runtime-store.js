@@ -1,8 +1,9 @@
 import crypto from 'node:crypto';
-import { AGENT_RUNTIME_FORMAT, CORE_VERSION, normalizeAgentRuntime, normalizeAgentRuntimeMap, listAgentIds } from './core-registry.js';
+import { AGENT_RUNTIME_FORMAT, CORE_VERSION, normalizeAgentRuntime, normalizeAgentRuntimeMap, listAgentIds, validateOrchestraDefinition, getOrchestra } from './core-registry.js';
+import { getAvailableOrchestra } from './orchestra-store.js';
 
 export const RUNTIME_STORE_FORMAT='anomancer-runtime-store/v2';
-export const RUNTIME_SNAPSHOT_FORMAT='anomancer-runtime-snapshot/v1';
+export const RUNTIME_SNAPSHOT_FORMAT='anomancer-runtime-snapshot/v2';
 const DEFAULT_TAG='anomancer-runtime-state';
 const DEFAULT_PATH='.anomancer/runtime-profiles.json';
 const CACHE_TTL_MS=5_000;
@@ -44,7 +45,7 @@ function normalizeState(input={}){
 
 async function gh(path,options={}){
   const {token}=githubConfig();
-  const response=await fetch(`https://api.github.com${path}`,{...options,headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${token}`,'X-GitHub-Api-Version':'2022-11-28','User-Agent':'anomancer-core-runtime-v15.6',...(options.headers||{})}});
+  const response=await fetch(`https://api.github.com${path}`,{...options,headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${token}`,'X-GitHub-Api-Version':'2022-11-28','User-Agent':'anomancer-core-runtime-v15.7',...(options.headers||{})}});
   const text=await response.text();let data=null;try{data=text?JSON.parse(text):null;}catch{data={message:text};}
   if(!response.ok){const error=Object.assign(new Error(data?.message||`GitHub ${response.status}`),{statusCode:response.status===404?404:(response.status===409||response.status===422?409:502),code:`RUNTIME_GITHUB_${response.status}`,githubStatus:response.status,details:data});throw error;}
   return data;
@@ -131,9 +132,11 @@ export async function resetRuntimeProfile(agentId,{expectedRevision=null}={}){
 
 function snapshotSecret(){const secret=process.env.ADMIN_SESSION_SECRET;if(!secret||String(secret).length<32)throw Object.assign(new Error('Runtime snapshot -allekirjoitusavain puuttuu.'),{statusCode:503,code:'RUNTIME_SNAPSHOT_SECRET'});return String(secret);}
 function minimalProfiles(profiles={}){return Object.fromEntries(listAgentIds().map(id=>{const p=normalizeAgentRuntime(id,profiles[id]||{});return [id,{format:AGENT_RUNTIME_FORMAT,agentId:id,contractHash:p.contractHash,active:p.active!==false,maxOutputTokens:p.maxOutputTokens,modelTarget:p.modelTarget}];}));}
-export function signRuntimeSnapshot({orchestraRunId,profiles,revision=0,now=Date.now(),ttlSeconds=SNAPSHOT_TTL_SECONDS}={}){
+export function signRuntimeSnapshot({orchestraRunId,profiles,revision=0,orchestra=null,now=Date.now(),ttlSeconds=SNAPSHOT_TTL_SECONDS}={}){
   const runId=clean(orchestraRunId).slice(0,120);if(!runId)throw Object.assign(new Error('orchestraRunId puuttuu runtime snapshotista.'),{statusCode:400,code:'RUNTIME_SNAPSHOT_RUN'});
-  const payload={format:RUNTIME_SNAPSHOT_FORMAT,coreVersion:CORE_VERSION,orchestraRunId:runId,revision:Number(revision)||0,iat:Math.floor(now/1000),exp:Math.floor(now/1000)+ttlSeconds,profiles:minimalProfiles(profiles)};
+  const selected=orchestra||getOrchestra('editorial');const checked=validateOrchestraDefinition(selected||{});if(!checked.ok)throw Object.assign(new Error('Orkesterin määrittely ei ole kelvollinen Runtime Snapshotiin.'),{statusCode:400,code:'RUNTIME_SNAPSHOT_ORCHESTRA'});
+  const orchestraView={id:checked.orchestra.id,name:checked.orchestra.name,version:checked.orchestra.version,description:checked.orchestra.description,steps:checked.orchestra.steps,stages:checked.orchestra.stages,humanFinalAuthority:true,orchestraHash:checked.orchestra.orchestraHash,source:checked.orchestra.source};
+  const payload={format:RUNTIME_SNAPSHOT_FORMAT,coreVersion:CORE_VERSION,orchestraRunId:runId,revision:Number(revision)||0,iat:Math.floor(now/1000),exp:Math.floor(now/1000)+ttlSeconds,profiles:minimalProfiles(profiles),orchestra:orchestraView};
   const body=b64url(JSON.stringify(payload));const sig=crypto.createHmac('sha256',snapshotSecret()).update(body).digest('base64url');
   const snapshotId=`rts-${crypto.createHash('sha256').update(body).digest('hex').slice(0,20)}`;
   return {token:`${body}.${sig}`,snapshotId,payload};
@@ -146,9 +149,10 @@ export function verifyRuntimeSnapshot(token,{orchestraRunId,now=Date.now()}={}){
     if(payload.exp<=Math.floor(now/1000))throw Object.assign(new Error('Runtime snapshot vanheni.'),{statusCode:409,code:'RUNTIME_SNAPSHOT_EXPIRED'});
     if(orchestraRunId&&payload.orchestraRunId!==clean(orchestraRunId).slice(0,120))throw Object.assign(new Error('Runtime snapshot ei kuulu tähän orkesteriajoon.'),{statusCode:409,code:'RUNTIME_SNAPSHOT_RUN_MISMATCH'});
     for(const id of listAgentIds()){const expected=normalizeAgentRuntime(id,{}).contractHash;if(payload.profiles?.[id]?.contractHash!==expected)throw Object.assign(new Error(`Runtime snapshotin Agent Contract vanheni: ${id}.`),{statusCode:409,code:'RUNTIME_SNAPSHOT_STALE'});}
-    const profiles=minimalProfiles(payload.profiles||{});return {...payload,profiles};
+    const checked=validateOrchestraDefinition(payload.orchestra||{});if(!checked.ok||checked.orchestra.orchestraHash!==payload.orchestra?.orchestraHash)throw Object.assign(new Error('Runtime snapshotin Orchestra Contract ei ole kelvollinen.'),{statusCode:409,code:'RUNTIME_SNAPSHOT_ORCHESTRA_STALE'});
+    const profiles=minimalProfiles(payload.profiles||{});return {...payload,profiles,orchestra:{...payload.orchestra,steps:checked.orchestra.steps,stages:checked.orchestra.stages}};
   }catch(error){if(error?.code)throw error;throw Object.assign(new Error('Runtime snapshot ei ole kelvollinen.'),{statusCode:409,code:'RUNTIME_SNAPSHOT_INVALID'});}
 }
-export async function createRuntimeSnapshot(orchestraRunId){const state=await loadRuntimeState({force:true});const signed=signRuntimeSnapshot({orchestraRunId,profiles:state.profiles,revision:state.revision});return {...signed,state};}
+export async function createRuntimeSnapshot(orchestraRunId,orchestraId='editorial'){const state=await loadRuntimeState({force:true});const orchestra=await getAvailableOrchestra(orchestraId);if(!orchestra)throw Object.assign(new Error('Valittua orkesteria ei löytynyt.'),{statusCode:404,code:'ORCHESTRA_NOT_FOUND'});const signed=signRuntimeSnapshot({orchestraRunId,profiles:state.profiles,revision:state.revision,orchestra});return {...signed,state,orchestra:signed.payload.orchestra};}
 
 export function __resetRuntimeStoreForTests(){cache=null;memoryState=null;}

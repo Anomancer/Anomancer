@@ -19,7 +19,8 @@ test('/admin pysyy yksityisenä',()=>{
 });
 test('julkinen Core ei kutsu admin-API:a',()=>{assert.doesNotMatch(js,/\/api\/admin\//);});
 test('build tuottaa julkisen snapshotin Agent Registrystä',()=>{assert.match(build,/AGENT_REGISTRY/);assert.match(build,/core-public\.json/);assert.match(build,/containsRunHistory:false/);});
-test('Core Registry on 15.6 ja agentteja on edelleen kahdeksan',()=>{assert.equal(CORE_VERSION,'15.6.0');assert.equal(AGENT_REGISTRY.length,8);assert.equal(ORCHESTRA_REGISTRY.length,1);});
+test('Core Registry on 15.7 ja agentteja on edelleen kahdeksan',()=>{assert.equal(CORE_VERSION,'15.7.0');assert.equal(AGENT_REGISTRY.length,8);assert.equal(ORCHESTRA_REGISTRY.length,1);});
+test('julkinen Core näyttää vain built-in Orchestra Contractin mutta tukee step-rakennetta',()=>{const o=ORCHESTRA_REGISTRY[0];assert.equal(o.source,'built-in');assert.ok(Array.isArray(o.steps));assert.equal(o.steps.length,8);assert.doesNotMatch(js,/api\/admin\/orchestras/);});
 test('yhdelläkään agentilla ei ole julkaisuoikeutta',()=>{for(const a of AGENT_REGISTRY) assert.ok(a.authority.deny.includes('publish'));});
 test('public Core kertoo julkisen ja yksityisen rajan',()=>{assert.match(html,/Lasiseinä ei ole avoin ovi/);assert.match(html,/href="\/admin"/);assert.match(html,/Oikeat ajot, promptit ja yksityinen ohjaamo eivät/);});
 test('Corella on koko kahdeksan alueen tuoterakenne',()=>{

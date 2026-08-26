@@ -1,3 +1,16 @@
+# 15.7.0 — Custom Orchestras
+
+- Lisätty serverillä validoitu `Orchestra Contract v2` sekä Custom Orchestra Builder yksityiseen Coreen.
+- Sisäänrakennettu Editorial säilyy immuuttina oletusorkesterina; customit tallentuvat omaan server-side Orchestra Storeen.
+- Custom Orchestra Store käyttää erillistä `refs/tags/anomancer-orchestra-state`-refiä eikä kirjoita sisältöhaaraan.
+- Sequential- ja turvalliset parallel-vaiheet; rinnakkaisagentit saavat saman jäädytetyn inputin ja tulokset yhdistetään deterministisesti vasta koko ryhmän onnistuttua.
+- Palvelin torjuu päällekkäiset rinnakkaiset kirjoituspinnat, pakottaa Package-agentin viimeiseksi ja Claims-agentin body-muokkausten jälkeen.
+- Runtime Snapshot sitoo valitun Orchestra Contractin ja `orchestraHash`in koko ajoon.
+- Agentti-API valvoo allekirjoitetun orkesterin `stageIndex`iä ja torjuu väärän agentin `ORCHESTRA_STAGE_MISMATCH`-virheellä ennen mallikutsua.
+- Stop abortoi kaikki käynnissä olevat rinnakkaiset agenttikutsut.
+- Custom Orchestra Store käyttää revision-conflict-suojaa eikä julkinen `/core` näytä yksityisiä custom-orkestereita.
+- Lisätty `CUSTOM_ORCHESTRAS.md` ja Custom Orchestras -regressiosviitti.
+
 # 15.6.0 — Server-side Runtime Profiles
 
 - Runtime Profilet siirretty admin-selaimen localStoragesta server-authoritative Runtime Storeen.

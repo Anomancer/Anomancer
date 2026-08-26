@@ -16,7 +16,7 @@ export default async function handler(req,res){
   }
   if(req.method==='POST'){
     if(!auth(req,res,true))return;
-    try{const body=await readJson(req,100_000);if(body.action!=='snapshot')return json(res,400,{ok:false,error:'RUNTIME_ACTION'});const snapshot=await createRuntimeSnapshot(String(body.orchestraRunId||''));return json(res,200,{ok:true,snapshotToken:snapshot.token,snapshotId:snapshot.snapshotId,revision:snapshot.payload.revision,expiresAt:new Date(snapshot.payload.exp*1000).toISOString(),profiles:snapshot.payload.profiles});}
+    try{const body=await readJson(req,100_000);if(body.action!=='snapshot')return json(res,400,{ok:false,error:'RUNTIME_ACTION'});const snapshot=await createRuntimeSnapshot(String(body.orchestraRunId||''),String(body.orchestraId||'editorial'));return json(res,200,{ok:true,snapshotToken:snapshot.token,snapshotId:snapshot.snapshotId,revision:snapshot.payload.revision,expiresAt:new Date(snapshot.payload.exp*1000).toISOString(),profiles:snapshot.payload.profiles,orchestra:snapshot.payload.orchestra});}
     catch(error){return json(res,error.statusCode||500,{ok:false,error:error.code||'RUNTIME_SNAPSHOT',message:error.message});}
   }
   if(req.method==='PUT'){

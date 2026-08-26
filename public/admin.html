@@ -11,7 +11,7 @@
 <body>
   <main id="loginView" class="login-shell" hidden>
     <form id="loginForm" class="login-card">
-      <p class="kicker">ANOMANCER CORE 15.6</p>
+      <p class="kicker">ANOMANCER CORE 15.7</p>
       <h1>CORE</h1>
       <p class="muted">Yksityinen admin. Ei sitemapissa, ei navigaatiossa, ei hakukoneille.</p>
       <label>Salasana<input id="password" type="password" autocomplete="current-password" required></label>
@@ -135,7 +135,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 	          <section class="workspace-panel" data-workspace-panel="agents" hidden>
 	          <section id="agentDesk" class="agent-desk" aria-labelledby="agentDeskTitle">
             <div class="agent-desk-head">
-	              <div><p class="kicker">15.6 · CONTRACT AGENTS</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
+	              <div><p class="kicker">15.7 · CONTRACT AGENTS</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
               <span id="agentModelStatus" class="agent-model-status">Agenttitila tarkistetaan…</span>
             </div>
             <p class="agent-rule"><strong>Human approval gate:</strong> agentit saavat tutkia, ehdottaa ja muokata luonnosta. Ne eivät saa tallentaa GitHubiin eivätkä julkaista.</p>
@@ -164,20 +164,12 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 
           <section id="orchestraDesk" class="orchestra-desk" aria-labelledby="orchestraTitle">
             <div class="orchestra-head">
-	              <div><p class="kicker">15.6 · CORE ORCHESTRATOR</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
+	              <div><p class="kicker">15.7 · CUSTOM ORCHESTRATOR</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
               <span class="orchestra-lock">HUMAN FINAL AUTHORITY</span>
             </div>
-            <p class="orchestra-rule">Orkesteri ajaa agentit yksi kerrallaan selaimesta. Yleisöadapteri muuttaa havaintoposition, mutta Väitevahti tarkistaa vasta sen ja äänieditoinnin jälkeen lopullisen proosan. Välitulokset kulkevat seuraavalle agentille vain työmuistissa. <strong>Se ei tallenna luonnosta, tee GitHub-writeä eikä julkaise.</strong></p>
-            <div class="orchestra-stages" id="orchestraStages" aria-label="Orkesterin vaiheet">
-              <span data-stage="source"><b>01</b>Lähteet</span>
-              <span data-stage="structure"><b>02</b>Rakenne</span>
-              <span data-stage="writer"><b>03</b>Luonnos</span>
-              <span data-stage="critic"><b>04</b>Kritiikki</span>
-              <span data-stage="audience"><b>05</b>Yleisö</span>
-              <span data-stage="voice"><b>06</b>Ääni</span>
-              <span data-stage="claims"><b>07</b>Väitteet</span>
-              <span data-stage="package"><b>08</b>Paketti</span>
-            </div>
+            <p class="orchestra-rule">Valitse serverillä validoitu Orchestra Contract. Sequential-vaiheet kulkevat järjestyksessä; parallel-vaiheen agentit saavat saman jäädytetyn inputin eivätkä näe toistensa vastauksia ennen determinististä mergeä. <strong>Human final authority on pakollinen kaikille orkestereille.</strong></p>
+            <div class="orchestra-select-row"><label>Orkesteri<select id="orchestraSelect"><option value="editorial">Anomancer Editorial</option></select></label><button id="orchestraBuilderBtn" type="button" class="ghost">Rakenna orkesteri</button></div>
+            <div class="orchestra-stages" id="orchestraStages" aria-label="Orkesterin vaiheet"></div>
             <label class="orchestra-instruction">Orkesterin lisäohje <span class="count">valinnainen</span><textarea id="orchestraInstruction" rows="2" maxlength="2400" placeholder="Esim. pidä teksti tutkivana, älä silota outoja havaintoja ja etsi aktiivisesti vastanäyttöä."></textarea></label>
             <div class="orchestra-actions">
               <button id="orchestraRunBtn" type="button" class="orchestra-run">▶ Aja koko putki</button>
@@ -200,8 +192,8 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 
 	          <section id="corePanel" class="workspace-panel core-panel" data-workspace-panel="core" hidden>
 	            <div class="core-hero">
-	              <div><p class="kicker">15.6 · SERVER RUNTIME + TOOL BROKER</p><h3>Agent Control Plane</h3><p>Agent Registry, Runtime Profiles, Tool Broker, Policy Log, orkesterit ja hash-ketjutettu ajoloki. Työkalut suoritetaan vain palvelinpuolen policy-päätöksen jälkeen.</p></div>
-	              <span id="coreVersion" class="core-version">CORE 15.6</span>
+	              <div><p class="kicker">15.7 · CUSTOM ORCHESTRAS</p><h3>Agent Control Plane</h3><p>Agent Registry, Runtime Profiles, Tool Broker, Policy Log, orkesterit ja hash-ketjutettu ajoloki. Työkalut suoritetaan vain palvelinpuolen policy-päätöksen jälkeen.</p></div>
+	              <span id="coreVersion" class="core-version">CORE 15.7</span>
 	            </div>
 	            <div class="core-metrics">
 	              <article><span>Agentit</span><strong id="coreAgentCount">8</strong></article>
@@ -214,7 +206,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 	            <section class="core-section"><div class="core-section-head"><div><p class="kicker">AGENT REGISTRY</p><h4>Sopimusagentit</h4></div><span>kyvykkyys ≠ lupa ≠ toimivalta ≠ tavoite</span></div><div id="coreAgents" class="core-agent-grid"></div></section>
 	            <section class="core-section"><div class="core-section-head"><div><p class="kicker">TOOL BROKER</p><h4>Tool Registry + Policy Gate</h4></div><span>fail-closed · implicit tools = 0 · human-only pysyy ihmisellä</span></div><div id="coreTools" class="core-tool-policy-grid"></div><div class="core-policy-log-head"><strong>Policy Log</strong><span>allow / deny / human_required · ei raakaa promptia</span></div><div id="corePolicyLog" class="core-policy-log"></div></section>
             <section class="core-section"><div class="core-section-head"><div><p class="kicker">MODEL ROUTER</p><h4>Providers + logical routes</h4></div><span>research / writer / critic · fallback vain sallittuihin targetteihin</span></div><div id="coreModelRouter" class="core-model-router-grid"></div></section>
-            <section class="core-section"><div class="core-section-head"><div><p class="kicker">ORCHESTRA REGISTRY</p><h4>Orkesterit</h4></div><span>nykyinen Lähetyskone = editorial/1.0.0</span></div><div id="coreOrchestras"></div></section>
+            <section class="core-section"><div class="core-section-head"><div><p class="kicker">ORCHESTRA REGISTRY</p><h4>Orkesterit</h4></div><div class="core-section-actions"><span>built-in + server-side custom</span><button id="coreNewOrchestra" type="button" class="ghost">+ Uusi orkesteri</button></div></div><div id="coreOrchestras"></div><div class="core-policy-log-head"><strong>Custom Orchestra Store</strong><span id="coreOrchestraStoreState">ladataan…</span></div><div id="coreCustomOrchestras" class="core-orchestra-custom-list"></div></section>
 	            <section class="core-section"><div class="core-section-head"><div><p class="kicker">RUN LEDGER</p><h4>Ajokuitit</h4></div><span>ei raakaa promptia · ei raakaa outputia · hashit + metadata</span></div><div id="coreRuns" class="core-run-list"></div></section>
               <dialog id="coreAgentDialog" class="core-agent-dialog" aria-labelledby="coreAgentDialogTitle">
                 <div class="core-agent-dialog-head">
@@ -249,7 +241,18 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
             <button id="publishBtn" class="primary">Julkaise</button>
             <button id="deleteBtn" class="danger" hidden>Poista</button>
 	  </div>
-	  <dialog id="publishDialog" class="publish-dialog" aria-labelledby="publishDialogTitle">
+  <dialog id="coreOrchestraDialog" class="core-agent-dialog core-orchestra-dialog" aria-labelledby="coreOrchestraDialogTitle">
+    <form method="dialog" id="coreOrchestraForm">
+      <div class="core-agent-dialog-head"><div><p class="kicker">CUSTOM ORCHESTRA / 15.7</p><h3 id="coreOrchestraDialogTitle">Uusi orkesteri</h3><p id="coreOrchestraDialogId" class="core-agent-dialog-id">server-side contract</p></div><button id="coreOrchestraClose" value="cancel" class="ghost" aria-label="Sulje">×</button></div>
+      <div class="core-orchestra-form-meta"><label>Nimi<input id="coreOrchestraName" maxlength="80" placeholder="Esim. Research Stress Test"></label><label>Kuvaus<textarea id="coreOrchestraDescription" rows="2" maxlength="400" placeholder="Mitä tämä orkesteri tekee?"></textarea></label></div>
+      <p class="core-runtime-notice">Rinnakkaisvaiheessa agentit saavat saman inputin. Core estää päällekkäiset kirjoituspinnat, pakottaa Väitevahdin body-muokkausten jälkeen ja pitää Package-agentin viimeisenä. Human final authoritya ei voi poistaa.</p>
+      <div class="core-orchestra-builder-head"><strong>Vaiheet</strong><div><button id="coreAddSequential" type="button" class="ghost">+ Sequential</button><button id="coreAddParallel" type="button" class="ghost">+ Parallel</button></div></div>
+      <div id="coreOrchestraBuilderSteps" class="core-orchestra-builder-steps"></div>
+      <div id="coreOrchestraErrors" class="core-orchestra-errors" role="alert"></div>
+      <div class="core-agent-dialog-actions"><button id="coreOrchestraDelete" type="button" class="danger" hidden>Poista</button><div><button value="cancel" class="ghost">Peruuta</button><button id="coreOrchestraSave" type="button" class="primary">Tallenna Orchestra Contract</button></div></div>
+    </form>
+  </dialog>
+		  <dialog id="publishDialog" class="publish-dialog" aria-labelledby="publishDialogTitle">
 	    <form method="dialog">
 	      <p class="kicker">HUMAN APPROVAL GATE</p>
 	      <h2 id="publishDialogTitle">Tarkista ennen julkaisua</h2>
@@ -271,6 +274,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
   <script type="module" src="/admin.js"></script>
   <script type="module" src="/admin-core.js"></script>
   <script type="module" src="/admin-agents.js"></script>
+  <script type="module" src="/admin-orchestras.js"></script>
   <script type="module" src="/admin-orchestrator.js"></script>
 </body>
 </html>
