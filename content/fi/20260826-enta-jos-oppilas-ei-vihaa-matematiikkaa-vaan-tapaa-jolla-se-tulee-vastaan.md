@@ -1,7 +1,7 @@
 ---
 title: "Entä jos oppilas ei vihaa matematiikkaa vaan tapaa, jolla se tulee vastaan?"
 date: "2026-08-26"
-category: "language-learning"
+category: "ai-work"
 audience: ["teacher"]
 description: "Oppimisen vaikeus ei aina tarkoita kyvyn puutetta. Teksti opettajille vahvuuksista, neurodivergentista oppimisesta ja siitä, miten oikea lähestymistapa voi avata uuden reitin vaikeaan aiheeseen."
 slug: "enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan"
