@@ -19,7 +19,7 @@ draft: false
 
 >Jos aihe on oppilaasta aivan perseestä, hän yrittää löytää siihen jonkin konkreettisen tarttumapinnan. Jonkin syyn, esimerkin, vertauksen tai tilanteen, joka tekee asiasta edes vähän todellisen. Ja ilmeisesti se toimii.
 
-Hän on saanut vuosien aikana paljon hyvää palautetta oppilailta juuri tavastaan opettaa. Minua tässä kiinnostaa erityisesti yksi asia, jonka hän on huomannut oppilaissa jo pitkään: ihhmisen kyvyt eivät jakaudu siisteihin riveihin.
+Hän on saanut vuosien aikana paljon hyvää palautetta oppilailta juuri tavastaan opettaa. Minua tässä kiinnostaa erityisesti yksi asia, jonka hän on huomannut oppilaissa jo pitkään: ihmisen kyvyt eivät jakaudu siisteihin riveihin.
 
 Sama oppilas voi olla matematiikassa pahasti hukassa ja samalla aivan käsittämättömän hyvä tietotekniikassa. Toinen voi kirjoittaa kouluesseen kömpelösti mutta rakentaa runoon sellaisia assosiaatioita, joita moni paljon "parempi kirjoittaja" ei keksi.
 
