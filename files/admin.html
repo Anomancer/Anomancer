@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Anomancer Core · Lähetyskone</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+  <main id="loginView" class="login-shell" hidden>
+    <form id="loginForm" class="login-card">
+      <p class="kicker">ANOMANCER CORE 15.1</p>
+      <h1>CORE</h1>
+      <p class="muted">Yksityinen admin. Ei sitemapissa, ei navigaatiossa, ei hakukoneille.</p>
+      <label>Salasana<input id="password" type="password" autocomplete="current-password" required></label>
+      <button type="submit">Kirjaudu sisään</button>
+      <p id="loginError" class="error" role="alert"></p>
+    </form>
+  </main>
+
+  <div id="appView" class="app" hidden>
+	    <aside id="sidebar" class="sidebar">
+      <div class="side-head">
+        <div><p class="kicker">Anomancer Core</p><h2>LÄHETYKSET</h2></div>
+	        <div class="side-actions"><button id="newBtn" class="ghost">+ Uusi</button><button id="sidebarClose" class="ghost sidebar-close" type="button" aria-label="Sulje tekstilista">×</button></div>
+      </div>
+      <div class="filters">
+        <button data-filter="all" class="active">Kaikki</button><button data-filter="published">Julkaistut</button><button data-filter="draft">Luonnokset</button>
+      </div>
+      <div id="repoStatus" class="repo-status"></div>
+      <div id="postList" class="post-list"></div>
+    </aside>
+
+    <section class="workspace">
+	      <header class="topbar">
+	        <div class="editor-title"><button id="sidebarToggle" class="ghost sidebar-toggle" type="button" aria-controls="sidebar" aria-expanded="false">☰ Tekstit</button><div><p class="kicker">CORE / TRANSMISSION EDITOR</p><strong id="editingLabel">Uusi lähetys</strong></div></div>
+        <div class="top-actions"><a href="/lahetykset" target="_blank" rel="noreferrer">Julkinen sivu ↗</a><button id="logoutBtn" class="ghost">Poistu</button></div>
+      </header>
+
+      <div class="editor-grid">
+        <section class="form-panel">
+          <div class="meta-grid">
+            <label>Kieli<select id="lang"><option value="fi">Suomi</option><option value="en">English</option></select></label>
+            <label>Päivä<input id="date" type="date"></label>
+            <label class="wide">Otsikko<input id="title" maxlength="180"></label>
+            <label>Aihe<select id="category">
+              <option value="ai-work">Tekoäly arjessa ja työssä</option>
+              <option value="info-media">Tieto, väitteet ja media</option>
+              <option value="work-decisions">Työ, organisaatiot ja päätöksenteko</option>
+              <option value="money-risk">Raha, riskit ja mittarit</option>
+              <option value="software-safety">Ohjelmistot, automaatio ja turvallisuus</option>
+              <option value="language-learning">Kieli, ajattelu ja oppiminen</option>
+              <option value="creativity-tools">Luovuus ja työkalut</option>
+              <option value="society-systems">Yhteiskunta ja järjestelmät</option>
+            </select></label>
+            <label>Slug<input id="slug" maxlength="100" placeholder="automaattinen otsikosta"></label>
+            <label class="pin-field"><input id="pinned" type="checkbox"><span><strong>Pinnaa lähetys</strong><small>Nostaa jutun Lähetykset-listan alkuun.</small></span></label>
+            <fieldset class="wide audience-field">
+              <legend>Kenelle tästä on hyötyä?</legend>
+              <p class="field-help">Valitse yksi tai useampi. “Kaikille” sulkee muut pois. Valinta ohjaa nyt myös agenttien rakennetta, sanastoa, esimerkkejä ja painotuksia.</p>
+              <div class="audience-options">
+                <label><input type="checkbox" name="audience" value="all" checked><span>Kaikille</span></label>
+                <label><input type="checkbox" name="audience" value="employee"><span>Työntekijälle</span></label>
+                <label><input type="checkbox" name="audience" value="entrepreneur"><span>Yrittäjälle</span></label>
+                <label><input type="checkbox" name="audience" value="developer"><span>Kehittäjälle</span></label>
+                <label><input type="checkbox" name="audience" value="teacher"><span>Opettajalle</span></label>
+                <label><input type="checkbox" name="audience" value="creative"><span>Luovalle tekijälle</span></label>
+                <label><input type="checkbox" name="audience" value="decision-maker"><span>Päättäjälle</span></label>
+                <label><input type="checkbox" name="audience" value="investor"><span>Sijoittajalle</span></label>
+              </div>
+            </fieldset>
+            <label class="audience-depth-field">Kuinka syvälle?<select id="audienceDepth">
+              <option value="plain">Selkokieli</option>
+              <option value="general" selected>Yleistajuinen</option>
+              <option value="professional">Ammattilainen</option>
+              <option value="technical">Syvä tekninen</option>
+            </select><small>Kohdeyleisö kertoo kenelle. Syvyys kertoo kuinka paljon voidaan olettaa valmiiksi.</small></label>
+            <div class="audience-contract-note"><strong>Audience Contract</strong><span>Agentit saavat vaihtaa kehystä, järjestystä, esimerkkejä ja terminologian tiheyttä. Ne eivät saa vahvistaa väitteitä tai muuttaa evidenssin tilaa.</span></div>
+            <label class="wide">SEO-kuvaus <span id="descCount" class="count">0 / 220</span><textarea id="description" rows="3" maxlength="220"></textarea></label>
+            <label class="wide">Translation key<input id="translationKey" maxlength="100" placeholder="sama avain FI/EN-versioille"></label>
+            <div class="wide cover-field">
+              <div class="cover-field-head"><span>Kansikuva</span><span class="count">JPG · PNG · WebP → pakataan automaattisesti</span></div>
+              <input id="coverImage" type="hidden">
+              <input id="coverPicker" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+              <div class="cover-controls">
+                <button id="coverSelectBtn" type="button" class="secondary">Valitse / vaihda kuva</button>
+                <button id="coverRemoveBtn" type="button" class="ghost" hidden>Irrota kansikuva</button>
+              </div>
+              <label class="cover-alt">Alt-teksti<input id="coverAlt" maxlength="180" placeholder="Mitä kuvassa näkyy?"></label>
+              <figure id="coverPreview" class="cover-preview" hidden><img id="coverPreviewImg" alt=""></figure>
+            </div>
+          </div>
+	          <div class="public-url-box" aria-live="polite">
+            <div class="public-url-copy">
+              <span class="public-url-label">Julkinen URL</span>
+              <code id="publicUrl">https://anomancer.com/lahetykset/…</code>
+              <span id="publicUrlHint" class="public-url-hint">URL muodostuu otsikosta tai slugista.</span>
+            </div>
+            <a id="liveLink" class="public-open" target="_blank" rel="noreferrer" hidden>Avaa julkinen lähetys ↗</a>
+	          </div>
+
+	          <nav class="workspace-tabs" aria-label="Editorin työvaiheet">
+	            <button type="button" class="active" data-workspace-tab="write" aria-pressed="true">Kirjoita</button>
+	            <button type="button" data-workspace-tab="evidence" aria-pressed="false">Evidenssi</button>
+	            <button type="button" data-workspace-tab="agents" aria-pressed="false">Agentit</button>
+	            <button type="button" data-workspace-tab="core" aria-pressed="false">Core</button>
+	          </nav>
+
+	          <section class="workspace-panel active" data-workspace-panel="write">
+	            <div class="body-head"><label for="body">Teksti · Markdown</label><span id="wordCount" class="count">0 sanaa · 0 min</span></div>
+	            <div class="media-toolbar">
+	              <button id="insertImageBtn" type="button" class="secondary">＋ Lisää kuva tekstiin</button>
+	              <span>Kuva pakataan ja lisätään kursorin kohdalle Markdownina.</span>
+	              <input id="bodyImagePicker" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+	            </div>
+	            <div id="mediaStatus" class="media-status" role="status"></div>
+	            <textarea id="body" class="body-editor" spellcheck="true"></textarea>
+	          </section>
+
+	          <section class="workspace-panel" data-workspace-panel="evidence" hidden>
+	            <section class="evidence-editor">
+	              <div class="evidence-editor-head"><div><strong>Evidence Layer</strong><span>14.3 · ehdokas → ihmisen tarkistama → julkaistava</span></div></div>
+	              <label>Ydinvastaus <span id="answerCount" class="count">0 / 1200</span><textarea id="answer" rows="4" maxlength="1200" placeholder="1–3 virkettä: mikä on tämän tekstin suora vastaus tai ydinväite?"></textarea></label>
+	              <div><strong class="field-label">Lähteiden tarkistus</strong><p class="field-help">Agenttilähde ei voi siirtyä julkaisuun ennen kuin olet avannut sen ja merkinnyt tarkistetuksi.</p><div id="sourceReview" class="source-review"></div></div>
+	              <details class="source-raw"><summary>Lähdedata ja manuaalinen lisäys</summary><label>Lähteet<textarea id="sources" rows="5" placeholder="Otsikko | https://... | Julkaisija | YYYY-MM-DD"></textarea></label><p class="field-help">Voit lisätä yhden lähteen per rivi putkimuodossa. Järjestelmä säilyttää agenttilähteet JSON-riveinä, jotta niiden alkuperä ja tarkistustila eivät katoa.</p></details>
+	              <label>Väitteet / evidenssi<textarea id="claims" rows="6" placeholder="supported | Väite | https://source1, https://source2 | Huomio
+interpretation | Tulkinta | https://source1 | Miksi tämä on tulkinta
+open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
+	              <p class="field-help">Supported vaatii vähintään yhden ihmisen tarkistaman lähteen. Candidate-URL voi silti näkyä open/interpretation-väitteen provisionaalisena tutkimusjälkenä. Muuten julkaisu estetään.</p>
+	            </section>
+	          </section>
+
+	          <section class="workspace-panel" data-workspace-panel="agents" hidden>
+	          <section id="agentDesk" class="agent-desk" aria-labelledby="agentDeskTitle">
+            <div class="agent-desk-head">
+	              <div><p class="kicker">15.1 · CONTRACT AGENTS</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
+              <span id="agentModelStatus" class="agent-model-status">Agenttitila tarkistetaan…</span>
+            </div>
+            <p class="agent-rule"><strong>Human approval gate:</strong> agentit saavat tutkia, ehdottaa ja muokata luonnosta. Ne eivät saa tallentaa GitHubiin eivätkä julkaista.</p>
+            <div class="agent-controls">
+              <label>Rooli<select id="agentRole">
+                <option value="source">Lähdeagentti · web-haku</option>
+                <option value="claims">Väitevahti</option>
+                <option value="structure">Rakenneagentti</option>
+                <option value="writer">Kirjoitusagentti</option>
+                <option value="critic">Kriitikko</option>
+                <option value="audience">Yleisöadapteri</option>
+                <option value="voice">Äänieditori</option>
+                <option value="package">Julkaisupaketti</option>
+              </select></label>
+              <label class="wide">Lisäohje agentille<textarea id="agentInstruction" rows="2" maxlength="2000" placeholder="Valinnainen. Esim. etsi erityisesti alkuperäistutkimuksia tai älä muuta kirsikkatomaattikohtaa."></textarea></label>
+            </div>
+            <div class="agent-actions">
+              <button id="agentRunBtn" type="button" class="agent-run">Aja agentti</button>
+              <button id="agentApplyBtn" type="button" class="secondary" hidden>Käytä ehdotusta</button>
+              <button id="agentCopyBtn" type="button" class="ghost" hidden>Kopioi tulos</button>
+	            </div>
+	            <p id="agentStatus" class="agent-status" role="status" aria-live="polite"></p>
+	            <div id="agentVisual" class="agent-visual"></div>
+	            <details id="agentRawBox" class="agent-raw" hidden><summary>Raaka JSON ja ajometadata</summary><pre id="agentOutput" class="agent-output"></pre></details>
+          </section>
+
+          <section id="orchestraDesk" class="orchestra-desk" aria-labelledby="orchestraTitle">
+            <div class="orchestra-head">
+	              <div><p class="kicker">15.1 · CORE ORCHESTRATOR</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
+              <span class="orchestra-lock">HUMAN FINAL AUTHORITY</span>
+            </div>
+            <p class="orchestra-rule">Orkesteri ajaa agentit yksi kerrallaan selaimesta. Yleisöadapteri muuttaa havaintoposition, mutta Väitevahti tarkistaa vasta sen ja äänieditoinnin jälkeen lopullisen proosan. Välitulokset kulkevat seuraavalle agentille vain työmuistissa. <strong>Se ei tallenna luonnosta, tee GitHub-writeä eikä julkaise.</strong></p>
+            <div class="orchestra-stages" id="orchestraStages" aria-label="Orkesterin vaiheet">
+              <span data-stage="source"><b>01</b>Lähteet</span>
+              <span data-stage="structure"><b>02</b>Rakenne</span>
+              <span data-stage="writer"><b>03</b>Luonnos</span>
+              <span data-stage="critic"><b>04</b>Kritiikki</span>
+              <span data-stage="audience"><b>05</b>Yleisö</span>
+              <span data-stage="voice"><b>06</b>Ääni</span>
+              <span data-stage="claims"><b>07</b>Väitteet</span>
+              <span data-stage="package"><b>08</b>Paketti</span>
+            </div>
+            <label class="orchestra-instruction">Orkesterin lisäohje <span class="count">valinnainen</span><textarea id="orchestraInstruction" rows="2" maxlength="2400" placeholder="Esim. pidä teksti tutkivana, älä silota outoja havaintoja ja etsi aktiivisesti vastanäyttöä."></textarea></label>
+            <div class="orchestra-actions">
+              <button id="orchestraRunBtn" type="button" class="orchestra-run">▶ Aja koko putki</button>
+              <button id="orchestraStopBtn" type="button" class="ghost" disabled>■ Pysäytä</button>
+              <button id="orchestraRetryBtn" type="button" class="ghost" hidden>↻ Yritä vaihetta uudelleen</button>
+              <button id="orchestraResumeBtn" type="button" class="secondary" hidden>▶ Jatka tästä</button>
+              <button id="orchestraApplyBtn" type="button" class="secondary" hidden>Siirrä lopputulos editoriin</button>
+              <button id="orchestraCopyBtn" type="button" class="ghost" hidden>Kopioi ajoloki</button>
+            </div>
+            <div class="orchestra-terminal-shell">
+              <div class="orchestra-terminal-bar"><span>ORCHESTRA / LIVE</span><span id="orchestraRunState">IDLE</span></div>
+              <pre id="orchestraTerminal" class="orchestra-terminal" role="log" aria-live="polite">$ valmis · nykyistä editoria ei ole muutettu</pre>
+            </div>
+            <details id="orchestraResultBox" class="orchestra-result" hidden>
+              <summary>Orkesterin lopputulos</summary>
+              <pre id="orchestraResult"></pre>
+            </details>
+	          </section>
+	          </section>
+
+	          <section id="corePanel" class="workspace-panel core-panel" data-workspace-panel="core" hidden>
+	            <div class="core-hero">
+	              <div><p class="kicker">15.1 · CORE FOUNDATION</p><h3>Agent Control Plane</h3><p>Agent Registry, sopimukset, orkesterit ja hash-ketjutettu paikallinen ajoloki. Core ei julkaise mitään ilman ihmistä.</p></div>
+	              <span id="coreVersion" class="core-version">CORE 15.1</span>
+	            </div>
+	            <div class="core-metrics">
+	              <article><span>Agentit</span><strong id="coreAgentCount">8</strong></article>
+	              <article><span>Orkesterit</span><strong id="coreOrchestraCount">1</strong></article>
+	              <article><span>Ajokuitit</span><strong id="coreRunCount">0</strong></article>
+	              <article><span>Tokenit yhteensä</span><strong id="coreTokenCount">0</strong></article>
+	              <article><span>Output-tokenit</span><strong id="coreOutputCount">0</strong></article>
+	              <article><span>Ledger</span><strong id="coreLedgerState" data-state="ok">CHAIN OK</strong></article>
+	            </div>
+	            <section class="core-section"><div class="core-section-head"><div><p class="kicker">AGENT REGISTRY</p><h4>Sopimusagentit</h4></div><span>kyvykkyys ≠ lupa ≠ toimivalta ≠ tavoite</span></div><div id="coreAgents" class="core-agent-grid"></div></section>
+	            <section class="core-section"><div class="core-section-head"><div><p class="kicker">ORCHESTRA REGISTRY</p><h4>Orkesterit</h4></div><span>nykyinen Lähetyskone = editorial/1.0.0</span></div><div id="coreOrchestras"></div></section>
+	            <section class="core-section"><div class="core-section-head"><div><p class="kicker">RUN LEDGER</p><h4>Ajokuitit</h4></div><span>ei raakaa promptia · ei raakaa outputia · hashit + metadata</span></div><div id="coreRuns" class="core-run-list"></div></section>
+	          </section>
+	          <div class="actions">
+            <button id="saveDraftBtn" class="secondary">Tallenna luonnos</button>
+            <button id="publishBtn" class="primary">Julkaise</button>
+            <button id="deleteBtn" class="danger" hidden>Poista</button>
+	  </div>
+	  <dialog id="publishDialog" class="publish-dialog" aria-labelledby="publishDialogTitle">
+	    <form method="dialog">
+	      <p class="kicker">HUMAN APPROVAL GATE</p>
+	      <h2 id="publishDialogTitle">Tarkista ennen julkaisua</h2>
+	      <div id="publishSummary" class="publish-summary"></div>
+	      <p>Julkaiseminen tekee GitHub-commitin. Vercel vie muutoksen julkiselle sivulle automaattisesti.</p>
+	      <div class="dialog-actions"><button value="cancel" class="ghost">Palaa editoriin</button><button id="publishConfirmBtn" value="confirm" class="primary">Hyväksy ja julkaise</button></div>
+	    </form>
+	  </dialog>
+          <div id="status" class="status" role="status"></div>
+        </section>
+
+        <aside class="preview-panel">
+          <div class="preview-head"><p class="kicker">ESIKATSELU</p><span id="previewBadge">LUONNOS</span></div>
+          <article id="preview" class="preview article"></article>
+        </aside>
+      </div>
+    </section>
+  </div>
+  <script type="module" src="/admin.js"></script>
+  <script type="module" src="/admin-core.js"></script>
+  <script type="module" src="/admin-agents.js"></script>
+  <script type="module" src="/admin-orchestrator.js"></script>
+</body>
+</html>
