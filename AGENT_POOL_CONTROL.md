@@ -24,4 +24,4 @@ Client ei päätä lopullista tokenkattoa. `/api/admin/agents` normalisoi Runtim
 
 OFF-agentti ohitetaan näkyvästi tilassa `disabled`. Human approval gate säilyy erillisenä. Run Receipt tallentaa käytetyn runtime-tokenkaton mutta ei raakaa promptia tai raakaa outputia.
 
-Seuraava luonteva kerros on palvelin-/workspace-persistenssi Runtime Profileille sekä Tool Broker ja multi-provider Model Router.
+15.4 lisää Tool Brokerin nykyisen `web.search`-polun eteen. Seuraava luonteva kerros on palvelin-/workspace-persistenssi Runtime Profileille sekä multi-provider Model Router.

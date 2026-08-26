@@ -1,3 +1,15 @@
+# 15.4.0 — Tool Broker + Policy Gate
+
+- Lisätty kanoninen Tool Registry ja palvelinpuolen fail-closed Tool Broker.
+- Source Agentin oikea `web.search` valtuutetaan Agent Contractin ja capabilityn perusteella ennen mallikutsua.
+- Tuntematon tai sopimukseen kuulumaton työkalu estyy `TOOL403`-päätöksellä.
+- `source.verify`, `publication.publish` ja `github.write` ovat eksplisiittisiä human-only-rajoja.
+- Client ei voi kasvattaa Tool Surfacea omalla request-kentällä; palvelin käyttää vain Agent Contractin työkaluja.
+- Run Receipt sisältää redaktoidun Tool Policy -lokin ilman raakaa promptia/outputia.
+- Yksityinen Core näyttää Tool Registryn, ALLOW/DENY/HUMAN ONLY -tilat ja paikallisen Policy Login.
+- Julkisen Coren Tools-alue nousi FOUNDATION-tilasta LIVE POLICY -tilaan.
+- Lisätty `test-tool-broker.mjs` regressiosviitti.
+
 # 15.3.0 — Agent Pool Control
 
 - Agent Contract ja Runtime Profile erotettu toisistaan.

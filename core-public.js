@@ -29,11 +29,14 @@ function renderModels(core){
 
 function renderTools(core){
   const root=q('#corePublicTools');if(!root)return;
-  const tools=new Map();
-  for(const agent of core.agents||[]){for(const tool of agent.tools||[]){const list=tools.get(tool)||[];list.push(agent.label||agent.id);tools.set(tool,list)}}
-  const cards=[...tools.entries()].map(([tool,agents])=>`<article><span class="core-tool-state">CONTRACT-GATED</span><strong>${esc(tool)}</strong><p>Käytössä: ${esc(agents.join(', '))}</p><small>Työkalun näkyminen sopimuksessa ei itsessään anna julkaisuoikeutta.</small></article>`);
-  cards.push(`<article class="core-tool-empty"><span class="core-tool-state">DEFAULT</span><strong>Ei implisiittisiä työkaluja</strong><p>Agentti ei saa käyttöoikeutta vain siksi, että malli teknisesti osaisi pyytää toimintoa.</p><small>Tool Broker tekee tästä seuraavassa kerroksessa runtime-valvotun säännön.</small></article>`);
-  root.innerHTML=cards.join('');
+  const users=new Map();
+  for(const agent of core.agents||[])for(const tool of agent.tools||[]){const list=users.get(tool)||[];list.push(agent.label||agent.id);users.set(tool,list);}
+  root.innerHTML=(core.tools||[]).map(tool=>{
+    const agents=users.get(tool.id)||[];
+    const state=tool.actor==='human'?'HUMAN ONLY':agents.length?'BROKER ALLOW':'UNASSIGNED';
+    const detail=tool.actor==='human'?'Agentti ei voi suorittaa tätä toimintoa.':agents.length?`Sopimusagentit: ${agents.join(', ')}`:'Ei agenttisopimukseen liitettynä.';
+    return `<article data-risk="${esc(tool.risk||'unknown')}"><span class="core-tool-state">${esc(state)}</span><strong>${esc(tool.id)}</strong><p>${esc(tool.description||detail)}</p><small>${esc(detail)} · risk ${esc(tool.risk||'unknown')} · policy ${esc(core.toolBroker?.enforcement||'fail-closed')}</small></article>`;
+  }).join('');
 }
 
 function renderUsage(core){

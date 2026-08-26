@@ -8,7 +8,7 @@ if(desk){
     {id:'audience',label:'Yleisöadapteri'},{id:'voice',label:'Äänieditori'},{id:'claims',label:'Väitevahti'},{id:'package',label:'Julkaisupaketti'},
   ];
   let PIPELINE=[...FALLBACK_PIPELINE];
-  const CHECKPOINT_KEY='anomancer.orchestra.checkpoint.v15.3.0';
+  const CHECKPOINT_KEY='anomancer.orchestra.checkpoint.v15.4.0';
   let running=false,stopRequested=false,controller=null,csrf='',finalRun=null,checkpoint=null,currentStageIndex=-1;
 
   function now(){return new Date().toLocaleTimeString('fi-FI',{hour12:false});}
@@ -72,6 +72,7 @@ ${JSON.stringify(outputs.critic)}`);
     const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',signal:controller.signal,headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agent,instruction:custom,post,orchestraRunId,stageIndex,runtimeProfile})});
     const d=await r.json().catch(()=>({}));
     if(!r.ok||!d.ok){
+      if(d.policyDecision)await window.anomancerCore?.appendPolicyDecision?.(d.policyDecision);
       if(r.status===403)csrf='';
       const error=new Error(d.message||d.error||`HTTP ${r.status}`);
       error.code=d.error||'AGENT_HTTP_ERROR';error.httpStatus=r.status;error.retryable=Boolean(d.retryable);error.retryAfterMs=Number(d.retryAfterMs||0);throw error;
@@ -103,7 +104,7 @@ ${JSON.stringify(outputs.critic)}`);
   function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
   function safeClone(value){return JSON.parse(JSON.stringify(value));}
   function checkpointPayload(ctx){return{
-    version:'15.3.0',orchestraRunId:ctx.orchestraRunId,status:ctx.status||'running',draftIdentity:ctx.draftIdentity,initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,runtimeProfiles:ctx.runtimeProfiles,stageStates:ctx.stageStates,nextIndex:ctx.nextIndex,failedIndex:ctx.failedIndex,failedError:ctx.failedError||null,baseInstruction:ctx.baseInstruction,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',terminal:terminal.textContent,humanApprovalRequired:true
+    version:'15.4.0',orchestraRunId:ctx.orchestraRunId,status:ctx.status||'running',draftIdentity:ctx.draftIdentity,initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,runtimeProfiles:ctx.runtimeProfiles,stageStates:ctx.stageStates,nextIndex:ctx.nextIndex,failedIndex:ctx.failedIndex,failedError:ctx.failedError||null,baseInstruction:ctx.baseInstruction,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',terminal:terminal.textContent,humanApprovalRequired:true
   };}
   function saveCheckpoint(ctx){
     checkpoint=checkpointPayload(ctx);
@@ -114,7 +115,7 @@ ${JSON.stringify(outputs.critic)}`);
   }
   function clearCheckpoint(){checkpoint=null;try{sessionStorage.removeItem(CHECKPOINT_KEY);}catch{}updateCheckpointActions();}
   function loadCheckpoint(){
-    try{const raw=sessionStorage.getItem(CHECKPOINT_KEY);if(!raw)return null;const value=JSON.parse(raw);if(value?.version!=='15.3.0'||!value?.post||!value?.outputs||!value?.draftIdentity)return null;return value;}catch{return null;}
+    try{const raw=sessionStorage.getItem(CHECKPOINT_KEY);if(!raw)return null;const value=JSON.parse(raw);if(value?.version!=='15.4.0'||!value?.post||!value?.outputs||!value?.draftIdentity)return null;return value;}catch{return null;}
   }
   function updateCheckpointActions(){
     const has=checkpoint&&checkpoint.status!=='complete'&&Number(checkpoint.nextIndex)<PIPELINE.length;
@@ -238,7 +239,7 @@ ${JSON.stringify(outputs.critic)}`);
     const core=event.detail||{};const orchestra=(core.orchestras||[]).find(item=>item.id==='editorial');if(!orchestra)return;
     const agents=new Map((core.agents||[]).map(agent=>[agent.id,agent]));const next=(orchestra.stages||[]).map(id=>({id,label:agents.get(id)?.label||id}));
     if(next.length===FALLBACK_PIPELINE.length)PIPELINE=next;
-    log(`Core ${core.version||'15.3'} · orkesteri ${orchestra.name||'editorial'} · ${PIPELINE.length} sopimusagenttia ladattu`,'◈');
+    log(`Core ${core.version||'15.4'} · orkesteri ${orchestra.name||'editorial'} · ${PIPELINE.length} sopimusagenttia ladattu`,'◈');
   });
   runBtn.addEventListener('click',runPipeline);
   stopBtn.addEventListener('click',()=>{if(!running)return;stopRequested=true;stopBtn.disabled=true;setRunState('STOPPING');log('Pysäytys pyydetty…','■');controller?.abort();});

@@ -88,7 +88,7 @@ if(box){
       const combinedInstruction=[instruction.value,extra].filter(Boolean).join('\n\n');
       const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agent,instruction:combinedInstruction,post:payloadPost,runtimeProfile:runtimeProfile(agent)})});
       const d=await r.json().catch(()=>({}));
-      if(!r.ok||!d.ok){if(r.status===403){csrf='';}throw new Error(d.message||d.error||`HTTP ${r.status}`);}
+      if(!r.ok||!d.ok){if(d.policyDecision)await window.anomancerCore?.appendPolicyDecision?.(d.policyDecision);if(r.status===403){csrf='';}throw new Error(d.message||d.error||`HTTP ${r.status}`);}
       if(more&&agent==='source'&&previous.length){
         const merged=mergeSources(previous,d.result?.candidateSources).slice(0,12);
         d.result={...d.result,candidateSources:merged};

@@ -1,4 +1,4 @@
-# Anomancer 15.3 · Core Foundation + Agent Pool Control
+# Anomancer 15.4 · Core Foundation + Tool Broker
 
 15.0 erottaa ensimmäistä kertaa agentin identiteetin, orkesterin rakenteen ja ajon todistettavan metadatan varsinaisista prompteista.
 
@@ -46,13 +46,12 @@ Tämä on auditointia helpottava paikallinen eheysketju, ei vielä kryptografise
 
 ## Core-reitti
 
-Julkisen Anomancerin aiempi Observatory-portti osoittaa nyt `/core`-reittiin. Vercel reitittää sen yksityiseen `/admin`-konehuoneeseen, ja `/core` käyttää samoja `no-store`, `noindex` ja CSP-suojauksia kuin admin-reitti. `/admin` säilyy teknisenä taustareittinä.
+`/core` on julkinen redaktoitu control-plane-näkymä. `/admin` on yksityinen oikea ohjaamo, jossa näkyvät runtime-profiilit, ajokuitit ja Policy Log. Julkinen Core ei kutsu admin-API:a.
 
 ## Rajattu 15.0-scope
 
 15.0 ei vielä tuo:
 
-- Tool Brokeria
 - custom agent -editoria
 - usean providerin Model Routeria
 - työtiloja / käyttäjäorganisaatioita
@@ -65,3 +64,7 @@ Näille on kuitenkin nyt paikka ilman, että Lähetyskoneen nykyinen toimituksel
 ## 15.1 · Public Core Showcase
 
 `/core` on julkinen, turvallisesti redaktoitu näkymä Coren rakenteeseen. Se ei käytä admin-API:a. Julkinen snapshot syntyy buildissa Agent Registrystä ja sisältää vain roolin, kuvauksen, mallireitin, tokenbudjetin, kirjoitusoikeuksien nimet, sopimushashin sekä orkesterin julkisen rakenteen. Oikeat ajokuitit, työmuisti, sessiot ja palvelinsalaisuudet jäävät `/admin`-ohjaamoon.
+
+## 15.4 · Tool Broker + Policy Gate
+
+Tool Registry ja palvelinpuolen Policy Gate on kuvattu tiedostossa `TOOL_BROKER.md`. Source Agentin oikea `web.search` kulkee brokerin läpi ennen suoritusta. Run Receipt kirjaa policy-päätökset, mutta ei raakaa promptia tai raakaa työkaludataa.

@@ -1,6 +1,6 @@
 {
   "format": "anomancer-core-public/v1",
-  "version": "15.3.0",
+  "version": "15.4.0",
   "humanFinalAuthority": true,
   "privacy": {
     "containsRawPrompt": false,
@@ -35,7 +35,7 @@
         "source.verify",
         "publish"
       ],
-      "contractHash": "a06d4b2de5a48b6cd5fe5d95f6ca4c9a08af1c6a9e43b36c2ff04816782bd7b1"
+      "contractHash": "0afb525fce4e31a69bdc7177987906c584dfaf34de413f69dbdacbee83abed80"
     },
     {
       "id": "structure",
@@ -59,7 +59,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "eb16dc3830f2c5574835fb4fcdff1c9efc4201b7e96380ae3ad58c3afeaa265a"
+      "contractHash": "a09fbc47649a4d7109aa7b17f2ce9ea7f344e4e833a90cf917690448692e3140"
     },
     {
       "id": "writer",
@@ -86,7 +86,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "37d9e2341e082d513e69b97d488fe1d3aefac5c6075e24ea8771c62027ecf3dc"
+      "contractHash": "f90b3c0f391b6be7f9925ae055d0b6ac5aa5bb4b740f0c36e1daedb6635ed6f0"
     },
     {
       "id": "critic",
@@ -111,7 +111,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "fd4d12028ed1bca23b678a2f8da07ec0d8b28088fe86287304eeee7966054d95"
+      "contractHash": "aeef35f129e0ae8c2c6d79d6d32a086747fcb92e21e28f4ca6378d5271d92318"
     },
     {
       "id": "audience",
@@ -138,7 +138,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "9444c6b4b5624b248009ebfdf53d638f68dde095cee44e83538ef34d5e858dd2"
+      "contractHash": "2caab0dd8fa60b30eb3c1c838f07599dd6296eaaf288fee7e3068a9ea633adf9"
     },
     {
       "id": "voice",
@@ -165,7 +165,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "7ba455f24e8d5843f9088522ae6d91b1f72be60f56854aa393bf8b8404c5afa8"
+      "contractHash": "491c0b79c465b32e3db2d70d7ed56d7dfd6e7c77055eaa9a6c215bc69af36dd5"
     },
     {
       "id": "claims",
@@ -192,7 +192,7 @@
         "source.verify",
         "publish"
       ],
-      "contractHash": "2f3686ce344a0d9da8be890996267b39b63931938c784d210b18234a55238303"
+      "contractHash": "10d2fca015a4097bb7adaf6c57bf924b7776737af025cdca3a8f6218a284507e"
     },
     {
       "id": "package",
@@ -223,9 +223,69 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "cf5b2eea7b6daa3188c92d187f6cd68dd5a202b3bc73bfd9a12dd76d0834f9ff"
+      "contractHash": "c7fb5da2aa142938df10935ded0d048981a44121686e60efcb215a548717c2ab"
     }
   ],
+  "tools": [
+    {
+      "id": "web.search",
+      "label": "Web Search",
+      "version": "1.0.0",
+      "kind": "external-read",
+      "description": "Hakee julkisesta verkosta lähde-ehdokkaita Source Agentin käyttöön.",
+      "risk": "medium",
+      "requiredCapability": "web.search",
+      "actor": "agent",
+      "humanApproval": false,
+      "sideEffects": false,
+      "toolHash": "6319a48d2ada43c502d6c555f0e46ac854ef4aab320cc6d53feb44cb61b78c40"
+    },
+    {
+      "id": "source.verify",
+      "label": "Verify Source",
+      "version": "1.0.0",
+      "kind": "evidence-authority",
+      "description": "Muuttaa lähde-ehdokkaan varmennetuksi evidenssiksi.",
+      "risk": "high",
+      "requiredCapability": null,
+      "actor": "human",
+      "humanApproval": true,
+      "sideEffects": true,
+      "toolHash": "038811a05292e07a5dd08e0659afa079152f1981a7e5338ec07da9dc02fe354c"
+    },
+    {
+      "id": "publication.publish",
+      "label": "Publish",
+      "version": "1.0.0",
+      "kind": "publication-write",
+      "description": "Tekee julkaisupäätöksen ja siirtää sisällön julkiseksi.",
+      "risk": "critical",
+      "requiredCapability": null,
+      "actor": "human",
+      "humanApproval": true,
+      "sideEffects": true,
+      "toolHash": "5bcdf67847a980b8f854656d4b23c64a5827df3c95f4b0c7313501e435e1fac1"
+    },
+    {
+      "id": "github.write",
+      "label": "GitHub Write",
+      "version": "1.0.0",
+      "kind": "repository-write",
+      "description": "Kirjoittaa sisältöä tai metadataa GitHub-repositorioon.",
+      "risk": "critical",
+      "requiredCapability": null,
+      "actor": "human",
+      "humanApproval": true,
+      "sideEffects": true,
+      "toolHash": "4ac84935b7a85815e012528d9a65250822fa539668dd0e956afbaabb3365a773"
+    }
+  ],
+  "toolBroker": {
+    "format": "anomancer-tool-policy/v1",
+    "enforcement": "server-side-fail-closed",
+    "implicitTools": false,
+    "policyLogInRunReceipt": true
+  },
   "orchestras": [
     {
       "id": "editorial",
@@ -246,7 +306,7 @@
       "humanFinalAuthority": true,
       "evidencePolicy": "candidate-never-equals-verified",
       "audiencePolicy": "adapt-then-recheck-claims",
-      "orchestraHash": "809bfca2a856a94d51c6cc5a0bcf8720a3ca6d0ce28fa1e666e568ae5541295e"
+      "orchestraHash": "73933dd7de491a38650e076561fa074a5dc7187392dc77ffbf851d55428635ba"
     }
   ]
 }

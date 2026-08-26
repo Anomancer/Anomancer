@@ -6,6 +6,7 @@ import { normalizeClaims, normalizeSources } from '../_lib/content.js';
 import { validateAgentResult } from '../_lib/agent-validation.js';
 import { getAgentContract, listAgentIds, normalizeAgentRuntime, CORE_VERSION } from '../_lib/core-registry.js';
 import { createRunReceipt } from '../_lib/core-receipt.js';
+import { authorizeAgentTools } from '../_lib/tool-broker.js';
 
 const AGENTS=new Set(listAgentIds());
 const MAX_BODY_CHARS=60_000;
@@ -66,6 +67,7 @@ export default async function handler(req,res){
     const custom=cleanString(body.instruction,MAX_CUSTOM_CHARS);
     const {system,user}=promptFor(agent,post,custom);
     const startedAt=new Date();
+    const toolPolicy=authorizeAgentTools({contract,toolIds:contract.tools||[],context:{orchestraRunId:cleanString(body.orchestraRunId,120)||null,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null}});
     const abortController=new AbortController();
     const abort=()=>abortController.abort();
     req.once?.('aborted',abort);
@@ -74,9 +76,9 @@ export default async function handler(req,res){
       : await deepseekChatJson({system,user,model:modelFor(agent),maxTokens:runtime.maxOutputTokens,thinking:!['voice'].includes(agent),signal:abortController.signal});
     req.removeListener?.('aborted',abort);
     const result=validateAgentResult(agent,response.result,post);
-    const receipt=createRunReceipt({contract,runtime,post,instruction:custom,result,meta:response.meta,startedAt,finishedAt:new Date(),orchestraRunId:cleanString(body.orchestraRunId,120)||null,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
-    return json(res,200,{ok:true,coreVersion:CORE_VERSION,agent,contract:{id:contract.id,version:contract.version,contractHash:contract.contractHash,role:contract.role,authority:contract.authority,budget:contract.budget,runtimePolicy:contract.runtimePolicy},runtime,result,meta:response.meta,receipt,humanApprovalRequired:true});
+    const receipt=createRunReceipt({contract,runtime,post,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId:cleanString(body.orchestraRunId,120)||null,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
+    return json(res,200,{ok:true,coreVersion:CORE_VERSION,agent,contract:{id:contract.id,version:contract.version,contractHash:contract.contractHash,role:contract.role,authority:contract.authority,budget:contract.budget,runtimePolicy:contract.runtimePolicy},runtime,toolPolicy,result,meta:response.meta,receipt,humanApprovalRequired:true});
   }catch(e){
-    return json(res,e.statusCode||500,{ok:false,error:e.code||'AGENT_FAILED',message:e.message,retryable:Boolean(e.retryable),retryAfterMs:Number(e.retryAfterMs||0)});
+    return json(res,e.statusCode||500,{ok:false,error:e.code||'AGENT_FAILED',message:e.message,retryable:Boolean(e.retryable),retryAfterMs:Number(e.retryAfterMs||0),policyDecision:e.policyDecision||null});
   }
 }

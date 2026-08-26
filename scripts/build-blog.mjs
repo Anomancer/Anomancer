@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { normalizeSources as normalizeContentSources, normalizeClaims as normalizeContentClaims, normalizeAliases, normalizeAudienceDepth } from '../api/_lib/content.js';
-import { AGENT_REGISTRY, ORCHESTRA_REGISTRY, CORE_VERSION } from '../api/_lib/core-registry.js';
+import { AGENT_REGISTRY, ORCHESTRA_REGISTRY, TOOL_REGISTRY, CORE_VERSION } from '../api/_lib/core-registry.js';
 
 const ROOT = process.cwd();
 const SITE = String(process.env.PUBLIC_SITE_URL || 'https://anomancer.com').replace(/\/$/,'');
@@ -375,6 +375,8 @@ const publicCore={
     modelRoute:agent.modelRoute,tools:[...(agent.tools||[])],maxOutputTokens:Number(agent.budget?.maxOutputTokens||0),maxOutputTokensCeiling:Number(agent.runtimePolicy?.maxOutputTokens||agent.budget?.maxOutputTokens||0),
     write:[...(agent.authority?.write||[])],deny:[...(agent.authority?.deny||[])],humanApproval:[...(agent.humanApproval||[])],contractHash:agent.contractHash
   })),
+  tools:TOOL_REGISTRY.map(tool=>({id:tool.id,label:tool.label,version:tool.version,kind:tool.kind,description:tool.description,risk:tool.risk,requiredCapability:tool.requiredCapability||null,actor:tool.actor,humanApproval:Boolean(tool.humanApproval),sideEffects:Boolean(tool.sideEffects),toolHash:tool.toolHash})),
+  toolBroker:{format:'anomancer-tool-policy/v1',enforcement:'server-side-fail-closed',implicitTools:false,policyLogInRunReceipt:true},
   orchestras:ORCHESTRA_REGISTRY.map(orchestra=>({
     id:orchestra.id,name:orchestra.name,version:orchestra.version,description:orchestra.description,mode:orchestra.mode,stages:[...orchestra.stages],
     humanFinalAuthority:Boolean(orchestra.humanFinalAuthority),evidencePolicy:orchestra.evidencePolicy,audiencePolicy:orchestra.audiencePolicy,orchestraHash:orchestra.orchestraHash

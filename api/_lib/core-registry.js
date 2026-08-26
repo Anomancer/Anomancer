@@ -1,10 +1,11 @@
 import crypto from 'node:crypto';
 
-export const CORE_VERSION='15.3.0';
+export const CORE_VERSION='15.4.0';
 export const AGENT_CONTRACT_FORMAT='anomancer-agent/v1';
 export const ORCHESTRA_FORMAT='anomancer-orchestra/v1';
 export const RUN_RECEIPT_FORMAT='anomancer-run-receipt/v1';
 export const AGENT_RUNTIME_FORMAT='anomancer-agent-runtime/v1';
+export const TOOL_POLICY_FORMAT='anomancer-tool-policy/v1';
 
 const clone=value=>JSON.parse(JSON.stringify(value));
 const stable=value=>{
@@ -17,7 +18,7 @@ export const digest=value=>crypto.createHash('sha256').update(stable(value)).dig
 const RAW_AGENTS=[
   {
     id:'source',label:'Lähdeagentti',version:'1.0.0',role:'research-source-scout',description:'Etsii verkosta lähde-ehdokkaita ja tutkimusaukkoja. Ei voi hyväksyä omaa evidenssiään.',
-    modelRoute:'research',tools:['web.search'],capabilities:['source.propose'],
+    modelRoute:'research',tools:['web.search'],capabilities:['web.search','source.propose'],
     authority:{read:['draft','sources','claims','audience'],write:['sourceCandidates','researchMemo'],deny:['source.verify','claims.promote','publish','github.write']},
     budget:{maxOutputTokens:16000,maxOutputTokensCeiling:32000,timeoutMs:180000},humanApproval:['source.verify','publish']
   },
@@ -65,6 +66,34 @@ const RAW_AGENTS=[
   }
 ];
 
+
+
+const RAW_TOOLS=[
+  {
+    id:'web.search',label:'Web Search',version:'1.0.0',kind:'external-read',description:'Hakee julkisesta verkosta lähde-ehdokkaita Source Agentin käyttöön.',
+    risk:'medium',requiredCapability:'web.search',authorityKeys:['web.search'],actor:'agent',humanApproval:false,sideEffects:false,recordsPolicy:true
+  },
+  {
+    id:'source.verify',label:'Verify Source',version:'1.0.0',kind:'evidence-authority',description:'Muuttaa lähde-ehdokkaan varmennetuksi evidenssiksi.',
+    risk:'high',requiredCapability:null,authorityKeys:['source.verify'],actor:'human',humanApproval:true,sideEffects:true,recordsPolicy:true
+  },
+  {
+    id:'publication.publish',label:'Publish',version:'1.0.0',kind:'publication-write',description:'Tekee julkaisupäätöksen ja siirtää sisällön julkiseksi.',
+    risk:'critical',requiredCapability:null,authorityKeys:['publish'],actor:'human',humanApproval:true,sideEffects:true,recordsPolicy:true
+  },
+  {
+    id:'github.write',label:'GitHub Write',version:'1.0.0',kind:'repository-write',description:'Kirjoittaa sisältöä tai metadataa GitHub-repositorioon.',
+    risk:'critical',requiredCapability:null,authorityKeys:['github.write'],actor:'human',humanApproval:true,sideEffects:true,recordsPolicy:true
+  }
+];
+function finalizeTool(input){
+  const tool={format:'anomancer-tool/v1',coreVersion:CORE_VERSION,...clone(input)};
+  tool.toolHash=digest(tool);
+  return Object.freeze(tool);
+}
+export const TOOL_REGISTRY=Object.freeze(RAW_TOOLS.map(finalizeTool));
+const TOOL_MAP=new Map(TOOL_REGISTRY.map(tool=>[tool.id,tool]));
+
 function finalizeAgent(input){
   const contract={format:AGENT_CONTRACT_FORMAT,coreVersion:CORE_VERSION,...clone(input)};
   const defaultTokens=Number(contract.budget?.maxOutputTokens||0);
@@ -105,6 +134,14 @@ function validateRegistry(){
     if(!agent.contractHash||!agent.authority||!agent.budget?.maxOutputTokens)throw new Error(`Invalid Core agent contract: ${agent.id}`);
     if(agent.authority.write?.some(field=>agent.authority.deny?.includes(`${field}.write`)))throw new Error(`Conflicting authority in ${agent.id}`);
   }
+  const toolIds=new Set();
+  for(const tool of TOOL_REGISTRY){
+    if(toolIds.has(tool.id))throw new Error(`Duplicate Core tool: ${tool.id}`);toolIds.add(tool.id);
+    if(!tool.toolHash||!tool.kind||!tool.risk)throw new Error(`Invalid Core tool: ${tool.id}`);
+  }
+  for(const agent of AGENT_REGISTRY){
+    for(const toolId of agent.tools||[])if(!TOOL_MAP.has(toolId))throw new Error(`Unknown tool ${toolId} in ${agent.id}`);
+  }
   for(const orchestra of ORCHESTRA_REGISTRY){
     if(!orchestra.stages.length)throw new Error(`Empty orchestra: ${orchestra.id}`);
     for(const stage of orchestra.stages)if(!AGENT_MAP.has(stage))throw new Error(`Unknown stage ${stage} in ${orchestra.id}`);
@@ -113,6 +150,8 @@ function validateRegistry(){
 validateRegistry();
 
 export function getAgentContract(id){const item=AGENT_MAP.get(String(id||''));return item?clone(item):null;}
+export function getToolContract(id){const item=TOOL_MAP.get(String(id||''));return item?clone(item):null;}
+export function listToolIds(){return TOOL_REGISTRY.map(item=>item.id);}
 export function getOrchestra(id='editorial'){const item=ORCHESTRA_MAP.get(String(id||''));return item?clone(item):null;}
 export function listAgentIds(){return AGENT_REGISTRY.map(item=>item.id);}
 export function normalizeAgentRuntime(id,input={}){
@@ -139,10 +178,11 @@ export function normalizeAgentRuntimeMap(input={}){
 export function publicCoreSnapshot({deepseek=null}={}){
   return {
     format:'anomancer-core/v1',version:CORE_VERSION,
-    agents:AGENT_REGISTRY.map(clone),orchestras:ORCHESTRA_REGISTRY.map(clone),
-    runReceipt:{format:RUN_RECEIPT_FORMAT,persistence:'browser-local-hash-chain',containsRawPrompt:false,containsRawOutput:false},
+    agents:AGENT_REGISTRY.map(clone),orchestras:ORCHESTRA_REGISTRY.map(clone),tools:TOOL_REGISTRY.map(clone),
+    runReceipt:{format:RUN_RECEIPT_FORMAT,persistence:'browser-local-hash-chain',containsRawPrompt:false,containsRawOutput:false,containsToolPolicy:true},
     modelRoutes:deepseek?{research:{provider:'deepseek',model:deepseek.sourceModel},writer:{provider:'deepseek',model:deepseek.writerModel},critic:{provider:'deepseek',model:deepseek.criticModel}}:null,
     humanFinalAuthority:true,
-    runtimeControl:{format:AGENT_RUNTIME_FORMAT,persistence:'admin-browser-local',mutable:['active','maxOutputTokens'],contractAuthorityImmutable:true}
+    runtimeControl:{format:AGENT_RUNTIME_FORMAT,persistence:'admin-browser-local',mutable:['active','maxOutputTokens'],contractAuthorityImmutable:true},
+    toolBroker:{format:TOOL_POLICY_FORMAT,enforcement:'server-side-fail-closed',implicitTools:false,humanApprovalClientSpoofable:false,policyLogInRunReceipt:true}
   };
 }

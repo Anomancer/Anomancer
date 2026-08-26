@@ -1,4 +1,4 @@
-# Anomancer 15.3.0 · Agent Pool Control
+# Anomancer 15.4.0 · Tool Broker + Policy Gate
 
 Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone ja yksityinen Vercel-admin. Julkinen sisältö rakennetaan `public/`-hakemistoon. Admin tallentaa artikkelit GitHub Contents API:n kautta ja käyttää DeepSeek-agentteja vain ehdotusten tuottamiseen.
 
@@ -6,7 +6,7 @@ Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone j
 
 Anomancerin Lähetyskone toimii nyt ensimmäisenä natiivina Core-orkesterina. `api/_lib/core-registry.js` määrittää keskitetysti kahdeksan Agent Contractia, niiden roolit, mallireitit, työkalut, toimivallan ja tokenbudjetit. `editorial/1.0.0` määrittää orkesterin vaihejärjestyksen. Jokainen onnistunut agenttiajo tuottaa `anomancer-run-receipt/v1` -kuitin, joka sisältää metadatan sekä input/output-hashit, ei raakaa promptia tai vastausta. Selain ylläpitää näistä paikallista hash-ketjutettua Run Ledgeriä Core-välilehdellä.
 
-Core Foundation ei vielä sisällä käyttäjätili-/maksukerrosta, custom-agenttien luontia, Tool Brokeria tai usean mallitarjoajan reititystä. Rajapinnat on tehty niin, että nämä voidaan lisätä myöhemmin rikkomatta nykyistä toimitusorkesteria.
+15.4 lisää Tool Brokerin nykyisen oikean `web.search`-polun eteen. Core ei vielä sisällä käyttäjätili-/maksukerrosta, custom-agenttien luontia tai usean mallitarjoajan reititystä. Rajapinnat on tehty niin, että nämä voidaan lisätä myöhemmin rikkomatta nykyistä toimitusorkesteria.
 
 ## 14.3.1:n tärkeimmät rajat ja Audience Layer
 
@@ -80,5 +80,6 @@ Asennin ei poista kohteen ylimääräisiä tiedostoja oletuksena. Korvatut tiedo
 - `EVIDENCE_LAYER.md` — lähteiden provenance, tarkistustilat ja julkaisuportti
 - `AUDIENCE_LAYER.md` — kohdeyleisö, syvyystaso ja epistemisen ytimen säilyttävä sovitus
 - `ORCHESTRATOR.md` — kahdeksan agentin putki, checkpointit, retryt ja peruutus
+- `TOOL_BROKER.md` — Tool Registry, Policy Gate, TOOL403 ja Policy Log
 - `CHANGELOG.md` — version 14.3.x muutokset
 
