@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "15.9.2",
   "workspaceId": "default",
-  "revision": 34,
-  "updatedAt": "2026-08-26T21:47:55.952Z",
+  "revision": 35,
+  "updatedAt": "2026-08-26T21:53:03.075Z",
   "chainHead": "45da24d2e56f25bb25a8a5128180c3bde3e311f639902148b1261158adc7863e",
   "runs": [
     {
@@ -1875,6 +1875,55 @@
       "previousRunHash": "21ca1e9fa854eacf96d18305bfa71b67a47fa9f742fa504c50e20f75f92b9906",
       "runHash": "45da24d2e56f25bb25a8a5128180c3bde3e311f639902148b1261158adc7863e",
       "counted": true
+    },
+    {
+      "format": "anomancer-run-record/v2",
+      "coreVersion": "15.9.2",
+      "workspaceId": "default",
+      "id": "dc37e962-667b-4057-bdfa-48910e763f7d",
+      "orchestraRunId": "dc37e962-667b-4057-bdfa-48910e763f7d",
+      "orchestra": {
+        "id": "editorial",
+        "name": "Anomancer Editorial",
+        "orchestraHash": "a925c29c80e92f700d558eaeb6ebb97e95abf7fcf758d8b8db716507c7bc6b73"
+      },
+      "status": "checkpoint",
+      "humanApproval": {
+        "required": true,
+        "status": "pending",
+        "appliedAt": ""
+      },
+      "startedAt": "2026-08-26T21:52:59.564Z",
+      "finishedAt": "",
+      "updatedAt": "2026-08-26T21:53:03.075Z",
+      "degradedStages": [],
+      "disabledStages": [],
+      "error": {
+        "code": "",
+        "message": "NetworkError when attempting to fetch resource."
+      },
+      "receipts": [],
+      "usage": {
+        "runs": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0,
+        "reasoningTokens": 0,
+        "durationMs": 0,
+        "estimatedCostEuro": 0,
+        "pricedReceipts": 0,
+        "fallbacks": 0,
+        "toolAllows": 0,
+        "toolDenies": 0,
+        "toolHumanRequired": 0,
+        "providers": {},
+        "agents": {},
+        "orchestras": {}
+      },
+      "receiptCount": 0,
+      "previousRunHash": "",
+      "runHash": "",
+      "counted": false
     }
   ],
   "lifetime": {
