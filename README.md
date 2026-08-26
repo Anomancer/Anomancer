@@ -1,3 +1,7 @@
+# ANOMANCER V13.3 · PUBLIC URL CONTROL
+
+V13.3 lisää adminiin näkyvän julkisen URL-esikatselun sekä julkaistulle lähetykselle suoran **Avaa julkinen lähetys ↗** -napin. URL päivittyy otsikon, kielen ja slugin mukana. Luonnoksella nappi pysyy piilossa, ja julkaistun slugin muuttamisen jälkeen nappi aktivoituu vasta kun muutos on julkaistu.
+
 # ANOMANCER V13.2 · ADMIN VISIBILITY FIX
 
 Firefox/login hotfix: `[hidden]{display:none!important}` ensures login and admin views actually switch after successful authentication.

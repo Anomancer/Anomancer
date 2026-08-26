@@ -50,13 +50,20 @@
             <label class="wide">SEO-kuvaus <span id="descCount" class="count">0 / 220</span><textarea id="description" rows="3" maxlength="220"></textarea></label>
             <label class="wide">Translation key<input id="translationKey" maxlength="100" placeholder="sama avain FI/EN-versioille"></label>
           </div>
+          <div class="public-url-box" aria-live="polite">
+            <div class="public-url-copy">
+              <span class="public-url-label">Julkinen URL</span>
+              <code id="publicUrl">https://anomancer.vercel.app/lahetykset/…</code>
+              <span id="publicUrlHint" class="public-url-hint">URL muodostuu otsikosta tai slugista.</span>
+            </div>
+            <a id="liveLink" class="public-open" target="_blank" rel="noreferrer" hidden>Avaa julkinen lähetys ↗</a>
+          </div>
           <div class="body-head"><label for="body">Teksti · Markdown</label><span id="wordCount" class="count">0 sanaa · 0 min</span></div>
           <textarea id="body" class="body-editor" spellcheck="true"></textarea>
           <div class="actions">
             <button id="saveDraftBtn" class="secondary">Tallenna luonnos</button>
             <button id="publishBtn" class="primary">Julkaise</button>
             <button id="deleteBtn" class="danger" hidden>Poista</button>
-            <a id="liveLink" class="live-link" target="_blank" rel="noreferrer" hidden>Katso live ↗</a>
           </div>
           <div id="status" class="status" role="status"></div>
         </section>
