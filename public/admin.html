@@ -103,6 +103,32 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
             </div>
             <a id="liveLink" class="public-open" target="_blank" rel="noreferrer" hidden>Avaa julkinen lähetys ↗</a>
           </div>
+          <section id="agentDesk" class="agent-desk" aria-labelledby="agentDeskTitle">
+            <div class="agent-desk-head">
+              <div><p class="kicker">14.0 · DEEPSEEK AGENTS</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
+              <span id="agentModelStatus" class="agent-model-status">Agenttitila tarkistetaan…</span>
+            </div>
+            <p class="agent-rule"><strong>Human approval gate:</strong> agentit saavat tutkia, ehdottaa ja muokata luonnosta. Ne eivät saa tallentaa GitHubiin eivätkä julkaista.</p>
+            <div class="agent-controls">
+              <label>Rooli<select id="agentRole">
+                <option value="source">Lähdeagentti · web-haku</option>
+                <option value="claims">Väitevahti</option>
+                <option value="structure">Rakenneagentti</option>
+                <option value="writer">Kirjoitusagentti</option>
+                <option value="critic">Kriitikko</option>
+                <option value="voice">Äänieditori</option>
+                <option value="package">Julkaisupaketti</option>
+              </select></label>
+              <label class="wide">Lisäohje agentille<textarea id="agentInstruction" rows="2" maxlength="2000" placeholder="Valinnainen. Esim. etsi erityisesti alkuperäistutkimuksia tai älä muuta kirsikkatomaattikohtaa."></textarea></label>
+            </div>
+            <div class="agent-actions">
+              <button id="agentRunBtn" type="button" class="agent-run">Aja agentti</button>
+              <button id="agentApplyBtn" type="button" class="secondary" hidden>Käytä ehdotusta</button>
+              <button id="agentCopyBtn" type="button" class="ghost" hidden>Kopioi tulos</button>
+            </div>
+            <p id="agentStatus" class="agent-status" role="status" aria-live="polite"></p>
+            <pre id="agentOutput" class="agent-output" aria-live="polite"></pre>
+          </section>
           <div class="body-head"><label for="body">Teksti · Markdown</label><span id="wordCount" class="count">0 sanaa · 0 min</span></div>
           <div class="media-toolbar">
             <button id="insertImageBtn" type="button" class="secondary">＋ Lisää kuva tekstiin</button>
@@ -127,5 +153,6 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
     </section>
   </div>
   <script type="module" src="/admin.js"></script>
+  <script type="module" src="/admin-agents.js"></script>
 </body>
 </html>

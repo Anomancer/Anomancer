@@ -359,7 +359,7 @@ fs.rmSync(PUBLIC, { recursive:true, force:true });
 ensureDir(PUBLIC);
 const publicFiles = [
   'index.html','en.html','lahetykset.html','dispatches.html','admin.html',
-  'styles.css','admin.css','admin.js','favicon.svg',
+  'styles.css','admin.css','admin.js','admin-agents.js','favicon.svg',
   'robots.txt','sitemap.xml','rss.xml','rss-en.xml','content-manifest.json','evidence-manifest.json','llms.txt','discovery-manifest.json'
 ];
 for (const rel of publicFiles) {
