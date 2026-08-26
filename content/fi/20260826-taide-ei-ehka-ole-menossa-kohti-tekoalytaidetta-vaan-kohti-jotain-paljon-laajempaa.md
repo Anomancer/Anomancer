@@ -13,16 +13,9 @@ pinned: false
 draft: false
 ---
 
-Kun puhutaan tekoälystä ja taiteesta, keskustelu tuntuu juuttuvan yllättävän helposti samaan kohtaan.
+>Kun puhutaan tekoälystä ja taiteesta, keskustelu tuntuu juuttuvan yllättävän helposti samaan kohtaan. Voiko tekoäly tehdä taidetta? Onko sillä tekijänoikeuksia? Viekö se kuvittajien työt? Onko tekoälyllä tehty musiikki oikeaa musiikkia?
 
-Voiko tekoäly tehdä taidetta?
-Onko sillä tekijänoikeuksia?
-Viekö se kuvittajien työt?
-Onko tekoälyllä tehty musiikki oikeaa musiikkia?
-
-Nämä ovat ihan oikeita kysymyksiä, mutta samalla ne saattavat olla vähän liian pieniä suhteessa siihen, mitä ympärillä tapahtuu.
-
-Entä jos taide ei ole vain saamassa uutta työkalua, vaan koko käsitys teoksesta alkaa vähitellen laajentua?
+Nämä ovat ihan oikeita kysymyksiä, mutta samalla ne saattavat olla vähän liian pieniä suhteessa siihen, mitä ympärillä tapahtuu. Koska entä jos taide ei ole vain saamassa uutta työkalua, vaan koko käsitys teoksesta alkaa vähitellen laajentua?
 
 Jo nyt yksi ihminen voi tehdä asioita, joihin vielä hetki sitten olisi tarvittu kokonainen tuotantoryhmä. Musiikkia, kuvia, videoita, tekstiä, animaatiota, käyttöliittymiä, virtuaalisia hahmoja ja kokonaisia pieniä maailmoja voi yhdistää samaan projektiin ilman, että jokaisessa vaiheessa täytyy vaihtaa kokonaan eri tuotantokoneistoon.
 
