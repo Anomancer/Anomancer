@@ -6,7 +6,7 @@ description: "Miksi tekoälyagentin pitäisi voida todistaa kuka se on, mitä se
 slug: "miksi-tekoalyagentille-pitaisi-antaa-passi"
 lang: "fi"
 translationKey: "why-an-ai-agent-needs-a-passport"
-draft: true
+draft: false
 ---
 
 # Miksi tekoälyagentille pitäisi antaa passi?
