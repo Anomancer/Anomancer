@@ -1,6 +1,6 @@
 {
   "format": "anomancer-core-public/v1",
-  "version": "15.4.0",
+  "version": "15.5.0",
   "humanFinalAuthority": true,
   "privacy": {
     "containsRawPrompt": false,
@@ -35,7 +35,7 @@
         "source.verify",
         "publish"
       ],
-      "contractHash": "0afb525fce4e31a69bdc7177987906c584dfaf34de413f69dbdacbee83abed80"
+      "contractHash": "77ea1646c4cc51439fefc8b7b3a03a8655f613fd950ebb64e367c1dbaa355787"
     },
     {
       "id": "structure",
@@ -59,7 +59,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "a09fbc47649a4d7109aa7b17f2ce9ea7f344e4e833a90cf917690448692e3140"
+      "contractHash": "36b7004e2a3ea5ceaa5ada68803f18790872cfb7faee41c92d14dc3ec93dbe8c"
     },
     {
       "id": "writer",
@@ -86,7 +86,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "f90b3c0f391b6be7f9925ae055d0b6ac5aa5bb4b740f0c36e1daedb6635ed6f0"
+      "contractHash": "8b47f25d15d7e62fbb2fba76d0abe0d34f6d0463ea93ebdd4d17343f6ae1bf5e"
     },
     {
       "id": "critic",
@@ -111,7 +111,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "aeef35f129e0ae8c2c6d79d6d32a086747fcb92e21e28f4ca6378d5271d92318"
+      "contractHash": "b952bc7b30cee7cbe9f9fe64c4229d4c02ad0712251323733f3ba9852909eff7"
     },
     {
       "id": "audience",
@@ -138,7 +138,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "2caab0dd8fa60b30eb3c1c838f07599dd6296eaaf288fee7e3068a9ea633adf9"
+      "contractHash": "b581200e5814a30ffd610dd2d2e382375d0b0471e78e8bd7fed63c86d8931ec5"
     },
     {
       "id": "voice",
@@ -165,7 +165,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "491c0b79c465b32e3db2d70d7ed56d7dfd6e7c77055eaa9a6c215bc69af36dd5"
+      "contractHash": "12c66cc958d1176674a879fa0a46ff89989641599e3a00d6bd15593a7d66dee6"
     },
     {
       "id": "claims",
@@ -192,7 +192,7 @@
         "source.verify",
         "publish"
       ],
-      "contractHash": "10d2fca015a4097bb7adaf6c57bf924b7776737af025cdca3a8f6218a284507e"
+      "contractHash": "3589cdb055861b8759a641466adee644c3634b8255da1fff49d29f3d4df381df"
     },
     {
       "id": "package",
@@ -223,7 +223,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "c7fb5da2aa142938df10935ded0d048981a44121686e60efcb215a548717c2ab"
+      "contractHash": "b86c7a72ad73ead55a0c13ee0b990a5d1541c4880c5c40f40c32bf6614e566e9"
     }
   ],
   "tools": [
@@ -238,7 +238,7 @@
       "actor": "agent",
       "humanApproval": false,
       "sideEffects": false,
-      "toolHash": "6319a48d2ada43c502d6c555f0e46ac854ef4aab320cc6d53feb44cb61b78c40"
+      "toolHash": "531762c0e153b8390da7c5dcc850fcca8b162cd48c890b25248691934c6e16b3"
     },
     {
       "id": "source.verify",
@@ -251,7 +251,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "038811a05292e07a5dd08e0659afa079152f1981a7e5338ec07da9dc02fe354c"
+      "toolHash": "6c4e3ba221539014d529287fd01bc7fc936df457b6862048a6f52adb6545e651"
     },
     {
       "id": "publication.publish",
@@ -264,7 +264,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "5bcdf67847a980b8f854656d4b23c64a5827df3c95f4b0c7313501e435e1fac1"
+      "toolHash": "7e99766c7a138d7e242328fa7300a3de489592249296633ec24879d2c7ffb5e2"
     },
     {
       "id": "github.write",
@@ -277,7 +277,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "4ac84935b7a85815e012528d9a65250822fa539668dd0e956afbaabb3365a773"
+      "toolHash": "a61c75dfeaf16387e0220b9dea8c1333277fb979ac4bc770fca9d57079a6e0f4"
     }
   ],
   "toolBroker": {
@@ -286,6 +286,235 @@
     "implicitTools": false,
     "policyLogInRunReceipt": true
   },
+  "modelRouter": {
+    "format": "anomancer-model-router/v1",
+    "providers": [
+      {
+        "id": "deepseek",
+        "label": "DeepSeek",
+        "kind": "native",
+        "supports": [
+          "json",
+          "web_search"
+        ]
+      },
+      {
+        "id": "openai",
+        "label": "OpenAI",
+        "kind": "responses-api",
+        "supports": [
+          "json",
+          "web_search"
+        ]
+      },
+      {
+        "id": "anthropic",
+        "label": "Anthropic",
+        "kind": "messages-api",
+        "supports": [
+          "json"
+        ]
+      },
+      {
+        "id": "gemini",
+        "label": "Google Gemini",
+        "kind": "generate-content",
+        "supports": [
+          "json",
+          "web_search"
+        ]
+      }
+    ],
+    "targets": [
+      {
+        "id": "deepseek.research",
+        "provider": "deepseek",
+        "route": "research",
+        "capabilities": [
+          "json",
+          "web_search"
+        ]
+      },
+      {
+        "id": "deepseek.writer",
+        "provider": "deepseek",
+        "route": "writer",
+        "capabilities": [
+          "json"
+        ]
+      },
+      {
+        "id": "deepseek.critic",
+        "provider": "deepseek",
+        "route": "critic",
+        "capabilities": [
+          "json"
+        ]
+      },
+      {
+        "id": "openai.research",
+        "provider": "openai",
+        "route": "research",
+        "capabilities": [
+          "json",
+          "web_search"
+        ]
+      },
+      {
+        "id": "openai.writer",
+        "provider": "openai",
+        "route": "writer",
+        "capabilities": [
+          "json"
+        ]
+      },
+      {
+        "id": "openai.critic",
+        "provider": "openai",
+        "route": "critic",
+        "capabilities": [
+          "json"
+        ]
+      },
+      {
+        "id": "anthropic.writer",
+        "provider": "anthropic",
+        "route": "writer",
+        "capabilities": [
+          "json"
+        ]
+      },
+      {
+        "id": "anthropic.critic",
+        "provider": "anthropic",
+        "route": "critic",
+        "capabilities": [
+          "json"
+        ]
+      },
+      {
+        "id": "gemini.research",
+        "provider": "gemini",
+        "route": "research",
+        "capabilities": [
+          "json",
+          "web_search"
+        ]
+      },
+      {
+        "id": "gemini.writer",
+        "provider": "gemini",
+        "route": "writer",
+        "capabilities": [
+          "json"
+        ]
+      },
+      {
+        "id": "gemini.critic",
+        "provider": "gemini",
+        "route": "critic",
+        "capabilities": [
+          "json"
+        ]
+      }
+    ],
+    "routes": [
+      {
+        "id": "research",
+        "label": "Research route",
+        "defaultTarget": "deepseek.research",
+        "allowedTargets": [
+          "deepseek.research",
+          "openai.research",
+          "gemini.research"
+        ],
+        "requires": [
+          "json",
+          "web_search"
+        ],
+        "routeHash": "faa0770a2548b501a4baf51077aba0fec85808deae212e798f74d9ad8251d5ce"
+      },
+      {
+        "id": "writer",
+        "label": "Writer route",
+        "defaultTarget": "deepseek.writer",
+        "allowedTargets": [
+          "deepseek.writer",
+          "openai.writer",
+          "anthropic.writer",
+          "gemini.writer"
+        ],
+        "requires": [
+          "json"
+        ],
+        "routeHash": "8b41432ab6a3957709b7c77da8451810579edab2e12b83eb121852673d70d1d7"
+      },
+      {
+        "id": "critic",
+        "label": "Critic route",
+        "defaultTarget": "deepseek.critic",
+        "allowedTargets": [
+          "deepseek.critic",
+          "openai.critic",
+          "anthropic.critic",
+          "gemini.critic"
+        ],
+        "requires": [
+          "json"
+        ],
+        "routeHash": "cb9228d1a8ccf50b2308c913d1d56f92d74cb9a2eb4cc17671c06b56d704eeb7"
+      }
+    ],
+    "fallbackPolicy": "configured-targets-only/transient-errors-only",
+    "secretsExposed": false
+  },
+  "modelRoutes": [
+    {
+      "id": "research",
+      "label": "Research route",
+      "defaultTarget": "deepseek.research",
+      "allowedTargets": [
+        "deepseek.research",
+        "openai.research",
+        "gemini.research"
+      ],
+      "requires": [
+        "json",
+        "web_search"
+      ],
+      "routeHash": "faa0770a2548b501a4baf51077aba0fec85808deae212e798f74d9ad8251d5ce"
+    },
+    {
+      "id": "writer",
+      "label": "Writer route",
+      "defaultTarget": "deepseek.writer",
+      "allowedTargets": [
+        "deepseek.writer",
+        "openai.writer",
+        "anthropic.writer",
+        "gemini.writer"
+      ],
+      "requires": [
+        "json"
+      ],
+      "routeHash": "8b41432ab6a3957709b7c77da8451810579edab2e12b83eb121852673d70d1d7"
+    },
+    {
+      "id": "critic",
+      "label": "Critic route",
+      "defaultTarget": "deepseek.critic",
+      "allowedTargets": [
+        "deepseek.critic",
+        "openai.critic",
+        "anthropic.critic",
+        "gemini.critic"
+      ],
+      "requires": [
+        "json"
+      ],
+      "routeHash": "cb9228d1a8ccf50b2308c913d1d56f92d74cb9a2eb4cc17671c06b56d704eeb7"
+    }
+  ],
   "orchestras": [
     {
       "id": "editorial",
@@ -306,7 +535,7 @@
       "humanFinalAuthority": true,
       "evidencePolicy": "candidate-never-equals-verified",
       "audiencePolicy": "adapt-then-recheck-claims",
-      "orchestraHash": "73933dd7de491a38650e076561fa074a5dc7187392dc77ffbf851d55428635ba"
+      "orchestraHash": "46b92e2795245fd6da3fc8075ea9eac5a940b1a4a73e0983aeee7428b5fc262c"
     }
   ]
 }

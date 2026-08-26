@@ -1,4 +1,4 @@
-# Anomancer 15.4.0 · Tool Broker + Policy Gate
+# Anomancer 15.5.0 · Model Router
 
 Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkisen FI/EN-sivuston, Markdown-sisällöt, Vercel API -funktiot, yksityisen adminin, DeepSeek-agentit, orkesterin, buildin, testit ja dokumentaation.
 
@@ -14,7 +14,9 @@ Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkis
 - slug-aliasit vanhojen artikkeliosoitteiden säilyttämiseen
 - turvallinen, varmuuskopioiva asennusskripti
 
-Julkaisuversio: 15.4.0.
+Julkaisuversio: 15.5.0.
+
+15.5 erottaa agentin loogisen mallireitin fyysisestä provider-targetista. DeepSeek säilyy oletuksena; OpenAI, Anthropic ja Gemini voidaan kytkeä serverin ympäristömuuttujilla. Route-raja, Tool Broker ja Agent Contract estävät mallinvaihtoa muuttamasta agentin toimivaltaa.
 
 
 

@@ -937,3 +937,6 @@ h1 {
 @media(max-width:680px){.core-product-hero{padding-bottom:58px}.core-product-nav{top:62px}.core-product-nav-inner{width:100%;padding-inline:7px}.core-product-nav a{min-height:50px;padding-inline:11px;font-size:.73rem}.core-product-section{scroll-margin-top:126px}.core-product-section-meta{align-items:flex-start;flex-wrap:wrap}.core-evidence-flow article{min-height:auto}.core-overview-grid article,.core-run-boundary,.core-model-grid article,.core-tool-grid article,.core-coming-line{padding:18px}}
 /* 15.4 Tool Broker */
 .core-tool-grid article[data-risk=critical]{border-color:rgba(255,90,111,.25)}.core-tool-grid article[data-risk=high]{border-color:rgba(255,192,109,.24)}.core-tool-grid article[data-risk=medium]{border-color:rgba(116,160,255,.22)}
+
+/* 15.5 public Model Router */
+.core-model-targets{display:flex;flex-wrap:wrap;gap:6px;margin:.65rem 0}.core-model-targets span{font-size:.72rem;border:1px solid currentColor;border-radius:999px;padding:.28rem .5rem;opacity:.72}

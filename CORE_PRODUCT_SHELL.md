@@ -9,7 +9,7 @@
 - Orchestras — rekisteröityjen orkestereiden vaihejärjestys ja politiikat.
 - Runs — vain rakenteellinen demo; oikea run history pysyy `/admin`issa.
 - Evidence — candidate → claim audit → human verify → publish gate.
-- Models — nykyiset loogiset model route -ryhmät; multi-provider router ei vielä ole valmis.
+- Models — 15.5:ssa LIVE ROUTER: loogiset reitit, tuetut provider-targetit ja fallback-topologia.
 - Tools — 15.4:ssa palvelinpuolen Tool Broker + Policy Gate valvoo nykyistä oikeaa työkalupintaa fail-closed-periaatteella.
 - Usage — sopimusbudjettien headroom; todelliset tokenit ja kustannukset ovat yksityisiä.
 

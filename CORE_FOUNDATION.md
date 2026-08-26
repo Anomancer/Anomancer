@@ -1,4 +1,4 @@
-# Anomancer 15.4 · Core Foundation + Tool Broker
+# Anomancer 15.5 · Core Foundation + Model Router
 
 15.0 erottaa ensimmäistä kertaa agentin identiteetin, orkesterin rakenteen ja ajon todistettavan metadatan varsinaisista prompteista.
 
@@ -53,7 +53,7 @@ Tämä on auditointia helpottava paikallinen eheysketju, ei vielä kryptografise
 15.0 ei vielä tuo:
 
 - custom agent -editoria
-- usean providerin Model Routeria
+- provider-kohtaista kustannuslaskentaa ja workspace-persistenssiä Model Router -valinnoille
 - työtiloja / käyttäjäorganisaatioita
 - kuukausimaksua tai quota-billingiä
 - allekirjoitettuja run receiptejä
@@ -68,3 +68,7 @@ Näille on kuitenkin nyt paikka ilman, että Lähetyskoneen nykyinen toimituksel
 ## 15.4 · Tool Broker + Policy Gate
 
 Tool Registry ja palvelinpuolen Policy Gate on kuvattu tiedostossa `TOOL_BROKER.md`. Source Agentin oikea `web.search` kulkee brokerin läpi ennen suoritusta. Run Receipt kirjaa policy-päätökset, mutta ei raakaa promptia tai raakaa työkaludataa.
+
+## 15.5 · Model Router
+
+Agent Contract ei enää sido agenttia yhteen fyysiseen provider-targettiin. Sopimus kantaa loogisen `modelRoute`-arvon, ja palvelinpuolen Model Router valitsee vain sen reitin sallituista targeteista. DeepSeek on oletus; OpenAI, Anthropic ja Gemini voidaan aktivoida serverin env-asetuksilla. Research-route sallii vain web-search-kykyiset targetit. Runtime Profile voi valita targetin, mutta ei ylittää route-rajaa tai muuttaa Agent Contractin toimivaltaa. Run Receipt kirjaa valitun providerin, targetin ja fallbackin.

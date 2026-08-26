@@ -18,13 +18,13 @@ function renderAgents(core){
 
 function renderModels(core){
   const root=q('#corePublicModels');if(!root)return;
-  const groups=new Map();
-  for(const agent of core.agents||[]){
-    const key=agent.modelRoute||'unrouted';
-    const item=groups.get(key)||{agents:[],budget:0};
-    item.agents.push(agent.label||agent.id);item.budget+=Number(agent.maxOutputTokens||0);groups.set(key,item);
-  }
-  root.innerHTML=[...groups.entries()].map(([route,item])=>`<article><span class="core-model-route">${esc(route)}</span><strong>${item.agents.length} agenttia</strong><p>${esc(item.agents.join(' · '))}</p><small>Yhteinen stage-headroom ${n(item.budget)} tok · provider binding pidetään control planen asetuksena.</small></article>`).join('');
+  const router=core.modelRouter||{},providers=new Map((router.providers||[]).map(p=>[p.id,p]));
+  const agentGroups=new Map();for(const agent of core.agents||[]){const list=agentGroups.get(agent.modelRoute)||[];list.push(agent.label||agent.id);agentGroups.set(agent.modelRoute,list);}
+  root.innerHTML=(router.routes||core.modelRoutes||[]).map(route=>{
+    const agents=agentGroups.get(route.id)||[];
+    const targets=(route.allowedTargets||[]).map(id=>{const target=(router.targets||[]).find(t=>t.id===id);const provider=providers.get(target?.provider);return `<span>${esc(provider?.label||target?.provider||id)} · ${esc(id)}</span>`;}).join('');
+    return `<article><span class="core-model-route">${esc(route.id)}</span><strong>${agents.length} agenttia · default ${esc(route.defaultTarget||'')}</strong><p>${esc(agents.join(' · '))}</p><div class="core-model-targets">${targets}</div><small>Fallback vain tämän reitin sallittuihin targetteihin. Provider-avainten tila pysyy yksityisessä control planessa.</small></article>`;
+  }).join('');
 }
 
 function renderTools(core){

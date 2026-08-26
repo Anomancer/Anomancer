@@ -1,6 +1,7 @@
 import { getSession, requireCsrf } from '../_lib/auth.js';
 import { json, readJson, sameOrigin } from '../_lib/http.js';
-import { deepseekChatJson, deepseekWebSearchJson, deepseekConfigStatus } from '../_lib/deepseek.js';
+import { deepseekConfigStatus } from '../_lib/deepseek.js';
+import { routeAgentJson, modelRouterStatus } from '../_lib/model-router.js';
 import { promptFor, SOURCE_SCHEMA, CATEGORIES, AUDIENCES, AUDIENCE_DEPTHS } from '../_lib/agent-prompts.js';
 import { normalizeClaims, normalizeSources } from '../_lib/content.js';
 import { validateAgentResult } from '../_lib/agent-validation.js';
@@ -38,17 +39,11 @@ function normalizePost(input={}){
     sources,claims,body,
   };
 }
-function modelFor(agent){
-  const cfg=deepseekConfigStatus();
-  if(agent==='writer'||agent==='audience'||agent==='voice'||agent==='structure'||agent==='package') return cfg.writerModel;
-  if(agent==='critic'||agent==='claims') return cfg.criticModel;
-  return cfg.defaultModel;
-}
 
 export default async function handler(req,res){
   if(req.method==='GET'){
     if(!getSession(req)) return json(res,401,{ok:false,error:'AUTH'});
-    return json(res,200,{ok:true,coreVersion:CORE_VERSION,deepseek:deepseekConfigStatus(),agents:[...AGENTS].map(id=>getAgentContract(id)),humanApprovalRequired:true});
+    return json(res,200,{ok:true,coreVersion:CORE_VERSION,deepseek:deepseekConfigStatus(),modelRouter:modelRouterStatus(),agents:[...AGENTS].map(id=>getAgentContract(id)),humanApprovalRequired:true});
   }
   if(req.method!=='POST') return json(res,405,{ok:false,error:'METHOD'});
   const session=getSession(req);
@@ -71,9 +66,10 @@ export default async function handler(req,res){
     const abortController=new AbortController();
     const abort=()=>abortController.abort();
     req.once?.('aborted',abort);
-    const response=agent==='source'
-      ? await deepseekWebSearchJson({system,user,schema:SOURCE_SCHEMA,maxTokens:runtime.maxOutputTokens,signal:abortController.signal})
-      : await deepseekChatJson({system,user,model:modelFor(agent),maxTokens:runtime.maxOutputTokens,thinking:!['voice'].includes(agent),signal:abortController.signal});
+    const response=await routeAgentJson({
+      contract,runtime,system,user,schema:agent==='source'?SOURCE_SCHEMA:null,
+      maxTokens:runtime.maxOutputTokens,thinking:!['voice'].includes(agent),webSearch:agent==='source',signal:abortController.signal
+    });
     req.removeListener?.('aborted',abort);
     const result=validateAgentResult(agent,response.result,post);
     const receipt=createRunReceipt({contract,runtime,post,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId:cleanString(body.orchestraRunId,120)||null,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});

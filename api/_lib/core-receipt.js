@@ -20,9 +20,10 @@ export function createRunReceipt({contract,runtime=null,post,instruction='',resu
   return {
     format:RUN_RECEIPT_FORMAT,id,coreVersion:CORE_VERSION,orchestraRunId:orchestraRunId||null,stageIndex:Number.isInteger(stageIndex)?stageIndex:null,
     agent:{id:contract.id,label:contract.label,version:contract.version,contractHash:contract.contractHash,role:contract.role},
-    model:{provider:'deepseek',model:String(meta.model||''),route:contract.modelRoute},
+    model:{provider:String(meta.provider||'unknown'),model:String(meta.model||''),route:contract.modelRoute,target:String(meta.modelTarget||runtime?.modelTarget||'')},
+    routing:meta.routing?{route:String(meta.routing.route||contract.modelRoute),requestedTarget:meta.routing.requestedTarget||null,selectedTarget:String(meta.routing.selectedTarget||''),provider:String(meta.routing.provider||meta.provider||''),model:String(meta.routing.model||meta.model||''),fallbackUsed:Boolean(meta.routing.fallbackUsed),attempts:(meta.routing.attempts||[]).map(item=>({targetId:String(item.targetId||''),provider:String(item.provider||''),model:String(item.model||''),status:String(item.status||''),code:item.code?String(item.code):undefined}))}:null,
     authority:{write:[...(contract.authority?.write||[])],humanApproval:[...(contract.humanApproval||[])]},
-    runtime:runtime?{active:runtime.active!==false,maxOutputTokens:Number(runtime.maxOutputTokens||0)||0}:null,
+    runtime:runtime?{active:runtime.active!==false,maxOutputTokens:Number(runtime.maxOutputTokens||0)||0,modelTarget:String(runtime.modelTarget||'')}:null,
     usage:usage(meta),tools:(toolPolicy||[]).filter(item=>item?.outcome==='allow').map(item=>String(item.toolId||'')).filter(Boolean),toolPolicy:(toolPolicy||[]).map(publicPolicyDecision).filter(Boolean),status,
     inputHash,outputHash,startedAt:start,finishedAt:finish,durationMs:Math.max(0,new Date(finish)-new Date(start)),
     humanApprovalRequired:true

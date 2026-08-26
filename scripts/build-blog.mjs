@@ -2,7 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { normalizeSources as normalizeContentSources, normalizeClaims as normalizeContentClaims, normalizeAliases, normalizeAudienceDepth } from '../api/_lib/content.js';
-import { AGENT_REGISTRY, ORCHESTRA_REGISTRY, TOOL_REGISTRY, CORE_VERSION } from '../api/_lib/core-registry.js';
+import { AGENT_REGISTRY, ORCHESTRA_REGISTRY, TOOL_REGISTRY, MODEL_ROUTE_REGISTRY, CORE_VERSION } from '../api/_lib/core-registry.js';
+import { publicModelRouterSnapshot } from '../api/_lib/model-router.js';
 
 const ROOT = process.cwd();
 const SITE = String(process.env.PUBLIC_SITE_URL || 'https://anomancer.com').replace(/\/$/,'');
@@ -377,6 +378,8 @@ const publicCore={
   })),
   tools:TOOL_REGISTRY.map(tool=>({id:tool.id,label:tool.label,version:tool.version,kind:tool.kind,description:tool.description,risk:tool.risk,requiredCapability:tool.requiredCapability||null,actor:tool.actor,humanApproval:Boolean(tool.humanApproval),sideEffects:Boolean(tool.sideEffects),toolHash:tool.toolHash})),
   toolBroker:{format:'anomancer-tool-policy/v1',enforcement:'server-side-fail-closed',implicitTools:false,policyLogInRunReceipt:true},
+  modelRouter:publicModelRouterSnapshot(),
+  modelRoutes:MODEL_ROUTE_REGISTRY.map(route=>({id:route.id,label:route.label,defaultTarget:route.defaultTarget,allowedTargets:[...route.allowedTargets],requires:[...route.requires],routeHash:route.routeHash})),
   orchestras:ORCHESTRA_REGISTRY.map(orchestra=>({
     id:orchestra.id,name:orchestra.name,version:orchestra.version,description:orchestra.description,mode:orchestra.mode,stages:[...orchestra.stages],
     humanFinalAuthority:Boolean(orchestra.humanFinalAuthority),evidencePolicy:orchestra.evidencePolicy,audiencePolicy:orchestra.audiencePolicy,orchestraHash:orchestra.orchestraHash

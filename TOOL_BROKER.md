@@ -43,3 +43,7 @@ Onnistuneen työkalupyynnön policy-päätös tallentuu Run Receiptiin. Estetty 
 `/core` näyttää redaktoidun Tool Registryn ja brokerin toimintaperiaatteen. Oikea Policy Log ja runtime-control pysyvät `/admin`-puolella.
 
 15.4 ei vielä tee yleistä plugin-/tool-executor-markkinapaikkaa. Broker suojaa nykyistä oikeaa `web.search`-polkua ja muodostaa kiinnityspisteen tuleville työkaluille.
+
+## 15.5 Model Router -suhde
+
+Model Router voi vaihtaa provider-targetin, mutta Tool Broker tekee työkalupäätöksen edelleen Agent Contractin perusteella. Providerin vaihtuminen ei anna agentille uusia työkaluja tai capabilityja.

@@ -1,11 +1,13 @@
 import crypto from 'node:crypto';
 
-export const CORE_VERSION='15.4.0';
+export const CORE_VERSION='15.5.0';
 export const AGENT_CONTRACT_FORMAT='anomancer-agent/v1';
 export const ORCHESTRA_FORMAT='anomancer-orchestra/v1';
 export const RUN_RECEIPT_FORMAT='anomancer-run-receipt/v1';
 export const AGENT_RUNTIME_FORMAT='anomancer-agent-runtime/v1';
 export const TOOL_POLICY_FORMAT='anomancer-tool-policy/v1';
+export const MODEL_ROUTER_FORMAT='anomancer-model-router/v1';
+export const MODEL_ROUTE_FORMAT='anomancer-model-route/v1';
 
 const clone=value=>JSON.parse(JSON.stringify(value));
 const stable=value=>{
@@ -14,6 +16,16 @@ const stable=value=>{
   return JSON.stringify(value);
 };
 export const digest=value=>crypto.createHash('sha256').update(stable(value)).digest('hex');
+
+
+const RAW_MODEL_ROUTES=[
+  {id:'research',label:'Research route',defaultTarget:'deepseek.research',allowedTargets:['deepseek.research','openai.research','gemini.research'],requires:['json','web_search']},
+  {id:'writer',label:'Writer route',defaultTarget:'deepseek.writer',allowedTargets:['deepseek.writer','openai.writer','anthropic.writer','gemini.writer'],requires:['json']},
+  {id:'critic',label:'Critic route',defaultTarget:'deepseek.critic',allowedTargets:['deepseek.critic','openai.critic','anthropic.critic','gemini.critic'],requires:['json']}
+];
+function finalizeModelRoute(input){const route={format:MODEL_ROUTE_FORMAT,coreVersion:CORE_VERSION,...clone(input)};route.routeHash=digest(route);return Object.freeze(route);}
+export const MODEL_ROUTE_REGISTRY=Object.freeze(RAW_MODEL_ROUTES.map(finalizeModelRoute));
+const MODEL_ROUTE_MAP=new Map(MODEL_ROUTE_REGISTRY.map(route=>[route.id,route]));
 
 const RAW_AGENTS=[
   {
@@ -105,7 +117,7 @@ function finalizeAgent(input){
     canDisable:true,
     minOutputTokens:runtimeFloor,
     maxOutputTokens:ceiling,
-    mutable:['active','maxOutputTokens'],
+    mutable:['active','maxOutputTokens','modelTarget'],
     immutable:['contractHash','modelRoute','tools','capabilities','authority','humanApproval']
   };
   contract.contractHash=digest(contract);
@@ -134,6 +146,10 @@ function validateRegistry(){
     if(!agent.contractHash||!agent.authority||!agent.budget?.maxOutputTokens)throw new Error(`Invalid Core agent contract: ${agent.id}`);
     if(agent.authority.write?.some(field=>agent.authority.deny?.includes(`${field}.write`)))throw new Error(`Conflicting authority in ${agent.id}`);
   }
+  for(const route of MODEL_ROUTE_REGISTRY){
+    if(!route.allowedTargets?.length||!route.allowedTargets.includes(route.defaultTarget))throw new Error(`Invalid model route: ${route.id}`);
+  }
+  for(const agent of AGENT_REGISTRY)if(!MODEL_ROUTE_MAP.has(agent.modelRoute))throw new Error(`Unknown model route ${agent.modelRoute} in ${agent.id}`);
   const toolIds=new Set();
   for(const tool of TOOL_REGISTRY){
     if(toolIds.has(tool.id))throw new Error(`Duplicate Core tool: ${tool.id}`);toolIds.add(tool.id);
@@ -152,6 +168,8 @@ validateRegistry();
 export function getAgentContract(id){const item=AGENT_MAP.get(String(id||''));return item?clone(item):null;}
 export function getToolContract(id){const item=TOOL_MAP.get(String(id||''));return item?clone(item):null;}
 export function listToolIds(){return TOOL_REGISTRY.map(item=>item.id);}
+export function getModelRoute(id){const item=MODEL_ROUTE_MAP.get(String(id||''));return item?clone(item):null;}
+export function listModelRoutes(){return MODEL_ROUTE_REGISTRY.map(clone);}
 export function getOrchestra(id='editorial'){const item=ORCHESTRA_MAP.get(String(id||''));return item?clone(item):null;}
 export function listAgentIds(){return AGENT_REGISTRY.map(item=>item.id);}
 export function normalizeAgentRuntime(id,input={}){
@@ -162,25 +180,29 @@ export function normalizeAgentRuntime(id,input={}){
   const max=Math.max(min,Number(policy.maxOutputTokens||contract.budget.maxOutputTokens||min));
   const requested=Number(input?.maxOutputTokens);
   const maxOutputTokens=Number.isFinite(requested)?Math.min(max,Math.max(min,Math.round(requested))):Number(contract.budget.maxOutputTokens||min);
+  const route=getModelRoute(contract.modelRoute);
+  const requestedTarget=String(input?.modelTarget||'').trim();
+  const modelTarget=route?.allowedTargets?.includes(requestedTarget)?requestedTarget:(route?.defaultTarget||'');
   return {
     format:AGENT_RUNTIME_FORMAT,
     agentId:contract.id,
     contractHash:contract.contractHash,
     active:input?.active!==false,
     maxOutputTokens,
-    limits:{minOutputTokens:min,maxOutputTokens:max}
+    modelTarget,
+    limits:{minOutputTokens:min,maxOutputTokens:max,modelTargets:[...(route?.allowedTargets||[])]}
   };
 }
 export function normalizeAgentRuntimeMap(input={}){
   const source=input&&typeof input==='object'?input:{};
   return Object.fromEntries(AGENT_REGISTRY.map(agent=>[agent.id,normalizeAgentRuntime(agent.id,source[agent.id]||{})]));
 }
-export function publicCoreSnapshot({deepseek=null}={}){
+export function publicCoreSnapshot({modelRouter=null}={}){
   return {
     format:'anomancer-core/v1',version:CORE_VERSION,
     agents:AGENT_REGISTRY.map(clone),orchestras:ORCHESTRA_REGISTRY.map(clone),tools:TOOL_REGISTRY.map(clone),
     runReceipt:{format:RUN_RECEIPT_FORMAT,persistence:'browser-local-hash-chain',containsRawPrompt:false,containsRawOutput:false,containsToolPolicy:true},
-    modelRoutes:deepseek?{research:{provider:'deepseek',model:deepseek.sourceModel},writer:{provider:'deepseek',model:deepseek.writerModel},critic:{provider:'deepseek',model:deepseek.criticModel}}:null,
+    modelRoutes:MODEL_ROUTE_REGISTRY.map(clone),modelRouter:modelRouter?clone(modelRouter):null,
     humanFinalAuthority:true,
     runtimeControl:{format:AGENT_RUNTIME_FORMAT,persistence:'admin-browser-local',mutable:['active','maxOutputTokens'],contractAuthorityImmutable:true},
     toolBroker:{format:TOOL_POLICY_FORMAT,enforcement:'server-side-fail-closed',implicitTools:false,humanApprovalClientSpoofable:false,policyLogInRunReceipt:true}

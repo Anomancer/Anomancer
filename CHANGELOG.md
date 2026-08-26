@@ -1,3 +1,14 @@
+# 15.5.0 — Model Router
+
+- Lisätty palvelinpuolen Model Router, joka erottaa Agent Contractin loogisen mallireitin provider-targetista.
+- Kolme reittiä: `research`, `writer` ja `critic`; agentti voi vaihtaa vain oman reittinsä sallittuun targettiin.
+- DeepSeek säilyy oletuksena, mutta Writer/Critic tukevat myös OpenAI-, Anthropic- ja Gemini-targetteja; Research tukee DeepSeek-, OpenAI- ja Gemini-web-searchia.
+- Runtime Profileen lisätty `modelTarget`; palvelin normalisoi ja clampaa sen Agent Contractin route-rajaan.
+- Fallback käyttää vain saman loogisen reitin sallittuja, konfiguroituja targetteja ja vain tilapäisissä provider-/verkko-/rate-limit-virheissä.
+- Run Receipt kirjaa route-, provider-, target- ja fallback-metadatan ilman API-avaimia.
+- Yksityinen Core näyttää providerien konfiguraatiotilan; julkinen Core näyttää vain tuetun topologian eikä paljasta, mitkä providerit on kytketty.
+- Lisätty `test-model-router.mjs` regressiosviitti ja nykyiset orkesteri-/Tool Broker -rajat säilytetty.
+
 # 15.4.0 — Tool Broker + Policy Gate
 
 - Lisätty kanoninen Tool Registry ja palvelinpuolen fail-closed Tool Broker.
