@@ -1,0 +1,151 @@
+{
+  "format": "anomancer-runtime-store/v2",
+  "coreVersion": "15.8.0",
+  "revision": 1,
+  "updatedAt": "2026-08-26T20:56:29.459Z",
+  "profiles": {
+    "source": {
+      "format": "anomancer-agent-runtime/v1",
+      "agentId": "source",
+      "contractHash": "cae9f23ac154681654fedd2fedfdf2fe787a35877daabb117848c38b07174aab",
+      "active": true,
+      "maxOutputTokens": 16000,
+      "modelTarget": "deepseek.research",
+      "limits": {
+        "minOutputTokens": 8000,
+        "maxOutputTokens": 32000,
+        "modelTargets": [
+          "deepseek.research",
+          "openai.research",
+          "gemini.research"
+        ]
+      }
+    },
+    "structure": {
+      "format": "anomancer-agent-runtime/v1",
+      "agentId": "structure",
+      "contractHash": "98a56fa8436de1bdb6612e24a0820a762220900e08382909e77bd8874fd2842d",
+      "active": true,
+      "maxOutputTokens": 12000,
+      "modelTarget": "deepseek.writer",
+      "limits": {
+        "minOutputTokens": 1000,
+        "maxOutputTokens": 24000,
+        "modelTargets": [
+          "deepseek.writer",
+          "openai.writer",
+          "anthropic.writer",
+          "gemini.writer"
+        ]
+      }
+    },
+    "writer": {
+      "format": "anomancer-agent-runtime/v1",
+      "agentId": "writer",
+      "contractHash": "64b26469510faf8f3b7e850c14eb189eb9436b3e4af012f1bd3fd563bdd4de89",
+      "active": true,
+      "maxOutputTokens": 24000,
+      "modelTarget": "deepseek.writer",
+      "limits": {
+        "minOutputTokens": 1000,
+        "maxOutputTokens": 48000,
+        "modelTargets": [
+          "deepseek.writer",
+          "openai.writer",
+          "anthropic.writer",
+          "gemini.writer"
+        ]
+      }
+    },
+    "critic": {
+      "format": "anomancer-agent-runtime/v1",
+      "agentId": "critic",
+      "contractHash": "3ed32c0a5ebcc9dc6aa35ec9323d9b01a66f9b733f973cd2fabb35a8eb347c64",
+      "active": true,
+      "maxOutputTokens": 18000,
+      "modelTarget": "deepseek.critic",
+      "limits": {
+        "minOutputTokens": 1000,
+        "maxOutputTokens": 24000,
+        "modelTargets": [
+          "deepseek.critic",
+          "openai.critic",
+          "anthropic.critic",
+          "gemini.critic"
+        ]
+      }
+    },
+    "audience": {
+      "format": "anomancer-agent-runtime/v1",
+      "agentId": "audience",
+      "contractHash": "a285bc6d9e2fb16ea4ecf07b00d845bf0f6721c2f4f697ec0b1af4796b1fe4b2",
+      "active": true,
+      "maxOutputTokens": 24000,
+      "modelTarget": "deepseek.writer",
+      "limits": {
+        "minOutputTokens": 1000,
+        "maxOutputTokens": 48000,
+        "modelTargets": [
+          "deepseek.writer",
+          "openai.writer",
+          "anthropic.writer",
+          "gemini.writer"
+        ]
+      }
+    },
+    "voice": {
+      "format": "anomancer-agent-runtime/v1",
+      "agentId": "voice",
+      "contractHash": "c6dab04c7066a9391cba78fce9526cc762e7294a92e970b76173bb033c88315e",
+      "active": true,
+      "maxOutputTokens": 24000,
+      "modelTarget": "deepseek.writer",
+      "limits": {
+        "minOutputTokens": 1000,
+        "maxOutputTokens": 48000,
+        "modelTargets": [
+          "deepseek.writer",
+          "openai.writer",
+          "anthropic.writer",
+          "gemini.writer"
+        ]
+      }
+    },
+    "claims": {
+      "format": "anomancer-agent-runtime/v1",
+      "agentId": "claims",
+      "contractHash": "48751e292aea0eaeaa6cb32de9ea903eb70dc8f7498bfbfbbfc84f1c37daac8c",
+      "active": true,
+      "maxOutputTokens": 16000,
+      "modelTarget": "deepseek.critic",
+      "limits": {
+        "minOutputTokens": 1000,
+        "maxOutputTokens": 32000,
+        "modelTargets": [
+          "deepseek.critic",
+          "openai.critic",
+          "anthropic.critic",
+          "gemini.critic"
+        ]
+      }
+    },
+    "package": {
+      "format": "anomancer-agent-runtime/v1",
+      "agentId": "package",
+      "contractHash": "1ee5dde1e14e6d0dbe3a095766f86276863c4ba18517fb55b42db13c5b6ece0d",
+      "active": true,
+      "maxOutputTokens": 12000,
+      "modelTarget": "deepseek.writer",
+      "limits": {
+        "minOutputTokens": 1000,
+        "maxOutputTokens": 24000,
+        "modelTargets": [
+          "deepseek.writer",
+          "openai.writer",
+          "anthropic.writer",
+          "gemini.writer"
+        ]
+      }
+    }
+  }
+}
