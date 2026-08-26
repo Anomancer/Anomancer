@@ -65,8 +65,6 @@ Nyt yksittäinen ihminen voi rakentaa muutamassa päivässä asioita, joiden pro
 
 Siksi minua kiinnostaa näissä uutisissa enemmän järjestelmä kuin yksittäinen epäonnistunut hanke; missä vaiheessa hyvästä riskienhallinnasta tulee niin raskas rakenne, että se alkaa itse estää ongelmien ratkaisemista? Missä vaiheessa referenssi kertoo aidosti osaamisesta, ja missä vaiheessa se kertoo vain siitä, että sama toimija on onnistunut pääsemään aikaisemminkin saman portin läpi?
 
-Ja kuinka paljon miljoonien IT-hankkeen hinnasta lopulta syntyy itse teknologiasta, ja kuinka paljon siitä koneistosta, jonka olemme rakentaneet teknologian ympärille?
+Ja kuinka paljon miljoonien IT-hankkeen hinnasta lopulta syntyy itse teknologiasta, ja kuinka paljon siitä koneistosta, jonka olemme rakentaneet teknologian ympärille? En tiedä. Mutta epäilen, että kiinnostavimmat säästöt eivät tule siitä, että ohjelmoija kirjoittaa koodia vähän nopeammin.
 
-En tiedä.
-
-Mutta epäilen, että kiinnostavimmat säästöt eivät tule siitä, että ohjelmoija kirjoittaa koodia vähän nopeammin. Ne tulevat siitä, että katsotaan tarkemmin, millaisen järjestelmän olemme rakentaneet ennen kuin ensimmäistäkään koodiriviä kirjoitetaan.
+>Ne tulevat siitä, että katsotaan tarkemmin, millaisen järjestelmän olemme rakentaneet ennen kuin ensimmäistäkään koodiriviä kirjoitetaan.
