@@ -12,6 +12,7 @@ test('source-agentin URL säilyy aina ehdokkaana provenance-tietoineen',()=>{
   assert.equal(result.candidateSources[0].origin,'source-agent');
   assert.equal(result.candidateSources[0].verification,'candidate');
   assert.ok(result.candidateSources[0].retrievedAt);
+  assert.match(result.candidateSources[0].id,/^src-[a-z0-9]+$/);
 });
 test('candidate-lähde ei voi tehdä agenttiväitteestä tuettua',()=>{
   const result=validateAgentResult('claims',{claims:[{status:'supported',text:'Väite',evidence:[candidate.url],note:''}]},post);
@@ -22,11 +23,23 @@ test('verified-lähde sallii tuetun väitteen',()=>{
   const result=validateAgentResult('claims',{claims:[{status:'supported',text:'Väite',evidence:[verified.url],note:''}]},post);
   assert.equal(result.claims[0].status,'supported');
 });
+test('candidate voidaan kytkeä avoimeen väitteeseen provisionaaliseksi jäljeksi',()=>{
+  const result=validateAgentResult('claims',{claims:[{status:'open',text:'Avoin väite',evidence:[candidate.url],note:'tarkista'}]},post);
+  assert.equal(result.claims[0].status,'open');
+  assert.deepEqual(result.claims[0].evidence,[candidate.url]);
+});
+test('julkaisupaketti ei saa kirjoittaa Evidence Layeria uusiksi tai pudottaa lähteitä',()=>{
+  const sourcePost={...post,claims:[{status:'open',text:'Nykyinen väite',evidence:[candidate.url],note:'provisionaalinen'}]};
+  const result=validateAgentResult('package',{title:'Uusi otsikko',sources:[],claims:[{status:'supported',text:'Keksitty väite',evidence:[verified.url]}]},sourcePost);
+  assert.equal(result.title,'Uusi otsikko');
+  assert.deepEqual(result.sources,sourcePost.sources);
+  assert.deepEqual(result.claims,sourcePost.claims);
+});
 test('julkaisupaketti ei voi keksiä lähdettä tai taksonomiaa',()=>{
   const result=validateAgentResult('package',{category:'made-up',audience:['wizard'],sources:[verified,{title:'Fake',url:'https://fake.example/x'}],claims:[]},post);
   assert.equal(result.category,post.category);
   assert.deepEqual(result.audience,post.audience);
-  assert.deepEqual(result.sources,[verified]);
+  assert.deepEqual(result.sources,post.sources);
 });
 
 console.log(`\n${ok}/${ok} AGENT CONTRACT -testiä läpi`);

@@ -62,7 +62,7 @@ export default async function handler(req,res){
     req.once?.('aborted',abort);
     const response=agent==='source'
       ? await deepseekWebSearchJson({system,user,schema:SOURCE_SCHEMA,signal:abortController.signal})
-      : await deepseekChatJson({system,user,model:modelFor(agent),maxTokens:({claims:16000,structure:16000,writer:24000,critic:16000,voice:16000,package:16000}[agent]||16000),thinking:!['voice'].includes(agent),signal:abortController.signal});
+      : await deepseekChatJson({system,user,model:modelFor(agent),maxTokens:agent==='writer'||agent==='voice'?8000:5500,thinking:!['voice'].includes(agent),signal:abortController.signal});
     req.removeListener?.('aborted',abort);
     const result=validateAgentResult(agent,response.result,post);
     return json(res,200,{ok:true,agent,result,meta:response.meta,humanApprovalRequired:true});

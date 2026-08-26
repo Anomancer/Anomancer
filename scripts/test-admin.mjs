@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
+import fs from 'node:fs';
+import path from 'node:path';
 import { hashPassword, verifyPassword, signSession, verifySession, csrfForSession, sessionCookie } from '../api/_lib/auth.js';
 import { serializePost, parseMarkdown, newPostPath, normalizeCategory, normalizeAudience } from '../api/_lib/content.js';
 import { putFile, putBase64File, deleteFile } from '../api/_lib/github.js';
@@ -7,6 +9,7 @@ import loginHandler from '../api/admin/login.js';
 import sessionHandler from '../api/admin/session.js';
 import postsHandler from '../api/admin/posts.js';
 import mediaHandler from '../api/admin/media.js';
+const ROOT=process.cwd();
 let ok=0; const test=async(name,fn)=>{await fn();ok++;console.log(`✓ ${name}`)};
 function resMock(){return {statusCode:200,headers:{},body:'',setHeader(k,v){this.headers[k.toLowerCase()]=v},end(v=''){this.body+=v}};}
 function reqMock({method='GET',body,headers={}}={}){const r=new EventEmitter();r.method=method;r.headers=headers;if(body!==undefined)r.body=body;return r;}
@@ -27,4 +30,6 @@ await test('posts endpoint estää kirjautumattoman',async()=>{const req=reqMock
 await test('posts POST vaatii CSRF:n',async()=>{process.env.ADMIN_SESSION_SECRET='w'.repeat(64);const token=signSession(process.env.ADMIN_SESSION_SECRET);const req=reqMock({method:'POST',body:{},headers:{cookie:`anomancer_admin=${encodeURIComponent(token)}`,origin:'https://anomancer.com',host:'anomancer.com','x-forwarded-proto':'https'}});const res=resMock();await postsHandler(req,res);assert.equal(res.statusCode,403)});
 await test('media POST hyväksyy pienen PNG-kuvan validilla sessiolla',async()=>{process.env.ADMIN_SESSION_SECRET='m'.repeat(64);process.env.GITHUB_CONTENT_TOKEN='secret-token';process.env.GITHUB_REPO='owner/repo';process.env.GITHUB_BRANCH='master';const token=signSession(process.env.ADMIN_SESSION_SECRET,{nonce:'media-test'});const sess=verifySession(process.env.ADMIN_SESSION_SECRET,token);const csrf=csrfForSession(process.env.ADMIN_SESSION_SECRET,sess);const png='iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9WlF2r0AAAAASUVORK5CYII=';const old=global.fetch;global.fetch=async()=>new Response(JSON.stringify({content:{sha:'imgsha',html_url:'x'},commit:{sha:'imgcommit'}}),{status:200});try{const req=reqMock({method:'POST',body:{data:`data:image/png;base64,${png}`,name:'koe.png',date:'2026-08-26'},headers:{cookie:`anomancer_admin=${encodeURIComponent(token)}`,origin:'https://anomancer.com',host:'anomancer.com','x-forwarded-proto':'https','x-csrf-token':csrf}});const res=resMock();await mediaHandler(req,res);assert.equal(res.statusCode,200);const data=JSON.parse(res.body);assert.match(data.url,/^\/media\/2026\/08\/koe-[a-f0-9]{8}\.png$/)}finally{global.fetch=old}});
 
+await test('uusi tallentamaton luonnos saa istuntokohtaisen identiteetin',()=>{const js=fs.readFileSync(path.join(ROOT,'admin.js'),'utf8');assert.match(js,/draftInstanceId/);assert.match(js,/instanceId:state\.current\?\.path\?'':state\.draftInstanceId/);});
+await test('agenttilähteen tarkistetuksi merkintä vaatii ihmisen vahvistuksen',()=>{const js=fs.readFileSync(path.join(ROOT,'admin.js'),'utf8');assert.match(js,/Merkitäänkö .* tarkistetuksi/);assert.match(js,/olet avannut lähteen/);});
 console.log(`\n${ok}/${ok} admin-testiä läpi`);

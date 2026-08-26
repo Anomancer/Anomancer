@@ -1,4 +1,4 @@
-# Anomancer 14.0 · Lähetyskone Agents
+# Anomancer 14.2.1 · Lähetyskone Agents
 
 14.0 lisää yksityiseen `/admin`-Lähetyskoneeseen DeepSeek-pohjaisen toimituspöydän.
 
@@ -11,12 +11,12 @@ Agentti-API ei kutsu GitHub-write-endpointteja eikä sillä ole julkaisutoiminto
 ## Agentit
 
 - **Lähdeagentti** käyttää DeepSeek Responses API:n server-side `web_search`-työkalua. Se tuottaa vain lähde-ehdokkaita, jotka ihmisen pitää tarkistaa.
-- **Väitevahti** erottaa `supported / interpretation / open` ja saa käyttää vain Evidence Layerissa jo olevia lähteitä.
+- **Väitevahti** erottaa `supported / interpretation / open`, ajaa orkesterissa vasta lopullisen äänieditoinnin jälkeen ja saa käyttää vain Evidence Layerissa jo olevia lähteitä. Candidate-linkki voidaan säilyttää avoimen/tulkinnallisen väitteen provisionaalisena tutkimusjälkenä.
 - **Rakenneagentti** ehdottaa rakennetta ilman että tekee tekstistä geneeristä listiclea.
 - **Kirjoitusagentti** tuottaa Markdown-luonnoksen nykyisen materiaalin pohjalta.
 - **Kriitikko** etsii heikot väitteet, epäselvyydet ja koneellisen tekstirytmin.
 - **Äänieditori** poistaa geneeristä LLM-kadenssia mutta säilyttää ihmisen omituisuuden.
-- **Julkaisupaketti** ehdottaa title/description/slug/answer/category/audience/evidence-metadataa.
+- **Julkaisupaketti** ehdottaa title/description/slug/answer/category/audience-metadataa. Claims + sources ovat tässä vaiheessa lukittua Evidence Layeria.
 
 ## DeepSeek-asetus Vercelissä
 
@@ -43,7 +43,7 @@ DEEPSEEK_TIMEOUT_MS=75000
 - POST vaatii CSRF + same-origin
 - API-avain ei mene selaimeen
 - enintään 60 000 merkkiä artikkelitekstiä yhteen agenttikutsuun
-- enintään 2 000 merkkiä ihmisen lisäohjetta
+- yksittäisen agentin UI-ohje enintään 2 000 merkkiä; orkesterin UI-ohje enintään 2 400 merkkiä (sisäinen vaihekohtainen konteksti clampataan 12 000 merkkiin)
 - best-effort 24 agenttikutsua / 10 min / sessio + IP
 - DeepSeekin reasoning-sisältöä ei palauteta käyttöliittymään
 - agentin tulos ei tallenna eikä julkaise mitään automaattisesti
@@ -60,3 +60,7 @@ Seitsemän agenttia voidaan nyt ajaa yhtenä selaimessa orkestroituna putkena. L
 ## 14.2 · Orchestrator resilience and evidence authority
 
 Orkesteri säilyttää valmistuneet vaiheet selaimen session-checkpointissa, tekee yhden automaattisen retryn tilapäisiin agenttivirheisiin ja mahdollistaa epäonnistuneen vaiheen uudelleenajon tai jatkamisen checkpointista. Lähdeagentin fallback/nolla lähdettä näkyy DEGRADED-tilana eikä sitä esitetä varmistettuna evidenssinä.
+
+## 14.2.1 · Evidence coherence patch
+
+Orkesterin järjestys on nyt `source → structure → writer → critic → voice → claims → package`. Väitevahti tarkastaa siis nykyisen lopputekstin. Lähde-ehdokkaat saavat deterministisen `src-*`-ID:n heti palvelimella. Paketoija ei voi pudottaa, refrasoida tai ylentää Evidence Layeria. Tallentamattomat uudet luonnokset saavat istuntokohtaisen identiteetin, ja lähteen manuaalinen `verified`-merkintä vaatii erillisen vahvistuksen.

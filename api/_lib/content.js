@@ -5,7 +5,7 @@ export const CLAIM_STATUSES = ['supported','interpretation','open'];
 export const SOURCE_VERIFICATIONS = ['candidate','verified','rejected'];
 export const SOURCE_ORIGINS = ['human','source-agent','import'];
 
-function stableSourceId(url='') {
+export function stableSourceId(url='') {
   let hash=2166136261;
   for (const char of String(url)) { hash^=char.charCodeAt(0); hash=Math.imul(hash,16777619); }
   return `src-${(hash>>>0).toString(36)}`;

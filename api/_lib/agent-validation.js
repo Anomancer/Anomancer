@@ -1,4 +1,5 @@
 import { AUDIENCES, CATEGORIES } from './agent-prompts.js';
+import { stableSourceId } from './content.js';
 
 const CLAIM_STATUSES=new Set(['supported','interpretation','open']);
 const SEVERITIES=new Set(['high','medium','low']);
@@ -34,7 +35,7 @@ function normalizeSources(value,post,{candidate=false}={}){
     if(!candidate&&existing.has(link))return existing.get(link);
     if(!candidate)return null;
     return {
-      id:text(raw.id,80),title:text(raw.title||link,220),url:link,publisher:text(raw.publisher,160),date:text(raw.date,20),
+      id:stableSourceId(link),title:text(raw.title||link,220),url:link,publisher:text(raw.publisher,160),date:text(raw.date,20),
       origin:'source-agent',verification:'candidate',retrievedAt:new Date().toISOString(),
       why:text(raw.why,500),supports:text(raw.supports,800),challenges:text(raw.challenges,800),
     };
@@ -65,10 +66,14 @@ export function validateAgentResult(agent,value,post){
   if(agent==='package'){
     const category=CATEGORIES.includes(raw.category)?raw.category:post.category;
     const audience=[...new Set(list(raw.audience,8).filter(x=>AUDIENCES.includes(x)))];
+    // Packaging may suggest presentation metadata, but it is not allowed to re-audit,
+    // rewrite, drop or promote the Evidence Layer assembled by earlier stages.
+    const sources=(post.sources||[]).map(source=>({...source}));
+    const claims=normalizeClaims(post.claims,post);
     return {
-      title:text(raw.title||post.title,180),description:text(raw.description,220),slug:text(raw.slug,100),answer:text(raw.answer,1200),category,
+      title:text(raw.title||post.title,180),description:text(raw.description||post.description,220),slug:text(raw.slug||post.slug,100),answer:text(raw.answer||post.answer,1200),category,
       audience:audience.length?(audience.includes('all')?['all']:audience):post.audience,
-      claims:normalizeClaims(raw.claims,post),sources:normalizeSources(raw.sources,post),notes:strings(raw.notes,20,700),
+      claims,sources,notes:strings(raw.notes,20,700),
     };
   }
   throw Object.assign(new Error('Tuntematon agenttitulos.'),{statusCode:400,code:'AGENT_RESULT_UNKNOWN'});

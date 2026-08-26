@@ -1,4 +1,4 @@
-# Anomancer 14.2 · Full Release
+# Anomancer 14.2.1 · Full Release
 
 Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkisen FI/EN-sivuston, Markdown-sisällöt, Vercel API -funktiot, yksityisen adminin, DeepSeek-agentit, orkesterin, buildin, testit ja dokumentaation.
 
@@ -14,5 +14,5 @@ Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkis
 - slug-aliasit vanhojen artikkeliosoitteiden säilyttämiseen
 - turvallinen, varmuuskopioiva asennusskripti
 
-Julkaisuversio: 14.2.0.
+Julkaisuversio: 14.2.1.
 

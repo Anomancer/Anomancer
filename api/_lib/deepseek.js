@@ -3,9 +3,9 @@ import crypto from 'node:crypto';
 const BASE_URL='https://api.deepseek.com';
 const ALLOWED_MODELS=new Set(['deepseek-v4-flash','deepseek-v4-pro']);
 const RAW_FALLBACK_MAX=30_000;
-const SOURCE_DEFAULT_MAX_OUTPUT_TOKENS=24000;
+const SOURCE_DEFAULT_MAX_OUTPUT_TOKENS=7000;
 const SOURCE_MIN_MAX_OUTPUT_TOKENS=3000;
-const SOURCE_MAX_MAX_OUTPUT_TOKENS=32000;
+const SOURCE_MAX_MAX_OUTPUT_TOKENS=12000;
 const SOURCE_REASONING_EFFORTS=new Set(['low','medium','high']);
 
 function configuredModel(name, fallback){
@@ -119,7 +119,7 @@ function retryAfterMs(response){
 async function dsFetch(path,payload,{signal}={}){
   const controller=new AbortController();
   let timedOut=false;
-  const timeout=setTimeout(()=>{timedOut=true;controller.abort();},integerEnv('DEEPSEEK_TIMEOUT_MS',280_000,10_000,290_000));
+  const timeout=setTimeout(()=>{timedOut=true;controller.abort();},integerEnv('DEEPSEEK_TIMEOUT_MS',75_000,10_000,180_000));
   const externalAbort=()=>controller.abort();
   if(signal?.aborted)controller.abort();
   else signal?.addEventListener?.('abort',externalAbort,{once:true});

@@ -5,14 +5,14 @@ if(desk){
   const instruction=q('#orchestraInstruction'),terminal=q('#orchestraTerminal'),stateEl=q('#orchestraRunState'),resultBox=q('#orchestraResultBox'),resultPre=q('#orchestraResult');
   const PIPELINE=[
     {id:'source',label:'Lähdeagentti'},
-    {id:'claims',label:'Väitevahti'},
     {id:'structure',label:'Rakenneagentti'},
     {id:'writer',label:'Kirjoitusagentti'},
     {id:'critic',label:'Kriitikko'},
     {id:'voice',label:'Äänieditori'},
+    {id:'claims',label:'Väitevahti'},
     {id:'package',label:'Julkaisupaketti'},
   ];
-  const CHECKPOINT_KEY='anomancer.orchestra.checkpoint.v14.2.0';
+  const CHECKPOINT_KEY='anomancer.orchestra.checkpoint.v14.2.1';
   let running=false,stopRequested=false,controller=null,csrf='',finalRun=null,checkpoint=null,currentStageIndex=-1;
 
   function now(){return new Date().toLocaleTimeString('fi-FI',{hour12:false});}
@@ -26,6 +26,7 @@ if(desk){
   function stageState(id,value=''){const n=stageNode(id);if(n){if(value)n.dataset.state=value;else delete n.dataset.state;n.setAttribute('aria-label',`${PIPELINE.find(x=>x.id===id)?.label||id}: ${value||'odottaa'}`);if(value==='running')n.setAttribute('aria-current','step');else n.removeAttribute('aria-current');}}
   function resetStages(){PIPELINE.forEach(s=>stageState(s.id,''));}
   function cleanString(v,max=10000){return String(v??'').slice(0,max);}
+  function stableSourceId(url=''){let hash=2166136261;for(const char of String(url)){hash^=char.charCodeAt(0);hash=Math.imul(hash,16777619);}return `src-${(hash>>>0).toString(36)}`;}
   function parseSources(text=''){
     const out=[],seen=new Set();for(const raw of String(text).split('\n')){const line=raw.trim();if(!line)continue;let src={};if(line.startsWith('{')){try{src=JSON.parse(line);}catch{continue;}}else{const [title='',url='',publisher='',date='',verification='verified',origin='human']=line.split('|').map(x=>x.trim());src={title,url,publisher,date,verification,origin};}const url=cleanString(src.url,2000).trim();if(!src.title||!url||seen.has(url))continue;seen.add(url);out.push({...src,url});}return out;
   }
@@ -38,26 +39,32 @@ if(desk){
     lang:q('#lang')?.value||'fi',title:q('#title')?.value||'',category:q('#category')?.value||'info-media',audience:qa('input[name="audience"]:checked').map(x=>x.value),description:q('#description')?.value||'',answer:q('#answer')?.value||'',slug:q('#slug')?.value||'',sources:parseSources(q('#sources')?.value||''),claims:parseClaims(q('#claims')?.value||''),body:q('#body')?.value||''
   };}
   function fingerprint(post=currentPost()){let hash=2166136261;const raw=JSON.stringify(post);for(const char of raw){hash^=char.charCodeAt(0);hash=Math.imul(hash,16777619);}return (hash>>>0).toString(36);}
-  function currentIdentity(){const bridge=window.anomancerAdminBridge;const base=bridge?.getDraftIdentity?.()||{};return{path:String(base.path||''),sha:String(base.sha||''),fingerprint:fingerprint(),title:currentPost().title};}
-  function sameDocument(a={},b={}){return String(a.path||'')===String(b.path||'')&&String(a.sha||'')===String(b.sha||'');}
+  function currentIdentity(){const bridge=window.anomancerAdminBridge;const base=bridge?.getDraftIdentity?.()||{};return{path:String(base.path||''),sha:String(base.sha||''),instanceId:String(base.instanceId||''),fingerprint:fingerprint(),title:currentPost().title};}
+  function sameDocument(a={},b={}){const ap=String(a.path||''),bp=String(b.path||'');if(ap||bp)return Boolean(ap&&bp&&ap===bp&&String(a.sha||'')===String(b.sha||''));const ai=String(a.instanceId||''),bi=String(b.instanceId||'');return Boolean(ai&&bi&&ai===bi);}
   function fire(el,type='input'){if(el)el.dispatchEvent(new Event(type,{bubbles:true}));}
-  function mergeSources(base=[],candidates=[]){const out=[],seen=new Set();for(const item of [...base,...candidates]){const url=cleanString(item?.url,2000).trim();if(!url||seen.has(url))continue;seen.add(url);out.push({id:cleanString(item?.id,80),title:cleanString(item?.title||url,220),url,publisher:cleanString(item?.publisher,160),date:cleanString(item?.date,20),origin:item?.origin==='source-agent'?'source-agent':'human',verification:['candidate','verified','rejected'].includes(item?.verification)?item.verification:(item?.origin==='source-agent'?'candidate':'verified'),retrievedAt:cleanString(item?.retrievedAt,40),why:cleanString(item?.why,500),supports:cleanString(item?.supports,800),challenges:cleanString(item?.challenges,800)});}return out.slice(0,30);}
-  function mergePackageIntoPost(post,pkg){const next={...post};if(!pkg||typeof pkg!=='object')return next;for(const key of ['title','description','slug','answer'])if(typeof pkg[key]==='string'&&pkg[key])next[key]=pkg[key];if(typeof pkg.category==='string')next.category=pkg.category;if(Array.isArray(pkg.audience)&&pkg.audience.length)next.audience=pkg.audience;if(Array.isArray(pkg.sources))next.sources=mergeSources(post.sources,pkg.sources);if(Array.isArray(pkg.claims))next.claims=pkg.claims;return next;}
+  function mergeSources(base=[],candidates=[]){const out=[],byUrl=new Map();for(const item of [...base,...candidates]){const url=cleanString(item?.url,2000).trim();if(!url)continue;const normalized={id:cleanString(item?.id,80)||stableSourceId(url),title:cleanString(item?.title||url,220),url,publisher:cleanString(item?.publisher,160),date:cleanString(item?.date,20),origin:item?.origin==='source-agent'?'source-agent':'human',verification:['candidate','verified','rejected'].includes(item?.verification)?item.verification:(item?.origin==='source-agent'?'candidate':'verified'),retrievedAt:cleanString(item?.retrievedAt,40),why:cleanString(item?.why,500),supports:cleanString(item?.supports,800),challenges:cleanString(item?.challenges,800)};const existing=byUrl.get(url);if(!existing){byUrl.set(url,normalized);out.push(normalized);continue;}for(const key of ['id','title','publisher','date','retrievedAt','why','supports','challenges'])if(!existing[key]&&normalized[key])existing[key]=normalized[key];}return out.slice(0,30);}
+  function mergePackageIntoPost(post,pkg){const next={...post};if(!pkg||typeof pkg!=='object')return next;for(const key of ['title','description','slug','answer'])if(typeof pkg[key]==='string'&&pkg[key])next[key]=pkg[key];if(typeof pkg.category==='string')next.category=pkg.category;if(Array.isArray(pkg.audience)&&pkg.audience.length)next.audience=pkg.audience;return next;}
   async function getSession(){const r=await fetch('/api/admin/session',{credentials:'same-origin'});const d=await r.json().catch(()=>({}));if(!r.ok||!d.authenticated)throw new Error('Admin-session puuttuu.');csrf=d.csrf||'';return d;}
   function stageInstruction(stage,baseInstruction,outputs,metas={}){
-    const bits=[];if(baseInstruction)bits.push(`KOKO ORKESTERIN IHMISOHJE:\n${baseInstruction}`);
+    const bits=[];if(baseInstruction)bits.push(`KOKO ORKESTERIN IHMISOHJE:
+${baseInstruction}`);
+    if(stage==='structure'&&outputs.source){
+      bits.push(`LÄHDEAGENTIN TUTKIMUSMUISTIO JSON. Nämä ovat tutkimusjohtolankoja, eivät varmistettua evidenssiä. Huomioi etenkin aukot ja vastanäyttö rakenteessa:
+${JSON.stringify({summary:outputs.source.summary,gaps:outputs.source.gaps,warnings:outputs.source.warnings})}`);
+    }
+    if(stage==='writer'&&outputs.structure)bits.push(`RAKENNEAGENTIN EHDOTUS JSON. Käytä sitä apuna, älä mekaanisena pakkona:
+${JSON.stringify(outputs.structure)}`);
+    if(stage==='critic'&&outputs.writer)bits.push('Kritiikin kohteena on juuri orkesterissa syntynyt luonnos. Etsi myös kohdat, joissa lähde-ehdokkaiden varmuus on ylitetty.');
+    if(stage==='voice'&&outputs.critic)bits.push(`KRIITIKON HAVAINNOT JSON. Korjaa hyödylliset ongelmat, mutta älä silota kirjoittajan omaa ääntä:
+${JSON.stringify(outputs.critic)}`);
     if(stage==='claims'&&outputs.source){
       const count=Array.isArray(outputs.source?.candidateSources)?outputs.source.candidateSources.length:0;
       const degraded=metas.source?.structured===false||count===0;
       bits.push(count
-        ? `Lähdeagentin ${count} ehdokasta ovat automaattisesti haettuja ja PROVISIONAALISIA. Älä kutsu niitä ihmisen varmistamiksi lähteiksi. Luokittele epävarmuus näkyvästi.${degraded?' Lähdevaihe oli DEGRADED, joten älä nosta varmuutta pelkän agenttilähteen perusteella.':''}`
-        : 'Lähdeagentti ei tuonut yhtään lähde-ehdokasta. Älä merkitse väitteitä tuetuiksi tämän lähdevaiheen perusteella. Jos editorissa ei ollut valmiiksi ihmisen lisäämiä lähteitä, käsittele faktaväitteiden evidenssi puuttuvana.');
+        ? `Tarkastat nyt ÄÄNIEDITORIN JÄLKEISEN nykyisen tekstin. Lähdeagentin ${count} ehdokasta ovat PROVISIONAALISIA. Voit kytkeä relevantin candidate-URL:n open/interpretation-väitteeseen jäljitettäväksi tutkimusjohtolangaksi, mutta candidate ei saa tehdä väitteestä supported-tilaa.${degraded?' Lähdevaihe oli DEGRADED, joten älä nosta varmuutta pelkän agenttilähteen perusteella.':''}`
+        : 'Tarkastat nyt ÄÄNIEDITORIN JÄLKEISEN nykyisen tekstin. Lähdeagentti ei tuonut yhtään lähde-ehdokasta. Älä merkitse väitteitä tuetuiksi tämän lähdevaiheen perusteella. Jos editorissa ei ollut valmiiksi ihmisen lisäämiä lähteitä, käsittele faktaväitteiden evidenssi puuttuvana.');
     }
-    if(stage==='structure'&&outputs.claims)bits.push(`VÄITEVAHDIN ANALYYSI JSON:\n${JSON.stringify(outputs.claims)}`);
-    if(stage==='writer'&&outputs.structure)bits.push(`RAKENNEAGENTIN EHDOTUS JSON. Käytä sitä apuna, älä mekaanisena pakkona:\n${JSON.stringify(outputs.structure)}`);
-    if(stage==='critic'&&outputs.writer)bits.push('Kritiikin kohteena on juuri orkesterissa syntynyt luonnos. Etsi myös kohdat, joissa lähde-ehdokkaiden varmuus on ylitetty.');
-    if(stage==='voice'&&outputs.critic)bits.push(`KRIITIKON HAVAINNOT JSON. Korjaa hyödylliset ongelmat, mutta älä silota kirjoittajan omaa ääntä:\n${JSON.stringify(outputs.critic)}`);
-    if(stage==='package')bits.push('Tämä on orkesterin viimeinen koneellinen vaihe. Valmistele paketti, mutta älä väitä mitään julkaistuksi tai ihmisen hyväksymäksi.');
+    if(stage==='package')bits.push('Tämä on orkesterin viimeinen koneellinen vaihe. Valmistele vain esitysmetadata. Nykyinen Evidence Layer (claims + sources) on lukittu tämän vaiheen ajaksi eikä sitä saa kirjoittaa uusiksi. Älä väitä mitään julkaistuksi tai ihmisen hyväksymäksi.');
     return bits.join('\n\n').slice(0,12000);
   }
   async function callAgent(agent,post,custom){
@@ -95,7 +102,7 @@ if(desk){
   function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
   function safeClone(value){return JSON.parse(JSON.stringify(value));}
   function checkpointPayload(ctx){return{
-    version:'14.2.0',status:ctx.status||'running',draftIdentity:ctx.draftIdentity,initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,stageStates:ctx.stageStates,nextIndex:ctx.nextIndex,failedIndex:ctx.failedIndex,failedError:ctx.failedError||null,baseInstruction:ctx.baseInstruction,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',terminal:terminal.textContent,humanApprovalRequired:true
+    version:'14.2.1',status:ctx.status||'running',draftIdentity:ctx.draftIdentity,initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,stageStates:ctx.stageStates,nextIndex:ctx.nextIndex,failedIndex:ctx.failedIndex,failedError:ctx.failedError||null,baseInstruction:ctx.baseInstruction,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',terminal:terminal.textContent,humanApprovalRequired:true
   };}
   function saveCheckpoint(ctx){
     checkpoint=checkpointPayload(ctx);
@@ -106,7 +113,7 @@ if(desk){
   }
   function clearCheckpoint(){checkpoint=null;try{sessionStorage.removeItem(CHECKPOINT_KEY);}catch{}updateCheckpointActions();}
   function loadCheckpoint(){
-    try{const raw=sessionStorage.getItem(CHECKPOINT_KEY);if(!raw)return null;const value=JSON.parse(raw);if(value?.version!=='14.2.0'||!value?.post||!value?.outputs||!value?.draftIdentity)return null;return value;}catch{return null;}
+    try{const raw=sessionStorage.getItem(CHECKPOINT_KEY);if(!raw)return null;const value=JSON.parse(raw);if(value?.version!=='14.2.1'||!value?.post||!value?.outputs||!value?.draftIdentity)return null;return value;}catch{return null;}
   }
   function updateCheckpointActions(){
     const has=checkpoint&&checkpoint.status!=='complete'&&Number(checkpoint.nextIndex)<PIPELINE.length;

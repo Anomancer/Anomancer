@@ -134,8 +134,6 @@ if(box){
       if(Array.isArray(r.audience)){
         const vals=new Set(r.audience.filter(x=>AUDIENCE_VALUES.has(x)));if(vals.size){qa('input[name="audience"]').forEach(x=>x.checked=vals.has(x.value));qa('input[name="audience"]')[0]?.dispatchEvent(new Event('change',{bubbles:true}));}
       }
-      if(Array.isArray(r.sources)){const existing=parseSources(q('#sources').value);const allowed=new Set(existing.map(x=>x.url));const safe=r.sources.filter(x=>allowed.has(x.url));q('#sources').value=formatSources(safe.length?safe:existing);fire(q('#sources'));}
-      if(Array.isArray(r.claims)){q('#claims').value=formatClaims(r.claims);fire(q('#claims'));}
       setStatus('✓ Julkaisupaketti siirretty editoriin. Human approval gate on edelleen kiinni.','ok');
     }
   }
