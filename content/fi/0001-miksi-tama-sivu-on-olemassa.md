@@ -8,19 +8,21 @@ lang: "fi"
 translationKey: "why-this-page-exists"
 draft: false
 ---
-Rakennan paljon asioita nopeasti, ja kokonaisuus muuttuu helposti ulospäin pelkäksi oudoksi kartaksi.
 
-**Lähetykset ovat silta.** Täällä avaan yhden idean, ongelman tai rakenteen kerrallaan ihmiskielelle. Jos kiinnostus kasvaa, teksti voi johtaa demoon, lähdekoodiin tai Black Hole Core Observatoryn syvempään kerrokseen.
+Rakennan asioita paljon nopeasti, ja kokonaisuus muuttuu helposti ulospäin pelkäksi oudoksi kartaksi.
 
-Tavoite ei ole tehdä kaikesta yksinkertaista. Tavoite on tehdä sisäänkäynti.
+**Lähetykset ovat silta.** Täällä yritän avata yhden idean, ongelman tai rakenteen kerrallaan ihmiskielelle. Jos kiinnostus kasvaa, teksti voi johtaa demoon, lähdekoodiin tai Black Hole Core Observatoryn syvempään kerrokseen.
+
+Tavoite ei ole tehdä kaikesta yksinkertaista, vaan että olisi ihmiselle kevyempi sisäänkäynti.
 
 ## Mitä täältä löytyy?
 
 - tekoälyagentteja ja agenttiorkestrointia
-- TEE-kielen rakentamista
+- oman kielen rakentamista
 - semantiikkaa ja väitteiden rakennetta
 - build logeja ja kokeita
 - tutkimusmuistiinpanoja
 - kenttämerkintöjä siitä, mikä hajosi ja miksi
+- ja ehkä välillä muutama pesukarhu
 
-Syvemmät koneet löytyvät [Black Hole Core Observatoriosta](https://bhc-observatory.vercel.app/).
+Syvemmät koneet ja sakeudet löytyvät [Black Hole Core Observatoriosta](https://bhc-observatory.vercel.app/).
