@@ -9,10 +9,9 @@ lang: "en"
 translationKey: "why-this-page-exists"
 coverImage: ""
 coverAlt: ""
+pinned: false
 draft: false
 ---
-
-# Why does this page exist?
 
 I’ve been following the development of AI for several years now, building my own systems, testing models and trying to understand what is actually happening around all of this.
 
