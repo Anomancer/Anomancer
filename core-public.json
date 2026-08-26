@@ -1,6 +1,6 @@
 {
   "format": "anomancer-core-public/v1",
-  "version": "15.1.0",
+  "version": "15.2.0",
   "humanFinalAuthority": true,
   "privacy": {
     "containsRawPrompt": false,
@@ -34,7 +34,7 @@
         "source.verify",
         "publish"
       ],
-      "contractHash": "96f9ba71d2d12d6d47fdbf2bdbebd71d4ac117cf6863c51f48a86d5a8c0a185c"
+      "contractHash": "2a352b61620bf6d5bcebf3af495d9d9f9c2a89722bd79bc066b74e26735bb8af"
     },
     {
       "id": "structure",
@@ -57,7 +57,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "8c96d3bb848348c841abd8841e9e42e4003d73a6c2761dde85b5c7346c5f4cfe"
+      "contractHash": "96e609e1b2497d560ceba8fee3150da2301cc1c7951930962b62dc7e71cf39a3"
     },
     {
       "id": "writer",
@@ -83,7 +83,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "fc8eb53986338712855b9ac83e4c518a325eb7fd139e77d6eabc81681dd1151e"
+      "contractHash": "732bb1834139f0cabf0e192448a03a4b76d5373f1b76f058294ef73c21ecf59e"
     },
     {
       "id": "critic",
@@ -107,7 +107,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "8cac5878b901b345d837b2c8745ead07b1182e5f632cbeb93d64e59c51da71a6"
+      "contractHash": "b3be51768d4cb1185683767420ebe6508e5e8d1564026e1f500b55c16bcd866d"
     },
     {
       "id": "audience",
@@ -133,7 +133,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "972b8dbecdf3aeceee556e4058631a2f547bb1a4f4c09e575f1dfa6bfd6c1a1f"
+      "contractHash": "c5297357268f2df77ba551672bdbcbe4a6b937711609a94587c40d77d51a0774"
     },
     {
       "id": "voice",
@@ -159,7 +159,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "71533508fda975aadaf5080e198a199b4de2db63bc34f3935864b03790f9deea"
+      "contractHash": "1ae8a8dea5ba0d67c93185e8970bd32d2f51069d2beacfb8dcf38be9fa34157a"
     },
     {
       "id": "claims",
@@ -185,7 +185,7 @@
         "source.verify",
         "publish"
       ],
-      "contractHash": "eb4814c991599004f5699efb2f748340356417fdeae54302e87eb6eca5642053"
+      "contractHash": "f50834e26fe5781026fe8bdeeb2fb9ffb9de64d289097353fe2a83836bd817ed"
     },
     {
       "id": "package",
@@ -215,7 +215,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "cb10693bdf30673416712d2857b6109275a8cf470974e00dff4eb6b33b9dfed4"
+      "contractHash": "28644a7975158558e70f261e74c0ad229b196857083d98f56f8eba825132f8c7"
     }
   ],
   "orchestras": [
@@ -238,7 +238,7 @@
       "humanFinalAuthority": true,
       "evidencePolicy": "candidate-never-equals-verified",
       "audiencePolicy": "adapt-then-recheck-claims",
-      "orchestraHash": "18881ce215a508cd638761add0b6ded23b58fdd942d69a6ab4a9633ba7806e91"
+      "orchestraHash": "cfe7cdab9d5ecb7c824d1ff1dc4c1ae005f44d389be54770781adfc9715fa045"
     }
   ]
 }

@@ -1,3 +1,12 @@
+# 15.2.0 — Core Product Shell
+
+- `/core` sai pysyvän tuoterakenteen: Overview, Agent Pool, Orchestras, Runs, Evidence, Models, Tools ja Usage.
+- Models, Tools ja Usage johdetaan julkisesta Agent Registry -snapshotista ilman admin-API:a.
+- Runs näyttää vain demo-kuitin; oikea run history pysyy yksityisenä.
+- Evidence-politiikka on näkyvä osa tuotetta eikä piilossa orkestroijan sisällä.
+- Foundation/read-only -tilat erottavat valmiin moottorin tulevista kirjoitusoikeuksista.
+- CORE_VERSION ja pakettiversio 15.2.0.
+
 # 15.1.0 — Public Core Showcase
 
 - `/core` on nyt julkinen, indeksoitava arkkitehtuurinäkymä eikä admin-rewrite.

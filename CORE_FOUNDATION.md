@@ -1,4 +1,4 @@
-# Anomancer 15.1 · Core Foundation
+# Anomancer 15.2 · Core Foundation + Product Shell
 
 15.0 erottaa ensimmäistä kertaa agentin identiteetin, orkesterin rakenteen ja ajon todistettavan metadatan varsinaisista prompteista.
 

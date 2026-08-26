@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-export const CORE_VERSION='15.1.0';
+export const CORE_VERSION='15.2.0';
 export const AGENT_CONTRACT_FORMAT='anomancer-agent/v1';
 export const ORCHESTRA_FORMAT='anomancer-orchestra/v1';
 export const RUN_RECEIPT_FORMAT='anomancer-run-receipt/v1';
