@@ -13,16 +13,13 @@ pinned: false
 draft: false
 ---
 
-Tähän kysymykseen tekee mieli antaa helppo vastaus: katso käsiä, välimerkkejä tai käyttääkö teksti liikaa tiettyjä sanoja. Tai jos kuulostaa liian siistiltä, se on tekoälyä.
+>Tähän kysymykseen tekee mieli antaa helppo vastaus: katso käsiä, välimerkkejä tai käyttääkö teksti liikaa tiettyjä sanoja. Tai jos kuulostaa liian siistiltä, se on tekoälyä.
 
-Ongelma on, että nämä säännöt vanhenevat todella nopeasti. Jokainen generatiivisten mallien sukupolvi korjaa osan niistä oudoista jäljistä, joihin ihmiset juuri ehtivät oppia kiinnittämään huomiota.
+>Ongelma on, että nämä säännöt vanhenevat todella nopeasti. Jokainen generatiivisten mallien sukupolvi korjaa osan niistä oudoista jäljistä, joihin ihmiset juuri ehtivät oppia kiinnittämään huomiota. Siksi kiinnostavampi kysymys ei ehkä ole:
 
-Siksi kiinnostavampi kysymys ei ehkä ole:
+>**Mistä tunnistan tekoälyn?**
 
-**Mistä tunnistan tekoälyn?**
-
-Vaan: **mistä huomaan, että sisältö ei käyttäydy niin kuin sen pitäisi?**
-Tämä ero kuulostaa pieneltä, mutta se muuttaa koko tarkastelutavan.
+>Vaan: **mistä huomaan, että sisältö ei käyttäydy niin kuin sen pitäisi?** Tämä ero kuulostaa pieneltä, mutta se muuttaa koko tarkastelutavan.
 
 ## Tekstissä epäily syntyy usein rakenteesta
 
