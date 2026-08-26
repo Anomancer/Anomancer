@@ -116,3 +116,65 @@ button:disabled{cursor:not-allowed;opacity:.52}
   .top-actions>a{align-self:center;overflow-wrap:anywhere}
   .top-actions>button{white-space:nowrap}
 }
+
+/* 16.0.1 Surgical UX pass: focus, drawers and adjustable panes */
+:root{--library-width:320px;--editor-size:56%}
+.app{display:block;position:relative}
+.workspace{width:100%;min-width:0}
+.sidebar{position:fixed;z-index:42;inset:0 auto 0 0;width:min(var(--library-width),calc(100vw - 28px));height:100dvh;max-height:none;transform:translateX(calc(-100% - 24px));transition:transform .18s ease,box-shadow .18s ease;padding:20px;background:#07070c;box-shadow:none}
+.sidebar.is-open{transform:translateX(0);box-shadow:28px 0 90px rgba(0,0,0,.72)}
+.sidebar-toggle,.sidebar-close{display:inline-flex;align-items:center;justify-content:center}
+.sidebar-toggle{min-height:36px;padding:7px 10px;color:#fff;background:rgba(255,255,255,.025)}
+.sidebar-backdrop{position:fixed;z-index:41;inset:0;border:0;border-radius:0;padding:0;background:rgba(0,0,0,.54);opacity:0;pointer-events:none;transition:opacity .18s ease;backdrop-filter:blur(2px)}
+body.library-open .sidebar-backdrop{opacity:1;pointer-events:auto}
+.side-head h2{text-transform:none;letter-spacing:.01em}
+.post-list{padding-bottom:26px}
+
+.editor-grid{grid-template-columns:minmax(0,calc(var(--editor-size) - 4px)) 8px minmax(320px,1fr)}
+.editor-resizer{position:relative;z-index:7;cursor:col-resize;background:transparent;touch-action:none;outline:none}
+.editor-resizer::before{content:"";position:absolute;inset:0 3px;background:var(--line);transition:background .15s ease,box-shadow .15s ease}
+.editor-resizer:hover::before,.editor-resizer:focus-visible::before,.editor-resizer.is-dragging::before{background:#7d3147;box-shadow:0 0 0 1px rgba(255,22,61,.12)}
+.editor-grid.preview-hidden{grid-template-columns:minmax(0,1fr)}
+.editor-grid.preview-hidden .editor-resizer,.editor-grid.preview-hidden .preview-panel{display:none}
+.editor-grid.preview-hidden .form-panel{width:min(1120px,100%);margin-inline:auto}
+
+.layout-menu{position:relative}
+.layout-menu>summary{display:inline-flex;align-items:center;min-height:36px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:transparent;color:#fff;cursor:pointer;list-style:none;font-size:.85rem}
+.layout-menu>summary::-webkit-details-marker{display:none}
+.layout-menu[open]>summary{border-color:#6f3042;background:#1d1016}
+.layout-popover{position:absolute;z-index:60;top:calc(100% + 9px);right:0;width:min(330px,calc(100vw - 24px));display:grid;gap:13px;padding:16px;border:1px solid #383843;border-radius:12px;background:#0b0b12;box-shadow:0 24px 80px rgba(0,0,0,.7)}
+.layout-popover-head{display:flex;justify-content:space-between;gap:14px;align-items:baseline;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.layout-popover-head span{color:var(--dim);font-size:.68rem}
+.layout-popover label{display:grid;grid-template-columns:1fr auto;gap:7px;color:var(--muted);font-size:.78rem}
+.layout-popover output{color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.72rem}
+.layout-popover input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--red)}
+.layout-popover .layout-check{display:flex;align-items:center;gap:9px;color:#fff}.layout-check input{accent-color:var(--red)}
+
+.editor-disclosure,.desk-disclosure,.orchestra-options{border:1px solid #2b2b35;border-radius:9px;background:rgba(255,255,255,.012)}
+.editor-disclosure{grid-column:1/-1;margin-top:2px}
+.editor-disclosure>summary,.desk-disclosure>summary,.orchestra-options>summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:44px;padding:10px 12px;cursor:pointer;color:#fff;font-weight:750;list-style:none}
+.editor-disclosure>summary::-webkit-details-marker,.desk-disclosure>summary::-webkit-details-marker,.orchestra-options>summary::-webkit-details-marker{display:none}
+.editor-disclosure>summary::before,.desk-disclosure>summary::before,.orchestra-options>summary::before{content:"+";flex:0 0 auto;color:var(--red);font:800 1rem/1 ui-monospace,monospace}
+.editor-disclosure[open]>summary::before,.desk-disclosure[open]>summary::before,.orchestra-options[open]>summary::before{content:"−"}
+.editor-disclosure>summary span,.desk-disclosure>summary span,.orchestra-options>summary span{margin-right:auto}
+.editor-disclosure>summary small,.desk-disclosure>summary small,.orchestra-options>summary small{color:var(--dim);font-size:.68rem;font-weight:600}
+.advanced-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:0 12px 14px;border-top:1px solid #24242d;padding-top:13px}
+.advanced-grid>.wide,.advanced-grid>.audience-field,.advanced-grid>.audience-contract-note,.advanced-grid>.cover-field{grid-column:1/-1}
+.desk-disclosure{margin-bottom:14px}.desk-disclosure>.agent-desk{border:0;border-top:1px solid #272732;border-radius:0;background:transparent}
+.orchestra-options{margin:10px 0}.orchestra-options>.orchestra-stages{padding:0 10px 10px}.orchestra-options>.orchestra-instruction{display:grid;margin:0 10px 12px}
+
+@media(max-width:1100px){.editor-grid{grid-template-columns:1fr}.editor-resizer{display:none}.preview-panel{display:flex}.editor-grid.preview-hidden .preview-panel{display:none}}
+@media(max-width:760px){
+  :root{--library-width:340px}
+  .sidebar{width:min(90vw,var(--library-width))}
+  .layout-menu{justify-self:end}
+  .layout-popover{position:fixed;top:auto;right:12px;bottom:12px;left:12px;width:auto;max-height:70dvh;overflow:auto}
+  .advanced-grid{grid-template-columns:1fr}.advanced-grid>*{grid-column:1!important}
+  .editor-disclosure>summary small,.desk-disclosure>summary small,.orchestra-options>summary small{display:none}
+}
+
+/* Evidence controls use the same control language as the editor */
+.evidence-editor>label,.evidence-editor details label{display:grid;gap:6px;color:var(--muted);font-size:.82rem}
+.evidence-editor textarea{display:block;width:100%;min-width:0;max-width:100%;padding:11px 12px;border:1px solid #30303c;border-radius:8px;background:#08080e;color:#fff;outline:none;resize:vertical;line-height:1.5}
+.evidence-editor textarea:focus{border-color:#963049;box-shadow:0 0 0 3px rgba(255,22,61,.08)}
+.evidence-editor .count{justify-self:end}

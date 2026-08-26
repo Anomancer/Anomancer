@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-26T22:51:50.584Z",
+  "generatedAt": "2026-08-26T23:16:25.950Z",
   "entity": {
     "siteName": "Anomancer",
     "author": "Aatu Isopahkala",
@@ -12,11 +12,11 @@
       "lang": "fi",
       "slug": "enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan",
       "title": "Entä jos oppilas ei vihaa matematiikkaa vaan tapaa, jolla se tulee vastaan?",
-      "description": "Oppimisen vaikeus ei aina tarkoita kyvyn puutetta. Teksti opettajille vahvuuksista, neurodivergentista oppimisesta ja siitä, miten oikea lähestymistapa voi avata uuden reitin vaikeaan aiheeseen.",
+      "description": "Entä jos oppilas ei vihaa matematiikkaa vaan tapaa, jolla se tulee vastaan? Teksti opettajille epätasaisista kykyprofiileista, vahvuuksista ja siitä, miksi käyttöliittymäongelma voi näyttää kyvyttömyydeltä.",
       "answer": "",
       "category": "language-learning",
       "audience": [
-        "teacher"
+        "all"
       ],
       "audienceDepth": "general",
       "pinned": false,
@@ -64,9 +64,9 @@
       "lang": "fi",
       "slug": "miksi-tekoalyagentille-pitaisi-antaa-passi",
       "title": "Miksi tekoälyagentille pitäisi antaa passi?",
-      "description": "Miksi tekoälyagentin pitäisi voida todistaa kuka se on, mitä se saa tehdä ja mitä se teki?",
+      "description": "Tekoälyagentti voi jo hakea tietoa, lukea tiedostoja ja lähettää viestejä. Millä luvalla se toimii, ja miten sen voi osoittaa? Agenttipassi olisi koneellisesti luettava sopimus siitä, mitä agentti saa tehdä.",
       "answer": "",
-      "category": "ai-work",
+      "category": "software-safety",
       "audience": [
         "all"
       ],
@@ -143,7 +143,7 @@
       "lang": "fi",
       "slug": "miksi-yksinkertainen-it-ratkaisu-voi-muuttua-miljoonien-eurojen-hankkeeksi",
       "title": "Miksi yksinkertainen IT-ratkaisu voi muuttua miljoonien eurojen hankkeeksi?",
-      "description": "Miksi yksinkertainen ohjelmisto voi muuttua miljoonien eurojen julkiseksi IT-hankkeeksi? Hankintojen kustannukset syntyvät teknologiasta, mutta myös vaatimuksista, vastuusta, riskeistä ja järjestelmän rakenteesta.",
+      "description": "Miksi yksinkertainen ohjelmisto voi muuttua miljoonien julkiseksi IT-hankkeeksi? Kustannukset syntyvät teknologiasta, mutta myös vaatimuksista, vastuusta, riskeistä ja järjestelmän rakenteesta.",
       "answer": "",
       "category": "info-media",
       "audience": [
@@ -169,7 +169,7 @@
       "lang": "fi",
       "slug": "miten-tunnistaa-tekoalylla-tehdyn-tekstin-tai-kuvan",
       "title": "Miten tunnistaa tekoälyllä tehdyn tekstin tai kuvan?",
-      "description": "Tekoälyllä tehtyä tekstiä tai kuvaa ei voi aina tunnistaa varmasti ulkonäöstä tai tyylistä. Olennaisempaa on tarkastella rakennetta, lähteitä, alkuperää ja sitä, mitä sisällöllä yritetään todistaa.",
+      "description": "Tekoälyllä tehtyä tekstiä tai kuvaa ei voi aina tunnistaa varmasti ulkonäöstä. Kannattaa katsoa rakennetta, lähteitä, alkuperää ja sitä, mitä sisällöllä yritetään todistaa.",
       "answer": "",
       "category": "info-media",
       "audience": [

@@ -29,7 +29,17 @@ for(const rel of generated){
 const manifest=JSON.parse(fs.readFileSync(path.join(ROOT,'content-manifest.json'),'utf8'));
 const fi=manifest.published.filter(x=>x.lang==='fi');
 if(fi.length===0) failures.push('FI-julkaisuja ei löytynyt manifestista');
-if(!fi.some(x=>x.audience?.includes('teacher'))) failures.push('teacher-audience puuttuu');
+const allowedAudiences=new Set(['all','employee','entrepreneur','developer','teacher','creative','decision-maker','investor']);
+for(const item of fi){
+  const audience=Array.isArray(item.audience)?item.audience:[];
+  if(!audience.length){
+    failures.push(`${item.slug}: audience puuttuu`);
+    continue;
+  }
+  const unknown=audience.filter(id=>!allowedAudiences.has(id));
+  if(unknown.length) failures.push(`${item.slug}: tuntematon audience ${unknown.join(', ')}`);
+  if(audience.includes('all')&&audience.length>1) failures.push(`${item.slug}: all ei saa esiintyä kohdeyleisön kanssa`);
+}
 const list=fs.readFileSync(path.join(ROOT,'lahetykset.html'),'utf8');
 const siteJs=fs.readFileSync(path.join(ROOT,'site.js'),'utf8');
 if(list.includes("a.includes('all')||a.includes(aud)")) failures.push('audience-filtteri käyttää vanhaa all+target-logiikkaa');

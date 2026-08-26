@@ -1,3 +1,13 @@
+# 16.0.1 — Surgical UX Pass
+
+- Lähetyslista muuttuu desktopillakin oletuksena suljetuksi draweriksi, jotta editori saa koko työleveyden.
+- Lisätty muistava Asettelu-valikko: editorin leveys, lähetysvalikon leveys ja esikatselun näkyvyys.
+- Lisätty editorin ja esikatselun väliin hiirellä, kosketuksella ja näppäimistöllä säädettävä separator.
+- Julkaisun toissijaiset asetukset, yksittäinen agenttiajo sekä orkesterin vaihelista/lisäohje ovat oletuksena suljettuja.
+- Evidenssieditorin textarea-kentät yhtenäistetty muun editorin form-control-kieleen ja täysleveiksi.
+- Lähetyskorttien päivämäärärivin katkeilu korjattu ja julkisen Coren sisäisen navigaation luettavuutta nostettu.
+- Ei muutoksia agenttisopimuksiin, Tool Brokeriin, Model Routeriin, Runtime Snapshotiin, orkesterivalidointiin tai julkaisun turvallisuusportteihin.
+
 # 16.0.0 — Interface System / UI-UX + Semantic Cleanup
 
 - Ei uusia agenttimoottorin ominaisuuksia: release keskittyy käyttöliittymän rakenteeseen, kieleen ja ylläpidettävyyteen.

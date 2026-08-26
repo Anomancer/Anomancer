@@ -73,3 +73,9 @@ Release-auditissa responsiivisuus tarkistetaan lähdetasolla viewport-containmen
 16.0 ei muuta Agent Contracteja, Tool Brokerin toimivaltarajoja, Model Routerin route-politiikkaa, Runtime Snapshotin turvallisuusmallia, Custom Orchestra -validointia, Run Storea tai Workspace Foundationin eristystä.
 
 Persistenttien selaintilojen vanhat versionoidut avaimet voidaan säilyttää, jos niiden skeema ei muutu. Käyttöliittymäversion nousu ei yksinään saa katkaista checkpoint-, policy-log- tai workspace-valintojen jatkuvuutta.
+
+## 16.0.1 · Surgical UX Pass
+
+16.0.1 ei muuta Interface Systemin semanttista perustaa, vaan vähentää kognitiivista kuormaa Lähetyskoneessa. Lähetyslista on off-canvas drawer, editori/esikatselu-jako on käyttäjän säädettävä ja tallentuu selaimeen, ja toissijaiset työkalut ovat progressiivisen paljastamisen takana. Perustiedot ja varsinainen teksti pysyvät ensisijaisina. Evidenssin lomakekontrollit käyttävät samaa kontrollikieltä kuin muu editori.
+
+Asettelun selainkohtainen tila ei ole agentin Runtime Profile eikä workspace-dataa. Se ei koskaan vaikuta agenttien toimivaltaan, mallireititykseen, evidenssiin tai julkaisuporttiin.

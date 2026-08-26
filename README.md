@@ -1,5 +1,7 @@
 # Anomancer 16.0 · Interface System
 
+**16.0.1 Surgical UX Pass:** Lähetyskoneen lähetyslista on oletuksena suljettu drawer, editori/esikatselu-jako on säädettävä ja toissijaiset julkaisun sekä agenttien asetukset avautuvat tarvittaessa. Ei uusia agenttikyvykkyyksiä.
+
 Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone ja yksityinen Vercel-admin. Julkinen sisältö rakennetaan `public/`-hakemistoon. Admin tallentaa artikkelit GitHub Contents API:n kautta. Agenttien mallikutsut kulkevat palvelinpuolen Model Routerin kautta; DeepSeek säilyy oletuksena ja muut providerit ovat valinnaisia.
 
 ## 16.0 · UI/UX + semanttinen suursiivous

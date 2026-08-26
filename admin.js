@@ -88,7 +88,9 @@ function refreshPreview(){const p=currentForm(Boolean(state.current?.draft));con
 
 function setBusy(value){state.busy=value;for(const element of [els.saveDraft,els.publish,els.del,els.newBtn])if(element)element.disabled=value||state.editorLocked;}
 function setEditorLocked(value){state.editorLocked=value;const selectors=['#lang','#date','#title','#category','#slug','#pinned','#audienceDepth','#description','#translationKey','#coverAlt','#body','#answer','#sources','#claims','#coverSelectBtn','#coverRemoveBtn','#insertImageBtn','#saveDraftBtn','#publishBtn','#deleteBtn','#newBtn','#agentRunBtn','#agentApplyBtn','#agentMoreBtn','.post-item','.source-review button'];for(const selector of selectors)for(const element of $$(selector))element.disabled=value||state.busy;document.body.classList.toggle('editor-locked',value);}
-function closeSidebar(){els.sidebar?.classList.remove('is-open');els.sidebarToggle?.setAttribute('aria-expanded','false');}
+function setSidebarOpen(open){els.sidebar?.classList.toggle('is-open',Boolean(open));els.sidebarToggle?.setAttribute('aria-expanded',String(Boolean(open)));document.body.classList.toggle('library-open',Boolean(open));}
+function closeSidebar(){setSidebarOpen(false);}
+function updateSidebarLabel(){if(els.sidebarToggle)els.sidebarToggle.textContent=`Lähetykset${state.posts.length?` · ${state.posts.length}`:''}`;}
 function selectEditorView(name){$$('[data-editor-tab]').forEach(button=>{const active=button.dataset.editorTab===name;button.classList.toggle('active',active);button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;});$$('[data-editor-panel]').forEach(panel=>{const active=panel.dataset.editorPanel===name;panel.classList.toggle('active',active);panel.hidden=!active;});}
 
 function imageDimensions(file){return new Promise((resolve,reject)=>{const url=URL.createObjectURL(file);const img=new Image();img.onload=()=>{resolve({img,width:img.naturalWidth,height:img.naturalHeight,url})};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Kuvaa ei voitu avata.'))};img.src=url;});}
@@ -127,7 +129,7 @@ async function chooseBodyImage(file){
 }
 
 async function session(){const d=await api('/api/admin/session',{method:'GET'});state.authenticated=d.authenticated;state.csrf=d.csrf||'';els.login.hidden=state.authenticated;els.app.hidden=!state.authenticated;if(state.authenticated){els.repoStatus.textContent=d.github?.configured?`${d.github.repo} · ${d.github.branch}`:'GitHub-yhteys ei ole vielä konfiguroitu';els.repoStatus.className=`repo-status ${d.github?.configured?'ok':''}`;if(d.github?.configured){try{const st=await api('/api/admin/status',{method:'GET'});if(st.github?.fullName){els.repoStatus.textContent=`✓ ${st.github.fullName} · ${st.github.branch}${st.github.private?' · yksityinen':''}`;els.repoStatus.className='repo-status ok';}}catch(e){els.repoStatus.textContent=`GitHub-yhteys: ${e.message}`;els.repoStatus.className='repo-status';}}await loadPosts();window.dispatchEvent(new CustomEvent('anomancer:admin-ready'));}}
-async function loadPosts(){try{const d=await api('/api/admin/posts',{method:'GET'});state.posts=d.posts||[];renderList();if(state.current?.path){const fresh=state.posts.find(p=>p.path===state.current.path);if(fresh)loadForm(fresh);else loadForm(emptyPost());}}catch(e){els.repoStatus.textContent=e.message;els.repoStatus.className='repo-status';}}
+async function loadPosts(){try{const d=await api('/api/admin/posts',{method:'GET'});state.posts=d.posts||[];updateSidebarLabel();renderList();if(state.current?.path){const fresh=state.posts.find(p=>p.path===state.current.path);if(fresh)loadForm(fresh);else loadForm(emptyPost());}}catch(e){els.repoStatus.textContent=e.message;els.repoStatus.className='repo-status';}}
 async function save(draft){if(state.busy||state.editorLocked)return;setBusy(true);try{setStatus(draft?'Tallennetaan luonnosta…':'Julkaistaan…');const post=currentForm(draft);const d=await api('/api/admin/posts',{method:'POST',body:JSON.stringify({path:state.current?.path||'',sha:state.current?.sha||'',post})});const url=`${PUBLIC_ORIGIN}${publicPath(post)}`;await loadPosts();const fresh=state.posts.find(p=>p.path===d.path);if(fresh)loadForm(fresh);setStatus(draft?'✓ Luonnos tallennettu GitHubiin.':`✓ Julkaisucommitti tehty. Julkinen osoite: ${url} · Vercel päivittää sivun automaattisesti.`,'ok');}catch(e){setStatus(`✗ ${e.message}`,'err');}finally{setBusy(false);}}
 async function remove(){if(state.busy||state.editorLocked||!state.current?.path||!confirm(`Poistetaanko “${state.current.title}”? Tämä tekee poistocommitin GitHubiin.`))return;setBusy(true);try{setStatus('Poistetaan…');await api('/api/admin/posts',{method:'DELETE',body:JSON.stringify({path:state.current.path,sha:state.current.sha})});state.current=null;state.dirty=false;await loadPosts();loadForm(emptyPost());setStatus('✓ Poistettu GitHubista.','ok');}catch(e){setStatus(`✗ ${e.message}`,'err');}finally{setBusy(false);}}
 function publishReview(){const p=currentForm(false);const verified=new Set(p.sources.filter(x=>x.verification==='verified').map(x=>x.url));const pending=p.sources.filter(x=>x.verification!=='verified');const unsupported=p.claims.filter(claim=>claim.status==='supported'&&!claim.evidence.some(url=>verified.has(url)));const errors=[];if(!p.title)errors.push('Otsikko puuttuu.');if(!p.description)errors.push('SEO-kuvaus puuttuu.');if(pending.length)errors.push(`${pending.length} lähdettä odottaa ihmisen tarkistusta.`);if(unsupported.length)errors.push(`${unsupported.length} tuettua väitettä ilman tarkistettua evidenssiä.`);if(p.coverImage&&!p.coverAlt)errors.push('Kansikuvalta puuttuu alt-teksti.');els.publishSummary.innerHTML=`<dl><div><dt>Otsikko</dt><dd>${esc(p.title||'—')}</dd></div><div><dt>Julkinen URL</dt><dd>${esc(PUBLIC_ORIGIN+publicPath(p))}</dd></div><div><dt>Lähteet</dt><dd>${p.sources.length} · ${verified.size} tarkistettu</dd></div><div><dt>Väitteet</dt><dd>${p.claims.length}</dd></div>${p.aliases.length?`<div><dt>Vanhat osoitteet</dt><dd>${p.aliases.map(esc).join(', ')}</dd></div>`:''}</dl>${errors.length?`<div class="publish-errors" role="alert"><strong>Julkaisu ei ole vielä valmis:</strong><ul>${errors.map(error=>`<li>${esc(error)}</li>`).join('')}</ul></div>`:'<p class="publish-ready">✓ Julkaisun pakolliset tarkistukset läpäisty.</p>'}`;els.publishConfirm.disabled=errors.length>0;els.publishDialog.showModal();}
@@ -152,9 +154,47 @@ els.title.addEventListener('blur',()=>{if(!els.slug.value)els.slug.value=slugify
 els.sourceReview?.addEventListener('click',event=>{const button=event.target.closest('[data-source-action]');if(button)updateSource(Number(button.dataset.sourceIndex),button.dataset.sourceAction);});
 $$('[data-editor-tab]').forEach(button=>button.addEventListener('click',()=>selectEditorView(button.dataset.editorTab)));
 $$('[data-editor-tab]').forEach((button,index,tabs)=>button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();let next=index;if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else next=(index+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[next].focus();selectEditorView(tabs[next].dataset.editorTab);}));
-els.sidebarToggle?.addEventListener('click',()=>{const open=els.sidebar.classList.toggle('is-open');els.sidebarToggle.setAttribute('aria-expanded',String(open));});
+els.sidebarToggle?.addEventListener('click',()=>setSidebarOpen(!els.sidebar?.classList.contains('is-open')));
 els.sidebarClose?.addEventListener('click',closeSidebar);
+$('#sidebarBackdrop')?.addEventListener('click',closeSidebar);
+window.addEventListener('keydown',event=>{if(event.key==='Escape'&&els.sidebar?.classList.contains('is-open'))closeSidebar();});
 els.publishDialog?.addEventListener('close',()=>{if(els.publishDialog.returnValue==='confirm')save(false);});
 window.addEventListener('beforeunload',event=>{if(state.dirty){event.preventDefault();event.returnValue='';}});
 window.anomancerAdminBridge={getDraftIdentity:()=>({path:state.current?.path||'',sha:state.current?.sha||'',instanceId:state.current?.path?'':state.draftInstanceId,title:els.title.value.trim()}),getPost:()=>currentForm(Boolean(state.current?.draft)),setEditorLocked,updateSources:sources=>{els.sources.value=formatSourcesText(sources);refreshPreview();updateDirty();}};
+
+const LAYOUT_KEY='anomancer.admin.layout.v16.0.1';
+function clampLayout(value,min,max,fallback){const n=Number(value);return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback;}
+function readLayout(){try{return JSON.parse(localStorage.getItem(LAYOUT_KEY)||'{}')||{};}catch{return {};}}
+function writeLayout(next){try{localStorage.setItem(LAYOUT_KEY,JSON.stringify(next));}catch{}}
+function initLayoutControls(){
+  const grid=$('.editor-grid'),editorWidth=$('#editorWidth'),libraryWidth=$('#libraryWidth'),previewToggle=$('#previewToggle'),editorOut=$('#editorWidthValue'),libraryOut=$('#libraryWidthValue'),reset=$('#layoutReset'),resizer=$('#editorResizer');
+  if(!grid||!editorWidth||!libraryWidth||!previewToggle)return;
+  let layout={editor:56,library:320,preview:true,...readLayout()};
+  const apply=()=>{
+    layout.editor=clampLayout(layout.editor,42,72,56);layout.library=clampLayout(layout.library,260,460,320);layout.preview=layout.preview!==false;
+    document.documentElement.style.setProperty('--editor-size',`${layout.editor}%`);
+    document.documentElement.style.setProperty('--library-width',`${layout.library}px`);
+    grid.classList.toggle('preview-hidden',!layout.preview);
+    editorWidth.value=String(layout.editor);libraryWidth.value=String(layout.library);previewToggle.checked=layout.preview;
+    if(editorOut)editorOut.value=`${layout.editor} %`;if(libraryOut)libraryOut.value=`${layout.library} px`;
+    if(resizer)resizer.setAttribute('aria-valuenow',String(layout.editor));
+  };
+  const save=()=>{apply();writeLayout(layout);};
+  editorWidth.addEventListener('input',()=>{layout.editor=Number(editorWidth.value);save();});
+  libraryWidth.addEventListener('input',()=>{layout.library=Number(libraryWidth.value);save();});
+  previewToggle.addEventListener('change',()=>{layout.preview=previewToggle.checked;save();});
+  reset?.addEventListener('click',()=>{layout={editor:56,library:320,preview:true};save();});
+  let dragging=false;
+  const fromPointer=x=>{const rect=grid.getBoundingClientRect();if(rect.width<1)return;layout.editor=clampLayout(((x-rect.left)/rect.width)*100,42,72,56);save();};
+  resizer?.addEventListener('pointerdown',event=>{if(window.matchMedia('(max-width:1100px)').matches)return;dragging=true;resizer.classList.add('is-dragging');resizer.setPointerCapture?.(event.pointerId);fromPointer(event.clientX);});
+  resizer?.addEventListener('pointermove',event=>{if(dragging)fromPointer(event.clientX);});
+  const stop=event=>{if(!dragging)return;dragging=false;resizer?.classList.remove('is-dragging');try{resizer?.releasePointerCapture?.(event.pointerId);}catch{}};
+  resizer?.addEventListener('pointerup',stop);resizer?.addEventListener('pointercancel',stop);
+  resizer?.addEventListener('dblclick',()=>{layout.editor=56;save();});
+  resizer?.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();if(event.key==='Home')layout.editor=42;else if(event.key==='End')layout.editor=72;else layout.editor+=event.key==='ArrowRight'?2:-2;save();});
+  apply();
+}
+
+initLayoutControls();
+setSidebarOpen(false);
 loadForm(emptyPost());session().catch(e=>{els.login.hidden=false;els.loginError.textContent=e.message});

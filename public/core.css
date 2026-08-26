@@ -58,3 +58,8 @@
 .core-workspace-public-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.core-workspace-public-grid article{padding:18px;border:1px solid var(--line,rgba(255,255,255,.14));border-radius:14px;background:rgba(255,255,255,.025)}.core-workspace-public-grid span{display:block;margin-bottom:9px;color:#a98cff;font:800 .7rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.09em}.core-workspace-public-grid strong{display:block;font-size:.95rem;line-height:1.35}.core-workspace-public-grid p{margin:10px 0 0;color:var(--muted,#aaa6b0);font-size:.82rem;line-height:1.55}@media(max-width:760px){.core-workspace-public-grid{grid-template-columns:1fr}}
 
 .core-public-page h1,.core-public-page h2,.core-public-page h3{text-wrap:balance}.core-public-page p{text-wrap:pretty}.core-section-nav a[aria-current="location"]{color:#fff;border-color:var(--color-accent);background:var(--color-accent-soft)}
+
+/* 16.0.1 Core navigation rhythm */
+.core-product-nav a{min-height:58px;padding-inline:16px;font-size:.84rem}
+.core-product-nav a span{font-size:.66rem}
+@media(max-width:680px){.core-product-nav a{min-height:52px;padding-inline:12px;font-size:.76rem}}

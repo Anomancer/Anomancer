@@ -890,3 +890,9 @@ h1 {
 
 /* Global semantic polish */
 body{overflow-x:hidden}h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}.skip-link:focus{z-index:1000}.section[id]{scroll-margin-top:calc(var(--header-height) + 1.25rem)}
+
+/* 16.0.1 Surgical visual consistency */
+.dispatch-card-top{align-items:flex-start}
+.dispatch-card-labels{min-width:0;flex:1}
+.dispatch-card-top time{flex:0 0 auto;white-space:nowrap;text-align:right;line-height:1.25}
+@media(max-width:760px){.dispatch-card-top time{white-space:normal;text-align:left}}

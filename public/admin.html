@@ -23,7 +23,7 @@
 <div class="app" hidden="" id="appView">
 <aside class="sidebar" id="sidebar">
 <div class="side-head">
-<div><p class="kicker">Anomancer Core</p><h2>LÄHETYKSET</h2></div>
+<div><p class="kicker">Anomancer Core</p><h2>Lähetykset</h2></div>
 <div class="side-actions"><button class="ghost" id="newBtn">+ Uusi</button><button aria-label="Sulje tekstilista" class="ghost sidebar-close" id="sidebarClose" type="button">×</button></div>
 </div>
 <div class="filters">
@@ -31,11 +31,20 @@
 </div>
 <div class="repo-status" id="repoStatus"></div>
 <div class="post-list" id="postList"></div>
-</aside>
+</aside><button aria-label="Sulje lähetysvalikko" class="sidebar-backdrop" id="sidebarBackdrop" tabindex="-1" type="button"></button>
 <section class="workspace">
 <header class="topbar">
-<div class="editor-title"><button aria-controls="sidebar" aria-expanded="false" class="ghost sidebar-toggle" id="sidebarToggle" type="button">☰ Tekstit</button><div><p class="kicker">CORE / LÄHETYSEDITORI</p><strong id="editingLabel">Uusi lähetys</strong></div></div>
-<div class="top-actions"><label class="workspace-switcher"><span>Työtila</span><select aria-label="Valitse työtila" id="workspaceSelect"><option value="default">Anomancer · oletus</option></select></label><a href="/lahetykset" rel="noreferrer" target="_blank">Julkinen sivu ↗</a><button class="ghost" id="logoutBtn">Poistu</button></div>
+<div class="editor-title"><button aria-controls="sidebar" aria-expanded="false" aria-label="Avaa lähetysvalikko" class="ghost sidebar-toggle" id="sidebarToggle" type="button">Lähetykset</button><div><p class="kicker">CORE / LÄHETYSEDITORI</p><strong id="editingLabel">Uusi lähetys</strong></div></div>
+<div class="top-actions"><label class="workspace-switcher"><span>Työtila</span><select aria-label="Valitse työtila" id="workspaceSelect"><option value="default">Anomancer · oletus</option></select></label><details class="layout-menu" id="layoutMenu">
+<summary>Asettelu</summary>
+<div class="layout-popover">
+<div class="layout-popover-head"><strong>Näkymän koko</strong><span>Tallentuu tähän selaimeen</span></div>
+<label>Editorin leveys <output id="editorWidthValue">56 %</output><input id="editorWidth" max="72" min="42" step="1" type="range" value="56"/></label>
+<label>Lähetysvalikon leveys <output id="libraryWidthValue">320 px</output><input id="libraryWidth" max="460" min="260" step="10" type="range" value="320"/></label>
+<label class="layout-check"><input checked="" id="previewToggle" type="checkbox"/><span>Näytä esikatselu</span></label>
+<button class="ghost" id="layoutReset" type="button">Palauta oletusasettelu</button>
+</div>
+</details><a href="/lahetykset" rel="noreferrer" target="_blank">Julkinen sivu ↗</a><button class="ghost" id="logoutBtn">Poistu</button></div>
 </header>
 <div class="editor-grid">
 <section class="form-panel">
@@ -53,9 +62,7 @@
 <option value="creativity-tools">Luovuus ja työkalut</option>
 <option value="society-systems">Yhteiskunta ja järjestelmät</option>
 </select></label>
-<label>URL-tunnus<input id="slug" maxlength="100" placeholder="automaattinen otsikosta"/></label>
-<label class="pin-field"><input id="pinned" type="checkbox"/><span><strong>Pinnaa lähetys</strong><small>Nostaa jutun Lähetykset-listan alkuun.</small></span></label>
-<fieldset class="wide audience-field">
+<label>URL-tunnus<input id="slug" maxlength="100" placeholder="automaattinen otsikosta"/></label><details class="editor-disclosure wide" id="publishingSettings"><summary><span>Julkaisun asetukset</span><small>yleisö · SEO · kansikuva · pinnaus</small></summary><div class="advanced-grid"><label class="pin-field"><input id="pinned" type="checkbox"/><span><strong>Pinnaa lähetys</strong><small>Nostaa jutun Lähetykset-listan alkuun.</small></span></label><fieldset class="wide audience-field">
 <legend>Kenelle tästä on hyötyä?</legend>
 <p class="field-help">Valitse yksi tai useampi. “Kaikille” sulkee muut pois. Valinta ohjaa nyt myös agenttien rakennetta, sanastoa, esimerkkejä ja painotuksia.</p>
 <div class="audience-options">
@@ -68,17 +75,12 @@
 <label><input name="audience" type="checkbox" value="decision-maker"/><span>Päättäjälle</span></label>
 <label><input name="audience" type="checkbox" value="investor"/><span>Sijoittajalle</span></label>
 </div>
-</fieldset>
-<label class="audience-depth-field">Kuinka syvälle?<select id="audienceDepth">
+</fieldset><label class="audience-depth-field">Kuinka syvälle?<select id="audienceDepth">
 <option value="plain">Selkokieli</option>
 <option selected="" value="general">Yleistajuinen</option>
 <option value="professional">Ammattilainen</option>
 <option value="technical">Syvä tekninen</option>
-</select><small>Kohdeyleisö kertoo kenelle. Syvyys kertoo kuinka paljon voidaan olettaa valmiiksi.</small></label>
-<div class="audience-contract-note"><strong>Yleisösopimus</strong><span>Agentit saavat vaihtaa kehystä, järjestystä, esimerkkejä ja terminologian tiheyttä. Ne eivät saa vahvistaa väitteitä tai muuttaa evidenssin tilaa.</span></div>
-<label class="wide">SEO-kuvaus <span class="count" id="descCount">0 / 220</span><textarea id="description" maxlength="220" rows="3"></textarea></label>
-<label class="wide">Käännösavain<input id="translationKey" maxlength="100" placeholder="sama avain FI/EN-versioille"/></label>
-<div class="wide cover-field">
+</select><small>Kohdeyleisö kertoo kenelle. Syvyys kertoo kuinka paljon voidaan olettaa valmiiksi.</small></label><div class="audience-contract-note"><strong>Yleisösopimus</strong><span>Agentit saavat vaihtaa kehystä, järjestystä, esimerkkejä ja terminologian tiheyttä. Ne eivät saa vahvistaa väitteitä tai muuttaa evidenssin tilaa.</span></div><label class="wide">SEO-kuvaus <span class="count" id="descCount">0 / 220</span><textarea id="description" maxlength="220" rows="3"></textarea></label><label class="wide">Käännösavain<input id="translationKey" maxlength="100" placeholder="sama avain FI/EN-versioille"/></label><div class="wide cover-field">
 <div class="cover-field-head"><span>Kansikuva</span><span class="count">JPG · PNG · WebP → pakataan automaattisesti</span></div>
 <input id="coverImage" type="hidden"/>
 <input accept="image/jpeg,image/png,image/webp" aria-label="Kansikuvan tiedostovalitsin" hidden="" id="coverPicker" type="file"/>
@@ -88,7 +90,14 @@
 </div>
 <label class="cover-alt">Alt-teksti<input id="coverAlt" maxlength="180" placeholder="Mitä kuvassa näkyy?"/></label>
 <figure class="cover-preview" hidden="" id="coverPreview"><img alt="" id="coverPreviewImg"/></figure>
-</div>
+</div></div></details>
+
+
+
+
+
+
+
 </div>
 <div aria-live="polite" class="public-url-box">
 <div class="public-url-copy">
@@ -127,7 +136,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 </section>
 </section>
 <section aria-labelledby="editorTabAgents" class="editor-panel" data-editor-panel="agents" hidden="" id="editorPanelAgents" role="tabpanel">
-<section aria-labelledby="agentDeskTitle" class="agent-desk" id="agentDesk">
+<details class="desk-disclosure" id="agentSingleDisclosure"><summary><span>Yksittäinen agentti</span><small>manuaalinen erikoisajo</small></summary><section aria-labelledby="agentDeskTitle" class="agent-desk" id="agentDesk">
 <div class="agent-desk-head">
 <div><p class="kicker">16.0 · TYÖTILAKOHTAISET AGENTIT</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
 <span class="agent-model-status" id="agentModelStatus">Agenttitila tarkistetaan…</span>
@@ -154,7 +163,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 <p aria-live="polite" class="agent-status" id="agentStatus" role="status"></p>
 <div class="agent-visual" id="agentVisual"></div>
 <details class="agent-raw" hidden="" id="agentRawBox"><summary>Raaka JSON ja ajon metatiedot</summary><pre class="agent-output" id="agentOutput"></pre></details>
-</section>
+</section></details>
 <section aria-labelledby="orchestraTitle" class="orchestra-desk" id="orchestraDesk">
 <div class="orchestra-head">
 <div><p class="kicker">16.0 · TYÖTILAORKESTROINTI</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
@@ -162,8 +171,8 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 </div>
 <p class="orchestra-rule">Valitse palvelimella validoitu orkesterisopimus. Peräkkäiset vaiheet kulkevat järjestyksessä; rinnakkaisvaiheen agentit saavat saman jäädytetyn syötteen eivätkä näe toistensa vastauksia ennen determinististä yhdistämistä. <strong>Ihminen päättää lopullisesti kaikissa orkestereissa.</strong></p>
 <div class="orchestra-select-row"><label>Orkesteri<select id="orchestraSelect"><option value="editorial">Anomancer Toimitus</option></select></label><button class="ghost" id="orchestraBuilderBtn" type="button">Rakenna orkesteri</button></div>
-<div aria-label="Orkesterin vaiheet" class="orchestra-stages" id="orchestraStages"></div>
-<label class="orchestra-instruction">Orkesterin lisäohje <span class="count">valinnainen</span><textarea id="orchestraInstruction" maxlength="2400" placeholder="Esim. pidä teksti tutkivana, älä silota outoja havaintoja ja etsi aktiivisesti vastanäyttöä." rows="2"></textarea></label>
+<details class="orchestra-options" id="orchestraAdvanced"><summary><span>Vaiheet ja lisäohje</span><small>8 vaihetta · valinnainen</small></summary><div aria-label="Orkesterin vaiheet" class="orchestra-stages" id="orchestraStages"></div><label class="orchestra-instruction">Orkesterin lisäohje <span class="count">valinnainen</span><textarea id="orchestraInstruction" maxlength="2400" placeholder="Esim. pidä teksti tutkivana, älä silota outoja havaintoja ja etsi aktiivisesti vastanäyttöä." rows="2"></textarea></label></details>
+
 <div class="orchestra-actions">
 <button class="orchestra-run" id="orchestraRunBtn" type="button">▶ Aja koko putki</button>
 <button class="ghost" disabled="" id="orchestraStopBtn" type="button">■ Pysäytä</button>
@@ -284,7 +293,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 </dialog>
 <div class="status" id="status" role="status"></div>
 </section>
-<aside class="preview-panel">
+<div aria-label="Säädä editorin ja esikatselun leveyttä" aria-orientation="vertical" aria-valuemax="72" aria-valuemin="42" aria-valuenow="56" class="editor-resizer" id="editorResizer" role="separator" tabindex="0"></div><aside class="preview-panel">
 <div class="preview-head"><p class="kicker">ESIKATSELU</p><span id="previewBadge">LUONNOS</span></div>
 <article class="preview article" id="preview"></article>
 </aside>
