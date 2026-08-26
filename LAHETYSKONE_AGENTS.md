@@ -51,3 +51,8 @@ DEEPSEEK_TIMEOUT_MS=75000
 ## 14.0.3 · Source Agent Completion Control
 
 Pitkät web-haut käyttävät kompaktia lähdebudjettia, näyttävät Responses API:n incomplete-syyn, pelastavat ehjät lähdeobjektit katkenneesta JSONista ja tukevat progressiivista Hae lisää -hakua. Human approval gate säilyy.
+
+
+## 14.1 Orchestrator
+
+Seitsemän agenttia voidaan nyt ajaa yhtenä selaimessa orkestroituna putkena. Live terminal näyttää etenemisen. Orkesteri ei tallenna eikä julkaise. Lopputulos siirretään editoriin vain erillisellä ihmisen hyväksynnällä. Katso `ORCHESTRATOR.md`.

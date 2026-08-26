@@ -129,6 +129,39 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
             <p id="agentStatus" class="agent-status" role="status" aria-live="polite"></p>
             <pre id="agentOutput" class="agent-output" aria-live="polite"></pre>
           </section>
+
+          <section id="orchestraDesk" class="orchestra-desk" aria-labelledby="orchestraTitle">
+            <div class="orchestra-head">
+              <div><p class="kicker">14.1 · ORCHESTRATOR</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
+              <span class="orchestra-lock">HUMAN FINAL AUTHORITY</span>
+            </div>
+            <p class="orchestra-rule">Orkesteri ajaa agentit yksi kerrallaan selaimesta. Välitulokset kulkevat seuraavalle agentille vain työmuistissa. <strong>Se ei tallenna luonnosta, tee GitHub-writeä eikä julkaise.</strong></p>
+            <div class="orchestra-stages" id="orchestraStages" aria-label="Orkesterin vaiheet">
+              <span data-stage="source"><b>01</b>Lähteet</span>
+              <span data-stage="claims"><b>02</b>Väitteet</span>
+              <span data-stage="structure"><b>03</b>Rakenne</span>
+              <span data-stage="writer"><b>04</b>Luonnos</span>
+              <span data-stage="critic"><b>05</b>Kritiikki</span>
+              <span data-stage="voice"><b>06</b>Ääni</span>
+              <span data-stage="package"><b>07</b>Paketti</span>
+            </div>
+            <label class="orchestra-instruction">Orkesterin lisäohje <span class="count">valinnainen</span><textarea id="orchestraInstruction" rows="2" maxlength="2400" placeholder="Esim. pidä teksti tutkivana, älä silota outoja havaintoja ja etsi aktiivisesti vastanäyttöä."></textarea></label>
+            <div class="orchestra-actions">
+              <button id="orchestraRunBtn" type="button" class="orchestra-run">▶ Aja koko putki</button>
+              <button id="orchestraStopBtn" type="button" class="ghost" disabled>■ Pysäytä</button>
+              <button id="orchestraApplyBtn" type="button" class="secondary" hidden>Siirrä lopputulos editoriin</button>
+              <button id="orchestraCopyBtn" type="button" class="ghost" hidden>Kopioi ajoloki</button>
+            </div>
+            <div class="orchestra-terminal-shell">
+              <div class="orchestra-terminal-bar"><span>ORCHESTRA / LIVE</span><span id="orchestraRunState">IDLE</span></div>
+              <pre id="orchestraTerminal" class="orchestra-terminal" role="log" aria-live="polite">$ valmis · nykyistä editoria ei ole muutettu</pre>
+            </div>
+            <details id="orchestraResultBox" class="orchestra-result" hidden>
+              <summary>Orkesterin lopputulos</summary>
+              <pre id="orchestraResult"></pre>
+            </details>
+          </section>
+
           <div class="body-head"><label for="body">Teksti · Markdown</label><span id="wordCount" class="count">0 sanaa · 0 min</span></div>
           <div class="media-toolbar">
             <button id="insertImageBtn" type="button" class="secondary">＋ Lisää kuva tekstiin</button>
@@ -154,5 +187,6 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
   </div>
   <script type="module" src="/admin.js"></script>
   <script type="module" src="/admin-agents.js"></script>
+  <script type="module" src="/admin-orchestrator.js"></script>
 </body>
 </html>

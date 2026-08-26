@@ -5,7 +5,7 @@ import { promptFor, SOURCE_SCHEMA, CATEGORIES, AUDIENCES } from '../_lib/agent-p
 
 const AGENTS=new Set(['source','claims','structure','writer','critic','voice','package']);
 const MAX_BODY_CHARS=60_000;
-const MAX_CUSTOM_CHARS=2_000;
+const MAX_CUSTOM_CHARS=12_000;
 const windows=new Map();
 
 function rateLimit(req,session){

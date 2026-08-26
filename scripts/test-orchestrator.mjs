@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+let ok=0;const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`)};
+const html=fs.readFileSync('admin.html','utf8');
+const js=fs.readFileSync('admin-orchestrator.js','utf8');
+const css=fs.readFileSync('admin.css','utf8');
+const build=fs.readFileSync('scripts/build-blog.mjs','utf8');
+const api=fs.readFileSync('api/admin/agents.js','utf8');
+await import('node:child_process').then(({execFileSync})=>execFileSync(process.execPath,['--check','admin-orchestrator.js'],{stdio:'pipe'}));
+test('adminissa on Orchestrator ja live terminal',()=>{assert.match(html,/14\.1 · ORCHESTRATOR/);assert.match(html,/orchestraTerminal/);assert.match(html,/HUMAN FINAL AUTHORITY/);});
+test('putki sisältää kaikki seitsemän agenttia oikeassa järjestyksessä',()=>{assert.match(js,/source[\s\S]*claims[\s\S]*structure[\s\S]*writer[\s\S]*critic[\s\S]*voice[\s\S]*package/);});
+test('orkestrointi käyttää vain olemassa olevaa agentti-API:a',()=>{assert.match(js,/\/api\/admin\/agents/);assert.doesNotMatch(js,/api\.github\.com|\/api\/admin\/posts|publishBtn\.click|saveDraftBtn\.click/);});
+test('human approval gate jää viimeiseksi',()=>{assert.match(js,/humanApprovalRequired:true/);assert.match(js,/Lähdeagentin ehdokkaat ovat edelleen ihmisen tarkistettavia/);assert.match(js,/Mitään ei julkaista tällä toiminnolla/);});
+test('välitulokset siirtyvät työmuistissa seuraaville agenteille',()=>{assert.match(js,/post\.sources=mergeSources/);assert.match(js,/post\.claims=d\.result\.claims/);assert.match(js,/post\.body=d\.result\.body/);assert.match(js,/RAKENNEAGENTIN EHDOTUS JSON/);assert.match(js,/KRIITIKON HAVAINNOT JSON/);});
+test('live terminal näyttää vaiheiden etenemisen ja tukee pysäytystä',()=>{assert.match(js,/Orkesteri käynnistyi/);assert.match(js,/Koko putki valmis/);assert.match(js,/controller\?\.abort/);assert.match(css,/orchestra-terminal/);});
+test('orkesterin sisäinen konteksti mahtuu agentti-API:n instruction-rajaan',()=>{assert.match(api,/MAX_CUSTOM_CHARS=12_000/);assert.match(js,/slice\(0,12000\)/);});
+test('build stageaa orchestrator-JS:n publiciin',()=>{assert.match(build,/admin-orchestrator\.js/);});
+console.log(`\n${ok}/${ok} ORCHESTRATOR -testiä läpi`);

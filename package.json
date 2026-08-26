@@ -1,6 +1,6 @@
 {
   "name": "anomancer-lahetyskone",
-  "version": "14.0.3",
+  "version": "14.1.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "new:post": "node scripts/new-post.mjs",
     "write": "node scripts/editor.mjs",
     "seo:check": "node seo-check.mjs",
-    "check": "node scripts/test-admin.mjs && node scripts/test-contact.mjs && node scripts/build-blog.mjs --check && node scripts/test-entity-core.mjs && node scripts/test-evidence-layer.mjs && node scripts/test-discovery-layer.mjs && node scripts/test-agent-layer.mjs && node scripts/domain-migration-check.mjs && node seo-check.mjs",
+    "check": "node scripts/test-admin.mjs && node scripts/test-contact.mjs && node scripts/build-blog.mjs --check && node scripts/test-entity-core.mjs && node scripts/test-evidence-layer.mjs && node scripts/test-discovery-layer.mjs && node scripts/test-agent-layer.mjs && node scripts/test-orchestrator.mjs && node scripts/domain-migration-check.mjs && node seo-check.mjs",
     "admin:hash": "node scripts/hash-admin-password.mjs",
     "admin:secret": "node scripts/generate-session-secret.mjs",
     "test:admin": "node scripts/test-admin.mjs",
@@ -18,6 +18,7 @@
     "test:entity": "node scripts/test-entity-core.mjs",
     "test:evidence": "node scripts/test-evidence-layer.mjs",
     "test:discovery": "node scripts/test-discovery-layer.mjs",
-    "test:agents": "node scripts/test-agent-layer.mjs"
+    "test:agents": "node scripts/test-agent-layer.mjs",
+    "test:orchestrator": "node scripts/test-orchestrator.mjs"
   }
 }
