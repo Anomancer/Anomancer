@@ -1,4 +1,4 @@
-# Anomancer 14.3.1 · Lähetyskone Agents
+# Anomancer 15.0.0 · Lähetyskone Agents
 
 14.0 lisää yksityiseen `/admin`-Lähetyskoneeseen DeepSeek-pohjaisen toimituspöydän.
 

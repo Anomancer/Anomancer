@@ -61,8 +61,8 @@ Taustaltani olen lähihoitaja ja vammaisohjaaja, ja toiselta koulutukseltani ilm
 
 Ehkä se selittää myös tapaani katsoa teknologiaa. Minua kiinnostaa harvoin vain se, miten järjestelmä toimii. Yhtä paljon kiinnostaa, mitä se tekee ihmisille, millaista käyttäytymistä se synnyttää ja mitä tapahtuu, kun tekninen järjestelmä törmää oikeaan maailmaan.
 
-## Entä Observatorio?
+## Entä Core?
 
-Anomancer on sisäänkäynti ja Lähetykset ovat ihmiselle luettava kerros. Jos jokin aihe alkaa vetää syvemmälle, Observatorion puolelta löytyy konehuone: järjestelmiä, kokeita, sovelluksia, musiikkia, tutkimusta ja muuta materiaalia.
+Anomancer on sisäänkäynti ja Lähetykset ovat ihmiselle luettava kerros. Core on yksityinen konehuone, jossa agenttisopimukset, orkesterit, ajot ja niiden toimivaltarajat näkyvät samassa paneelissa.
 
 Kaikkea ei tarvitse nähdä kerralla. Riittää, että löytää yhden asian, josta on oikeasti hyötyä.

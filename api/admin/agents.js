@@ -4,9 +4,10 @@ import { deepseekChatJson, deepseekWebSearchJson, deepseekConfigStatus } from '.
 import { promptFor, SOURCE_SCHEMA, CATEGORIES, AUDIENCES, AUDIENCE_DEPTHS } from '../_lib/agent-prompts.js';
 import { normalizeClaims, normalizeSources } from '../_lib/content.js';
 import { validateAgentResult } from '../_lib/agent-validation.js';
+import { getAgentContract, listAgentIds, CORE_VERSION } from '../_lib/core-registry.js';
+import { createRunReceipt } from '../_lib/core-receipt.js';
 
-const AGENTS=new Set(['source','claims','structure','writer','critic','audience','voice','package']);
-const AGENT_MAX_TOKENS=Object.freeze({structure:12000,writer:24000,critic:12000,audience:24000,voice:24000,claims:16000,package:12000});
+const AGENTS=new Set(listAgentIds());
 const MAX_BODY_CHARS=60_000;
 const MAX_CUSTOM_CHARS=12_000;
 const windows=new Map();
@@ -46,7 +47,7 @@ function modelFor(agent){
 export default async function handler(req,res){
   if(req.method==='GET'){
     if(!getSession(req)) return json(res,401,{ok:false,error:'AUTH'});
-    return json(res,200,{ok:true,deepseek:deepseekConfigStatus(),agents:[...AGENTS],humanApprovalRequired:true});
+    return json(res,200,{ok:true,coreVersion:CORE_VERSION,deepseek:deepseekConfigStatus(),agents:[...AGENTS].map(id=>getAgentContract(id)),humanApprovalRequired:true});
   }
   if(req.method!=='POST') return json(res,405,{ok:false,error:'METHOD'});
   const session=getSession(req);
@@ -57,18 +58,22 @@ export default async function handler(req,res){
     const body=await readJson(req,700_000);
     const agent=String(body.agent||'');
     if(!AGENTS.has(agent)) return json(res,400,{ok:false,error:'AGENT_UNKNOWN'});
+    const contract=getAgentContract(agent);
+    if(!contract) return json(res,400,{ok:false,error:'AGENT_UNKNOWN'});
     const post=normalizePost(body.post||{});
     const custom=cleanString(body.instruction,MAX_CUSTOM_CHARS);
     const {system,user}=promptFor(agent,post,custom);
+    const startedAt=new Date();
     const abortController=new AbortController();
     const abort=()=>abortController.abort();
     req.once?.('aborted',abort);
     const response=agent==='source'
       ? await deepseekWebSearchJson({system,user,schema:SOURCE_SCHEMA,signal:abortController.signal})
-      : await deepseekChatJson({system,user,model:modelFor(agent),maxTokens:AGENT_MAX_TOKENS[agent]||12000,thinking:!['voice'].includes(agent),signal:abortController.signal});
+      : await deepseekChatJson({system,user,model:modelFor(agent),maxTokens:contract.budget.maxOutputTokens,thinking:!['voice'].includes(agent),signal:abortController.signal});
     req.removeListener?.('aborted',abort);
     const result=validateAgentResult(agent,response.result,post);
-    return json(res,200,{ok:true,agent,result,meta:response.meta,humanApprovalRequired:true});
+    const receipt=createRunReceipt({contract,post,instruction:custom,result,meta:response.meta,startedAt,finishedAt:new Date(),orchestraRunId:cleanString(body.orchestraRunId,120)||null,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
+    return json(res,200,{ok:true,coreVersion:CORE_VERSION,agent,contract:{id:contract.id,version:contract.version,contractHash:contract.contractHash,role:contract.role,authority:contract.authority,budget:contract.budget},result,meta:response.meta,receipt,humanApprovalRequired:true});
   }catch(e){
     return json(res,e.statusCode||500,{ok:false,error:e.code||'AGENT_FAILED',message:e.message,retryable:Boolean(e.retryable),retryAfterMs:Number(e.retryAfterMs||0)});
   }

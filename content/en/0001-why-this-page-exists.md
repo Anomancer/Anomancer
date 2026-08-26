@@ -63,8 +63,8 @@ My original background is not in computer science or AI research. I trained as a
 
 That probably explains something about the way I look at technology too. I am rarely interested only in how a system works. I am just as interested in what it does to people, what kinds of behavior it creates and what happens when a technical system collides with the real world.
 
-## And the Observatory?
+## And Core?
 
-Anomancer is the entrance and the Dispatches are the human-readable layer. If a subject starts pulling you deeper, the Observatory contains the machinery underneath: systems, experiments, applications, music, research and other material.
+Anomancer is the entrance and the Dispatches are the human-readable layer. Core is the private machine room where agent contracts, orchestras, runs and authority boundaries are visible in one control plane.
 
 You do not need to see all of it at once. Finding one useful thing is enough.

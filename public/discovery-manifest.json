@@ -1,6 +1,6 @@
 {
   "version": "anomancer.discovery/v1",
-  "generatedAt": "2026-08-26T17:55:42.927Z",
+  "generatedAt": "2026-08-26T18:22:50.610Z",
   "site": "https://anomancer.com",
   "entity": {
     "siteName": "Anomancer",
@@ -13,7 +13,7 @@
     "fi",
     "en"
   ],
-  "publishedArticles": 8,
+  "publishedArticles": 9,
   "search": {
     "openai": {
       "userAgent": "OAI-SearchBot",

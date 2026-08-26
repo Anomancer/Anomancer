@@ -1,4 +1,4 @@
-# Anomancer 14.3.1 · Orchestrator
+# Anomancer 15.0.0 · Orchestrator
 
 Orkesteri ajaa kahdeksan vaihetta järjestyksessä: source, structure, writer, critic, audience, voice, claims ja package. Kaikki tulokset ovat ehdotuksia. Vain ihminen voi siirtää lopputuloksen editoriin, tallentaa luonnoksen tai julkaista.
 
@@ -16,7 +16,7 @@ Pysäytys abortoi selaimen pyynnön ja välittää peruutussignaalin palvelimen 
 
 ## Evidenssin käsittely
 
-Lähdeagentin ehdotukset säilyttävät kentät `why`, `supports`, `challenges`, `origin`, `verification` ja `retrievedAt`. Niitä ei muuteta automaattisesti tarkistetuiksi. Väitevahti ajaa 14.3.1:ssä vasta kirjoitus-, kritiikki-, yleisö- ja äänivaiheiden jälkeen, joten se auditoi lopullista proosaa eikä vanhaa lähtötekstiä. Se saa käyttää `supported`-tilaa vain tarkistetun lähteen kanssa. Candidate-URL voidaan säilyttää `open`/`interpretation`-väitteen provisionaalisena tutkimusjälkenä. Paketoija ei saa kirjoittaa claims/sources-kenttiä uusiksi; palvelin kuljettaa Evidence Layerin viimeiseen vaiheeseen kanonisena.
+Lähdeagentin ehdotukset säilyttävät kentät `why`, `supports`, `challenges`, `origin`, `verification` ja `retrievedAt`. Niitä ei muuteta automaattisesti tarkistetuiksi. Väitevahti ajaa 15.0:ssa vasta kirjoitus-, kritiikki-, yleisö- ja äänivaiheiden jälkeen, joten se auditoi lopullista proosaa eikä vanhaa lähtötekstiä. Se saa käyttää `supported`-tilaa vain tarkistetun lähteen kanssa. Candidate-URL voidaan säilyttää `open`/`interpretation`-väitteen provisionaalisena tutkimusjälkenä. Paketoija ei saa kirjoittaa claims/sources-kenttiä uusiksi; palvelin kuljettaa Evidence Layerin viimeiseen vaiheeseen kanonisena.
 
 
 ## Audience Contract

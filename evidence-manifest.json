@@ -1,6 +1,6 @@
 {
   "version": "anomancer.evidence/v1",
-  "generatedAt": "2026-08-26T17:55:42.927Z",
+  "generatedAt": "2026-08-26T18:22:50.610Z",
   "articles": [
     {
       "articleId": "https://anomancer.com/lahetykset/enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan#article",
@@ -24,6 +24,15 @@
       "articleId": "https://anomancer.com/lahetykset/miksi-tekoalyagentille-pitaisi-antaa-passi#article",
       "url": "https://anomancer.com/lahetykset/miksi-tekoalyagentille-pitaisi-antaa-passi",
       "title": "Miksi tekoälyagentille pitäisi antaa passi?",
+      "lang": "fi",
+      "answer": "",
+      "claims": [],
+      "sources": []
+    },
+    {
+      "articleId": "https://anomancer.com/lahetykset/miksi-tekoalyagentti-ei-saisi-unohtaa-missa-se-on-toissa#article",
+      "url": "https://anomancer.com/lahetykset/miksi-tekoalyagentti-ei-saisi-unohtaa-missa-se-on-toissa",
+      "title": "Miksi tekoälyagentti ei saisi unohtaa, missä se on töissä?",
       "lang": "fi",
       "answer": "",
       "claims": [],

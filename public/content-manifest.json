@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-26T17:55:42.927Z",
+  "generatedAt": "2026-08-26T18:22:50.610Z",
   "entity": {
     "siteName": "Anomancer",
     "author": "Aatu Isopahkala",
@@ -76,6 +76,33 @@
       "updated": "2026-08-26",
       "url": "https://anomancer.com/lahetykset/miksi-tekoalyagentille-pitaisi-antaa-passi",
       "articleId": "https://anomancer.com/lahetykset/miksi-tekoalyagentille-pitaisi-antaa-passi#article",
+      "authorId": "https://anomancer.com/#person",
+      "coverImage": "",
+      "evidence": {
+        "sourceCount": 0,
+        "claimCount": 0,
+        "supported": 0,
+        "interpretation": 0,
+        "open": 0
+      }
+    },
+    {
+      "lang": "fi",
+      "slug": "miksi-tekoalyagentti-ei-saisi-unohtaa-missa-se-on-toissa",
+      "title": "Miksi tekoälyagentti ei saisi unohtaa, missä se on töissä?",
+      "description": "Tekoälyagentti voi osata paljon enemmän kuin sen tehtävä edellyttää. Artikkeli erottaa kyvykkyyden, luvan, toimivallan ja tavoitteen – ja ehdottaa agentille työpaikkakorttia.",
+      "answer": "",
+      "category": "software-safety",
+      "audience": [
+        "entrepreneur",
+        "developer"
+      ],
+      "audienceDepth": "general",
+      "pinned": false,
+      "date": "2026-08-26",
+      "updated": "2026-08-26",
+      "url": "https://anomancer.com/lahetykset/miksi-tekoalyagentti-ei-saisi-unohtaa-missa-se-on-toissa",
+      "articleId": "https://anomancer.com/lahetykset/miksi-tekoalyagentti-ei-saisi-unohtaa-missa-se-on-toissa#article",
       "authorId": "https://anomancer.com/#person",
       "coverImage": "",
       "evidence": {

@@ -1,5 +1,17 @@
 # Changelog
 
+## 15.0.0 · 2026-08-26
+
+- uusi Anomancer Core Foundation: Agent Registry, Agent Contract, Orchestra Registry ja Run Receipt
+- nykyinen 8-agentin Lähetyskone rekisteröity `editorial/1.0.0` Core-orkesteriksi
+- agentti-API hakee tokenbudjetit ja toimivaltamallin Agent Registrystä kovakoodattujen rajojen sijaan
+- jokainen onnistunut agenttiajo palauttaa raakasisällöttömän ajokuitin input/output-hasheineen, tokenmetadatoineen ja sopimushashilla
+- orkesterin kaikki stage-ajot sidotaan samaan `orchestraRunId`:hen
+- uusi Core-välilehti näyttää Agent Poolin, sopimushashit, orkesterit, usage-mittarit ja hash-ketjutetun paikallisen Run Ledgerin
+- julkisen Anomancerin Observatorio-portti vaihdettu Core-reitiksi (`/core`); `/admin` säilyy teknisenä taustareittinä
+- lisätty `api/admin/core`, `api/_lib/core-registry.js`, `api/_lib/core-receipt.js`, `admin-core.js` ja `CORE_FOUNDATION.md`
+- lisätty Core Foundation -regressiotestit
+
 ## 14.3.1 · 2026-08-26
 
 - Nostettu agenttien output-tokenbudjetit pitkien artikkelien ja Audience Layer -ajojen katkeilun vähentämiseksi.
