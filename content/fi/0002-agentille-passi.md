@@ -9,8 +9,6 @@ translationKey: "why-an-ai-agent-needs-a-passport"
 draft: false
 ---
 
-# Miksi tekoälyagentille pitäisi antaa passi?
-
 Tekoälyagentti ei ole enää pelkkä keskustelukumppani.
 
 Kun mallille annetaan työkaluja, käyttöoikeuksia ja mahdollisuus suorittaa tehtäviä itsenäisesti, puhutaan jo jostain ihan muusta kuin chatbotista. Agentti voi hakea tietoa, lukea tiedostoja, kirjoittaa järjestelmiin, lähettää viestejä tai käynnistää muita toimintoja.
