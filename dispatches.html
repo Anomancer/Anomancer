@@ -4,8 +4,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="A practical knowledge library about AI, work, media, money, language, safety and social systems, explained without needless jargon." />
+<meta name="author" content="Aatu Isopahkala" />
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
 <link rel="canonical" href="https://anomancer.com/dispatches" />
+<link rel="author" href="https://anomancer.com/#about" />
 <link rel="alternate" hreflang="fi" href="https://anomancer.com/lahetykset" />
 <link rel="alternate" hreflang="en" href="https://anomancer.com/dispatches" />
 <link rel="alternate" hreflang="x-default" href="https://anomancer.com/lahetykset" />
@@ -23,18 +25,86 @@
 <title>Dispatches | Anomancer</title>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
-  "@type": "Blog",
-  "@id": "https://anomancer.com/dispatches#blog",
-  "url": "https://anomancer.com/dispatches",
-  "name": "Anomancer — DISPATCHES",
-  "description": "A practical knowledge library about AI, work, media, money, language, safety and social systems, explained without needless jargon.",
-  "inLanguage": "en",
-  "author": {
-    "@type": "Person",
-    "@id": "https://anomancer.com/#person",
-    "name": "Aatu Isopahkala",
-    "url": "https://anomancer.com/"
-  }
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://anomancer.com/#website",
+      "url": "https://anomancer.com/",
+      "name": "Anomancer",
+      "inLanguage": [
+        "fi",
+        "en"
+      ],
+      "publisher": {
+        "@id": "https://anomancer.com/#person"
+      },
+      "creator": {
+        "@id": "https://anomancer.com/#person"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://anomancer.com/#person",
+      "name": "Aatu Isopahkala",
+      "url": "https://anomancer.com/#about",
+      "sameAs": [
+        "https://www.instagram.com/kaikkeudenkasvot/"
+      ],
+      "knowsAbout": [
+        "systems thinking",
+        "artificial intelligence",
+        "AI agents",
+        "language",
+        "semantics",
+        "software",
+        "prototyping",
+        "verifiable systems",
+        "creative technology"
+      ],
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://anomancer.com/media/aatu-profile-bw.jpg"
+      },
+      "homeLocation": {
+        "@type": "Place",
+        "name": "Tampere, Finland"
+      }
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://anomancer.com/dispatches#webpage",
+      "url": "https://anomancer.com/dispatches",
+      "name": "Dispatches | Anomancer",
+      "description": "A practical knowledge library about AI, work, media, money, language, safety and social systems, explained without needless jargon.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://anomancer.com/#website"
+      },
+      "about": {
+        "@id": "https://anomancer.com/#person"
+      },
+      "mainEntity": {
+        "@id": "https://anomancer.com/dispatches#blog"
+      }
+    },
+    {
+      "@type": "Blog",
+      "@id": "https://anomancer.com/dispatches#blog",
+      "url": "https://anomancer.com/dispatches",
+      "name": "Anomancer — DISPATCHES",
+      "description": "A practical knowledge library about AI, work, media, money, language, safety and social systems, explained without needless jargon.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://anomancer.com/#website"
+      },
+      "author": {
+        "@id": "https://anomancer.com/#person"
+      },
+      "publisher": {
+        "@id": "https://anomancer.com/#person"
+      }
+    }
+  ]
 }</script>
 <meta name="theme-color" content="#040408" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

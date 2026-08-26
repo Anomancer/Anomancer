@@ -866,3 +866,9 @@ h1 {
 @media (min-width: 821px) {
   .hero-highlights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+
+/* Anomancer 13.17 · ENTITY CORE */
+.article-byline { margin:10px 0 28px; color:var(--dim); font-size:.9rem; line-height:1.45; letter-spacing:.035em; }
+.article-byline a { color:rgba(255,255,255,.84); text-decoration:none; border-bottom:1px solid rgba(255,255,255,.18); }
+.article-byline a:hover { color:#fff; border-bottom-color:rgba(255,22,61,.56); }

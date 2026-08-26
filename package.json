@@ -1,6 +1,6 @@
 {
   "name": "anomancer-lahetyskone",
-  "version": "13.14.0",
+  "version": "13.17.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,12 +8,13 @@
     "new:post": "node scripts/new-post.mjs",
     "write": "node scripts/editor.mjs",
     "seo:check": "node seo-check.mjs",
-    "check": "node scripts/test-admin.mjs && node scripts/test-contact.mjs && node scripts/build-blog.mjs --check && node scripts/domain-migration-check.mjs && node seo-check.mjs",
+    "check": "node scripts/test-admin.mjs && node scripts/test-contact.mjs && node scripts/build-blog.mjs --check && node scripts/test-entity-core.mjs && node scripts/domain-migration-check.mjs && node seo-check.mjs",
     "admin:hash": "node scripts/hash-admin-password.mjs",
     "admin:secret": "node scripts/generate-session-secret.mjs",
     "test:admin": "node scripts/test-admin.mjs",
     "migrate:v13.12": "node scripts/v13-12-content-surgery.mjs",
     "test:contact": "node scripts/test-contact.mjs",
-    "test:domain": "node scripts/domain-migration-check.mjs"
+    "test:domain": "node scripts/domain-migration-check.mjs",
+    "test:entity": "node scripts/test-entity-core.mjs"
   }
 }
