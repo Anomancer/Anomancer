@@ -1,19 +1,32 @@
-# Anomancer 14.1 · Orchestrator + Live Terminal
+# Anomancer 14.1.1 · Orchestrator Resilience
 
-14.1 tekee Lähetyskoneen seitsemästä agentista yhden hallitun toimitusputken:
+14.1.1 tekee Lähetyskoneen orkesterista vikasietoisen. Seitsemän agentin toimitusputki pysyy samana:
 
 `Lähdeagentti → Väitevahti → Rakenneagentti → Kirjoitusagentti → Kriitikko → Äänieditori → Julkaisupaketti`
 
+## Retry
+
+Tilapäiset DeepSeek-virheet kuten tyhjä vastaus, JSON-virhe, verkkovirhe, timeout sekä HTTP 502/504 saavat yhden automaattisen retry-yrityksen. Jos sama vaihe epäonnistuu uudelleen, orkesteri ei aloita kaikkea alusta.
+
+## Checkpoint + resume
+
+Jokaisen valmistuneen vaiheen jälkeen nykyinen orkesterin työmuisti tallennetaan selaimen `sessionStorage`-checkpointiksi. Checkpoint sisältää luonnoksen sisäisen työtilan, valmistuneet agenttitulokset, metatiedot ja ajolokin. Se ei tee palvelin- tai GitHub-kirjoitusta.
+
+Virheen jälkeen käyttöliittymä tarjoaa:
+
+- `Yritä vaihetta uudelleen` ajaa vain epäonnistuneen vaiheen.
+- `Jatka tästä` jatkaa checkpointista putken loppuun.
+
+Myös käyttäjän pysäyttämä ajo voidaan jatkaa checkpointista. Saman välilehden uudelleenlataus säilyttää checkpointin session ajan.
+
+## DEGRADED
+
+Lähdeagentin fallback tai nolla löytynyttä lähdettä ei kaada koko orkesteria. Lähdevaihe merkitään `DEGRADED`-tilaan ja terminaali kertoo näkyvästi, ettei uutta evidenssiä saatu. Väitevahdille annetaan tällöin erillinen ohje olla nostamatta väitteitä tuetuiksi lähdevaiheen perusteella.
+
+DEGRADED ei tarkoita onnistunutta evidenssivarmennusta. Se tarkoittaa, että orkesteri jatkaa hallitusti puutteellisella lähdetilalla ja jättää puutteen ihmisen nähtäväksi.
+
 ## Authority
 
-Orkestrointi tapahtuu selaimessa vaihe vaiheelta olemassa olevan `/api/admin/agents`-rajapinnan kautta. Välitulokset elävät ajon työmuistissa. Orkesteri ei kutsu GitHub-writeä, luonnoksen tallennusta tai julkaisua.
+Orkesteri käyttää vain olemassa olevaa `/api/admin/agents`-rajapintaa. Se ei kutsu luonnoksen tallennusta, GitHub-writeä eikä julkaisua. Lopputuloksen siirto editoriin vaatii erillisen ihmisen painalluksen ja tallennus/julkaisu ovat edelleen erillisiä ihmispäätöksiä.
 
-Lopuksi käyttäjä voi erillisellä painikkeella siirtää lopputuloksen editoriin. Tämäkään ei tallenna tai julkaise. Tallennus ja julkaisu pysyvät adminin erillisinä ihmisohjattuina toimintoina.
-
-## Live terminal
-
-Pieni terminaali näyttää jokaisen vaiheen käynnistymisen, valmistumisen, mallin, mahdolliset tokenluvut, keston ja virheen. Ajon voi pysäyttää selaimesta. Abort ei takaa jo käynnistyneen serverless-kutsun laskennan välitöntä peruuntumista, mutta pysäytetty ajo ei jatka seuraaviin vaiheisiin eikä sovella tulosta editoriin.
-
-## Provisional evidence
-
-Lähdeagentin automaattisesti löytämät lähteet kulkevat orkesterin työmuistissa provisioina. Ne eivät muutu ihmisen varmistamiksi lähteiksi vain siksi, että myöhempi agentti näkee ne. Lopputuloksen editoriin siirtäminen muistuttaa tästä erikseen.
+Reasoning-sisältöä ei näytetä terminaalissa. Näkyviin voidaan tuoda vain token-lukumäärä ja muut turvalliset metatiedot.

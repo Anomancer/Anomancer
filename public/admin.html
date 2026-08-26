@@ -132,7 +132,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 
           <section id="orchestraDesk" class="orchestra-desk" aria-labelledby="orchestraTitle">
             <div class="orchestra-head">
-              <div><p class="kicker">14.1 · ORCHESTRATOR</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
+              <div><p class="kicker">14.1.1 · ORCHESTRATOR RESILIENCE</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
               <span class="orchestra-lock">HUMAN FINAL AUTHORITY</span>
             </div>
             <p class="orchestra-rule">Orkesteri ajaa agentit yksi kerrallaan selaimesta. Välitulokset kulkevat seuraavalle agentille vain työmuistissa. <strong>Se ei tallenna luonnosta, tee GitHub-writeä eikä julkaise.</strong></p>
@@ -149,6 +149,8 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
             <div class="orchestra-actions">
               <button id="orchestraRunBtn" type="button" class="orchestra-run">▶ Aja koko putki</button>
               <button id="orchestraStopBtn" type="button" class="ghost" disabled>■ Pysäytä</button>
+              <button id="orchestraRetryBtn" type="button" class="ghost" hidden>↻ Yritä vaihetta uudelleen</button>
+              <button id="orchestraResumeBtn" type="button" class="secondary" hidden>▶ Jatka tästä</button>
               <button id="orchestraApplyBtn" type="button" class="secondary" hidden>Siirrä lopputulos editoriin</button>
               <button id="orchestraCopyBtn" type="button" class="ghost" hidden>Kopioi ajoloki</button>
             </div>

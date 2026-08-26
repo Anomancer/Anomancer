@@ -56,3 +56,7 @@ Pitkät web-haut käyttävät kompaktia lähdebudjettia, näyttävät Responses 
 ## 14.1 Orchestrator
 
 Seitsemän agenttia voidaan nyt ajaa yhtenä selaimessa orkestroituna putkena. Live terminal näyttää etenemisen. Orkesteri ei tallenna eikä julkaise. Lopputulos siirretään editoriin vain erillisellä ihmisen hyväksynnällä. Katso `ORCHESTRATOR.md`.
+
+## 14.1.1 · Orchestrator resilience
+
+Orkesteri säilyttää valmistuneet vaiheet selaimen session-checkpointissa, tekee yhden automaattisen retryn tilapäisiin agenttivirheisiin ja mahdollistaa epäonnistuneen vaiheen uudelleenajon tai jatkamisen checkpointista. Lähdeagentin fallback/nolla lähdettä näkyy DEGRADED-tilana eikä sitä esitetä varmistettuna evidenssinä.
