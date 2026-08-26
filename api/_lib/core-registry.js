@@ -1,9 +1,10 @@
 import crypto from 'node:crypto';
 
-export const CORE_VERSION='15.2.0';
+export const CORE_VERSION='15.3.0';
 export const AGENT_CONTRACT_FORMAT='anomancer-agent/v1';
 export const ORCHESTRA_FORMAT='anomancer-orchestra/v1';
 export const RUN_RECEIPT_FORMAT='anomancer-run-receipt/v1';
+export const AGENT_RUNTIME_FORMAT='anomancer-agent-runtime/v1';
 
 const clone=value=>JSON.parse(JSON.stringify(value));
 const stable=value=>{
@@ -24,48 +25,60 @@ const RAW_AGENTS=[
     id:'structure',label:'Rakenneagentti',version:'1.0.0',role:'editorial-structure',description:'Ehdottaa artikkelin rakennetta valitulle yleisölle muuttamatta evidenssin tilaa.',
     modelRoute:'writer',tools:[],capabilities:['draft.read','structure.propose'],
     authority:{read:['draft','sourceCandidates','audience'],write:['structure'],deny:['sources.write','claims.write','publish','github.write']},
-    budget:{maxOutputTokens:12000,timeoutMs:180000},humanApproval:['publish']
+    budget:{maxOutputTokens:12000,maxOutputTokensCeiling:24000,timeoutMs:180000},humanApproval:['publish']
   },
   {
     id:'writer',label:'Kirjoitusagentti',version:'1.0.0',role:'draft-writer',description:'Kirjoittaa ja järjestää luonnoksen, mutta ei saa nostaa lähde-ehdokasta varmennetuksi tiedoksi.',
     modelRoute:'writer',tools:[],capabilities:['draft.read','draft.propose'],
     authority:{read:['draft','structure','sources','audience'],write:['body','titleSuggestions','description','answer'],deny:['source.verify','claims.promote','publish','github.write']},
-    budget:{maxOutputTokens:24000,timeoutMs:180000},humanApproval:['publish']
+    budget:{maxOutputTokens:24000,maxOutputTokensCeiling:48000,timeoutMs:180000},humanApproval:['publish']
   },
   {
     id:'critic',label:'Kriitikko',version:'1.0.0',role:'adversarial-review',description:'Etsii heikot oletukset, ylivarmat väitteet, puuttuvan vastanäytön ja yleisöongelmat.',
     modelRoute:'critic',tools:[],capabilities:['draft.read','critique.propose'],
     authority:{read:['draft','sources','claims','audience'],write:['critique'],deny:['draft.commit','sources.write','claims.write','publish','github.write']},
-    budget:{maxOutputTokens:12000,timeoutMs:180000},humanApproval:['publish']
+    budget:{maxOutputTokens:12000,maxOutputTokensCeiling:24000,timeoutMs:180000},humanApproval:['publish']
   },
   {
     id:'audience',label:'Yleisöadapteri',version:'1.0.0',role:'audience-adapter',description:'Vaihtaa havaintoposition ja syvyystason muuttamatta tekstin epistemistä ydintä.',
     modelRoute:'writer',tools:[],capabilities:['draft.read','draft.propose','audience.adapt'],
     authority:{read:['draft','critic','audience','sources'],write:['body','adaptationSummary','audienceFit'],deny:['sources.write','claims.write','source.verify','publish','github.write']},
-    budget:{maxOutputTokens:24000,timeoutMs:180000},humanApproval:['publish']
+    budget:{maxOutputTokens:24000,maxOutputTokensCeiling:48000,timeoutMs:180000},humanApproval:['publish']
   },
   {
     id:'voice',label:'Äänieditori',version:'1.0.0',role:'voice-editor',description:'Poistaa geneeristä mallikieltä ja säilyttää kirjoittajan äänen sekä yleisösopimuksen.',
     modelRoute:'writer',tools:[],capabilities:['draft.read','draft.propose','voice.edit'],
     authority:{read:['draft','critic','audience'],write:['body','changes','warnings'],deny:['sources.write','claims.write','source.verify','publish','github.write']},
-    budget:{maxOutputTokens:24000,timeoutMs:180000},humanApproval:['publish']
+    budget:{maxOutputTokens:24000,maxOutputTokensCeiling:48000,timeoutMs:180000},humanApproval:['publish']
   },
   {
     id:'claims',label:'Väitevahti',version:'1.0.0',role:'claim-auditor',description:'Tarkistaa lopullisen proosan väitteet ja niiden evidenssikytkennät. Ei voi varmentaa lähteitä.',
     modelRoute:'critic',tools:[],capabilities:['draft.read','claims.audit'],
     authority:{read:['draft','sources','claims'],write:['claims','answer','warnings'],deny:['sources.write','source.verify','publish','github.write']},
-    budget:{maxOutputTokens:16000,timeoutMs:180000},humanApproval:['source.verify','publish']
+    budget:{maxOutputTokens:16000,maxOutputTokensCeiling:32000,timeoutMs:180000},humanApproval:['source.verify','publish']
   },
   {
     id:'package',label:'Julkaisupaketti',version:'1.0.0',role:'publication-packager',description:'Valmistelee metadataa. Evidence Layer ja ihmisen Audience Contract ovat lukittuja.',
     modelRoute:'writer',tools:[],capabilities:['draft.read','package.propose'],
     authority:{read:['draft','claims','sources','audience'],write:['title','description','slug','answer','category','notes'],deny:['claims.write','sources.write','audience.write','source.verify','publish','github.write']},
-    budget:{maxOutputTokens:12000,timeoutMs:180000},humanApproval:['publish']
+    budget:{maxOutputTokens:12000,maxOutputTokensCeiling:24000,timeoutMs:180000},humanApproval:['publish']
   }
 ];
 
 function finalizeAgent(input){
   const contract={format:AGENT_CONTRACT_FORMAT,coreVersion:CORE_VERSION,...clone(input)};
+  const defaultTokens=Number(contract.budget?.maxOutputTokens||0);
+  const ceiling=Math.max(defaultTokens,Number(contract.budget?.maxOutputTokensCeiling||defaultTokens));
+  const runtimeFloor=contract.id==='source'?8000:1000;
+  contract.runtimePolicy={
+    format:AGENT_RUNTIME_FORMAT,
+    defaultActive:true,
+    canDisable:true,
+    minOutputTokens:runtimeFloor,
+    maxOutputTokens:ceiling,
+    mutable:['active','maxOutputTokens'],
+    immutable:['contractHash','modelRoute','tools','capabilities','authority','humanApproval']
+  };
   contract.contractHash=digest(contract);
   return Object.freeze(contract);
 }
@@ -102,12 +115,34 @@ validateRegistry();
 export function getAgentContract(id){const item=AGENT_MAP.get(String(id||''));return item?clone(item):null;}
 export function getOrchestra(id='editorial'){const item=ORCHESTRA_MAP.get(String(id||''));return item?clone(item):null;}
 export function listAgentIds(){return AGENT_REGISTRY.map(item=>item.id);}
+export function normalizeAgentRuntime(id,input={}){
+  const contract=getAgentContract(id);
+  if(!contract)return null;
+  const policy=contract.runtimePolicy||{};
+  const min=Math.max(1,Number(policy.minOutputTokens||1000));
+  const max=Math.max(min,Number(policy.maxOutputTokens||contract.budget.maxOutputTokens||min));
+  const requested=Number(input?.maxOutputTokens);
+  const maxOutputTokens=Number.isFinite(requested)?Math.min(max,Math.max(min,Math.round(requested))):Number(contract.budget.maxOutputTokens||min);
+  return {
+    format:AGENT_RUNTIME_FORMAT,
+    agentId:contract.id,
+    contractHash:contract.contractHash,
+    active:input?.active!==false,
+    maxOutputTokens,
+    limits:{minOutputTokens:min,maxOutputTokens:max}
+  };
+}
+export function normalizeAgentRuntimeMap(input={}){
+  const source=input&&typeof input==='object'?input:{};
+  return Object.fromEntries(AGENT_REGISTRY.map(agent=>[agent.id,normalizeAgentRuntime(agent.id,source[agent.id]||{})]));
+}
 export function publicCoreSnapshot({deepseek=null}={}){
   return {
     format:'anomancer-core/v1',version:CORE_VERSION,
     agents:AGENT_REGISTRY.map(clone),orchestras:ORCHESTRA_REGISTRY.map(clone),
     runReceipt:{format:RUN_RECEIPT_FORMAT,persistence:'browser-local-hash-chain',containsRawPrompt:false,containsRawOutput:false},
     modelRoutes:deepseek?{research:{provider:'deepseek',model:deepseek.sourceModel},writer:{provider:'deepseek',model:deepseek.writerModel},critic:{provider:'deepseek',model:deepseek.criticModel}}:null,
-    humanFinalAuthority:true
+    humanFinalAuthority:true,
+    runtimeControl:{format:AGENT_RUNTIME_FORMAT,persistence:'admin-browser-local',mutable:['active','maxOutputTokens'],contractAuthorityImmutable:true}
   };
 }

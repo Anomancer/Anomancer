@@ -9,7 +9,7 @@ function usage(meta={}){
   const totalTokens=Number(raw.total_tokens??(inputTokens+outputTokens))||inputTokens+outputTokens;
   return {inputTokens,outputTokens,totalTokens,reasoningTokens:Number(meta.reasoningTokens||0)||0,maxOutputTokens:Number(meta.maxOutputTokens||0)||0,costEuro:null};
 }
-export function createRunReceipt({contract,post,instruction='',result,meta={},startedAt,finishedAt,orchestraRunId=null,stageIndex=null,status='completed'}){
+export function createRunReceipt({contract,runtime=null,post,instruction='',result,meta={},startedAt,finishedAt,orchestraRunId=null,stageIndex=null,status='completed'}){
   const start=iso(startedAt),finish=iso(finishedAt);
   const subject={agent:contract.id,contractHash:contract.contractHash,input:{post,instruction}};
   const inputHash=digest(subject);
@@ -21,6 +21,7 @@ export function createRunReceipt({contract,post,instruction='',result,meta={},st
     agent:{id:contract.id,label:contract.label,version:contract.version,contractHash:contract.contractHash,role:contract.role},
     model:{provider:'deepseek',model:String(meta.model||''),route:contract.modelRoute},
     authority:{write:[...(contract.authority?.write||[])],humanApproval:[...(contract.humanApproval||[])]},
+    runtime:runtime?{active:runtime.active!==false,maxOutputTokens:Number(runtime.maxOutputTokens||0)||0}:null,
     usage:usage(meta),tools:meta.searchedWeb?['web.search']:[],status,
     inputHash,outputHash,startedAt:start,finishedAt:finish,durationMs:Math.max(0,new Date(finish)-new Date(start)),
     humanApprovalRequired:true

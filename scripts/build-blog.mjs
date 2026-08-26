@@ -372,7 +372,7 @@ const publicCore={
   privacy:{containsRawPrompt:false,containsRawOutput:false,containsRunHistory:false,adminApiUsed:false},
   agents:AGENT_REGISTRY.map(agent=>({
     id:agent.id,label:agent.label,version:agent.version,role:agent.role,description:agent.description,
-    modelRoute:agent.modelRoute,tools:[...(agent.tools||[])],maxOutputTokens:Number(agent.budget?.maxOutputTokens||0),
+    modelRoute:agent.modelRoute,tools:[...(agent.tools||[])],maxOutputTokens:Number(agent.budget?.maxOutputTokens||0),maxOutputTokensCeiling:Number(agent.runtimePolicy?.maxOutputTokens||agent.budget?.maxOutputTokens||0),
     write:[...(agent.authority?.write||[])],deny:[...(agent.authority?.deny||[])],humanApproval:[...(agent.humanApproval||[])],contractHash:agent.contractHash
   })),
   orchestras:ORCHESTRA_REGISTRY.map(orchestra=>({

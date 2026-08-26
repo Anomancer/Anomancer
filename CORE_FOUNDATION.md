@@ -1,4 +1,4 @@
-# Anomancer 15.2 · Core Foundation + Product Shell
+# Anomancer 15.3 · Core Foundation + Agent Pool Control
 
 15.0 erottaa ensimmäistä kertaa agentin identiteetin, orkesterin rakenteen ja ajon todistettavan metadatan varsinaisista prompteista.
 

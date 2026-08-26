@@ -1,4 +1,4 @@
-# Anomancer 15.2.0 · Core Product Shell
+# Anomancer 15.3.0 · Agent Pool Control
 
 Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone ja yksityinen Vercel-admin. Julkinen sisältö rakennetaan `public/`-hakemistoon. Admin tallentaa artikkelit GitHub Contents API:n kautta ja käyttää DeepSeek-agentteja vain ehdotusten tuottamiseen.
 

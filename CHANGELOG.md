@@ -1,3 +1,15 @@
+# 15.3.0 — Agent Pool Control
+
+- Agent Contract ja Runtime Profile erotettu toisistaan.
+- Agenttikortista avautuva hallintadialogi yksityiseen Coreen.
+- ACTIVE / OFF vaikuttaa yksittäisiin agenttiajoihin ja seuraaviin orkesteriajoihin.
+- Output-tokenkatto on säädettävä sopimuksen minimi- ja maksimialueella.
+- Serveri clampaa Runtime Profilen eikä hyväksy sillä uusia oikeuksia tai työkaluja.
+- Orkesteri jäädyttää Runtime Profilet ajon alussa ja checkpointtaa ne.
+- OFF-stage näkyy `disabled`-tilana eikä tee mallikutsua.
+- Run Receipt sisältää käytetyn runtime-tokenkaton ilman raakaa promptia/outputia.
+- Uusi regressiosviitti `test-agent-pool-control.mjs`.
+
 # 15.2.0 — Core Product Shell
 
 - `/core` sai pysyvän tuoterakenteen: Overview, Agent Pool, Orchestras, Runs, Evidence, Models, Tools ja Usage.

@@ -1,6 +1,6 @@
 {
   "format": "anomancer-core-public/v1",
-  "version": "15.2.0",
+  "version": "15.3.0",
   "humanFinalAuthority": true,
   "privacy": {
     "containsRawPrompt": false,
@@ -20,6 +20,7 @@
         "web.search"
       ],
       "maxOutputTokens": 16000,
+      "maxOutputTokensCeiling": 32000,
       "write": [
         "sourceCandidates",
         "researchMemo"
@@ -34,7 +35,7 @@
         "source.verify",
         "publish"
       ],
-      "contractHash": "2a352b61620bf6d5bcebf3af495d9d9f9c2a89722bd79bc066b74e26735bb8af"
+      "contractHash": "a06d4b2de5a48b6cd5fe5d95f6ca4c9a08af1c6a9e43b36c2ff04816782bd7b1"
     },
     {
       "id": "structure",
@@ -45,6 +46,7 @@
       "modelRoute": "writer",
       "tools": [],
       "maxOutputTokens": 12000,
+      "maxOutputTokensCeiling": 24000,
       "write": [
         "structure"
       ],
@@ -57,7 +59,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "96e609e1b2497d560ceba8fee3150da2301cc1c7951930962b62dc7e71cf39a3"
+      "contractHash": "eb16dc3830f2c5574835fb4fcdff1c9efc4201b7e96380ae3ad58c3afeaa265a"
     },
     {
       "id": "writer",
@@ -68,6 +70,7 @@
       "modelRoute": "writer",
       "tools": [],
       "maxOutputTokens": 24000,
+      "maxOutputTokensCeiling": 48000,
       "write": [
         "body",
         "titleSuggestions",
@@ -83,7 +86,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "732bb1834139f0cabf0e192448a03a4b76d5373f1b76f058294ef73c21ecf59e"
+      "contractHash": "37d9e2341e082d513e69b97d488fe1d3aefac5c6075e24ea8771c62027ecf3dc"
     },
     {
       "id": "critic",
@@ -94,6 +97,7 @@
       "modelRoute": "critic",
       "tools": [],
       "maxOutputTokens": 12000,
+      "maxOutputTokensCeiling": 24000,
       "write": [
         "critique"
       ],
@@ -107,7 +111,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "b3be51768d4cb1185683767420ebe6508e5e8d1564026e1f500b55c16bcd866d"
+      "contractHash": "fd4d12028ed1bca23b678a2f8da07ec0d8b28088fe86287304eeee7966054d95"
     },
     {
       "id": "audience",
@@ -118,6 +122,7 @@
       "modelRoute": "writer",
       "tools": [],
       "maxOutputTokens": 24000,
+      "maxOutputTokensCeiling": 48000,
       "write": [
         "body",
         "adaptationSummary",
@@ -133,7 +138,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "c5297357268f2df77ba551672bdbcbe4a6b937711609a94587c40d77d51a0774"
+      "contractHash": "9444c6b4b5624b248009ebfdf53d638f68dde095cee44e83538ef34d5e858dd2"
     },
     {
       "id": "voice",
@@ -144,6 +149,7 @@
       "modelRoute": "writer",
       "tools": [],
       "maxOutputTokens": 24000,
+      "maxOutputTokensCeiling": 48000,
       "write": [
         "body",
         "changes",
@@ -159,7 +165,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "1ae8a8dea5ba0d67c93185e8970bd32d2f51069d2beacfb8dcf38be9fa34157a"
+      "contractHash": "7ba455f24e8d5843f9088522ae6d91b1f72be60f56854aa393bf8b8404c5afa8"
     },
     {
       "id": "claims",
@@ -170,6 +176,7 @@
       "modelRoute": "critic",
       "tools": [],
       "maxOutputTokens": 16000,
+      "maxOutputTokensCeiling": 32000,
       "write": [
         "claims",
         "answer",
@@ -185,7 +192,7 @@
         "source.verify",
         "publish"
       ],
-      "contractHash": "f50834e26fe5781026fe8bdeeb2fb9ffb9de64d289097353fe2a83836bd817ed"
+      "contractHash": "2f3686ce344a0d9da8be890996267b39b63931938c784d210b18234a55238303"
     },
     {
       "id": "package",
@@ -196,6 +203,7 @@
       "modelRoute": "writer",
       "tools": [],
       "maxOutputTokens": 12000,
+      "maxOutputTokensCeiling": 24000,
       "write": [
         "title",
         "description",
@@ -215,7 +223,7 @@
       "humanApproval": [
         "publish"
       ],
-      "contractHash": "28644a7975158558e70f261e74c0ad229b196857083d98f56f8eba825132f8c7"
+      "contractHash": "cf5b2eea7b6daa3188c92d187f6cd68dd5a202b3bc73bfd9a12dd76d0834f9ff"
     }
   ],
   "orchestras": [
@@ -238,7 +246,7 @@
       "humanFinalAuthority": true,
       "evidencePolicy": "candidate-never-equals-verified",
       "audiencePolicy": "adapt-then-recheck-claims",
-      "orchestraHash": "cfe7cdab9d5ecb7c824d1ff1dc4c1ae005f44d389be54770781adfc9715fa045"
+      "orchestraHash": "809bfca2a856a94d51c6cc5a0bcf8720a3ca6d0ce28fa1e666e568ae5541295e"
     }
   ]
 }

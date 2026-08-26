@@ -12,6 +12,9 @@ if(box){
   const AUDIENCE_VALUES=new Set(['all','employee','entrepreneur','developer','teacher','creative','decision-maker','investor']);
   const AUDIENCE_DEPTH_VALUES=new Set(['plain','general','professional','technical']);
 
+  function runtimeProfile(agent=agentSelect.value){return window.anomancerCore?.getRuntimeProfile?.(agent)||null;}
+  function syncRuntimeState(){const profile=runtimeProfile();const disabled=profile?.active===false;runBtn.disabled=disabled;if(moreBtn)moreBtn.disabled=disabled;if(disabled)setStatus(`${AGENT_LABELS[agentSelect.value]||agentSelect.value} on poistettu käytöstä Core Runtime Profilessa.`,'warn');else if(status.textContent.includes('Core Runtime Profilessa'))setStatus('');}
+
   function setStatus(text,kind=''){status.textContent=text;status.className=`agent-status ${kind}`;}
   function parseSources(text=''){
     const out=[],seen=new Set();
@@ -83,7 +86,7 @@ if(box){
       if(more&&previous.length)payloadPost.sources=mergeSources(payloadPost.sources,previous);
       const extra=more?'Lisähaku: etsi enintään 4 uutta vahvaa lähdettä, joita ei vielä ole DRAFT CONTEXT sources -listassa. Keskity erityisesti jäljellä oleviin aukkoihin, vastanäyttöön tai alkuperäislähteisiin. Älä toista aiempia URL-osoitteita.':'';
       const combinedInstruction=[instruction.value,extra].filter(Boolean).join('\n\n');
-      const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agent,instruction:combinedInstruction,post:payloadPost})});
+      const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agent,instruction:combinedInstruction,post:payloadPost,runtimeProfile:runtimeProfile(agent)})});
       const d=await r.json().catch(()=>({}));
       if(!r.ok||!d.ok){if(r.status===403){csrf='';}throw new Error(d.message||d.error||`HTTP ${r.status}`);}
       if(more&&agent==='source'&&previous.length){
@@ -101,7 +104,7 @@ if(box){
         setStatus(`✓ ${count} lähde-ehdokasta valmis. Mitään ei tallennettu eikä julkaistu. Tarvittaessa voit hakea lisää.`,'ok');
       }else setStatus('✓ Ehdotus valmis. Mitään ei tallennettu eikä julkaistu.','ok');
     }catch(e){setStatus(`✗ ${e.message}`,'err');output.textContent='';visual.innerHTML='';rawBox.hidden=true;if(moreBtn)moreBtn.hidden=true;}
-    finally{runBtn.disabled=false;if(moreBtn)moreBtn.disabled=false;}
+    finally{runBtn.disabled=false;if(moreBtn)moreBtn.disabled=false;syncRuntimeState();}
   }
   function apply(){
     if(!last?.result)return;const a=last.agent,r=last.result;
@@ -140,6 +143,8 @@ if(box){
   if(moreBtn)moreBtn.addEventListener('click',()=>run({more:true}));
   applyBtn.addEventListener('click',apply);
   copyBtn.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(output.textContent);setStatus('✓ Agentin tulos kopioitu.','ok');}catch{setStatus('Kopiointi ei onnistunut selaimessa.','err');}});
-  agentSelect.addEventListener('change',()=>{last=null;applyBtn.hidden=true;copyBtn.hidden=true;if(moreBtn)moreBtn.hidden=true;output.textContent='';visual.innerHTML='';rawBox.hidden=true;setStatus('');});
-  setTimeout(refreshConfig,700);
+  agentSelect.addEventListener('change',()=>{last=null;applyBtn.hidden=true;copyBtn.hidden=true;if(moreBtn)moreBtn.hidden=true;output.textContent='';visual.innerHTML='';rawBox.hidden=true;setStatus('');syncRuntimeState();});
+  window.addEventListener('anomancer:agent-runtime-change',event=>{if(event.detail?.agentId===agentSelect.value)syncRuntimeState();});
+  window.addEventListener('anomancer:core-ready',syncRuntimeState);
+  setTimeout(()=>{refreshConfig();syncRuntimeState();},700);
 }

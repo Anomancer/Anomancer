@@ -8,7 +8,7 @@ if(desk){
     {id:'audience',label:'Yleisöadapteri'},{id:'voice',label:'Äänieditori'},{id:'claims',label:'Väitevahti'},{id:'package',label:'Julkaisupaketti'},
   ];
   let PIPELINE=[...FALLBACK_PIPELINE];
-  const CHECKPOINT_KEY='anomancer.orchestra.checkpoint.v15.0.0';
+  const CHECKPOINT_KEY='anomancer.orchestra.checkpoint.v15.3.0';
   let running=false,stopRequested=false,controller=null,csrf='',finalRun=null,checkpoint=null,currentStageIndex=-1;
 
   function now(){return new Date().toLocaleTimeString('fi-FI',{hour12:false});}
@@ -67,9 +67,9 @@ ${JSON.stringify(outputs.critic)}`);
     if(stage==='package')bits.push('Tämä on orkesterin viimeinen koneellinen vaihe. Valmistele vain esitysmetadata. Nykyinen Evidence Layer (claims + sources) sekä ihmisen valitsema audience + audienceDepth ovat lukittuja tämän vaiheen ajaksi eikä niitä saa kirjoittaa uusiksi. Älä väitä mitään julkaistuksi tai ihmisen hyväksymäksi.');
     return bits.join('\n\n').slice(0,12000);
   }
-  async function callAgent(agent,post,custom,{orchestraRunId=null,stageIndex=null}={}){
+  async function callAgent(agent,post,custom,{orchestraRunId=null,stageIndex=null,runtimeProfile=null}={}){
     if(!csrf)await getSession();controller=new AbortController();
-    const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',signal:controller.signal,headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agent,instruction:custom,post,orchestraRunId,stageIndex})});
+    const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',signal:controller.signal,headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agent,instruction:custom,post,orchestraRunId,stageIndex,runtimeProfile})});
     const d=await r.json().catch(()=>({}));
     if(!r.ok||!d.ok){
       if(r.status===403)csrf='';
@@ -103,7 +103,7 @@ ${JSON.stringify(outputs.critic)}`);
   function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
   function safeClone(value){return JSON.parse(JSON.stringify(value));}
   function checkpointPayload(ctx){return{
-    version:'15.0.0',orchestraRunId:ctx.orchestraRunId,status:ctx.status||'running',draftIdentity:ctx.draftIdentity,initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,stageStates:ctx.stageStates,nextIndex:ctx.nextIndex,failedIndex:ctx.failedIndex,failedError:ctx.failedError||null,baseInstruction:ctx.baseInstruction,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',terminal:terminal.textContent,humanApprovalRequired:true
+    version:'15.3.0',orchestraRunId:ctx.orchestraRunId,status:ctx.status||'running',draftIdentity:ctx.draftIdentity,initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,runtimeProfiles:ctx.runtimeProfiles,stageStates:ctx.stageStates,nextIndex:ctx.nextIndex,failedIndex:ctx.failedIndex,failedError:ctx.failedError||null,baseInstruction:ctx.baseInstruction,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',terminal:terminal.textContent,humanApprovalRequired:true
   };}
   function saveCheckpoint(ctx){
     checkpoint=checkpointPayload(ctx);
@@ -114,7 +114,7 @@ ${JSON.stringify(outputs.critic)}`);
   }
   function clearCheckpoint(){checkpoint=null;try{sessionStorage.removeItem(CHECKPOINT_KEY);}catch{}updateCheckpointActions();}
   function loadCheckpoint(){
-    try{const raw=sessionStorage.getItem(CHECKPOINT_KEY);if(!raw)return null;const value=JSON.parse(raw);if(value?.version!=='15.0.0'||!value?.post||!value?.outputs||!value?.draftIdentity)return null;return value;}catch{return null;}
+    try{const raw=sessionStorage.getItem(CHECKPOINT_KEY);if(!raw)return null;const value=JSON.parse(raw);if(value?.version!=='15.3.0'||!value?.post||!value?.outputs||!value?.draftIdentity)return null;return value;}catch{return null;}
   }
   function updateCheckpointActions(){
     const has=checkpoint&&checkpoint.status!=='complete'&&Number(checkpoint.nextIndex)<PIPELINE.length;
@@ -127,15 +127,15 @@ ${JSON.stringify(outputs.critic)}`);
     for(const [id,value] of Object.entries(cp.stageStates||{}))stageState(id,value);
     terminal.textContent=cp.terminal||'$ checkpoint palautettu';
     if(cp.status==='complete'){
-      finalRun={initial:cp.initial,post:cp.post,outputs:cp.outputs,metas:cp.metas,startedAt:cp.startedAt,finishedAt:cp.finishedAt,humanApprovalRequired:true,degradedStages:Object.entries(cp.stageStates||{}).filter(([,value])=>value==='degraded').map(([id])=>id),draftIdentity:cp.draftIdentity,orchestraRunId:cp.orchestraRunId||''};
-      resultPre.textContent=JSON.stringify({finalPost:cp.post,package:cp.outputs.package,critic:cp.outputs.critic,audience:cp.outputs.audience,run:{orchestraRunId:cp.orchestraRunId||'',startedAt:cp.startedAt,finishedAt:cp.finishedAt,humanApprovalRequired:true,degradedStages:finalRun.degradedStages}},null,2);resultBox.hidden=false;applyBtn.hidden=false;
+      finalRun={initial:cp.initial,post:cp.post,outputs:cp.outputs,metas:cp.metas,startedAt:cp.startedAt,finishedAt:cp.finishedAt,humanApprovalRequired:true,degradedStages:Object.entries(cp.stageStates||{}).filter(([,value])=>value==='degraded').map(([id])=>id),disabledStages:Object.entries(cp.stageStates||{}).filter(([,value])=>value==='disabled').map(([id])=>id),draftIdentity:cp.draftIdentity,orchestraRunId:cp.orchestraRunId||''};
+      resultPre.textContent=JSON.stringify({finalPost:cp.post,package:cp.outputs.package,critic:cp.outputs.critic,audience:cp.outputs.audience,run:{orchestraRunId:cp.orchestraRunId||'',startedAt:cp.startedAt,finishedAt:cp.finishedAt,humanApprovalRequired:true,degradedStages:finalRun.degradedStages,disabledStages:finalRun.disabledStages}},null,2);resultBox.hidden=false;applyBtn.hidden=false;
     }
     setRunState(cp.status==='complete'?'COMPLETE / RESTORED':Number.isInteger(cp.failedIndex)?'CHECKPOINT / ERROR':'CHECKPOINT');
     updateCheckpointActions();copyBtn.hidden=false;
     log(cp.status==='complete'?'Valmis orkesteritulos palautettiin. Tarkista luonnosidentiteetti ennen soveltamista.':`Checkpoint löytyi · seuraava vaihe ${Number(cp.nextIndex)+1}/${PIPELINE.length} · luonnosidentiteetti tarkistetaan ennen jatkoa`,'◇');
   }
-  function createContext(initial,baseInstruction){return{status:'running',orchestraRunId:(globalThis.crypto?.randomUUID?.()||`orch-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`),draftIdentity:currentIdentity(),initial:safeClone(initial),post:safeClone(initial),outputs:{},metas:{},stageStates:{},nextIndex:0,failedIndex:null,failedError:null,baseInstruction,startedAt:new Date().toISOString()};}
-  function contextFromCheckpoint(cp){return{status:'running',orchestraRunId:String(cp.orchestraRunId||''),draftIdentity:safeClone(cp.draftIdentity),initial:safeClone(cp.initial),post:safeClone(cp.post),outputs:safeClone(cp.outputs||{}),metas:safeClone(cp.metas||{}),stageStates:safeClone(cp.stageStates||{}),nextIndex:Number(cp.nextIndex)||0,failedIndex:Number.isInteger(cp.failedIndex)?cp.failedIndex:null,failedError:cp.failedError||null,baseInstruction:String(cp.baseInstruction||''),startedAt:cp.startedAt||new Date().toISOString()};}
+  function createContext(initial,baseInstruction){return{status:'running',orchestraRunId:(globalThis.crypto?.randomUUID?.()||`orch-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`),draftIdentity:currentIdentity(),initial:safeClone(initial),post:safeClone(initial),outputs:{},metas:{},runtimeProfiles:safeClone(window.anomancerCore?.getRuntimeProfiles?.()||{}),stageStates:{},nextIndex:0,failedIndex:null,failedError:null,baseInstruction,startedAt:new Date().toISOString()};}
+  function contextFromCheckpoint(cp){return{status:'running',orchestraRunId:String(cp.orchestraRunId||''),draftIdentity:safeClone(cp.draftIdentity),initial:safeClone(cp.initial),post:safeClone(cp.post),outputs:safeClone(cp.outputs||{}),metas:safeClone(cp.metas||{}),runtimeProfiles:safeClone(cp.runtimeProfiles||{}),stageStates:safeClone(cp.stageStates||{}),nextIndex:Number(cp.nextIndex)||0,failedIndex:Number.isInteger(cp.failedIndex)?cp.failedIndex:null,failedError:cp.failedError||null,baseInstruction:String(cp.baseInstruction||''),startedAt:cp.startedAt||new Date().toISOString()};}
   function checkpointMatches(cp,{allowChanged=false}={}){const current=currentIdentity();if(!sameDocument(cp.draftIdentity,current)){log(`Checkpoint kuuluu eri luonnokseen (${cp.draftIdentity?.title||cp.draftIdentity?.path||'tuntematon'}). Vaihda oikea teksti auki tai aloita uusi ajo.`,'✗');return false;}if(!allowChanged&&cp.draftIdentity?.fingerprint!==current.fingerprint&&!confirm('Editoria on muutettu orkesteriajon alkamisen jälkeen. Jatketaanko silti alkuperäisestä checkpointista? Nykyisiä editorimuutoksia ei syötetä kesken ajon agenteille.'))return false;return true;}
   function applyStageResult(ctx,stage,d){
     ctx.outputs[stage.id]=d.result;ctx.metas[stage.id]=d.meta||{};
@@ -148,13 +148,15 @@ ${JSON.stringify(outputs.critic)}`);
     const state=stage.id==='source'&&sourceIsDegraded(d)?'degraded':'done';ctx.stageStates[stage.id]=state;stageState(stage.id,state);return state;
   }
   async function executeStage(ctx,index,{autoRetry=true}={}){
-    const stage=PIPELINE[index];currentStageIndex=index;stageState(stage.id,'running');ctx.stageStates[stage.id]='running';setRunState(`${index+1}/${PIPELINE.length} ${stage.id.toUpperCase()}`);log(`${index+1}/${PIPELINE.length} ${stage.label} käynnistyy`,'▶');
+    const stage=PIPELINE[index];currentStageIndex=index;const runtime=ctx.runtimeProfiles?.[stage.id]||window.anomancerCore?.getRuntimeProfile?.(stage.id)||null;
+    if(runtime?.active===false){ctx.stageStates[stage.id]='disabled';ctx.metas[stage.id]={disabled:true,runtimeProfile:safeClone(runtime)};ctx.nextIndex=index+1;ctx.failedIndex=null;ctx.failedError=null;stageState(stage.id,'disabled');setRunState(`${index+1}/${PIPELINE.length} ${stage.id.toUpperCase()} / OFF`);log(`${index+1}/${PIPELINE.length} ${stage.label} ohitettiin · Core Runtime Profile = OFF`,'○');saveCheckpoint(ctx);return{disabled:true,runtime};}
+    stageState(stage.id,'running');ctx.stageStates[stage.id]='running';setRunState(`${index+1}/${PIPELINE.length} ${stage.id.toUpperCase()}`);log(`${index+1}/${PIPELINE.length} ${stage.label} käynnistyy · runtime ${Number(runtime?.maxOutputTokens||0).toLocaleString('fi-FI')} tok`,'▶');
     const t0=Date.now();let attempt=0;
     while(true){
       if(stopRequested)throw Object.assign(new Error('STOP_REQUESTED'),{stopped:true});
       attempt++;
       try{
-        const custom=stageInstruction(stage.id,ctx.baseInstruction,ctx.outputs,ctx.metas);const d=await callAgent(stage.id,ctx.post,custom,{orchestraRunId:ctx.orchestraRunId,stageIndex:index});
+        const custom=stageInstruction(stage.id,ctx.baseInstruction,ctx.outputs,ctx.metas);const d=await callAgent(stage.id,ctx.post,custom,{orchestraRunId:ctx.orchestraRunId,stageIndex:index,runtimeProfile:runtime});
         if(stage.id==='source'&&sourceIsDegraded(d)&&d.meta?.incompleteReason!=='content_filter'&&autoRetry&&attempt===1)throw Object.assign(new Error('Lähdevastaus jäi epätäydelliseksi.'),{code:'DEEPSEEK_SOURCE_DEGRADED',retryable:true,retryAfterMs:500});
         await window.anomancerCore?.appendReceipt?.(d.receipt);
         const state=applyStageResult(ctx,stage,d);ctx.nextIndex=index+1;ctx.failedIndex=null;ctx.failedError=null;saveCheckpoint(ctx);
@@ -182,9 +184,9 @@ ${JSON.stringify(outputs.critic)}`);
   function endUi(){running=false;controller=null;currentStageIndex=-1;runBtn.disabled=false;retryBtn.disabled=false;resumeBtn.disabled=false;stopBtn.disabled=true;instruction.disabled=false;window.anomancerAdminBridge?.setEditorLocked?.(false);updateCheckpointActions();}
   function finishRun(ctx){
     ctx.status='complete';ctx.finishedAt=new Date().toISOString();ctx.nextIndex=PIPELINE.length;
-    finalRun={initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt,humanApprovalRequired:true,provisionalSources:true,degradedStages:Object.entries(ctx.stageStates).filter(([,v])=>v==='degraded').map(([id])=>id),draftIdentity:ctx.draftIdentity,orchestraRunId:ctx.orchestraRunId};
-    resultPre.textContent=JSON.stringify({finalPost:ctx.post,package:ctx.outputs.package,critic:ctx.outputs.critic,audience:ctx.outputs.audience,run:{orchestraRunId:finalRun.orchestraRunId,startedAt:finalRun.startedAt,finishedAt:finalRun.finishedAt,humanApprovalRequired:true,degradedStages:finalRun.degradedStages}},null,2);resultBox.hidden=false;applyBtn.hidden=false;copyBtn.hidden=false;setRunState(finalRun.degradedStages.length?'COMPLETE / DEGRADED':'COMPLETE');
-    log(`Koko putki valmis · HUMAN APPROVAL REQUIRED${finalRun.degradedStages.length?` · degraded: ${finalRun.degradedStages.join(', ')}`:''}`,'◆');saveCheckpoint(ctx);
+    finalRun={initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt,humanApprovalRequired:true,provisionalSources:true,degradedStages:Object.entries(ctx.stageStates).filter(([,v])=>v==='degraded').map(([id])=>id),disabledStages:Object.entries(ctx.stageStates).filter(([,v])=>v==='disabled').map(([id])=>id),draftIdentity:ctx.draftIdentity,orchestraRunId:ctx.orchestraRunId};
+    resultPre.textContent=JSON.stringify({finalPost:ctx.post,package:ctx.outputs.package,critic:ctx.outputs.critic,audience:ctx.outputs.audience,run:{orchestraRunId:finalRun.orchestraRunId,startedAt:finalRun.startedAt,finishedAt:finalRun.finishedAt,humanApprovalRequired:true,degradedStages:finalRun.degradedStages,disabledStages:finalRun.disabledStages}},null,2);resultBox.hidden=false;applyBtn.hidden=false;copyBtn.hidden=false;setRunState(finalRun.degradedStages.length?'COMPLETE / DEGRADED':'COMPLETE');
+    log(`Koko putki valmis · HUMAN APPROVAL REQUIRED${finalRun.degradedStages.length?` · degraded: ${finalRun.degradedStages.join(', ')}`:''}${finalRun.disabledStages.length?` · off: ${finalRun.disabledStages.join(', ')}`:''}`,'◆');saveCheckpoint(ctx);
   }
   function failWithCheckpoint(ctx,index,error,{stopped=false}={}){
     ctx.nextIndex=index;ctx.failedIndex=stopped?null:index;ctx.failedError=stopped?null:{code:error?.code||'',httpStatus:error?.httpStatus||0,message:error?.message||''};
@@ -236,7 +238,7 @@ ${JSON.stringify(outputs.critic)}`);
     const core=event.detail||{};const orchestra=(core.orchestras||[]).find(item=>item.id==='editorial');if(!orchestra)return;
     const agents=new Map((core.agents||[]).map(agent=>[agent.id,agent]));const next=(orchestra.stages||[]).map(id=>({id,label:agents.get(id)?.label||id}));
     if(next.length===FALLBACK_PIPELINE.length)PIPELINE=next;
-    log(`Core ${core.version||'15.0'} · orkesteri ${orchestra.name||'editorial'} · ${PIPELINE.length} sopimusagenttia ladattu`,'◈');
+    log(`Core ${core.version||'15.3'} · orkesteri ${orchestra.name||'editorial'} · ${PIPELINE.length} sopimusagenttia ladattu`,'◈');
   });
   runBtn.addEventListener('click',runPipeline);
   stopBtn.addEventListener('click',()=>{if(!running)return;stopRequested=true;stopBtn.disabled=true;setRunState('STOPPING');log('Pysäytys pyydetty…','■');controller?.abort();});

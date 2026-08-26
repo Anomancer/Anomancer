@@ -13,7 +13,7 @@ function renderOrchestra(core){
 
 function renderAgents(core){
   const root=q('#corePublicAgents');if(!root)return;
-  root.innerHTML=(core.agents||[]).map(agent=>`<article class="core-public-agent-card"><div class="core-public-agent-head"><div><span>${esc(agent.id)}</span><strong>${esc(agent.label)}</strong></div><code>${esc(String(agent.contractHash||'').slice(0,12))}…</code></div><p>${esc(agent.description)}</p><dl><div><dt>Rooli</dt><dd>${esc(agent.role)}</dd></div><div><dt>Mallireitti</dt><dd>${esc(agent.modelRoute)}</dd></div><div><dt>Output-katto</dt><dd>${n(agent.maxOutputTokens)} tok</dd></div><div><dt>Saa kirjoittaa</dt><dd>${esc((agent.write||[]).join(', ')||'ei mitään')}</dd></div><div><dt>Human gate</dt><dd>${esc((agent.humanApproval||[]).join(', ')||'ei erillistä')}</dd></div><div><dt>Julkaisu</dt><dd class="core-deny">DENY</dd></div></dl></article>`).join('');
+  root.innerHTML=(core.agents||[]).map(agent=>`<article class="core-public-agent-card"><div class="core-public-agent-head"><div><span>${esc(agent.id)}</span><strong>${esc(agent.label)}</strong></div><code>${esc(String(agent.contractHash||'').slice(0,12))}…</code></div><p>${esc(agent.description)}</p><dl><div><dt>Rooli</dt><dd>${esc(agent.role)}</dd></div><div><dt>Mallireitti</dt><dd>${esc(agent.modelRoute)}</dd></div><div><dt>Output</dt><dd>${n(agent.maxOutputTokens)} default · ${n(agent.maxOutputTokensCeiling||agent.maxOutputTokens)} max</dd></div><div><dt>Saa kirjoittaa</dt><dd>${esc((agent.write||[]).join(', ')||'ei mitään')}</dd></div><div><dt>Human gate</dt><dd>${esc((agent.humanApproval||[]).join(', ')||'ei erillistä')}</dd></div><div><dt>Julkaisu</dt><dd class="core-deny">DENY</dd></div></dl></article>`).join('');
 }
 
 function renderModels(core){
