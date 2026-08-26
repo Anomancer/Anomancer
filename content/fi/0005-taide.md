@@ -2,226 +2,62 @@
 title: "Taide ei ehkä ole menossa kohti tekoälytaidetta vaan kohti jotain paljon laajempaa"
 date: "2026-08-26"
 category: "info-media"
+audience: ["all"]
+audienceDepth: "general"
 description: "Taiteen tulevaisuus ei ole vain tekoälyn tekemissä kuvissa ja musiikissa. Kun teokset muuttuvat järjestelmiksi, maailmoiksi ja digitaalisiksi identiteeteiksi, alkuperästä, luvasta ja tietoturvasta tulee osa kulttuuria."
 slug: "taide-ei-ehka-ole-menossa-kohti-tekoalytaidetta-vaan-kohti-jotain-paljon-laajempaa"
 lang: "fi"
-draft: false
-audience: ["all"]
+translationKey: "taide-ei-ehka-ole-menossa-kohti-tekoalytaidetta-vaan-kohti-jotain-paljon-laajempaa"
+aliases: []
+coverImage: ""
+coverAlt: ""
+answer: ""
+sources: []
+claims: []
 pinned: false
+draft: false
 ---
 
-Kun puhutaan tekoälystä ja taiteesta, keskustelu tuntuu juuttuvan yllättävän helposti samaan kohtaan.
+Kun puhutaan tekoälystä ja taiteesta, kysymykset tuntuvat toistavan itseään. Voiko tekoäly tehdä taidetta? Onko koneen tekemä musiikki aitoa? Viekö se kuvittajan työt? Nämä ovat aiheellisia kysymyksiä, mutta ne saattavat olla liian pieniä siihen nähden, mitä ympärillä tapahtuu.
 
-Voiko tekoäly tehdä taidetta?
+Minua kiinnostaa enemmän toinen mahdollisuus. Entä jos käsitys itse teoksesta on hitaasti muuttumassa – ei vain niin, että tekoäly tuottaa enemmän kuvia, vaan niin, että teos alkaa olla yhtä aikaa musiikkia, hahmo, tarina, ohjelmisto ja kokonainen maailma.
 
-Onko sillä tekijänoikeuksia?
+## Kun teos ei olekaan yksi asia
 
-Viekö se kuvittajien työt?
+Jo nyt yksi ihminen voi tehdä asioita, joihin vielä hetki sitten olisi tarvittu kokonainen tuotantoryhmä. Musiikkia, kuvia, videoita, tekstiä, animaatiota, käyttöliittymiä ja virtuaalisia hahmoja voi yhdistää samaan projektiin ilman, että jokaisessa vaiheessa tarvitsee vaihtaa tuotantokoneistoa. Kiinnostavin muutos ei ole kuvan tekemisen nopeutuminen vaan se, että taiteenlajien väliset rajat alkavat menettää merkitystään. Biisi voi olla samalla hahmo, hahmo verkkosivu, verkkosivu tarina, tarina peli, ja peli voi tuottaa musiikkia, joka reagoi yleisöön. Silloin kysymys siitä, mikä teoksen formaatti on, alkaa tuntua vanhalta.
 
-Onko tekoälyllä tehty musiikki oikeaa musiikkia?
+Kuvitellaan vaikka virtuaaliartisti, joka elää pelin, musiikin ja sosiaalisen median päivitysten rajapinnassa: sillä on oma historiansa, kielensä ja tapansa reagoida yleisöön, eikä sen tuotoksista voi sanoa, mikä niistä on ”se teos”. Esimerkki on kuvitteellinen, mutta se tiivistää sen, millaiseen suuntaan eri välineiden yhdistely voi viedä.
 
-Nämä ovat ihan oikeita kysymyksiä, mutta samalla ne saattavat olla vähän liian pieniä suhteessa siihen, mitä ympärillä tapahtuu.
+Ehkä tulevaisuuden taiteilija ei aina tee yksittäistä teosta. Hän saattaa rakentaa ympäristön, josta teoksia voi syntyä, tai hahmon, jolla on oma kieli, historia ja tapa käyttäytyä, tai järjestelmän, joka muuttuu sen mukaan, kuka sitä käyttää. Tämä ei tarkoita, että maalaus, kirja tai kolmen minuutin pop-kappale katoaisivat. Todennäköisesti käy päinvastoin: mitä enemmän uusia muotoja syntyy, sitä kiinnostavammaksi myös vanha rajattu muoto voi tulla. Mutta ympärille ilmestyy jotain uutta. Taiteesta tulee toisinaan vähemmän objekti ja enemmän elävä järjestelmä.
 
-Minua kiinnostaa enemmän toinen mahdollisuus.
+Ja siinä kohtaa mukaan tulee kysymys, joka on perinteisesti kuulunut tietoturvan ja identiteetinhallinnan alueelle: miten tiedämme, mikä on aitoa, kuka on vastuussa ja kuka on antanut luvan? Ei siksi, että jokaisen runoilijan pitäisi opiskella palomuureja, vaan siksi, että mitä enemmän teos sisältää identiteettiä, ohjelmistoa, automaatiota ja generatiivisuutta, sitä vaikeammaksi käy kysymys siitä, mikä kuuluu oikeasti kenellekin.
 
-Entä jos taide ei ole vain saamassa uutta työkalua, vaan koko käsitys teoksesta alkaa vähitellen laajentua?
+## Kopioinnin kohteena on nyt myös ihminen
 
-Jo nyt yksi ihminen voi tehdä asioita, joihin vielä hetki sitten olisi tarvittu kokonainen tuotantoryhmä. Musiikkia, kuvia, videoita, tekstiä, animaatiota, käyttöliittymiä, virtuaalisia hahmoja ja kokonaisia pieniä maailmoja voi yhdistää samaan projektiin ilman, että jokaisessa vaiheessa täytyy vaihtaa kokonaan eri tuotantokoneistoon.
+Kopiointi ei tietenkään ole uusi ilmiö. Taidehistoria on täynnä lainaamista, jäljittelyä, remixejä, väärennöksiä ja vaikutteita, joita on otettu vähän enemmän kuin on myöhemmin muistettu mainita. Digitaalisuuskaan ei aloittanut tätä; se vain teki kopioinnista lähes kitkatonta. Generatiiviset järjestelmät lisäävät tähän vielä yhden kerroksen. Kopioinnin kohteena ei ole enää vain valmis teos, vaan myös ääni, kasvot, tyyli, hahmo ja tapa kirjoittaa. Jo nyt ääntä, kasvoja ja tyyliä voidaan jäljitellä uskottavasti; kokonaisen julkisen persoonan uskottava kopiointi on kuitenkin vielä kehittyvä alue. Jossain vaiheessa voi olla mahdollista tuottaa uskottavaa uutta materiaalia ihmiseltä, joka ei ole osallistunut sen tekemiseen millään tavalla.
 
-Kiinnostavin muutos ei minusta ole se, että kuvan tekeminen nopeutuu.
+Tästä tulee minusta paljon kiinnostavampi ongelma kuin ikuinen väittely siitä, onko tekoälytaide oikeaa taidetta. Jos näen verkossa uuden kappaleen artistilta, haluan ehkä tulevaisuudessa tietää muutakin kuin sen, kuulostaako se aidolta. Haluan tietää, julkaisiko artisti tämän oikeasti, oliko hänen äänensä käyttöön lupa, kuka aloitti tuotannon, mitä materiaalia siinä käytettiin, onko teosta muokattu julkaisun jälkeen ja onko kyse virallisesta teoksesta, fanityöstä, parodiasta vai väärennöksestä. Nämä eivät ole enää pelkästään tekijänoikeuskysymyksiä, vaan myös alkuperän ja toimijuuden kysymyksiä.
 
-Se on se, että eri taiteenlajien väliset rajat alkavat menettää merkitystään.
+## Alkuperästä tulee osa teosta
 
-Biisi voi olla samalla hahmo.
+Tässä kohtaa taide alkaa muistuttaa ohjelmistoja. Ohjelmistossa ei riitä, että tiedosto näyttää oikealta; halutaan tietää, mistä se tuli, kuka sen julkaisi ja onko sitä muutettu matkalla. Sama ajatus voi tulla kulttuuriin. Ei välttämättä rumasti ruudulle lyödyn ”AI VERIFIED” -leiman muodossa, vaan osana teoksen rakennetta. Teoksella voisi olla historia: kuka loi ensimmäisen version, kuka sai muokata sitä, mikä osa syntyi ihmiseltä, mikä koneellisessa prosessissa, mihin käyttöön tekijä on antanut luvan, mikä julkaisu on alkuperäinen ja mikä myöhempi johdannainen. Tätä voisi kutsua digitaaliseksi provenanciksi, teoksen jäljitettäväksi alkuperäksi.
 
-Hahmo voi olla verkkosivu.
+Tässä on kuitenkin ansa. Jos tästä tehdään liian raskas tekninen järjestelmä, taiteesta tulee jälleen kerran jonkun muun hallitsema alue. En haluaisi tulevaisuutta, jossa jokainen kuva tarvitsee viisi sertifikaattia ja jonkin kansainvälisen megayhtiön hyväksynnän ollakseen ”aito”. Se olisi tehokas tapa tappaa juuri se vapaus, jota taiteessa pitäisi suojella.
 
-Verkkosivu voi olla tarina.
+## Alkuperämerkintä ei saa ryhtyä taiteen tuomariksi
 
-Tarina voi muuttua peliksi.
+Alkuperämerkinnän kiinnostava tehtävä taiteessa ei siksi ehkä ole päättää, mikä on taidetta. Sen pitäisi auttaa vastaamaan paljon rajatumpaan kysymykseen: kuka teki mitä ja millä luvalla? Taiteen arvoa siitä ei voi päätellä. Surkea kappale voi olla täysin autenttinen, upea teos täysin anonyymi, parodia voi tarkoituksella jäljitellä alkuperäistä, ja remix voi olla kulttuurisesti arvokkaampi kuin materiaali, josta se syntyi. Tekninen järjestelmä ei saisi alkaa toimia esteettisenä tuomarina. Mutta se voisi tarjota tietoa, jonka pohjalta luovan lainaamisen ja identiteetin väärentämisen ero voidaan tehdä – se ei tekisi erottelua itse. Erottelu on viime kädessä oikeudellinen ja kulttuurinen arvio, johon metatieto antaa vain aineksia.
 
-Peli voi tuottaa musiikkia.
+Yhtä tärkeää on muistaa, ettei mikään tekninen jälki ole idioottivarma. Se voidaan riisua, väärentää tai kadottaa vaikkapa kuvakaappauksessa. Silti jo se, että jälki puuttuu, on itsessään tieto.
 
-Musiikki voi reagoida yleisöön.
+Tämä erottelu voi muuttua tärkeäksi, koska jos mikä tahansa ääni, kuva tai persoona voidaan tuottaa uskottavasti uudelleen, pelkkä sisältö ei enää välttämättä todista omaa alkuperäänsä. Silloin aitous ei ole enää vain sitä, miltä jokin näyttää tai kuulostaa, vaan suhde teoksen, tekijän ja tapahtumaketjun välillä.
 
-Ja kaikki tämä voi olla saman teoksen eri pintoja.
+## Vapaus tarvitsee rajan
 
-Silloin kysymys "mikä tämän teoksen formaatti on?" alkaa tuntua vähän vanhalta.
+Ehkä tämä vaikuttaa lopulta myös siihen, miten taidetta tehdään. Taiteilija ei välttämättä hallitse enää vain materiaalia, vaan myös omaa digitaalista identiteettiään. Millä ehdoilla ääntäni saa käyttää? Saako hahmoani jatkaa joku toinen? Voiko yleisö tehdä tästä teoksesta omia versioitaan? Missä kohtaa fanitaide muuttuu viralliseksi osaksi maailmaa? Voiko teoksella olla useita tekijöitä, joista osa on ihmisiä ja osa taas itsenäisesti toimivia ohjelmistoja, jotka tuottavat sisältöä ilman ihmisen välintuloa? Kuka saa julkaista uuden version?
 
-Ehkä tulevaisuuden taiteilija ei aina tee yksittäistä teosta.
+Tässä taide alkaa lähestyä jotain, mikä muistuttaa yhtä aikaa kulttuuria, ohjelmistoa ja yhteisöä. Se on minusta paljon kiinnostavampi tulevaisuus kuin ajatus siitä, että tekoäly vain tekee meille enemmän kuvia.
 
-Hän rakentaa ympäristön, josta teoksia voi syntyä.
+Ehkä seuraava suuri muutos taiteessa ei olekaan uuden tyylisuunnan synty, vaan teoksen rajojen muuttuminen. Valmis objekti voi laajentua prosessiksi, prosessi maailmaksi, ja maailma voi saada yleisön, joka ei vain katso sitä vaan osallistuu sen rakentamiseen. Mitä avoimemmaksi tämä kaikki muuttuu, sitä tärkeämmäksi käy hyvin arkinen asia: avoimuus ei tarkoita, ettei kenelläkään enää olisi oikeutta päättää omasta työstään tai identiteetistään.
 
-Tai hahmon, jolla on oma kieli, historia ja tapa käyttäytyä.
-
-Tai järjestelmän, joka muuttuu sen mukaan kuka sitä käyttää.
-
-Tai kokonaisen maailman, jossa musiikki, kuva, teksti ja ohjelmisto ovat saman asian eri kerroksia.
-
-Tämä ei tietenkään tarkoita, että maalaus, kirja tai kolmen minuutin pop-kappale katoaisivat mihinkään.
-
-Todennäköisesti käy päinvastoin. Mitä enemmän uusia muotoja syntyy, sitä kiinnostavammaksi myös vanha rajattu muoto voi tulla.
-
-Mutta ympärille ilmestyy jotain uutta.
-
-Taiteesta tulee joissain tapauksissa vähemmän objekti ja enemmän elävä järjestelmä.
-
-Ja siinä kohtaa tietoturva muuttuu yllättäen taidekeskusteluksi.
-
-Ei siksi, että jokaisen runoilijan pitäisi alkaa opiskella palomuureja.
-
-Vaan siksi, että mitä enemmän teos sisältää identiteettiä, ohjelmistoa, automaatiota ja generatiivisuutta, sitä vaikeammaksi käy kysymys siitä, mikä kuuluu oikeasti kenellekin.
-
-Kopiointi ei tietenkään ole uusi ilmiö.
-
-Taidehistoria on täynnä lainaamista, jäljittelyä, remixejä, väärennöksiä ja ihmisiä, jotka ovat ottaneet vaikutteita toisiltaan vähän enemmän kuin ovat myöhemmin muistaneet mainita.
-
-Digitaalisuuskaan ei aloittanut tätä.
-
-Se vain teki kopioimisesta lähes kitkatonta.
-
-Generatiiviset järjestelmät lisäävät tähän vielä yhden kerroksen.
-
-Nyt ei tarvitse välttämättä kopioida itse teosta.
-
-Voi kopioida äänen.
-
-Kasvot.
-
-Tyylin.
-
-Hahmon.
-
-Tavan kirjoittaa.
-
-Kokonaisen julkisen persoonan.
-
-Jossain vaiheessa voi olla mahdollista tehdä uskottavaa uutta materiaalia ihmiseltä, joka ei ole osallistunut sen tekemiseen millään tavalla.
-
-Tästä tulee minusta paljon kiinnostavampi ongelma kuin ikuinen väittely siitä, "onko tekoälytaide oikeaa taidetta".
-
-Jos näen verkossa uuden kappaleen artistilta, haluan ehkä tulevaisuudessa tietää muutakin kuin sen, kuulostaako kappale aidolta.
-
-Haluan tietää:
-
-Julkaisiko artisti tämän oikeasti?
-
-Oliko hänen äänensä käyttöön lupa?
-
-Kuka aloitti tuotannon?
-
-Mitä materiaalia siinä käytettiin?
-
-Onko teosta muokattu julkaisun jälkeen?
-
-Onko kyse virallisesta teoksesta, fanityöstä, parodiasta vai väärennöksestä?
-
-Nämä eivät ole enää pelkästään tekijänoikeuskysymyksiä.
-
-Ne ovat myös alkuperän ja toimijuuden kysymyksiä.
-
-Ja tässä kohtaa taiteeseen alkaa hiipiä hyvin samanlaisia ongelmia kuin ohjelmistoihin.
-
-Ohjelmistossa ei riitä, että tiedosto näyttää oikealta. Halutaan tietää mistä se tuli, kuka sen julkaisi ja onko sitä muutettu matkalla.
-
-Sama ajatus voi tulla kulttuuriin paljon nopeammin kuin ehkä ajatellaan.
-
-Ei välttämättä jonkin rumasti ruudulle lyödyn "AI VERIFIED" -leiman muodossa, vaan osaksi teoksen taustalla olevaa rakennetta.
-
-Teoksella voisi olla historia.
-
-Kuka loi ensimmäisen version.
-
-Kuka sai muokata sitä.
-
-Mikä osa syntyi ihmiseltä.
-
-Mikä osa koneellisessa prosessissa.
-
-Mihin käyttöön tekijä on antanut luvan.
-
-Mikä julkaisu on alkuperäinen.
-
-Mikä on myöhempi johdannainen.
-
-Tavallaan digitaalinen provenance, eli teoksen jäljitettävä alkuperä.
-
-Tässä on kuitenkin yksi ansa.
-
-Jos tästä tehdään liian raskas tekninen järjestelmä, taiteesta tulee jälleen kerran jonkun muun hallitsema alue.
-
-En haluaisi tulevaisuutta, jossa jokainen kuva tarvitsee viisi sertifikaattia ja jonkin kansainvälisen megayhtiön hyväksynnän ollakseen "aito".
-
-Se olisi aika tehokas tapa tappaa juuri se vapaus, jota taiteessa pitäisi suojella.
-
-Tietoturvan kiinnostava tehtävä taiteessa ei siksi ehkä ole päättää mikä on taidetta.
-
-Sen pitäisi auttaa vastaamaan paljon rajatumpaan kysymykseen:
-
-**kuka teki mitä ja millä luvalla?**
-
-Taiteen arvoa siitä ei voi päätellä.
-
-Surkea kappale voi olla täysin autenttinen.
-
-Upea teos voi olla täysin anonyymi.
-
-Parodia voi tarkoituksella jäljitellä alkuperäistä.
-
-Remix voi olla kulttuurisesti arvokkaampi kuin materiaali josta se syntyi.
-
-Tekninen järjestelmä ei saisi alkaa toimia esteettisenä tuomarina.
-
-Mutta se voisi auttaa erottamaan toisistaan luovan lainaamisen ja identiteetin väärentämisen.
-
-Tämä ero voi muuttua tärkeäksi.
-
-Koska jos mikä tahansa ääni, kuva tai persoona voidaan tuottaa uskottavasti uudelleen, pelkkä sisältö ei enää välttämättä todista omaa alkuperäänsä.
-
-Silloin aitous ei ole enää pelkästään sitä, miltä jokin näyttää tai kuulostaa.
-
-Aitoudesta tulee suhde teoksen, tekijän ja tapahtumaketjun välillä.
-
-Ja ehkä tämä vaikuttaa lopulta myös siihen, miten taidetta tehdään.
-
-Taiteilija ei välttämättä enää hallitse vain materiaalia.
-
-Hän voi joutua hallitsemaan myös omaa digitaalista identiteettiään.
-
-Millä ehdoilla ääntäni saa käyttää?
-
-Saako hahmoani jatkaa joku toinen?
-
-Voiko yleisö tehdä tästä teoksesta omia versioitaan?
-
-Missä kohtaa fanitaide muuttuu viralliseksi osaksi maailmaa?
-
-Voiko teoksella olla useita tekijöitä, joista osa on ihmisiä ja osa ohjelmallisia toimijoita?
-
-Kuka saa julkaista uuden version?
-
-Tässä taide alkaa lähestyä jotain, mikä muistuttaa yhtä aikaa kulttuuria, ohjelmistoa ja yhteisöä.
-
-Se on minusta paljon kiinnostavampi tulevaisuus kuin ajatus siitä, että tekoäly vain tekee meille enemmän kuvia.
-
-Ehkä seuraava suuri muutos taiteessa ei ole uuden tyylisuunnan synty.
-
-Ehkä teoksen rajat alkavat muuttua.
-
-Valmis objekti voi laajentua prosessiksi.
-
-Prosessi voi laajentua maailmaksi.
-
-Maailma voi saada yleisön, joka ei vain katso sitä vaan osallistuu sen rakentamiseen.
-
-Ja mitä avoimemmaksi tämä kaikki muuttuu, sitä tärkeämmäksi käy yksi hyvin arkinen asia:
-
-että avoimuus ei tarkoita sitä, ettei kenelläkään enää olisi oikeutta päättää omasta työstään tai identiteetistään.
-
-Siksi tietoturva ei ehkä tulevaisuudessa istu taiteen ulkopuolella teknisenä lisäosana.
-
-Se voi olla yksi niistä rakenteista, jotka mahdollistavat uudenlaisen taiteen syntymisen ilman, että samalla menetetään kokonaan käsitys tekijyydestä.
-
-Ja ehkä siinä on koko kiinnostavin paradoksi.
-
-Mitä vapaammaksi taide teknologian avulla muuttuu, sitä tärkeämmäksi tulee tietää missä kulkee vapaaehtoisuuden raja.
+Siksi digitaalisesta alkuperästä ei ehkä tulevaisuudessa tule taiteen ulkopuolista teknistä lisäosaa. Se voi olla yksi rakenteista, jotka mahdollistavat uudenlaisen taiteen syntymisen ilman, että samalla menetetään kokonaan käsitys tekijyydestä. Ja ehkä siinä on koko kiinnostavin paradoksi: mitä vapaammaksi taide teknologian avulla muuttuu, sitä tärkeämmäksi tulee tietää, missä kulkee vapaaehtoisuuden raja.
