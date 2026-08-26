@@ -1,5 +1,16 @@
 # Changelog
 
+## 14.3.0 · 2026-08-26
+
+- Lisätty ensimmäisen luokan **Audience Layer** ja uusi `audience`-agentti.
+- Muutettu kohdeyleisö toiminnalliseksi `Audience Contract` -signaaliksi: rakenne, kirjoitus, kritiikki, yleisöadapteri ja äänieditori näkevät saman kohdeyleisön.
+- Lisätty `audienceDepth`: `plain`, `general`, `professional`, `technical`. Valinta tallentuu Markdown-frontmatteriin ja kulkee API:n sekä checkpointin läpi.
+- Uusi orkesterijärjestys: `source → structure → writer → critic → audience → voice → claims → package`. Väitevahti auditoi siis edelleen viimeisen proosaversion.
+- Yleisöadapteri saa muuttaa kehystä, järjestystä, määritelmiä, esimerkkejä, terminologian tiheyttä ja painotuksia, mutta ei evidenssin tilaa tai väitteiden varmuutta.
+- Lukittu `audience` ja `audienceDepth` pakettivaiheessa ihmisen toimitukselliseksi intentioksi. Package-agentin mahdolliset audience-ehdotukset ohitetaan palvelimella.
+- Lisätty editoriin syvyystason UI, Audience Contract -selite ja Yleisöadapteri yksittäisten agenttien valikkoon.
+- Laajennettu regressiotestejä Audience Layerin tulossopimukselle, orkesterijärjestykselle, syvyystason roundtripille ja pakettivaiheen audience-immuuttisuudelle.
+
 ## 14.2.1 · 2026-08-26
 
 - Siirretty Väitevahti orkesterissa äänieditoinnin jälkeen, jotta claims kuvaa lopullista proosaa eikä lähtöluonnosta.

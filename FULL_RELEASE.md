@@ -1,4 +1,4 @@
-# Anomancer 14.2.1 · Full Release
+# Anomancer 14.3.0 · Full Release
 
 Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkisen FI/EN-sivuston, Markdown-sisällöt, Vercel API -funktiot, yksityisen adminin, DeepSeek-agentit, orkesterin, buildin, testit ja dokumentaation.
 
@@ -14,5 +14,10 @@ Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkis
 - slug-aliasit vanhojen artikkeliosoitteiden säilyttämiseen
 - turvallinen, varmuuskopioiva asennusskripti
 
-Julkaisuversio: 14.2.1.
+Julkaisuversio: 14.3.0.
 
+
+
+## Audience Layer 14.3.0
+
+Adminissa kohdeyleisö on nyt toiminnallinen toimitusvalinta eikä pelkkä metadata. Syvyystaso voidaan asettaa selkokieleksi, yleistajuiseksi, ammattilaiseksi tai syväksi tekniseksi. Orkesterin Audience Adapter sovittaa tekstin valittuun havaintopositioon ja Claims-vaihe tarkistaa lopullisen version tämän jälkeen. Audience Contract ja Evidence Layer pysyvät ihmisen hallinnassa.

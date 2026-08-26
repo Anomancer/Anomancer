@@ -1,11 +1,11 @@
 import { getSession, requireCsrf } from '../_lib/auth.js';
 import { json, readJson, sameOrigin } from '../_lib/http.js';
 import { deepseekChatJson, deepseekWebSearchJson, deepseekConfigStatus } from '../_lib/deepseek.js';
-import { promptFor, SOURCE_SCHEMA, CATEGORIES, AUDIENCES } from '../_lib/agent-prompts.js';
+import { promptFor, SOURCE_SCHEMA, CATEGORIES, AUDIENCES, AUDIENCE_DEPTHS } from '../_lib/agent-prompts.js';
 import { normalizeClaims, normalizeSources } from '../_lib/content.js';
 import { validateAgentResult } from '../_lib/agent-validation.js';
 
-const AGENTS=new Set(['source','claims','structure','writer','critic','voice','package']);
+const AGENTS=new Set(['source','claims','structure','writer','critic','audience','voice','package']);
 const MAX_BODY_CHARS=60_000;
 const MAX_CUSTOM_CHARS=12_000;
 const windows=new Map();
@@ -20,6 +20,7 @@ function rateLimit(req,session){
   return true;
 }
 function cleanString(v,max=10000){return String(v||'').slice(0,max);}
+function normalizeAudienceInput(value){const picked=Array.isArray(value)?[...new Set(value.filter(x=>AUDIENCES.includes(x)))]:[];if(!picked.length||picked.includes('all'))return ['all'];return picked.slice(0,8);}
 function normalizePost(input={}){
   const sources=normalizeSources(input.sources).slice(0,30);
   const claims=normalizeClaims(input.claims,sources).slice(0,40);
@@ -28,14 +29,15 @@ function normalizePost(input={}){
   return {
     lang:input.lang==='en'?'en':'fi',
     title:cleanString(input.title,180),category:CATEGORIES.includes(input.category)?input.category:'info-media',
-    audience:Array.isArray(input.audience)?input.audience.filter(x=>AUDIENCES.includes(x)).slice(0,8):['all'],
+    audience:normalizeAudienceInput(input.audience),
+    audienceDepth:AUDIENCE_DEPTHS.includes(input.audienceDepth)?input.audienceDepth:'general',
     description:cleanString(input.description,220),answer:cleanString(input.answer,1200),slug:cleanString(input.slug,100),
     sources,claims,body,
   };
 }
 function modelFor(agent){
   const cfg=deepseekConfigStatus();
-  if(agent==='writer'||agent==='voice'||agent==='structure'||agent==='package') return cfg.writerModel;
+  if(agent==='writer'||agent==='audience'||agent==='voice'||agent==='structure'||agent==='package') return cfg.writerModel;
   if(agent==='critic'||agent==='claims') return cfg.criticModel;
   return cfg.defaultModel;
 }
@@ -62,7 +64,7 @@ export default async function handler(req,res){
     req.once?.('aborted',abort);
     const response=agent==='source'
       ? await deepseekWebSearchJson({system,user,schema:SOURCE_SCHEMA,signal:abortController.signal})
-      : await deepseekChatJson({system,user,model:modelFor(agent),maxTokens:agent==='writer'||agent==='voice'?8000:5500,thinking:!['voice'].includes(agent),signal:abortController.signal});
+      : await deepseekChatJson({system,user,model:modelFor(agent),maxTokens:['writer','audience','voice'].includes(agent)?8000:5500,thinking:!['voice'].includes(agent),signal:abortController.signal});
     req.removeListener?.('aborted',abort);
     const result=validateAgentResult(agent,response.result,post);
     return json(res,200,{ok:true,agent,result,meta:response.meta,humanApprovalRequired:true});

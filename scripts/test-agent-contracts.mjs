@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import { validateAgentResult } from '../api/_lib/agent-validation.js';
+import { promptFor } from '../api/_lib/agent-prompts.js';
 
 let ok=0;
 const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`);};
 const verified={title:'Verified',url:'https://example.com/verified',publisher:'Example',date:'2026',origin:'human',verification:'verified'};
 const candidate={title:'Candidate',url:'https://example.com/candidate',publisher:'Example',date:'2026',origin:'source-agent',verification:'candidate'};
-const post={lang:'fi',title:'Testi',category:'info-media',audience:['all'],sources:[verified,candidate],claims:[],body:'Teksti'};
+const post={lang:'fi',title:'Testi',category:'info-media',audience:['all'],audienceDepth:'general',sources:[verified,candidate],claims:[],body:'Teksti'};
 
 test('source-agentin URL säilyy aina ehdokkaana provenance-tietoineen',()=>{
   const result=validateAgentResult('source',{summary:'ok',candidateSources:[{title:'A',url:'https://example.org/a',why:'w',supports:'s',challenges:'c'}]},post);
@@ -42,4 +43,7 @@ test('julkaisupaketti ei voi keksiä lähdettä tai taksonomiaa',()=>{
   assert.deepEqual(result.sources,post.sources);
 });
 
+
+await test('yleisöadapteri säilyttää epistemisen ytimen promptissa',()=>{const p={...post,audience:['investor'],audienceDepth:'professional'};const x=promptFor('audience',p);assert.match(x.system,/AUDIENCE ADAPTER/);assert.match(x.system,/investor/);assert.match(x.system,/professional/);assert.match(x.system,/must not strengthen certainty/);assert.match(x.user,/Do not return claims or sources/);});
+await test('paketoija ei saa vaihtaa ihmisen valitsemaa audience-intentiota',()=>{const p={...post,audience:['teacher'],audienceDepth:'plain'};const x=promptFor('package',p);assert.match(x.system,/locked editorial intent/);assert.match(x.user,/Do not return rewritten claims, sources, audience or audienceDepth/);});
 console.log(`\n${ok}/${ok} AGENT CONTRACT -testiä läpi`);

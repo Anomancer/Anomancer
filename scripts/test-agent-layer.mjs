@@ -4,12 +4,13 @@ import fs from 'node:fs';
 import { signSession, verifySession, csrfForSession } from '../api/_lib/auth.js';
 import { deepseekChatJson, deepseekWebSearchJson, deepseekConfigStatus } from '../api/_lib/deepseek.js';
 import { promptFor, SOURCE_SCHEMA } from '../api/_lib/agent-prompts.js';
+import { validateAgentResult } from '../api/_lib/agent-validation.js';
 import agentsHandler from '../api/admin/agents.js';
 
 let ok=0;const test=async(name,fn)=>{await fn();ok++;console.log(`✓ ${name}`)};
 function resMock(){return{statusCode:200,headers:{},body:'',setHeader(k,v){this.headers[String(k).toLowerCase()]=v},end(v=''){this.body+=v}}}
 function reqMock({method='GET',body,headers={}}={}){const r=new EventEmitter();r.method=method;r.headers=headers;r.socket={remoteAddress:'127.0.0.1'};if(body!==undefined)r.body=body;return r;}
-const samplePost={lang:'fi',title:'Testi',category:'info-media',audience:['all'],description:'Kuvaus',answer:'',slug:'testi',sources:[{title:'Lähde',url:'https://example.org/source',publisher:'Example',date:'2026'}],claims:[],body:'Tässä on väite, jota pitää tarkastella.'};
+const samplePost={lang:'fi',title:'Testi',category:'info-media',audience:['all'],audienceDepth:'general',description:'Kuvaus',answer:'',slug:'testi',sources:[{title:'Lähde',url:'https://example.org/source',publisher:'Example',date:'2026'}],claims:[],body:'Tässä on väite, jota pitää tarkastella.'};
 
 await test('DeepSeek-avain pysyy server-configissa eikä status paljasta sitä',()=>{process.env.DEEPSEEK_API_KEY='ds-secret-key';const c=deepseekConfigStatus();assert.equal(c.configured,true);assert.doesNotMatch(JSON.stringify(c),/ds-secret-key/);});
 await test('Source Agent completion-control näkyy turvallisena configina',()=>{delete process.env.DEEPSEEK_SOURCE_MAX_OUTPUT_TOKENS;delete process.env.DEEPSEEK_SOURCE_REASONING_EFFORT;const c=deepseekConfigStatus();assert.equal(c.sourceMaxOutputTokens,7000);assert.equal(c.sourceReasoningEffort,'low');assert.equal(c.sourceReasoningEffective,'low');});
@@ -29,4 +30,8 @@ await test('admin UI näyttää completion-syyn, pelastetut lähteet ja Hae lis�
 await test('julkaisupaketin UI ei kirjoita Evidence Layeria uusiksi',()=>{const js=fs.readFileSync('admin-agents.js','utf8');const start=js.indexOf("if(a==='package')");const end=js.indexOf('runBtn.addEventListener',start);const branch=js.slice(start,end);assert.doesNotMatch(branch,/#sources|#claims/);});
 await test('build stageaa agentti-JS:n publiciin',()=>{const build=fs.readFileSync('scripts/build-blog.mjs','utf8');assert.match(build,/admin-agents\.js/);});
 
+
+await test('yleisöadapterin tulos validoidaan ilman Evidence Layer -kirjoitusoikeutta',()=>{const post={...samplePost,audience:['investor'],audienceDepth:'professional'};const r=validateAgentResult('audience',{body:'## Sijoittajalle\n\nRiski ja toimivalta.',adaptationSummary:['Riski nostettu alkuun'],audienceFit:'Painottaa governancea.',preservedCore:['Lupa ei ole sama kuin kyky'],warnings:[],claims:[{status:'supported',text:'EI SAA'}],sources:[{url:'https://evil.example'}]},post);assert.match(r.body,/Sijoittajalle/);assert.equal(r.audienceFit,'Painottaa governancea.');assert.equal('claims' in r,false);assert.equal('sources' in r,false);});
+await test('julkaisupaketti säilyttää ihmisen yleisön ja syvyyden mallin vastauksesta riippumatta',()=>{const post={...samplePost,audience:['teacher'],audienceDepth:'plain'};const r=validateAgentResult('package',{title:'T',description:'D',slug:'t',answer:'A',category:'info-media',audience:['investor'],audienceDepth:'technical',claims:[],sources:[],notes:[]},post);assert.deepEqual(r.audience,['teacher']);assert.equal(r.audienceDepth,'plain');});
+await test('agents API tuntee Audience Layerin ja normalisoi yleisöinputin palvelimella',()=>{const src=fs.readFileSync('api/admin/agents.js','utf8');assert.match(src,/['\"]audience['\"]/);assert.match(src,/normalizeAudienceInput/);assert.match(src,/audienceDepth:AUDIENCE_DEPTHS/);});
 console.log(`\n${ok}/${ok} LÄHETYSKONE AGENTS -testiä läpi`);

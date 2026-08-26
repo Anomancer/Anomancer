@@ -7,9 +7,10 @@ if(box){
   if(!moreBtn&&runBtn){moreBtn=document.createElement('button');moreBtn.id='agentMoreBtn';moreBtn.type='button';moreBtn.className='secondary';moreBtn.textContent='Hae lisää';moreBtn.hidden=true;runBtn.insertAdjacentElement('afterend',moreBtn);}
   let csrf='',last=null;
 
-  const AGENT_LABELS={source:'Lähdeagentti',claims:'Väitevahti',structure:'Rakenneagentti',writer:'Kirjoitusagentti',critic:'Kriitikko',voice:'Äänieditori',package:'Julkaisupaketti'};
+  const AGENT_LABELS={source:'Lähdeagentti',claims:'Väitevahti',structure:'Rakenneagentti',writer:'Kirjoitusagentti',critic:'Kriitikko',audience:'Yleisöadapteri',voice:'Äänieditori',package:'Julkaisupaketti'};
   const CATEGORY_VALUES=new Set(['ai-work','info-media','work-decisions','money-risk','software-safety','language-learning','creativity-tools','society-systems']);
   const AUDIENCE_VALUES=new Set(['all','employee','entrepreneur','developer','teacher','creative','decision-maker','investor']);
+  const AUDIENCE_DEPTH_VALUES=new Set(['plain','general','professional','technical']);
 
   function setStatus(text,kind=''){status.textContent=text;status.className=`agent-status ${kind}`;}
   function parseSources(text=''){
@@ -25,7 +26,7 @@ if(box){
   function currentPost(){
     return{
       lang:q('#lang')?.value||'fi',title:q('#title')?.value||'',category:q('#category')?.value||'info-media',
-      audience:qa('input[name="audience"]:checked').map(x=>x.value),description:q('#description')?.value||'',answer:q('#answer')?.value||'',
+      audience:qa('input[name="audience"]:checked').map(x=>x.value),audienceDepth:AUDIENCE_DEPTH_VALUES.has(q('#audienceDepth')?.value)?q('#audienceDepth').value:'general',description:q('#description')?.value||'',answer:q('#answer')?.value||'',
       slug:q('#slug')?.value||'',sources:parseSources(q('#sources')?.value||''),claims:parseClaims(q('#claims')?.value||''),body:q('#body')?.value||''
     };
   }
@@ -59,18 +60,19 @@ if(box){
     let cards=[];
     if(agent==='source')cards=(result.candidateSources||[]).map(source=>`<article><span>EHDOKAS</span><h4>${escapeHtml(source.title||source.url)}</h4><a href="${escapeAttr(source.url)}" target="_blank" rel="noopener noreferrer">Avaa lähde ↗</a>${source.why?`<p><strong>Miksi:</strong> ${escapeHtml(source.why)}</p>`:''}${source.supports?`<p><strong>Tukee:</strong> ${escapeHtml(source.supports)}</p>`:''}${source.challenges?`<p><strong>Haastaa:</strong> ${escapeHtml(source.challenges)}</p>`:''}</article>`);
     else if(agent==='critic')cards=(result.issues||[]).map(issue=>`<article data-severity="${escapeAttr(issue.severity)}"><span>${escapeHtml(issue.severity||'medium')}</span><h4>${escapeHtml(issue.type||'Havainto')}</h4><p>${escapeHtml(issue.problem)}</p>${issue.fix?`<p><strong>Korjaus:</strong> ${escapeHtml(issue.fix)}</p>`:''}</article>`);
+    else if(agent==='audience')cards=(result.adaptationSummary||[]).map((item,index)=>`<article><span>${String(index+1).padStart(2,'0')}</span><h4>Yleisömuutos</h4><p>${escapeHtml(item)}</p></article>`);
     else if(agent==='structure')cards=(result.outline||[]).map((item,index)=>`<article><span>${String(index+1).padStart(2,'0')}</span><h4>${escapeHtml(item.heading)}</h4><p>${escapeHtml(item.purpose)}</p></article>`);
     visual.innerHTML=cards.length?cards.join(''):`<div class="agent-summary"><strong>${escapeHtml(title)}</strong><p>${escapeHtml(summaryText(agent,result))}</p></div>`;
     copyBtn.hidden=false;
     const sourceCount=agent==='source'&&Array.isArray(result?.candidateSources)?result.candidateSources.length:0;
     const rawFallback=agent==='source'&&meta?.structured===false;
-    applyBtn.hidden=(rawFallback&&sourceCount===0)||!['source','claims','writer','voice','package'].includes(agent);
-    applyBtn.textContent=agent==='source'?(rawFallback?'Lisää pelastetut lähteet':'Lisää lähde-ehdokkaat'):agent==='claims'?'Siirrä Evidence Layeriin':agent==='writer'?'Käytä luonnosta':agent==='voice'?'Käytä äänieditointia':'Käytä julkaisupakettia';
+    applyBtn.hidden=(rawFallback&&sourceCount===0)||!['source','claims','writer','audience','voice','package'].includes(agent);
+    applyBtn.textContent=agent==='source'?(rawFallback?'Lisää pelastetut lähteet':'Lisää lähde-ehdokkaat'):agent==='claims'?'Siirrä Evidence Layeriin':agent==='writer'?'Käytä luonnosta':agent==='audience'?'Käytä yleisöversiota':agent==='voice'?'Käytä äänieditointia':'Käytä julkaisupakettia';
     if(moreBtn)moreBtn.hidden=agent!=='source'||sourceCount===0;
   }
   function escapeHtml(value=''){return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));}
   function escapeAttr(value=''){return escapeHtml(value);}
-  function summaryText(agent,result){if(agent==='claims')return `${result.claims?.length||0} väitettä · tarkista statukset Evidence-välilehdellä.`;if(agent==='writer'||agent==='voice')return `${String(result.body||'').split(/\s+/).filter(Boolean).length} sanaa · vertaa nykyiseen tekstiin ennen käyttöä.`;if(agent==='package')return 'Metadata- ja evidenssipaketti valmis ihmisen tarkistettavaksi.';return 'Tulos valmis.';}
+  function summaryText(agent,result){if(agent==='claims')return `${result.claims?.length||0} väitettä · tarkista statukset Evidence-välilehdellä.`;if(agent==='writer'||agent==='audience'||agent==='voice')return `${String(result.body||'').split(/\s+/).filter(Boolean).length} sanaa · vertaa nykyiseen tekstiin ennen käyttöä.`;if(agent==='package')return 'Esitysmetadata valmis. Audience Contract ja Evidence Layer säilyvät ennallaan.';return 'Tulos valmis.';}
   async function run({more=false}={}){
     try{
       runBtn.disabled=true;if(moreBtn)moreBtn.disabled=true;applyBtn.hidden=true;copyBtn.hidden=true;setStatus(more?'Lähdeagentti etsii lisää ilman duplikaatteja…':'Agentti työskentelee…','working');
@@ -116,7 +118,7 @@ if(box){
       if(Array.isArray(r.claims)){q('#claims').value=formatClaims(r.claims);fire(q('#claims'));}
       setStatus('✓ Ydinvastaus ja väitteet siirretty editoriin. Julkaisu vaatii edelleen sinut.','ok');return;
     }
-    if(a==='writer'||a==='voice'){
+    if(a==='writer'||a==='audience'||a==='voice'){
       if(!r.body)return setStatus('Agentin vastauksessa ei ollut body-kenttää.','err');
       if(!confirm('Korvataanko editorin nykyinen Markdown tällä agentin versiolla? Tätä ei vielä tallenneta GitHubiin.'))return;
       q('#body').value=r.body;fire(q('#body'));
@@ -131,10 +133,7 @@ if(box){
       const pairs=[['#title','title',180],['#description','description',220],['#slug','slug',100],['#answer','answer',1200]];
       for(const [sel,key,max] of pairs){if(typeof r[key]==='string'&&r[key]){q(sel).value=r[key].slice(0,max);fire(q(sel));}}
       if(CATEGORY_VALUES.has(r.category)){q('#category').value=r.category;fire(q('#category'));}
-      if(Array.isArray(r.audience)){
-        const vals=new Set(r.audience.filter(x=>AUDIENCE_VALUES.has(x)));if(vals.size){qa('input[name="audience"]').forEach(x=>x.checked=vals.has(x.value));qa('input[name="audience"]')[0]?.dispatchEvent(new Event('change',{bubbles:true}));}
-      }
-      setStatus('✓ Julkaisupaketti siirretty editoriin. Human approval gate on edelleen kiinni.','ok');
+            setStatus('✓ Julkaisupaketti siirretty editoriin. Human approval gate on edelleen kiinni.','ok');
     }
   }
   runBtn.addEventListener('click',()=>run());

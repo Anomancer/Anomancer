@@ -1,4 +1,4 @@
-import { AUDIENCES, CATEGORIES } from './agent-prompts.js';
+import { AUDIENCE_DEPTHS, CATEGORIES } from './agent-prompts.js';
 import { stableSourceId } from './content.js';
 
 const CLAIM_STATUSES=new Set(['supported','interpretation','open']);
@@ -62,18 +62,19 @@ export function validateAgentResult(agent,value,post){
     issues:list(raw.issues,30).map(item=>{const v=object(item);return {severity:SEVERITIES.has(v.severity)?v.severity:'medium',type:text(v.type,120),excerpt:text(v.excerpt,500),problem:text(v.problem,900),fix:text(v.fix,900)};}).filter(x=>x.problem),
     strengths:strings(raw.strengths,16,700),questions:strings(raw.questions,16,700),
   };
+  if(agent==='audience') return {body:text(raw.body,500_000),adaptationSummary:strings(raw.adaptationSummary,20,700),audienceFit:text(raw.audienceFit,1200),preservedCore:strings(raw.preservedCore,20,700),warnings:strings(raw.warnings,20,700)};
   if(agent==='voice') return {body:text(raw.body,500_000),changes:strings(raw.changes,30,700),warnings:strings(raw.warnings,20,700)};
   if(agent==='package'){
     const category=CATEGORIES.includes(raw.category)?raw.category:post.category;
-    const audience=[...new Set(list(raw.audience,8).filter(x=>AUDIENCES.includes(x)))];
-    // Packaging may suggest presentation metadata, but it is not allowed to re-audit,
-    // rewrite, drop or promote the Evidence Layer assembled by earlier stages.
+    // Packaging may suggest presentation metadata, but audience intent and Evidence Layer
+    // are canonical human-controlled state by this point in the pipeline.
     const sources=(post.sources||[]).map(source=>({...source}));
     const claims=normalizeClaims(post.claims,post);
+    const audience=Array.isArray(post.audience)&&post.audience.length?[...post.audience]:['all'];
+    const audienceDepth=AUDIENCE_DEPTHS.includes(post.audienceDepth)?post.audienceDepth:'general';
     return {
       title:text(raw.title||post.title,180),description:text(raw.description||post.description,220),slug:text(raw.slug||post.slug,100),answer:text(raw.answer||post.answer,1200),category,
-      audience:audience.length?(audience.includes('all')?['all']:audience):post.audience,
-      claims,sources,notes:strings(raw.notes,20,700),
+      audience,audienceDepth,claims,sources,notes:strings(raw.notes,20,700),
     };
   }
   throw Object.assign(new Error('Tuntematon agenttitulos.'),{statusCode:400,code:'AGENT_RESULT_UNKNOWN'});

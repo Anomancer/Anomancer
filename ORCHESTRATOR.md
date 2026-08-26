@@ -1,6 +1,6 @@
-# Anomancer 14.2.1 · Orchestrator
+# Anomancer 14.3.0 · Orchestrator
 
-Orkesteri ajaa seitsemän vaihetta järjestyksessä: source, structure, writer, critic, voice, claims ja package. Kaikki tulokset ovat ehdotuksia. Vain ihminen voi siirtää lopputuloksen editoriin, tallentaa luonnoksen tai julkaista.
+Orkesteri ajaa kahdeksan vaihetta järjestyksessä: source, structure, writer, critic, audience, voice, claims ja package. Kaikki tulokset ovat ehdotuksia. Vain ihminen voi siirtää lopputuloksen editoriin, tallentaa luonnoksen tai julkaista.
 
 ## Luonnosidentiteetti
 
@@ -16,5 +16,11 @@ Pysäytys abortoi selaimen pyynnön ja välittää peruutussignaalin palvelimen 
 
 ## Evidenssin käsittely
 
-Lähdeagentin ehdotukset säilyttävät kentät `why`, `supports`, `challenges`, `origin`, `verification` ja `retrievedAt`. Niitä ei muuteta automaattisesti tarkistetuiksi. Väitevahti ajaa 14.2.1:ssä vasta kirjoitus-, kritiikki- ja äänivaiheiden jälkeen, joten se auditoi lopullista proosaa eikä vanhaa lähtötekstiä. Se saa käyttää `supported`-tilaa vain tarkistetun lähteen kanssa. Candidate-URL voidaan säilyttää `open`/`interpretation`-väitteen provisionaalisena tutkimusjälkenä. Paketoija ei saa kirjoittaa claims/sources-kenttiä uusiksi; palvelin kuljettaa Evidence Layerin viimeiseen vaiheeseen kanonisena.
+Lähdeagentin ehdotukset säilyttävät kentät `why`, `supports`, `challenges`, `origin`, `verification` ja `retrievedAt`. Niitä ei muuteta automaattisesti tarkistetuiksi. Väitevahti ajaa 14.3.0:ssä vasta kirjoitus-, kritiikki-, yleisö- ja äänivaiheiden jälkeen, joten se auditoi lopullista proosaa eikä vanhaa lähtötekstiä. Se saa käyttää `supported`-tilaa vain tarkistetun lähteen kanssa. Candidate-URL voidaan säilyttää `open`/`interpretation`-väitteen provisionaalisena tutkimusjälkenä. Paketoija ei saa kirjoittaa claims/sources-kenttiä uusiksi; palvelin kuljettaa Evidence Layerin viimeiseen vaiheeseen kanonisena.
 
+
+## Audience Contract
+
+Editorissa valitaan kohdeyleisö sekä syvyystaso (`plain`, `general`, `professional`, `technical`). Ne kulkevat koko orkesterin mukana kanonisena ihmisen intentiotietona. Rakenne-, kirjoitus- ja kriitikkovaiheet näkevät valinnan jo alusta lähtien. Erillinen Audience Adapter saa muuttaa kehystä, kappalejärjestystä, esimerkkejä, määritelmiä, terminologian tiheyttä ja painotuksia, mutta ei väitteiden varmuutta, lähdestatuksia tai Evidence Layeria.
+
+Äänieditori työskentelee yleisöversion päällä ja sen prompti velvoittaa säilyttämään kohderyhmän sekä syvyystason. Tämän jälkeen Väitevahti auditoi juuri lopullisen proosan. Julkaisupaketti ei saa vaihtaa audience- tai audienceDepth-arvoja.

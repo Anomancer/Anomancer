@@ -59,7 +59,7 @@
             <label class="pin-field"><input id="pinned" type="checkbox"><span><strong>Pinnaa lähetys</strong><small>Nostaa jutun Lähetykset-listan alkuun.</small></span></label>
             <fieldset class="wide audience-field">
               <legend>Kenelle tästä on hyötyä?</legend>
-              <p class="field-help">Valitse yksi tai useampi. “Kaikille” sulkee muut pois.</p>
+              <p class="field-help">Valitse yksi tai useampi. “Kaikille” sulkee muut pois. Valinta ohjaa nyt myös agenttien rakennetta, sanastoa, esimerkkejä ja painotuksia.</p>
               <div class="audience-options">
                 <label><input type="checkbox" name="audience" value="all" checked><span>Kaikille</span></label>
                 <label><input type="checkbox" name="audience" value="employee"><span>Työntekijälle</span></label>
@@ -71,6 +71,13 @@
                 <label><input type="checkbox" name="audience" value="investor"><span>Sijoittajalle</span></label>
               </div>
             </fieldset>
+            <label class="audience-depth-field">Kuinka syvälle?<select id="audienceDepth">
+              <option value="plain">Selkokieli</option>
+              <option value="general" selected>Yleistajuinen</option>
+              <option value="professional">Ammattilainen</option>
+              <option value="technical">Syvä tekninen</option>
+            </select><small>Kohdeyleisö kertoo kenelle. Syvyys kertoo kuinka paljon voidaan olettaa valmiiksi.</small></label>
+            <div class="audience-contract-note"><strong>Audience Contract</strong><span>Agentit saavat vaihtaa kehystä, järjestystä, esimerkkejä ja terminologian tiheyttä. Ne eivät saa vahvistaa väitteitä tai muuttaa evidenssin tilaa.</span></div>
             <label class="wide">SEO-kuvaus <span id="descCount" class="count">0 / 220</span><textarea id="description" rows="3" maxlength="220"></textarea></label>
             <label class="wide">Translation key<input id="translationKey" maxlength="100" placeholder="sama avain FI/EN-versioille"></label>
             <div class="wide cover-field">
@@ -113,7 +120,7 @@
 
 	          <section class="workspace-panel" data-workspace-panel="evidence" hidden>
 	            <section class="evidence-editor">
-	              <div class="evidence-editor-head"><div><strong>Evidence Layer</strong><span>14.2 · ehdokas → ihmisen tarkistama → julkaistava</span></div></div>
+	              <div class="evidence-editor-head"><div><strong>Evidence Layer</strong><span>14.3 · ehdokas → ihmisen tarkistama → julkaistava</span></div></div>
 	              <label>Ydinvastaus <span id="answerCount" class="count">0 / 1200</span><textarea id="answer" rows="4" maxlength="1200" placeholder="1–3 virkettä: mikä on tämän tekstin suora vastaus tai ydinväite?"></textarea></label>
 	              <div><strong class="field-label">Lähteiden tarkistus</strong><p class="field-help">Agenttilähde ei voi siirtyä julkaisuun ennen kuin olet avannut sen ja merkinnyt tarkistetuksi.</p><div id="sourceReview" class="source-review"></div></div>
 	              <details class="source-raw"><summary>Lähdedata ja manuaalinen lisäys</summary><label>Lähteet<textarea id="sources" rows="5" placeholder="Otsikko | https://... | Julkaisija | YYYY-MM-DD"></textarea></label><p class="field-help">Voit lisätä yhden lähteen per rivi putkimuodossa. Järjestelmä säilyttää agenttilähteet JSON-riveinä, jotta niiden alkuperä ja tarkistustila eivät katoa.</p></details>
@@ -127,7 +134,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 	          <section class="workspace-panel" data-workspace-panel="agents" hidden>
 	          <section id="agentDesk" class="agent-desk" aria-labelledby="agentDeskTitle">
             <div class="agent-desk-head">
-	              <div><p class="kicker">14.2.1 · DEEPSEEK AGENTS</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
+	              <div><p class="kicker">14.3.0 · AUDIENCE-AWARE AGENTS</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
               <span id="agentModelStatus" class="agent-model-status">Agenttitila tarkistetaan…</span>
             </div>
             <p class="agent-rule"><strong>Human approval gate:</strong> agentit saavat tutkia, ehdottaa ja muokata luonnosta. Ne eivät saa tallentaa GitHubiin eivätkä julkaista.</p>
@@ -138,6 +145,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
                 <option value="structure">Rakenneagentti</option>
                 <option value="writer">Kirjoitusagentti</option>
                 <option value="critic">Kriitikko</option>
+                <option value="audience">Yleisöadapteri</option>
                 <option value="voice">Äänieditori</option>
                 <option value="package">Julkaisupaketti</option>
               </select></label>
@@ -155,18 +163,19 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 
           <section id="orchestraDesk" class="orchestra-desk" aria-labelledby="orchestraTitle">
             <div class="orchestra-head">
-	              <div><p class="kicker">14.2.1 · IDENTITY-SAFE ORCHESTRATOR</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
+	              <div><p class="kicker">14.3.0 · AUDIENCE-SAFE ORCHESTRATOR</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
               <span class="orchestra-lock">HUMAN FINAL AUTHORITY</span>
             </div>
-            <p class="orchestra-rule">Orkesteri ajaa agentit yksi kerrallaan selaimesta. Välitulokset kulkevat seuraavalle agentille vain työmuistissa. <strong>Se ei tallenna luonnosta, tee GitHub-writeä eikä julkaise.</strong></p>
+            <p class="orchestra-rule">Orkesteri ajaa agentit yksi kerrallaan selaimesta. Yleisöadapteri muuttaa havaintoposition, mutta Väitevahti tarkistaa vasta sen ja äänieditoinnin jälkeen lopullisen proosan. Välitulokset kulkevat seuraavalle agentille vain työmuistissa. <strong>Se ei tallenna luonnosta, tee GitHub-writeä eikä julkaise.</strong></p>
             <div class="orchestra-stages" id="orchestraStages" aria-label="Orkesterin vaiheet">
               <span data-stage="source"><b>01</b>Lähteet</span>
               <span data-stage="structure"><b>02</b>Rakenne</span>
               <span data-stage="writer"><b>03</b>Luonnos</span>
               <span data-stage="critic"><b>04</b>Kritiikki</span>
-              <span data-stage="voice"><b>05</b>Ääni</span>
-              <span data-stage="claims"><b>06</b>Väitteet</span>
-              <span data-stage="package"><b>07</b>Paketti</span>
+              <span data-stage="audience"><b>05</b>Yleisö</span>
+              <span data-stage="voice"><b>06</b>Ääni</span>
+              <span data-stage="claims"><b>07</b>Väitteet</span>
+              <span data-stage="package"><b>08</b>Paketti</span>
             </div>
             <label class="orchestra-instruction">Orkesterin lisäohje <span class="count">valinnainen</span><textarea id="orchestraInstruction" rows="2" maxlength="2400" placeholder="Esim. pidä teksti tutkivana, älä silota outoja havaintoja ja etsi aktiivisesti vastanäyttöä."></textarea></label>
             <div class="orchestra-actions">

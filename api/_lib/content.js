@@ -1,5 +1,6 @@
 export const CATEGORIES = ['ai-work','info-media','work-decisions','money-risk','software-safety','language-learning','creativity-tools','society-systems'];
 export const AUDIENCES = ['all','employee','entrepreneur','developer','teacher','creative','decision-maker','investor'];
+export const AUDIENCE_DEPTHS = ['plain','general','professional','technical'];
 
 export const CLAIM_STATUSES = ['supported','interpretation','open'];
 export const SOURCE_VERIFICATIONS = ['candidate','verified','rejected'];
@@ -78,6 +79,11 @@ export function normalizeCategory(value='') {
   return CATEGORIES.includes(mapped)?mapped:'info-media';
 }
 
+export function normalizeAudienceDepth(value='general') {
+  const raw=String(value||'general').trim();
+  return AUDIENCE_DEPTHS.includes(raw)?raw:'general';
+}
+
 export function normalizeAudience(value) {
   let items=[];
   if (Array.isArray(value)) items=value;
@@ -121,7 +127,7 @@ export function parseMarkdown(raw, path='') {
   }
   const sources=normalizeSources(data.sources);
   const claims=normalizeClaims(data.claims,sources);
-  return { ...data, category:normalizeCategory(data.category), audience:normalizeAudience(data.audience), aliases:normalizeAliases(data.aliases,data.slug), answer:String(data.answer||'').trim(), sources, claims, pinned:Boolean(data.pinned), draft:Boolean(data.draft), body:text.slice(end+5).replace(/^\n+/,'') };
+  return { ...data, category:normalizeCategory(data.category), audience:normalizeAudience(data.audience), audienceDepth:normalizeAudienceDepth(data.audienceDepth), aliases:normalizeAliases(data.aliases,data.slug), answer:String(data.answer||'').trim(), sources, claims, pinned:Boolean(data.pinned), draft:Boolean(data.draft), body:text.slice(end+5).replace(/^\n+/,'') };
 }
 
 export function normalizeAliases(value,currentSlug='') {
@@ -135,6 +141,7 @@ export function validatePost(input,{forPublish=!Boolean(input?.draft)}={}) {
   const date = String(input.date || '').trim();
   const category = normalizeCategory(input.category);
   const audience = normalizeAudience(input.audience);
+  const audienceDepth = normalizeAudienceDepth(input.audienceDepth);
   const description = String(input.description || '').trim();
   const slug = slugify(input.slug || title);
   const translationKey = slugify(input.translationKey || slug);
@@ -175,12 +182,12 @@ export function validatePost(input,{forPublish=!Boolean(input?.draft)}={}) {
   if (coverImage && !/^\/media\/[A-Za-z0-9._\/-]+$/.test(coverImage)) throw Object.assign(new Error('Kansikuvan polku on virheellinen.'), { statusCode:400 });
   if (coverImage && !coverAlt) throw Object.assign(new Error('Kansikuvalta puuttuu alt-teksti.'), { statusCode:400 });
   if (coverAlt.length > 180) throw Object.assign(new Error('Kansikuvan alt-teksti on liian pitkä (max 180 merkkiä).'), { statusCode:400 });
-  return { lang,title,date,category,audience,description,slug,translationKey,aliases,coverImage,coverAlt,answer,sources,claims,pinned,draft,body };
+  return { lang,title,date,category,audience,audienceDepth,description,slug,translationKey,aliases,coverImage,coverAlt,answer,sources,claims,pinned,draft,body };
 }
 
 export function serializePost(input) {
   const p = validatePost(input,{forPublish:!Boolean(input?.draft)});
-  return `---\ntitle: ${JSON.stringify(p.title)}\ndate: ${JSON.stringify(p.date)}\ncategory: ${JSON.stringify(p.category)}\naudience: ${JSON.stringify(p.audience)}\ndescription: ${JSON.stringify(p.description)}\nslug: ${JSON.stringify(p.slug)}\nlang: ${JSON.stringify(p.lang)}\ntranslationKey: ${JSON.stringify(p.translationKey)}\naliases: ${JSON.stringify(p.aliases)}\ncoverImage: ${JSON.stringify(p.coverImage)}\ncoverAlt: ${JSON.stringify(p.coverAlt)}\nanswer: ${JSON.stringify(p.answer)}\nsources: ${JSON.stringify(p.sources)}\nclaims: ${JSON.stringify(p.claims)}\npinned: ${p.pinned}\ndraft: ${p.draft}\n---\n\n${p.body}\n`;
+  return `---\ntitle: ${JSON.stringify(p.title)}\ndate: ${JSON.stringify(p.date)}\ncategory: ${JSON.stringify(p.category)}\naudience: ${JSON.stringify(p.audience)}\naudienceDepth: ${JSON.stringify(p.audienceDepth)}\ndescription: ${JSON.stringify(p.description)}\nslug: ${JSON.stringify(p.slug)}\nlang: ${JSON.stringify(p.lang)}\ntranslationKey: ${JSON.stringify(p.translationKey)}\naliases: ${JSON.stringify(p.aliases)}\ncoverImage: ${JSON.stringify(p.coverImage)}\ncoverAlt: ${JSON.stringify(p.coverAlt)}\nanswer: ${JSON.stringify(p.answer)}\nsources: ${JSON.stringify(p.sources)}\nclaims: ${JSON.stringify(p.claims)}\npinned: ${p.pinned}\ndraft: ${p.draft}\n---\n\n${p.body}\n`;
 }
 
 export function newPostPath(post) {

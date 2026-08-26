@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { normalizeSources as normalizeContentSources, normalizeClaims as normalizeContentClaims, normalizeAliases } from '../api/_lib/content.js';
+import { normalizeSources as normalizeContentSources, normalizeClaims as normalizeContentClaims, normalizeAliases, normalizeAudienceDepth } from '../api/_lib/content.js';
 
 const ROOT = process.cwd();
 const SITE = String(process.env.PUBLIC_SITE_URL || 'https://anomancer.com').replace(/\/$/,'');
@@ -103,6 +103,7 @@ function parsePost(file, lang) {
   data.slug = data.slug || slugify(data.title);
   data.category = normalizeCategory(data.category);
   data.audience = normalizeAudience(data.audience);
+  data.audienceDepth = normalizeAudienceDepth(data.audienceDepth);
   data.answer = String(data.answer||'').trim();
   data.sources = normalizeContentSources(data.sources);
   data.claims = normalizeContentClaims(data.claims,data.sources);
@@ -355,7 +356,7 @@ write('robots.txt',robotsTxt());
 const published=posts.filter(p=>!p.draft);
 const draftCount=posts.filter(p=>p.draft).length;
 // Julkinen manifesti sisältää vain julkaistut tekstit. Luonnosten metadata ei kuulu public-outputtiin.
-const manifest={generatedAt:new Date().toISOString(),entity:{siteName:SITE_NAME,author:AUTHOR,authorId:PERSON_ID,authorUrl:AUTHOR_URL,websiteId:WEBSITE_ID},published:published.map(p=>({lang:p.lang,slug:p.slug,title:p.title,description:p.description,answer:p.answer||'',category:p.category,audience:p.audience||['all'],pinned:Boolean(p.pinned),date:p.date,updated:p.updated||p.date,url:articleUrl(p),articleId:`${articleUrl(p)}#article`,authorId:PERSON_ID,coverImage:p.coverImage||'',evidence:{sourceCount:(p.sources||[]).length,claimCount:(p.claims||[]).length,supported:(p.claims||[]).filter(x=>x.status==='supported').length,interpretation:(p.claims||[]).filter(x=>x.status==='interpretation').length,open:(p.claims||[]).filter(x=>x.status==='open').length}}))};
+const manifest={generatedAt:new Date().toISOString(),entity:{siteName:SITE_NAME,author:AUTHOR,authorId:PERSON_ID,authorUrl:AUTHOR_URL,websiteId:WEBSITE_ID},published:published.map(p=>({lang:p.lang,slug:p.slug,title:p.title,description:p.description,answer:p.answer||'',category:p.category,audience:p.audience||['all'],audienceDepth:p.audienceDepth||'general',pinned:Boolean(p.pinned),date:p.date,updated:p.updated||p.date,url:articleUrl(p),articleId:`${articleUrl(p)}#article`,authorId:PERSON_ID,coverImage:p.coverImage||'',evidence:{sourceCount:(p.sources||[]).length,claimCount:(p.claims||[]).length,supported:(p.claims||[]).filter(x=>x.status==='supported').length,interpretation:(p.claims||[]).filter(x=>x.status==='interpretation').length,open:(p.claims||[]).filter(x=>x.status==='open').length}}))};
 write('content-manifest.json',JSON.stringify(manifest,null,2)+'\n');
 const evidenceManifest={version:'anomancer.evidence/v1',generatedAt:manifest.generatedAt,articles:published.map(p=>({articleId:`${articleUrl(p)}#article`,url:articleUrl(p),title:p.title,lang:p.lang,answer:p.answer||'',claims:p.claims||[],sources:p.sources||[]}))};
 write('evidence-manifest.json',JSON.stringify(evidenceManifest,null,2)+'\n');

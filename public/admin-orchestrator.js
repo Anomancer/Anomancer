@@ -8,11 +8,12 @@ if(desk){
     {id:'structure',label:'Rakenneagentti'},
     {id:'writer',label:'Kirjoitusagentti'},
     {id:'critic',label:'Kriitikko'},
+    {id:'audience',label:'Yleisöadapteri'},
     {id:'voice',label:'Äänieditori'},
     {id:'claims',label:'Väitevahti'},
     {id:'package',label:'Julkaisupaketti'},
   ];
-  const CHECKPOINT_KEY='anomancer.orchestra.checkpoint.v14.2.1';
+  const CHECKPOINT_KEY='anomancer.orchestra.checkpoint.v14.3.0';
   let running=false,stopRequested=false,controller=null,csrf='',finalRun=null,checkpoint=null,currentStageIndex=-1;
 
   function now(){return new Date().toLocaleTimeString('fi-FI',{hour12:false});}
@@ -36,14 +37,14 @@ if(desk){
   function formatSources(items=[]){return items.map(x=>JSON.stringify({id:x.id||'',title:x.title||'',url:x.url||'',publisher:x.publisher||'',date:x.date||'',origin:x.origin||'human',verification:x.verification||'verified',retrievedAt:x.retrievedAt||'',why:x.why||'',supports:x.supports||'',challenges:x.challenges||''})).join('\n');}
   function formatClaims(items=[]){return items.map(x=>[x.status||'open',x.text||'',(x.evidence||[]).join(', '),x.note||''].join(' | ').replace(/(?:\s*\|\s*)+$/,'')).join('\n');}
   function currentPost(){return{
-    lang:q('#lang')?.value||'fi',title:q('#title')?.value||'',category:q('#category')?.value||'info-media',audience:qa('input[name="audience"]:checked').map(x=>x.value),description:q('#description')?.value||'',answer:q('#answer')?.value||'',slug:q('#slug')?.value||'',sources:parseSources(q('#sources')?.value||''),claims:parseClaims(q('#claims')?.value||''),body:q('#body')?.value||''
+    lang:q('#lang')?.value||'fi',title:q('#title')?.value||'',category:q('#category')?.value||'info-media',audience:qa('input[name="audience"]:checked').map(x=>x.value),audienceDepth:q('#audienceDepth')?.value||'general',description:q('#description')?.value||'',answer:q('#answer')?.value||'',slug:q('#slug')?.value||'',sources:parseSources(q('#sources')?.value||''),claims:parseClaims(q('#claims')?.value||''),body:q('#body')?.value||''
   };}
   function fingerprint(post=currentPost()){let hash=2166136261;const raw=JSON.stringify(post);for(const char of raw){hash^=char.charCodeAt(0);hash=Math.imul(hash,16777619);}return (hash>>>0).toString(36);}
   function currentIdentity(){const bridge=window.anomancerAdminBridge;const base=bridge?.getDraftIdentity?.()||{};return{path:String(base.path||''),sha:String(base.sha||''),instanceId:String(base.instanceId||''),fingerprint:fingerprint(),title:currentPost().title};}
   function sameDocument(a={},b={}){const ap=String(a.path||''),bp=String(b.path||'');if(ap||bp)return Boolean(ap&&bp&&ap===bp&&String(a.sha||'')===String(b.sha||''));const ai=String(a.instanceId||''),bi=String(b.instanceId||'');return Boolean(ai&&bi&&ai===bi);}
   function fire(el,type='input'){if(el)el.dispatchEvent(new Event(type,{bubbles:true}));}
   function mergeSources(base=[],candidates=[]){const out=[],byUrl=new Map();for(const item of [...base,...candidates]){const url=cleanString(item?.url,2000).trim();if(!url)continue;const normalized={id:cleanString(item?.id,80)||stableSourceId(url),title:cleanString(item?.title||url,220),url,publisher:cleanString(item?.publisher,160),date:cleanString(item?.date,20),origin:item?.origin==='source-agent'?'source-agent':'human',verification:['candidate','verified','rejected'].includes(item?.verification)?item.verification:(item?.origin==='source-agent'?'candidate':'verified'),retrievedAt:cleanString(item?.retrievedAt,40),why:cleanString(item?.why,500),supports:cleanString(item?.supports,800),challenges:cleanString(item?.challenges,800)};const existing=byUrl.get(url);if(!existing){byUrl.set(url,normalized);out.push(normalized);continue;}for(const key of ['id','title','publisher','date','retrievedAt','why','supports','challenges'])if(!existing[key]&&normalized[key])existing[key]=normalized[key];}return out.slice(0,30);}
-  function mergePackageIntoPost(post,pkg){const next={...post};if(!pkg||typeof pkg!=='object')return next;for(const key of ['title','description','slug','answer'])if(typeof pkg[key]==='string'&&pkg[key])next[key]=pkg[key];if(typeof pkg.category==='string')next.category=pkg.category;if(Array.isArray(pkg.audience)&&pkg.audience.length)next.audience=pkg.audience;return next;}
+  function mergePackageIntoPost(post,pkg){const next={...post};if(!pkg||typeof pkg!=='object')return next;for(const key of ['title','description','slug','answer'])if(typeof pkg[key]==='string'&&pkg[key])next[key]=pkg[key];if(typeof pkg.category==='string')next.category=pkg.category;return next;}
   async function getSession(){const r=await fetch('/api/admin/session',{credentials:'same-origin'});const d=await r.json().catch(()=>({}));if(!r.ok||!d.authenticated)throw new Error('Admin-session puuttuu.');csrf=d.csrf||'';return d;}
   function stageInstruction(stage,baseInstruction,outputs,metas={}){
     const bits=[];if(baseInstruction)bits.push(`KOKO ORKESTERIN IHMISOHJE:
@@ -54,7 +55,11 @@ ${JSON.stringify({summary:outputs.source.summary,gaps:outputs.source.gaps,warnin
     }
     if(stage==='writer'&&outputs.structure)bits.push(`RAKENNEAGENTIN EHDOTUS JSON. Käytä sitä apuna, älä mekaanisena pakkona:
 ${JSON.stringify(outputs.structure)}`);
-    if(stage==='critic'&&outputs.writer)bits.push('Kritiikin kohteena on juuri orkesterissa syntynyt luonnos. Etsi myös kohdat, joissa lähde-ehdokkaiden varmuus on ylitetty.');
+    if(stage==='critic'&&outputs.writer)bits.push('Kritiikin kohteena on juuri orkesterissa syntynyt luonnos. Etsi myös kohdat, joissa lähde-ehdokkaiden varmuus on ylitetty ja joissa teksti ei palvele valittua kohdeyleisöä.');
+    if(stage==='audience'&&outputs.critic)bits.push(`KRIITIKON HAVAINNOT JSON. Korjaa yleisön kannalta hyödylliset ongelmat muuttamatta väitteiden epistemistä vahvuutta:
+${JSON.stringify(outputs.critic)}`);
+    if(stage==='voice'&&outputs.audience)bits.push(`YLEISÖADAPTERIN TULOS JSON. Säilytä valittu kohdeyleisö ja syvyystaso myös äänieditoinnissa:
+${JSON.stringify(outputs.audience)}`);
     if(stage==='voice'&&outputs.critic)bits.push(`KRIITIKON HAVAINNOT JSON. Korjaa hyödylliset ongelmat, mutta älä silota kirjoittajan omaa ääntä:
 ${JSON.stringify(outputs.critic)}`);
     if(stage==='claims'&&outputs.source){
@@ -64,7 +69,7 @@ ${JSON.stringify(outputs.critic)}`);
         ? `Tarkastat nyt ÄÄNIEDITORIN JÄLKEISEN nykyisen tekstin. Lähdeagentin ${count} ehdokasta ovat PROVISIONAALISIA. Voit kytkeä relevantin candidate-URL:n open/interpretation-väitteeseen jäljitettäväksi tutkimusjohtolangaksi, mutta candidate ei saa tehdä väitteestä supported-tilaa.${degraded?' Lähdevaihe oli DEGRADED, joten älä nosta varmuutta pelkän agenttilähteen perusteella.':''}`
         : 'Tarkastat nyt ÄÄNIEDITORIN JÄLKEISEN nykyisen tekstin. Lähdeagentti ei tuonut yhtään lähde-ehdokasta. Älä merkitse väitteitä tuetuiksi tämän lähdevaiheen perusteella. Jos editorissa ei ollut valmiiksi ihmisen lisäämiä lähteitä, käsittele faktaväitteiden evidenssi puuttuvana.');
     }
-    if(stage==='package')bits.push('Tämä on orkesterin viimeinen koneellinen vaihe. Valmistele vain esitysmetadata. Nykyinen Evidence Layer (claims + sources) on lukittu tämän vaiheen ajaksi eikä sitä saa kirjoittaa uusiksi. Älä väitä mitään julkaistuksi tai ihmisen hyväksymäksi.');
+    if(stage==='package')bits.push('Tämä on orkesterin viimeinen koneellinen vaihe. Valmistele vain esitysmetadata. Nykyinen Evidence Layer (claims + sources) sekä ihmisen valitsema audience + audienceDepth ovat lukittuja tämän vaiheen ajaksi eikä niitä saa kirjoittaa uusiksi. Älä väitä mitään julkaistuksi tai ihmisen hyväksymäksi.');
     return bits.join('\n\n').slice(0,12000);
   }
   async function callAgent(agent,post,custom){
@@ -89,6 +94,7 @@ ${JSON.stringify(outputs.critic)}`);
     if(stage==='claims')bits.unshift(`${Array.isArray(r.claims)?r.claims.length:0} väitettä`);
     if(stage==='structure')bits.unshift(`${Array.isArray(r.outline)?r.outline.length:0} rakennekohtaa`);
     if(stage==='critic')bits.unshift(`${Array.isArray(r.issues)?r.issues.length:0} havaintoa`);
+    if(stage==='audience')bits.unshift(`${cleanString(r.body).split(/\s+/).filter(Boolean).length} sanaa · ${cleanString(r.audienceFit,160)||'yleisö sovitettu'}`);
     if(stage==='voice')bits.unshift(`${cleanString(r.body).split(/\s+/).filter(Boolean).length} sanaa`);
     if(stage==='package')bits.unshift('metadata + evidence');return bits.join(' · ');
   }
@@ -102,7 +108,7 @@ ${JSON.stringify(outputs.critic)}`);
   function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
   function safeClone(value){return JSON.parse(JSON.stringify(value));}
   function checkpointPayload(ctx){return{
-    version:'14.2.1',status:ctx.status||'running',draftIdentity:ctx.draftIdentity,initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,stageStates:ctx.stageStates,nextIndex:ctx.nextIndex,failedIndex:ctx.failedIndex,failedError:ctx.failedError||null,baseInstruction:ctx.baseInstruction,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',terminal:terminal.textContent,humanApprovalRequired:true
+    version:'14.3.0',status:ctx.status||'running',draftIdentity:ctx.draftIdentity,initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,stageStates:ctx.stageStates,nextIndex:ctx.nextIndex,failedIndex:ctx.failedIndex,failedError:ctx.failedError||null,baseInstruction:ctx.baseInstruction,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',terminal:terminal.textContent,humanApprovalRequired:true
   };}
   function saveCheckpoint(ctx){
     checkpoint=checkpointPayload(ctx);
@@ -113,7 +119,7 @@ ${JSON.stringify(outputs.critic)}`);
   }
   function clearCheckpoint(){checkpoint=null;try{sessionStorage.removeItem(CHECKPOINT_KEY);}catch{}updateCheckpointActions();}
   function loadCheckpoint(){
-    try{const raw=sessionStorage.getItem(CHECKPOINT_KEY);if(!raw)return null;const value=JSON.parse(raw);if(value?.version!=='14.2.1'||!value?.post||!value?.outputs||!value?.draftIdentity)return null;return value;}catch{return null;}
+    try{const raw=sessionStorage.getItem(CHECKPOINT_KEY);if(!raw)return null;const value=JSON.parse(raw);if(value?.version!=='14.3.0'||!value?.post||!value?.outputs||!value?.draftIdentity)return null;return value;}catch{return null;}
   }
   function updateCheckpointActions(){
     const has=checkpoint&&checkpoint.status!=='complete'&&Number(checkpoint.nextIndex)<PIPELINE.length;
@@ -127,7 +133,7 @@ ${JSON.stringify(outputs.critic)}`);
     terminal.textContent=cp.terminal||'$ checkpoint palautettu';
     if(cp.status==='complete'){
       finalRun={initial:cp.initial,post:cp.post,outputs:cp.outputs,metas:cp.metas,startedAt:cp.startedAt,finishedAt:cp.finishedAt,humanApprovalRequired:true,degradedStages:Object.entries(cp.stageStates||{}).filter(([,value])=>value==='degraded').map(([id])=>id),draftIdentity:cp.draftIdentity};
-      resultPre.textContent=JSON.stringify({finalPost:cp.post,package:cp.outputs.package,critic:cp.outputs.critic,run:{startedAt:cp.startedAt,finishedAt:cp.finishedAt,humanApprovalRequired:true,degradedStages:finalRun.degradedStages}},null,2);resultBox.hidden=false;applyBtn.hidden=false;
+      resultPre.textContent=JSON.stringify({finalPost:cp.post,package:cp.outputs.package,critic:cp.outputs.critic,audience:cp.outputs.audience,run:{startedAt:cp.startedAt,finishedAt:cp.finishedAt,humanApprovalRequired:true,degradedStages:finalRun.degradedStages}},null,2);resultBox.hidden=false;applyBtn.hidden=false;
     }
     setRunState(cp.status==='complete'?'COMPLETE / RESTORED':Number.isInteger(cp.failedIndex)?'CHECKPOINT / ERROR':'CHECKPOINT');
     updateCheckpointActions();copyBtn.hidden=false;
@@ -141,6 +147,7 @@ ${JSON.stringify(outputs.critic)}`);
     if(stage.id==='source')ctx.post.sources=mergeSources(ctx.post.sources,(d.result?.candidateSources||[]));
     if(stage.id==='claims'){if(typeof d.result?.answer==='string')ctx.post.answer=d.result.answer;if(Array.isArray(d.result?.claims))ctx.post.claims=d.result.claims;}
     if(stage.id==='writer'){if(typeof d.result?.body==='string'&&d.result.body)ctx.post.body=d.result.body;if(typeof d.result?.description==='string')ctx.post.description=d.result.description;if(typeof d.result?.answer==='string')ctx.post.answer=d.result.answer;}
+    if(stage.id==='audience'&&typeof d.result?.body==='string'&&d.result.body)ctx.post.body=d.result.body;
     if(stage.id==='voice'&&typeof d.result?.body==='string'&&d.result.body)ctx.post.body=d.result.body;
     if(stage.id==='package')ctx.post=mergePackageIntoPost(ctx.post,d.result);
     const state=stage.id==='source'&&sourceIsDegraded(d)?'degraded':'done';ctx.stageStates[stage.id]=state;stageState(stage.id,state);return state;
@@ -180,7 +187,7 @@ ${JSON.stringify(outputs.critic)}`);
   function finishRun(ctx){
     ctx.status='complete';ctx.finishedAt=new Date().toISOString();ctx.nextIndex=PIPELINE.length;
     finalRun={initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt,humanApprovalRequired:true,provisionalSources:true,degradedStages:Object.entries(ctx.stageStates).filter(([,v])=>v==='degraded').map(([id])=>id),draftIdentity:ctx.draftIdentity};
-    resultPre.textContent=JSON.stringify({finalPost:ctx.post,package:ctx.outputs.package,critic:ctx.outputs.critic,run:{startedAt:finalRun.startedAt,finishedAt:finalRun.finishedAt,humanApprovalRequired:true,degradedStages:finalRun.degradedStages}},null,2);resultBox.hidden=false;applyBtn.hidden=false;copyBtn.hidden=false;setRunState(finalRun.degradedStages.length?'COMPLETE / DEGRADED':'COMPLETE');
+    resultPre.textContent=JSON.stringify({finalPost:ctx.post,package:ctx.outputs.package,critic:ctx.outputs.critic,audience:ctx.outputs.audience,run:{startedAt:finalRun.startedAt,finishedAt:finalRun.finishedAt,humanApprovalRequired:true,degradedStages:finalRun.degradedStages}},null,2);resultBox.hidden=false;applyBtn.hidden=false;copyBtn.hidden=false;setRunState(finalRun.degradedStages.length?'COMPLETE / DEGRADED':'COMPLETE');
     log(`Koko putki valmis · HUMAN APPROVAL REQUIRED${finalRun.degradedStages.length?` · degraded: ${finalRun.degradedStages.join(', ')}`:''}`,'◆');saveCheckpoint(ctx);
   }
   function failWithCheckpoint(ctx,index,error,{stopped=false}={}){
@@ -226,6 +233,7 @@ ${JSON.stringify(outputs.critic)}`);
     for(const [sel,val,max] of pairs){const el=q(sel);if(el&&typeof val==='string'){el.value=val.slice(0,max);fire(el);}}
     if(q('#category')&&p.category){q('#category').value=p.category;fire(q('#category'),'change');}
     if(Array.isArray(p.audience)&&p.audience.length){const vals=new Set(p.audience);qa('input[name="audience"]').forEach(x=>x.checked=vals.has(x.value));qa('input[name="audience"]')[0]?.dispatchEvent(new Event('change',{bubbles:true}));}
+    if(q('#audienceDepth')&&p.audienceDepth){q('#audienceDepth').value=p.audienceDepth;fire(q('#audienceDepth'),'change');}
     log('Lopputulos siirrettiin editoriin. Julkaisu- ja tallennusnapit ovat edelleen erillinen ihmisen päätös.','✓');setRunState('APPLIED / NOT SAVED');
   }
   runBtn.addEventListener('click',runPipeline);
