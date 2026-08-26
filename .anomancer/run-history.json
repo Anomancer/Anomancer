@@ -2,9 +2,9 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "15.9.2",
   "workspaceId": "default",
-  "revision": 56,
-  "updatedAt": "2026-08-26T22:22:29.721Z",
-  "chainHead": "4c925726e9a6e510e354410c30f9a791825c498a2597a909da15356663677cf4",
+  "revision": 57,
+  "updatedAt": "2026-08-26T22:22:32.448Z",
+  "chainHead": "cd0f36ea842cdd92e445406f512c1f471ef8031453b2c794e780600ed195209b",
   "runs": [
     {
       "format": "anomancer-run-record/v2",
@@ -2639,15 +2639,15 @@
         "name": "Anomancer Editorial",
         "orchestraHash": "a925c29c80e92f700d558eaeb6ebb97e95abf7fcf758d8b8db716507c7bc6b73"
       },
-      "status": "running",
+      "status": "completed",
       "humanApproval": {
         "required": true,
         "status": "pending",
         "appliedAt": ""
       },
       "startedAt": "2026-08-26T22:14:03.312Z",
-      "finishedAt": "",
-      "updatedAt": "2026-08-26T22:22:29.721Z",
+      "finishedAt": "2026-08-26T22:22:31.433Z",
+      "updatedAt": "2026-08-26T22:22:32.448Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
@@ -3244,39 +3244,39 @@
         "orchestras": {}
       },
       "receiptCount": 9,
-      "previousRunHash": "",
-      "runHash": "",
-      "counted": false
+      "previousRunHash": "4c925726e9a6e510e354410c30f9a791825c498a2597a909da15356663677cf4",
+      "runHash": "cd0f36ea842cdd92e445406f512c1f471ef8031453b2c794e780600ed195209b",
+      "counted": true
     }
   ],
   "lifetime": {
-    "runs": 3,
-    "inputTokens": 508538,
-    "outputTokens": 193164,
-    "totalTokens": 701702,
-    "reasoningTokens": 131420,
-    "durationMs": 1783861,
+    "runs": 4,
+    "inputTokens": 672374,
+    "outputTokens": 244277,
+    "totalTokens": 916651,
+    "reasoningTokens": 164639,
+    "durationMs": 2269069,
     "estimatedCostEuro": 0,
     "pricedReceipts": 0,
     "fallbacks": 0,
-    "toolAllows": 4,
+    "toolAllows": 6,
     "toolDenies": 0,
     "toolHumanRequired": 0,
     "providers": {
-      "deepseek": 701702
+      "deepseek": 916651
     },
     "agents": {
-      "source": 388355,
-      "structure": 31860,
-      "writer": 56580,
-      "critic": 48698,
-      "audience": 59314,
-      "voice": 38866,
-      "claims": 45140,
-      "package": 32889
+      "source": 524855,
+      "structure": 38943,
+      "writer": 69168,
+      "critic": 60170,
+      "audience": 72636,
+      "voice": 48292,
+      "claims": 60561,
+      "package": 42026
     },
     "orchestras": {
-      "editorial": 3
+      "editorial": 4
     }
   }
 }
