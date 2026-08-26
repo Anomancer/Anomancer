@@ -88,3 +88,7 @@ Julkinen `/core` ei lataa Custom Orchestra Storea eikä näytä käyttäjän yks
 ## Scope 15.7
 
 15.7 ei vielä sisällä custom-agenttien luontia, silmukoita, ehdollisia haaroja, vapaata koodia tai mielivaltaista DAG-editoria. Tarkoitus on saada turvallinen orkesterisopimus ja deterministic parallel -malli kuntoon ennen monimutkaisempaa workflow-kieltä.
+
+## 15.9 workspace-scope
+
+Custom Orchestra Store on nyt workspace-kohtainen. Built-in Editorial on yhteinen, mutta custom-orkesterit eivät vuoda workspacejen välillä. `default` säilyttää legacy-refin; uudet työtilat saavat oman orchestra-state-tagin.

@@ -6,6 +6,8 @@ if(box){
   let moreBtn=q('#agentMoreBtn');
   if(!moreBtn&&runBtn){moreBtn=document.createElement('button');moreBtn.id='agentMoreBtn';moreBtn.type='button';moreBtn.className='secondary';moreBtn.textContent='Hae lisää';moreBtn.hidden=true;runBtn.insertAdjacentElement('afterend',moreBtn);}
   let csrf='',last=null;
+  function workspaceId(){return window.anomancerWorkspaces?.currentId?.()||'default';}
+  function wsHeaders(extra={}){return window.anomancerWorkspaces?.headers?.(extra)||{...extra,'X-Anomancer-Workspace':workspaceId()};}
 
   const AGENT_LABELS={source:'Lähdeagentti',claims:'Väitevahti',structure:'Rakenneagentti',writer:'Kirjoitusagentti',critic:'Kriitikko',audience:'Yleisöadapteri',voice:'Äänieditori',package:'Julkaisupaketti'};
   const CATEGORY_VALUES=new Set(['ai-work','info-media','work-decisions','money-risk','software-safety','language-learning','creativity-tools','society-systems']);
@@ -45,7 +47,7 @@ if(box){
     const r=await fetch('/api/admin/session',{credentials:'same-origin'});const d=await r.json().catch(()=>({}));if(!r.ok||!d.authenticated)throw new Error('Admin-session puuttuu.');csrf=d.csrf||'';return d;
   }
   async function refreshConfig(){
-    try{await getSession();const r=await fetch('/api/admin/agents',{credentials:'same-origin'});const d=await r.json();if(!r.ok)throw new Error(d.message||'Agenttien tila ei auennut.');
+    try{await getSession();const r=await fetch('/api/admin/agents',{credentials:'same-origin',headers:wsHeaders()});const d=await r.json();if(!r.ok)throw new Error(d.message||'Agenttien tila ei auennut.');
 	      const c=d.deepseek||{};modelStatus.textContent=c.configured?`Core ${d.coreVersion||'15.0'} · DeepSeek valmis · ${c.defaultModel} · lähdehaku ${c.sourceReasoningEffort||'low'} (teho ${c.sourceReasoningEffective||c.sourceReasoningEffort||'low'}) / ${c.sourceMaxOutputTokens||16000}`:'DeepSeek API-avain puuttuu';modelStatus.dataset.kind=c.configured?'ok':'warn';
     }catch{modelStatus.textContent='Kirjaudu sisään, niin agenttitila tarkistetaan.';modelStatus.dataset.kind='';}
   }
@@ -86,7 +88,7 @@ if(box){
       if(more&&previous.length)payloadPost.sources=mergeSources(payloadPost.sources,previous);
       const extra=more?'Lisähaku: etsi enintään 4 uutta vahvaa lähdettä, joita ei vielä ole DRAFT CONTEXT sources -listassa. Keskity erityisesti jäljellä oleviin aukkoihin, vastanäyttöön tai alkuperäislähteisiin. Älä toista aiempia URL-osoitteita.':'';
       const combinedInstruction=[instruction.value,extra].filter(Boolean).join('\n\n');
-      const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agent,instruction:combinedInstruction,post:payloadPost})});
+      const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',headers:wsHeaders({'Content-Type':'application/json','X-CSRF-Token':csrf}),body:JSON.stringify({agent,instruction:combinedInstruction,post:payloadPost})});
       const d=await r.json().catch(()=>({}));
       if(!r.ok||!d.ok){if(d.policyDecision)await window.anomancerCore?.appendPolicyDecision?.(d.policyDecision);if(r.status===403){csrf='';}throw new Error(d.message||d.error||`HTTP ${r.status}`);}
       if(more&&agent==='source'&&previous.length){
@@ -146,5 +148,6 @@ if(box){
   agentSelect.addEventListener('change',()=>{last=null;applyBtn.hidden=true;copyBtn.hidden=true;if(moreBtn)moreBtn.hidden=true;output.textContent='';visual.innerHTML='';rawBox.hidden=true;setStatus('');syncRuntimeState();});
   window.addEventListener('anomancer:agent-runtime-change',event=>{if(event.detail?.agentId===agentSelect.value)syncRuntimeState();});
   window.addEventListener('anomancer:core-ready',syncRuntimeState);
+  window.addEventListener('anomancer:workspace-change',()=>{last=null;output.textContent='';visual.innerHTML='';rawBox.hidden=true;applyBtn.hidden=true;copyBtn.hidden=true;refreshConfig();syncRuntimeState();});
   setTimeout(()=>{refreshConfig();syncRuntimeState();},700);
 }

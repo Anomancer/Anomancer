@@ -1,3 +1,15 @@
+# 15.9.0 — Workspace Foundation
+
+- Lisätty server-side Workspace Registry ja yksityisen Coren workspace-valitsin.
+- Nykyinen Anomancer toimii automaattisesti `default`-workspacena ilman runtime/orchestra/run-historian migraatiota.
+- Runtime Profiles, Custom Orchestras, Runs ja Usage eristyvät workspace-kohtaisiin store-refeihin.
+- Runtime Snapshot v3 sitoo `workspaceId` + `workspaceHash` osaksi allekirjoitettua orkesteriajoa.
+- Agent API, Tool Broker, Run Receipt ja checkpointit tarkistavat workspace-scopen.
+- Workspace Registryllä ja workspace-kohtaisilla storeilla on revision/concurrency-suoja.
+- Agent Registry, Tool Registry ja Model Router pysyvät yhteisenä platform-kerroksena.
+- Julkinen `/core` näyttää vain workspace-arkkitehtuurin, ei yksityisiä workspaceja tai usage-dataa.
+- Artikkelisisältö on 15.9:ssa edelleen yhteinen; multi-user ACL, jäsenyydet ja billing eivät kuulu tähän julkaisuun.
+
 # 15.8.0 — Run Explorer + Usage Metering
 
 - Lisätty server-authoritative `Run Store` ja `/api/admin/runs`.

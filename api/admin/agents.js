@@ -10,6 +10,7 @@ import { createRunReceipt } from '../_lib/core-receipt.js';
 import { authorizeAgentTools } from '../_lib/tool-broker.js';
 import { getRuntimeProfile, verifyRuntimeSnapshot } from '../_lib/runtime-store.js';
 import { appendRunReceipt } from '../_lib/run-store.js';
+import { requireWorkspace, workspaceIdFromRequest } from '../_lib/workspace-store.js';
 
 const AGENTS=new Set(listAgentIds());
 const MAX_BODY_CHARS=60_000;
@@ -45,7 +46,8 @@ function normalizePost(input={}){
 export default async function handler(req,res){
   if(req.method==='GET'){
     if(!getSession(req)) return json(res,401,{ok:false,error:'AUTH'});
-    return json(res,200,{ok:true,coreVersion:CORE_VERSION,deepseek:deepseekConfigStatus(),modelRouter:modelRouterStatus(),agents:[...AGENTS].map(id=>getAgentContract(id)),humanApprovalRequired:true});
+    try{const workspace=await requireWorkspace(workspaceIdFromRequest(req));return json(res,200,{ok:true,workspace,coreVersion:CORE_VERSION,deepseek:deepseekConfigStatus(),modelRouter:modelRouterStatus(),agents:[...AGENTS].map(id=>getAgentContract(id)),humanApprovalRequired:true});}
+    catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'WORKSPACE',message:e.message});}
   }
   if(req.method!=='POST') return json(res,405,{ok:false,error:'METHOD'});
   const session=getSession(req);
@@ -53,6 +55,7 @@ export default async function handler(req,res){
   if(!sameOrigin(req)||!requireCsrf(req,session)) return json(res,403,{ok:false,error:'CSRF'});
   if(!rateLimit(req,session)) return json(res,429,{ok:false,error:'RATE_LIMITED',message:'Agenttiraja tuli hetkeksi vastaan. Odota ja yritä myöhemmin.'});
   try{
+    const workspace=await requireWorkspace(workspaceIdFromRequest(req));
     const body=await readJson(req,700_000);
     const agent=String(body.agent||'');
     if(!AGENTS.has(agent)) return json(res,400,{ok:false,error:'AGENT_UNKNOWN'});
@@ -62,20 +65,20 @@ export default async function handler(req,res){
     let runtime,snapshotOrchestra=null;
     if(orchestraRunId){
       if(!body.runtimeSnapshotToken) return json(res,409,{ok:false,error:'RUNTIME_SNAPSHOT_REQUIRED',message:'Orkesteriajo vaatii serverin allekirjoittaman Runtime Snapshotin.'});
-      const snapshot=verifyRuntimeSnapshot(body.runtimeSnapshotToken,{orchestraRunId});
+      const snapshot=verifyRuntimeSnapshot(body.runtimeSnapshotToken,{orchestraRunId,workspaceId:workspace.id});
       snapshotOrchestra=snapshot.orchestra||null;
       const stepIndex=Number.isInteger(body.stageIndex)?body.stageIndex:null;
       const allowedAgents=stepIndex!==null?snapshotOrchestra?.steps?.[stepIndex]?.agents||[]:[];
       if(stepIndex===null||!allowedAgents.includes(agent)) return json(res,409,{ok:false,error:'ORCHESTRA_STAGE_MISMATCH',message:'Agentti ei kuulu allekirjoitetun Orchestra Contractin tähän vaiheeseen.'});
       runtime=snapshot.profiles?.[agent];
       if(!runtime) return json(res,409,{ok:false,error:'RUNTIME_SNAPSHOT_AGENT',message:'Agentin Runtime Profile puuttuu orkesterin snapshotista.'});
-    }else runtime=await getRuntimeProfile(agent);
+    }else runtime=await getRuntimeProfile(agent,workspace.id);
     if(!runtime?.active) return json(res,409,{ok:false,error:'AGENT_DISABLED',message:`${contract.label} on poistettu käytöstä Core Runtime Profilessa.`});
     const post=normalizePost(body.post||{});
     const custom=cleanString(body.instruction,MAX_CUSTOM_CHARS);
     const {system,user}=promptFor(agent,post,custom);
     const startedAt=new Date();
-    const toolPolicy=authorizeAgentTools({contract,toolIds:contract.tools||[],context:{orchestraRunId,orchestraId:snapshotOrchestra?.id||null,orchestraHash:snapshotOrchestra?.orchestraHash||null,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null}});
+    const toolPolicy=authorizeAgentTools({contract,toolIds:contract.tools||[],context:{workspaceId:workspace.id,orchestraRunId,orchestraId:snapshotOrchestra?.id||null,orchestraHash:snapshotOrchestra?.orchestraHash||null,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null}});
     const abortController=new AbortController();
     const abort=()=>abortController.abort();
     req.once?.('aborted',abort);
@@ -85,10 +88,10 @@ export default async function handler(req,res){
     });
     req.removeListener?.('aborted',abort);
     const result=validateAgentResult(agent,response.result,post);
-    const receipt=createRunReceipt({contract,runtime,post,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId,orchestra:snapshotOrchestra,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
+    const receipt=createRunReceipt({contract,runtime,post,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId,orchestra:snapshotOrchestra,workspace:workspace,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
     let runPersistence={stored:false,error:null};
     if(orchestraRunId){try{await appendRunReceipt(receipt);runPersistence={stored:true,error:null};}catch(error){runPersistence={stored:false,error:String(error?.code||'RUN_STORE')};}}
-    return json(res,200,{ok:true,coreVersion:CORE_VERSION,agent,contract:{id:contract.id,version:contract.version,contractHash:contract.contractHash,role:contract.role,authority:contract.authority,budget:contract.budget,runtimePolicy:contract.runtimePolicy},runtime,toolPolicy,result,meta:response.meta,receipt,runPersistence,humanApprovalRequired:true});
+    return json(res,200,{ok:true,workspace,coreVersion:CORE_VERSION,agent,contract:{id:contract.id,version:contract.version,contractHash:contract.contractHash,role:contract.role,authority:contract.authority,budget:contract.budget,runtimePolicy:contract.runtimePolicy},runtime,toolPolicy,result,meta:response.meta,receipt,runPersistence,humanApprovalRequired:true});
   }catch(e){
     return json(res,e.statusCode||500,{ok:false,error:e.code||'AGENT_FAILED',message:e.message,retryable:Boolean(e.retryable),retryAfterMs:Number(e.retryAfterMs||0),policyDecision:e.policyDecision||null});
   }

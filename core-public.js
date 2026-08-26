@@ -48,6 +48,18 @@ function renderUsage(core){
   if(largestEl)largestEl.textContent=`${n(largest)} tok`;
 }
 
+
+function renderWorkspaces(core){
+  const root=q('#corePublicWorkspaces'),control=core.workspaceControl;if(!root||!control)return;
+  const cards=[
+    ['SHARED PLATFORM',(control.shared||[]).join(' · '),'Yhteinen sopimus- ja policy-kerros'],
+    ['WORKSPACE SCOPED',(control.scoped||[]).join(' · '),'Eristetty agenttimoottorin tila'],
+    ['DEFAULT',control.defaultWorkspace||'default','Legacy-historia säilyy ilman migraatiota'],
+    ['MULTI-USER ACL',control.multiUserAcl?'LIVE':'NOT YET',control.contentScope==='shared-in-15.9'?'Sisältö on vielä yhteinen 15.9:ssa':'Sisältöscope määritelty']
+  ];
+  root.innerHTML=cards.map(([k,v,d])=>`<article><span>${esc(k)}</span><strong>${esc(v)}</strong><p>${esc(d)}</p></article>`).join('');
+}
+
 function initSectionNav(){
   const links=new Map(qa('[data-core-nav]').map(a=>[a.dataset.coreNav,a]));
   const sections=qa('[data-core-section]');
@@ -68,7 +80,7 @@ async function load(){
     q('#corePublicVersion').textContent=`CORE ${core.version}`;
     q('#corePublicAgentCount').textContent=String(core.agents?.length||0);
     q('#corePublicOrchestraCount').textContent=String(core.orchestras?.length||0);
-    renderOrchestra(core);renderAgents(core);renderModels(core);renderTools(core);renderUsage(core);
+    renderOrchestra(core);renderAgents(core);renderModels(core);renderTools(core);renderUsage(core);renderWorkspaces(core);
   }catch{
     const orchestra=q('#corePublicOrchestra'),agents=q('#corePublicAgents'),models=q('#corePublicModels'),tools=q('#corePublicTools');
     if(orchestra)orchestra.innerHTML='<p class="core-public-error">Rakennekarttaa ei saatu ladattua.</p>';

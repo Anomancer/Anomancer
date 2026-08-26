@@ -69,3 +69,7 @@ Runtime Store käyttää monotonista `revision`-numeroa. Tallennus lähettää o
 ## 15.7 · Orchestra binding
 
 Runtime Snapshot v2 sisältää myös serveriltä ratkaistun Orchestra Contractin ja `orchestraHash`in. Näin Runtime Profileiden lisäksi agenttilista, vaiheiden järjestys ja rinnakkaisryhmät pysyvät jäädytettyinä koko ajon ajan. Agentti-API hyväksyy stage-kutsun vain, jos agentti kuuluu snapshotiin sidotun orkesterin kyseiseen vaiheeseen.
+
+## 15.9 workspace-scope
+
+Runtime Store on nyt workspace-kohtainen. `default` käyttää legacy-refiä `anomancer-runtime-state`; custom-workspace käyttää `anomancer-runtime-state-<workspaceId>`. Runtime Snapshot v3 sisältää workspace-identiteetin ja serveri torjuu snapshotin käytön toisessa workspacessa.

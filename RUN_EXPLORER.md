@@ -104,3 +104,7 @@ Hash ei riipu myöhemmin muuttuvista hintakertoimista. Se sitoo ajon Orchestra C
 ## Scope 15.8
 
 15.8 on auditointi- ja mittauskerros, ei laskutusjärjestelmä. GitHub-tag-store sopii nykyiseen yhden ylläpitäjän Coreen ja kehitysvaiheen historiaan. Workspace-/multi-user- ja maksullisessa versiossa Run Store kannattaa myöhemmin siirtää varsinaiseen tietokantaan tai tapahtumavarastoon, mutta `Run Record`- ja `Usage`-rajapinnat on tarkoituksella erotettu käyttöliittymästä, jotta backend voidaan vaihtaa ilman Coren purkamista.
+
+## 15.9 workspace-scope
+
+Run Explorer, lifetime usage ja run chain ovat workspace-kohtaisia. `default` jatkaa legacy `anomancer-run-state` -refiä ilman migraatiota. Custom-workspacet saavat omat run-state-refinsä. Julkinen Core ei näytä workspacejen oikeita run- tai käyttöarvoja.

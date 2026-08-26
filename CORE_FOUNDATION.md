@@ -1,4 +1,4 @@
-# Anomancer 15.8 · Core Foundation + Run Explorer
+# Anomancer 15.9 · Core Foundation + Workspaces
 
 15.0 erottaa ensimmäistä kertaa agentin identiteetin, orkesterin rakenteen ja ajon todistettavan metadatan varsinaisista prompteista.
 
@@ -54,7 +54,7 @@ Tämä on auditointia helpottava paikallinen eheysketju, ei vielä kryptografise
 
 - custom agent -editoria
 - provider-kohtaista kustannuslaskentaa ja workspace-persistenssiä Model Router -valinnoille
-- työtiloja / käyttäjäorganisaatioita
+- monen käyttäjän workspace-ACL:ia tai organisaatiojäseniä
 - kuukausimaksua tai quota-billingiä
 - allekirjoitettuja run receiptejä
 
@@ -85,3 +85,7 @@ Yksityinen Core sisältää Custom Orchestra Builderin ja server-side Orchestra 
 ## 15.8 · Run Explorer
 
 Yksityinen Core käyttää nyt server-side Run Storea. Runs ja Usage ovat oikeita yksityisen ohjaamon alueita; julkinen `/core` näyttää vain rakenteen eikä käyttödataa.
+
+## 15.9 · Workspace Foundation
+
+Runtime Profiles, Custom Orchestras, Run Store ja Usage Metering ovat nyt workspace-scopattuja. `default` käyttää samoja legacy-tag-refejä kuin 15.6–15.8, joten nykyinen historia säilyy ilman migraatiota. Uudet workspacet saavat omat tag-refit. Runtime Snapshot v3 sitoo `workspaceId` + `workspaceHash` osaksi allekirjoitettua orkesteriajoa. Agent Registry, Tool Registry ja Model Router pysyvät yhteisenä platform-kerroksena. Tarkempi kuvaus: `WORKSPACE_FOUNDATION.md`.

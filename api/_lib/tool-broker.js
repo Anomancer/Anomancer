@@ -15,7 +15,7 @@ function decisionBase({contract,tool,toolId,actor='agent',context={},now}){
     actor:String(actor||'agent'),
     risk:tool?.risk||'unknown',
     kind:tool?.kind||'unknown',
-    requestContext:{orchestraRunId:String(context.orchestraRunId||'')||null,stageIndex:Number.isInteger(context.stageIndex)?context.stageIndex:null},
+    requestContext:{workspaceId:String(context.workspaceId||'default'),orchestraRunId:String(context.orchestraRunId||'')||null,stageIndex:Number.isInteger(context.stageIndex)?context.stageIndex:null},
     decidedAt:iso(now)
   };
 }
@@ -72,6 +72,6 @@ export function publicPolicyDecision(value){
   return {
     format:value.format||TOOL_POLICY_FORMAT,decisionId:String(value.decisionId||''),policyHash:String(value.policyHash||''),
     agentId:String(value.agentId||''),toolId:String(value.toolId||''),outcome:String(value.outcome||''),reason:String(value.reason||''),risk:String(value.risk||''),kind:String(value.kind||''),
-    decidedAt:String(value.decidedAt||''),requestContext:value.requestContext&&typeof value.requestContext==='object'?clone(value.requestContext):{orchestraRunId:null,stageIndex:null}
+    decidedAt:String(value.decidedAt||''),requestContext:value.requestContext&&typeof value.requestContext==='object'?clone(value.requestContext):{workspaceId:'default',orchestraRunId:null,stageIndex:null}
   };
 }

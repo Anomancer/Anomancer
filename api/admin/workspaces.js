@@ -1,0 +1,11 @@
+import { getSession, requireCsrf } from '../_lib/auth.js';
+import { json, readJson, sameOrigin } from '../_lib/http.js';
+import { listWorkspaces, upsertWorkspace, archiveWorkspace, workspaceStoreStatus } from '../_lib/workspace-store.js';
+function auth(req,res,mut=false){const s=getSession(req);if(!s){json(res,401,{ok:false,error:'AUTH'});return null;}if(mut&&(!sameOrigin(req)||!requireCsrf(req,s))){json(res,403,{ok:false,error:'CSRF'});return null;}return s;}
+function publicState(state){return{format:state.format,coreVersion:state.coreVersion,revision:state.revision,updatedAt:state.updatedAt};}
+export default async function handler(req,res){
+  if(req.method==='GET'){if(!auth(req,res))return;try{const data=await listWorkspaces({includeArchived:true});return json(res,200,{ok:true,builtins:data.builtins,custom:data.custom,all:data.all,state:publicState(data.state),store:workspaceStoreStatus()});}catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'WORKSPACE_STORE',message:e.message,store:workspaceStoreStatus()});}}
+  if(req.method==='POST'||req.method==='PUT'){if(!auth(req,res,true))return;try{const body=await readJson(req,100_000);const result=await upsertWorkspace(body.workspace||body,{expectedRevision:body.expectedRevision});const data=await listWorkspaces({includeArchived:true});return json(res,200,{ok:true,workspace:result.workspace,builtins:data.builtins,custom:data.custom,all:data.all,state:publicState(result.state),store:workspaceStoreStatus()});}catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'WORKSPACE_SAVE',message:e.message});}}
+  if(req.method==='DELETE'){if(!auth(req,res,true))return;try{const body=await readJson(req,100_000);const result=await archiveWorkspace(String(body.id||''),{expectedRevision:body.expectedRevision,archived:body.archived!==false});const data=await listWorkspaces({includeArchived:true});return json(res,200,{ok:true,workspace:result.workspace,builtins:data.builtins,custom:data.custom,all:data.all,state:publicState(result.state),store:workspaceStoreStatus()});}catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'WORKSPACE_ARCHIVE',message:e.message});}}
+  return json(res,405,{ok:false,error:'METHOD'});
+}

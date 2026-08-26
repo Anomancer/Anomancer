@@ -1,4 +1,4 @@
-# Anomancer 15.8.0 · Run Explorer + Usage Metering
+# Anomancer 15.9.0 · Workspace Foundation
 
 Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkisen FI/EN-sivuston, Markdown-sisällöt, Vercel API -funktiot, yksityisen adminin, DeepSeek-agentit, orkesterin, buildin, testit ja dokumentaation.
 
@@ -14,7 +14,7 @@ Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkis
 - slug-aliasit vanhojen artikkeliosoitteiden säilyttämiseen
 - turvallinen, varmuuskopioiva asennusskripti
 
-Julkaisuversio: 15.8.0.
+Julkaisuversio: 15.9.0.
 
 15.7 tekee orkesterista serverillä validoidun ja hashatun Orchestra Contractin. Yksityinen Core voi tallentaa omia orkestereita sekä rakentaa turvallisia parallel-vaiheita. Valittu Orchestra Contract sidotaan HMAC-allekirjoitettuun Runtime Snapshotiin, ja agentti-API valvoo vaihejäsenyyttä ennen mallikutsua.
 
@@ -30,3 +30,6 @@ Pitkien ajoketjujen output-katot ovat nyt: Source 16 000 (ympäristömuuttujalla
 
 
 15.8 lisää server-side Run Storen, Run Explorerin, Usage Meteringin ja run-hash-ketjun. Katso `RUN_EXPLORER.md`.
+
+
+15.9 lisää Workspace Foundationin. `default` säilyttää nykyisen runtime-, orchestra- ja run-historian legacy-refeissä; uudet workspacet eristävät Runtime Profiles-, Custom Orchestras-, Runs- ja Usage-tilan omiin tag-refeihinsä. Runtime Snapshot v3 sitoo workspace-identiteetin orkesteriajoon. Katso `WORKSPACE_FOUNDATION.md`.

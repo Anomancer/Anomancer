@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-export const CORE_VERSION='15.8.0';
+export const CORE_VERSION='15.9.0';
 export const AGENT_CONTRACT_FORMAT='anomancer-agent/v1';
 export const ORCHESTRA_FORMAT='anomancer-orchestra/v2';
 export const CUSTOM_ORCHESTRA_FORMAT='anomancer-custom-orchestra/v1';
@@ -216,7 +216,7 @@ export function validateOrchestraDefinition(input={}){
     for(const id of step.agents){if(!AGENT_MAP.has(id))errors.push({code:'ORCHESTRA_AGENT_UNKNOWN',message:`Tuntematon agentti: ${id}`});all.push(id);}
     const conflicts=orchestraWriteConflicts(step.agents);if(step.mode==='parallel'&&conflicts.length)errors.push({code:'ORCHESTRA_PARALLEL_WRITE_CONFLICT',message:`Vaihe ${index+1}: rinnakkaisagentit kirjoittaisivat samaan kenttään (${conflicts.map(x=>x.field).join(', ')}).`});
   }
-  const duplicates=all.filter((id,index)=>all.indexOf(id)!==index);if(duplicates.length)errors.push({code:'ORCHESTRA_DUPLICATE_AGENT',message:`Sama agentti saa esiintyä 15.7:ssa vain kerran: ${[...new Set(duplicates)].join(', ')}`});
+  const duplicates=all.filter((id,index)=>all.indexOf(id)!==index);if(duplicates.length)errors.push({code:'ORCHESTRA_DUPLICATE_AGENT',message:`Sama agentti saa esiintyä yhdessä orkesterissa vain kerran: ${[...new Set(duplicates)].join(', ')}`});
   const position=id=>orchestra.steps.findIndex(step=>step.agents.includes(id));
   const lastBody=Math.max(position('writer'),position('audience'),position('voice'));
   const claims=position('claims');if(lastBody>=0&&(claims<0||claims<=lastBody))errors.push({code:'ORCHESTRA_CLAIMS_AFTER_BODY',message:'Väitevahdin pitää olla viimeisen body-muokkauksen jälkeen.'});
@@ -260,6 +260,7 @@ export function publicCoreSnapshot({modelRouter=null}={}){
     runtimeControl:{format:AGENT_RUNTIME_FORMAT,persistence:'server-side-durable',mutable:['active','maxOutputTokens','modelTarget'],contractAuthorityImmutable:true,snapshot:'signed-per-orchestra-run'},
     orchestraControl:{format:CUSTOM_ORCHESTRA_FORMAT,persistence:'server-side-durable',customBuilder:true,parallelIsolation:'same-input-deterministic-merge',humanFinalAuthority:true},
     toolBroker:{format:TOOL_POLICY_FORMAT,enforcement:'server-side-fail-closed',implicitTools:false,humanApprovalClientSpoofable:false,policyLogInRunReceipt:true},
-    runExplorer:{persistence:'server-side-durable',containsRawPrompt:false,containsRawOutput:false,filters:['status','agent','provider','orchestra'],usageMetering:true,costEstimation:'server-configured-rates-only'}
+    runExplorer:{persistence:'server-side-durable',containsRawPrompt:false,containsRawOutput:false,filters:['status','agent','provider','orchestra'],usageMetering:true,costEstimation:'server-configured-rates-only'},
+    workspaceControl:{format:'anomancer-workspace/v1',defaultWorkspace:'default',shared:['agent-contracts','tool-registry','model-router'],scoped:['runtime-profiles','custom-orchestras','runs','usage'],contentScope:'shared-in-15.9',multiUserAcl:false}
   };
 }

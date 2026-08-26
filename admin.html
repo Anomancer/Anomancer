@@ -11,7 +11,7 @@
 <body>
   <main id="loginView" class="login-shell" hidden>
     <form id="loginForm" class="login-card">
-      <p class="kicker">ANOMANCER CORE 15.8</p>
+      <p class="kicker">ANOMANCER CORE 15.9</p>
       <h1>CORE</h1>
       <p class="muted">Yksityinen admin. Ei sitemapissa, ei navigaatiossa, ei hakukoneille.</p>
       <label>Salasana<input id="password" type="password" autocomplete="current-password" required></label>
@@ -36,7 +36,7 @@
     <section class="workspace">
 	      <header class="topbar">
 	        <div class="editor-title"><button id="sidebarToggle" class="ghost sidebar-toggle" type="button" aria-controls="sidebar" aria-expanded="false">☰ Tekstit</button><div><p class="kicker">CORE / TRANSMISSION EDITOR</p><strong id="editingLabel">Uusi lähetys</strong></div></div>
-        <div class="top-actions"><a href="/lahetykset" target="_blank" rel="noreferrer">Julkinen sivu ↗</a><button id="logoutBtn" class="ghost">Poistu</button></div>
+        <div class="top-actions"><label class="workspace-switcher"><span>Workspace</span><select id="workspaceSelect" aria-label="Valitse workspace"><option value="default">Anomancer · default</option></select></label><a href="/lahetykset" target="_blank" rel="noreferrer">Julkinen sivu ↗</a><button id="logoutBtn" class="ghost">Poistu</button></div>
       </header>
 
       <div class="editor-grid">
@@ -135,7 +135,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 	          <section class="workspace-panel" data-workspace-panel="agents" hidden>
 	          <section id="agentDesk" class="agent-desk" aria-labelledby="agentDeskTitle">
             <div class="agent-desk-head">
-	              <div><p class="kicker">15.8 · CONTRACT AGENTS</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
+	              <div><p class="kicker">15.9 · WORKSPACE-SCOPED AGENTS</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
               <span id="agentModelStatus" class="agent-model-status">Agenttitila tarkistetaan…</span>
             </div>
             <p class="agent-rule"><strong>Human approval gate:</strong> agentit saavat tutkia, ehdottaa ja muokata luonnosta. Ne eivät saa tallentaa GitHubiin eivätkä julkaista.</p>
@@ -164,7 +164,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 
           <section id="orchestraDesk" class="orchestra-desk" aria-labelledby="orchestraTitle">
             <div class="orchestra-head">
-	              <div><p class="kicker">15.8 · RUN-METERED ORCHESTRATOR</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
+	              <div><p class="kicker">15.9 · WORKSPACE ORCHESTRATOR</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
               <span class="orchestra-lock">HUMAN FINAL AUTHORITY</span>
             </div>
             <p class="orchestra-rule">Valitse serverillä validoitu Orchestra Contract. Sequential-vaiheet kulkevat järjestyksessä; parallel-vaiheen agentit saavat saman jäädytetyn inputin eivätkä näe toistensa vastauksia ennen determinististä mergeä. <strong>Human final authority on pakollinen kaikille orkestereille.</strong></p>
@@ -192,8 +192,8 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 
 	          <section id="corePanel" class="workspace-panel core-panel" data-workspace-panel="core" hidden>
 	            <div class="core-hero">
-	              <div><p class="kicker">15.8 · RUN EXPLORER</p><h3>Agent Control Plane</h3><p>Agent Registry, Runtime Profiles, Tool Broker, Policy Log, orkesterit ja hash-ketjutettu ajoloki. Työkalut suoritetaan vain palvelinpuolen policy-päätöksen jälkeen.</p></div>
-	              <span id="coreVersion" class="core-version">CORE 15.8</span>
+	              <div><p class="kicker">15.9 · WORKSPACE FOUNDATION</p><h3>Agent Control Plane</h3><p><strong id="workspaceBadge">Anomancer</strong> · Agent Registry on yhteinen platform-kerros, mutta Runtime Profiles, Custom Orchestras, Runs ja Usage ovat workspace-kohtaisia.</p></div>
+	              <span id="coreVersion" class="core-version">CORE 15.9</span>
 	            </div>
 	            <div class="core-metrics">
 	              <article><span>Agentit</span><strong id="coreAgentCount">8</strong></article>
@@ -203,6 +203,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 	              <article><span>Output-tokenit</span><strong id="coreOutputCount">0</strong></article>
 	              <article><span>Policy checks</span><strong id="corePolicyCount">0</strong></article><article><span>Ledger</span><strong id="coreLedgerState" data-state="ok">CHAIN OK</strong></article>
 	            </div>
+	            <section class="core-section core-workspace-section"><div class="core-section-head"><div><p class="kicker">WORKSPACE REGISTRY</p><h4>Työtilat</h4></div><div class="core-section-actions"><span id="coreWorkspaceState">ladataan…</span><button id="coreNewWorkspace" type="button" class="ghost">+ Uusi workspace</button></div></div><p class="core-runtime-notice">15.9 eristää agenttimoottorin tilan. Runtime Profiles, Custom Orchestras, Run Store ja Usage kuuluvat valitulle workspacelle. Agent Contractit, Tool Registry ja Model Router ovat yhteisiä. Julkaistu sisältö pysyy vielä yhteisenä.</p><div id="coreWorkspaces" class="core-workspace-list"></div></section>
 	            <section class="core-section"><div class="core-section-head"><div><p class="kicker">AGENT REGISTRY</p><h4>Sopimusagentit</h4></div><span>kyvykkyys ≠ lupa ≠ toimivalta ≠ tavoite</span></div><div id="coreAgents" class="core-agent-grid"></div></section>
 	            <section class="core-section"><div class="core-section-head"><div><p class="kicker">TOOL BROKER</p><h4>Tool Registry + Policy Gate</h4></div><span>fail-closed · implicit tools = 0 · human-only pysyy ihmisellä</span></div><div id="coreTools" class="core-tool-policy-grid"></div><div class="core-policy-log-head"><strong>Policy Log</strong><span>allow / deny / human_required · ei raakaa promptia</span></div><div id="corePolicyLog" class="core-policy-log"></div></section>
             <section class="core-section"><div class="core-section-head"><div><p class="kicker">MODEL ROUTER</p><h4>Providers + logical routes</h4></div><span>research / writer / critic · fallback vain sallittuihin targetteihin</span></div><div id="coreModelRouter" class="core-model-router-grid"></div></section>
@@ -263,9 +264,15 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
             <button id="publishBtn" class="primary">Julkaise</button>
             <button id="deleteBtn" class="danger" hidden>Poista</button>
 	  </div>
+  <dialog id="coreWorkspaceDialog" class="core-agent-dialog core-workspace-dialog" aria-labelledby="coreWorkspaceDialogTitle">
+    <div class="core-agent-dialog-head"><div><p class="kicker">WORKSPACE / 15.9</p><h3 id="coreWorkspaceDialogTitle">Uusi workspace</h3><p id="coreWorkspaceDialogId" class="core-agent-dialog-id">eristetty agenttiscope</p></div><button type="button" class="ghost" onclick="this.closest('dialog').close()" aria-label="Sulje">×</button></div>
+    <div class="core-orchestra-form-meta"><label>Nimi<input id="coreWorkspaceName" maxlength="80" placeholder="Esim. Tutkimusprojekti"></label><label>Kuvaus<textarea id="coreWorkspaceDescription" rows="3" maxlength="400" placeholder="Mihin tätä workspacea käytetään?"></textarea></label></div>
+    <p class="core-runtime-notice">Uusi workspace saa oman Runtime-, Orchestra- ja Run-scoren. Agent Registry, Tool Broker ja Model Router pysyvät yhteisinä platform-sopimuksina. Workspace ei vielä 15.9:ssa rajaa artikkelirepositorion sisältöä.</p>
+    <div class="core-agent-dialog-actions"><div><button id="coreWorkspaceArchive" type="button" class="danger" hidden>Arkistoi</button><button id="coreWorkspaceRestore" type="button" class="ghost" hidden>Palauta aktiiviseksi</button></div><div><button type="button" class="ghost" onclick="this.closest('dialog').close()">Peruuta</button><button id="coreWorkspaceSave" type="button" class="primary">Tallenna workspace</button></div></div>
+  </dialog>
   <dialog id="coreOrchestraDialog" class="core-agent-dialog core-orchestra-dialog" aria-labelledby="coreOrchestraDialogTitle">
     <form method="dialog" id="coreOrchestraForm">
-      <div class="core-agent-dialog-head"><div><p class="kicker">CUSTOM ORCHESTRA / 15.8</p><h3 id="coreOrchestraDialogTitle">Uusi orkesteri</h3><p id="coreOrchestraDialogId" class="core-agent-dialog-id">server-side contract</p></div><button id="coreOrchestraClose" value="cancel" class="ghost" aria-label="Sulje">×</button></div>
+      <div class="core-agent-dialog-head"><div><p class="kicker">CUSTOM ORCHESTRA / 15.9</p><h3 id="coreOrchestraDialogTitle">Uusi orkesteri</h3><p id="coreOrchestraDialogId" class="core-agent-dialog-id">server-side contract</p></div><button id="coreOrchestraClose" value="cancel" class="ghost" aria-label="Sulje">×</button></div>
       <div class="core-orchestra-form-meta"><label>Nimi<input id="coreOrchestraName" maxlength="80" placeholder="Esim. Research Stress Test"></label><label>Kuvaus<textarea id="coreOrchestraDescription" rows="2" maxlength="400" placeholder="Mitä tämä orkesteri tekee?"></textarea></label></div>
       <p class="core-runtime-notice">Rinnakkaisvaiheessa agentit saavat saman inputin. Core estää päällekkäiset kirjoituspinnat, pakottaa Väitevahdin body-muokkausten jälkeen ja pitää Package-agentin viimeisenä. Human final authoritya ei voi poistaa.</p>
       <div class="core-orchestra-builder-head"><strong>Vaiheet</strong><div><button id="coreAddSequential" type="button" class="ghost">+ Sequential</button><button id="coreAddParallel" type="button" class="ghost">+ Parallel</button></div></div>
@@ -294,6 +301,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
     </section>
   </div>
   <script type="module" src="/admin.js"></script>
+  <script type="module" src="/admin-workspaces.js"></script>
   <script type="module" src="/admin-core.js"></script>
   <script type="module" src="/admin-agents.js"></script>
   <script type="module" src="/admin-orchestras.js"></script>

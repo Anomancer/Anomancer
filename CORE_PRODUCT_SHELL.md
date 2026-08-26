@@ -1,4 +1,4 @@
-# Anomancer 15.8 · Core Product Shell
+# Anomancer 15.9 · Core Product Shell
 
 15.2 tekee julkisesta `/core`-näkymästä tuotteen rakennekartan ilman että yksityinen control plane avataan.
 
@@ -11,7 +11,8 @@
 - Evidence — candidate → claim audit → human verify → publish gate.
 - Models — 15.5:ssa LIVE ROUTER: loogiset reitit, tuetut provider-targetit ja fallback-topologia.
 - Tools — 15.4:ssa palvelinpuolen Tool Broker + Policy Gate valvoo nykyistä oikeaa työkalupintaa fail-closed-periaatteella.
-- Usage — sopimusbudjettien headroom; todelliset tokenit ja kustannukset ovat yksityisiä.
+- Usage — sopimusbudjettien headroom; todelliset tokenit ja kustannukset ovat yksityisiä ja 15.9:ssa workspace-scopattuja.
+- Workspaces — julkinen näyttää vain scope-arkkitehtuurin; yksityinen Core hallitsee Workspace Registryä.
 
 ## Turvaraja
 
@@ -22,3 +23,7 @@
 ## 15.8 · Run Explorer
 
 Yksityinen Core käyttää nyt server-side Run Storea. Runs ja Usage ovat oikeita yksityisen ohjaamon alueita; julkinen `/core` näyttää vain rakenteen eikä käyttödataa.
+
+## 15.9 · Workspace Boundary
+
+Julkinen `/core` kertoo mitkä kerrokset ovat yhteisiä ja mitkä workspace-kohtaisia, mutta se ei julkaise workspacejen nimiä, lukumääriä tai käyttödataa. Yksityinen `/admin` sisältää workspace-valitsimen ja Workspace Registryn.

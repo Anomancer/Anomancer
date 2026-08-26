@@ -1,6 +1,6 @@
 {
   "format": "anomancer-core-public/v1",
-  "version": "15.8.0",
+  "version": "15.9.0",
   "humanFinalAuthority": true,
   "privacy": {
     "containsRawPrompt": false,
@@ -238,7 +238,7 @@
       "actor": "agent",
       "humanApproval": false,
       "sideEffects": false,
-      "toolHash": "4ccc4c1400187e5f5df9e0e7c804b3eaf6d4b04aff217692711eb4048dc51405"
+      "toolHash": "2c6e541d96dd838f1d039c304b15d4fb836ee50bcd3a50db94aa452467d19f39"
     },
     {
       "id": "source.verify",
@@ -251,7 +251,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "ecf696cafa580e87b96f620ef502d5fd5e89eaac600ac75d11f458c6bdc27dc5"
+      "toolHash": "5c8daa0dc46813ff81681cce50554540fdb6cd32ceda525e915c1e9a6df38a9f"
     },
     {
       "id": "publication.publish",
@@ -264,7 +264,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "1ad3ff7e9e165a86ff72820b7e92f0322c0ae6c113109b4524d1ea2500758170"
+      "toolHash": "9f4f3a173c42a293e553843972fd887ace2d6d51c77b3405d7422e45faddf280"
     },
     {
       "id": "github.write",
@@ -277,7 +277,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "c013d28a55d5cd610756d0ae969976733cb00022534888e35bfec96f19165152"
+      "toolHash": "d256426df6647c34d849ea04de8eaeefd09223e4225ed7fef43af24236f29ef8"
     }
   ],
   "toolBroker": {
@@ -432,7 +432,7 @@
           "json",
           "web_search"
         ],
-        "routeHash": "dc80144f52edc93a316cf4f08a618ed561e5e64119ea01748a8ca72a557872fe"
+        "routeHash": "bdad072558ef9364414f7452979f2ca5b1a742af61a8112380fe13217f5456bb"
       },
       {
         "id": "writer",
@@ -447,7 +447,7 @@
         "requires": [
           "json"
         ],
-        "routeHash": "d48fc6ec0fe368080ecda6c85efe85edfa6cc627f0f29aae694b2ac09ae1f0be"
+        "routeHash": "fd39499505d3c168346641167d0ebb65a2fc49c783a72e869d1d0a351c9ab62a"
       },
       {
         "id": "critic",
@@ -462,7 +462,7 @@
         "requires": [
           "json"
         ],
-        "routeHash": "c7fd4bb5735007d78845701bcf3953bb6e0837da610204dab39b160b64aabc30"
+        "routeHash": "b93668e999dcb909969cc82a74e8c48f0c403763e31dcc35c71ff15bcb14152d"
       }
     ],
     "fallbackPolicy": "configured-targets-only/transient-errors-only",
@@ -482,7 +482,7 @@
         "json",
         "web_search"
       ],
-      "routeHash": "dc80144f52edc93a316cf4f08a618ed561e5e64119ea01748a8ca72a557872fe"
+      "routeHash": "bdad072558ef9364414f7452979f2ca5b1a742af61a8112380fe13217f5456bb"
     },
     {
       "id": "writer",
@@ -497,7 +497,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "d48fc6ec0fe368080ecda6c85efe85edfa6cc627f0f29aae694b2ac09ae1f0be"
+      "routeHash": "fd39499505d3c168346641167d0ebb65a2fc49c783a72e869d1d0a351c9ab62a"
     },
     {
       "id": "critic",
@@ -512,7 +512,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "c7fd4bb5735007d78845701bcf3953bb6e0837da610204dab39b160b64aabc30"
+      "routeHash": "b93668e999dcb909969cc82a74e8c48f0c403763e31dcc35c71ff15bcb14152d"
     }
   ],
   "runExplorer": {
@@ -528,6 +528,23 @@
     ],
     "usageMetering": true,
     "costEstimation": "server-configured-rates-only"
+  },
+  "workspaceControl": {
+    "format": "anomancer-workspace/v1",
+    "defaultWorkspace": "default",
+    "shared": [
+      "agent-contracts",
+      "tool-registry",
+      "model-router"
+    ],
+    "scoped": [
+      "runtime-profiles",
+      "custom-orchestras",
+      "runs",
+      "usage"
+    ],
+    "contentScope": "shared-in-15.9",
+    "multiUserAcl": false
   },
   "orchestras": [
     {

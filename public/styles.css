@@ -940,3 +940,6 @@ h1 {
 
 /* 15.5 public Model Router */
 .core-model-targets{display:flex;flex-wrap:wrap;gap:6px;margin:.65rem 0}.core-model-targets span{font-size:.72rem;border:1px solid currentColor;border-radius:999px;padding:.28rem .5rem;opacity:.72}
+
+/* 15.9 Workspace Foundation */
+.core-workspace-public-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.core-workspace-public-grid article{padding:18px;border:1px solid var(--line,rgba(255,255,255,.14));border-radius:14px;background:rgba(255,255,255,.025)}.core-workspace-public-grid span{display:block;margin-bottom:9px;color:#a98cff;font:800 .7rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.09em}.core-workspace-public-grid strong{display:block;font-size:.95rem;line-height:1.35}.core-workspace-public-grid p{margin:10px 0 0;color:var(--muted,#aaa6b0);font-size:.82rem;line-height:1.55}@media(max-width:760px){.core-workspace-public-grid{grid-template-columns:1fr}}
