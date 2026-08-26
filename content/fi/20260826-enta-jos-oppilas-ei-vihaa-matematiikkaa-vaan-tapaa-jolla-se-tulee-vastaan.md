@@ -89,6 +89,6 @@ En tiedä tähän mitään yhtä pedagogista ratkaisua. Enkä usko, että sellai
 
 Siksi hyvä opettaja ei ehkä ole vain ihminen, joka osaa selittää asian hyvin. Hän voi olla ihminen, joka huomaa, milloin selitys ei kohtaa juuri tätä oppilasta, ja uskaltaa kokeilla toista ovea. Ja joskus hyvä opettaja saattaa vain pysähtyä oppilaan kysymyksen äärelle tavallista kauemmin ja sanoa: erittäin hyvä kysymys, tähän en osaa vastata, eikä esimerkiksi pyydä oppilasta muotoilemaan kysymystä paremmin, vaan tunnustaa suoraan, että näkökulma on oikeasti relevantti.
 
-Joskus näillä asioilla voi olla paljon suurempi vaikutus kuin yhdellä arvosanalla. Ja pienillä eleillä ja teoilla. Asioilla, jotka jää mieleen. Voi olla, että oppilas tulee myöhemmin elämässään muistamaan kouluajoilta vain ne. Yksi opettajan antama palaute tai lause, joka kää kiertämään kehää. Yksi hymy, katse tai nyökkäys.
+Joskus näillä asioilla voi olla paljon suurempi vaikutus kuin yhdellä arvosanalla. Ja pienillä eleillä ja teoilla. Asioilla, jotka jää mieleen. Voi olla, että oppilas tulee myöhemmin elämässään muistamaan kouluajoilta vain ne. Yksi opettajan antama palaute tai lause, joka jää kiertämään kehää. Yksi hymy, katse tai nyökkäys.
 
 Omasta historiastani ja kokemuksistani voin sanoa, että nämä asiat voivat muuttaa kokonaan sen, mitä ihminen kuvittelee olevansa kykenevä oppimaan.
