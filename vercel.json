@@ -68,5 +68,18 @@
       ]
     }
   ],
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "anomancer.vercel.app"
+        }
+      ],
+      "destination": "https://anomancer.com/:path*",
+      "permanent": true
+    }
+  ]
 }
