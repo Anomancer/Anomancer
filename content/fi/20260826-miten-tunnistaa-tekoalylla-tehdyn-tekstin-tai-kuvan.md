@@ -13,9 +13,7 @@ pinned: false
 draft: false
 ---
 
-Tähän kysymykseen tekee mieli antaa helppo vastaus.
-
-Katso käsiä, välimerkkejä tai käyttääkö teksti liikaa tiettyjä sanoja. Tai jos kuulostaa liian siistiltä, se on tekoälyä.
+Tähän kysymykseen tekee mieli antaa helppo vastaus: katso käsiä, välimerkkejä tai käyttääkö teksti liikaa tiettyjä sanoja. Tai jos kuulostaa liian siistiltä, se on tekoälyä.
 
 Ongelma on, että nämä säännöt vanhenevat todella nopeasti. Jokainen generatiivisten mallien sukupolvi korjaa osan niistä oudoista jäljistä, joihin ihmiset juuri ehtivät oppia kiinnittämään huomiota.
 
@@ -23,10 +21,7 @@ Siksi kiinnostavampi kysymys ei ehkä ole:
 
 **Mistä tunnistan tekoälyn?**
 
-Vaan:
-
-**Mistä huomaan, että sisältö ei käyttäydy niin kuin sen pitäisi?**
-
+Vaan: **mistä huomaan, että sisältö ei käyttäydy niin kuin sen pitäisi?**
 Tämä ero kuulostaa pieneltä, mutta se muuttaa koko tarkastelutavan.
 
 ## Tekstissä epäily syntyy usein rakenteesta
@@ -70,11 +65,7 @@ Se on usein paljon hyödyllisempi havainto.
 
 ## Kuvissa vanhat niksit eivät enää riitä
 
-Kuvien kohdalla tunnetuin neuvo on ollut pitkään:
-
-katso käsiä.
-
-Joo, se oli hetken ihan hyvä neuvo.
+Kuvien kohdalla tunnetuin neuvo on ollut pitkään: katso käsiä. Joo, se oli hetken ihan hyvä neuvo.
 
 Nyt se on enemmän historiallinen kuriositeetti. Generoidut kuvat ovat parantuneet niin nopeasti, että täysin uskottava kuva voi näyttää ensisilmäyksellä aivan tavalliselta valokuvalta. Virheitä löytyy silti, mutta ne ovat usein pienempiä ja oudompia.
 
@@ -105,9 +96,7 @@ Digitaalinen sisältö on hiljalleen menossa samaan suuntaan.
 Tulevaisuudessa kiinnostavin kysymys ei ehkä ole:
 **näyttääkö tämä tekoälyllä tehdyltä?**
 
-vaan:
-
-**pystynkö seuraamaan tämän takaisin johonkin luotettavaan alkuperään?**
+vaan: **pystynkö seuraamaan tämän takaisin johonkin luotettavaan alkuperään?**
 
 ## Entä tekoälytunnistimet?
 
@@ -124,13 +113,11 @@ Siksi en käyttäisi tällaista tunnistinta tuomioistuimena. Se voi olla yksi pi
 
 Tässä on myös vähän nurinkurinen puoli. Jos joku käyttää tekoälyä korjatakseen kirjoitusvirheet sähköpostista, onko sillä väliä?
 
-Jos graafikko käyttää generatiivista täyttöä poistaakseen roskiksen valokuvan taustalta, pitääkö kuvan olla merkitty tekoälykuvaksi?
-
-Jos kirjoittaja keskustelee mallin kanssa ideasta ja kirjoittaa lopullisen tekstin itse, kuka sen teki?
+Jos graafikko käyttää generatiivista täyttöä poistaakseen roskiksen valokuvan taustalta, pitääkö kuvan olla merkitty tekoälykuvaksi? Jos kirjoittaja keskustelee mallin kanssa ideasta ja kirjoittaa lopullisen tekstin itse, kuka sen teki?
 
 Raja ei ole enää siisti.
 
-"Tekoälyllä tehty" voi tarkoittaa kaikkea automaattisesta massasisällöstä siihen, että yksi lause on muotoiltu uudelleen. Siksi itseäni kiinnostaa enemmän toimijuus kuin teknologia.
+"Tekoälyllä tehty" voi tarkoittaa kaikkea automaattisesta massasisällöstä siihen, että yksi lause on muotoiltu uudelleen. Siksi itseäni kiinnostaa enemmän toimijuus kuin teknologia:
 
 Kuka päätti mitä sisältö sanoo? Kuka vastaa siitä? Mistä väitteet tulivat? Onko jonkun identiteettiä käytetty ilman lupaa? Yritetäänkö sisältö esittää jonain, mitä se ei ole?
 
