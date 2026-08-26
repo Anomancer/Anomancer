@@ -1,9 +1,9 @@
 {
   "format": "anomancer-run-store/v1",
   "coreVersion": "15.8.0",
-  "revision": 22,
-  "updatedAt": "2026-08-26T21:17:47.987Z",
-  "chainHead": "GENESIS",
+  "revision": 23,
+  "updatedAt": "2026-08-26T21:17:51.025Z",
+  "chainHead": "21ca1e9fa854eacf96d18305bfa71b67a47fa9f742fa504c50e20f75f92b9906",
   "runs": [
     {
       "format": "anomancer-run-record/v1",
@@ -789,15 +789,15 @@
         "name": "Anomancer Editorial",
         "orchestraHash": "a925c29c80e92f700d558eaeb6ebb97e95abf7fcf758d8b8db716507c7bc6b73"
       },
-      "status": "running",
+      "status": "completed",
       "humanApproval": {
         "required": true,
         "status": "pending",
         "appliedAt": ""
       },
       "startedAt": "2026-08-26T21:08:02.148Z",
-      "finishedAt": "",
-      "updatedAt": "2026-08-26T21:17:47.987Z",
+      "finishedAt": "2026-08-26T21:17:49.991Z",
+      "updatedAt": "2026-08-26T21:17:51.024Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
@@ -1307,26 +1307,39 @@
         "orchestras": {}
       },
       "receiptCount": 8,
-      "previousRunHash": "",
-      "runHash": "",
-      "counted": false
+      "previousRunHash": "GENESIS",
+      "runHash": "21ca1e9fa854eacf96d18305bfa71b67a47fa9f742fa504c50e20f75f92b9906",
+      "counted": true
     }
   ],
   "lifetime": {
-    "runs": 0,
-    "inputTokens": 0,
-    "outputTokens": 0,
-    "totalTokens": 0,
-    "reasoningTokens": 0,
-    "durationMs": 0,
+    "runs": 1,
+    "inputTokens": 108992,
+    "outputTokens": 65023,
+    "totalTokens": 174015,
+    "reasoningTokens": 44646,
+    "durationMs": 567612,
     "estimatedCostEuro": 0,
     "pricedReceipts": 0,
     "fallbacks": 0,
-    "toolAllows": 0,
+    "toolAllows": 1,
     "toolDenies": 0,
     "toolHumanRequired": 0,
-    "providers": {},
-    "agents": {},
-    "orchestras": {}
+    "providers": {
+      "deepseek": 174015
+    },
+    "agents": {
+      "source": 66722,
+      "structure": 9074,
+      "writer": 22802,
+      "critic": 13945,
+      "audience": 22233,
+      "voice": 12934,
+      "claims": 16337,
+      "package": 9968
+    },
+    "orchestras": {
+      "editorial": 1
+    }
   }
 }
