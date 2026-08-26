@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "15.9.2",
   "workspaceId": "default",
-  "revision": 46,
-  "updatedAt": "2026-08-26T22:05:00.397Z",
+  "revision": 47,
+  "updatedAt": "2026-08-26T22:06:34.648Z",
   "chainHead": "4c925726e9a6e510e354410c30f9a791825c498a2597a909da15356663677cf4",
   "runs": [
     {
@@ -2022,12 +2022,12 @@
       "status": "completed",
       "humanApproval": {
         "required": true,
-        "status": "pending",
-        "appliedAt": ""
+        "status": "editor_applied",
+        "appliedAt": "2026-08-26T22:06:34.648Z"
       },
       "startedAt": "2026-08-26T21:53:18.856Z",
       "finishedAt": "2026-08-26T22:04:59.355Z",
-      "updatedAt": "2026-08-26T22:05:00.396Z",
+      "updatedAt": "2026-08-26T22:06:34.648Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
