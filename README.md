@@ -150,3 +150,14 @@ Jos GitHub-token vuotaa, peru se GitHubissa heti. Jos session secret vuotaa, vai
 - Julkinen identiteetti: järjestelmäajattelija, konseptisuunnittelija ja prototyyppaaja.
 - Modular Creative Intelligence kokoaa monialaisen tekemisen yhden ymmärrettävän kehyksen alle.
 - FI/EN-sivut päivitetty samaan rakenteeseen.
+
+
+## 13.8 · Desktop Type Calm
+Desktopin hero-, identiteetti-, reitti-, lähetys- ja artikkeliotsikoiden maksimikokoja rauhoitettu. Mobiilin 13.6-kirurgia säilyy ennallaan.
+
+## 13.9 · Story + Identity Title Fix
+
+- Kuka minä olen? -osioon lisätty tausta kolmen vuoden AI-seurannasta, globaalista ja suomalaisesta kehityksestä, disinformaatiosta, algoritmeista ja intensiivisestä oppimisjaksosta.
+- Lisätty koulutustausta: lähihoitaja, vammaisohjaaja ja ilmanvaihtoasentaja.
+- Desktop-otsikko lyhennetty muotoon “En mahdu yhteen titteliin.” ja sen palsta/skaalaus rajattu niin, ettei teksti törmää oikeaan sisältöön.
+- Englanninkielinen sivu päivitetty samaan tarinaan.

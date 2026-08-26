@@ -666,3 +666,105 @@ h1 {
   .identity-modules { gap: 7px; margin-top: 22px; }
   .identity-modules span { font-size: .78rem; min-height: 32px; padding: 6px 10px; }
 }
+
+/* ========================================================================
+   ANOMANCER 13.8 · DESKTOP TYPE CALM
+   Desktop-otsikot pidetään voimakkaina, mutta ne eivät enää huuda toistensa
+   päälle tai täytä kokonaisia palstoja. Mobiilin 13.6-skaalaus jää ennalleen.
+   ======================================================================== */
+@media (min-width: 821px) {
+  .hero-inner { width: min(920px, 100%); }
+  .hero h1 {
+    font-size: clamp(3.8rem, 6.2vw, 6.35rem);
+    line-height: .96;
+    letter-spacing: .055em;
+  }
+  .hero .tagline {
+    max-width: 760px;
+    font-size: clamp(1.34rem, 2.35vw, 1.9rem);
+  }
+  .hero .intro {
+    max-width: 720px;
+    font-size: clamp(1.04rem, 1.45vw, 1.22rem);
+  }
+
+  .section-heading { max-width: 700px; }
+  .section-heading h2 {
+    font-size: clamp(2.15rem, 3.4vw, 3.45rem);
+    line-height: 1.06;
+    letter-spacing: .04em;
+  }
+
+  .identity-grid {
+    grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr);
+    gap: clamp(44px, 6vw, 84px);
+  }
+  .identity-heading h2 {
+    max-width: 510px;
+    font-size: clamp(2.25rem, 3.25vw, 3.15rem);
+    line-height: 1.1;
+    letter-spacing: .035em;
+  }
+
+  .gateway-card h3 {
+    font-size: clamp(1.55rem, 2.15vw, 2.12rem);
+    line-height: 1.14;
+  }
+
+  .transmission-intro { max-width: 720px; }
+  .transmission-intro h1 {
+    font-size: clamp(2.9rem, 5vw, 4.85rem);
+    line-height: .99;
+    letter-spacing: .045em;
+  }
+
+  .dispatch-card h2 {
+    font-size: clamp(1.9rem, 3.2vw, 2.85rem);
+    line-height: 1.14;
+  }
+  .dispatch-card h3 {
+    font-size: clamp(1.28rem, 1.75vw, 1.62rem);
+    line-height: 1.18;
+  }
+
+  .article h1 {
+    font-size: clamp(2.7rem, 4.6vw, 4.45rem);
+    line-height: 1.04;
+    letter-spacing: .028em;
+  }
+  .article-body h2 { font-size: 1.55em; }
+  .article-body h3 { font-size: 1.25em; }
+
+  .log-entry h2 {
+    font-size: clamp(1.45rem, 2.15vw, 2.15rem);
+  }
+}
+
+/* ========================================================================
+   ANOMANCER 13.9 · STORY + IDENTITY TITLE FIX
+   Desktop-identiteetti saa lisää tekstiä, joten otsikkopalsta pidetään
+   rauhallisena eikä pitkä otsikko saa enää törmätä oikeaan palstaan.
+   ======================================================================== */
+@media (min-width: 821px) {
+  .identity-grid {
+    grid-template-columns: minmax(300px, .72fr) minmax(0, 1.28fr);
+    gap: clamp(56px, 6.5vw, 104px);
+  }
+  .identity-heading {
+    min-width: 0;
+    max-width: 430px;
+  }
+  .identity-heading h2 {
+    max-width: 430px;
+    font-size: clamp(2rem, 2.65vw, 2.65rem);
+    line-height: 1.08;
+    letter-spacing: .03em;
+    overflow-wrap: normal;
+    text-wrap: balance;
+  }
+  .identity-copy {
+    max-width: 760px;
+    font-size: clamp(1.02rem, 1.35vw, 1.17rem);
+    line-height: 1.7;
+  }
+}
