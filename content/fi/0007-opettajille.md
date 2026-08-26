@@ -67,7 +67,7 @@ Mutta kielimalleissa on ominaisuuksia, joista voi oppia myös ilman tekoälyä. 
 ## Mitä opettaja voi kokeilla: kolme pientä liikettä
 
 1. **Katso ja kysy, millaisia ongelmia oppilas jo ratkoo sujuvasti.** Kiinnitä huomiota myös siihen, miten hän selittää ratkaisuaan. Käytä sitä selitystapaa uutta asiaa opettaessa.
-2. **Vaihda selitystä tai esimerkkiä.** Sama asia voidaan sanoa kymmenellä tavalla. Yhden toimimattomuus ei tarkoita, etteikö mikään toimisi.
+2. **Vaihda selitystä tai esimerkkiä.** Sama asia voidaan sanoa monella eri tavalla. Yhden toimimattomuus ei tarkoita, etteikö mikään toimisi.
 3. **Etsi yhteys oppilaan maailmaan.** Se voi olla harrastus, lempipeli, historiallinen henkilö tai mikä tahansa, jonka kautta aihe alkaa tuntua todelliselta.
 
 Nämä eivät ole valmis menetelmä. Ne ovat katseen suunnan muutos: mitä oppilas jo osaa, ja minkä kautta hänelle avautuisi reitti myös vaikeaan asiaan.
