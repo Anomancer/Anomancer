@@ -45,8 +45,31 @@
             <label>Kieli<select id="lang"><option value="fi">Suomi</option><option value="en">English</option></select></label>
             <label>Päivä<input id="date" type="date"></label>
             <label class="wide">Otsikko<input id="title" maxlength="180"></label>
-            <label>Kategoria<select id="category"><option value="ai-agents">AI & agentit</option><option value="tee">TEE</option><option value="systems">Järjestelmät</option><option value="semantics">Semantiikka</option><option value="build">Build log</option><option value="research">Tutkimus</option><option value="field">Kenttämerkinnät</option></select></label>
+            <label>Aihe<select id="category">
+              <option value="ai-work">Tekoäly arjessa ja työssä</option>
+              <option value="info-media">Tieto, väitteet ja media</option>
+              <option value="work-decisions">Työ, organisaatiot ja päätöksenteko</option>
+              <option value="money-risk">Raha, riskit ja mittarit</option>
+              <option value="software-safety">Ohjelmistot, automaatio ja turvallisuus</option>
+              <option value="language-learning">Kieli, ajattelu ja oppiminen</option>
+              <option value="creativity-tools">Luovuus ja työkalut</option>
+              <option value="society-systems">Yhteiskunta ja järjestelmät</option>
+            </select></label>
             <label>Slug<input id="slug" maxlength="100" placeholder="automaattinen otsikosta"></label>
+            <fieldset class="wide audience-field">
+              <legend>Kenelle tästä on hyötyä?</legend>
+              <p class="field-help">Valitse yksi tai useampi. “Kaikille” sulkee muut pois.</p>
+              <div class="audience-options">
+                <label><input type="checkbox" name="audience" value="all" checked><span>Kaikille</span></label>
+                <label><input type="checkbox" name="audience" value="employee"><span>Työntekijälle</span></label>
+                <label><input type="checkbox" name="audience" value="entrepreneur"><span>Yrittäjälle</span></label>
+                <label><input type="checkbox" name="audience" value="developer"><span>Kehittäjälle</span></label>
+                <label><input type="checkbox" name="audience" value="teacher"><span>Opettajalle</span></label>
+                <label><input type="checkbox" name="audience" value="creative"><span>Luovalle tekijälle</span></label>
+                <label><input type="checkbox" name="audience" value="decision-maker"><span>Päättäjälle</span></label>
+                <label><input type="checkbox" name="audience" value="investor"><span>Sijoittajalle</span></label>
+              </div>
+            </fieldset>
             <label class="wide">SEO-kuvaus <span id="descCount" class="count">0 / 220</span><textarea id="description" rows="3" maxlength="220"></textarea></label>
             <label class="wide">Translation key<input id="translationKey" maxlength="100" placeholder="sama avain FI/EN-versioille"></label>
             <div class="wide cover-field">

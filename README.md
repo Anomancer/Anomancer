@@ -1,3 +1,18 @@
+# ANOMANCER V13.5 · HUMAN LIBRARY
+
+Lähetyskoneen ihmiskäännöskerros. Sisältö järjestyy nyt lukijan ongelmien ja hyödyn mukaan, ei projektien sisäisen sanaston mukaan.
+
+## V13.5
+
+- 8 ihmislähtöistä aihealuetta: AI arjessa ja työssä; tieto, väitteet ja media; työ ja päätöksenteko; raha ja riskit; ohjelmistot ja turvallisuus; kieli ja oppiminen; luovuus; yhteiskunta.
+- erillinen **Kenelle tästä on hyötyä?** -luokitus: kaikille, työntekijälle, yrittäjälle, kehittäjälle, opettajalle, luovalle tekijälle, päättäjälle, sijoittajalle.
+- julkisella Lähetykset-sivulla aihe- ja yleisösuodattimet toimivat yhdessä.
+- vanhat kategoriat muunnetaan automaattisesti uusiin, joten olemassa olevat Markdownit eivät hajoa.
+- audience tallentuu frontmatteriin ja näkyy korteissa, artikkeleissa sekä Schema.org-audience-metadatassa.
+- Build log poistui julkisesta kategoriarakenteesta. Periaate: **älä julkaise projektia, julkaise hyöty.**
+
+## Aiemmat ominaisuudet
+
 # ANOMANCER V13.4 · MEDIA PIPE
 
 V13.4 tuo kuvat samaan julkaisuputkeen tekstien kanssa. Admin pakkaa JPG/PNG/WebP-kuvat selaimessa, tallentaa ne GitHub-repon `media/YYYY/MM/`-hakemistoon ja build kopioi ne julkiseksi `/media/...`-poluksi. Kansikuva tallentuu artikkelin metadataan ja toimii myös artikkelikortissa, Open Graph -kuvana ja JSON-LD:n `image`-kenttänä. Tekstin sisäiset kuvat lisätään Markdowniin kursorin kohdalle.

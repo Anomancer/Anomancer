@@ -412,3 +412,21 @@ h1 {
 
 /* V13.4 · MEDIA PIPE */
 .dispatch-cover{display:block;margin:-24px -24px 22px;overflow:hidden;border-bottom:1px solid var(--line);border-radius:10px 10px 0 0;background:#050509}.dispatch-card.featured .dispatch-cover{margin:calc(-1 * clamp(28px,4vw,42px)) calc(-1 * clamp(28px,4vw,42px)) 28px}.dispatch-cover img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;transition:transform .22s ease,opacity .22s ease}.dispatch-cover:hover img{transform:scale(1.015);opacity:.94}.article-cover{margin:42px 0 52px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#050509;box-shadow:0 24px 90px rgba(0,0,0,.28)}.article-cover img{display:block;width:100%;max-height:680px;object-fit:cover}.article-image{margin:2.2em 0}.article-image img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:#050509}.article-image figcaption{margin:.7em 0 0;color:var(--dim);font-family:Rajdhani,ui-sans-serif,system-ui,sans-serif;font-size:.82em;line-height:1.45}.article-body .article-image+*{margin-top:1.7em}@media(max-width:760px){.dispatch-cover{margin:-20px -20px 20px}.dispatch-card.featured .dispatch-cover{margin:-20px -20px 22px}.article-cover{margin:32px 0 38px;border-radius:9px}.article-image{margin:1.7em 0}}
+
+/* ========================================================================
+   ANOMANCER 13.5 · HUMAN LIBRARY
+   Aiheet ihmisongelmien mukaan + erillinen "kenelle"-suodatus.
+   ======================================================================== */
+.audience-bar{display:flex;align-items:flex-start;gap:18px;margin:26px 0 28px;padding:16px 18px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.018)}
+.audience-bar>span{flex:0 0 auto;padding-top:7px;color:var(--dim);font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.audience-filters{display:flex;flex-wrap:wrap;gap:8px}
+.audience-filter{appearance:none;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.025);color:var(--muted);padding:7px 11px;font:700 .78rem Rajdhani,ui-sans-serif,system-ui,sans-serif;cursor:pointer}
+.audience-filter:hover{color:#fff;border-color:#55525d}
+.audience-filter.is-active{color:#fff;border-color:var(--line-hot);background:var(--red-soft)}
+.audience-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:15px}
+.audience-tag{display:inline-flex;align-items:center;width:max-content;padding:4px 8px;border:1px solid rgba(255,255,255,.08);border-radius:999px;color:var(--dim);background:rgba(255,255,255,.018);font-size:.68rem;font-weight:700;letter-spacing:.03em}
+.article>.audience-tags{margin:16px 0 20px}
+.article>.audience-tags .audience-tag{color:var(--muted);border-color:rgba(255,255,255,.12)}
+.category-filter{line-height:1.25;text-align:left}
+@media(max-width:900px){.audience-bar{display:block}.audience-bar>span{display:block;padding:0 0 10px}.audience-filters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}.audience-filter{flex:0 0 auto;white-space:nowrap}}
+@media(max-width:760px){.audience-bar{margin:18px 0 22px;padding:13px}.audience-tags{margin-top:11px}}

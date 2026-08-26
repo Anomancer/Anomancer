@@ -1,4 +1,31 @@
-export const CATEGORIES = ['ai-agents','tee','systems','semantics','build','research','field'];
+export const CATEGORIES = ['ai-work','info-media','work-decisions','money-risk','software-safety','language-learning','creativity-tools','society-systems'];
+export const AUDIENCES = ['all','employee','entrepreneur','developer','teacher','creative','decision-maker','investor'];
+
+export const LEGACY_CATEGORY_MAP = {
+  'ai-agents':'ai-work',
+  'tee':'software-safety',
+  'systems':'society-systems',
+  'semantics':'language-learning',
+  'build':'software-safety',
+  'research':'info-media',
+  'field':'info-media',
+};
+
+export function normalizeCategory(value='') {
+  const raw=String(value||'').trim();
+  const mapped=LEGACY_CATEGORY_MAP[raw]||raw;
+  return CATEGORIES.includes(mapped)?mapped:'info-media';
+}
+
+export function normalizeAudience(value) {
+  let items=[];
+  if (Array.isArray(value)) items=value;
+  else if (typeof value === 'string' && value.trim()) items=value.split(',');
+  const clean=[...new Set(items.map(x=>String(x).trim()).filter(x=>AUDIENCES.includes(x)))];
+  if (!clean.length) return ['all'];
+  if (clean.includes('all')) return ['all'];
+  return clean;
+}
 
 export function slugify(s='') {
   return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,90);
@@ -10,6 +37,9 @@ function parseScalar(raw) {
   if (s === 'false') return false;
   if (s === 'null') return null;
   if (/^-?\d+(\.\d+)?$/.test(s)) return Number(s);
+  if ((s.startsWith('[') && s.endsWith(']')) || (s.startsWith('{') && s.endsWith('}'))) {
+    try { return JSON.parse(s); } catch {}
+  }
   if (s.startsWith('"') && s.endsWith('"')) {
     try { return JSON.parse(s); } catch {}
   }
@@ -28,14 +58,15 @@ export function parseMarkdown(raw, path='') {
     if (i < 0) continue;
     data[line.slice(0,i).trim()] = parseScalar(line.slice(i+1));
   }
-  return { ...data, draft:Boolean(data.draft), body:text.slice(end+5).replace(/^\n+/,'') };
+  return { ...data, category:normalizeCategory(data.category), audience:normalizeAudience(data.audience), draft:Boolean(data.draft), body:text.slice(end+5).replace(/^\n+/,'') };
 }
 
 export function validatePost(input) {
   const lang = input.lang === 'en' ? 'en' : 'fi';
   const title = String(input.title || '').trim();
   const date = String(input.date || '').trim();
-  const category = CATEGORIES.includes(input.category) ? input.category : 'field';
+  const category = normalizeCategory(input.category);
+  const audience = normalizeAudience(input.audience);
   const description = String(input.description || '').trim();
   const slug = slugify(input.slug || title);
   const translationKey = slugify(input.translationKey || slug);
@@ -52,12 +83,12 @@ export function validatePost(input) {
   if (coverImage && !/^\/media\/[A-Za-z0-9._\/-]+$/.test(coverImage)) throw Object.assign(new Error('Kansikuvan polku on virheellinen.'), { statusCode:400 });
   if (coverImage && !coverAlt) throw Object.assign(new Error('Kansikuvalta puuttuu alt-teksti.'), { statusCode:400 });
   if (coverAlt.length > 180) throw Object.assign(new Error('Kansikuvan alt-teksti on liian pitkä (max 180 merkkiä).'), { statusCode:400 });
-  return { lang,title,date,category,description,slug,translationKey,coverImage,coverAlt,draft,body };
+  return { lang,title,date,category,audience,description,slug,translationKey,coverImage,coverAlt,draft,body };
 }
 
 export function serializePost(input) {
   const p = validatePost(input);
-  return `---\ntitle: ${JSON.stringify(p.title)}\ndate: ${JSON.stringify(p.date)}\ncategory: ${JSON.stringify(p.category)}\ndescription: ${JSON.stringify(p.description)}\nslug: ${JSON.stringify(p.slug)}\nlang: ${JSON.stringify(p.lang)}\ntranslationKey: ${JSON.stringify(p.translationKey)}\ncoverImage: ${JSON.stringify(p.coverImage)}\ncoverAlt: ${JSON.stringify(p.coverAlt)}\ndraft: ${p.draft}\n---\n\n${p.body}\n`;
+  return `---\ntitle: ${JSON.stringify(p.title)}\ndate: ${JSON.stringify(p.date)}\ncategory: ${JSON.stringify(p.category)}\naudience: ${JSON.stringify(p.audience)}\ndescription: ${JSON.stringify(p.description)}\nslug: ${JSON.stringify(p.slug)}\nlang: ${JSON.stringify(p.lang)}\ntranslationKey: ${JSON.stringify(p.translationKey)}\ncoverImage: ${JSON.stringify(p.coverImage)}\ncoverAlt: ${JSON.stringify(p.coverAlt)}\ndraft: ${p.draft}\n---\n\n${p.body}\n`;
 }
 
 export function newPostPath(post) {

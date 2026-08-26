@@ -3,6 +3,17 @@ const state={csrf:'',posts:[],current:null,filter:'all',authenticated:false,medi
 const PUBLIC_ORIGIN='https://anomancer.vercel.app';
 const MAX_SOURCE_BYTES=20*1024*1024;
 const MAX_UPLOAD_BYTES=2*1024*1024;
+const CATEGORY_LABELS={
+  'ai-work':'Tekoäly arjessa ja työssä',
+  'info-media':'Tieto, väitteet ja media',
+  'work-decisions':'Työ, organisaatiot ja päätöksenteko',
+  'money-risk':'Raha, riskit ja mittarit',
+  'software-safety':'Ohjelmistot, automaatio ja turvallisuus',
+  'language-learning':'Kieli, ajattelu ja oppiminen',
+  'creativity-tools':'Luovuus ja työkalut',
+  'society-systems':'Yhteiskunta ja järjestelmät'
+};
+const AUDIENCE_LABELS={all:'Kaikille',employee:'Työntekijälle',entrepreneur:'Yrittäjälle',developer:'Kehittäjälle',teacher:'Opettajalle',creative:'Luovalle tekijälle','decision-maker':'Päättäjälle',investor:'Sijoittajalle'};
 const els={
   login:$('#loginView'),app:$('#appView'),loginForm:$('#loginForm'),password:$('#password'),loginError:$('#loginError'),
   postList:$('#postList'),repoStatus:$('#repoStatus'),newBtn:$('#newBtn'),logout:$('#logoutBtn'),editing:$('#editingLabel'),
@@ -10,7 +21,8 @@ const els={
   coverImage:$('#coverImage'),coverAlt:$('#coverAlt'),coverPicker:$('#coverPicker'),coverSelect:$('#coverSelectBtn'),coverRemove:$('#coverRemoveBtn'),coverPreview:$('#coverPreview'),coverPreviewImg:$('#coverPreviewImg'),
   body:$('#body'),bodyImagePicker:$('#bodyImagePicker'),insertImage:$('#insertImageBtn'),mediaStatus:$('#mediaStatus'),
   descCount:$('#descCount'),wordCount:$('#wordCount'),preview:$('#preview'),previewBadge:$('#previewBadge'),status:$('#status'),
-  saveDraft:$('#saveDraftBtn'),publish:$('#publishBtn'),del:$('#deleteBtn'),live:$('#liveLink'),publicUrl:$('#publicUrl'),publicUrlHint:$('#publicUrlHint')
+  saveDraft:$('#saveDraftBtn'),publish:$('#publishBtn'),del:$('#deleteBtn'),live:$('#liveLink'),publicUrl:$('#publicUrl'),publicUrlHint:$('#publicUrlHint'),
+  audienceChecks:$$('input[name="audience"]')
 };
 
 function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -45,14 +57,16 @@ function markdown(md=''){
 async function api(url,opts={}){const headers={'Content-Type':'application/json',...(opts.headers||{})};if(state.csrf&&opts.method&&opts.method!=='GET')headers['X-CSRF-Token']=state.csrf;const r=await fetch(url,{credentials:'same-origin',...opts,headers});const data=await r.json().catch(()=>({ok:false,message:`HTTP ${r.status}`}));if(!r.ok||data.ok===false)throw Object.assign(new Error(data.message||data.error||`HTTP ${r.status}`),{data,status:r.status});return data;}
 function setStatus(text,type=''){els.status.textContent=text;els.status.className=`status ${type}`;}
 function setMediaStatus(text,type=''){els.mediaStatus.textContent=text;els.mediaStatus.className=`media-status ${type}`;}
-function emptyPost(){return{lang:'fi',date:new Date().toISOString().slice(0,10),title:'',category:'field',description:'',slug:'',translationKey:'',coverImage:'',coverAlt:'',draft:true,body:'',path:'',sha:''};}
-function currentForm(draft){return{lang:els.lang.value,date:els.date.value,title:els.title.value.trim(),category:els.category.value,description:els.description.value.trim(),slug:els.slug.value.trim()||slugify(els.title.value),translationKey:els.translationKey.value.trim()||slugify(els.slug.value||els.title.value),coverImage:els.coverImage.value.trim(),coverAlt:els.coverAlt.value.trim(),draft,body:els.body.value};}
+function emptyPost(){return{lang:'fi',date:new Date().toISOString().slice(0,10),title:'',category:'info-media',audience:['all'],description:'',slug:'',translationKey:'',coverImage:'',coverAlt:'',draft:true,body:'',path:'',sha:''};}
+function selectedAudience(){const picked=els.audienceChecks.filter(x=>x.checked).map(x=>x.value);return picked.length?picked:['all'];}
+function setAudience(values){const set=new Set(Array.isArray(values)&&values.length?values:['all']);els.audienceChecks.forEach(x=>x.checked=set.has(x.value));if(!els.audienceChecks.some(x=>x.checked)){const all=els.audienceChecks.find(x=>x.value==='all');if(all)all.checked=true;}}
+function currentForm(draft){return{lang:els.lang.value,date:els.date.value,title:els.title.value.trim(),category:els.category.value,audience:selectedAudience(),description:els.description.value.trim(),slug:els.slug.value.trim()||slugify(els.title.value),translationKey:els.translationKey.value.trim()||slugify(els.slug.value||els.title.value),coverImage:els.coverImage.value.trim(),coverAlt:els.coverAlt.value.trim(),draft,body:els.body.value};}
 function updateCoverPreview(){const url=els.coverImage.value.trim();els.coverPreview.hidden=!url;els.coverRemove.hidden=!url;if(url){els.coverPreviewImg.src=state.mediaPreviews[url]||url;els.coverPreviewImg.alt=els.coverAlt.value.trim()||'';}else{els.coverPreviewImg.removeAttribute('src');}}
-function loadForm(p){state.current=p;els.lang.disabled=Boolean(p.path);els.lang.value=p.lang||'fi';els.date.value=p.date||new Date().toISOString().slice(0,10);els.title.value=p.title||'';els.category.value=p.category||'field';els.description.value=p.description||'';els.slug.value=p.slug||'';els.translationKey.value=p.translationKey||'';els.coverImage.value=p.coverImage||'';els.coverAlt.value=p.coverAlt||'';els.body.value=p.body||'';els.editing.textContent=p.path?(p.title||p.path):'Uusi lähetys';els.del.hidden=!p.path;updateCoverPreview();renderLiveLink();refreshPreview();renderList();setStatus('');setMediaStatus('');}
-function renderList(){const posts=state.posts.filter(p=>state.filter==='all'||(state.filter==='draft'?p.draft:!p.draft));els.postList.innerHTML=posts.map(p=>`<button class="post-item ${state.current?.path===p.path?'active':''}" data-path="${esc(p.path)}"><strong>${esc(p.title||p.path)}</strong><span>${String(p.lang||'').toUpperCase()} · ${esc(p.category||'')} · ${esc(p.date||'')} ${p.coverImage?'· KUVA ':''}${p.draft?'· LUONNOS':'· JULKAISTU'}</span></button>`).join('')||'<p class="muted">Ei julkaisuja tässä näkymässä.</p>';$$('.post-item').forEach(b=>b.onclick=()=>{const p=state.posts.find(x=>x.path===b.dataset.path);if(p)loadForm(p)});}
+function loadForm(p){state.current=p;els.lang.disabled=Boolean(p.path);els.lang.value=p.lang||'fi';els.date.value=p.date||new Date().toISOString().slice(0,10);els.title.value=p.title||'';els.category.value=CATEGORY_LABELS[p.category]?p.category:'info-media';setAudience(p.audience);els.description.value=p.description||'';els.slug.value=p.slug||'';els.translationKey.value=p.translationKey||'';els.coverImage.value=p.coverImage||'';els.coverAlt.value=p.coverAlt||'';els.body.value=p.body||'';els.editing.textContent=p.path?(p.title||p.path):'Uusi lähetys';els.del.hidden=!p.path;updateCoverPreview();renderLiveLink();refreshPreview();renderList();setStatus('');setMediaStatus('');}
+function renderList(){const posts=state.posts.filter(p=>state.filter==='all'||(state.filter==='draft'?p.draft:!p.draft));els.postList.innerHTML=posts.map(p=>`<button class="post-item ${state.current?.path===p.path?'active':''}" data-path="${esc(p.path)}"><strong>${esc(p.title||p.path)}</strong><span>${String(p.lang||'').toUpperCase()} · ${esc(CATEGORY_LABELS[p.category]||p.category||'')} · ${esc(p.date||'')} ${p.coverImage?'· KUVA ':''}${p.draft?'· LUONNOS':'· JULKAISTU'}</span></button>`).join('')||'<p class="muted">Ei julkaisuja tässä näkymässä.</p>';$$('.post-item').forEach(b=>b.onclick=()=>{const p=state.posts.find(x=>x.path===b.dataset.path);if(p)loadForm(p)});}
 function publicPath(p){const slug=p.slug||slugify(p.title);const base=p.lang==='en'?'/dispatches':'/lahetykset';return slug?`${base}/${slug}`:`${base}/…`;}
 function renderLiveLink(){const p=currentForm(Boolean(state.current?.draft));const slug=p.slug||slugify(p.title);const path=publicPath(p);els.publicUrl.textContent=`${PUBLIC_ORIGIN}${path}`;const savedSlug=state.current?.slug||slugify(state.current?.title||'');const isPublished=Boolean(state.current?.path&&state.current?.draft===false);const isSavedUrl=Boolean(isPublished&&slug&&slug===savedSlug&&p.lang===(state.current?.lang||p.lang));if(isSavedUrl){els.publicUrlHint.textContent='Julkaistu. Tämä on nykyinen julkinen osoite.';els.live.href=`${PUBLIC_ORIGIN}${path}`;els.live.hidden=false;}else{els.live.hidden=true;if(isPublished&&slug){els.publicUrlHint.textContent='URL on muuttunut. Julkaise muutokset, jotta uusi osoite aktivoituu.';}else if(state.current?.path&&state.current?.draft){els.publicUrlHint.textContent='Luonnos. Osoite aktivoituu julkaistaessa.';}else{els.publicUrlHint.textContent='URL muodostuu otsikosta tai slugista.';}}}
-function refreshPreview(){const p=currentForm(Boolean(state.current?.draft));const words=p.body.trim()?p.body.trim().split(/\s+/).length:0;els.wordCount.textContent=`${words} sanaa · ${Math.max(1,Math.ceil(words/220))} min`;els.descCount.textContent=`${p.description.length} / 220`;els.previewBadge.textContent=state.current?.draft===false?'JULKAISTU':'LUONNOS';const coverSrc=p.coverImage?(state.mediaPreviews[p.coverImage]||p.coverImage):'';const cover=p.coverImage?`<figure class="preview-cover"><img src="${escAttr(coverSrc)}" alt="${escAttr(p.coverAlt)}"></figure>`:'';els.preview.innerHTML=`<p class="kicker">${esc(p.category)}</p><h1>${esc(p.title||'Otsikko')}</h1><p class="muted">${esc(p.date||'')}</p>${cover}${markdown(p.body||'')}`;updateCoverPreview();renderLiveLink();}
+function refreshPreview(){const p=currentForm(Boolean(state.current?.draft));const words=p.body.trim()?p.body.trim().split(/\s+/).length:0;els.wordCount.textContent=`${words} sanaa · ${Math.max(1,Math.ceil(words/220))} min`;els.descCount.textContent=`${p.description.length} / 220`;els.previewBadge.textContent=state.current?.draft===false?'JULKAISTU':'LUONNOS';const coverSrc=p.coverImage?(state.mediaPreviews[p.coverImage]||p.coverImage):'';const cover=p.coverImage?`<figure class="preview-cover"><img src="${escAttr(coverSrc)}" alt="${escAttr(p.coverAlt)}"></figure>`:'';const aud=`<div class="preview-audience">${p.audience.map(id=>`<span>${esc(AUDIENCE_LABELS[id]||id)}</span>`).join('')}</div>`;els.preview.innerHTML=`<p class="kicker">${esc(CATEGORY_LABELS[p.category]||p.category)}</p>${aud}<h1>${esc(p.title||'Otsikko')}</h1><p class="muted">${esc(p.date||'')}</p>${cover}${markdown(p.body||'')}`;updateCoverPreview();renderLiveLink();}
 
 function imageDimensions(file){return new Promise((resolve,reject)=>{const url=URL.createObjectURL(file);const img=new Image();img.onload=()=>{resolve({img,width:img.naturalWidth,height:img.naturalHeight,url})};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Kuvaa ei voitu avata.'))};img.src=url;});}
 async function canvasBlob(canvas,type,quality){return await new Promise(resolve=>canvas.toBlob(resolve,type,quality));}
@@ -101,6 +115,12 @@ els.coverSelect.onclick=()=>els.coverPicker.click();els.coverPicker.onchange=()=
 els.coverRemove.onclick=()=>{els.coverImage.value='';els.coverAlt.value='';setMediaStatus('Kansikuva irrotettu artikkelista. GitHubiin jo tallennettu kuvatiedosto jää talteen.');refreshPreview();};
 els.insertImage.onclick=()=>els.bodyImagePicker.click();els.bodyImagePicker.onchange=()=>{const f=els.bodyImagePicker.files?.[0];if(f)chooseBodyImage(f)};
 $$('.filters button').forEach(b=>b.onclick=()=>{$$('.filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.filter=b.dataset.filter;renderList()});
+els.audienceChecks.forEach(box=>box.addEventListener('change',()=>{
+  if(box.value==='all'&&box.checked){els.audienceChecks.forEach(x=>{if(x!==box)x.checked=false});}
+  else if(box.checked){const all=els.audienceChecks.find(x=>x.value==='all');if(all)all.checked=false;}
+  if(!els.audienceChecks.some(x=>x.checked)){const all=els.audienceChecks.find(x=>x.value==='all');if(all)all.checked=true;}
+  refreshPreview();
+}));
 [els.lang,els.date,els.title,els.category,els.slug,els.description,els.translationKey,els.coverImage,els.coverAlt,els.body].forEach(el=>el.addEventListener('input',refreshPreview));
 els.title.addEventListener('blur',()=>{if(!els.slug.value)els.slug.value=slugify(els.title.value);if(!els.translationKey.value)els.translationKey.value=slugify(els.title.value);if(els.coverImage.value&&!els.coverAlt.value)els.coverAlt.value=els.title.value.trim();refreshPreview()});
 loadForm(emptyPost());session().catch(e=>{els.login.hidden=false;els.loginError.textContent=e.message});
