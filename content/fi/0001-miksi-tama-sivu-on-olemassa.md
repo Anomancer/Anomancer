@@ -9,6 +9,7 @@ lang: "fi"
 translationKey: "why-this-page-exists"
 coverImage: ""
 coverAlt: ""
+pinned: true
 draft: false
 ---
 
