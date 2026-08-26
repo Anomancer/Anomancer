@@ -1,0 +1,244 @@
+{
+  "format": "anomancer-core-public/v1",
+  "version": "15.1.0",
+  "humanFinalAuthority": true,
+  "privacy": {
+    "containsRawPrompt": false,
+    "containsRawOutput": false,
+    "containsRunHistory": false,
+    "adminApiUsed": false
+  },
+  "agents": [
+    {
+      "id": "source",
+      "label": "Lähdeagentti",
+      "version": "1.0.0",
+      "role": "research-source-scout",
+      "description": "Etsii verkosta lähde-ehdokkaita ja tutkimusaukkoja. Ei voi hyväksyä omaa evidenssiään.",
+      "modelRoute": "research",
+      "tools": [
+        "web.search"
+      ],
+      "maxOutputTokens": 16000,
+      "write": [
+        "sourceCandidates",
+        "researchMemo"
+      ],
+      "deny": [
+        "source.verify",
+        "claims.promote",
+        "publish",
+        "github.write"
+      ],
+      "humanApproval": [
+        "source.verify",
+        "publish"
+      ],
+      "contractHash": "96f9ba71d2d12d6d47fdbf2bdbebd71d4ac117cf6863c51f48a86d5a8c0a185c"
+    },
+    {
+      "id": "structure",
+      "label": "Rakenneagentti",
+      "version": "1.0.0",
+      "role": "editorial-structure",
+      "description": "Ehdottaa artikkelin rakennetta valitulle yleisölle muuttamatta evidenssin tilaa.",
+      "modelRoute": "writer",
+      "tools": [],
+      "maxOutputTokens": 12000,
+      "write": [
+        "structure"
+      ],
+      "deny": [
+        "sources.write",
+        "claims.write",
+        "publish",
+        "github.write"
+      ],
+      "humanApproval": [
+        "publish"
+      ],
+      "contractHash": "8c96d3bb848348c841abd8841e9e42e4003d73a6c2761dde85b5c7346c5f4cfe"
+    },
+    {
+      "id": "writer",
+      "label": "Kirjoitusagentti",
+      "version": "1.0.0",
+      "role": "draft-writer",
+      "description": "Kirjoittaa ja järjestää luonnoksen, mutta ei saa nostaa lähde-ehdokasta varmennetuksi tiedoksi.",
+      "modelRoute": "writer",
+      "tools": [],
+      "maxOutputTokens": 24000,
+      "write": [
+        "body",
+        "titleSuggestions",
+        "description",
+        "answer"
+      ],
+      "deny": [
+        "source.verify",
+        "claims.promote",
+        "publish",
+        "github.write"
+      ],
+      "humanApproval": [
+        "publish"
+      ],
+      "contractHash": "fc8eb53986338712855b9ac83e4c518a325eb7fd139e77d6eabc81681dd1151e"
+    },
+    {
+      "id": "critic",
+      "label": "Kriitikko",
+      "version": "1.0.0",
+      "role": "adversarial-review",
+      "description": "Etsii heikot oletukset, ylivarmat väitteet, puuttuvan vastanäytön ja yleisöongelmat.",
+      "modelRoute": "critic",
+      "tools": [],
+      "maxOutputTokens": 12000,
+      "write": [
+        "critique"
+      ],
+      "deny": [
+        "draft.commit",
+        "sources.write",
+        "claims.write",
+        "publish",
+        "github.write"
+      ],
+      "humanApproval": [
+        "publish"
+      ],
+      "contractHash": "8cac5878b901b345d837b2c8745ead07b1182e5f632cbeb93d64e59c51da71a6"
+    },
+    {
+      "id": "audience",
+      "label": "Yleisöadapteri",
+      "version": "1.0.0",
+      "role": "audience-adapter",
+      "description": "Vaihtaa havaintoposition ja syvyystason muuttamatta tekstin epistemistä ydintä.",
+      "modelRoute": "writer",
+      "tools": [],
+      "maxOutputTokens": 24000,
+      "write": [
+        "body",
+        "adaptationSummary",
+        "audienceFit"
+      ],
+      "deny": [
+        "sources.write",
+        "claims.write",
+        "source.verify",
+        "publish",
+        "github.write"
+      ],
+      "humanApproval": [
+        "publish"
+      ],
+      "contractHash": "972b8dbecdf3aeceee556e4058631a2f547bb1a4f4c09e575f1dfa6bfd6c1a1f"
+    },
+    {
+      "id": "voice",
+      "label": "Äänieditori",
+      "version": "1.0.0",
+      "role": "voice-editor",
+      "description": "Poistaa geneeristä mallikieltä ja säilyttää kirjoittajan äänen sekä yleisösopimuksen.",
+      "modelRoute": "writer",
+      "tools": [],
+      "maxOutputTokens": 24000,
+      "write": [
+        "body",
+        "changes",
+        "warnings"
+      ],
+      "deny": [
+        "sources.write",
+        "claims.write",
+        "source.verify",
+        "publish",
+        "github.write"
+      ],
+      "humanApproval": [
+        "publish"
+      ],
+      "contractHash": "71533508fda975aadaf5080e198a199b4de2db63bc34f3935864b03790f9deea"
+    },
+    {
+      "id": "claims",
+      "label": "Väitevahti",
+      "version": "1.0.0",
+      "role": "claim-auditor",
+      "description": "Tarkistaa lopullisen proosan väitteet ja niiden evidenssikytkennät. Ei voi varmentaa lähteitä.",
+      "modelRoute": "critic",
+      "tools": [],
+      "maxOutputTokens": 16000,
+      "write": [
+        "claims",
+        "answer",
+        "warnings"
+      ],
+      "deny": [
+        "sources.write",
+        "source.verify",
+        "publish",
+        "github.write"
+      ],
+      "humanApproval": [
+        "source.verify",
+        "publish"
+      ],
+      "contractHash": "eb4814c991599004f5699efb2f748340356417fdeae54302e87eb6eca5642053"
+    },
+    {
+      "id": "package",
+      "label": "Julkaisupaketti",
+      "version": "1.0.0",
+      "role": "publication-packager",
+      "description": "Valmistelee metadataa. Evidence Layer ja ihmisen Audience Contract ovat lukittuja.",
+      "modelRoute": "writer",
+      "tools": [],
+      "maxOutputTokens": 12000,
+      "write": [
+        "title",
+        "description",
+        "slug",
+        "answer",
+        "category",
+        "notes"
+      ],
+      "deny": [
+        "claims.write",
+        "sources.write",
+        "audience.write",
+        "source.verify",
+        "publish",
+        "github.write"
+      ],
+      "humanApproval": [
+        "publish"
+      ],
+      "contractHash": "cb10693bdf30673416712d2857b6109275a8cf470974e00dff4eb6b33b9dfed4"
+    }
+  ],
+  "orchestras": [
+    {
+      "id": "editorial",
+      "name": "Anomancer Editorial",
+      "version": "1.0.0",
+      "description": "Nykyinen Lähetyskone natiivina Core-orkesterina.",
+      "mode": "sequential",
+      "stages": [
+        "source",
+        "structure",
+        "writer",
+        "critic",
+        "audience",
+        "voice",
+        "claims",
+        "package"
+      ],
+      "humanFinalAuthority": true,
+      "evidencePolicy": "candidate-never-equals-verified",
+      "audiencePolicy": "adapt-then-recheck-claims",
+      "orchestraHash": "18881ce215a508cd638761add0b6ded23b58fdd942d69a6ab4a9633ba7806e91"
+    }
+  ]
+}

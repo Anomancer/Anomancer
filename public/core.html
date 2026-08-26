@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Anomancer Coren julkinen rakennekartta: agenttisopimukset, orkesteri, toimivaltarajat ja ajokuittien periaate ilman yksityisen ohjaamon tietoja." />
+  <meta name="author" content="Aatu Isopahkala" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+  <link rel="canonical" href="https://anomancer.com/core" />
+  <link rel="author" href="https://anomancer.com/#about" />
+  <meta property="og:site_name" content="Anomancer" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Anomancer Core · Agent Control Plane" />
+  <meta property="og:description" content="Katso miten Anomancer rajaa agenttien roolit, toimivallan, orkesterin ja ajokuitit. Julkinen arkkitehtuurinäkymä, yksityinen ohjaamo erikseen." />
+  <meta property="og:url" content="https://anomancer.com/core" />
+  <meta property="og:locale" content="fi_FI" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Anomancer Core · Agent Control Plane" />
+  <meta name="twitter:description" content="Agent Pool, orkesteri, toimivaltarajat ja ajokuittien periaate julkisena rakennekarttana." />
+  <title>Anomancer Core · Agent Control Plane</title>
+  <meta name="theme-color" content="#040408" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="core-public-page">
+<a class="skip-link" href="#main-content">Siirry sisältöön</a>
+<header class="site-header">
+  <a class="brand" href="/">Anomancer</a>
+  <button class="menu-toggle" type="button" aria-label="Avaa valikko" aria-controls="header-menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <div class="header-right" id="header-menu">
+    <nav class="main-nav" aria-label="Päänavigaatio"><a href="/">Etusivu</a><a href="/lahetykset">Lähetykset</a><a class="active" href="/core">Core</a></nav>
+    <div class="lang-switch" aria-label="Kieli"><a class="active" href="/core">FI</a><span>/</span><a href="/en">EN</a></div>
+  </div>
+</header>
+
+<main id="main-content">
+  <section class="core-public-hero">
+    <div class="core-public-hero-inner">
+      <div class="core-public-status"><span class="core-pulse" aria-hidden="true"></span><span id="corePublicVersion">CORE</span><span>PUBLIC ARCHITECTURE VIEW</span></div>
+      <p class="eyebrow">Agent Control Plane</p>
+      <h1>CORE</h1>
+      <p class="core-public-lead">Lasiseinäinen näkymä Anomancerin konehuoneeseen. Täällä näkyy <strong>miten agentit on rajattu</strong>, ei yksityisen ohjaamon sisältö.</p>
+      <div class="core-principle" aria-label="Coren perusperiaate"><span>Kyvykkyys</span><b>≠</b><span>Lupa</span><b>≠</b><span>Toimivalta</span><b>≠</b><span>Tavoite</span></div>
+      <div class="core-public-actions"><a class="core-public-button primary" href="#orchestra">Katso orkesteri ↓</a><a class="core-public-button" href="/lahetykset">Lue lähetyksiä →</a></div>
+    </div>
+  </section>
+
+  <section class="core-public-section core-public-overview" aria-labelledby="core-overview-title">
+    <div class="core-public-section-head"><div><p class="eyebrow">01 · Rakenne</p><h2 id="core-overview-title">Agentti ei ole vain prompti.</h2></div><p>Core kohtelee agenttia toimijana, jolla on sopimus, rajattu tehtävä, rajattu kirjoitusoikeus ja budjetti. Ihminen säilyttää lopullisen vallan.</p></div>
+    <div class="core-public-metrics" aria-label="Core yhteenveto">
+      <article><span>Agent Pool</span><strong id="corePublicAgentCount">8</strong><small>sopimusagenttia</small></article>
+      <article><span>Orkesterit</span><strong id="corePublicOrchestraCount">1</strong><small>rekisteröity työnkulku</small></article>
+      <article><span>Julkaisuvalta</span><strong>0</strong><small>agentilla</small></article>
+      <article><span>Human gate</span><strong>ON</strong><small>lopullinen hyväksyntä</small></article>
+    </div>
+  </section>
+
+  <section id="orchestra" class="core-public-section" aria-labelledby="core-orchestra-title">
+    <div class="core-public-section-head"><div><p class="eyebrow">02 · Orchestra Registry</p><h2 id="core-orchestra-title">Lähetyskone on ensimmäinen orkesteri.</h2></div><p>Jokainen vaihe saa oman tehtävänsä. Orkesteri määrittää järjestyksen, ei agentti itse.</p></div>
+    <div id="corePublicOrchestra" class="core-public-orchestra" aria-live="polite"><p class="core-public-loading">Ladataan rakennekarttaa…</p></div>
+  </section>
+
+  <section class="core-public-section" aria-labelledby="core-agents-title">
+    <div class="core-public-section-head"><div><p class="eyebrow">03 · Agent Registry</p><h2 id="core-agents-title">Agent Pool</h2></div><p>Näkyvissä ovat vain julkiset sopimustiedot. Promptit, oikeat ajot, sessiot ja salaisuudet eivät kuulu tähän näkymään.</p></div>
+    <div id="corePublicAgents" class="core-public-agent-grid" aria-live="polite"></div>
+  </section>
+
+  <section class="core-public-section" aria-labelledby="core-receipt-title">
+    <div class="core-public-section-head"><div><p class="eyebrow">04 · Run Receipt</p><h2 id="core-receipt-title">Työstä jää kuitti, ei musta laatikko.</h2></div><p>Yksityinen Core muodostaa agenttiajosta metatietokuitin. Julkisessa näkymässä alla on <strong>rakenteellinen esimerkki</strong>, ei oikea tuotantoajo.</p></div>
+    <div class="core-receipt-demo">
+      <div class="core-receipt-top"><div><span>DEMO RECEIPT</span><strong>Claim Watcher</strong></div><span class="core-receipt-state">COMPLETED</span></div>
+      <dl>
+        <div><dt>Agent contract</dt><dd>claims / contract hash</dd></div>
+        <div><dt>Input</dt><dd>sha256: …</dd></div>
+        <div><dt>Output</dt><dd>sha256: …</dd></div>
+        <div><dt>Token budget</dt><dd>16 000 output</dd></div>
+        <div><dt>Publish authority</dt><dd>DENY</dd></div>
+        <div><dt>Human approval</dt><dd>REQUIRED</dd></div>
+      </dl>
+      <p>Kuitti voi kertoa mitä ajettiin, millä sopimuksella ja millä budjetilla ilman että julkiseen näkymään vuotaa raakaa promptia tai agentin raakavastausta.</p>
+    </div>
+  </section>
+
+  <section class="core-public-section core-boundary-section" aria-labelledby="core-boundary-title">
+    <div class="core-public-section-head"><div><p class="eyebrow">05 · Julkinen / yksityinen</p><h2 id="core-boundary-title">Lasiseinä ei ole avoin ovi.</h2></div><p>Arkkitehtuuri voidaan näyttää ilman että control plane avataan internetille.</p></div>
+    <div class="core-boundary-grid">
+      <article><span class="core-boundary-label public">JULKINEN</span><h3>/core</h3><ul><li>Agenttien roolit ja sopimusrakenne</li><li>Orkesterin vaihejärjestys</li><li>Tokenbudjetit ja toimivaltarajat</li><li>Sopimushashien julkiset tunnisteet</li><li>Ajokuitin rakenteellinen esimerkki</li></ul></article>
+      <article><span class="core-boundary-label private">YKSITYINEN</span><h3>/admin</h3><ul><li>Oikeat agenttiajot ja paikallinen ledger</li><li>Luonnokset ja toimituksellinen työmuisti</li><li>Admin-session kontrollit</li><li>Työkalujen oikea suoritus ja hyväksynnät</li><li>Palvelinpuolen asetukset ja salaisuudet</li></ul><a class="core-admin-link" href="/admin">Admin login →</a></article>
+    </div>
+  </section>
+
+  <section class="core-public-section core-next-section" aria-labelledby="core-next-title">
+    <div><p class="eyebrow">Seuraavat kerrokset</p><h2 id="core-next-title">Foundation ensin. Sitten lisää moottoria.</h2><p>Core Foundation luo kiinnityspisteet Tool Brokerille, mallireititykselle, omille orkestereille, workspaceille ja käyttömittaukselle. Niitä ei esitetä valmiina ennen kuin ne ovat oikeasti valmiita.</p></div>
+    <div class="core-roadmap"><span>Tool Broker</span><span>Model Router</span><span>Custom Orchestras</span><span>Workspaces</span><span>Usage Metering</span></div>
+  </section>
+</main>
+
+<footer class="footer"><span>Anomancer · Core</span><div><a href="/lahetykset">Lähetykset</a><a href="/admin">Admin</a></div></footer>
+<script type="module" src="/site.js"></script>
+<script type="module" src="/core-public.js"></script>
+</body>
+</html>

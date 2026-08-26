@@ -1,4 +1,4 @@
-# Anomancer 15.0.0 · Full Release
+# Anomancer 15.1.0 · Full Release
 
 Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone ja yksityinen Vercel-admin. Julkinen sisältö rakennetaan `public/`-hakemistoon. Admin tallentaa artikkelit GitHub Contents API:n kautta ja käyttää DeepSeek-agentteja vain ehdotusten tuottamiseen.
 

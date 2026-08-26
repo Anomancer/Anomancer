@@ -1,3 +1,12 @@
+# 15.1.0 — Public Core Showcase
+
+- `/core` on nyt julkinen, indeksoitava arkkitehtuurinäkymä eikä admin-rewrite.
+- `/admin` säilyy yksityisenä oikeana control planena.
+- Julkinen Core näyttää turvallisen Agent Registry -snapshotin, Editorial-orkesterin, toimivaltarajat ja demomuotoisen Run Receiptin.
+- Public Core ei kutsu admin-API:a eikä näytä oikeita ajolokeja, promptteja, sessioita tai salaisuuksia.
+- Build tuottaa `core-public.json`-snapshotin suoraan Agent Registrystä, joten julkinen rakennekartta ei irtoa moottorin todellisuudesta.
+- `/core` lisätään sitemap- ja llms-discoveryyn.
+
 # Changelog
 
 ## 15.0.0 · 2026-08-26

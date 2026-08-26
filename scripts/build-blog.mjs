@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { normalizeSources as normalizeContentSources, normalizeClaims as normalizeContentClaims, normalizeAliases, normalizeAudienceDepth } from '../api/_lib/content.js';
+import { AGENT_REGISTRY, ORCHESTRA_REGISTRY, CORE_VERSION } from '../api/_lib/core-registry.js';
 
 const ROOT = process.cwd();
 const SITE = String(process.env.PUBLIC_SITE_URL || 'https://anomancer.com').replace(/\/$/,'');
@@ -286,6 +287,7 @@ function llmsTxt(posts){
     `- [Lähetykset](${SITE}${copy.fi.blogPath})`,
     `- [English](${SITE}/en)`,
     `- [Dispatches](${SITE}${copy.en.blogPath})`,
+    `- [Core](${SITE}/core)`,
     '',
     '## Machine-readable resources',
     `- [Sitemap](${SITE}/sitemap.xml)`,
@@ -316,7 +318,7 @@ function discoveryManifest(posts,generatedAt){
     notes:DISCOVERY.notes||[]
   };
 }
-function sitemap(posts){ const urls=[['/',null],['/en',null],[copy.fi.blogPath,null],[copy.en.blogPath,null],...posts.filter(p=>!p.draft).map(p=>[`${copy[p.lang].articleBase}/${p.slug}`,p.date])]; return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(([u,d])=>`  <url><loc>${SITE}${u}</loc>${d?`<lastmod>${d}</lastmod>`:''}</url>`).join('\n')}\n</urlset>\n`; }
+function sitemap(posts){ const urls=[['/',null],['/en',null],['/core',null],[copy.fi.blogPath,null],[copy.en.blogPath,null],...posts.filter(p=>!p.draft).map(p=>[`${copy[p.lang].articleBase}/${p.slug}`,p.date])]; return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(([u,d])=>`  <url><loc>${SITE}${u}</loc>${d?`<lastmod>${d}</lastmod>`:''}</url>`).join('\n')}\n</urlset>\n`; }
 function decodeHtmlAttr(s=''){ return String(s).replace(/&#x27;|&#39;/gi,"'").replace(/&quot;/gi,'\"').replace(/&amp;/gi,'&').replace(/&lt;/gi,'<').replace(/&gt;/gi,'>'); }
 function staticHomeJsonLd(lang,title,description,url){ return graphJson([websiteNode(),personNode(),webpageNode({url,name:title,description,lang})]); }
 function syncStaticHome(rel,lang){
@@ -363,6 +365,22 @@ write('evidence-manifest.json',JSON.stringify(evidenceManifest,null,2)+'\n');
 write('llms.txt',llmsTxt(posts));
 const discoveryManifestData=discoveryManifest(posts,manifest.generatedAt);
 write('discovery-manifest.json',JSON.stringify(discoveryManifestData,null,2)+'\n');
+const publicCore={
+  format:'anomancer-core-public/v1',
+  version:CORE_VERSION,
+  humanFinalAuthority:true,
+  privacy:{containsRawPrompt:false,containsRawOutput:false,containsRunHistory:false,adminApiUsed:false},
+  agents:AGENT_REGISTRY.map(agent=>({
+    id:agent.id,label:agent.label,version:agent.version,role:agent.role,description:agent.description,
+    modelRoute:agent.modelRoute,tools:[...(agent.tools||[])],maxOutputTokens:Number(agent.budget?.maxOutputTokens||0),
+    write:[...(agent.authority?.write||[])],deny:[...(agent.authority?.deny||[])],humanApproval:[...(agent.humanApproval||[])],contractHash:agent.contractHash
+  })),
+  orchestras:ORCHESTRA_REGISTRY.map(orchestra=>({
+    id:orchestra.id,name:orchestra.name,version:orchestra.version,description:orchestra.description,mode:orchestra.mode,stages:[...orchestra.stages],
+    humanFinalAuthority:Boolean(orchestra.humanFinalAuthority),evidencePolicy:orchestra.evidencePolicy,audiencePolicy:orchestra.audiencePolicy,orchestraHash:orchestra.orchestraHash
+  }))
+};
+write('core-public.json',JSON.stringify(publicCore,null,2)+'\n');
 const digest=crypto.createHash('sha256').update(JSON.stringify(manifest.published)).digest('hex');
 console.log(`✓ Lähetyskone build: ${manifest.published.length} julkaistua · ${draftCount} luonnosta · manifest sha256 ${digest.slice(0,16)}…`);
 
@@ -372,9 +390,9 @@ const PUBLIC = path.join(ROOT, 'public');
 fs.rmSync(PUBLIC, { recursive:true, force:true });
 ensureDir(PUBLIC);
 const publicFiles = [
-  'index.html','en.html','lahetykset.html','dispatches.html','admin.html',
+  'index.html','en.html','core.html','lahetykset.html','dispatches.html','admin.html',
   'styles.css','admin.css','admin.js','admin-core.js','admin-agents.js','admin-orchestrator.js','favicon.svg',
-  'site.js',
+  'site.js','core-public.js','core-public.json',
   'robots.txt','sitemap.xml','rss.xml','rss-en.xml','content-manifest.json','evidence-manifest.json','llms.txt','discovery-manifest.json'
 ];
 for (const rel of publicFiles) {

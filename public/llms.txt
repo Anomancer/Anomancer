@@ -10,6 +10,7 @@ Author: Aatu Isopahkala (https://anomancer.com/#about)
 - [Lähetykset](https://anomancer.com/lahetykset)
 - [English](https://anomancer.com/en)
 - [Dispatches](https://anomancer.com/dispatches)
+- [Core](https://anomancer.com/core)
 
 ## Machine-readable resources
 - [Sitemap](https://anomancer.com/sitemap.xml)

@@ -1,4 +1,4 @@
-# Anomancer 15.0 · Core Foundation
+# Anomancer 15.1 · Core Foundation
 
 15.0 erottaa ensimmäistä kertaa agentin identiteetin, orkesterin rakenteen ja ajon todistettavan metadatan varsinaisista prompteista.
 
@@ -60,3 +60,8 @@ Julkisen Anomancerin aiempi Observatory-portti osoittaa nyt `/core`-reittiin. Ve
 - allekirjoitettuja run receiptejä
 
 Näille on kuitenkin nyt paikka ilman, että Lähetyskoneen nykyinen toimituksellinen turvamalli tarvitsee repiä auki.
+
+
+## 15.1 · Public Core Showcase
+
+`/core` on julkinen, turvallisesti redaktoitu näkymä Coren rakenteeseen. Se ei käytä admin-API:a. Julkinen snapshot syntyy buildissa Agent Registrystä ja sisältää vain roolin, kuvauksen, mallireitin, tokenbudjetin, kirjoitusoikeuksien nimet, sopimushashin sekä orkesterin julkisen rakenteen. Oikeat ajokuitit, työmuisti, sessiot ja palvelinsalaisuudet jäävät `/admin`-ohjaamoon.

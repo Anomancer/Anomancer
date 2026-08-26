@@ -1,4 +1,4 @@
-# Anomancer 15.0.0 · Orchestrator
+# Anomancer 15.1.0 · Orchestrator
 
 Orkesteri ajaa kahdeksan vaihetta järjestyksessä: source, structure, writer, critic, audience, voice, claims ja package. Kaikki tulokset ovat ehdotuksia. Vain ihminen voi siirtää lopputuloksen editoriin, tallentaa luonnoksen tai julkaista.
 
