@@ -1,4 +1,4 @@
-# Anomancer 15.5.0 · Model Router
+# Anomancer 15.6.0 · Server-side Runtime Profiles
 
 Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone ja yksityinen Vercel-admin. Julkinen sisältö rakennetaan `public/`-hakemistoon. Admin tallentaa artikkelit GitHub Contents API:n kautta. Agenttien mallikutsut kulkevat palvelinpuolen Model Routerin kautta; DeepSeek säilyy oletuksena ja muut providerit ovat valinnaisia.
 
@@ -6,7 +6,7 @@ Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone j
 
 Anomancerin Lähetyskone toimii nyt ensimmäisenä natiivina Core-orkesterina. `api/_lib/core-registry.js` määrittää keskitetysti kahdeksan Agent Contractia, niiden roolit, mallireitit, työkalut, toimivallan ja tokenbudjetit. `editorial/1.0.0` määrittää orkesterin vaihejärjestyksen. Jokainen onnistunut agenttiajo tuottaa `anomancer-run-receipt/v1` -kuitin, joka sisältää metadatan sekä input/output-hashit, ei raakaa promptia tai vastausta. Selain ylläpitää näistä paikallista hash-ketjutettua Run Ledgeriä Core-välilehdellä.
 
-15.4 lisäsi Tool Brokerin oikean `web.search`-polun eteen. 15.5 lisää Model Routerin: Agent Contract säilyttää loogisen reitin ja provider-target voidaan vaihtaa vain reitin sallituissa rajoissa. Core ei vielä sisällä käyttäjätili-/maksukerrosta tai custom-agenttien luontia.
+15.4 lisäsi Tool Brokerin ja 15.5 Model Routerin. 15.6 siirtää Agent Poolin Runtime Profilet selaimesta serverin hallitsemaan pysyvään storeen ja jäädyttää jokaisen orkesteriajon runtime-tilan HMAC-allekirjoitettuun snapshotiin. Core ei vielä sisällä käyttäjätili-/maksukerrosta tai custom-agenttien luontia.
 
 ## 14.3.1:n tärkeimmät rajat ja Audience Layer
 

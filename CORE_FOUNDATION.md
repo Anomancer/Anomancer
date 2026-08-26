@@ -1,4 +1,4 @@
-# Anomancer 15.5 · Core Foundation + Model Router
+# Anomancer 15.6 · Core Foundation + Server Runtime
 
 15.0 erottaa ensimmäistä kertaa agentin identiteetin, orkesterin rakenteen ja ajon todistettavan metadatan varsinaisista prompteista.
 
@@ -72,3 +72,7 @@ Tool Registry ja palvelinpuolen Policy Gate on kuvattu tiedostossa `TOOL_BROKER.
 ## 15.5 · Model Router
 
 Agent Contract ei enää sido agenttia yhteen fyysiseen provider-targettiin. Sopimus kantaa loogisen `modelRoute`-arvon, ja palvelinpuolen Model Router valitsee vain sen reitin sallituista targeteista. DeepSeek on oletus; OpenAI, Anthropic ja Gemini voidaan aktivoida serverin env-asetuksilla. Research-route sallii vain web-search-kykyiset targetit. Runtime Profile voi valita targetin, mutta ei ylittää route-rajaa tai muuttaa Agent Contractin toimivaltaa. Run Receipt kirjaa valitun providerin, targetin ja fallbackin.
+
+## 15.6 · Server-side Runtime Profiles
+
+Runtime Profile ei enää elä admin-selaimen localStoragessa. `/api/admin/runtime` lukee ja kirjoittaa server-authoritative-tilan, joka on tuotannossa sidottu erilliseen GitHub tag-refiin. Orkesteri jäädyttää tilan HMAC-allekirjoitettuun snapshotiin ennen ensimmäistä stagea.

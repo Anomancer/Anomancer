@@ -24,4 +24,4 @@ Client ei päätä lopullista tokenkattoa. `/api/admin/agents` normalisoi Runtim
 
 OFF-agentti ohitetaan näkyvästi tilassa `disabled`. Human approval gate säilyy erillisenä. Run Receipt tallentaa käytetyn runtime-tokenkaton mutta ei raakaa promptia tai raakaa outputia.
 
-15.4 lisää Tool Brokerin nykyisen `web.search`-polun eteen. 15.5 lisää Runtime Profileen `modelTarget`-valinnan, jonka palvelin clampaa Agent Contractin loogisen reitin sallittuihin targetteihin. Seuraava luonteva kerros on palvelin-/workspace-persistenssi Runtime Profileille.
+15.4 lisäsi Tool Brokerin ja 15.5 `modelTarget`-reitityksen. 15.6 siirtää nämä Runtime Profilet serverin pysyvään storeen. Selain toimii hallintakonsolina, mutta serveri on auktoriteetti ja orkesteri käyttää allekirjoitettua snapshotia.

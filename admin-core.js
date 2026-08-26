@@ -1,10 +1,8 @@
 const q=s=>document.querySelector(s);
 const panel=q('#corePanel');
 const LEDGER_KEY='anomancer.core.run-ledger.v15';
-const RUNTIME_KEY='anomancer.core.agent-runtime.v15.5';
 const POLICY_KEY='anomancer.core.policy-log.v15.4';
-const RUNTIME_FORMAT='anomancer-agent-runtime-store/v1';
-let snapshot=null,openAgentId='';
+let snapshot=null,openAgentId='',runtimeState={format:'anomancer-runtime-store/v2',revision:0,updatedAt:'',profiles:{}},runtimeStore=null,csrf='';
 
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function stable(value){if(Array.isArray(value))return `[${value.map(stable).join(',')}]`;if(value&&typeof value==='object')return `{${Object.keys(value).sort().map(k=>`${JSON.stringify(k)}:${stable(value[k])}`).join(',')}}`;return JSON.stringify(value);}
@@ -34,27 +32,33 @@ function renderPolicyLog(events=[]){const root=q('#corePolicyLog');if(!root)retu
 
 function renderModelRouter(){const root=q('#coreModelRouter');if(!root||!snapshot)return;const providers=snapshot.modelRouter?.providers||[];const routes=snapshot.modelRoutes||[];root.innerHTML=`<div class="core-router-providers">${providers.map(provider=>`<article data-configured="${provider.configured?'yes':'no'}"><div><strong>${esc(provider.label||provider.id)}</strong><span>${provider.configured?'CONFIGURED':'OFFLINE'}</span></div><small>${esc((provider.supports||[]).join(' · '))}</small></article>`).join('')}</div><div class="core-router-routes">${routes.map(route=>`<article><div><strong>${esc(route.id)}</strong><span>${esc(route.defaultTarget)}</span></div><p>${(route.allowedTargets||[]).map(id=>{const target=modelTargetById(id);return `<span data-configured="${target?.configured?'yes':'no'}">${esc(id)}${target?.model?` · ${esc(target.model)}`:''}</span>`;}).join('')}</p></article>`).join('')}</div>`;}
 function budget(agent){const n=Number(agent?.budget?.maxOutputTokens||0);return n?`${n.toLocaleString('fi-FI')} tok`:'—';}
-function readRuntimeStore(){try{const value=JSON.parse(localStorage.getItem(RUNTIME_KEY)||'{}');return value?.format===RUNTIME_FORMAT&&value.profiles&&typeof value.profiles==='object'?value:{format:RUNTIME_FORMAT,profiles:{}};}catch{return{format:RUNTIME_FORMAT,profiles:{}};}}
-function runtimeForAgent(id){
-  const stored=readRuntimeStore().profiles?.[id]||{};const agent=snapshot?.agents?.find(item=>item.id===id);
-  if(!agent)return stored&&Object.keys(stored).length?{format:'anomancer-agent-runtime/v1',agentId:id,contractHash:String(stored.contractHash||''),active:stored.active!==false,maxOutputTokens:Number(stored.maxOutputTokens||0)||0,modelTarget:String(stored.modelTarget||''),limits:{minOutputTokens:1,maxOutputTokens:Number.MAX_SAFE_INTEGER,modelTargets:[]}}:null;
-  const policy=agent.runtimePolicy||{};
-  const min=Math.max(1,Number(policy.minOutputTokens||1000));const max=Math.max(min,Number(policy.maxOutputTokens||agent.budget?.maxOutputTokens||min));
-  const requested=stored.contractHash===agent.contractHash?Number(stored.maxOutputTokens):Number(agent.budget?.maxOutputTokens||min);
-  const route=modelRouteFor(agent),allowed=[...(route?.allowedTargets||[])],defaultTarget=route?.defaultTarget||allowed[0]||'';
-  const storedTarget=stored.contractHash===agent.contractHash?String(stored.modelTarget||''):'';const modelTarget=allowed.includes(storedTarget)?storedTarget:defaultTarget;
-  return {format:'anomancer-agent-runtime/v1',agentId:id,contractHash:agent.contractHash,active:stored.contractHash===agent.contractHash?stored.active!==false:true,maxOutputTokens:Number.isFinite(requested)?Math.min(max,Math.max(min,Math.round(requested))):Number(agent.budget?.maxOutputTokens||min),modelTarget,limits:{minOutputTokens:min,maxOutputTokens:max,modelTargets:allowed}};
+function fallbackRuntime(agent){
+  if(!agent)return null;const policy=agent.runtimePolicy||{};const route=modelRouteFor(agent),allowed=[...(route?.allowedTargets||[])],min=Math.max(1,Number(policy.minOutputTokens||1000)),max=Math.max(min,Number(policy.maxOutputTokens||agent.budget?.maxOutputTokens||min));
+  return {format:'anomancer-agent-runtime/v1',agentId:agent.id,contractHash:agent.contractHash,active:true,maxOutputTokens:Number(agent.budget?.maxOutputTokens||min),modelTarget:route?.defaultTarget||allowed[0]||'',limits:{minOutputTokens:min,maxOutputTokens:max,modelTargets:allowed}};
 }
-function getRuntimeProfiles(){if(snapshot)return Object.fromEntries(snapshot.agents.map(agent=>[agent.id,runtimeForAgent(agent.id)]));const store=readRuntimeStore();return Object.fromEntries(Object.keys(store.profiles||{}).map(id=>[id,runtimeForAgent(id)]));}
-function saveRuntimeProfile(id,patch={}){
-  const current=runtimeForAgent(id);if(!current)return null;const store=readRuntimeStore();
-  const requested=Number(patch.maxOutputTokens);const maxOutputTokens=Number.isFinite(requested)?Math.min(current.limits.maxOutputTokens,Math.max(current.limits.minOutputTokens,Math.round(requested))):current.maxOutputTokens;
-  const requestedTarget=String(patch.modelTarget||current.modelTarget||'');const modelTarget=(current.limits.modelTargets||[]).includes(requestedTarget)?requestedTarget:current.modelTarget;
-  const profile={contractHash:current.contractHash,active:patch.active!==undefined?patch.active!==false:current.active,maxOutputTokens,modelTarget};
-  store.profiles[id]=profile;localStorage.setItem(RUNTIME_KEY,JSON.stringify(store));
-  const next=runtimeForAgent(id);window.dispatchEvent(new CustomEvent('anomancer:agent-runtime-change',{detail:{agentId:id,profile:next,profiles:getRuntimeProfiles()}}));return next;
+function runtimeForAgent(id){const agent=snapshot?.agents?.find(item=>item.id===id);return runtimeState?.profiles?.[id]||fallbackRuntime(agent);}
+function getRuntimeProfiles(){if(!snapshot)return {...(runtimeState?.profiles||{})};return Object.fromEntries(snapshot.agents.map(agent=>[agent.id,runtimeForAgent(agent.id)]));}
+async function ensureCsrf(){if(csrf)return csrf;const r=await fetch('/api/admin/session',{credentials:'same-origin'}),d=await r.json().catch(()=>({}));if(!r.ok||!d.authenticated)throw new Error('Admin-session puuttuu.');csrf=d.csrf||'';return csrf;}
+async function loadRuntime(){
+  const r=await fetch('/api/admin/runtime',{credentials:'same-origin'}),d=await r.json().catch(()=>({}));
+  if(!r.ok||!d.ok)throw Object.assign(new Error(d.message||'Server-side Runtime Profile ei auennut.'),{code:d.error||'RUNTIME_LOAD'});
+  runtimeState=d.runtime||runtimeState;runtimeStore=d.store||null;return runtimeState;
 }
-function resetRuntimeProfile(id){const store=readRuntimeStore();delete store.profiles[id];localStorage.setItem(RUNTIME_KEY,JSON.stringify(store));const next=runtimeForAgent(id);window.dispatchEvent(new CustomEvent('anomancer:agent-runtime-change',{detail:{agentId:id,profile:next,profiles:getRuntimeProfiles()}}));return next;}
+async function saveRuntimeProfile(id,patch={}){
+  await ensureCsrf();const r=await fetch('/api/admin/runtime',{method:'PUT',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agentId:id,profile:patch,expectedRevision:runtimeState.revision})});
+  const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok){if(r.status===403)csrf='';throw Object.assign(new Error(d.message||'Runtime Profilen tallennus epäonnistui.'),{code:d.error||'RUNTIME_SAVE'});}
+  runtimeState=d.runtime;runtimeStore=d.store||runtimeStore;const next=runtimeForAgent(id);window.dispatchEvent(new CustomEvent('anomancer:agent-runtime-change',{detail:{agentId:id,profile:next,profiles:getRuntimeProfiles(),revision:runtimeState.revision}}));return next;
+}
+async function resetRuntimeProfile(id){
+  await ensureCsrf();const r=await fetch('/api/admin/runtime',{method:'DELETE',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agentId:id,expectedRevision:runtimeState.revision})});
+  const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok){if(r.status===403)csrf='';throw Object.assign(new Error(d.message||'Runtime Profilen palautus epäonnistui.'),{code:d.error||'RUNTIME_RESET'});}
+  runtimeState=d.runtime;runtimeStore=d.store||runtimeStore;const next=runtimeForAgent(id);window.dispatchEvent(new CustomEvent('anomancer:agent-runtime-change',{detail:{agentId:id,profile:next,profiles:getRuntimeProfiles(),revision:runtimeState.revision}}));return next;
+}
+async function createRuntimeSnapshot(orchestraRunId){
+  await ensureCsrf();const r=await fetch('/api/admin/runtime',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({action:'snapshot',orchestraRunId})});
+  const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok){if(r.status===403)csrf='';throw Object.assign(new Error(d.message||'Runtime Snapshotin luonti epäonnistui.'),{code:d.error||'RUNTIME_SNAPSHOT'});}
+  return d;
+}
 function routeLabel(agent){const runtime=runtimeForAgent(agent?.id),target=modelTargetById(runtime?.modelTarget),provider=providerById(target?.provider);return target?`${provider?.label||target.provider} · ${target.model||target.id}`:agent?.modelRoute||'—';}
 function chips(items=[],kind=''){return items.length?items.map(item=>`<span class="core-chip${kind?` ${kind}`:''}">${esc(item)}</span>`).join(''):'<span class="core-chip muted">ei määritelty</span>';}
 function renderAgents(){
@@ -68,7 +72,7 @@ function renderAgentDialog(id=openAgentId){
   q('#coreAgentActive').checked=runtime.active;q('#coreAgentTokens').min=String(runtime.limits.minOutputTokens);q('#coreAgentTokens').max=String(runtime.limits.maxOutputTokens);q('#coreAgentTokens').value=String(runtime.maxOutputTokens);q('#coreAgentTokenRange').textContent=`Sallittu ${runtime.limits.minOutputTokens.toLocaleString('fi-FI')}–${runtime.limits.maxOutputTokens.toLocaleString('fi-FI')} · sopimuksen oletus ${Number(agent.budget?.maxOutputTokens||0).toLocaleString('fi-FI')}`;
   const modelSelect=q('#coreAgentModelTarget');if(modelSelect){modelSelect.innerHTML=(runtime.limits.modelTargets||[]).map(id=>{const target=modelTargetById(id),provider=providerById(target?.provider);const label=`${provider?.label||target?.provider||id} · ${target?.model||id}${target?.configured?'':' · OFFLINE'}`;return `<option value="${esc(id)}"${id===runtime.modelTarget?' selected':''}>${esc(label)}</option>`;}).join('');}
   q('#coreAgentModel').textContent=routeLabel(agent);q('#coreAgentTools').innerHTML=(snapshot.tools||[]).map(tool=>{const state=toolStateForAgent(agent,tool);return `<span class="core-chip ${state.kind}">${esc(tool.id)} · ${state.label}</span>`;}).join('')||chips([]);q('#coreAgentCapabilities').innerHTML=chips(agent.capabilities||[]);q('#coreAgentRead').innerHTML=chips(agent.authority?.read||[]);q('#coreAgentWrite').innerHTML=chips(agent.authority?.write||[],'allow');q('#coreAgentDeny').innerHTML=chips(agent.authority?.deny||[],'deny');q('#coreAgentApproval').innerHTML=chips(agent.humanApproval||[],'gate');q('#coreAgentHash').textContent=agent.contractHash;
-  q('#coreAgentRuntimeNotice').textContent=`Runtime Profile tallentuu vain tähän admin-selaimeen. Model target voidaan vaihtaa vain sopimuksen loogisen reitin sallimiin targetteihin; työkalu- ja toimivaltarajat pysyvät muuttumattomina (${(policy.immutable||[]).length} lukittua kenttää).`;
+  q('#coreAgentRuntimeNotice').textContent=`Runtime Profile on serverin hallitsema ja pysyvä (${runtimeStore?.durable?'durable':'server'} · rev ${runtimeState.revision}). Model target voidaan vaihtaa vain sopimuksen loogisen reitin sallimiin targetteihin; työkalu- ja toimivaltarajat pysyvät muuttumattomina (${(policy.immutable||[]).length} lukittua kenttää).`;
 }
 function openAgentDialog(id){const dialog=q('#coreAgentDialog');renderAgentDialog(id);if(dialog&&!dialog.open)dialog.showModal();}
 async function render(){
@@ -77,15 +81,15 @@ async function render(){
   const list=q('#coreRuns');list.innerHTML=receipts.length?receipts.slice(-12).reverse().map(r=>`<article class="core-run-row"><div><strong>${esc(r.agent?.label||r.agent?.id)}</strong><span>${esc(r.id)}</span></div><div><span>${esc(r.model?.model||'')}</span><span>${Number(r.usage?.outputTokens||0).toLocaleString('fi-FI')} / ${Number(r.usage?.maxOutputTokens||0).toLocaleString('fi-FI')} out</span><time>${esc(new Date(r.finishedAt).toLocaleString('fi-FI'))}</time></div></article>`).join(''):'<p class="core-empty">Ei ajokuitteja vielä. Ensimmäinen agenttiajo avaa lokin.</p>';
   renderAgents();renderTools();renderModelRouter();renderPolicyLog(events);renderOrchestras();if(q('#coreAgentDialog')?.open&&openAgentId)renderAgentDialog(openAgentId);
 }
-async function loadCore(){try{const r=await fetch('/api/admin/core',{credentials:'same-origin'});if(!r.ok)return;const d=await r.json();snapshot=d.core;q('#coreVersion').textContent=`CORE ${snapshot.version}`;q('#coreOrchestraCount').textContent=String(snapshot.orchestras.length);await render();window.dispatchEvent(new CustomEvent('anomancer:core-ready',{detail:snapshot}));}catch{}}
+async function loadCore(){try{const r=await fetch('/api/admin/core',{credentials:'same-origin'});if(!r.ok)return;const d=await r.json();snapshot=d.core;try{await loadRuntime();}catch(error){runtimeState={format:'anomancer-runtime-store/v2',revision:0,updatedAt:'',profiles:Object.fromEntries((snapshot.agents||[]).map(agent=>[agent.id,fallbackRuntime(agent)]))};runtimeStore={mode:'unavailable',durable:false,error:error.message};}q('#coreVersion').textContent=`CORE ${snapshot.version}`;q('#coreOrchestraCount').textContent=String(snapshot.orchestras.length);await render();window.dispatchEvent(new CustomEvent('anomancer:core-ready',{detail:snapshot}));}catch{}}
 
 panel?.addEventListener('click',event=>{const btn=event.target.closest?.('[data-agent-open]');if(btn)openAgentDialog(btn.dataset.agentOpen);});
 q('#coreAgentClose')?.addEventListener('click',()=>q('#coreAgentDialog')?.close());
 q('#coreAgentCancel')?.addEventListener('click',()=>q('#coreAgentDialog')?.close());
-q('#coreAgentSave')?.addEventListener('click',async()=>{if(!openAgentId)return;saveRuntimeProfile(openAgentId,{active:q('#coreAgentActive')?.checked!==false,maxOutputTokens:Number(q('#coreAgentTokens')?.value),modelTarget:q('#coreAgentModelTarget')?.value});await render();q('#coreAgentDialog')?.close();});
-q('#coreAgentReset')?.addEventListener('click',async()=>{if(!openAgentId)return;resetRuntimeProfile(openAgentId);await render();renderAgentDialog(openAgentId);});
+q('#coreAgentSave')?.addEventListener('click',async()=>{if(!openAgentId)return;try{await saveRuntimeProfile(openAgentId,{active:q('#coreAgentActive')?.checked!==false,maxOutputTokens:Number(q('#coreAgentTokens')?.value),modelTarget:q('#coreAgentModelTarget')?.value});await render();q('#coreAgentDialog')?.close();}catch(error){alert(error.message);if(error.code==='RUNTIME_REVISION_CONFLICT')await loadCore();}});
+q('#coreAgentReset')?.addEventListener('click',async()=>{if(!openAgentId)return;try{await resetRuntimeProfile(openAgentId);await render();renderAgentDialog(openAgentId);}catch(error){alert(error.message);if(error.code==='RUNTIME_REVISION_CONFLICT')await loadCore();}});
 q('#coreAgentDialog')?.addEventListener('click',event=>{if(event.target===q('#coreAgentDialog'))q('#coreAgentDialog').close();});
-window.anomancerCore={appendReceipt,appendPolicyDecision,readLedger,readPolicyStore,verifyLedger,getSnapshot:()=>snapshot,getRuntimeProfile:runtimeForAgent,getRuntimeProfiles,saveRuntimeProfile,resetRuntimeProfile,refresh:loadCore};
+window.anomancerCore={appendReceipt,appendPolicyDecision,readLedger,readPolicyStore,verifyLedger,getSnapshot:()=>snapshot,getRuntimeProfile:runtimeForAgent,getRuntimeProfiles,saveRuntimeProfile,resetRuntimeProfile,createRuntimeSnapshot,refresh:loadCore};
 window.addEventListener('anomancer:admin-ready',loadCore);
-window.addEventListener('storage',event=>{if(event.key===LEDGER_KEY||event.key===RUNTIME_KEY||event.key===POLICY_KEY)render();});
+window.addEventListener('storage',event=>{if(event.key===LEDGER_KEY||event.key===POLICY_KEY)render();});
 loadCore();

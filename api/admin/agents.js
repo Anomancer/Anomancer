@@ -5,9 +5,10 @@ import { routeAgentJson, modelRouterStatus } from '../_lib/model-router.js';
 import { promptFor, SOURCE_SCHEMA, CATEGORIES, AUDIENCES, AUDIENCE_DEPTHS } from '../_lib/agent-prompts.js';
 import { normalizeClaims, normalizeSources } from '../_lib/content.js';
 import { validateAgentResult } from '../_lib/agent-validation.js';
-import { getAgentContract, listAgentIds, normalizeAgentRuntime, CORE_VERSION } from '../_lib/core-registry.js';
+import { getAgentContract, listAgentIds, CORE_VERSION } from '../_lib/core-registry.js';
 import { createRunReceipt } from '../_lib/core-receipt.js';
 import { authorizeAgentTools } from '../_lib/tool-broker.js';
+import { getRuntimeProfile, verifyRuntimeSnapshot } from '../_lib/runtime-store.js';
 
 const AGENTS=new Set(listAgentIds());
 const MAX_BODY_CHARS=60_000;
@@ -56,13 +57,20 @@ export default async function handler(req,res){
     if(!AGENTS.has(agent)) return json(res,400,{ok:false,error:'AGENT_UNKNOWN'});
     const contract=getAgentContract(agent);
     if(!contract) return json(res,400,{ok:false,error:'AGENT_UNKNOWN'});
-    const runtime=normalizeAgentRuntime(agent,body.runtimeProfile||{});
+    const orchestraRunId=cleanString(body.orchestraRunId,120)||null;
+    let runtime;
+    if(orchestraRunId){
+      if(!body.runtimeSnapshotToken) return json(res,409,{ok:false,error:'RUNTIME_SNAPSHOT_REQUIRED',message:'Orkesteriajo vaatii serverin allekirjoittaman Runtime Snapshotin.'});
+      const snapshot=verifyRuntimeSnapshot(body.runtimeSnapshotToken,{orchestraRunId});
+      runtime=snapshot.profiles?.[agent];
+      if(!runtime) return json(res,409,{ok:false,error:'RUNTIME_SNAPSHOT_AGENT',message:'Agentin Runtime Profile puuttuu orkesterin snapshotista.'});
+    }else runtime=await getRuntimeProfile(agent);
     if(!runtime?.active) return json(res,409,{ok:false,error:'AGENT_DISABLED',message:`${contract.label} on poistettu käytöstä Core Runtime Profilessa.`});
     const post=normalizePost(body.post||{});
     const custom=cleanString(body.instruction,MAX_CUSTOM_CHARS);
     const {system,user}=promptFor(agent,post,custom);
     const startedAt=new Date();
-    const toolPolicy=authorizeAgentTools({contract,toolIds:contract.tools||[],context:{orchestraRunId:cleanString(body.orchestraRunId,120)||null,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null}});
+    const toolPolicy=authorizeAgentTools({contract,toolIds:contract.tools||[],context:{orchestraRunId,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null}});
     const abortController=new AbortController();
     const abort=()=>abortController.abort();
     req.once?.('aborted',abort);
@@ -72,7 +80,7 @@ export default async function handler(req,res){
     });
     req.removeListener?.('aborted',abort);
     const result=validateAgentResult(agent,response.result,post);
-    const receipt=createRunReceipt({contract,runtime,post,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId:cleanString(body.orchestraRunId,120)||null,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
+    const receipt=createRunReceipt({contract,runtime,post,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
     return json(res,200,{ok:true,coreVersion:CORE_VERSION,agent,contract:{id:contract.id,version:contract.version,contractHash:contract.contractHash,role:contract.role,authority:contract.authority,budget:contract.budget,runtimePolicy:contract.runtimePolicy},runtime,toolPolicy,result,meta:response.meta,receipt,humanApprovalRequired:true});
   }catch(e){
     return json(res,e.statusCode||500,{ok:false,error:e.code||'AGENT_FAILED',message:e.message,retryable:Boolean(e.retryable),retryAfterMs:Number(e.retryAfterMs||0),policyDecision:e.policyDecision||null});

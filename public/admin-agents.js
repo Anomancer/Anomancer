@@ -86,7 +86,7 @@ if(box){
       if(more&&previous.length)payloadPost.sources=mergeSources(payloadPost.sources,previous);
       const extra=more?'Lisähaku: etsi enintään 4 uutta vahvaa lähdettä, joita ei vielä ole DRAFT CONTEXT sources -listassa. Keskity erityisesti jäljellä oleviin aukkoihin, vastanäyttöön tai alkuperäislähteisiin. Älä toista aiempia URL-osoitteita.':'';
       const combinedInstruction=[instruction.value,extra].filter(Boolean).join('\n\n');
-      const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agent,instruction:combinedInstruction,post:payloadPost,runtimeProfile:runtimeProfile(agent)})});
+      const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agent,instruction:combinedInstruction,post:payloadPost})});
       const d=await r.json().catch(()=>({}));
       if(!r.ok||!d.ok){if(d.policyDecision)await window.anomancerCore?.appendPolicyDecision?.(d.policyDecision);if(r.status===403){csrf='';}throw new Error(d.message||d.error||`HTTP ${r.status}`);}
       if(more&&agent==='source'&&previous.length){

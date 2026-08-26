@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-export const CORE_VERSION='15.5.0';
+export const CORE_VERSION='15.6.0';
 export const AGENT_CONTRACT_FORMAT='anomancer-agent/v1';
 export const ORCHESTRA_FORMAT='anomancer-orchestra/v1';
 export const RUN_RECEIPT_FORMAT='anomancer-run-receipt/v1';
@@ -120,7 +120,8 @@ function finalizeAgent(input){
     mutable:['active','maxOutputTokens','modelTarget'],
     immutable:['contractHash','modelRoute','tools','capabilities','authority','humanApproval']
   };
-  contract.contractHash=digest(contract);
+  const hashable=clone(contract);delete hashable.coreVersion;delete hashable.contractHash;
+  contract.contractHash=digest(hashable);
   return Object.freeze(contract);
 }
 export const AGENT_REGISTRY=Object.freeze(RAW_AGENTS.map(finalizeAgent));
@@ -204,7 +205,7 @@ export function publicCoreSnapshot({modelRouter=null}={}){
     runReceipt:{format:RUN_RECEIPT_FORMAT,persistence:'browser-local-hash-chain',containsRawPrompt:false,containsRawOutput:false,containsToolPolicy:true},
     modelRoutes:MODEL_ROUTE_REGISTRY.map(clone),modelRouter:modelRouter?clone(modelRouter):null,
     humanFinalAuthority:true,
-    runtimeControl:{format:AGENT_RUNTIME_FORMAT,persistence:'admin-browser-local',mutable:['active','maxOutputTokens'],contractAuthorityImmutable:true},
+    runtimeControl:{format:AGENT_RUNTIME_FORMAT,persistence:'server-side-durable',mutable:['active','maxOutputTokens','modelTarget'],contractAuthorityImmutable:true,snapshot:'signed-per-orchestra-run'},
     toolBroker:{format:TOOL_POLICY_FORMAT,enforcement:'server-side-fail-closed',implicitTools:false,humanApprovalClientSpoofable:false,policyLogInRunReceipt:true}
   };
 }

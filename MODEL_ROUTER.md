@@ -44,4 +44,4 @@ Run Receipt sisältää valitun route-, target-, provider- ja mallimetadatan sek
 
 ## Nykyinen rajaus
 
-15.5 ei vielä laske provider-kohtaista rahakustannusta eikä tallenna Model Router -valintoja workspace-palvelimelle. Runtime Profile on edelleen admin-selaimen paikallinen ohjauskerros. Mallinimet tulevat palvelimen ympäristömuuttujista, eivät vapaasta client-inputista.
+15.5 ei vielä laskenut provider-kohtaista rahakustannusta. 15.6 siirtää Model Router -valinnan osana Runtime Profilea serverin pysyvään storeen. Mallinimet tulevat edelleen palvelimen ympäristömuuttujista, eivät vapaasta client-inputista.

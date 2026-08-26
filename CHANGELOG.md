@@ -1,3 +1,14 @@
+# 15.6.0 — Server-side Runtime Profiles
+
+- Runtime Profilet siirretty admin-selaimen localStoragesta server-authoritative Runtime Storeen.
+- Pysyvä GitHub tag-ref `refs/tags/anomancer-runtime-state` pitää runtime-tilan erossa sisältöhaarasta ja deploy-historiasta.
+- Uusi `/api/admin/runtime` GET/PUT/DELETE/POST(snapshot) -rajapinta, admin-auth + CSRF mutaatioille.
+- Agentti-API ei enää luota clientin `runtimeProfile`-payloadiin.
+- Orkesteri käyttää `orchestraRunId`:hen sidottua HMAC-allekirjoitettua Runtime Snapshotia.
+- Runtime Store käyttää revisionumeroa rinnakkaisten admin-istuntojen yliajon estämiseksi.
+- Agent Contract -hashin muutos palauttaa vanhan Runtime Profilen turvallisesti sopimuksen oletuksiin.
+- Uusi `SERVER_RUNTIME_PROFILES.md` ja 12 regressiotestiä runtime-storelle/snapshotille.
+
 # 15.5.0 — Model Router
 
 - Lisätty palvelinpuolen Model Router, joka erottaa Agent Contractin loogisen mallireitin provider-targetista.
