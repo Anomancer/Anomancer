@@ -2,108 +2,66 @@
 title: "Miksi yksinkertainen IT-ratkaisu voi muuttua miljoonien eurojen hankkeeksi?"
 date: "2026-08-26"
 category: "info-media"
-description: "Miksi yksinkertainen ohjelmisto voi muuttua miljoonien eurojen julkiseksi IT-hankkeeksi? Hankintojen kustannukset syntyvät teknologiasta, mutta myös vaatimuksista, vastuusta, riskeistä ja järjestelmän rakenteesta."
+audience: ["all"]
+audienceDepth: "general"
+description: "Miksi yksinkertainen ohjelmisto voi muuttua miljoonien julkiseksi IT-hankkeeksi? Kustannukset syntyvät teknologiasta, mutta myös vaatimuksista, vastuusta, riskeistä ja järjestelmän rakenteesta."
 slug: "miksi-yksinkertainen-it-ratkaisu-voi-muuttua-miljoonien-eurojen-hankkeeksi"
 lang: "fi"
-draft: false
-audience: ["all"]
+translationKey: "miksi-yksinkertainen-it-ratkaisu-voi-muuttua-miljoonien-eurojen-hankkeeksi"
+aliases: []
+coverImage: ""
+coverAlt: ""
+answer: ""
+sources: []
+claims: []
 pinned: false
+draft: false
 ---
 
-Muutama päivä sitten heitin puoliksi vitsillä, että olisi kiinnostavaa nähdä jonkun kansanedustajan kysyvän, miksi julkiset IT-hankkeet maksavat välillä kymmeniä miljoonia, kun samaan aikaan yksittäiset ihmiset rakentavat nettiin ilmaiseksi kaikenlaisia toimivia prototyyppejä, työkaluja ja hiekkalaatikoita.
+Muutama päivä sitten heitin puoliksi vitsillä, että olisi kiinnostavaa nähdä jonkun kansanedustajan kysyvän, miksi julkiset IT-hankkeet maksavat välillä kymmeniä miljoonia, kun samaan aikaan yksittäiset ihmiset rakentavat nettiin ilmaiseksi toimivia prototyyppejä, työkaluja ja testiympäristöjä. Prototyyppi ei ole tuotantojärjestelmä, mutta ero on silti kiinnostava.
 
-Sitten vastaan tuli uutinen Kelan miljoonien eurojen IT-hankinnasta, joka oli päätynyt markkinaoikeuteen.
+Sitten vastaan tuli uutinen Kelan miljoonien eurojen IT-hankinnasta, joka oli päätynyt markkinaoikeuteen – siis julkisten hankintojen riitoja käsittelevään erityistuomioistuimeen. Ajoitus oli niin hyvä, että nauroin ensin. Mutta kysymys ei jättänyt rauhaan: miksi jokin, joka ulospäin näyttää teknisesti melko tavalliselta ohjelmistolta, voi muuttua vuosien projektiksi ja maksaa miljoonia?
 
-Ajoitus oli sen verran hyvä, että nauroin ensin.
+Helppo vastaus olisi, että julkinen sektori vain tuhlaa rahaa. Todellisuus on kiinnostavampi.
 
-Mutta itse kysymys jäi pyörimään.
+## Miksi ammattilainen saa päivässä valmiiksi sen, mihin organisaatio tarvitsee vuosia?
 
-Miksi jokin, joka ulospäin näyttää teknisesti melko tavalliselta ohjelmistolta, voi muuttua vuosien projektiksi ja maksaa miljoonia?
+Kun yksittäinen kehittäjä rakentaa prototyypin, hän ratkaisee yleensä itse ongelmaa. Hän voi vaihtaa tekniikkaa kesken päivän, heittää puolet koodista roskiin, käyttää valmista, vapaasti käytettävää koodia tai todeta illalla, että alkuperäinen ajatus olikin huono.
 
-Helppo vastaus olisi, että julkinen sektori vain tuhlaa rahaa.
+Suuri organisaatio ei toimi näin. Sen täytyy tietää, kuka vastaa järjestelmästä, mitä tapahtuu jos se hajoaa, miten arkaluonteista tietoa käsitellään, kuka ylläpitää sitä viiden vuoden päästä ja miten se saadaan keskustelemaan niiden järjestelmien kanssa, jotka olivat olemassa jo ennen kuin joku nykyisistä kehittäjistä oli työelämässä.
 
-Todellisuus on kiinnostavampi.
+Siinä vaiheessa ei enää osteta pelkkää ohjelmistoa. Ostetaan vastuuta. Ja vastuu on kallista.
 
-Kun yksittäinen kehittäjä rakentaa prototyypin, hän ratkaisee yleensä itse ongelmaa. Hän voi vaihtaa tekniikkaa kesken päivän, heittää puolet koodista roskiin, käyttää valmista avoimen lähdekoodin kirjastoa tai todeta illalla, että alkuperäinen ajatus oli huono.
+## Riskienhallinta synnyttää vaatimuksia – ja lopulta vaatimukset ovat oma riskinsä
 
-Suuri organisaatio ei toimi näin.
+Kun organisaatio yrittää suojautua epäonnistumiselta, se alkaa kirjoittaa vaatimuksia. Toimittajalla pitää olla tietynlaista kokemusta, tietyn kokoisia referenssejä, oikeanlaisia asiantuntijoita ja kokemusta juuri niistä järjestelmistä, joiden kanssa työ tehdään.
 
-Sen täytyy tietää kuka vastaa järjestelmästä, mitä tapahtuu jos se hajoaa, miten arkaluonteista tietoa käsitellään, kuka ylläpitää sitä viiden vuoden päästä ja miten se saadaan keskustelemaan niiden järjestelmien kanssa, jotka olivat olemassa jo ennen kuin joku nykyisistä kehittäjistä oli työelämässä.
+Ajatus on ymmärrettävä: jos käytetään miljoonia yhteisiä rahoja, hankintaa ei voi ratkaista sillä, että joku ilmoittaa Discordissa – eli netin keskustelualustalla – olevansa aika hyvä Reactissa, yleisessä käyttöliittymäkirjastossa.
 
-Siinä vaiheessa ei enää osteta pelkkää ohjelmistoa.
+Mutta jossain kohdassa suojaamisesta tulee oma ongelmansa. [Tivi uutisoi](https://www.tivi.fi/uutiset/a/3a257c0d-d147-4114-9d85-4b258029a98f) Kelan noin seitsemän miljoonan euron IT-hankinnasta, joka päätyi markkinaoikeuteen. Uutinen nosti esiin kysymyksen vaatimusten suhteellisuudesta – siitä, että vaatimusten pitäisi olla oikeassa suhteessa hankinnan kohteeseen. Tuore [KHO:n ennakkopäätös KHO:2026:44](https://www.kho.fi/paatokset/kho202644/#main) puolestaan linjaa, että referenssivaatimus, joka ei ole oikeassa suhteessa hankinnan kohteeseen, voi olla suhteellisuusperiaatteen vastainen ja rajoittaa kilpailua. Päätös koski sote-rekrytointia eli sosiaali- ja terveysalan henkilöstöhankintaa, ei IT-hanketta, mutta periaate on yleinen ja sen soveltuminen IT-hankintoihin jää tapauskohtaisesti arvioitavaksi. Toisaalta tapauksessa Helsingin kaupunki on puolustanut referenssivaatimusta nimenomaan sillä perusteella, että referenssi voi olla ainoa tapa arvioida todellista kyvykkyyttä etukäteen. Toimittajia edustava [Teknologiateollisuus](https://teknologiateollisuus.fi/tavoitteemme/digitalisaatio-ja-datatalous/julkiset-ict-hankinnat/) on puolestaan vaatinut luopumaan “henkilöstön ylimitoitetuista kokemus-, osaamis- ja kielitaitovaatimuksista”.
 
-Ostetaan vastuuta.
+Jos vaatimus alkaa rajata toimijoita enemmän kuin työn onnistuminen vaatii, sillä ei enää mitata vain sitä, kuka osaa tehdä työn. Sillä mitataan sitä, kuka sopii hankintajärjestelmän valmiiseen muottiin.
 
-Ja vastuu on kallista.
+## Paperilla pätevä, käytännössä kyvykäs? Referenssi ei mittaa kaikkea
 
-Tästä syntyy kuitenkin toinen ongelma.
-
-Kun organisaatio yrittää suojautua epäonnistumiselta, se alkaa kirjoittaa vaatimuksia.
-
-Toimittajalla pitää olla tietynlaista kokemusta. Tietyn kokoisia referenssejä. Oikeanlaisia asiantuntijoita. Kokemusta juuri niistä järjestelmistä, joiden kanssa työ tehdään.
-
-Ajatus on ymmärrettävä. Jos ollaan käyttämässä miljoonia yhteisiä rahoja, ei hankintaa voi ratkaista sillä, että joku ilmoittaa Discordissa olevansa aika hyvä Reactissa.
-
-Mutta jossain kohdassa suojaamisesta voi tulla oma ongelmansa.
-
-Kelan tapauksesta kertovassa jutussa juuri vaatimusten suhteellisuus nousi esille. Jos vaatimus alkaa rajata toimijoita enemmän kuin itse työn onnistuminen vaatii, sillä ei enää mitata vain sitä, kuka osaa tehdä työn.
-
-Sillä mitataan sitä, kuka sopii hankintajärjestelmän valmiiseen muottiin.
-
-Tämä ero kiinnostaa minua.
-
-Joku voi olla erittäin hyvä ratkaisemaan ongelman, mutta silti muodollisesti vääränlainen toimija ratkaisemaan sen.
-
-Ja toisin päin, joku voi täyttää kaikki paperilla olevat ehdot olematta välttämättä paras mahdollinen ongelmanratkaisija.
+Tässä on se ero, joka minua kiinnostaa. Joku voi olla erittäin hyvä ratkaisemaan ongelman, mutta silti muodollisesti vääränlainen toimija ratkaisemaan sen. Ja toisin päin: joku voi täyttää kaikki paperilla olevat ehdot olematta välttämättä paras mahdollinen ongelmanratkaisija.
 
 Kyvykkyys ja kelpoisuus eivät ole sama asia.
 
-En tarkoita, että julkiset hankinnat pitäisi korvata sillä, että joku virkamies selaa GitHubia ja huutaa ensimmäiselle lupaavalle repolle "tuotantoon".
+En tarkoita, että julkiset hankinnat pitäisi korvata sillä, että virkamies selailee GitHubia – koodinjakopalvelua – ja huutaa ensimmäiselle lupaavalle koodivarastolle “tuotantoon”. Ei tietenkään. Mutta nykyisessä teknologiaympäristössä ero prototyypin rakentamisen ja suuren hankintaprosessin välillä alkaa välillä näyttää todella oudolta. Pieni tiimi voi todistaa muutamassa viikossa, että jokin toimintaperiaate toimii. Sen jälkeen suuri järjestelmä saattaa käyttää vuoden määritelläkseen, millainen yritys saa edes tarjota ratkaisua.
 
-Ei tietenkään.
+## Voisiko osaamisen testata ennen miljoonapäätöstä?
 
-Mutta nykyisessä teknologiaympäristössä ero prototyypin rakentamisen ja suuren hankintaprosessin välillä alkaa välillä näyttää todella oudolta.
+Tässä voisi olla yksi kohta, jossa julkisia hankintoja kannattaisi ajatella uudelleen. Mitä jos ennen massiivista kilpailutusta testattaisiin enemmän itse kyvykkyyttä?
 
-Pieni tiimi voi todistaa muutamassa viikossa, että jokin toimintaperiaate toimii.
+Annetaan rajattu ongelma. Turvallinen testiympäristö. Selvät pelisäännöt. Sama tehtävä useammalle toimijalle. Katsotaan, mitä oikeasti syntyy. Ei tarvitse ensin luvata rakentavansa kaikkea kolmeksi vuodeksi – näyttää ensin, että osaa ratkaista ongelman.
 
-Sen jälkeen suuri järjestelmä saattaa käyttää vuoden määritelläkseen, millainen yritys saa edes tarjota ratkaisua.
+Tällainen testaaminen on kuitenkin sovitettava hankintalain tasapuolisen kohtelun ja avoimuuden vaatimuksiin. Vapaamuotoinen karsintatesti ennen kilpailutusta ei ole mikään oikotie, vaan ajatusta on mietittävä osana olemassa olevia menettelyjä. Teknologia tekee tällaisen kokeilemisen koko ajan halvemmaksi. Samaan aikaan monet hankintakäytännöt ovat perua ajalta, jolloin ohjelmiston rakentaminen oli hitaampaa, teknologia vaikeammin saatavilla ja toimittajan vaihtaminen huomattavasti hankalampaa. On hyvä muistaa, etteivät käytännöt ole pelkkä jäänne: ne palvelevat myös avoimuutta ja vastuullisuutta.
 
-Tässä voisi olla yksi kohta, jossa julkisia hankintoja kannattaisi ajatella uudelleen.
+Tämä ei ole pelkkää utopiaa: [innovaatiokumppanuusmenettely](https://www.hankinnat.fi/eu-hankinta/eu-hankintamenettelyt/innovaatiokumppanuusmenettely-ja-sen-kayttoedellytykset) on olemassa juuri sellaista tilannetta varten, jossa kehitystyö ja prototyyppi kuuluvat itse hankintamenettelyyn. Sitä ei ole suunniteltu referenssien korvaajaksi eikä yleiseksi kyvykkyystestiksi, mutta se osoittaa, että tuloksia voidaan ostaa myös tuloksina.
 
-Mitä jos ennen massiivista kilpailutusta testattaisiin enemmän itse kyvykkyyttä?
+## Lopuksi
 
-Annetaan rajattu ongelma.
+Mikään tästä ei tarkoita, että julkiset hankinnat pitäisi jättää Discord-referenssien varaan. Mutta kun iso hanke maksaa miljoonia, on kysyttävä, kuinka paljon hinnasta on itse tekniikkaa ja kuinka paljon teknologian ympärille rakennettua koneistoa.
 
-Turvallinen testiympäristö.
-
-Selvät pelisäännöt.
-
-Sama tehtävä useammalle toimijalle.
-
-Katsotaan mitä oikeasti syntyy.
-
-Ei tarvitse ensin luvata rakentavansa kaikkea kolmeksi vuodeksi. Näyttää ensin, että osaa ratkaista ongelman.
-
-Teknologia tekee tällaisen kokeilemisen koko ajan halvemmaksi.
-
-Samaan aikaan hankintajärjestelmät ovat usein syntyneet maailmassa, jossa ohjelmiston rakentaminen oli hitaampaa, teknologia vaikeammin saatavilla ja toimittajan vaihtaminen huomattavasti hankalampaa.
-
-Nyt yksittäinen ihminen voi rakentaa muutamassa päivässä asioita, joiden prototypointi olisi vielä vähän aikaa sitten vaatinut kokonaisen tiimin.
-
-Se ei tee yksittäisestä kehittäjästä Kelan IT-osastoa.
-
-Mutta se muuttaa kysymystä siitä, miten kyvykkyyttä kannattaa etsiä.
-
-Siksi minua kiinnostaa näissä uutisissa enemmän järjestelmä kuin yksittäinen epäonnistunut hanke.
-
-Missä vaiheessa hyvästä riskienhallinnasta tulee niin raskas rakenne, että se alkaa itse estää ongelmien ratkaisemista?
-
-Missä vaiheessa referenssi kertoo aidosti osaamisesta, ja missä vaiheessa se kertoo vain siitä, että sama toimija on onnistunut pääsemään aikaisemminkin saman portin läpi?
-
-Ja kuinka paljon miljoonien IT-hankkeen hinnasta lopulta syntyy itse teknologiasta, ja kuinka paljon siitä koneistosta, jonka olemme rakentaneet teknologian ympärille?
-
-En tiedä.
-
-Mutta epäilen, että kiinnostavimmat säästöt eivät tule siitä, että ohjelmoija kirjoittaa koodia vähän nopeammin.
-
-Ne tulevat siitä, että katsotaan tarkemmin, millaisen järjestelmän olemme rakentaneet ennen kuin ensimmäistäkään koodiriviä kirjoitetaan.
+En tiedä. Mutta epäilen, että kiinnostavimmat säästöt eivät tule siitä, että ohjelmoija kirjoittaa koodia vähän nopeammin. Ne tulevat siitä, että katsotaan tarkemmin, millaisen järjestelmän olemme rakentaneet ennen kuin ensimmäistäkään koodiriviä kirjoitetaan.
