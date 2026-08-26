@@ -1,8 +1,8 @@
 {
   "format": "anomancer-run-store/v1",
   "coreVersion": "15.8.0",
-  "revision": 11,
-  "updatedAt": "2026-08-26T21:03:56.727Z",
+  "revision": 12,
+  "updatedAt": "2026-08-26T21:04:28.486Z",
   "chainHead": "GENESIS",
   "runs": [
     {
@@ -323,7 +323,7 @@
       },
       "startedAt": "2026-08-26T20:56:47.137Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-26T21:03:56.727Z",
+      "updatedAt": "2026-08-26T21:04:28.486Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
@@ -631,15 +631,72 @@
           "finishedAt": "2026-08-26T21:03:56.367Z",
           "durationMs": 101660,
           "humanApprovalRequired": true
+        },
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-81ce08c7399cd604eb5e",
+          "orchestraRunId": "9aee3b47-1d41-43c9-bd87-31390bc9fb83",
+          "stageIndex": 5,
+          "agent": {
+            "id": "voice",
+            "label": "Äänieditori",
+            "version": "1.0.0",
+            "contractHash": "c6dab04c7066a9391cba78fce9526cc762e7294a92e970b76173bb033c88315e",
+            "role": "voice-editor"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "writer",
+            "target": "deepseek.writer"
+          },
+          "routing": {
+            "route": "writer",
+            "requestedTarget": "deepseek.writer",
+            "selectedTarget": "deepseek.writer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.writer",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 24000,
+            "modelTarget": "deepseek.writer"
+          },
+          "usage": {
+            "inputTokens": 9972,
+            "outputTokens": 3637,
+            "totalTokens": 13609,
+            "reasoningTokens": 0,
+            "maxOutputTokens": 24000,
+            "costEuro": null
+          },
+          "tools": [],
+          "toolPolicy": [],
+          "status": "completed",
+          "inputHash": "59f5c3acca705265576682156926f950ef5cf0c6496f439834c161fe6b0e1e33",
+          "outputHash": "ca78ba78e97984b402eb36acfd0f090cef07a79008dace39f17bee42c7d8ab2e",
+          "startedAt": "2026-08-26T21:03:58.884Z",
+          "finishedAt": "2026-08-26T21:04:28.143Z",
+          "durationMs": 29259,
+          "humanApprovalRequired": true
         }
       ],
       "usage": {
         "runs": 0,
-        "inputTokens": 70532,
-        "outputTokens": 40799,
-        "totalTokens": 111331,
+        "inputTokens": 80504,
+        "outputTokens": 44436,
+        "totalTokens": 124940,
         "reasoningTokens": 26458,
-        "durationMs": 416210,
+        "durationMs": 445469,
         "estimatedCostEuro": 0,
         "pricedReceipts": 0,
         "fallbacks": 0,
@@ -647,18 +704,19 @@
         "toolDenies": 0,
         "toolHumanRequired": 0,
         "providers": {
-          "deepseek": 111331
+          "deepseek": 124940
         },
         "agents": {
           "source": 49563,
           "structure": 9142,
           "writer": 18120,
           "critic": 15806,
-          "audience": 18700
+          "audience": 18700,
+          "voice": 13609
         },
         "orchestras": {}
       },
-      "receiptCount": 5,
+      "receiptCount": 6,
       "previousRunHash": "",
       "runHash": "",
       "counted": false
