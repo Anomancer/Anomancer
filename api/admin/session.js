@@ -1,0 +1,9 @@
+import { getSession, csrfForSession } from '../_lib/auth.js';
+import { githubConfigStatus } from '../_lib/github.js';
+import { json } from '../_lib/http.js';
+export default async function handler(req,res){
+  if(req.method!=='GET') return json(res,405,{ok:false,error:'METHOD'});
+  const session=getSession(req);
+  if(!session) return json(res,200,{ok:true,authenticated:false});
+  return json(res,200,{ok:true,authenticated:true,csrf:csrfForSession(process.env.ADMIN_SESSION_SECRET,session),github:githubConfigStatus()});
+}

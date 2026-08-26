@@ -1,0 +1,25 @@
+{
+  "siteName": "Anomancer",
+  "person": {
+    "name": "Aatu Isopahkala",
+    "authorPath": "/#about",
+    "imagePath": "/media/aatu-profile-bw.jpg",
+    "sameAs": [
+      "https://www.instagram.com/kaikkeudenkasvot/"
+    ],
+    "knowsAbout": [
+      "systems thinking",
+      "artificial intelligence",
+      "AI agents",
+      "language",
+      "semantics",
+      "software",
+      "prototyping",
+      "verifiable systems",
+      "creative technology",
+      "AI agent systems",
+      "multi-agent systems"
+    ],
+    "homeLocation": "Tampere, Finland"
+  }
+}

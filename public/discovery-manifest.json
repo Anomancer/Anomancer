@@ -1,0 +1,47 @@
+{
+  "version": "anomancer.discovery/v1",
+  "generatedAt": "2026-08-26T16:36:17.610Z",
+  "site": "https://anomancer.com",
+  "entity": {
+    "siteName": "Anomancer",
+    "author": "Aatu Isopahkala",
+    "authorId": "https://anomancer.com/#person",
+    "authorUrl": "https://anomancer.com/#about",
+    "websiteId": "https://anomancer.com/#website"
+  },
+  "languages": [
+    "fi",
+    "en"
+  ],
+  "publishedArticles": 8,
+  "search": {
+    "openai": {
+      "userAgent": "OAI-SearchBot",
+      "access": "allow"
+    }
+  },
+  "training": {
+    "openai": {
+      "userAgent": "GPTBot",
+      "access": "disallow"
+    }
+  },
+  "privatePaths": [
+    "/admin",
+    "/api/admin/"
+  ],
+  "endpoints": {
+    "sitemap": "https://anomancer.com/sitemap.xml",
+    "rssFi": "https://anomancer.com/rss.xml",
+    "rssEn": "https://anomancer.com/rss-en.xml",
+    "contentManifest": "https://anomancer.com/content-manifest.json",
+    "evidenceManifest": "https://anomancer.com/evidence-manifest.json",
+    "llms": "https://anomancer.com/llms.txt",
+    "discoveryManifest": "https://anomancer.com/discovery-manifest.json"
+  },
+  "notes": [
+    "Search discovery and model-training access are separate controls.",
+    "llms.txt is an experimental convenience document, not a ranking requirement or guaranteed crawler interface.",
+    "Public content remains crawlable by ordinary search engines through the wildcard robots group."
+  ]
+}

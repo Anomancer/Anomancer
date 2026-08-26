@@ -1,0 +1,37 @@
+# Anomancer
+
+> Human-readable gateway by Aatu Isopahkala for systems thinking, AI, language, research, software and creative technology.
+
+Canonical site: https://anomancer.com/
+Author: Aatu Isopahkala (https://anomancer.com/#about)
+
+## Main routes
+- [Etusivu](https://anomancer.com/)
+- [Lähetykset](https://anomancer.com/lahetykset)
+- [English](https://anomancer.com/en)
+- [Dispatches](https://anomancer.com/dispatches)
+
+## Machine-readable resources
+- [Sitemap](https://anomancer.com/sitemap.xml)
+- [Finnish RSS](https://anomancer.com/rss.xml)
+- [English RSS](https://anomancer.com/rss-en.xml)
+- [Content manifest](https://anomancer.com/content-manifest.json)
+- [Evidence manifest](https://anomancer.com/evidence-manifest.json)
+- [Discovery manifest](https://anomancer.com/discovery-manifest.json)
+
+## Finnish dispatches
+- [Entä jos oppilas ei vihaa matematiikkaa vaan tapaa, jolla se tulee vastaan?](https://anomancer.com/lahetykset/enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan): Oppimisen vaikeus ei aina tarkoita kyvyn puutetta. Teksti opettajille vahvuuksista, neurodivergentista oppimisesta ja siitä, miten oikea lähestymistapa voi avata uuden reitin vaikeaan aiheeseen.
+- [Kuka kirjoitti tämän tekstin?](https://anomancer.com/lahetykset/kuka-kirjoitti-taman-tekstin): Kuka oikeastaan kirjoittaa tekstin, jos ihminen käyttää kielimallia osana työprosessia? Pohdintaa tekijyydestä, alkuperäisistä teksteistä, editoinnista, vastuusta ja siitä, missä koneen rooli alkaa ja loppuu.
+- [Miksi tekoälyagentille pitäisi antaa passi?](https://anomancer.com/lahetykset/miksi-tekoalyagentille-pitaisi-antaa-passi): Miksi tekoälyagentin pitäisi voida todistaa kuka se on, mitä se saa tehdä ja mitä se teki?
+- [Miksi tämä sivu on olemassa?](https://anomancer.com/lahetykset/miksi-tama-sivu-on-olemassa): Anomancer purkaa tekoälyä, järjestelmiä, mediaa, kieltä ja teknologiaa ymmärrettävään muotoon ja etsii siitä käytännön hyötyä ihmisille.
+- [Miksi yksinkertainen IT-ratkaisu voi muuttua miljoonien eurojen hankkeeksi?](https://anomancer.com/lahetykset/miksi-yksinkertainen-it-ratkaisu-voi-muuttua-miljoonien-eurojen-hankkeeksi): Miksi yksinkertainen ohjelmisto voi muuttua miljoonien eurojen julkiseksi IT-hankkeeksi? Hankintojen kustannukset syntyvät teknologiasta, mutta myös vaatimuksista, vastuusta, riskeistä ja järjestelmän rakenteesta.
+- [Miten tunnistaa tekoälyllä tehdyn tekstin tai kuvan?](https://anomancer.com/lahetykset/miten-tunnistaa-tekoalylla-tehdyn-tekstin-tai-kuvan): Tekoälyllä tehtyä tekstiä tai kuvaa ei voi aina tunnistaa varmasti ulkonäöstä tai tyylistä. Olennaisempaa on tarkastella rakennetta, lähteitä, alkuperää ja sitä, mitä sisällöllä yritetään todistaa.
+- [Taide ei ehkä ole menossa kohti tekoälytaidetta vaan kohti jotain paljon laajempaa](https://anomancer.com/lahetykset/taide-ei-ehka-ole-menossa-kohti-tekoalytaidetta-vaan-kohti-jotain-paljon-laajempaa): Taiteen tulevaisuus ei ole vain tekoälyn tekemissä kuvissa ja musiikissa. Kun teokset muuttuvat järjestelmiksi, maailmoiksi ja digitaalisiksi identiteeteiksi, alkuperästä, luvasta ja tietoturvasta tulee osa kulttuuria.
+
+## English dispatches
+- [Why does this page exist?](https://anomancer.com/dispatches/why-this-page-exists): Why does Anomancer exist? AI, systems, media, language and technology translated into something people can actually understand and use.
+
+## Notes
+- Article pages are the canonical source for their claims and citations.
+- Evidence metadata is available in evidence-manifest.json when present.
+- llms.txt is provided as an experimental convenience document; it is not a substitute for the canonical HTML, sitemap, robots.txt or structured data.

@@ -1,0 +1,34 @@
+{
+  "version": "anomancer.discovery/v1",
+  "site": "https://anomancer.com",
+  "search": {
+    "openai": {
+      "userAgent": "OAI-SearchBot",
+      "access": "allow"
+    }
+  },
+  "training": {
+    "openai": {
+      "userAgent": "GPTBot",
+      "access": "disallow"
+    }
+  },
+  "privatePaths": [
+    "/admin",
+    "/api/admin/"
+  ],
+  "machineEndpoints": {
+    "sitemap": "/sitemap.xml",
+    "rssFi": "/rss.xml",
+    "rssEn": "/rss-en.xml",
+    "contentManifest": "/content-manifest.json",
+    "evidenceManifest": "/evidence-manifest.json",
+    "llms": "/llms.txt",
+    "discoveryManifest": "/discovery-manifest.json"
+  },
+  "notes": [
+    "Search discovery and model-training access are separate controls.",
+    "llms.txt is an experimental convenience document, not a ranking requirement or guaranteed crawler interface.",
+    "Public content remains crawlable by ordinary search engines through the wildcard robots group."
+  ]
+}
