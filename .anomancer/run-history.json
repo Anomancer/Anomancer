@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "15.9.2",
   "workspaceId": "default",
-  "revision": 30,
-  "updatedAt": "2026-08-26T21:46:09.399Z",
+  "revision": 31,
+  "updatedAt": "2026-08-26T21:47:18.789Z",
   "chainHead": "21ca1e9fa854eacf96d18305bfa71b67a47fa9f742fa504c50e20f75f92b9906",
   "runs": [
     {
@@ -1353,7 +1353,7 @@
       },
       "startedAt": "2026-08-26T21:38:28.445Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-26T21:46:09.399Z",
+      "updatedAt": "2026-08-26T21:47:18.789Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
@@ -1725,15 +1725,73 @@
           "finishedAt": "2026-08-26T21:46:09.060Z",
           "durationMs": 24704,
           "humanApprovalRequired": true
+        },
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-f3b5fba5ca45eaca856a",
+          "workspaceId": "default",
+          "orchestraRunId": "4c21c64a-7903-4ebb-b5c8-0385c6b1b833",
+          "stageIndex": 6,
+          "agent": {
+            "id": "claims",
+            "label": "Väitevahti",
+            "version": "1.0.0",
+            "contractHash": "48751e292aea0eaeaa6cb32de9ea903eb70dc8f7498bfbfbbfc84f1c37daac8c",
+            "role": "claim-auditor"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "critic",
+            "target": "deepseek.critic"
+          },
+          "routing": {
+            "route": "critic",
+            "requestedTarget": "deepseek.critic",
+            "selectedTarget": "deepseek.critic",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.critic",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 26000,
+            "modelTarget": "deepseek.critic"
+          },
+          "usage": {
+            "inputTokens": 6025,
+            "outputTokens": 7458,
+            "totalTokens": 13483,
+            "reasoningTokens": 5164,
+            "maxOutputTokens": 26000,
+            "costEuro": null
+          },
+          "tools": [],
+          "toolPolicy": [],
+          "status": "completed",
+          "inputHash": "57db13c1952e2f78bdc4630a62c2b590eac15119ae4aff5898a3d5287f2a4669",
+          "outputHash": "ab38c04705ced9da8a9907745d5189e02e62442a18539e3808cfadf5b04c3d95",
+          "startedAt": "2026-08-26T21:46:11.734Z",
+          "finishedAt": "2026-08-26T21:47:18.441Z",
+          "durationMs": 66707,
+          "humanApprovalRequired": true
         }
       ],
       "usage": {
         "runs": 0,
-        "inputTokens": 93417,
-        "outputTokens": 46371,
-        "totalTokens": 139788,
-        "reasoningTokens": 28382,
-        "durationMs": 448001,
+        "inputTokens": 99442,
+        "outputTokens": 53829,
+        "totalTokens": 153271,
+        "reasoningTokens": 33546,
+        "durationMs": 514708,
         "estimatedCostEuro": 0,
         "pricedReceipts": 0,
         "fallbacks": 0,
@@ -1741,7 +1799,7 @@
         "toolDenies": 0,
         "toolHumanRequired": 0,
         "providers": {
-          "deepseek": 139788
+          "deepseek": 153271
         },
         "agents": {
           "source": 60238,
@@ -1749,11 +1807,12 @@
           "writer": 16630,
           "critic": 20028,
           "audience": 17355,
-          "voice": 13762
+          "voice": 13762,
+          "claims": 13483
         },
         "orchestras": {}
       },
-      "receiptCount": 6,
+      "receiptCount": 7,
       "previousRunHash": "",
       "runHash": "",
       "counted": false
