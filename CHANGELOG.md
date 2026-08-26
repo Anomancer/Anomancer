@@ -1,3 +1,16 @@
+# 15.8.0 — Run Explorer + Usage Metering
+
+- Lisätty server-authoritative `Run Store` ja `/api/admin/runs`.
+- Agenttien Run Receiptit kootaan `orchestraRunId`:n alle yhdeksi Run Recordiksi.
+- Run Store käyttää oletuksena erillistä `refs/tags/anomancer-run-state`-refiä eikä kirjoita masteriin.
+- Lisätty Run Explorer: status-, agentti-, provider- ja orkesterisuodattimet sekä stage-kohtainen detail timeline.
+- Lisätty lifetime/recent Usage Metering: tokenit, providerit, agentit, orkesterit, fallbackit ja Tool Broker -päätökset.
+- Lisätty runHash / previousRunHash -ketju lopullisille ajoille.
+- Recoverable checkpoint ja stop eivät lukitse ajoa lopulliseksi; niitä voi jatkaa samalla orchestraRunId:llä.
+- `editor_applied` kirjataan erikseen eikä sitä tulkita julkaisuksi.
+- Kustannusarvio on fail-honest: euroja näytetään vain eksplisiittisillä server-side EUR/token-kertoimilla.
+- Julkinen `/core` kertoo Run Explorerin ja Usage Meteringin olevan käytössä, mutta ei saa oikeaa run- tai account-dataa.
+
 # 15.7.0 — Custom Orchestras
 
 - Lisätty serverillä validoitu `Orchestra Contract v2` sekä Custom Orchestra Builder yksityiseen Coreen.

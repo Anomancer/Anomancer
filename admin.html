@@ -11,7 +11,7 @@
 <body>
   <main id="loginView" class="login-shell" hidden>
     <form id="loginForm" class="login-card">
-      <p class="kicker">ANOMANCER CORE 15.7</p>
+      <p class="kicker">ANOMANCER CORE 15.8</p>
       <h1>CORE</h1>
       <p class="muted">Yksityinen admin. Ei sitemapissa, ei navigaatiossa, ei hakukoneille.</p>
       <label>Salasana<input id="password" type="password" autocomplete="current-password" required></label>
@@ -135,7 +135,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 	          <section class="workspace-panel" data-workspace-panel="agents" hidden>
 	          <section id="agentDesk" class="agent-desk" aria-labelledby="agentDeskTitle">
             <div class="agent-desk-head">
-	              <div><p class="kicker">15.7 · CONTRACT AGENTS</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
+	              <div><p class="kicker">15.8 · CONTRACT AGENTS</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
               <span id="agentModelStatus" class="agent-model-status">Agenttitila tarkistetaan…</span>
             </div>
             <p class="agent-rule"><strong>Human approval gate:</strong> agentit saavat tutkia, ehdottaa ja muokata luonnosta. Ne eivät saa tallentaa GitHubiin eivätkä julkaista.</p>
@@ -164,7 +164,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 
           <section id="orchestraDesk" class="orchestra-desk" aria-labelledby="orchestraTitle">
             <div class="orchestra-head">
-	              <div><p class="kicker">15.7 · CUSTOM ORCHESTRATOR</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
+	              <div><p class="kicker">15.8 · RUN-METERED ORCHESTRATOR</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
               <span class="orchestra-lock">HUMAN FINAL AUTHORITY</span>
             </div>
             <p class="orchestra-rule">Valitse serverillä validoitu Orchestra Contract. Sequential-vaiheet kulkevat järjestyksessä; parallel-vaiheen agentit saavat saman jäädytetyn inputin eivätkä näe toistensa vastauksia ennen determinististä mergeä. <strong>Human final authority on pakollinen kaikille orkestereille.</strong></p>
@@ -192,8 +192,8 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 
 	          <section id="corePanel" class="workspace-panel core-panel" data-workspace-panel="core" hidden>
 	            <div class="core-hero">
-	              <div><p class="kicker">15.7 · CUSTOM ORCHESTRAS</p><h3>Agent Control Plane</h3><p>Agent Registry, Runtime Profiles, Tool Broker, Policy Log, orkesterit ja hash-ketjutettu ajoloki. Työkalut suoritetaan vain palvelinpuolen policy-päätöksen jälkeen.</p></div>
-	              <span id="coreVersion" class="core-version">CORE 15.7</span>
+	              <div><p class="kicker">15.8 · RUN EXPLORER</p><h3>Agent Control Plane</h3><p>Agent Registry, Runtime Profiles, Tool Broker, Policy Log, orkesterit ja hash-ketjutettu ajoloki. Työkalut suoritetaan vain palvelinpuolen policy-päätöksen jälkeen.</p></div>
+	              <span id="coreVersion" class="core-version">CORE 15.8</span>
 	            </div>
 	            <div class="core-metrics">
 	              <article><span>Agentit</span><strong id="coreAgentCount">8</strong></article>
@@ -207,7 +207,29 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 	            <section class="core-section"><div class="core-section-head"><div><p class="kicker">TOOL BROKER</p><h4>Tool Registry + Policy Gate</h4></div><span>fail-closed · implicit tools = 0 · human-only pysyy ihmisellä</span></div><div id="coreTools" class="core-tool-policy-grid"></div><div class="core-policy-log-head"><strong>Policy Log</strong><span>allow / deny / human_required · ei raakaa promptia</span></div><div id="corePolicyLog" class="core-policy-log"></div></section>
             <section class="core-section"><div class="core-section-head"><div><p class="kicker">MODEL ROUTER</p><h4>Providers + logical routes</h4></div><span>research / writer / critic · fallback vain sallittuihin targetteihin</span></div><div id="coreModelRouter" class="core-model-router-grid"></div></section>
             <section class="core-section"><div class="core-section-head"><div><p class="kicker">ORCHESTRA REGISTRY</p><h4>Orkesterit</h4></div><div class="core-section-actions"><span>built-in + server-side custom</span><button id="coreNewOrchestra" type="button" class="ghost">+ Uusi orkesteri</button></div></div><div id="coreOrchestras"></div><div class="core-policy-log-head"><strong>Custom Orchestra Store</strong><span id="coreOrchestraStoreState">ladataan…</span></div><div id="coreCustomOrchestras" class="core-orchestra-custom-list"></div></section>
-	            <section class="core-section"><div class="core-section-head"><div><p class="kicker">RUN LEDGER</p><h4>Ajokuitit</h4></div><span>ei raakaa promptia · ei raakaa outputia · hashit + metadata</span></div><div id="coreRuns" class="core-run-list"></div></section>
+	            <section class="core-section core-run-explorer-section">
+                <div class="core-section-head"><div><p class="kicker">RUN EXPLORER</p><h4>Ajot + Usage Metering</h4></div><span id="coreRunStoreState">server-side · ei raakaa promptia · ei raakaa outputia</span></div>
+                <div class="core-usage-strip">
+                  <article><span>Lifetime runs</span><strong id="coreUsageRuns">0</strong></article>
+                  <article><span>Lifetime tokens</span><strong id="coreUsageTokens">0</strong></article>
+                  <article><span>Est. cost</span><strong id="coreUsageCost">—</strong></article>
+                  <article><span>Fallbacks</span><strong id="coreUsageFallbacks">0</strong></article>
+                  <article><span>Tool denies</span><strong id="coreUsageDenies">0</strong></article>
+                </div>
+                <div class="core-run-filters" aria-label="Run Explorer -suodattimet">
+                  <label><span>Status</span><select id="coreRunFilterStatus"><option value="">Kaikki</option><option value="completed">Completed</option><option value="degraded">Degraded</option><option value="failed">Failed</option><option value="aborted">Aborted</option><option value="running">Running</option></select></label>
+                  <label><span>Agentti</span><select id="coreRunFilterAgent"><option value="">Kaikki</option></select></label>
+                  <label><span>Provider</span><select id="coreRunFilterProvider"><option value="">Kaikki</option></select></label>
+                  <label><span>Orkesteri</span><select id="coreRunFilterOrchestra"><option value="">Kaikki</option></select></label>
+                  <button id="coreRunRefresh" type="button" class="ghost">Päivitä</button>
+                </div>
+                <div id="coreRuns" class="core-run-list core-run-explorer"></div>
+              </section>
+              <dialog id="coreRunDialog" class="core-agent-dialog core-run-dialog" aria-labelledby="coreRunDialogTitle">
+                <div class="core-agent-dialog-head"><div><p class="kicker">RUN RECORD</p><h3 id="coreRunDialogTitle">Orkesteriajo</h3><p id="coreRunDialogId" class="core-agent-dialog-id"></p></div><button id="coreRunClose" type="button" class="ghost" aria-label="Sulje ajon tiedot">×</button></div>
+                <div id="coreRunDetail" class="core-run-detail"></div>
+                <div class="core-agent-dialog-actions"><span>Metadata replay-valmiina · uudelleenajo ei ole vielä käytössä</span><div><button id="coreRunCopy" type="button" class="ghost">Kopioi metadata</button><button id="coreRunDone" type="button">Sulje</button></div></div>
+              </dialog>
               <dialog id="coreAgentDialog" class="core-agent-dialog" aria-labelledby="coreAgentDialogTitle">
                 <div class="core-agent-dialog-head">
                   <div><p class="kicker">AGENT RUNTIME PROFILE</p><h3 id="coreAgentDialogTitle">Agentti</h3><p id="coreAgentDialogId" class="core-agent-dialog-id"></p></div>
@@ -243,7 +265,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
 	  </div>
   <dialog id="coreOrchestraDialog" class="core-agent-dialog core-orchestra-dialog" aria-labelledby="coreOrchestraDialogTitle">
     <form method="dialog" id="coreOrchestraForm">
-      <div class="core-agent-dialog-head"><div><p class="kicker">CUSTOM ORCHESTRA / 15.7</p><h3 id="coreOrchestraDialogTitle">Uusi orkesteri</h3><p id="coreOrchestraDialogId" class="core-agent-dialog-id">server-side contract</p></div><button id="coreOrchestraClose" value="cancel" class="ghost" aria-label="Sulje">×</button></div>
+      <div class="core-agent-dialog-head"><div><p class="kicker">CUSTOM ORCHESTRA / 15.8</p><h3 id="coreOrchestraDialogTitle">Uusi orkesteri</h3><p id="coreOrchestraDialogId" class="core-agent-dialog-id">server-side contract</p></div><button id="coreOrchestraClose" value="cancel" class="ghost" aria-label="Sulje">×</button></div>
       <div class="core-orchestra-form-meta"><label>Nimi<input id="coreOrchestraName" maxlength="80" placeholder="Esim. Research Stress Test"></label><label>Kuvaus<textarea id="coreOrchestraDescription" rows="2" maxlength="400" placeholder="Mitä tämä orkesteri tekee?"></textarea></label></div>
       <p class="core-runtime-notice">Rinnakkaisvaiheessa agentit saavat saman inputin. Core estää päällekkäiset kirjoituspinnat, pakottaa Väitevahdin body-muokkausten jälkeen ja pitää Package-agentin viimeisenä. Human final authoritya ei voi poistaa.</p>
       <div class="core-orchestra-builder-head"><strong>Vaiheet</strong><div><button id="coreAddSequential" type="button" class="ghost">+ Sequential</button><button id="coreAddParallel" type="button" class="ghost">+ Parallel</button></div></div>

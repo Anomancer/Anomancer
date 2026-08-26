@@ -1,6 +1,6 @@
 {
   "format": "anomancer-core-public/v1",
-  "version": "15.7.0",
+  "version": "15.8.0",
   "humanFinalAuthority": true,
   "privacy": {
     "containsRawPrompt": false,
@@ -238,7 +238,7 @@
       "actor": "agent",
       "humanApproval": false,
       "sideEffects": false,
-      "toolHash": "617869d0016495a21436505157b5fdae1785d12f25805e8cd6e7cd261456971d"
+      "toolHash": "4ccc4c1400187e5f5df9e0e7c804b3eaf6d4b04aff217692711eb4048dc51405"
     },
     {
       "id": "source.verify",
@@ -251,7 +251,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "fe1afa1bc730f361f8fb1e4d37d93324ae462ec145fb35d204cb4940a9e2faf6"
+      "toolHash": "ecf696cafa580e87b96f620ef502d5fd5e89eaac600ac75d11f458c6bdc27dc5"
     },
     {
       "id": "publication.publish",
@@ -264,7 +264,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "e95685853e1bf69105404f32b877d01e6fd38018a265f8ffccc93edbeea55b25"
+      "toolHash": "1ad3ff7e9e165a86ff72820b7e92f0322c0ae6c113109b4524d1ea2500758170"
     },
     {
       "id": "github.write",
@@ -277,7 +277,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "e92226f1d5a7d0f4862f07c568ca0e9e2e2493edfa8f8f03cc6657a5e7c91be8"
+      "toolHash": "c013d28a55d5cd610756d0ae969976733cb00022534888e35bfec96f19165152"
     }
   ],
   "toolBroker": {
@@ -432,7 +432,7 @@
           "json",
           "web_search"
         ],
-        "routeHash": "d29b129f1a81eec35e21292d31559403c8fd2b71c926ac60d435bbaad3f98e54"
+        "routeHash": "dc80144f52edc93a316cf4f08a618ed561e5e64119ea01748a8ca72a557872fe"
       },
       {
         "id": "writer",
@@ -447,7 +447,7 @@
         "requires": [
           "json"
         ],
-        "routeHash": "ca7aa014471f6e6593c6f9954294e3ada0d549eafd7469a229f27f5d18b2fcc4"
+        "routeHash": "d48fc6ec0fe368080ecda6c85efe85edfa6cc627f0f29aae694b2ac09ae1f0be"
       },
       {
         "id": "critic",
@@ -462,7 +462,7 @@
         "requires": [
           "json"
         ],
-        "routeHash": "71c6ea105925a2e50f7f3f4474de8d953296f2420a695d1d4d46b36a3900837f"
+        "routeHash": "c7fd4bb5735007d78845701bcf3953bb6e0837da610204dab39b160b64aabc30"
       }
     ],
     "fallbackPolicy": "configured-targets-only/transient-errors-only",
@@ -482,7 +482,7 @@
         "json",
         "web_search"
       ],
-      "routeHash": "d29b129f1a81eec35e21292d31559403c8fd2b71c926ac60d435bbaad3f98e54"
+      "routeHash": "dc80144f52edc93a316cf4f08a618ed561e5e64119ea01748a8ca72a557872fe"
     },
     {
       "id": "writer",
@@ -497,7 +497,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "ca7aa014471f6e6593c6f9954294e3ada0d549eafd7469a229f27f5d18b2fcc4"
+      "routeHash": "d48fc6ec0fe368080ecda6c85efe85edfa6cc627f0f29aae694b2ac09ae1f0be"
     },
     {
       "id": "critic",
@@ -512,9 +512,23 @@
       "requires": [
         "json"
       ],
-      "routeHash": "71c6ea105925a2e50f7f3f4474de8d953296f2420a695d1d4d46b36a3900837f"
+      "routeHash": "c7fd4bb5735007d78845701bcf3953bb6e0837da610204dab39b160b64aabc30"
     }
   ],
+  "runExplorer": {
+    "persistence": "server-side-durable",
+    "containsRawPrompt": false,
+    "containsRawOutput": false,
+    "containsRunHistory": false,
+    "filters": [
+      "status",
+      "agent",
+      "provider",
+      "orchestra"
+    ],
+    "usageMetering": true,
+    "costEstimation": "server-configured-rates-only"
+  },
   "orchestras": [
     {
       "id": "editorial",

@@ -380,6 +380,7 @@ const publicCore={
   toolBroker:{format:'anomancer-tool-policy/v1',enforcement:'server-side-fail-closed',implicitTools:false,policyLogInRunReceipt:true},
   modelRouter:publicModelRouterSnapshot(),
   modelRoutes:MODEL_ROUTE_REGISTRY.map(route=>({id:route.id,label:route.label,defaultTarget:route.defaultTarget,allowedTargets:[...route.allowedTargets],requires:[...route.requires],routeHash:route.routeHash})),
+  runExplorer:{persistence:'server-side-durable',containsRawPrompt:false,containsRawOutput:false,containsRunHistory:false,filters:['status','agent','provider','orchestra'],usageMetering:true,costEstimation:'server-configured-rates-only'},
   orchestras:ORCHESTRA_REGISTRY.map(orchestra=>({
     id:orchestra.id,name:orchestra.name,version:orchestra.version,description:orchestra.description,mode:orchestra.mode,steps:(orchestra.steps||[]).map(step=>({mode:step.mode,agents:[...(step.agents||[])]})),stages:[...orchestra.stages],
     humanFinalAuthority:Boolean(orchestra.humanFinalAuthority),evidencePolicy:orchestra.evidencePolicy,audiencePolicy:orchestra.audiencePolicy,orchestraHash:orchestra.orchestraHash

@@ -1,4 +1,4 @@
-# Anomancer 15.7 · Core Foundation + Custom Orchestras
+# Anomancer 15.8 · Core Foundation + Run Explorer
 
 15.0 erottaa ensimmäistä kertaa agentin identiteetin, orkesterin rakenteen ja ajon todistettavan metadatan varsinaisista prompteista.
 
@@ -81,3 +81,7 @@ Runtime Profile ei enää elä admin-selaimen localStoragessa. `/api/admin/runti
 ## 15.7 · Custom Orchestras
 
 Yksityinen Core sisältää Custom Orchestra Builderin ja server-side Orchestra Storen. Orkesterin sopimus validoidaan ennen tallennusta, customit versionoidaan revision-suojalla ja valittu Orchestra Contract jäädytetään samaan HMAC-snapshotiin Runtime Profileiden kanssa. Parallel-vaiheen agentit saavat saman jäädytetyn inputin, eivät näe toistensa vastauksia kesken vaiheen ja Core torjuu päällekkäiset kirjoituspinnat. Tarkempi kuvaus: `CUSTOM_ORCHESTRAS.md`.
+
+## 15.8 · Run Explorer
+
+Yksityinen Core käyttää nyt server-side Run Storea. Runs ja Usage ovat oikeita yksityisen ohjaamon alueita; julkinen `/core` näyttää vain rakenteen eikä käyttödataa.

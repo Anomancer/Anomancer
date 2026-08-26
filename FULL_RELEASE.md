@@ -1,4 +1,4 @@
-# Anomancer 15.7.0 · Custom Orchestras
+# Anomancer 15.8.0 · Run Explorer + Usage Metering
 
 Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkisen FI/EN-sivuston, Markdown-sisällöt, Vercel API -funktiot, yksityisen adminin, DeepSeek-agentit, orkesterin, buildin, testit ja dokumentaation.
 
@@ -14,7 +14,7 @@ Tämä kansio on kokonainen julkaisu, ei irrallinen patch. Se sisältää julkis
 - slug-aliasit vanhojen artikkeliosoitteiden säilyttämiseen
 - turvallinen, varmuuskopioiva asennusskripti
 
-Julkaisuversio: 15.7.0.
+Julkaisuversio: 15.8.0.
 
 15.7 tekee orkesterista serverillä validoidun ja hashatun Orchestra Contractin. Yksityinen Core voi tallentaa omia orkestereita sekä rakentaa turvallisia parallel-vaiheita. Valittu Orchestra Contract sidotaan HMAC-allekirjoitettuun Runtime Snapshotiin, ja agentti-API valvoo vaihejäsenyyttä ennen mallikutsua.
 
@@ -27,3 +27,6 @@ Adminissa kohdeyleisö on nyt toiminnallinen toimitusvalinta eikä pelkkä metad
 ## Token Headroom 14.3.1
 
 Pitkien ajoketjujen output-katot ovat nyt: Source 16 000 (ympäristömuuttujalla 8 000–32 000), Structure 12 000, Writer 24 000, Critic 12 000, Audience 24 000, Voice 24 000, Claims 16 000 ja Package 12 000 tokenia. Rajat ovat kattoja, eivät tavoitepituuksia. Adminin agenttiloki näyttää myös käytetyt output-tokenit suhteessa agentin kattoon.
+
+
+15.8 lisää server-side Run Storen, Run Explorerin, Usage Meteringin ja run-hash-ketjun. Katso `RUN_EXPLORER.md`.

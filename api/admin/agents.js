@@ -9,6 +9,7 @@ import { getAgentContract, listAgentIds, CORE_VERSION } from '../_lib/core-regis
 import { createRunReceipt } from '../_lib/core-receipt.js';
 import { authorizeAgentTools } from '../_lib/tool-broker.js';
 import { getRuntimeProfile, verifyRuntimeSnapshot } from '../_lib/runtime-store.js';
+import { appendRunReceipt } from '../_lib/run-store.js';
 
 const AGENTS=new Set(listAgentIds());
 const MAX_BODY_CHARS=60_000;
@@ -85,7 +86,9 @@ export default async function handler(req,res){
     req.removeListener?.('aborted',abort);
     const result=validateAgentResult(agent,response.result,post);
     const receipt=createRunReceipt({contract,runtime,post,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId,orchestra:snapshotOrchestra,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
-    return json(res,200,{ok:true,coreVersion:CORE_VERSION,agent,contract:{id:contract.id,version:contract.version,contractHash:contract.contractHash,role:contract.role,authority:contract.authority,budget:contract.budget,runtimePolicy:contract.runtimePolicy},runtime,toolPolicy,result,meta:response.meta,receipt,humanApprovalRequired:true});
+    let runPersistence={stored:false,error:null};
+    if(orchestraRunId){try{await appendRunReceipt(receipt);runPersistence={stored:true,error:null};}catch(error){runPersistence={stored:false,error:String(error?.code||'RUN_STORE')};}}
+    return json(res,200,{ok:true,coreVersion:CORE_VERSION,agent,contract:{id:contract.id,version:contract.version,contractHash:contract.contractHash,role:contract.role,authority:contract.authority,budget:contract.budget,runtimePolicy:contract.runtimePolicy},runtime,toolPolicy,result,meta:response.meta,receipt,runPersistence,humanApprovalRequired:true});
   }catch(e){
     return json(res,e.statusCode||500,{ok:false,error:e.code||'AGENT_FAILED',message:e.message,retryable:Boolean(e.retryable),retryAfterMs:Number(e.retryAfterMs||0),policyDecision:e.policyDecision||null});
   }

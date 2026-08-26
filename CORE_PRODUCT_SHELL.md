@@ -1,4 +1,4 @@
-# Anomancer 15.7 · Core Product Shell
+# Anomancer 15.8 · Core Product Shell
 
 15.2 tekee julkisesta `/core`-näkymästä tuotteen rakennekartan ilman että yksityinen control plane avataan.
 
@@ -18,3 +18,7 @@
 `/core` käyttää vain buildissa tuotettua `core-public.json`-snapshotia. Se ei kutsu `/api/admin/*`-rajapintoja eikä sisällä run historya, raakaa promptia, raakaa mallivastausta, sessioita tai palvelinsalaisuuksia.
 
 `/admin` pysyy varsinaisena yksityisenä control planena.
+
+## 15.8 · Run Explorer
+
+Yksityinen Core käyttää nyt server-side Run Storea. Runs ja Usage ovat oikeita yksityisen ohjaamon alueita; julkinen `/core` näyttää vain rakenteen eikä käyttödataa.

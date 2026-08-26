@@ -1,4 +1,4 @@
-# Anomancer 15.7.0 · Custom Orchestras
+# Anomancer 15.8.0 · Run Explorer + Usage Metering
 
 Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone ja yksityinen Vercel-admin. Julkinen sisältö rakennetaan `public/`-hakemistoon. Admin tallentaa artikkelit GitHub Contents API:n kautta. Agenttien mallikutsut kulkevat palvelinpuolen Model Routerin kautta; DeepSeek säilyy oletuksena ja muut providerit ovat valinnaisia.
 
@@ -6,7 +6,7 @@ Anomancer on kaksikielinen staattinen sivusto, Markdown-pohjainen julkaisukone j
 
 Anomancerin Lähetyskone toimii nyt ensimmäisenä natiivina Core-orkesterina. `api/_lib/core-registry.js` määrittää keskitetysti kahdeksan Agent Contractia, niiden roolit, mallireitit, työkalut, toimivallan ja tokenbudjetit. `editorial/1.0.0` määrittää orkesterin vaihejärjestyksen. Jokainen onnistunut agenttiajo tuottaa `anomancer-run-receipt/v1` -kuitin, joka sisältää metadatan sekä input/output-hashit, ei raakaa promptia tai vastausta. Selain ylläpitää näistä paikallista hash-ketjutettua Run Ledgeriä Core-välilehdellä.
 
-15.4 lisäsi Tool Brokerin, 15.5 Model Routerin ja 15.6 server-authoritative Runtime Profilet. 15.7 tekee orkesterista ensimmäisen luokan serverisopimuksen: yksityisessä Coressa voi rakentaa custom-orkestereita sequential- ja turvallisista parallel-vaiheista. Valittu Orchestra Contract ja Runtime Profilet jäädytetään samaan allekirjoitettuun ajosnapshotiin. Core ei vielä sisällä käyttäjätili-/maksukerrosta tai custom-agenttien luontia.
+15.4 lisäsi Tool Brokerin, 15.5 Model Routerin ja 15.6 server-authoritative Runtime Profilet. 15.7 teki orkesterista ensimmäisen luokan serverisopimuksen. 15.8 lisää server-side Run Storen, Run Explorerin ja Usage Meteringin: orkesteriajojen receiptit, tokenit, providerit, fallbackit ja policy-metatiedot ovat nyt selattavissa ilman raakaa prompti- tai output-historiaa. Core ei vielä sisällä käyttäjätili-/maksukerrosta tai custom-agenttien luontia.
 
 ## 14.3.1:n tärkeimmät rajat ja Audience Layer
 

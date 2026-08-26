@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-export const CORE_VERSION='15.7.0';
+export const CORE_VERSION='15.8.0';
 export const AGENT_CONTRACT_FORMAT='anomancer-agent/v1';
 export const ORCHESTRA_FORMAT='anomancer-orchestra/v2';
 export const CUSTOM_ORCHESTRA_FORMAT='anomancer-custom-orchestra/v1';
@@ -254,11 +254,12 @@ export function publicCoreSnapshot({modelRouter=null}={}){
   return {
     format:'anomancer-core/v1',version:CORE_VERSION,
     agents:AGENT_REGISTRY.map(clone),orchestras:ORCHESTRA_REGISTRY.map(clone),tools:TOOL_REGISTRY.map(clone),
-    runReceipt:{format:RUN_RECEIPT_FORMAT,persistence:'browser-local-hash-chain',containsRawPrompt:false,containsRawOutput:false,containsToolPolicy:true},
+    runReceipt:{format:RUN_RECEIPT_FORMAT,persistence:'server-side-run-store',containsRawPrompt:false,containsRawOutput:false,containsToolPolicy:true},
     modelRoutes:MODEL_ROUTE_REGISTRY.map(clone),modelRouter:modelRouter?clone(modelRouter):null,
     humanFinalAuthority:true,
     runtimeControl:{format:AGENT_RUNTIME_FORMAT,persistence:'server-side-durable',mutable:['active','maxOutputTokens','modelTarget'],contractAuthorityImmutable:true,snapshot:'signed-per-orchestra-run'},
     orchestraControl:{format:CUSTOM_ORCHESTRA_FORMAT,persistence:'server-side-durable',customBuilder:true,parallelIsolation:'same-input-deterministic-merge',humanFinalAuthority:true},
-    toolBroker:{format:TOOL_POLICY_FORMAT,enforcement:'server-side-fail-closed',implicitTools:false,humanApprovalClientSpoofable:false,policyLogInRunReceipt:true}
+    toolBroker:{format:TOOL_POLICY_FORMAT,enforcement:'server-side-fail-closed',implicitTools:false,humanApprovalClientSpoofable:false,policyLogInRunReceipt:true},
+    runExplorer:{persistence:'server-side-durable',containsRawPrompt:false,containsRawOutput:false,filters:['status','agent','provider','orchestra'],usageMetering:true,costEstimation:'server-configured-rates-only'}
   };
 }

@@ -9,7 +9,7 @@ if(desk){
   ];
   const FALLBACK_ORCHESTRA={id:'editorial',name:'Anomancer Editorial',orchestraHash:'fallback',source:'built-in',steps:AGENT_FALLBACK.map((a,i)=>({id:`step-${String(i+1).padStart(2,'0')}`,mode:'sequential',agents:[a.id]}))};
   let AGENTS=[...AGENT_FALLBACK],ORCHESTRAS=[FALLBACK_ORCHESTRA],ORCHESTRA=FALLBACK_ORCHESTRA,STEPS=[...FALLBACK_ORCHESTRA.steps],PIPELINE=[...AGENT_FALLBACK];
-  const CHECKPOINT_KEY='anomancer.orchestra.checkpoint.v15.7.0';
+  const CHECKPOINT_KEY='anomancer.orchestra.checkpoint.v15.8.0';
   let running=false,stopRequested=false,controllers=new Set(),csrf='',finalRun=null,checkpoint=null,currentStageIndex=-1;
 
   function now(){return new Date().toLocaleTimeString('fi-FI',{hour12:false});}
@@ -45,6 +45,7 @@ if(desk){
   function mergeSources(base=[],candidates=[]){const out=[],byUrl=new Map();for(const item of [...base,...candidates]){const url=cleanString(item?.url,2000).trim();if(!url)continue;const normalized={id:cleanString(item?.id,80)||stableSourceId(url),title:cleanString(item?.title||url,220),url,publisher:cleanString(item?.publisher,160),date:cleanString(item?.date,20),origin:item?.origin==='source-agent'?'source-agent':'human',verification:['candidate','verified','rejected'].includes(item?.verification)?item.verification:(item?.origin==='source-agent'?'candidate':'verified'),retrievedAt:cleanString(item?.retrievedAt,40),why:cleanString(item?.why,500),supports:cleanString(item?.supports,800),challenges:cleanString(item?.challenges,800)};const existing=byUrl.get(url);if(!existing){byUrl.set(url,normalized);out.push(normalized);continue;}for(const key of ['id','title','publisher','date','retrievedAt','why','supports','challenges'])if(!existing[key]&&normalized[key])existing[key]=normalized[key];}return out.slice(0,30);}
   function mergePackageIntoPost(post,pkg){const next={...post};if(!pkg||typeof pkg!=='object')return next;for(const key of ['title','description','slug','answer'])if(typeof pkg[key]==='string'&&pkg[key])next[key]=pkg[key];if(typeof pkg.category==='string')next.category=pkg.category;return next;}
   async function getSession(){const r=await fetch('/api/admin/session',{credentials:'same-origin'});const d=await r.json().catch(()=>({}));if(!r.ok||!d.authenticated)throw new Error('Admin-session puuttuu.');csrf=d.csrf||'';return d;}
+  async function runStoreAction(action,ctx,extra={}){if(!ctx?.orchestraRunId||!ctx?.runtimeSnapshotToken)return null;try{if(!csrf)await getSession();const r=await fetch('/api/admin/runs',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({action,orchestraRunId:ctx.orchestraRunId,runtimeSnapshotToken:ctx.runtimeSnapshotToken,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',orchestra:ctx.orchestra,...extra})});const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok)throw new Error(d.message||d.error||'Run Store');window.dispatchEvent(new CustomEvent('anomancer:runs-changed',{detail:{run:d.run||null}}));return d.run||null;}catch(error){log(`Run Store varoitus · ${error.message}`,'!');return null;}}
   function stageInstruction(stage,baseInstruction,outputs,metas={}){
     const bits=[];if(baseInstruction)bits.push(`KOKO ORKESTERIN IHMISOHJE:
 ${baseInstruction}`);
@@ -107,7 +108,7 @@ ${JSON.stringify(outputs.critic)}`);
   function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
   function safeClone(value){return JSON.parse(JSON.stringify(value));}
   function checkpointPayload(ctx){return{
-    version:'15.7.0',orchestraRunId:ctx.orchestraRunId,orchestra:ctx.orchestra,runtimeSnapshotId:ctx.runtimeSnapshotId||'',runtimeSnapshotToken:ctx.runtimeSnapshotToken||'',runtimeRevision:Number(ctx.runtimeRevision||0),status:ctx.status||'running',draftIdentity:ctx.draftIdentity,initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,runtimeProfiles:ctx.runtimeProfiles,stageStates:ctx.stageStates,nextIndex:ctx.nextIndex,failedIndex:ctx.failedIndex,failedError:ctx.failedError||null,baseInstruction:ctx.baseInstruction,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',terminal:terminal.textContent,humanApprovalRequired:true
+    version:'15.8.0',orchestraRunId:ctx.orchestraRunId,orchestra:ctx.orchestra,runtimeSnapshotId:ctx.runtimeSnapshotId||'',runtimeSnapshotToken:ctx.runtimeSnapshotToken||'',runtimeRevision:Number(ctx.runtimeRevision||0),status:ctx.status||'running',draftIdentity:ctx.draftIdentity,initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,runtimeProfiles:ctx.runtimeProfiles,stageStates:ctx.stageStates,nextIndex:ctx.nextIndex,failedIndex:ctx.failedIndex,failedError:ctx.failedError||null,baseInstruction:ctx.baseInstruction,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt||'',terminal:terminal.textContent,humanApprovalRequired:true
   };}
   function saveCheckpoint(ctx){
     checkpoint=checkpointPayload(ctx);
@@ -118,7 +119,7 @@ ${JSON.stringify(outputs.critic)}`);
   }
   function clearCheckpoint(){checkpoint=null;try{sessionStorage.removeItem(CHECKPOINT_KEY);}catch{}updateCheckpointActions();}
   function loadCheckpoint(){
-    try{const raw=sessionStorage.getItem(CHECKPOINT_KEY);if(!raw)return null;const value=JSON.parse(raw);if(value?.version!=='15.7.0'||!value?.post||!value?.outputs||!value?.draftIdentity||!value?.runtimeSnapshotToken)return null;return value;}catch{return null;}
+    try{const raw=sessionStorage.getItem(CHECKPOINT_KEY);if(!raw)return null;const value=JSON.parse(raw);if(value?.version!=='15.8.0'||!value?.post||!value?.outputs||!value?.draftIdentity||!value?.runtimeSnapshotToken)return null;return value;}catch{return null;}
   }
   function updateCheckpointActions(){
     const has=checkpoint&&checkpoint.status!=='complete'&&Number(checkpoint.nextIndex)<STEPS.length;
@@ -186,18 +187,19 @@ ${JSON.stringify(outputs.critic)}`);
     running=true;stopRequested=false;finalRun=null;resultBox.hidden=true;applyBtn.hidden=true;runBtn.disabled=true;retryBtn.disabled=true;resumeBtn.disabled=true;stopBtn.disabled=false;instruction.disabled=true;window.anomancerAdminBridge?.setEditorLocked?.(true);if(fresh){resetStages();terminal.textContent='';copyBtn.hidden=true;}setRunState('RUNNING');
   }
   function endUi(){running=false;controllers.clear();currentStageIndex=-1;runBtn.disabled=false;retryBtn.disabled=false;resumeBtn.disabled=false;stopBtn.disabled=true;instruction.disabled=false;window.anomancerAdminBridge?.setEditorLocked?.(false);updateCheckpointActions();}
-  function finishRun(ctx){
+  async function finishRun(ctx){
     ctx.status='complete';ctx.finishedAt=new Date().toISOString();ctx.nextIndex=STEPS.length;
     finalRun={initial:ctx.initial,post:ctx.post,outputs:ctx.outputs,metas:ctx.metas,startedAt:ctx.startedAt,finishedAt:ctx.finishedAt,humanApprovalRequired:true,provisionalSources:true,degradedStages:Object.entries(ctx.stageStates).filter(([,v])=>v==='degraded').map(([id])=>id),disabledStages:Object.entries(ctx.stageStates).filter(([,v])=>v==='disabled').map(([id])=>id),draftIdentity:ctx.draftIdentity,orchestraRunId:ctx.orchestraRunId,orchestra:ctx.orchestra};
     resultPre.textContent=JSON.stringify({finalPost:ctx.post,package:ctx.outputs.package,critic:ctx.outputs.critic,audience:ctx.outputs.audience,run:{orchestraRunId:finalRun.orchestraRunId,orchestra:finalRun.orchestra,startedAt:finalRun.startedAt,finishedAt:finalRun.finishedAt,humanApprovalRequired:true,degradedStages:finalRun.degradedStages,disabledStages:finalRun.disabledStages}},null,2);resultBox.hidden=false;applyBtn.hidden=false;copyBtn.hidden=false;setRunState(finalRun.degradedStages.length?'COMPLETE / DEGRADED':'COMPLETE');
-    log(`Koko putki valmis · HUMAN APPROVAL REQUIRED${finalRun.degradedStages.length?` · degraded: ${finalRun.degradedStages.join(', ')}`:''}${finalRun.disabledStages.length?` · off: ${finalRun.disabledStages.join(', ')}`:''}`,'◆');saveCheckpoint(ctx);
+    log(`Koko putki valmis · HUMAN APPROVAL REQUIRED${finalRun.degradedStages.length?` · degraded: ${finalRun.degradedStages.join(', ')}`:''}${finalRun.disabledStages.length?` · off: ${finalRun.disabledStages.join(', ')}`:''}`,'◆');saveCheckpoint(ctx);await runStoreAction('finalize',ctx,{status:finalRun.degradedStages.length?'degraded':'completed',degradedStages:finalRun.degradedStages,disabledStages:finalRun.disabledStages});
   }
-  function failWithCheckpoint(ctx,index,error,{stopped=false}={}){
+  async function failWithCheckpoint(ctx,index,error,{stopped=false}={}){
     ctx.nextIndex=index;ctx.failedIndex=stopped?null:index;ctx.failedError=stopped?null:{code:error?.code||'',httpStatus:error?.httpStatus||0,message:error?.message||''};
     if(index>=0&&index<STEPS.length){for(const id of STEPS[index].agents||[]){if(ctx.stageStates[id]==='running'){ctx.stageStates[id]=stopped?'stopped':'error';stageState(id,stopped?'stopped':'error');}}}
     saveCheckpoint(ctx);copyBtn.hidden=false;
     if(stopped){setRunState('STOPPED / CHECKPOINT');log(`Ajo pysäytettiin · checkpoint säilyi vaiheeseen ${index+1}/${STEPS.length}. Mitään ei sovellettu editoriin.`,'■');}
     else{setRunState('ERROR / CHECKPOINT');log(`${errorDiagnostic(error)} · checkpoint säilyi · voit yrittää vaihetta uudelleen tai jatkaa tästä`,'✗');}
+    await runStoreAction('checkpoint',ctx,{status:stopped?'stopped':'checkpoint',degradedStages:Object.entries(ctx.stageStates).filter(([,v])=>v==='degraded').map(([id])=>id),disabledStages:Object.entries(ctx.stageStates).filter(([,v])=>v==='disabled').map(([id])=>id),error:stopped?null:{code:error?.code||'',message:error?.message||''}});
   }
   async function runRange(ctx,startIndex,endExclusive,{fresh=false,autoRetry=true,completeWhenDone=true}={}){
     beginUi({fresh});
@@ -206,14 +208,14 @@ ${JSON.stringify(outputs.critic)}`);
         if(stopRequested)throw Object.assign(new Error('STOP_REQUESTED'),{stopped:true});
         await executeStep(ctx,i,{autoRetry});
       }
-      if(completeWhenDone&&endExclusive>=STEPS.length)finishRun(ctx);
+      if(completeWhenDone&&endExclusive>=STEPS.length)await finishRun(ctx);
       else{
         checkpoint=checkpointPayload(ctx);saveCheckpoint(ctx);setRunState('CHECKPOINT / READY');copyBtn.hidden=false;
         log(`Vaihe ${endExclusive}/${STEPS.length} valmis · checkpoint päivitetty · Jatka tästä, kun haluat`,'◇');
       }
     }catch(error){
       const stopped=error?.name==='AbortError'||error?.stopped||error?.message==='STOP_REQUESTED'||stopRequested;
-      failWithCheckpoint(ctx,currentStageIndex>=0?currentStageIndex:startIndex,error,{stopped});
+      await failWithCheckpoint(ctx,currentStageIndex>=0?currentStageIndex:startIndex,error,{stopped});
     }finally{endUi();}
   }
   async function runPipeline(){
@@ -229,17 +231,17 @@ ${JSON.stringify(outputs.critic)}`);
     if(running)return;const cp=checkpoint||loadCheckpoint();if(!cp||!Number.isInteger(cp.failedIndex))return log('Uudelleen yritettävää epäonnistunutta vaihetta ei löytynyt.','✗');if(!checkpointMatches(cp))return;const ctx=contextFromCheckpoint(cp);const index=cp.failedIndex;
     terminal.textContent=cp.terminal||terminal.textContent;log(`Manuaalinen retry · ${index+1}/${STEPS.length} ${(STEPS[index]?.agents||[]).map(id=>agentMeta(id).label).join(' ∥ ')}`,'↻');await runRange(ctx,index,index+1,{fresh:false,autoRetry:false,completeWhenDone:index===STEPS.length-1});
   }
-  function applyFinal(){
+  async function applyFinal(){
     if(!finalRun?.post)return;if(!sameDocument(finalRun.draftIdentity,currentIdentity()))return log('Orkesteritulos kuuluu eri luonnokseen. Avaa oikea teksti ennen soveltamista.','✗');const changed=finalRun.draftIdentity?.fingerprint!==currentIdentity().fingerprint;const p=finalRun.post;const degraded=finalRun.degradedStages?.length?`\n\nHuom: DEGRADED-vaiheet: ${finalRun.degradedStages.join(', ')}.`:'';const conflict=changed?'\n\nVAROITUS: editoria on muutettu ajon jälkeen. Soveltaminen korvaa nämä kentät.':'';if(!confirm(`Siirretäänkö orkesterin lopputulos editoriin? Lähdeagentin ehdokkaat ovat edelleen ihmisen tarkistettavia.${degraded}${conflict}\n\nMitään ei julkaista tällä toiminnolla.`))return;
     const pairs=[['#title',p.title,180],['#description',p.description,220],['#slug',p.slug,100],['#answer',p.answer,1200],['#body',p.body,60000],['#sources',formatSources(p.sources),100000],['#claims',formatClaims(p.claims),100000]];
     for(const [sel,val,max] of pairs){const el=q(sel);if(el&&typeof val==='string'){el.value=val.slice(0,max);fire(el);}}
     if(q('#category')&&p.category){q('#category').value=p.category;fire(q('#category'),'change');}
     if(Array.isArray(p.audience)&&p.audience.length){const vals=new Set(p.audience);qa('input[name="audience"]').forEach(x=>x.checked=vals.has(x.value));qa('input[name="audience"]')[0]?.dispatchEvent(new Event('change',{bubbles:true}));}
     if(q('#audienceDepth')&&p.audienceDepth){q('#audienceDepth').value=p.audienceDepth;fire(q('#audienceDepth'),'change');}
-    log('Lopputulos siirrettiin editoriin. Julkaisu- ja tallennusnapit ovat edelleen erillinen ihmisen päätös.','✓');setRunState('APPLIED / NOT SAVED');
+    log('Lopputulos siirrettiin editoriin. Julkaisu- ja tallennusnapit ovat edelleen erillinen ihmisen päätös.','✓');setRunState('APPLIED / NOT SAVED');await runStoreAction('applied',{...finalRun,runtimeSnapshotToken:checkpoint?.runtimeSnapshotToken||'',orchestraRunId:finalRun.orchestraRunId});
   }
   function selectOrchestra(id){const found=ORCHESTRAS.find(item=>item.id===id)||ORCHESTRAS.find(item=>item.id==='editorial')||FALLBACK_ORCHESTRA;compileOrchestra(found);if(orchestraSelect&&orchestraSelect.value!==found.id)orchestraSelect.value=found.id;log(`Orkesteri valittu · ${found.name} · ${STEPS.length} vaihetta · ${PIPELINE.length} agenttia`,'◈');}
-  window.addEventListener('anomancer:core-ready',event=>{const core=event.detail||{};AGENTS=(core.agents||AGENT_FALLBACK).map(a=>({id:a.id,label:a.label,role:a.role}));const builtins=(core.orchestras||[]);if(builtins.length){ORCHESTRAS=[...builtins];selectOrchestra(orchestraSelect?.value||'editorial');}log(`Core ${core.version||'15.7'} · Custom Orchestra -tuki valmis`,'◈');});
+  window.addEventListener('anomancer:core-ready',event=>{const core=event.detail||{};AGENTS=(core.agents||AGENT_FALLBACK).map(a=>({id:a.id,label:a.label,role:a.role}));const builtins=(core.orchestras||[]);if(builtins.length){ORCHESTRAS=[...builtins];selectOrchestra(orchestraSelect?.value||'editorial');}log(`Core ${core.version||'15.8'} · Custom Orchestra -tuki valmis`,'◈');});
   window.addEventListener('anomancer:orchestras-ready',event=>{const list=event.detail?.orchestras||[];if(list.length){ORCHESTRAS=list;const frozen=checkpoint?.orchestra;if(frozen){compileOrchestra(frozen);if(orchestraSelect&&list.some(item=>item.id===frozen.id))orchestraSelect.value=frozen.id;log(`Checkpoint pitää orkesterin jäädytettynä · ${frozen.name||frozen.id}`,'◈');}else selectOrchestra(orchestraSelect?.value||'editorial');}});
   orchestraSelect?.addEventListener('change',()=>{if(running){orchestraSelect.value=ORCHESTRA.id;return;}clearCheckpoint();selectOrchestra(orchestraSelect.value);});
   runBtn.addEventListener('click',runPipeline);

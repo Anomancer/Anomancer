@@ -86,13 +86,13 @@
 
     <section id="orchestras" class="core-public-section core-product-section" aria-labelledby="core-orchestra-title" data-core-section>
       <div class="core-product-section-meta"><span class="core-product-status live">LIVE</span><span>03 · Orchestras</span></div>
-      <div class="core-public-section-head"><div><p class="eyebrow">Orchestra Registry</p><h2 id="core-orchestra-title">Lähetyskone on ensimmäinen orkesteri.</h2></div><p>15.7:ssa yksityinen Core voi rakentaa myös serverillä validoituja custom-orkestereita sekä turvallisia rinnakkaisvaiheita. Julkinen näkymä näyttää vain sisäänrakennetun orkesterin rakenteen, ei käyttäjän yksityisiä Orchestra Contracteja.</p></div>
+      <div class="core-public-section-head"><div><p class="eyebrow">Orchestra Registry</p><h2 id="core-orchestra-title">Lähetyskone on ensimmäinen orkesteri.</h2></div><p>15.8:ssa yksityinen Core voi rakentaa myös serverillä validoituja custom-orkestereita sekä turvallisia rinnakkaisvaiheita. Julkinen näkymä näyttää vain sisäänrakennetun orkesterin rakenteen, ei käyttäjän yksityisiä Orchestra Contracteja.</p></div>
       <div id="corePublicOrchestra" class="core-public-orchestra" aria-live="polite"><p class="core-public-loading">Ladataan rakennekarttaa…</p></div>
     </section>
 
     <section id="runs" class="core-public-section core-product-section" aria-labelledby="core-runs-title" data-core-section>
-      <div class="core-product-section-meta"><span class="core-product-status readonly">READ ONLY</span><span>04 · Runs</span></div>
-      <div class="core-public-section-head"><div><p class="eyebrow">Run Ledger</p><h2 id="core-runs-title">Työstä jää kuitti, ei musta laatikko.</h2></div><p>Oikea ajohistoria kuuluu yksityiseen Coreen. Julkisessa näkymässä näkyy vain turvallinen kuittirakenne ja mitä se todistaa.</p></div>
+      <div class="core-product-section-meta"><span class="core-product-status live">LIVE EXPLORER</span><span>04 · Runs</span></div>
+      <div class="core-public-section-head"><div><p class="eyebrow">Run Ledger</p><h2 id="core-runs-title">Työstä jää kuitti, ei musta laatikko.</h2></div><p>Oikea server-side Run Explorer kuuluu yksityiseen Coreen. Julkisessa näkymässä näkyy vain turvallinen kuittirakenne ja mitä järjestelmä pystyy auditoimaan.</p></div>
       <div class="core-runs-layout">
         <div class="core-receipt-demo">
           <div class="core-receipt-top"><div><span>DEMO RECEIPT</span><strong>Claim Watcher</strong></div><span class="core-receipt-state">COMPLETED</span></div>
@@ -108,7 +108,7 @@
         </div>
         <div class="core-run-boundary">
           <span class="core-kicker">PRIVATE LEDGER</span><h3>Oikeat runit pysyvät ohjaamossa.</h3>
-          <ul><li>orchestraRunId ja stage-järjestys</li><li>tokenien todellinen käyttö</li><li>kesto ja completion-tila</li><li>input/output-hashit</li><li>hash-ketjutettu paikallinen ledger</li></ul>
+          <ul><li>orchestraRunId ja stage-järjestys</li><li>tokenien todellinen käyttö</li><li>kesto ja completion-tila</li><li>input/output-hashit</li><li>server-side run chain + receipt metadata</li></ul>
           <a class="core-admin-link" href="/admin">Admin login →</a>
         </div>
       </div>
@@ -140,19 +140,19 @@
     </section>
 
     <section id="usage" class="core-public-section core-product-section" aria-labelledby="core-usage-title" data-core-section>
-      <div class="core-product-section-meta"><span class="core-product-status foundation">FOUNDATION</span><span>08 · Usage</span></div>
-      <div class="core-public-section-head"><div><p class="eyebrow">Budget & Metering</p><h2 id="core-usage-title">Budjetti kuuluu sopimukseen ennen laskua.</h2></div><p>Julkinen Core näyttää vain teoreettisen output-headroomin. Todelliset tokenit, kustannukset ja mahdollinen tuleva workspace-laskutus kuuluvat yksityiseen käyttömittaukseen.</p></div>
+      <div class="core-product-section-meta"><span class="core-product-status live">LIVE METERING</span><span>08 · Usage</span></div>
+      <div class="core-public-section-head"><div><p class="eyebrow">Budget & Metering</p><h2 id="core-usage-title">Budjetti kuuluu sopimukseen ennen laskua.</h2></div><p>Julkinen Core näyttää vain teoreettisen output-headroomin. Yksityinen Core mittaa nyt oikeat run-, agentti-, provider- ja tokenimäärät. Kustannusarvio syntyy vain palvelimelle erikseen määritellyistä hintakertoimista.</p></div>
       <div class="core-usage-grid">
         <article><span>Full-run output headroom</span><strong id="corePublicRunBudget">—</strong><small>agenttisopimusten yhteenlaskettu katto</small></article>
         <article><span>Suurin stage-budjetti</span><strong id="corePublicLargestBudget">—</strong><small>yhden agentin output-katto</small></article>
         <article><span>Actual account usage</span><strong>PRIVATE</strong><small>ei julkisessa snapshotissa</small></article>
       </div>
-      <div class="core-coming-line"><span>TULEVA KIINNITYSPISTE</span><strong>Workspace Usage Meter</strong><p>Run-kohtainen käyttö → workspace-kohtainen käyttö → mahdollinen tilaus- tai kulutusmalli. Mittaus ensin, laskutus vasta myöhemmin.</p></div>
+      <div class="core-coming-line"><span>15.8 · PRIVATE METER</span><strong>Run Usage Meter</strong><p>Run-kohtainen käyttö on nyt mitattavissa. Seuraava luonnollinen rajaus on workspace-kohtainen käyttö ennen mahdollista tilaus- tai kulutusmallia.</p></div>
     </section>
 
     <section class="core-public-section core-next-section core-product-section" aria-labelledby="core-next-title">
       <div><p class="eyebrow">Roadmap</p><h2 id="core-next-title">Foundation ensin. Sitten lisää moottoria.</h2><p>Tuoterakenne on nyt näkyvissä ennen kuin kaikki alueet ovat kirjoitusoikeudellisia tuotteita. Se estää Corea kasvamasta myöhemmin 97-nappiseksi ydinsukellusveneeksi.</p></div>
-      <div class="core-roadmap"><span>Tool Broker ✓</span><span>Multi-provider Model Router ✓</span><span>Custom Orchestras ✓</span><span>Custom Agents</span><span>Workspaces</span><span>Usage Metering</span></div>
+      <div class="core-roadmap"><span>Tool Broker ✓</span><span>Multi-provider Model Router ✓</span><span>Custom Orchestras ✓</span><span>Custom Agents</span><span>Workspaces</span><span>Usage Metering ✓</span></div>
     </section>
 
     <section class="core-public-section core-boundary-section core-product-section" aria-labelledby="core-boundary-title">

@@ -19,7 +19,7 @@ test('/admin pysyy yksityisenä',()=>{
 });
 test('julkinen Core ei kutsu admin-API:a',()=>{assert.doesNotMatch(js,/\/api\/admin\//);});
 test('build tuottaa julkisen snapshotin Agent Registrystä',()=>{assert.match(build,/AGENT_REGISTRY/);assert.match(build,/core-public\.json/);assert.match(build,/containsRunHistory:false/);});
-test('Core Registry on 15.7 ja agentteja on edelleen kahdeksan',()=>{assert.equal(CORE_VERSION,'15.7.0');assert.equal(AGENT_REGISTRY.length,8);assert.equal(ORCHESTRA_REGISTRY.length,1);});
+test('Core Registry on 15.8 ja agentteja on edelleen kahdeksan',()=>{assert.equal(CORE_VERSION,'15.8.0');assert.equal(AGENT_REGISTRY.length,8);assert.equal(ORCHESTRA_REGISTRY.length,1);});
 test('julkinen Core näyttää vain built-in Orchestra Contractin mutta tukee step-rakennetta',()=>{const o=ORCHESTRA_REGISTRY[0];assert.equal(o.source,'built-in');assert.ok(Array.isArray(o.steps));assert.equal(o.steps.length,8);assert.doesNotMatch(js,/api\/admin\/orchestras/);});
 test('yhdelläkään agentilla ei ole julkaisuoikeutta',()=>{for(const a of AGENT_REGISTRY) assert.ok(a.authority.deny.includes('publish'));});
 test('public Core kertoo julkisen ja yksityisen rajan',()=>{assert.match(html,/Lasiseinä ei ole avoin ovi/);assert.match(html,/href="\/admin"/);assert.match(html,/Oikeat ajot, promptit ja yksityinen ohjaamo eivät/);});
@@ -27,7 +27,7 @@ test('Corella on koko kahdeksan alueen tuoterakenne',()=>{
   for(const id of ['overview','agents','orchestras','runs','evidence','models','tools','usage']) assert.match(html,new RegExp(`id="${id}"`));
   for(const label of ['Overview','Agent Pool','Orchestras','Runs','Evidence','Models','Tools','Usage']) assert.match(html,new RegExp(`>${label}<`));
 });
-test('foundation-alueet eivät väitä oikeaa käyttödataa julkiseksi',()=>{assert.match(html,/Actual account usage/);assert.match(html,/>PRIVATE</);assert.match(html,/READ ONLY/);assert.match(html,/FOUNDATION/);});
+test('julkinen Core kertoo Run Explorerin ja Usage Meteringin olevan live mutta pitää account-datan yksityisenä',()=>{assert.match(html,/Actual account usage/);assert.match(html,/>PRIVATE</);assert.match(html,/LIVE EXPLORER/);assert.match(html,/LIVE METERING/);assert.match(html,/Yksityinen Core mittaa nyt oikeat run-/);});
 test('Models, Tools ja Usage johdetaan julkisesta Agent Registrystä',()=>{assert.match(js,/renderModels\(core\)/);assert.match(js,/renderTools\(core\)/);assert.match(js,/renderUsage\(core\)/);assert.match(js,/maxOutputTokens/);assert.match(js,/maxOutputTokensCeiling/);assert.match(js,/agent\.tools/);});
 test('julkinen snapshot näyttää runtime-rajat mutta ei adminin Runtime Profile -tilaa',()=>{assert.match(build,/maxOutputTokensCeiling/);assert.doesNotMatch(build,/RUNTIME_KEY|localStorage/);assert.doesNotMatch(js,/agent-runtime|localStorage/);});
 test('Core-tuotenavigaatio seuraa osioita ilman uutta API-pintaa',()=>{assert.match(js,/IntersectionObserver/);assert.match(html,/data-core-nav="overview"/);assert.doesNotMatch(js,/fetch\([^)]*api/);});

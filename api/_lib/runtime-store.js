@@ -45,7 +45,7 @@ function normalizeState(input={}){
 
 async function gh(path,options={}){
   const {token}=githubConfig();
-  const response=await fetch(`https://api.github.com${path}`,{...options,headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${token}`,'X-GitHub-Api-Version':'2022-11-28','User-Agent':'anomancer-core-runtime-v15.7',...(options.headers||{})}});
+  const response=await fetch(`https://api.github.com${path}`,{...options,headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${token}`,'X-GitHub-Api-Version':'2022-11-28','User-Agent':'anomancer-core-runtime-v15.8',...(options.headers||{})}});
   const text=await response.text();let data=null;try{data=text?JSON.parse(text):null;}catch{data={message:text};}
   if(!response.ok){const error=Object.assign(new Error(data?.message||`GitHub ${response.status}`),{statusCode:response.status===404?404:(response.status===409||response.status===422?409:502),code:`RUNTIME_GITHUB_${response.status}`,githubStatus:response.status,details:data});throw error;}
   return data;
