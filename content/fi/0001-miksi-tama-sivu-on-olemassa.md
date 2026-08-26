@@ -2,7 +2,7 @@
 title: "Miksi tämä sivu on olemassa?"
 date: "2026-08-26"
 category: "field"
-description: "Lähetykset ovat ANOMANCERin selityskerros: yksi idea, ongelma tai rakennettu järjestelmä kerrallaan ihmiskielelle."
+description: "Lähetykset ovat Anomancerin selityskerros: yksi idea, ongelma tai rakennettu järjestelmä kerrallaan selkokielelle."
 slug: "miksi-tama-sivu-on-olemassa"
 lang: "fi"
 translationKey: "why-this-page-exists"
