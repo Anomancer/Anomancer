@@ -872,3 +872,16 @@ h1 {
 .article-byline { margin:10px 0 28px; color:var(--dim); font-size:.9rem; line-height:1.45; letter-spacing:.035em; }
 .article-byline a { color:rgba(255,255,255,.84); text-decoration:none; border-bottom:1px solid rgba(255,255,255,.18); }
 .article-byline a:hover { color:#fff; border-bottom-color:rgba(255,22,61,.56); }
+
+
+/* Anomancer 13.18 · EVIDENCE LAYER */
+.article-answer{margin:24px 0 28px;padding:18px 20px;border-left:2px solid var(--red);background:rgba(255,22,61,.055)}
+.article-answer .evidence-kicker{margin:0 0 8px;color:var(--red);font-size:.76rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.article-answer>p:last-child{margin:0;color:rgba(255,255,255,.92);font-size:1.08rem;line-height:1.62;font-weight:600}
+.article-evidence{margin:56px 0 18px;padding-top:34px;border-top:1px solid rgba(255,255,255,.1)}
+.article-evidence>h2{margin:0 0 22px;font-family:Orbitron,Rajdhani,sans-serif;font-size:clamp(1.35rem,2.3vw,1.9rem);letter-spacing:.035em}
+.evidence-claims{display:grid;gap:10px;margin-bottom:28px}.evidence-claim{padding:15px 16px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.025)}
+.evidence-claim[data-status=supported]{border-left:2px solid rgba(132,220,159,.72)}.evidence-claim[data-status=interpretation]{border-left:2px solid rgba(255,194,92,.72)}.evidence-claim[data-status=open]{border-left:2px solid rgba(172,145,255,.72)}
+.evidence-claim-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:7px}.evidence-status{color:var(--dim);font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.evidence-refs{font-size:.78rem}.evidence-refs a{color:rgba(255,255,255,.78);text-decoration:none}.evidence-refs a:hover{color:#fff}.evidence-claim p{margin:0;color:rgba(255,255,255,.9);line-height:1.55}.evidence-claim small{display:block;margin-top:8px;color:var(--dim);line-height:1.45}
+.evidence-sources h3{margin:0 0 12px;font-size:1rem;letter-spacing:.06em}.evidence-sources ol{margin:0;padding-left:24px}.evidence-sources li{padding:6px 0;color:var(--muted);line-height:1.5}.evidence-sources a{color:rgba(255,255,255,.9)}.evidence-sources span,.evidence-sources time{color:var(--dim);font-size:.88em}
+@media(max-width:760px){.article-answer{padding:15px 16px}.article-evidence{margin-top:42px}.evidence-claim-head{align-items:flex-start;flex-direction:column;gap:5px}}

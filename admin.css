@@ -3,7 +3,7 @@
 /* V13.4 · MEDIA PIPE */
 .cover-field{display:grid;gap:10px;padding:13px;border:1px solid #282832;border-radius:9px;background:#08080e}.cover-field-head{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:.82rem}.cover-controls{display:flex;gap:8px;flex-wrap:wrap}.cover-alt{display:grid!important;gap:6px}.cover-preview{margin:0;border:1px solid #292934;border-radius:9px;overflow:hidden;background:#050509}.cover-preview img{display:block;width:100%;max-height:260px;object-fit:cover}.media-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 8px}.media-toolbar span{color:var(--dim);font-size:.75rem}.media-status{min-height:1.25em;margin:0 0 8px;color:var(--dim);font-size:.78rem}.media-status.ok{color:var(--ok)}.media-status.err{color:#ff8da0}.preview-cover{margin:24px 0 34px;border:1px solid #272731;border-radius:10px;overflow:hidden;background:#050509}.preview-cover img{display:block;width:100%;max-height:420px;object-fit:cover}.md-image{margin:1.6em 0}.md-image img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid #272731}.md-image figcaption{margin-top:8px;color:var(--dim);font-size:.8rem;line-height:1.4}@media(max-width:760px){.cover-field-head{align-items:flex-start;flex-direction:column}.media-toolbar{align-items:stretch}.media-toolbar button{width:100%}}
 
-/* Anomancer 13.5 · HUMAN LIBRARY */
+/* ANOMANCER 13.5 · HUMAN LIBRARY */
 .audience-field{margin:0;padding:13px;border:1px solid #30303c;border-radius:8px;background:#08080e}
 .audience-field legend{padding:0 6px;color:var(--muted);font-size:.82rem}
 .field-help{margin:0 0 10px;color:var(--dim);font-size:.75rem;line-height:1.45}
@@ -17,9 +17,16 @@
 .preview-audience span{display:inline-flex;padding:4px 8px;border:1px solid #2d2d38;border-radius:999px;color:var(--dim);font-size:.7rem}
 
 
-/* Anomancer 13.10 · PINNED ARTICLES */
+/* ANOMANCER 13.10 · PINNED ARTICLES */
 .pin-field{display:flex!important;align-items:center;gap:10px;align-self:end;min-height:43px;padding:10px 12px;border:1px solid #30303c;border-radius:8px;background:#08080e;cursor:pointer}
 .pin-field input{width:18px!important;height:18px;accent-color:var(--red);flex:0 0 auto}
 .pin-field span{display:grid;gap:2px}
 .pin-field strong{font-size:.8rem;color:#fff}
 .pin-field small{font-size:.7rem;color:var(--dim);line-height:1.3}
+
+/* Anomancer 13.18 · EVIDENCE LAYER */
+.evidence-editor{display:grid;gap:12px;padding:16px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:rgba(255,255,255,.022)}
+.evidence-editor-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.07)}
+.evidence-editor-head>div{display:flex;flex-direction:column;gap:3px}.evidence-editor-head strong{font-size:.86rem;letter-spacing:.08em;text-transform:uppercase}.evidence-editor-head span{color:var(--dim);font-size:.76rem}
+.evidence-editor textarea{min-height:92px}.preview-evidence-answer{margin:18px 0;padding:14px 16px;border-left:2px solid var(--red);background:rgba(255,22,61,.055)}
+.preview-evidence-answer strong{display:block;margin-bottom:6px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}.preview-evidence-answer p{margin:0!important}.preview-evidence-count{margin-top:22px!important;color:var(--dim)!important;font-size:.8rem!important}

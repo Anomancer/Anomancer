@@ -41,6 +41,10 @@ const audiences = {
 const audienceOrder = Object.keys(audiences);
 function normalizeCategory(value=''){ const raw=String(value||'').trim(); const mapped=legacyCategoryMap[raw]||raw; return categories[mapped]?mapped:'info-media'; }
 function normalizeAudience(value){ let items=Array.isArray(value)?value:(typeof value==='string'&&value.trim()?value.split(','):[]); items=[...new Set(items.map(x=>String(x).trim()).filter(x=>audiences[x]))]; if(!items.length||items.includes('all'))return ['all']; return items; }
+function cleanHttpUrl(value=''){ const raw=String(value||'').trim(); if(!raw)return ''; try{const u=new URL(raw); if(!['http:','https:'].includes(u.protocol))return ''; return u.toString();}catch{return '';} }
+function normalizeSources(value){ const items=Array.isArray(value)?value:[]; const out=[],seen=new Set(); for(const item of items){const src=item&&typeof item==='object'?item:{}; const title=String(src.title||'').trim(),url=cleanHttpUrl(src.url),publisher=String(src.publisher||'').trim(),date=String(src.date||'').trim(); if(!title||!url||seen.has(url))continue; seen.add(url); out.push({title,url,publisher,date});} return out; }
+const claimStatuses=new Set(['supported','interpretation','open']);
+function normalizeClaims(value,sources=[]){ const allowed=new Set(sources.map(x=>x.url)); return (Array.isArray(value)?value:[]).map(item=>{const src=item&&typeof item==='object'?item:{}; const status=claimStatuses.has(src.status)?src.status:'open'; const text=String(src.text||'').trim(),note=String(src.note||'').trim(); const evidence=[...new Set((Array.isArray(src.evidence)?src.evidence:[]).map(cleanHttpUrl).filter(Boolean))].filter(url=>allowed.has(url)); return {status,text,evidence,note};}).filter(x=>x.text); }
 
 const copy = {
   fi: {
@@ -49,7 +53,7 @@ const copy = {
     intro: 'Vaikeat asiat käännettynä ihmisille. Tekoälyä, työtä, rahaa, mediaa, kieltä, turvallisuutta ja yhteiskunnan järjestelmiä ilman tarpeetonta sisäpiirikieltä.',
     all: 'Kaikki', archive: 'Kaikki lähetykset', read: 'Lue lähetys →', empty: 'Näillä valinnoilla ei löytynyt vielä julkaistuja lähetyksiä.',
     homeLabel: 'Etusivu', observatory: 'Observatorio', footer: 'Anomancer · Lähetykset', homeBack: '← Etusivulle', back: '← Kaikki lähetykset', deeper: 'Syvemmälle Observatorioon →',
-    published: 'Julkaistu', pinned: 'Pinnattu', minRead: 'min lukuaika', category: 'Aihe', audience: 'Kenelle tästä on hyötyä?', related: 'Muita lähetyksiä', byline: 'Kirjoittanut',
+    published: 'Julkaistu', pinned: 'Pinnattu', minRead: 'min lukuaika', category: 'Aihe', audience: 'Kenelle tästä on hyötyä?', related: 'Muita lähetyksiä', byline: 'Kirjoittanut', answer: 'Ydinvastaus', evidence: 'Väitteet ja evidenssi', sources: 'Lähteet', supported: 'Tuettu väite', interpretation: 'Tulkinta', open: 'Avoin',
     description: 'Ymmärrettävä tietokirjasto tekoälystä, työstä, mediasta, rahasta, kielestä, turvallisuudesta ja yhteiskunnan järjestelmistä.',
   },
   en: {
@@ -58,7 +62,7 @@ const copy = {
     intro: 'Difficult ideas translated for people. AI, work, money, media, language, safety and social systems without needless insider language.',
     all: 'All', archive: 'All dispatches', read: 'Read dispatch →', empty: 'No published dispatches match these filters yet.',
     homeLabel: 'Home', observatory: 'Observatory', footer: 'Anomancer · Dispatches', homeBack: '← Home', back: '← All dispatches', deeper: 'Go deeper into the Observatory →',
-    published: 'Published', pinned: 'Pinned', minRead: 'min read', category: 'Topic', audience: 'Who is this useful for?', related: 'More dispatches', byline: 'Written by',
+    published: 'Published', pinned: 'Pinned', minRead: 'min read', category: 'Topic', audience: 'Who is this useful for?', related: 'More dispatches', byline: 'Written by', answer: 'Direct answer', evidence: 'Claims & evidence', sources: 'Sources', supported: 'Supported claim', interpretation: 'Interpretation', open: 'Open question',
     description: 'A practical knowledge library about AI, work, media, money, language, safety and social systems, explained without needless jargon.',
   }
 };
@@ -102,6 +106,9 @@ function parsePost(file, lang) {
   data.slug = data.slug || slugify(data.title);
   data.category = normalizeCategory(data.category);
   data.audience = normalizeAudience(data.audience);
+  data.answer = String(data.answer||'').trim();
+  data.sources = normalizeSources(data.sources);
+  data.claims = normalizeClaims(data.claims,data.sources);
   data.pinned = Boolean(data.pinned);
   data.draft = Boolean(data.draft);
   data.translationKey = data.translationKey || data.slug;
@@ -210,7 +217,18 @@ function renderIndex(lang, posts){
   return `${pageHead({lang,title:`${c.title[0]}${c.title.slice(1).toLowerCase()} | ${SITE_NAME}`,description:c.description,url:`${SITE}${c.blogPath}`,alternates,jsonLd:blogJsonLd(lang),rss:lang==='fi'?`${SITE}/rss.xml`:`${SITE}/rss-en.xml`})}<body>${header(lang,true)}<main class="section transmission-shell blog-shell"><div class="transmission-intro"><p class="eyebrow">${c.eyebrow}</p><h1>${c.title}</h1><p class="intro">${c.intro}</p></div>${audienceBar}<div class="blog-layout"><aside class="category-sidebar" aria-label="${escAttr(c.category)}"><div class="category-sticky"><p class="category-title">${c.category}</p>${categoryButtons(lang,pub)}</div></aside><section class="blog-stream"><div id="dispatch-empty" class="dispatch-empty" hidden>${c.empty}</div><div class="section-minihead archive-head"><span>${c.archive}</span><span id="dispatch-count">${pub.length}</span></div><div class="dispatch-grid">${pub.map(p=>postCard(p,lang)).join('')}</div></section></div></main><footer class="footer"><span>${c.footer}</span><a href="${c.home}">${c.homeBack}</a></footer><script>const catFilters=[...document.querySelectorAll('[data-category-filter]')],audFilters=[...document.querySelectorAll('[data-audience-filter]')],cards=[...document.querySelectorAll('.dispatch-card')],empty=document.querySelector('#dispatch-empty'),count=document.querySelector('#dispatch-count');let cat='all',aud='all';function applyFilters(){let n=0;cards.forEach(card=>{const a=(card.dataset.audience||'all').split(/\s+/);const showCat=cat==='all'||card.dataset.category===cat;const showAud=aud==='all'||a.includes(aud);const show=showCat&&showAud;card.hidden=!show;if(show)n++;});if(count)count.textContent=n;if(empty)empty.hidden=n!==0;}catFilters.forEach(btn=>btn.addEventListener('click',()=>{catFilters.forEach(b=>b.classList.remove('is-active'));btn.classList.add('is-active');cat=btn.dataset.categoryFilter;applyFilters();}));audFilters.forEach(btn=>btn.addEventListener('click',()=>{audFilters.forEach(b=>b.classList.remove('is-active'));btn.classList.add('is-active');aud=btn.dataset.audienceFilter;applyFilters();}));</script>${menuScript()}</body></html>`;
 }
 
-function articleJsonLd(p){ const url=articleUrl(p),webpage=webpageNode({url,name:p.title,description:p.description,lang:p.lang}); const data={'@type':'BlogPosting','@id':`${url}#article`,headline:p.title,description:p.description,datePublished:p.date,dateModified:p.updated||p.date,inLanguage:p.lang,mainEntityOfPage:{'@id':webpage['@id']},url,isPartOf:{'@id':`${SITE}${copy[p.lang].blogPath}#blog`},author:{'@id':PERSON_ID},publisher:{'@id':PERSON_ID},copyrightHolder:{'@id':PERSON_ID},articleSection:categories[p.category][p.lang],isAccessibleForFree:true,audience:(p.audience||['all']).map(id=>({'@type':'Audience',audienceType:audiences[id]?.[p.lang]||id}))}; if(p.coverImage){data.image=`${SITE}${p.coverImage}`; webpage.primaryImageOfPage={'@type':'ImageObject',url:data.image};} return graphJson([websiteNode(),personNode(),webpage,data]); }
+function articleJsonLd(p){ const url=articleUrl(p),webpage=webpageNode({url,name:p.title,description:p.description,lang:p.lang}); const data={'@type':'BlogPosting','@id':`${url}#article`,headline:p.title,description:p.description,datePublished:p.date,dateModified:p.updated||p.date,inLanguage:p.lang,mainEntityOfPage:{'@id':webpage['@id']},url,isPartOf:{'@id':`${SITE}${copy[p.lang].blogPath}#blog`},author:{'@id':PERSON_ID},publisher:{'@id':PERSON_ID},copyrightHolder:{'@id':PERSON_ID},articleSection:categories[p.category][p.lang],isAccessibleForFree:true,audience:(p.audience||['all']).map(id=>({'@type':'Audience',audienceType:audiences[id]?.[p.lang]||id}))}; if(p.answer)data.abstract=p.answer; if(p.sources?.length)data.citation=p.sources.map(src=>src.url); if(p.coverImage){data.image=`${SITE}${p.coverImage}`; webpage.primaryImageOfPage={'@type':'ImageObject',url:data.image};} return graphJson([websiteNode(),personNode(),webpage,data]); }
+function evidenceBlocks(p){
+  const c=copy[p.lang];
+  const sources=p.sources||[], claims=p.claims||[];
+  const answer=p.answer?`<section class="article-answer" aria-labelledby="article-answer-title"><p class="evidence-kicker" id="article-answer-title">${esc(c.answer)}</p><p>${esc(p.answer)}</p></section>`:'';
+  if(!sources.length&&!claims.length)return {answer,evidence:''};
+  const sourceIndex=new Map(sources.map((src,i)=>[src.url,i+1]));
+  const claimHtml=claims.length?`<div class="evidence-claims">${claims.map(claim=>{const refs=(claim.evidence||[]).map(url=>sourceIndex.get(url)).filter(Boolean);return `<article class="evidence-claim" data-status="${escAttr(claim.status)}"><div class="evidence-claim-head"><span class="evidence-status">${esc(c[claim.status]||claim.status)}</span>${refs.length?`<span class="evidence-refs">${refs.map(n=>`<a href="#source-${n}" aria-label="${escAttr(c.sources)} ${n}">[${n}]</a>`).join(' ')}</span>`:''}</div><p>${esc(claim.text)}</p>${claim.note?`<small>${esc(claim.note)}</small>`:''}</article>`;}).join('')}</div>`:'';
+  const sourceHtml=sources.length?`<div class="evidence-sources"><h3>${esc(c.sources)}</h3><ol>${sources.map((src,i)=>`<li id="source-${i+1}"><a href="${escAttr(src.url)}" target="_blank" rel="noopener noreferrer">${esc(src.title)}</a>${src.publisher?` <span>${esc(src.publisher)}</span>`:''}${src.date?` <time datetime="${escAttr(src.date)}">${esc(src.date)}</time>`:''}</li>`).join('')}</ol></div>`:'';
+  const evidence=`<section class="article-evidence" aria-labelledby="article-evidence-title"><h2 id="article-evidence-title">${esc(c.evidence)}</h2>${claimHtml}${sourceHtml}</section>`;
+  return {answer,evidence};
+}
 function renderArticle(p,all){
   const lang=p.lang,c=copy[lang],trans=findTranslation(p,all);
   const ownUrl=articleUrl(p);
@@ -225,7 +243,8 @@ function renderArticle(p,all){
   const cover=p.coverImage?`<figure class="article-cover"><img src="${escAttr(p.coverImage)}" alt="${escAttr(p.coverAlt||'')}" decoding="async" fetchpriority="high"></figure>`:'';
   const image=p.coverImage?`${SITE}${p.coverImage}`:'';
   const body=stripDuplicateTitleHeading(p.body,p.title);
-  return `${pageHead({lang,title:`${p.title} | ${SITE_NAME}`,description:p.description,url:ownUrl,type:'article',alternates:alts,jsonLd:articleJsonLd(p),rss:lang==='fi'?`${SITE}/rss.xml`:`${SITE}/rss-en.xml`,image,published:p.date,modified:p.updated||p.date})}<body>${header(lang,true,langTargets)}<main class="article-shell"><article class="article"><a class="article-back" href="${c.blogPath}">${c.back}</a><div class="article-meta"><span class="category-tag">${categories[p.category][lang]}</span><time datetime="${p.date}">${humanDate(p.date,lang)}</time><span>${readingMinutes(body)} ${c.minRead}</span></div>${audienceTags(p,lang)}<h1>${esc(p.title)}</h1><p class="article-deck">${esc(p.description)}</p><p class="article-byline">${c.byline} <a rel="author" href="${escAttr(AUTHOR_PATH)}">${esc(AUTHOR)}</a></p>${cover}<div class="article-body">${markdown(body)}</div><div class="article-end"><a href="${OBSERVATORY}">${c.deeper}</a></div></article>${related.length?`<aside class="related"><p class="eyebrow">${c.related}</p><div class="related-grid">${related.map(x=>postCard(x,lang)).join('')}</div></aside>`:''}</main><footer class="footer"><span>${c.footer}</span><a href="${c.blogPath}">${c.back}</a></footer>${menuScript()}</body></html>`;
+  const evidence=evidenceBlocks(p);
+  return `${pageHead({lang,title:`${p.title} | ${SITE_NAME}`,description:p.description,url:ownUrl,type:'article',alternates:alts,jsonLd:articleJsonLd(p),rss:lang==='fi'?`${SITE}/rss.xml`:`${SITE}/rss-en.xml`,image,published:p.date,modified:p.updated||p.date})}<body>${header(lang,true,langTargets)}<main class="article-shell"><article class="article"><a class="article-back" href="${c.blogPath}">${c.back}</a><div class="article-meta"><span class="category-tag">${categories[p.category][lang]}</span><time datetime="${p.date}">${humanDate(p.date,lang)}</time><span>${readingMinutes(body)} ${c.minRead}</span></div>${audienceTags(p,lang)}<h1>${esc(p.title)}</h1><p class="article-deck">${esc(p.description)}</p><p class="article-byline">${c.byline} <a rel="author" href="${escAttr(AUTHOR_PATH)}">${esc(AUTHOR)}</a></p>${evidence.answer}${cover}<div class="article-body">${markdown(body)}</div>${evidence.evidence}<div class="article-end"><a href="${OBSERVATORY}">${c.deeper}</a></div></article>${related.length?`<aside class="related"><p class="eyebrow">${c.related}</p><div class="related-grid">${related.map(x=>postCard(x,lang)).join('')}</div></aside>`:''}</main><footer class="footer"><span>${c.footer}</span><a href="${c.blogPath}">${c.back}</a></footer>${menuScript()}</body></html>`;
 }
 
 function rss(posts,lang){ const c=copy[lang]; const pub=posts.filter(p=>p.lang===lang&&!p.draft).sort((a,b)=>String(b.date).localeCompare(String(a.date))||a.title.localeCompare(b.title)).slice(0,30); const items=pub.map(p=>`<item><title>${esc(p.title)}</title><link>${articleUrl(p)}</link><guid isPermaLink="true">${articleUrl(p)}</guid><pubDate>${new Date(`${p.date}T12:00:00Z`).toUTCString()}</pubDate><description>${esc(p.description)}</description><category>${esc(categories[p.category][lang])}</category></item>`).join('\n'); return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>Anomancer — ${c.title}</title><link>${SITE}${c.blogPath}</link><description>${esc(c.description)}</description><language>${lang}</language>${items}</channel></rss>\n`; }
@@ -267,8 +286,10 @@ write('robots.txt',`User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/ad
 const published=posts.filter(p=>!p.draft);
 const draftCount=posts.filter(p=>p.draft).length;
 // Julkinen manifesti sisältää vain julkaistut tekstit. Luonnosten metadata ei kuulu public-outputtiin.
-const manifest={generatedAt:new Date().toISOString(),entity:{siteName:SITE_NAME,author:AUTHOR,authorId:PERSON_ID,authorUrl:AUTHOR_URL,websiteId:WEBSITE_ID},published:published.map(p=>({lang:p.lang,slug:p.slug,title:p.title,description:p.description,category:p.category,audience:p.audience||['all'],pinned:Boolean(p.pinned),date:p.date,updated:p.updated||p.date,url:articleUrl(p),articleId:`${articleUrl(p)}#article`,authorId:PERSON_ID,coverImage:p.coverImage||''}))};
+const manifest={generatedAt:new Date().toISOString(),entity:{siteName:SITE_NAME,author:AUTHOR,authorId:PERSON_ID,authorUrl:AUTHOR_URL,websiteId:WEBSITE_ID},published:published.map(p=>({lang:p.lang,slug:p.slug,title:p.title,description:p.description,answer:p.answer||'',category:p.category,audience:p.audience||['all'],pinned:Boolean(p.pinned),date:p.date,updated:p.updated||p.date,url:articleUrl(p),articleId:`${articleUrl(p)}#article`,authorId:PERSON_ID,coverImage:p.coverImage||'',evidence:{sourceCount:(p.sources||[]).length,claimCount:(p.claims||[]).length,supported:(p.claims||[]).filter(x=>x.status==='supported').length,interpretation:(p.claims||[]).filter(x=>x.status==='interpretation').length,open:(p.claims||[]).filter(x=>x.status==='open').length}}))};
 write('content-manifest.json',JSON.stringify(manifest,null,2)+'\n');
+const evidenceManifest={version:'anomancer.evidence/v1',generatedAt:manifest.generatedAt,articles:published.map(p=>({articleId:`${articleUrl(p)}#article`,url:articleUrl(p),title:p.title,lang:p.lang,answer:p.answer||'',claims:p.claims||[],sources:p.sources||[]}))};
+write('evidence-manifest.json',JSON.stringify(evidenceManifest,null,2)+'\n');
 const digest=crypto.createHash('sha256').update(JSON.stringify(manifest.published)).digest('hex');
 console.log(`✓ Lähetyskone build: ${manifest.published.length} julkaistua · ${draftCount} luonnosta · manifest sha256 ${digest.slice(0,16)}…`);
 
@@ -280,7 +301,7 @@ ensureDir(PUBLIC);
 const publicFiles = [
   'index.html','en.html','lahetykset.html','dispatches.html','admin.html',
   'styles.css','admin.css','admin.js','favicon.svg',
-  'robots.txt','sitemap.xml','rss.xml','rss-en.xml','content-manifest.json'
+  'robots.txt','sitemap.xml','rss.xml','rss-en.xml','content-manifest.json','evidence-manifest.json'
 ];
 for (const rel of publicFiles) {
   const src=path.join(ROOT,rel);

@@ -72,6 +72,16 @@
               </div>
             </fieldset>
             <label class="wide">SEO-kuvaus <span id="descCount" class="count">0 / 220</span><textarea id="description" rows="3" maxlength="220"></textarea></label>
+            <section class="wide evidence-editor">
+              <div class="evidence-editor-head"><div><strong>Evidence Layer</strong><span>13.18 · vapaaehtoinen, mutta koneystävällinen</span></div></div>
+              <label>Ydinvastaus <span id="answerCount" class="count">0 / 1200</span><textarea id="answer" rows="4" maxlength="1200" placeholder="1–3 virkettä: mikä on tämän tekstin suora vastaus tai ydinväite?"></textarea></label>
+              <label>Lähteet<textarea id="sources" rows="5" placeholder="Yksi per rivi: Otsikko | https://... | Julkaisija | YYYY-MM-DD"></textarea></label>
+              <p class="field-help">Julkaisija ja päivämäärä ovat valinnaisia. URL:n pitää olla http/https.</p>
+              <label>Väitteet / evidenssi<textarea id="claims" rows="6" placeholder="supported | Väite | https://source1, https://source2 | Huomio
+interpretation | Tulkinta | https://source1 | Miksi tämä on tulkinta
+open | Avoin kysymys | | Mitä emme vielä tiedä"></textarea></label>
+              <p class="field-help">Tilat: supported = tuettu lähteellä, interpretation = tulkinta, open = avoin. Tuetun väitteen URL:n pitää löytyä Lähteet-kentästä.</p>
+            </section>
             <label class="wide">Translation key<input id="translationKey" maxlength="100" placeholder="sama avain FI/EN-versioille"></label>
             <div class="wide cover-field">
               <div class="cover-field-head"><span>Kansikuva</span><span class="count">JPG · PNG · WebP → pakataan automaattisesti</span></div>

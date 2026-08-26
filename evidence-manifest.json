@@ -1,0 +1,78 @@
+{
+  "version": "anomancer.evidence/v1",
+  "generatedAt": "2026-08-26T13:58:39.219Z",
+  "articles": [
+    {
+      "articleId": "https://anomancer.com/lahetykset/enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan#article",
+      "url": "https://anomancer.com/lahetykset/enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan",
+      "title": "Entä jos oppilas ei vihaa matematiikkaa vaan tapaa, jolla se tulee vastaan?",
+      "lang": "fi",
+      "answer": "",
+      "claims": [],
+      "sources": []
+    },
+    {
+      "articleId": "https://anomancer.com/lahetykset/kuka-kirjoitti-taman-tekstin#article",
+      "url": "https://anomancer.com/lahetykset/kuka-kirjoitti-taman-tekstin",
+      "title": "Kuka kirjoitti tämän tekstin?",
+      "lang": "fi",
+      "answer": "",
+      "claims": [],
+      "sources": []
+    },
+    {
+      "articleId": "https://anomancer.com/lahetykset/miksi-tekoalyagentille-pitaisi-antaa-passi#article",
+      "url": "https://anomancer.com/lahetykset/miksi-tekoalyagentille-pitaisi-antaa-passi",
+      "title": "Miksi tekoälyagentille pitäisi antaa passi?",
+      "lang": "fi",
+      "answer": "",
+      "claims": [],
+      "sources": []
+    },
+    {
+      "articleId": "https://anomancer.com/lahetykset/miksi-tama-sivu-on-olemassa#article",
+      "url": "https://anomancer.com/lahetykset/miksi-tama-sivu-on-olemassa",
+      "title": "Miksi tämä sivu on olemassa?",
+      "lang": "fi",
+      "answer": "",
+      "claims": [],
+      "sources": []
+    },
+    {
+      "articleId": "https://anomancer.com/lahetykset/miksi-yksinkertainen-it-ratkaisu-voi-muuttua-miljoonien-eurojen-hankkeeksi#article",
+      "url": "https://anomancer.com/lahetykset/miksi-yksinkertainen-it-ratkaisu-voi-muuttua-miljoonien-eurojen-hankkeeksi",
+      "title": "Miksi yksinkertainen IT-ratkaisu voi muuttua miljoonien eurojen hankkeeksi?",
+      "lang": "fi",
+      "answer": "",
+      "claims": [],
+      "sources": []
+    },
+    {
+      "articleId": "https://anomancer.com/lahetykset/miten-tunnistaa-tekoalylla-tehdyn-tekstin-tai-kuvan#article",
+      "url": "https://anomancer.com/lahetykset/miten-tunnistaa-tekoalylla-tehdyn-tekstin-tai-kuvan",
+      "title": "Miten tunnistaa tekoälyllä tehdyn tekstin tai kuvan?",
+      "lang": "fi",
+      "answer": "",
+      "claims": [],
+      "sources": []
+    },
+    {
+      "articleId": "https://anomancer.com/lahetykset/taide-ei-ehka-ole-menossa-kohti-tekoalytaidetta-vaan-kohti-jotain-paljon-laajempaa#article",
+      "url": "https://anomancer.com/lahetykset/taide-ei-ehka-ole-menossa-kohti-tekoalytaidetta-vaan-kohti-jotain-paljon-laajempaa",
+      "title": "Taide ei ehkä ole menossa kohti tekoälytaidetta vaan kohti jotain paljon laajempaa",
+      "lang": "fi",
+      "answer": "",
+      "claims": [],
+      "sources": []
+    },
+    {
+      "articleId": "https://anomancer.com/dispatches/why-this-page-exists#article",
+      "url": "https://anomancer.com/dispatches/why-this-page-exists",
+      "title": "Why does this page exist?",
+      "lang": "en",
+      "answer": "",
+      "claims": [],
+      "sources": []
+    }
+  ]
+}

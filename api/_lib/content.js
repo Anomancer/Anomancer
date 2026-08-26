@@ -1,6 +1,48 @@
 export const CATEGORIES = ['ai-work','info-media','work-decisions','money-risk','software-safety','language-learning','creativity-tools','society-systems'];
 export const AUDIENCES = ['all','employee','entrepreneur','developer','teacher','creative','decision-maker','investor'];
 
+export const CLAIM_STATUSES = ['supported','interpretation','open'];
+
+function cleanHttpUrl(value='') {
+  const raw=String(value||'').trim();
+  if (!raw) return '';
+  try {
+    const u=new URL(raw);
+    if (!['http:','https:'].includes(u.protocol)) return '';
+    return u.toString();
+  } catch { return ''; }
+}
+
+export function normalizeSources(value) {
+  const items=Array.isArray(value)?value:[];
+  const out=[];
+  const seen=new Set();
+  for (const item of items) {
+    const src=item&&typeof item==='object'?item:{};
+    const title=String(src.title||'').trim();
+    const url=cleanHttpUrl(src.url);
+    const publisher=String(src.publisher||'').trim();
+    const date=String(src.date||'').trim();
+    if (!title || !url || seen.has(url)) continue;
+    seen.add(url);
+    out.push({title,url,publisher,date});
+  }
+  return out;
+}
+
+export function normalizeClaims(value, sources=[]) {
+  const items=Array.isArray(value)?value:[];
+  const allowed=new Set(sources.map(x=>x.url));
+  return items.map(item=>{
+    const src=item&&typeof item==='object'?item:{};
+    const status=CLAIM_STATUSES.includes(src.status)?src.status:'open';
+    const text=String(src.text||'').trim();
+    const note=String(src.note||'').trim();
+    const evidence=[...new Set((Array.isArray(src.evidence)?src.evidence:[]).map(cleanHttpUrl).filter(Boolean))];
+    return {status,text,evidence:evidence.filter(url=>allowed.has(url)),note};
+  }).filter(x=>x.text);
+}
+
 export const LEGACY_CATEGORY_MAP = {
   'ai-agents':'ai-work',
   'tee':'software-safety',
@@ -58,7 +100,9 @@ export function parseMarkdown(raw, path='') {
     if (i < 0) continue;
     data[line.slice(0,i).trim()] = parseScalar(line.slice(i+1));
   }
-  return { ...data, category:normalizeCategory(data.category), audience:normalizeAudience(data.audience), pinned:Boolean(data.pinned), draft:Boolean(data.draft), body:text.slice(end+5).replace(/^\n+/,'') };
+  const sources=normalizeSources(data.sources);
+  const claims=normalizeClaims(data.claims,sources);
+  return { ...data, category:normalizeCategory(data.category), audience:normalizeAudience(data.audience), answer:String(data.answer||'').trim(), sources, claims, pinned:Boolean(data.pinned), draft:Boolean(data.draft), body:text.slice(end+5).replace(/^\n+/,'') };
 }
 
 export function validatePost(input) {
@@ -71,6 +115,9 @@ export function validatePost(input) {
   const slug = slugify(input.slug || title);
   const translationKey = slugify(input.translationKey || slug);
   const body = String(input.body || '').replace(/\r\n/g,'\n').trim();
+  const answer = String(input.answer || '').trim();
+  const sources = normalizeSources(input.sources);
+  const claims = normalizeClaims(input.claims,sources);
   const coverImage = String(input.coverImage || '').trim();
   const coverAlt = String(input.coverAlt || '').trim();
   const pinned = Boolean(input.pinned);
@@ -81,15 +128,29 @@ export function validatePost(input) {
   if (!slug) throw Object.assign(new Error('Slug puuttuu.'), { statusCode:400 });
   if (description.length > 220) throw Object.assign(new Error('SEO-kuvaus on liian pitkä (max 220 merkkiä).'), { statusCode:400 });
   if (body.length > 500_000) throw Object.assign(new Error('Teksti on liian pitkä.'), { statusCode:413 });
+  if (answer.length > 1200) throw Object.assign(new Error('Ydinvastaus on liian pitkä (max 1200 merkkiä).'), { statusCode:400 });
+  if (sources.length > 30) throw Object.assign(new Error('Lähteitä voi olla enintään 30.'), { statusCode:400 });
+  for (const src of sources) {
+    if (src.title.length > 220) throw Object.assign(new Error('Lähteen nimi on liian pitkä (max 220 merkkiä).'), { statusCode:400 });
+    if (src.publisher.length > 160) throw Object.assign(new Error('Lähteen julkaisija on liian pitkä (max 160 merkkiä).'), { statusCode:400 });
+    if (src.date && !/^\d{4}(?:-\d{2}(?:-\d{2})?)?$/.test(src.date)) throw Object.assign(new Error('Lähteen päivämäärä pitää olla YYYY, YYYY-MM tai YYYY-MM-DD.'), { statusCode:400 });
+  }
+  if (claims.length > 40) throw Object.assign(new Error('Väitteitä voi olla enintään 40.'), { statusCode:400 });
+  for (const claim of claims) {
+    if (claim.text.length > 600) throw Object.assign(new Error('Väite on liian pitkä (max 600 merkkiä).'), { statusCode:400 });
+    if (claim.note.length > 800) throw Object.assign(new Error('Väitteen huomio on liian pitkä (max 800 merkkiä).'), { statusCode:400 });
+    if (claim.evidence.length > 12) throw Object.assign(new Error('Yhdellä väitteellä voi olla enintään 12 evidenssilinkkiä.'), { statusCode:400 });
+    if (claim.status === 'supported' && claim.evidence.length === 0) throw Object.assign(new Error('Tuetulla väitteellä pitää olla vähintään yksi lähde.'), { statusCode:400 });
+  }
   if (coverImage && !/^\/media\/[A-Za-z0-9._\/-]+$/.test(coverImage)) throw Object.assign(new Error('Kansikuvan polku on virheellinen.'), { statusCode:400 });
   if (coverImage && !coverAlt) throw Object.assign(new Error('Kansikuvalta puuttuu alt-teksti.'), { statusCode:400 });
   if (coverAlt.length > 180) throw Object.assign(new Error('Kansikuvan alt-teksti on liian pitkä (max 180 merkkiä).'), { statusCode:400 });
-  return { lang,title,date,category,audience,description,slug,translationKey,coverImage,coverAlt,pinned,draft,body };
+  return { lang,title,date,category,audience,description,slug,translationKey,coverImage,coverAlt,answer,sources,claims,pinned,draft,body };
 }
 
 export function serializePost(input) {
   const p = validatePost(input);
-  return `---\ntitle: ${JSON.stringify(p.title)}\ndate: ${JSON.stringify(p.date)}\ncategory: ${JSON.stringify(p.category)}\naudience: ${JSON.stringify(p.audience)}\ndescription: ${JSON.stringify(p.description)}\nslug: ${JSON.stringify(p.slug)}\nlang: ${JSON.stringify(p.lang)}\ntranslationKey: ${JSON.stringify(p.translationKey)}\ncoverImage: ${JSON.stringify(p.coverImage)}\ncoverAlt: ${JSON.stringify(p.coverAlt)}\npinned: ${p.pinned}\ndraft: ${p.draft}\n---\n\n${p.body}\n`;
+  return `---\ntitle: ${JSON.stringify(p.title)}\ndate: ${JSON.stringify(p.date)}\ncategory: ${JSON.stringify(p.category)}\naudience: ${JSON.stringify(p.audience)}\ndescription: ${JSON.stringify(p.description)}\nslug: ${JSON.stringify(p.slug)}\nlang: ${JSON.stringify(p.lang)}\ntranslationKey: ${JSON.stringify(p.translationKey)}\ncoverImage: ${JSON.stringify(p.coverImage)}\ncoverAlt: ${JSON.stringify(p.coverAlt)}\nanswer: ${JSON.stringify(p.answer)}\nsources: ${JSON.stringify(p.sources)}\nclaims: ${JSON.stringify(p.claims)}\npinned: ${p.pinned}\ndraft: ${p.draft}\n---\n\n${p.body}\n`;
 }
 
 export function newPostPath(post) {

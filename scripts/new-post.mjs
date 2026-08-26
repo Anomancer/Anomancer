@@ -22,5 +22,5 @@ const translationKey=await q('Translation key',slug);
 rl.close();
 const dir=path.join(process.cwd(),'content',lang);fs.mkdirSync(dir,{recursive:true});
 const prefix=date.replaceAll('-',''); let file=path.join(dir,`${prefix}-${slug}.md`); let n=2;while(fs.existsSync(file)){file=path.join(dir,`${prefix}-${slug}-${n++}.md`);}
-const fm=`---\ntitle: ${JSON.stringify(title)}\ndate: ${JSON.stringify(date)}\ncategory: ${JSON.stringify(category)}\naudience: ${JSON.stringify(audience)}\ndescription: ${JSON.stringify(description)}\nslug: ${JSON.stringify(slug)}\nlang: ${JSON.stringify(lang)}\ntranslationKey: ${JSON.stringify(translationKey)}\ndraft: ${draft}\n---\n\nKirjoita tähän.\n`;
+const fm=`---\ntitle: ${JSON.stringify(title)}\ndate: ${JSON.stringify(date)}\ncategory: ${JSON.stringify(category)}\naudience: ${JSON.stringify(audience)}\ndescription: ${JSON.stringify(description)}\nslug: ${JSON.stringify(slug)}\nlang: ${JSON.stringify(lang)}\ntranslationKey: ${JSON.stringify(translationKey)}\nanswer: ""\nsources: []\nclaims: []\ndraft: ${draft}\n---\n\nKirjoita tähän.\n`;
 fs.writeFileSync(file,fm);console.log(`✓ Luotu ${path.relative(process.cwd(),file)}`);console.log('Kun valmis: git add/commit/push → Vercel julkaisee masterin automaattisesti.');
