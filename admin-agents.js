@@ -40,7 +40,8 @@ if(box){
     const title=`${AGENT_LABELS[agent]||agent} · ${meta?.model||'DeepSeek'}${meta?.searchedWeb?' · WEB':''}`;
     output.textContent=`${title}\n\n${JSON.stringify(result,null,2)}`;
     copyBtn.hidden=false;
-    applyBtn.hidden=!['source','claims','writer','voice','package'].includes(agent);
+    const rawFallback=agent==='source'&&meta?.structured===false;
+    applyBtn.hidden=rawFallback||!['source','claims','writer','voice','package'].includes(agent);
     applyBtn.textContent=agent==='source'?'Lisää lähde-ehdokkaat':agent==='claims'?'Siirrä Evidence Layeriin':agent==='writer'?'Käytä luonnosta':agent==='voice'?'Käytä äänieditointia':'Käytä julkaisupakettia';
   }
   async function run(){
@@ -51,7 +52,9 @@ if(box){
       const r=await fetch('/api/admin/agents',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({agent,instruction:instruction.value,post:currentPost()})});
       const d=await r.json().catch(()=>({}));
       if(!r.ok||!d.ok){if(r.status===403){csrf='';}throw new Error(d.message||d.error||`HTTP ${r.status}`);}
-      last=d;renderResult(agent,d.result,d.meta);setStatus('✓ Ehdotus valmis. Mitään ei tallennettu eikä julkaistu.','ok');
+      last=d;renderResult(agent,d.result,d.meta);
+      if(agent==='source'&&d.meta?.structured===false)setStatus('⚠ Web-haku valmistui, mutta rakenteinen JSON petti. Raakavastaus säilytettiin alle. Mitään ei tallennettu eikä julkaistu.','warn');
+      else setStatus('✓ Ehdotus valmis. Mitään ei tallennettu eikä julkaistu.','ok');
     }catch(e){setStatus(`✗ ${e.message}`,'err');output.textContent='';}
     finally{runBtn.disabled=false;}
   }

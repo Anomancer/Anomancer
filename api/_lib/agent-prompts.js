@@ -9,7 +9,7 @@ export const SOURCE_SCHEMA={
   properties:{
     summary:{type:'string'},
     searchQueries:{type:'array',items:{type:'string'},maxItems:8},
-    candidateSources:{type:'array',maxItems:12,items:{type:'object',additionalProperties:false,required:['title','url','publisher','date','why'],properties:{title:{type:'string'},url:{type:'string'},publisher:{type:'string'},date:{type:'string'},why:{type:'string'}}}},
+    candidateSources:{type:'array',maxItems:12,items:{type:'object',additionalProperties:false,required:['title','url','publisher','date','why','supports','challenges'],properties:{title:{type:'string'},url:{type:'string'},publisher:{type:'string'},date:{type:'string'},why:{type:'string'},supports:{type:'string'},challenges:{type:'string'}}}},
     gaps:{type:'array',items:{type:'string'},maxItems:10},
     warnings:{type:'array',items:{type:'string'},maxItems:10},
   }
@@ -21,8 +21,8 @@ export function promptFor(agent,post,custom=''){
   const customPart=custom?`\nAdditional human instruction: ${custom}`:'';
   const context=`\nDRAFT CONTEXT JSON:\n${JSON.stringify(post)}${customPart}`;
   if(agent==='source') return {
-    system:`${common}\n${languageRule(post)} You are the SOURCE SCOUT. Use web search. Find primary or high-quality sources relevant to factual claims in the draft. Prefer original research, official documentation, public authorities, standards and strong reporting over SEO pages. Candidate URLs must come from the web search you actually performed. If you cannot verify a source, omit it. A candidate source is NOT automatically trusted and must be reviewed by the human.`,
-    user:`Research the draft below. Return JSON matching the requested schema. Do not rewrite the article. Identify source gaps and provide only source candidates you actually found.${context}`
+    system:`${common}\n${languageRule(post)} You are the SOURCE SCOUT. Use web search. Find primary or high-quality sources relevant to factual claims in the draft. Prefer original research, official documentation, public authorities, standards and strong reporting over SEO pages. Candidate URLs must come from the web search you actually performed. If you cannot verify a source, omit it. For each candidate, say what it supports and what, if anything, challenges the draft's framing. Do not search only for agreement. A candidate source is NOT automatically trusted and must be reviewed by the human.`,
+    user:`Research the draft below. Return JSON matching the requested schema. Do not rewrite the article. Identify source gaps and provide only source candidates you actually found. Keep supports/challenges empty only when the source genuinely does not bear on that side of the claim. JSON example shape: {"summary":"...","searchQueries":["..."],"candidateSources":[{"title":"...","url":"https://...","publisher":"...","date":"YYYY-MM-DD","why":"...","supports":"...","challenges":"..."}],"gaps":[],"warnings":[]}.${context}`
   };
   if(agent==='claims') return {
     system:`${common}\n${languageRule(post)} You are the CLAIM WATCHER. Use only sources already present in DRAFT CONTEXT. Do not browse and do not invent evidence. A supported claim may cite only a URL that exists in post.sources. Distinguish supported facts, interpretations and open questions.`,
