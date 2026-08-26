@@ -1,8 +1,8 @@
 {
   "format": "anomancer-run-store/v1",
   "coreVersion": "15.8.0",
-  "revision": 12,
-  "updatedAt": "2026-08-26T21:04:28.486Z",
+  "revision": 13,
+  "updatedAt": "2026-08-26T21:07:50.666Z",
   "chainHead": "GENESIS",
   "runs": [
     {
@@ -315,7 +315,7 @@
         "name": "Anomancer Editorial",
         "orchestraHash": "a925c29c80e92f700d558eaeb6ebb97e95abf7fcf758d8b8db716507c7bc6b73"
       },
-      "status": "running",
+      "status": "stopped",
       "humanApproval": {
         "required": true,
         "status": "pending",
@@ -323,7 +323,7 @@
       },
       "startedAt": "2026-08-26T20:56:47.137Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-26T21:04:28.486Z",
+      "updatedAt": "2026-08-26T21:07:50.666Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
