@@ -13,11 +13,9 @@ pinned: true
 draft: false
 ---
 
-I’ve been following AI closely since the first major wave of generative AI started moving into everyday use. Along the way I’ve built my own systems, tested models and tried to understand what is actually happening around the technology, not just what is being said about it.
+> I’ve been following AI closely since the first major wave of generative AI started moving into everyday use. Along the way I’ve built my own systems, tested models and tried to understand what is actually happening around the technology, not just what is being said about it.
 
-That has produced an absurd amount of information. Much of it is easy to lose under technical jargon, marketing language and whatever the algorithms happen to amplify that day.
-
-That is why this page exists.
+>That has produced an absurd amount of information. Much of it is easy to lose under technical jargon, marketing language and whatever the algorithms happen to amplify that day. That is why this page exists.
 
 ## Dispatches are a translation layer
 
