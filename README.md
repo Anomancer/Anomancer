@@ -161,3 +161,13 @@ Desktopin hero-, identiteetti-, reitti-, lähetys- ja artikkeliotsikoiden maksim
 - Lisätty koulutustausta: lähihoitaja, vammaisohjaaja ja ilmanvaihtoasentaja.
 - Desktop-otsikko lyhennetty muotoon “En mahdu yhteen titteliin.” ja sen palsta/skaalaus rajattu niin, ettei teksti törmää oikeaan sisältöön.
 - Englanninkielinen sivu päivitetty samaan tarinaan.
+
+
+## V13.10 · PINNED ARTICLES
+
+- Adminissa jokaiselle lähetykselle voi asettaa `Pinnaa lähetys` -valinnan.
+- `pinned: true` tallentuu Markdown-frontmatteriin.
+- Pinnatut julkaisut nousevat Lähetykset/Dispatches-listan alkuun.
+- Pinnattujen keskinäinen järjestys on edelleen päivämäärän mukaan.
+- Julkisessa kortissa näkyy pieni Pinnattu/Pinned-merkintä.
+- RSS pysyy kronologisena eikä pinnaus sotke syötteen ajallista luonnetta.

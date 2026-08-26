@@ -15,3 +15,11 @@
 .audience-options input:focus-visible+span{outline:2px solid #a83a54;outline-offset:2px}
 .preview-audience{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 18px}
 .preview-audience span{display:inline-flex;padding:4px 8px;border:1px solid #2d2d38;border-radius:999px;color:var(--dim);font-size:.7rem}
+
+
+/* ANOMANCER 13.10 · PINNED ARTICLES */
+.pin-field{display:flex!important;align-items:center;gap:10px;align-self:end;min-height:43px;padding:10px 12px;border:1px solid #30303c;border-radius:8px;background:#08080e;cursor:pointer}
+.pin-field input{width:18px!important;height:18px;accent-color:var(--red);flex:0 0 auto}
+.pin-field span{display:grid;gap:2px}
+.pin-field strong{font-size:.8rem;color:#fff}
+.pin-field small{font-size:.7rem;color:var(--dim);line-height:1.3}

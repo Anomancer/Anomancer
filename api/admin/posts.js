@@ -18,7 +18,7 @@ export default async function handler(req,res){
       const posts=files.map(f=>{
         try{return {...parseMarkdown(f.content,f.path),path:f.path,sha:f.sha,htmlUrl:f.htmlUrl};}
         catch(e){return {path:f.path,sha:f.sha,parseError:e.message,title:f.path,lang:f.path.includes('/en/')?'en':'fi',draft:true};}
-      }).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||String(a.title).localeCompare(String(b.title)));
+      }).sort((a,b)=>Number(Boolean(b.pinned))-Number(Boolean(a.pinned))||String(b.date||'').localeCompare(String(a.date||''))||String(a.title).localeCompare(String(b.title)));
       return json(res,200,{ok:true,posts});
     }catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'GITHUB',message:e.message});}
   }

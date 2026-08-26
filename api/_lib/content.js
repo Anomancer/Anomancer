@@ -58,7 +58,7 @@ export function parseMarkdown(raw, path='') {
     if (i < 0) continue;
     data[line.slice(0,i).trim()] = parseScalar(line.slice(i+1));
   }
-  return { ...data, category:normalizeCategory(data.category), audience:normalizeAudience(data.audience), draft:Boolean(data.draft), body:text.slice(end+5).replace(/^\n+/,'') };
+  return { ...data, category:normalizeCategory(data.category), audience:normalizeAudience(data.audience), pinned:Boolean(data.pinned), draft:Boolean(data.draft), body:text.slice(end+5).replace(/^\n+/,'') };
 }
 
 export function validatePost(input) {
@@ -73,6 +73,7 @@ export function validatePost(input) {
   const body = String(input.body || '').replace(/\r\n/g,'\n').trim();
   const coverImage = String(input.coverImage || '').trim();
   const coverAlt = String(input.coverAlt || '').trim();
+  const pinned = Boolean(input.pinned);
   const draft = Boolean(input.draft);
   if (!title) throw Object.assign(new Error('Otsikko puuttuu.'), { statusCode:400 });
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw Object.assign(new Error('Päivämäärä on virheellinen.'), { statusCode:400 });
@@ -83,12 +84,12 @@ export function validatePost(input) {
   if (coverImage && !/^\/media\/[A-Za-z0-9._\/-]+$/.test(coverImage)) throw Object.assign(new Error('Kansikuvan polku on virheellinen.'), { statusCode:400 });
   if (coverImage && !coverAlt) throw Object.assign(new Error('Kansikuvalta puuttuu alt-teksti.'), { statusCode:400 });
   if (coverAlt.length > 180) throw Object.assign(new Error('Kansikuvan alt-teksti on liian pitkä (max 180 merkkiä).'), { statusCode:400 });
-  return { lang,title,date,category,audience,description,slug,translationKey,coverImage,coverAlt,draft,body };
+  return { lang,title,date,category,audience,description,slug,translationKey,coverImage,coverAlt,pinned,draft,body };
 }
 
 export function serializePost(input) {
   const p = validatePost(input);
-  return `---\ntitle: ${JSON.stringify(p.title)}\ndate: ${JSON.stringify(p.date)}\ncategory: ${JSON.stringify(p.category)}\naudience: ${JSON.stringify(p.audience)}\ndescription: ${JSON.stringify(p.description)}\nslug: ${JSON.stringify(p.slug)}\nlang: ${JSON.stringify(p.lang)}\ntranslationKey: ${JSON.stringify(p.translationKey)}\ncoverImage: ${JSON.stringify(p.coverImage)}\ncoverAlt: ${JSON.stringify(p.coverAlt)}\ndraft: ${p.draft}\n---\n\n${p.body}\n`;
+  return `---\ntitle: ${JSON.stringify(p.title)}\ndate: ${JSON.stringify(p.date)}\ncategory: ${JSON.stringify(p.category)}\naudience: ${JSON.stringify(p.audience)}\ndescription: ${JSON.stringify(p.description)}\nslug: ${JSON.stringify(p.slug)}\nlang: ${JSON.stringify(p.lang)}\ntranslationKey: ${JSON.stringify(p.translationKey)}\ncoverImage: ${JSON.stringify(p.coverImage)}\ncoverAlt: ${JSON.stringify(p.coverAlt)}\npinned: ${p.pinned}\ndraft: ${p.draft}\n---\n\n${p.body}\n`;
 }
 
 export function newPostPath(post) {
