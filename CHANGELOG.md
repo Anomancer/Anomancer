@@ -1,3 +1,14 @@
+# 16.0.2 — Flow & Public UX Surgery
+
+- Lähetyskoneen 8-vaiheinen orkesteri taittuu nyt 4×2, 2×4 ja 1×8 -poluksi ilman nuolten törmäystä kortteihin.
+- Julkisen Coren orkesteri käyttää samaa hengittävää käärmevirtaa.
+- Lähetykset pitää `all`-sisällön näkyvänä myös kohdeyleisösuodattimissa ja näyttää Opettajalle-suodattimen aina ensisijaisten yleisöjen joukossa.
+- Vanha 16.0-suursiivous-roadmap korvattiin ei-sitovilla mahdollisilla seuraavilla kerroksilla.
+- Etusivun henkilökohtaiset kortit on linjattu muun sisällön vasempaan reunaan.
+- Yhteysosio muutettiin ahtaasta kolmipalstasta leveämmäksi kaksipalstaiseksi työpinnaksi; lomake käyttää kahden sarakkeen perustietoja desktopilla.
+- Yhteyslomakkeen virheviestit erottavat sähköposti-, viestipituus- ja vanhentuneen lomakeistunnon virheet.
+- Domain migration ei enää vaadi toimituksellisesti tiettyä teacher-artikkelia, vaan validoi audience-skeeman.
+
 # 16.0.1 — Surgical UX Pass
 
 - Lähetyslista muuttuu desktopillakin oletuksena suljetuksi draweriksi, jotta editori saa koko työleveyden.

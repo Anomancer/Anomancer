@@ -79,3 +79,12 @@ Persistenttien selaintilojen vanhat versionoidut avaimet voidaan säilyttää, j
 16.0.1 ei muuta Interface Systemin semanttista perustaa, vaan vähentää kognitiivista kuormaa Lähetyskoneessa. Lähetyslista on off-canvas drawer, editori/esikatselu-jako on käyttäjän säädettävä ja tallentuu selaimeen, ja toissijaiset työkalut ovat progressiivisen paljastamisen takana. Perustiedot ja varsinainen teksti pysyvät ensisijaisina. Evidenssin lomakekontrollit käyttävät samaa kontrollikieltä kuin muu editori.
 
 Asettelun selainkohtainen tila ei ole agentin Runtime Profile eikä workspace-dataa. Se ei koskaan vaikuta agenttien toimivaltaan, mallireititykseen, evidenssiin tai julkaisuporttiin.
+
+
+## 16.0.2 · Flow & Public UX Surgery
+
+- Kahdeksanvaiheinen orkesteri esitetään responsiivisena käärmevirtana, jotta vaiheet säilyvät luettavina ilman vaakasuuntaista puristusta.
+- Julkisen Coren vaihepolku käyttää samaa logiikkaa ja suurempia välitiloja nuolille.
+- Yleisösuodatin käsittelee `all`-sisällön universaalina eikä piilota sitä kohdeyleisöä valittaessa.
+- Etusivun henkilökohtaiset nostot noudattavat samaa vasenta sisältölinjaa kuin muut osiot.
+- Yhteysosio priorisoi lomakkeen käytettävyyttä kolmen yhtäaikaisen kapean palstan sijaan.

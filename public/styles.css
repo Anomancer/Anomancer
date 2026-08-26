@@ -896,3 +896,17 @@ body{overflow-x:hidden}h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}.skip-li
 .dispatch-card-labels{min-width:0;flex:1}
 .dispatch-card-top time{flex:0 0 auto;white-space:nowrap;text-align:right;line-height:1.25}
 @media(max-width:760px){.dispatch-card-top time{white-space:normal;text-align:left}}
+
+
+/* 16.0.2 alignment and contact surgery */
+.personal-highlights{max-width:none;margin-left:0;margin-right:0}
+.contact-grid{grid-template-columns:1fr;gap:32px}
+.contact-heading{position:static;top:auto;margin-bottom:0;max-width:760px}
+.contact-body{grid-template-columns:minmax(0,.92fr) minmax(380px,1.08fr);gap:clamp(34px,5vw,62px)}
+.contact-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px;row-gap:14px;align-items:start}
+.contact-form-head,.contact-form>label:nth-of-type(3),.contact-form>label:nth-of-type(4),.contact-honeypot,.contact-submit,.contact-privacy,.contact-status,.contact-fallback{grid-column:1/-1}
+.contact-form label{margin-bottom:0}
+.contact-form textarea{min-height:190px}
+.contact-fallback{justify-self:start}
+@media(max-width:900px){.contact-body{grid-template-columns:1fr}.contact-form{max-width:720px}}
+@media(max-width:600px){.contact-form{grid-template-columns:1fr}.contact-form>label{grid-column:1/-1}.contact-form textarea{min-height:160px}}

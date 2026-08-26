@@ -31,7 +31,8 @@ export function initSiteUi(root=document){
     let visible=0;
     for(const card of cards){
       const matchesCategory=category==='all'||card.dataset.category===category;
-      const matchesAudience=audience==='all'||splitAudience(card.dataset.audience).includes(audience);
+      const cardAudiences=splitAudience(card.dataset.audience);
+      const matchesAudience=audience==='all'||cardAudiences.includes('all')||cardAudiences.includes(audience);
       card.hidden=!(matchesCategory&&matchesAudience);
       if(!card.hidden)visible++;
     }

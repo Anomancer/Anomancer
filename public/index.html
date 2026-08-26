@@ -166,7 +166,7 @@
         <a class="gateway-card" href="/core">
           <span class="card-kicker">02 · Syvemmälle</span>
           <h3>Core</h3>
-          <p>Julkinen rakennekartta agenttipoolista, orkesterista, sopimuksista ja ajokuittien periaatteesta. Varsinainen ohjaamo pysyy lukittuna.</p>
+          <p>Julkinen rakennekartta agenttijoukosta, orkesterista, sopimuksista ja ajokuittien periaatteesta. Varsinainen ohjaamo pysyy lukittuna.</p>
           <span class="card-arrow">Avaa Core →</span>
         </a>
       </div>
@@ -307,7 +307,13 @@
             ? 'Lomakkeen lähetys ei ole vielä käytössä. Voit lähettää sähköpostia suoraan alla olevasta linkistä.'
             : code === 'RATE_LIMITED'
               ? 'Viestiraja tuli hetkeksi vastaan. Kokeile myöhemmin tai lähetä sähköpostia suoraan.'
-              : 'Viestin lähetys ei onnistunut. Kokeile uudelleen tai lähetä sähköpostia suoraan.';
+              : code === 'EMAIL_INVALID'
+                ? 'Tarkista sähköpostiosoite.'
+                : code === 'MESSAGE_TOO_SHORT'
+                  ? 'Kirjoita viestiin vielä vähän lisää.'
+                  : code === 'FORM_TIMING_INVALID'
+                    ? 'Lomake ehti vanhentua. Päivitä sivu ja yritä uudelleen.'
+                    : 'Viestin lähetys ei onnistunut. Kokeile uudelleen tai lähetä sähköpostia suoraan.';
           setStatus(message, 'error');
         } finally {
           submit.disabled = false;
