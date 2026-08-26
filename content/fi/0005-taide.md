@@ -15,7 +15,7 @@ answer: ""
 sources: []
 claims: []
 pinned: false
-draft: false
+draft: true
 ---
 
 Kun puhutaan tekoälystä ja taiteesta, kysymykset tuntuvat toistavan itseään. Voiko tekoäly tehdä taidetta? Onko koneen tekemä musiikki aitoa? Viekö se kuvittajan työt? Nämä ovat aiheellisia kysymyksiä, mutta ne saattavat olla liian pieniä siihen nähden, mitä ympärillä tapahtuu.
