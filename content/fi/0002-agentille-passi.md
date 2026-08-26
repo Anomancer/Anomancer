@@ -13,15 +13,9 @@ pinned: false
 draft: false
 ---
 
-Tekoälyagentti ei ole enää pelkkä keskustelukumppani.
+>Tekoälyagentti ei ole enää pelkkä keskustelukumppani. Kun mallille annetaan työkaluja, käyttöoikeuksia ja mahdollisuus suorittaa tehtäviä itsenäisesti, puhutaan jo jostain ihan muusta kuin chatbotista. Agentti voi hakea tietoa, lukea tiedostoja, kirjoittaa järjestelmiin, lähettää viestejä tai käynnistää muita toimintoja. Siinä vaiheessa pitäisi pystyä vastaamaan aika yksinkertaiseen kysymykseen: **millä luvalla tämä agentti toimii?**
 
-Kun mallille annetaan työkaluja, käyttöoikeuksia ja mahdollisuus suorittaa tehtäviä itsenäisesti, puhutaan jo jostain ihan muusta kuin chatbotista. Agentti voi hakea tietoa, lukea tiedostoja, kirjoittaa järjestelmiin, lähettää viestejä tai käynnistää muita toimintoja.
-
-Siinä vaiheessa pitäisi pystyä vastaamaan aika yksinkertaiseen kysymykseen:
-
-**Millä luvalla tämä agentti toimii?**
-
-Tästä syntyy ajatus agenttipassista.
+Tästä syntyi ajatus agenttipassista.
 
 Kyse ei olisi mistään ihmisen henkilöllisyystodistuksen kopioimisesta tekoälylle, vaan koneellisesti luettavasta sopimuksesta. Passiin voisi kirjata esimerkiksi agentin tehtävän, käytössä olevat työkalut, sallitut resurssit, budjetin, voimassaoloajan ja rajat, joiden yli ei saa mennä.
 
@@ -52,6 +46,4 @@ Kun tekoäly tuottaa vain tekstiä ruudulle, vastuualue pysyy suhteellisen piene
 
 Tarvitaan myös tapa osoittaa, mitä agentille annettiin tehtäväksi, mitä sillä oli lupa tehdä ja mitä ajon aikana oikeasti tapahtui. Siksi agenttipassi ei ole minusta erityisen eksoottinen ajatus.
 
-Päinvastoin.
-
-Mitä enemmän tekoälylle annetaan toimintavaltaa, sitä oudommaksi muuttuu ajatus siitä, ettei mukana olisi mitään selvää käyttöoikeussopimusta.
+Päinvastoin. Mitä enemmän tekoälylle annetaan toimintavaltaa, sitä oudommaksi muuttuu ajatus siitä, ettei mukana olisi mitään selvää käyttöoikeussopimusta.
