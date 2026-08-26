@@ -13,9 +13,7 @@ pinned: true
 draft: false
 ---
 
-Olen seurannut tekoälyn kehitystä jo useamman vuoden, rakentanut omia järjestelmiä, testannut malleja ja yrittänyt ymmärtää, mitä kaiken tämän ympärillä oikeastaan tapahtuu. Matkan varrella tietoa on kertynyt aivan järjetön määrä, mutta iso osa siitä jää helposti teknisen jargonin, markkinointipuheen ja algoritmien nostaman metelin alle.
-
-Siksi tämä sivu on olemassa.
+>Olen seurannut tekoälyn kehitystä jo useamman vuoden, rakentanut omia järjestelmiä, testannut malleja ja yrittänyt ymmärtää, mitä kaiken tämän ympärillä oikeastaan tapahtuu. Matkan varrella tietoa on kertynyt aivan järjetön määrä, mutta iso osa siitä jää helposti teknisen jargonin, markkinointipuheen ja algoritmien nostaman metelin alle. Siksi tämä sivu on olemassa.
 
 ## Lähetykset ovat käännöskerros
 
