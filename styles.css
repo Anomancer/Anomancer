@@ -430,3 +430,190 @@ h1 {
 .category-filter{line-height:1.25;text-align:left}
 @media(max-width:900px){.audience-bar{display:block}.audience-bar>span{display:block;padding:0 0 10px}.audience-filters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}.audience-filter{flex:0 0 auto;white-space:nowrap}}
 @media(max-width:760px){.audience-bar{margin:18px 0 22px;padding:13px}.audience-tags{margin-top:11px}}
+
+
+/* ========================================================================
+   ANOMANCER 13.6 · MOBILE SURGERY
+   Puhelimella ei enää vaakakarkaamista: isot Orbitron-otsikot skaalautuvat,
+   suodatinrivit pysyvät oman viewportin sisällä ja kortit saavat hengittää.
+   Desktop jätetään tarkoituksella koskematta.
+   ======================================================================== */
+@media (max-width: 820px) {
+  html, body { max-width: 100%; overflow-x: clip; }
+  .site-header,
+  .hero,
+  .hero-inner,
+  .section,
+  .blog-shell,
+  .transmission-intro,
+  .blog-layout,
+  .blog-stream,
+  .category-sidebar,
+  .category-sticky,
+  .audience-bar,
+  .audience-filters,
+  .dispatch-grid,
+  .dispatch-card,
+  .article-shell,
+  .article,
+  .related,
+  .related-grid { min-width: 0; max-width: 100%; }
+
+  .hero-inner { width: 100%; }
+  .hero h1 {
+    max-width: 100%;
+    font-size: clamp(2.55rem, 11.2vw, 4.7rem);
+    line-height: .94;
+    letter-spacing: .035em;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  .hero .tagline { max-width: 38rem; }
+  .hero .intro { max-width: 36rem; }
+
+  .transmission-intro { width: 100%; }
+  .transmission-intro h1 {
+    max-width: 100%;
+    font-size: clamp(2.2rem, 10.4vw, 4.1rem);
+    line-height: .98;
+    letter-spacing: .035em;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .category-sticky,
+  .audience-filters {
+    width: 100%;
+    max-width: 100%;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .category-filter,
+  .audience-filter { max-width: min(86vw, 340px); }
+
+  .dispatch-card h2,
+  .dispatch-card h3,
+  .article h1,
+  .section-heading h2,
+  .gateway-card h3 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+  .dispatch-card p,
+  .article-deck,
+  .article-body,
+  .gateway-card p,
+  .intro,
+  .tagline { overflow-wrap: anywhere; }
+  .dispatch-cover img,
+  .article-cover img,
+  .article-image img { max-width: 100%; }
+}
+
+@media (max-width: 620px) {
+  .site-header { padding-inline: 16px; }
+  .brand {
+    max-width: calc(100vw - 86px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: .27em;
+  }
+
+  .hero {
+    min-height: 88svh;
+    padding: 104px 18px 64px;
+  }
+  .hero h1 {
+    font-size: clamp(2.35rem, 11.8vw, 3.35rem);
+    letter-spacing: .02em;
+  }
+  .hero .eyebrow { font-size: .78rem; letter-spacing: .20em; }
+  .hero .tagline {
+    margin-top: 24px;
+    font-size: clamp(1.22rem, 5.5vw, 1.55rem);
+    line-height: 1.3;
+  }
+  .hero .intro {
+    margin-top: 22px;
+    font-size: clamp(1rem, 4.6vw, 1.16rem);
+    line-height: 1.58;
+  }
+  .scroll-cue { margin-top: 34px; }
+
+  .section,
+  .blog-shell { width: calc(100% - 28px); }
+  .transmission-shell { padding-top: 108px; }
+  .transmission-intro h1 {
+    font-size: clamp(2.05rem, 10vw, 2.65rem);
+    line-height: 1;
+    letter-spacing: .025em;
+  }
+  .transmission-intro .intro {
+    font-size: 1.02rem;
+    line-height: 1.58;
+  }
+
+  .audience-bar {
+    width: 100%;
+    margin: 22px 0 20px;
+    padding: 12px;
+    overflow: hidden;
+  }
+  .audience-filters,
+  .category-sticky {
+    gap: 7px;
+    padding-bottom: 7px;
+    scrollbar-width: none;
+  }
+  .audience-filters::-webkit-scrollbar,
+  .category-sticky::-webkit-scrollbar { display: none; }
+  .audience-filter,
+  .category-filter {
+    min-height: 42px;
+    padding: 9px 12px;
+    font-size: .86rem;
+  }
+
+  .blog-layout { margin-top: 30px; gap: 20px; }
+  .dispatch-card,
+  .dispatch-card.featured {
+    width: 100%;
+    padding: 18px;
+    border-radius: 9px;
+  }
+  .dispatch-card h2 {
+    font-size: clamp(1.82rem, 8.6vw, 2.5rem);
+    line-height: 1.12;
+    letter-spacing: .012em;
+  }
+  .dispatch-card h3 {
+    font-size: clamp(1.34rem, 6.5vw, 1.72rem);
+  }
+  .dispatch-card p { font-size: 1rem; line-height: 1.55; }
+  .dispatch-card-top time { font-size: .78rem; }
+  .category-tag { width: fit-content; max-width: 100%; white-space: normal; }
+
+  .article-shell { width: calc(100% - 28px); padding-top: 106px; }
+  .article h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
+    line-height: 1.04;
+    letter-spacing: .018em;
+  }
+  .article-deck { font-size: 1.12rem; }
+  .article-body { margin-top: 38px; }
+  .article-body h2 { font-size: 1.45em; }
+  .article-body h3 { font-size: 1.22em; }
+
+  .gateway-card { padding: 22px; min-height: 250px; }
+  .section-heading h2 { font-size: clamp(2rem, 10vw, 3rem); }
+  .footer { width: calc(100% - 28px); }
+}
+
+@media (max-width: 390px) {
+  .hero h1 { font-size: clamp(2.15rem, 11.4vw, 2.72rem); }
+  .transmission-intro h1 { font-size: clamp(1.9rem, 9.8vw, 2.35rem); }
+  .dispatch-card h2 { font-size: clamp(1.65rem, 8.3vw, 2.15rem); }
+  .brand { letter-spacing: .22em; }
+}

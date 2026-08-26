@@ -133,3 +133,12 @@ GitHub on sisällön totuus ja versiohistoria. Julkinen build tuottaa edelleen a
 `/admin`-osoitteen piilottaminen ei ole turvamekanismi. Varsinainen suoja on server-side salasana + allekirjoitettu HttpOnly-sessio + CSRF + GitHub-tokenin pitäminen vain Vercelin ympäristömuuttujassa.
 
 Jos GitHub-token vuotaa, peru se GitHubissa heti. Jos session secret vuotaa, vaihda se, jolloin kaikki vanhat sessiot lakkaavat kelpaamasta.
+
+## 13.6 · MOBILE SURGERY
+
+- Etusivun ANOMANCER-hero skaalautuu puhelimeen ilman vaakakarkaamista.
+- Lähetykset-otsikko pysyy viewportin sisällä myös kapeilla näytöillä.
+- Aihe- ja kohderyhmäfiltterit vierivät vaakaan oman alueensa sisällä eivätkä levennä koko sivua.
+- Korttien, artikkelien, kuvien ja pitkien otsikoiden mobiilileveydet on rajattu turvallisesti.
+- Desktop-tyyli säilyy ennallaan.
+
