@@ -3,7 +3,7 @@ title: "Kuka kirjoitti tämän tekstin?"
 date: "2026-08-26"
 category: "language-learning"
 audience: ["all"]
-description: "Kuka kirjoitti tämän tekstin? Tekijyys ei aina tarkoita sitä, kuka painoi jokaista näppäintä. Pohdintaa kielimallien käytöstä, alkuperäisistä teksteistä ja ihmisen vastuusta julkaisussa."
+description: "Kuka oikeastaan kirjoittaa tekstin, jos ihminen käyttää kielimallia osana työprosessia? Pohdintaa tekijyydestä, alkuperäisistä teksteistä, editoinnista, vastuusta ja siitä, missä koneen rooli alkaa ja loppuu."
 slug: "kuka-kirjoitti-taman-tekstin"
 lang: "fi"
 translationKey: "kuka-kirjoitti-taman-tekstin"
