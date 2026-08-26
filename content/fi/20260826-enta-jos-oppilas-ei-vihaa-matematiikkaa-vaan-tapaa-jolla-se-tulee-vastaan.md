@@ -73,7 +73,7 @@ Silloin vahvuuksien tunnistaminen ei ole pelkkää hyvän olon pedagogiikkaa. Se
 
 Se ei näe luokkahuonetta, elämäntilannetta, ilmettä tai sitä hiljaista hetkeä, jolloin joku lopettaa yrittämästä. Mutta siinä on muutamia ominaisuuksia, joista voisi ehkä oppia jotain myös ilman tekoälyä.
 
-Selitystapaa voi vaihtaa, kysymyksen saa esittää uudestaan, asiaa voidaan lähestyä eri suunnasta, antaa oppilaalle kokomus, ettei yksi väärä vastaus päätä keskustelua. Ja oppijan ei tarvitse aina edetä suoraan siitä kohdasta, jonka joku muu on valinnut lähtöpisteeksi.
+Selitystapaa voi vaihtaa, kysymyksen saa esittää uudestaan, asiaa voidaan lähestyä eri suunnasta, antaa oppilaalle kokemus, ettei yksi väärä vastaus päätä keskustelua. Ja oppijan ei tarvitse aina edetä suoraan siitä kohdasta, jonka joku muu on valinnut lähtöpisteeksi.
 
 Ehkä tulevaisuuden opetuksessa kiinnostavinta ei siksi olekaan se, kuinka paljon tekoälyä luokkahuoneeseen saadaan. Kiinnostavampaa olisi kysyä, mitä sen suosio kertoo oppimisesta.
 
