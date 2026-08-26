@@ -5,7 +5,6 @@ import crypto from 'node:crypto';
 const ROOT = process.cwd();
 const SITE = String(process.env.PUBLIC_SITE_URL || 'https://anomancer.com').replace(/\/$/,'');
 const ENTITY = JSON.parse(fs.readFileSync(path.join(ROOT,'entity-core.json'),'utf8'));
-const DISCOVERY = JSON.parse(fs.readFileSync(path.join(ROOT,'discovery-policy.json'),'utf8'));
 const AUTHOR = ENTITY.person.name;
 const SITE_NAME = ENTITY.siteName || 'Anomancer';
 const AUTHOR_PATH = ENTITY.person.authorPath || '/#about';
@@ -250,61 +249,6 @@ function renderArticle(p,all){
 
 function rss(posts,lang){ const c=copy[lang]; const pub=posts.filter(p=>p.lang===lang&&!p.draft).sort((a,b)=>String(b.date).localeCompare(String(a.date))||a.title.localeCompare(b.title)).slice(0,30); const items=pub.map(p=>`<item><title>${esc(p.title)}</title><link>${articleUrl(p)}</link><guid isPermaLink="true">${articleUrl(p)}</guid><pubDate>${new Date(`${p.date}T12:00:00Z`).toUTCString()}</pubDate><description>${esc(p.description)}</description><category>${esc(categories[p.category][lang])}</category></item>`).join('\n'); return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>Anomancer — ${c.title}</title><link>${SITE}${c.blogPath}</link><description>${esc(c.description)}</description><language>${lang}</language>${items}</channel></rss>\n`; }
 
-function robotsTxt(){
-  const privatePaths=Array.isArray(DISCOVERY.privatePaths)?DISCOVERY.privatePaths:['/admin','/api/admin/'];
-  const blockPrivate=privatePaths.map(p=>`Disallow: ${p}`).join('\n');
-  const searchAgent=DISCOVERY?.search?.openai?.userAgent||'OAI-SearchBot';
-  const trainingAgent=DISCOVERY?.training?.openai?.userAgent||'GPTBot';
-  const trainingAccess=DISCOVERY?.training?.openai?.access==='allow'?'Allow: /':'Disallow: /';
-  return `# Anomancer discovery policy\n# Search discovery and model-training access are controlled separately.\n\nUser-agent: ${searchAgent}\nAllow: /\n${blockPrivate}\n\nUser-agent: ${trainingAgent}\n${trainingAccess}\n\nUser-agent: *\nAllow: /\n${blockPrivate}\n\nSitemap: ${SITE}/sitemap.xml\n`;
-}
-function llmsTxt(posts){
-  const pub=posts.filter(p=>!p.draft).sort((a,b)=>String(b.date).localeCompare(String(a.date))||a.title.localeCompare(b.title));
-  const fi=pub.filter(p=>p.lang==='fi');
-  const en=pub.filter(p=>p.lang==='en');
-  const lines=[
-    '# Anomancer',
-    '',
-    '> Human-readable gateway by Aatu Isopahkala for systems thinking, AI, language, research, software and creative technology.',
-    '',
-    `Canonical site: ${SITE}/`,
-    `Author: ${AUTHOR} (${AUTHOR_URL})`,
-    '',
-    '## Main routes',
-    `- [Etusivu](${SITE}/)`,
-    `- [Lähetykset](${SITE}${copy.fi.blogPath})`,
-    `- [English](${SITE}/en)`,
-    `- [Dispatches](${SITE}${copy.en.blogPath})`,
-    '',
-    '## Machine-readable resources',
-    `- [Sitemap](${SITE}/sitemap.xml)`,
-    `- [Finnish RSS](${SITE}/rss.xml)`,
-    `- [English RSS](${SITE}/rss-en.xml)`,
-    `- [Content manifest](${SITE}/content-manifest.json)`,
-    `- [Evidence manifest](${SITE}/evidence-manifest.json)`,
-    `- [Discovery manifest](${SITE}/discovery-manifest.json)`,
-  ];
-  if(fi.length){ lines.push('','## Finnish dispatches',...fi.map(p=>`- [${p.title}](${articleUrl(p)}): ${p.answer||p.description}`)); }
-  if(en.length){ lines.push('','## English dispatches',...en.map(p=>`- [${p.title}](${articleUrl(p)}): ${p.answer||p.description}`)); }
-  lines.push('','## Notes','- Article pages are the canonical source for their claims and citations.','- Evidence metadata is available in evidence-manifest.json when present.','- llms.txt is provided as an experimental convenience document; it is not a substitute for the canonical HTML, sitemap, robots.txt or structured data.','');
-  return lines.join('\n');
-}
-function discoveryManifest(posts,generatedAt){
-  const published=posts.filter(p=>!p.draft);
-  return {
-    version: DISCOVERY.version||'anomancer.discovery/v1',
-    generatedAt,
-    site:SITE,
-    entity:{siteName:SITE_NAME,author:AUTHOR,authorId:PERSON_ID,authorUrl:AUTHOR_URL,websiteId:WEBSITE_ID},
-    languages:['fi','en'],
-    publishedArticles:published.length,
-    search:DISCOVERY.search||{},
-    training:DISCOVERY.training||{},
-    privatePaths:DISCOVERY.privatePaths||[],
-    endpoints:Object.fromEntries(Object.entries(DISCOVERY.machineEndpoints||{}).map(([k,v])=>[k,`${SITE}${v}`])),
-    notes:DISCOVERY.notes||[]
-  };
-}
 function sitemap(posts){ const urls=[['/',null],['/en',null],[copy.fi.blogPath,null],[copy.en.blogPath,null],...posts.filter(p=>!p.draft).map(p=>[`${copy[p.lang].articleBase}/${p.slug}`,p.date])]; return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(([u,d])=>`  <url><loc>${SITE}${u}</loc>${d?`<lastmod>${d}</lastmod>`:''}</url>`).join('\n')}\n</urlset>\n`; }
 function decodeHtmlAttr(s=''){ return String(s).replace(/&#x27;|&#39;/gi,"'").replace(/&quot;/gi,'\"').replace(/&amp;/gi,'&').replace(/&lt;/gi,'<').replace(/&gt;/gi,'>'); }
 function staticHomeJsonLd(lang,title,description,url){ return graphJson([websiteNode(),personNode(),webpageNode({url,name:title,description,lang})]); }
@@ -338,7 +282,7 @@ for (const p of posts.filter(p=>!p.draft)) write(`${copy[p.lang].articleBase.sli
 write('rss.xml',rss(posts,'fi'));
 write('rss-en.xml',rss(posts,'en'));
 write('sitemap.xml',sitemap(posts));
-write('robots.txt',robotsTxt());
+write('robots.txt',`User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/admin/\n\nSitemap: ${SITE}/sitemap.xml\n`);
 const published=posts.filter(p=>!p.draft);
 const draftCount=posts.filter(p=>p.draft).length;
 // Julkinen manifesti sisältää vain julkaistut tekstit. Luonnosten metadata ei kuulu public-outputtiin.
@@ -346,9 +290,6 @@ const manifest={generatedAt:new Date().toISOString(),entity:{siteName:SITE_NAME,
 write('content-manifest.json',JSON.stringify(manifest,null,2)+'\n');
 const evidenceManifest={version:'anomancer.evidence/v1',generatedAt:manifest.generatedAt,articles:published.map(p=>({articleId:`${articleUrl(p)}#article`,url:articleUrl(p),title:p.title,lang:p.lang,answer:p.answer||'',claims:p.claims||[],sources:p.sources||[]}))};
 write('evidence-manifest.json',JSON.stringify(evidenceManifest,null,2)+'\n');
-write('llms.txt',llmsTxt(posts));
-const discoveryManifestData=discoveryManifest(posts,manifest.generatedAt);
-write('discovery-manifest.json',JSON.stringify(discoveryManifestData,null,2)+'\n');
 const digest=crypto.createHash('sha256').update(JSON.stringify(manifest.published)).digest('hex');
 console.log(`✓ Lähetyskone build: ${manifest.published.length} julkaistua · ${draftCount} luonnosta · manifest sha256 ${digest.slice(0,16)}…`);
 
@@ -360,7 +301,7 @@ ensureDir(PUBLIC);
 const publicFiles = [
   'index.html','en.html','lahetykset.html','dispatches.html','admin.html',
   'styles.css','admin.css','admin.js','favicon.svg',
-  'robots.txt','sitemap.xml','rss.xml','rss-en.xml','content-manifest.json','evidence-manifest.json','llms.txt','discovery-manifest.json'
+  'robots.txt','sitemap.xml','rss.xml','rss-en.xml','content-manifest.json','evidence-manifest.json'
 ];
 for (const rel of publicFiles) {
   const src=path.join(ROOT,rel);
