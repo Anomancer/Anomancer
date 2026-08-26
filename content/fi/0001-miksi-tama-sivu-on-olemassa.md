@@ -2,7 +2,7 @@
 title: "Miksi tämä sivu on olemassa?"
 date: "2026-08-26"
 category: "info-media"
-description: "ANOMANCER purkaa tekoälyä, järjestelmiä, mediaa, kieltä ja teknologiaa ymmärrettävään muotoon ja etsii siitä käytännön hyötyä ihmisille."
+description: "Anomancer purkaa tekoälyä, järjestelmiä, mediaa, kieltä ja teknologiaa ymmärrettävään muotoon ja etsii siitä käytännön hyötyä ihmisille."
 slug: "miksi-tama-sivu-on-olemassa"
 lang: "fi"
 translationKey: "why-this-page-exists"
@@ -61,6 +61,6 @@ Ehkä se selittää myös tapaani katsoa teknologiaa. Minua kiinnostaa harvoin v
 
 ## Entä Observatorio?
 
-ANOMANCER on sisäänkäynti ja Lähetykset ovat ihmiselle luettava kerros. Jos jokin aihe alkaa vetää syvemmälle, Observatorion puolelta löytyy konehuone: järjestelmiä, kokeita, sovelluksia, musiikkia, tutkimusta ja muuta materiaalia.
+Anomancer on sisäänkäynti ja Lähetykset ovat ihmiselle luettava kerros. Jos jokin aihe alkaa vetää syvemmälle, Observatorion puolelta löytyy konehuone: järjestelmiä, kokeita, sovelluksia, musiikkia, tutkimusta ja muuta materiaalia.
 
 Kaikkea ei tarvitse nähdä kerralla. Riittää, että löytää yhden asian, josta on oikeasti hyötyä.

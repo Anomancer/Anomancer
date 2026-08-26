@@ -64,7 +64,7 @@ await run('puuttuva Resend-avain fail-closed', async () => {
 await run('kelvollinen viesti lähetetään serveriltä', async () => {
   process.env.RESEND_API_KEY = 're_test';
   process.env.CONTACT_TO_EMAIL = 'owner@example.com';
-  process.env.CONTACT_FROM_EMAIL = 'ANOMANCER <onboarding@resend.dev>';
+  process.env.CONTACT_FROM_EMAIL = 'Anomancer <onboarding@resend.dev>';
   let request;
   globalThis.fetch = async (url, options) => {
     request = { url, options };

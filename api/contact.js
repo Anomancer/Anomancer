@@ -61,7 +61,7 @@ function rateAllowed(ip, now) {
 function buildMessage({ name, email, subject, message, language }) {
   const who = name || '(ei nimeä)';
   return [
-    'ANOMANCER · YHTEYDENOTTO',
+    'Anomancer · YHTEYDENOTTO',
     '',
     `Nimi: ${who}`,
     `Sähköposti: ${email}`,
@@ -72,8 +72,8 @@ function buildMessage({ name, email, subject, message, language }) {
     message,
     '',
     '---',
-    'Lähetetty ANOMANCERin yhteydenottolomakkeella.',
-    'Tietoja ei tallenneta ANOMANCERissa uutiskirjettä tai markkinointia varten.'
+    'Lähetetty Anomancerin yhteydenottolomakkeella.',
+    'Tietoja ei tallenneta Anomancerissa uutiskirjettä tai markkinointia varten.'
   ].join('\n');
 }
 
@@ -125,13 +125,13 @@ export default async function handler(req, res) {
 
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL || 'alakhapositu@proton.me';
-  const from = process.env.CONTACT_FROM_EMAIL || 'ANOMANCER <contact@anomancer.com>';
+  const from = process.env.CONTACT_FROM_EMAIL || 'Anomancer <contact@anomancer.com>';
 
   if (!apiKey) {
     return json(res, 503, { ok: false, error: 'CONTACT_NOT_CONFIGURED' });
   }
 
-  const mailSubject = `[ANOMANCER] ${subject || 'Uusi yhteydenotto'}`.slice(0, 200);
+  const mailSubject = `[Anomancer] ${subject || 'Uusi yhteydenotto'}`.slice(0, 200);
   const payload = {
     from,
     to: [to],
@@ -146,7 +146,7 @@ export default async function handler(req, res) {
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
-        'User-Agent': 'ANOMANCER-Contact/13.14',
+        'User-Agent': 'Anomancer-Contact/13.14',
         'Idempotency-Key': `anomancer-contact-${now}-${Math.random().toString(36).slice(2, 10)}`
       },
       body: JSON.stringify(payload)
@@ -154,13 +154,13 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       // Viestin sisältöä ei logata.
-      console.error('ANOMANCER contact delivery failed', response.status);
+      console.error('Anomancer contact delivery failed', response.status);
       return json(res, 502, { ok: false, error: 'DELIVERY_FAILED' });
     }
 
     return json(res, 200, { ok: true });
   } catch (error) {
-    console.error('ANOMANCER contact transport failed', error?.name || 'Error');
+    console.error('Anomancer contact transport failed', error?.name || 'Error');
     return json(res, 502, { ok: false, error: 'DELIVERY_FAILED' });
   }
 }

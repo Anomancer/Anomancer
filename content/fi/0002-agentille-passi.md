@@ -5,7 +5,7 @@ category: "ai-work"
 <<<<<<< HEAD
 audience: ["all"]
 =======
->>>>>>> ab7df4c (ANOMANCER 13.14 domain migration)
+>>>>>>> ab7df4c (Anomancer 13.14 domain migration)
 description: "Miksi tekoälyagentin pitäisi voida todistaa kuka se on, mitä se saa tehdä ja mitä se teki?"
 slug: "miksi-tekoalyagentille-pitaisi-antaa-passi"
 lang: "fi"

@@ -2,7 +2,7 @@
 title: "Why does this page exist?"
 date: "2026-08-26"
 category: "info-media"
-description: "Why does ANOMANCER exist? AI, systems, media, language and technology translated into something people can actually understand and use."
+description: "Why does Anomancer exist? AI, systems, media, language and technology translated into something people can actually understand and use."
 slug: "why-this-page-exists"
 lang: "en"
 translationKey: "why-this-page-exists"
@@ -63,6 +63,6 @@ That probably explains something about the way I look at technology too. I am ra
 
 ## And the Observatory?
 
-ANOMANCER is the entrance and the Dispatches are the human-readable layer. If a subject starts pulling you deeper, the Observatory contains the machinery underneath: systems, experiments, applications, music, research and other material.
+Anomancer is the entrance and the Dispatches are the human-readable layer. If a subject starts pulling you deeper, the Observatory contains the machinery underneath: systems, experiments, applications, music, research and other material.
 
 You do not need to see all of it at once. Finding one useful thing is enough.
