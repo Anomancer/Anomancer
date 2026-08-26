@@ -2,168 +2,78 @@
 title: "Entä jos oppilas ei vihaa matematiikkaa vaan tapaa, jolla se tulee vastaan?"
 date: "2026-08-26"
 category: "language-learning"
-description: "Oppimisen vaikeus ei aina tarkoita kyvyn puutetta. Teksti opettajille vahvuuksista, neurodivergentista oppimisesta ja siitä, miten oikea lähestymistapa voi avata uuden reitin vaikeaan aiheeseen."
+audience: ["all"]
+audienceDepth: "general"
+description: "Entä jos oppilas ei vihaa matematiikkaa vaan tapaa, jolla se tulee vastaan? Teksti opettajille epätasaisista kykyprofiileista, vahvuuksista ja siitä, miksi käyttöliittymäongelma voi näyttää kyvyttömyydeltä."
 slug: "enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan"
 lang: "fi"
-draft: false
-audience: ["teacher"]
+translationKey: "enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan"
+aliases: []
+coverImage: ""
+coverAlt: ""
+answer: ""
+sources: []
+claims: []
 pinned: false
+draft: false
 ---
 
-Minulla on isoveli, joka on opettaja.
+>Onko oppilas, joka sanoo vihaavansa matematiikkaa, oikeasti pettynyt aiheeseen – vai siihen, miten aihe tulee vastaan? Tämä kysymys on seurannut minua siitä lähtien, kun aloin seurata opettajaveljeäni työssään.
 
-Olen pitänyt häntä pitkään hyvänä opettajana, mutta en oikeastaan siksi, että hän osaisi jonkin tietyn opetusmenetelmän tai käyttäisi hienoja pedagogisia termejä.
+Minulla on isoveli, joka on opettaja. Arvostan häntä ennen kaikkea siksi, että hän lähestyy oppilasta ennen oppiainetta. Hän ei oleta, että samaan asiaan pitää päästä sisälle samaa reittiä. Kun aihe ei avaudu, hän vaihtaa näkökulmaa: lukee ääneen, piirtää, keksii vertauksen tai etsii esimerkin, joka tekee asiasta edes vähän todellisen. Se ei ole hänellä mikään hieno pedagoginen termi, vaan tapa olla.
 
-Enemmänkin siksi, että hänellä on tapa lähestyä oppilasta ennen oppiainetta.
+## Mistä tässä on kysymys: kyvyt eivät jakaudu siisteihin riveihin
 
-Hän ei tunnu olettavan, että kaikkien pitäisi päästä samaan asiaan sisälle samaa reittiä.
+Ihmisen kyvyt eivät jakaudu siisteihin riveihin. Sama oppilas voi olla matematiikassa pahasti hukassa ja samalla taitava tietotekniikassa. Toinen voi kirjoittaa esseetä kömpelösti mutta rakentaa runoon omaperäisiä assosiaatioita. Joku ei osaa selittää ajatustaan kokeessa, mutta huomaa kuvissa ja rakenteissa yhteyksiä, joita muut eivät näe.
 
-Jos aihe on oppilaasta aivan perseestä, hän yrittää löytää siihen jonkin konkreettisen tarttumapinnan. Jonkin syyn, esimerkin, vertauksen tai tilanteen, joka tekee asiasta edes vähän todellisen.
+Koulu mittaa kykyjä väistämättä rajatuilla tavoilla, ja opetus, arviointi ja rytmi on usein suunniteltu sen oletuksen varaan, että kaikki etenevät suunnilleen samaan tahtiin. Silloin syntyy helposti väärinkäsitys: **vaikeus alkaa näyttää osaamisen puutteelta.**
 
-Ja ilmeisesti se toimii.
+Epätasainen kykyprofiili ei kuitenkaan yksiselitteisesti kerro, että oppimista tapahtuu – se voi kertoa myös siitä, että oppilas tarvitsee tukea. Se voi olla merkki siitä, että oppiminen kulkee toista reittiä kuin opetussuunnitelma olettaa, mutta yhtä hyvin merkki tuen tarpeesta. Tärkeintä on olla lukitsematta tulkintaa liian aikaisin. Kun kykyä mitataan vain yhdellä tavalla, vahvuus voi jäädä näkymättömiin, mutta sama epätasaisuus voi myös olla signaali, joka vaatii lisäselvittelyä.
 
-Hän on saanut vuosien aikana paljon hyvää palautetta oppilailta juuri tavastaan opettaa.
+## Kun vaikeus näyttää osaamisen puutteelta
 
-Minua tässä kiinnostaa erityisesti yksi asia, jonka hän on huomannut oppilaissa jo pitkään.
+Ulospäin kaksi tilannetta voivat näyttää samalta: oppilas ei tee tehtävää. Taustalla voi kuitenkin olla monta eri asiaa. Joskus kiinnostus puuttuu kokonaan. Joskus kiinnostukseen ei ole vielä löytynyt yhteyttä – ja silloin kiinnostuksen puute on usein seuraus, ei syy. Joskus kyse on väsymyksestä, ryhmäpaineesta, elämäntilanteesta tai oppimisvaikeudesta, joka tarvitsee tukea.
 
-Ihmisen kyvyt eivät jakaudu siisteihin riveihin.
+Nämä eivät ole toistensa vastakohtia, vaan jatkumo. Siksi opettajan ensimmäinen tehtävä ei ole päättää, kumpi vaihtoehto on kyseessä, vaan pitää tulkinta avoimena ja etsiä lisää tietoa.
 
-Sama oppilas voi olla matematiikassa pahasti hukassa ja samalla aivan käsittämättömän hyvä tietotekniikassa.
+Kun ihminen ei löydä yhteyttä aiheeseen, hän ei välttämättä ole kyvytön – hän voi olla väärällä ovella. Jos sisäänkäynti asiaan on väärässä paikassa, ihminen voi viettää vuosia luullen, ettei rakennus kiinnosta häntä. Vaikka hän ei vain ole koskaan löytänyt ovea.
 
-Toinen voi kirjoittaa kouluesseen kömpelösti mutta rakentaa runoon sellaisia assosiaatioita, joita moni paljon "parempi kirjoittaja" ei keksi.
+Tämä ei tarkoita, etteikö todellisia oppimisvaikeuksia olisi olemassa. Esimerkiksi dyskalkulia on neurokognitiivisesti todellinen, eikä käyttöliittymämetafora saa ohittaa sitä. Opettajan täytyy tuntea myös oppimisvaikeuksien tunnistamisen keinoja ja osata ohjata eteenpäin silloin, kun kyse on muusta kuin ”väärästä ovesta”.
 
-Joku ei osaa selittää ajatustaan kokeessa, mutta näkee kuvissa, rakenteissa tai järjestelmissä yhteyksiä, joita muut eivät huomaa.
+## Käyttöliittymäongelma vai kykyongelma?
 
-Silti koulussa näitä kykyjä joudutaan väistämättä mittaamaan rajatuilla tavoilla.
+Käytän tarkoituksella metaforaa: oppilaan ”heikkous” voi joskus olla enemmän käyttöliittymäongelma kuin kykyongelma. Ongelma ei välttämättä ole oppijan päässä, vaan siinä, miten asia tuodaan hänen luokseen.
 
-Ja silloin syntyy helposti vaarallinen väärinkäsitys:
+Metaforalla on rajansa. Se ei sovi kaikkiin oppimisvaikeuksiin eikä se saa kieltää neurokognitiivista taustaa. Mutta jos selitys ei kohtaa juuri tätä oppilasta, rohkeus kokeilla toista ovea on taito, jota voi harjoitella.
 
-**vaikeus näyttää osaamista alkaa näyttää osaamisen puutteelta.**
+Tunnistan tämän itsessäni. Vihasin pitkään matematiikkaa ja pidin monia teknisiä asioita vieraina. Olisin voinut päätellä, ettei ala vain kiinnosta minua. Viime vuosina käsitykseni on muuttunut – mutta muutos ei tapahtunut siksi, että olisin yhtäkkiä alkanut yrittää kovemmin, vaan siksi, että löysin toisen tavan lähestyä asiaa.
 
-Tunnistan tämän hyvin itsestäni.
+## Vahvuus siltana vaikeaan asiaan
 
-Vihasin pitkään esimerkiksi matematiikkaa.
+Tällaista ajattelua voi kutsua vahvuusperustaiseksi, mutta tärkeintä on suunta: ei tehdä jokaisesta asiasta viihdettä eikä rakentaa jokaiselle oppilaalle omaa opetussuunnitelmaa, vaan selvittää, **minkä kautta tämä ihminen pääsee tähän asiaan sisälle**.
 
-Myös monet tekniset asiat tuntuivat vierailta, kuivilta tai tarpeettoman vaikeilta.
+Vahvuus ei ole vain ”kiva juttu” tai harrastus. Se on tapa ajatella ja selittää. Oppilas, joka on tottunut ratkomaan ongelmia tietokoneen kanssa, voi päästä matematiikkaan kiinni vaikkapa algoritmisten ongelmien kautta. Oppilas, joka ajattelee kuvina, voi hahmottaa kirjoittamisen rakenteen piirtämällä. Historiaa rakastava voi kohdata fysiikan jonkin keksinnön tai keksijän kautta.
 
-Olisin voinut päätellä tästä, ettei minua vain kiinnosta matematiikka tai teknologia.
+On rehellistä sanoa, että ajatus vahvuudesta sillanrakentajana on ehdotus, ei vahvistettu tutkimustulos. Se voi toimia – mutta se toimii vasta, kun vahvuus kytketään konkreettisesti tehtävään ja oppilaan ajatteluun, ei pelkkänä keskusteluna siitä, mistä oppilas pitää. Sellaisena se on kokeilemisen arvoinen, koska se on halpa, inhimillinen ja avaa usein uuden suunnan.
 
-Mutta viime vuosina käsitykseni on muuttunut aika paljon.
+## Mitä tekoäly on näyttänyt – ja mitä se ei korvaa
 
-Kun aloin käyttää kielimalleja oman ajatteluni tukena, tapahtui jotain odottamatonta.
+Oma kokemukseni kielimalleista havainnollistaa tätä. Kun aloin käyttää kielimalleja ajatteluni tukena, pystyin kysymään saman asian uudestaan eri tavalla. Pyysin esimerkkejä asioista, jotka jo ymmärsin. Kysyin, miksi jokin kaava on olemassa, ennen kuin yritin opetella käyttämään sitä. Kuljin sivureittiä ja palasin takaisin. Yhtäkkiä osa asioista, joita olin pitänyt tylsinä, alkoi kiinnostaa. Matematiikan alta alkoi näkyä rakenteita, teknologian alta syitä ja järjestelmiä.
 
-Pystyin kysymään saman asian uudestaan eri tavalla.
+En kuitenkaan ajattele, että ratkaisu olisi ”tekoäly kouluun ja ongelma hoidettu”. Kielimalli ei tunne oppilasta samalla tavalla kuin hyvä opettaja. Se ei näe luokkahuonetta, elämäntilannetta, ilmettä tai sitä hiljaista hetkeä, jolloin joku lopettaa yrittämästä.
 
-Pystyin pyytämään esimerkin jostain, jonka jo ymmärsin.
+Mutta kielimalleissa on ominaisuuksia, joista voi oppia myös ilman tekoälyä. Selitystapaa voi vaihtaa. Kysymyksen saa esittää uudestaan. Asiaa voidaan lähestyä eri suunnasta. Yksi väärä vastaus ei päätä keskustelua. Eikä oppijan tarvitse aina edetä siitä kohdasta, jonka joku muu on valinnut lähtöpisteeksi.
 
-Pystyin kysymään, miksi jokin kaava ylipäätään on olemassa ennen kuin yritin opetella käyttämään sitä.
+## Mitä opettaja voi kokeilla: kolme pientä liikettä
 
-Pystyin kulkemaan sivureittiä, palaamaan takaisin ja kysymään niitäkin kysymyksiä, joiden kohdalla luokkahuoneessa olisi ehkä ajatellut olevansa jo liian kaukana muista.
+1. **Katso ja kysy, millaisia ongelmia oppilas jo ratkoo sujuvasti.** Kiinnitä huomiota myös siihen, miten hän selittää ratkaisuaan. Käytä sitä selitystapaa uutta asiaa opettaessa.
+2. **Vaihda selitystä tai esimerkkiä.** Sama asia voidaan sanoa kymmenellä tavalla. Yhden toimimattomuus ei tarkoita, etteikö mikään toimisi.
+3. **Etsi yhteys oppilaan maailmaan.** Se voi olla harrastus, lempipeli, historiallinen henkilö tai mikä tahansa, jonka kautta aihe alkaa tuntua todelliselta.
 
-Yhtäkkiä osa asioista, joita olin pitänyt tylsinä, alkoi kiinnostaa.
+Nämä eivät ole valmis menetelmä. Ne ovat katseen suunnan muutos: mitä oppilas jo osaa, ja minkä kautta hänelle avautuisi reitti myös vaikeaan asiaan.
 
-Matematiikka ei ollutkaan pelkkää laskemista.
+Kokeile seuraavalla viikolla vaikkapa yhden oppilaan tai pienen ryhmän kanssa, jonka kanssa sinulla on jo luottamuksellinen suhde. Tee se havainnoimalla ja kysymällä, ei julistamalla. Et välttämättä löydä ovea heti. Mutta katse, joka etsii vahvuutta, voi löytää enemmän kuin katse, joka keskittyy puutteeseen.
 
-Sen alta alkoi näkyä rakenteita.
+En tiedä tähän yhtä pedagogista ratkaisua, enkä usko, että sellaista on. Mutta olen alkanut epäillä yhtä asiaa aika vahvasti: **oppilaan ”heikkous” voi joskus olla enemmän käyttöliittymäongelma kuin kykyongelma.**
 
-Teknologia ei ollutkaan kokoelma termejä ja käyttöohjeita.
-
-Sen alta alkoi näkyä syitä, suhteita ja järjestelmiä.
-
-Aloin tajuta jotain myös siitä vanhasta "vihasta".
-
-Ehkä se ei ollutkaan aina mielenkiinnon puutetta.
-
-Ehkä osa siitä oli kynnystä.
-
-Jos sisäänkäynti asiaan on väärässä paikassa, ihminen voi viettää vuosia luullen, ettei rakennus kiinnosta häntä.
-
-Vaikka todellisuudessa hän ei vain koskaan löytänyt ovea.
-
-Tämä havainto tuntuu minusta erityisen tärkeältä silloin, kun oppilas ajattelee tai oppii tavalla, joka ei sovi kovin siististi ympäristön oletuksiin.
-
-Omassa tapauksessani neurodivergentit piirteet ovat vaikuttaneet paljon siihen, millainen kieli, ympäristö ja tapa käsitellä asioita toimii.
-
-Jos saan nähdä kokonaisuuden, syyn ja yhteyden johonkin jo tuntemaani asiaan, voin mennä erittäin syvälle.
-
-Jos taas saan eteeni irrallisen käsitteen, joka pitäisi opetella siksi että se kuuluu opetella, koko järjestelmä saattaa mennä kiinni.
-
-Ulospäin nämä voivat näyttää samalta:
-
-oppilas ei tee tehtävää.
-
-Mutta niiden taustalla voi olla täysin eri asia.
-
-Toisessa tapauksessa asia ei kiinnosta.
-
-Toisessa tapauksessa kiinnostukseen ei ole vielä löytynyt yhteyttä.
-
-Ja siinä on opettajalla aika suuri mahdollisuus.
-
-Ei tehdä jokaisesta asiasta viihdettä.
-
-Ei rakentaa jokaiselle oppilaalle kokonaan omaa opetussuunnitelmaa.
-
-Vaan yrittää välillä selvittää, **minkä kautta tämä ihminen pääsee tähän asiaan sisälle**.
-
-Jos oppilas on hyvä tietokoneiden kanssa mutta heikko matematiikassa, voisiko matematiikka tulla hetkeksi tietokoneiden kautta?
-
-Jos kirjoittaminen tökkii mutta kuvallinen ajattelu on vahvaa, voisiko ajatus rakentua ensin kuvana?
-
-Jos ihminen rakastaa historiaa mutta fysiikka tuntuu kuolleelta, löytyisikö fysiikkaan pääsy jonkin historiallisen ongelman, keksinnön tai ihmisen kautta?
-
-Tässä ei mielestäni ole kyse siitä, että oppilaan pitäisi saada tehdä vain asioita, joista hän pitää.
-
-Päinvastoin.
-
-Ajatus on kiinnostava juuri siksi, että vahvuusalue voi toimia siltana myös sinne, missä toimijuutta on vähemmän.
-
-Jos löydän yhden asian, jossa koen osaavani, pystyn ehkä käyttämään sitä vipuvartena asiassa, jossa ajattelen olevani huono.
-
-Silloin vahvuuksien tunnistaminen ei ole pelkkää hyvän olon pedagogiikkaa.
-
-Se voi olla tapa kasvattaa kykyä kohdata myös vaikeita asioita.
-
-Tekoäly on näyttänyt minulle tämän aika konkreettisesti, mutta en ajattele, että ratkaisu olisi "tekoäly kouluun ja ongelma hoidettu".
-
-Kielimalli ei tunne oppilasta samalla tavalla kuin hyvä opettaja.
-
-Se ei näe luokkahuonetta, elämäntilannetta, ilmettä tai sitä hiljaista hetkeä, jolloin joku lopettaa yrittämästä.
-
-Mutta siinä on muutamia ominaisuuksia, joista voisi ehkä oppia jotain myös ilman tekoälyä.
-
-Selitystapaa voi vaihtaa.
-
-Kysymyksen saa esittää uudestaan.
-
-Asiaa voidaan lähestyä eri suunnasta.
-
-Yksi väärä vastaus ei päätä keskustelua.
-
-Ja oppijan ei tarvitse aina edetä suoraan siitä kohdasta, jonka joku muu on valinnut lähtöpisteeksi.
-
-Ehkä tulevaisuuden opetuksessa kiinnostavinta ei siksi olekaan se, kuinka paljon tekoälyä luokkahuoneeseen saadaan.
-
-Kiinnostavampaa olisi kysyä, mitä sen suosio kertoo oppimisesta.
-
-Miksi joku, joka on pitänyt itseään vuosia huonona jossain asiassa, voi yhtäkkiä käyttää tunteja sen tutkimiseen, kun selityksen muoto muuttuu?
-
-Miksi sama ihminen voi näyttää yhdessä ympäristössä kyvyttömältä ja toisessa poikkeuksellisen taitavalta?
-
-Ja kuinka paljon koulussa mitataan joskus itse kykyä, ja kuinka paljon kykyä toimia juuri siinä muodossa, jossa kykyä päätettiin kysyä?
-
-En tiedä tähän mitään yhtä pedagogista ratkaisua.
-
-Enkä usko, että sellaista on.
-
-Mutta olen alkanut epäillä yhtä asiaa aika vahvasti:
-
-**oppilaan "heikkous" voi joskus olla enemmän käyttöliittymäongelma kuin kykyongelma.**
-
-Siksi hyvä opettaja ei ehkä ole vain ihminen, joka osaa selittää asian hyvin.
-
-Hän voi olla ihminen, joka huomaa, milloin selitys ei kohtaa juuri tätä oppilasta, ja uskaltaa kokeilla toista ovea.
-
-Joskus sillä voi olla paljon suurempi vaikutus kuin yhdellä arvosanalla.
-
-Se voi muuttaa kokonaan sen, mitä ihminen kuvittelee olevansa kykenevä oppimaan.
+Hyvä opettaja ei ehkä ole vain ihminen, joka osaa selittää asian hyvin. Hän voi olla ihminen, joka huomaa, milloin selitys ei kohtaa juuri tätä oppilasta, ja uskaltaa kokeilla toista ovea. Joskus sillä voi olla paljon suurempi vaikutus kuin yhdellä arvosanalla. Se voi muuttaa kokonaan sen, mitä ihminen kuvittelee olevansa kykenevä oppimaan.
