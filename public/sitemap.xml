@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://anomancer.vercel.app/</loc></url>
-  <url><loc>https://anomancer.vercel.app/en</loc></url>
-  <url><loc>https://anomancer.vercel.app/lahetykset</loc></url>
-  <url><loc>https://anomancer.vercel.app/dispatches</loc></url>
-  <url><loc>https://anomancer.vercel.app/lahetykset/miksi-tama-sivu-on-olemassa</loc><lastmod>2026-08-26</lastmod></url>
-  <url><loc>https://anomancer.vercel.app/dispatches/why-this-page-exists</loc><lastmod>2026-08-26</lastmod></url>
+  <url><loc>https://anomancer.com/</loc></url>
+  <url><loc>https://anomancer.com/en</loc></url>
+  <url><loc>https://anomancer.com/lahetykset</loc></url>
+  <url><loc>https://anomancer.com/dispatches</loc></url>
+  <url><loc>https://anomancer.com/lahetykset/enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan</loc><lastmod>2026-08-26</lastmod></url>
+  <url><loc>https://anomancer.com/lahetykset/kuka-kirjoitti-taman-tekstin</loc><lastmod>2026-08-26</lastmod></url>
+  <url><loc>https://anomancer.com/lahetykset/miksi-tekoalyagentille-pitaisi-antaa-passi</loc><lastmod>2026-08-26</lastmod></url>
+  <url><loc>https://anomancer.com/lahetykset/miksi-tama-sivu-on-olemassa</loc><lastmod>2026-08-26</lastmod></url>
+  <url><loc>https://anomancer.com/lahetykset/miksi-yksinkertainen-it-ratkaisu-voi-muuttua-miljoonien-eurojen-hankkeeksi</loc><lastmod>2026-08-26</lastmod></url>
+  <url><loc>https://anomancer.com/lahetykset/miten-tunnistaa-tekoalylla-tehdyn-tekstin-tai-kuvan</loc><lastmod>2026-08-26</lastmod></url>
+  <url><loc>https://anomancer.com/lahetykset/taide-ei-ehka-ole-menossa-kohti-tekoalytaidetta-vaan-kohti-jotain-paljon-laajempaa</loc><lastmod>2026-08-26</lastmod></url>
+  <url><loc>https://anomancer.com/dispatches/why-this-page-exists</loc><lastmod>2026-08-26</lastmod></url>
 </urlset>

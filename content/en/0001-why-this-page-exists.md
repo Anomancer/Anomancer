@@ -2,15 +2,13 @@
 title: "Why does this page exist?"
 date: "2026-08-26"
 category: "info-media"
-audience: ["all"]
 description: "Why does ANOMANCER exist? AI, systems, media, language and technology translated into something people can actually understand and use."
 slug: "why-this-page-exists"
 lang: "en"
 translationKey: "why-this-page-exists"
-coverImage: ""
-coverAlt: ""
-pinned: true
 draft: false
+audience: ["all"]
+pinned: true
 ---
 
 > I’ve been following AI closely since the first major wave of generative AI started moving into everyday use. Along the way I’ve built my own systems, tested models and tried to understand what is actually happening around the technology, not just what is being said about it.

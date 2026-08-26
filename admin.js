@@ -1,6 +1,6 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const state={csrf:'',posts:[],current:null,filter:'all',authenticated:false,mediaPreviews:{}};
-const PUBLIC_ORIGIN='https://anomancer.vercel.app';
+const PUBLIC_ORIGIN='https://anomancer.com';
 const MAX_SOURCE_BYTES=20*1024*1024;
 const MAX_UPLOAD_BYTES=2*1024*1024;
 const CATEGORY_LABELS={

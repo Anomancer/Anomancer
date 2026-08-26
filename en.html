@@ -6,15 +6,15 @@
 
   <meta name="description" content="Aatu Isopahkala&#x27;s main entrance: plain-language Dispatches on AI, language and agent systems, plus a route into Black Hole Core Observatory." />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
-  <link rel="canonical" href="https://anomancer.vercel.app/en" />
-  <link rel="alternate" hreflang="fi" href="https://anomancer.vercel.app/" />
-  <link rel="alternate" hreflang="en" href="https://anomancer.vercel.app/en" />
-  <link rel="alternate" hreflang="x-default" href="https://anomancer.vercel.app/" />
+  <link rel="canonical" href="https://anomancer.com/en" />
+  <link rel="alternate" hreflang="fi" href="https://anomancer.com/" />
+  <link rel="alternate" hreflang="en" href="https://anomancer.com/en" />
+  <link rel="alternate" hreflang="x-default" href="https://anomancer.com/" />
   <meta property="og:site_name" content="ANOMANCER" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="ANOMANCER — Aatu Isopahkala" />
   <meta property="og:description" content="Complex systems opened up and translated into human language: AI, language, software and systems thinking." />
-  <meta property="og:url" content="https://anomancer.vercel.app/en" />
+  <meta property="og:url" content="https://anomancer.com/en" />
   <meta property="og:locale" content="en_US" />
   <meta property="og:locale:alternate" content="fi_FI" />
   <meta name="twitter:card" content="summary" />
@@ -27,22 +27,22 @@
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://anomancer.vercel.app/#website",
-      "url": "https://anomancer.vercel.app/",
+      "@id": "https://anomancer.com/#website",
+      "url": "https://anomancer.com/",
       "name": "ANOMANCER",
       "inLanguage": [
         "fi",
         "en"
       ],
       "publisher": {
-        "@id": "https://anomancer.vercel.app/#person"
+        "@id": "https://anomancer.com/#person"
       }
     },
     {
       "@type": "Person",
-      "@id": "https://anomancer.vercel.app/#person",
+      "@id": "https://anomancer.com/#person",
       "name": "Aatu Isopahkala",
-      "url": "https://anomancer.vercel.app/",
+      "url": "https://anomancer.com/",
       "knowsAbout": [
         "artificial intelligence",
         "AI agents",
@@ -77,6 +77,7 @@
         <a href="#about">Who?</a>
         <a href="#work">Routes</a>
         <a href="/dispatches">Dispatches</a>
+        <a href="#contact">Contact</a>
         <a href="https://bhc-observatory.vercel.app/">Observatory</a>
       </nav>
       <div class="lang-switch" aria-label="Language"><a href="/" lang="fi">FI</a><span>/</span><a class="active" href="/en" lang="en">EN</a></div>
@@ -136,6 +137,61 @@
         </a>
       </div>
     </section>
+  
+    <!-- ANOMANCER 13.13 · CONTACT GATE -->
+    <section id="contact" class="section contact-section" aria-labelledby="contact-title">
+      <div class="contact-grid">
+        <div class="section-heading contact-heading">
+          <p class="eyebrow">Contact / Open channel</p>
+          <h2 id="contact-title">Get in touch.</h2>
+          <p class="contact-lead">A problem, an idea or a strange observation? Send it here.</p>
+        </div>
+        <div class="contact-body">
+          <div class="contact-copy">
+            <p>You are welcome to contact me with a low threshold.</p>
+            <p>It does not need to be a finished project, job description or collaboration proposal. If you have run into a problem, idea or system and think I might see something useful in it, write to me.</p>
+            <p>I am especially interested in situations that do not fit neatly into an existing box. It may involve AI, software, learning, creative work, security, communication, systems, research or something completely different.</p>
+            <p>I am not currently selling packaged consulting, courses or paid services through this site. I approach the whole thing through the person and the problem first.</p>
+            <p>I am also actively looking for new people to work and think with, regardless of background. I am open to collaborations, experiments, research, projects, strange combinations and possible work opportunities.</p>
+            <blockquote class="contact-quote">“I have this slightly strange problem. What do you see in it?”</blockquote>
+            <p>That is enough to start.</p>
+          </div>
+
+          <form class="contact-form" id="contact-form" novalidate>
+            <div class="contact-form-head">
+              <span>CONTACT</span>
+              <small>No newsletter. No marketing list.</small>
+            </div>
+            <label>
+              <span>Name <small>optional</small></span>
+              <input name="name" autocomplete="name" maxlength="120" />
+            </label>
+            <label>
+              <span>Email</span>
+              <input name="email" type="email" autocomplete="email" maxlength="254" required />
+            </label>
+            <label>
+              <span>Subject</span>
+              <input name="subject" maxlength="160" placeholder="What is this roughly about?" />
+            </label>
+            <label>
+              <span>Message</span>
+              <textarea name="message" rows="8" maxlength="6000" required placeholder="Write it in your own words. It does not need to be a finished plan."></textarea>
+            </label>
+            <div class="contact-honeypot" aria-hidden="true">
+              <label>Company<input name="company" tabindex="-1" autocomplete="off" /></label>
+            </div>
+            <input type="hidden" name="startedAt" value="" />
+            <button class="contact-submit" type="submit">SEND MESSAGE</button>
+            <p class="contact-privacy">Your contact information is used only to reply to this message. The form does not add you to a newsletter or marketing list.</p>
+            <p class="contact-status" id="contact-status" role="status" aria-live="polite"></p>
+            <a class="contact-fallback" href="mailto:alakhapositu@proton.me">Or email me directly →</a>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!-- /ANOMANCER 13.13 · CONTACT GATE -->
+
   </main>
 
   <footer class="footer">
@@ -158,6 +214,55 @@
       menu.classList.remove('is-open');
       button?.setAttribute('aria-expanded', 'false');
     }));
+  </script>
+
+  <script>
+    (() => {
+      const form = document.querySelector('#contact-form');
+      if (!form) return;
+      const status = document.querySelector('#contact-status');
+      const submit = form.querySelector('button[type="submit"]');
+      const started = form.querySelector('[name="startedAt"]');
+      if (started) started.value = String(Date.now());
+
+      const setStatus = (message, kind='') => {
+        if (!status) return;
+        status.textContent = message;
+        status.dataset.kind = kind;
+      };
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        submit.disabled = true;
+        setStatus('Sending…', 'working');
+        const data = Object.fromEntries(new FormData(form).entries());
+        data.language = 'en';
+        data.startedAt = Number(data.startedAt || 0);
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || !result.ok) throw new Error(result.error || 'SEND_FAILED');
+          form.reset();
+          if (started) started.value = String(Date.now());
+          setStatus('Message sent. Thank you.', 'success');
+        } catch (error) {
+          const code = String(error?.message || '');
+          const message = code === 'CONTACT_NOT_CONFIGURED'
+            ? 'The form is not configured yet. You can email me directly using the link below.'
+            : code === 'RATE_LIMITED'
+              ? 'The message limit was reached for now. Try again later or email me directly.'
+              : 'The message could not be sent. Try again or email me directly.';
+          setStatus(message, 'error');
+        } finally {
+          submit.disabled = false;
+        }
+      });
+    })();
   </script>
 </body>
 </html>

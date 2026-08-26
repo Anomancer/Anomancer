@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /api/admin/
 
-Sitemap: https://anomancer.vercel.app/sitemap.xml
+Sitemap: https://anomancer.com/sitemap.xml

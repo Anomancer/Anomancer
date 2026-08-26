@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-const SITE='https://anomancer.vercel.app';
+const SITE='https://anomancer.com';
 let bad=0;
 const fail=m=>{console.error(`✗ ${m}`);bad++;};
 for(const [file,url] of [['index.html','/'],['en.html','/en'],['lahetykset.html','/lahetykset'],['dispatches.html','/dispatches']]){

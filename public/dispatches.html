@@ -3,37 +3,37 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Plain-language writing about AI, language, agent systems, verifiable AI and building systems." />
+<meta name="description" content="A practical knowledge library about AI, work, media, money, language, safety and social systems, explained without needless jargon." />
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
-<link rel="canonical" href="https://anomancer.vercel.app/dispatches" />
-<link rel="alternate" hreflang="fi" href="https://anomancer.vercel.app/lahetykset" />
-<link rel="alternate" hreflang="en" href="https://anomancer.vercel.app/dispatches" />
-<link rel="alternate" hreflang="x-default" href="https://anomancer.vercel.app/lahetykset" />
+<link rel="canonical" href="https://anomancer.com/dispatches" />
+<link rel="alternate" hreflang="fi" href="https://anomancer.com/lahetykset" />
+<link rel="alternate" hreflang="en" href="https://anomancer.com/dispatches" />
+<link rel="alternate" hreflang="x-default" href="https://anomancer.com/lahetykset" />
 <meta property="og:site_name" content="ANOMANCER" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Dispatches | ANOMANCER" />
-<meta property="og:description" content="Plain-language writing about AI, language, agent systems, verifiable AI and building systems." />
-<meta property="og:url" content="https://anomancer.vercel.app/dispatches" />
+<meta property="og:description" content="A practical knowledge library about AI, work, media, money, language, safety and social systems, explained without needless jargon." />
+<meta property="og:url" content="https://anomancer.com/dispatches" />
 <meta property="og:locale" content="en_US" />
 <meta property="og:locale:alternate" content="fi_FI" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="Dispatches | ANOMANCER" />
-<meta name="twitter:description" content="Plain-language writing about AI, language, agent systems, verifiable AI and building systems." />
-<link rel="alternate" type="application/rss+xml" title="ANOMANCER" href="https://anomancer.vercel.app/rss-en.xml" />
+<meta name="twitter:description" content="A practical knowledge library about AI, work, media, money, language, safety and social systems, explained without needless jargon." />
+<link rel="alternate" type="application/rss+xml" title="ANOMANCER" href="https://anomancer.com/rss-en.xml" />
 <title>Dispatches | ANOMANCER</title>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "Blog",
-  "@id": "https://anomancer.vercel.app/dispatches#blog",
-  "url": "https://anomancer.vercel.app/dispatches",
+  "@id": "https://anomancer.com/dispatches#blog",
+  "url": "https://anomancer.com/dispatches",
   "name": "ANOMANCER — DISPATCHES",
-  "description": "Plain-language writing about AI, language, agent systems, verifiable AI and building systems.",
+  "description": "A practical knowledge library about AI, work, media, money, language, safety and social systems, explained without needless jargon.",
   "inLanguage": "en",
   "author": {
     "@type": "Person",
-    "@id": "https://anomancer.vercel.app/#person",
+    "@id": "https://anomancer.com/#person",
     "name": "Aatu Isopahkala",
-    "url": "https://anomancer.vercel.app/"
+    "url": "https://anomancer.com/"
   }
 }</script>
 <meta name="theme-color" content="#040408" />
@@ -42,4 +42,4 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css" />
-</head><body><header class="site-header"><a class="brand" href="/en">ANOMANCER</a><button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button><div class="header-right" id="header-menu"><nav class="main-nav" aria-label="Navigation"><a href="/en">Home</a><a href="https://bhc-observatory.vercel.app/">Observatory</a></nav><div class="lang-switch" aria-label="Language"><a class="" href="/lahetykset">FI</a><span>/</span><a class="active" href="/dispatches">EN</a></div></div></header><main class="section transmission-shell blog-shell"><div class="transmission-intro"><p class="eyebrow">Transmission log</p><h1>DISPATCHES</h1><p class="intro">An explanation layer for AI, language and built systems. One thing at a time, with as little semantic fog as possible.</p></div><div class="blog-layout"><aside class="category-sidebar" aria-label="Categories"><div class="category-sticky"><p class="category-title">Category</p><button class="category-filter is-active" data-filter="all">All<span>1</span></button><button class="category-filter" data-filter="field">Field notes<span>1</span></button></div></aside><section class="blog-stream"><div id="dispatch-empty" class="dispatch-empty" hidden>No published dispatches in this category yet.</div><div class="section-minihead"><span>Latest dispatch</span></div><article class="dispatch-card featured" data-category="field"><div class="dispatch-card-top"><span class="category-tag">Field notes</span><time datetime="2026-08-26">August 26, 2026</time></div><h2><a href="/dispatches/why-this-page-exists">Why does this page exist?</a></h2><p>Dispatches are ANOMANCER's explanation layer: one idea, problem or built system at a time, translated into human language.</p><div class="dispatch-card-foot"><span>1 min read</span><a href="/dispatches/why-this-page-exists">Read dispatch →</a></div></article><div class="section-minihead archive-head"><span>All dispatches</span><span id="dispatch-count">1</span></div><div class="dispatch-grid"></div></section></div></main><footer class="footer"><span>ANOMANCER · Dispatches</span><a href="/en">← All dispatches</a></footer><script>const filters=[...document.querySelectorAll('.category-filter')],cards=[...document.querySelectorAll('.dispatch-card')],empty=document.querySelector('#dispatch-empty'),count=document.querySelector('#dispatch-count');filters.forEach(btn=>btn.addEventListener('click',()=>{filters.forEach(b=>b.classList.remove('is-active'));btn.classList.add('is-active');const f=btn.dataset.filter;let n=0;cards.forEach(card=>{const show=f==='all'||card.dataset.category===f;card.hidden=!show;if(show)n++;});if(count)count.textContent=n;if(empty)empty.hidden=n!==0;}));</script><script>const b=document.querySelector('.menu-toggle'),m=document.querySelector('#header-menu');b?.addEventListener('click',()=>{const o=m.classList.toggle('is-open');b.setAttribute('aria-expanded',String(o));});m?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>m.classList.remove('is-open')));</script></body></html>
+</head><body><header class="site-header"><a class="brand" href="/en">ANOMANCER</a><button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button><div class="header-right" id="header-menu"><nav class="main-nav" aria-label="Navigation"><a href="/en">Home</a><a href="https://bhc-observatory.vercel.app/">Observatory</a></nav><div class="lang-switch" aria-label="Language"><a class="" href="/lahetykset">FI</a><span>/</span><a class="active" href="/dispatches">EN</a></div></div></header><main class="section transmission-shell blog-shell"><div class="transmission-intro"><p class="eyebrow">Transmission log</p><h1>DISPATCHES</h1><p class="intro">Difficult ideas translated for people. AI, work, money, media, language, safety and social systems without needless insider language.</p></div><div class="blog-layout"><aside class="category-sidebar" aria-label="Topic"><div class="category-sticky"><p class="category-title">Topic</p><button class="category-filter is-active" data-category-filter="all">All<span>1</span></button><button class="category-filter" data-category-filter="info-media">Information, claims & media<span>1</span></button></div></aside><section class="blog-stream"><div id="dispatch-empty" class="dispatch-empty" hidden>No published dispatches match these filters yet.</div><div class="section-minihead archive-head"><span>All dispatches</span><span id="dispatch-count">1</span></div><div class="dispatch-grid"><article class="dispatch-card is-pinned" data-category="info-media" data-audience="all"><div class="dispatch-card-top"><div class="dispatch-card-labels"><span class="category-tag">Information, claims & media</span><span class="pinned-tag">Pinned</span></div><time datetime="2026-08-26">August 26, 2026</time></div><h3><a href="/dispatches/why-this-page-exists">Why does this page exist?</a></h3><p>Why does ANOMANCER exist? AI, systems, media, language and technology translated into something people can actually understand and use.</p><div class="audience-tags"><span class="audience-tag">Everyone</span></div><div class="dispatch-card-foot"><span>5 min read</span><a href="/dispatches/why-this-page-exists">Read dispatch →</a></div></article></div></section></div></main><footer class="footer"><span>ANOMANCER · Dispatches</span><a href="/en">← Home</a></footer><script>const catFilters=[...document.querySelectorAll('[data-category-filter]')],audFilters=[...document.querySelectorAll('[data-audience-filter]')],cards=[...document.querySelectorAll('.dispatch-card')],empty=document.querySelector('#dispatch-empty'),count=document.querySelector('#dispatch-count');let cat='all',aud='all';function applyFilters(){let n=0;cards.forEach(card=>{const a=(card.dataset.audience||'all').split(/s+/);const showCat=cat==='all'||card.dataset.category===cat;const showAud=aud==='all'||a.includes(aud);const show=showCat&&showAud;card.hidden=!show;if(show)n++;});if(count)count.textContent=n;if(empty)empty.hidden=n!==0;}catFilters.forEach(btn=>btn.addEventListener('click',()=>{catFilters.forEach(b=>b.classList.remove('is-active'));btn.classList.add('is-active');cat=btn.dataset.categoryFilter;applyFilters();}));audFilters.forEach(btn=>btn.addEventListener('click',()=>{audFilters.forEach(b=>b.classList.remove('is-active'));btn.classList.add('is-active');aud=btn.dataset.audienceFilter;applyFilters();}));</script><script>const b=document.querySelector('.menu-toggle'),m=document.querySelector('#header-menu');b?.addEventListener('click',()=>{const o=m.classList.toggle('is-open');b.setAttribute('aria-expanded',String(o));});m?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>m.classList.remove('is-open')));</script></body></html>

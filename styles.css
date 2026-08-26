@@ -783,3 +783,38 @@ h1 {
 .dispatch-card-labels{display:flex;align-items:center;flex-wrap:wrap;gap:7px}
 .pinned-tag{display:inline-flex;width:max-content;padding:6px 9px;border:1px solid rgba(255,22,61,.34);border-radius:999px;background:rgba(255,22,61,.07);color:#fff;text-transform:uppercase;letter-spacing:.10em;font-size:.66rem;font-weight:800}
 @media(max-width:760px){.dispatch-card-labels{align-items:flex-start}.pinned-tag{white-space:normal}}
+
+
+/* ========================================================================
+   ANOMANCER 13.13 · CONTACT GATE
+   Avoin yhteys ilman uutiskirjettä tai markkinointiputkea.
+   ======================================================================== */
+.contact-section{border-top:1px solid rgba(255,255,255,.07);background:radial-gradient(circle at 82% 22%,rgba(255,0,46,.055),transparent 31%)}
+.contact-grid{display:grid;grid-template-columns:minmax(250px,.72fr) minmax(0,1.28fr);gap:clamp(36px,6vw,92px);align-items:start}
+.contact-heading{position:sticky;top:112px;margin-bottom:0}
+.contact-heading h2{max-width:470px}
+.contact-lead{max-width:500px}
+.contact-body{display:grid;grid-template-columns:minmax(0,.88fr) minmax(320px,1.12fr);gap:clamp(28px,4vw,54px);align-items:start}
+.contact-copy{font-size:clamp(1rem,1.25vw,1.12rem);line-height:1.7;color:var(--muted)}
+.contact-copy p{margin:0 0 1.15em}
+.contact-quote{margin:28px 0;padding:18px 20px;border-left:2px solid var(--red);background:rgba(255,255,255,.025);color:rgba(255,255,255,.94);font-size:1.08em;font-weight:600}
+.contact-form{position:relative;padding:clamp(20px,3vw,28px);border:1px solid rgba(255,255,255,.10);border-radius:12px;background:rgba(9,9,14,.72);box-shadow:0 22px 70px rgba(0,0,0,.22)}
+.contact-form-head{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:22px;padding-bottom:15px;border-bottom:1px solid rgba(255,255,255,.08)}
+.contact-form-head>span{color:#fff;font-family:Orbitron,ui-sans-serif,sans-serif;font-size:.78rem;font-weight:800;letter-spacing:.14em}
+.contact-form-head small{color:var(--dim);font-size:.78rem}
+.contact-form label{display:grid;gap:7px;margin-bottom:16px;color:rgba(255,255,255,.9);font-weight:700}
+.contact-form label>span{display:flex;gap:7px;align-items:baseline;font-size:.82rem;letter-spacing:.04em}
+.contact-form label>span small{color:var(--dim);font-weight:500}
+.contact-form input,.contact-form textarea{width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.12);border-radius:8px;background:#0c0c12;color:#fff;font:inherit;line-height:1.5;padding:12px 13px;outline:none;transition:border-color .16s ease,box-shadow .16s ease,background .16s ease}
+.contact-form textarea{resize:vertical;min-height:170px}
+.contact-form input:focus,.contact-form textarea:focus{border-color:rgba(255,22,61,.62);box-shadow:0 0 0 3px rgba(255,22,61,.08);background:#0e0e15}
+.contact-submit{width:100%;min-height:48px;border:1px solid rgba(255,22,61,.52);border-radius:8px;background:rgba(255,0,46,.12);color:#fff;font-family:Orbitron,ui-sans-serif,sans-serif;font-size:.74rem;font-weight:800;letter-spacing:.12em;cursor:pointer;transition:background .16s ease,border-color .16s ease,transform .16s ease}
+.contact-submit:hover{background:rgba(255,0,46,.19);border-color:rgba(255,22,61,.78);transform:translateY(-1px)}
+.contact-submit:disabled{opacity:.52;cursor:wait;transform:none}
+.contact-privacy{margin:14px 0 0;color:var(--dim);font-size:.78rem;line-height:1.45}
+.contact-status{min-height:1.45em;margin:12px 0 0;font-size:.84rem;font-weight:700}
+.contact-status[data-kind=success]{color:#91e6ac}.contact-status[data-kind=error]{color:#ff8da0}.contact-status[data-kind=working]{color:var(--muted)}
+.contact-fallback{display:inline-block;margin-top:8px;color:var(--muted);font-size:.82rem;text-decoration:none}.contact-fallback:hover{color:#fff}
+.contact-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}
+@media(max-width:1100px){.contact-grid{grid-template-columns:1fr}.contact-heading{position:static}.contact-body{grid-template-columns:minmax(0,.9fr) minmax(320px,1.1fr)}}
+@media(max-width:760px){.contact-body{grid-template-columns:1fr}.contact-form{padding:18px}.contact-form-head{align-items:flex-start;flex-direction:column;gap:4px}.contact-quote{margin:22px 0}.contact-form textarea{min-height:150px}}

@@ -6,15 +6,15 @@
 
   <meta name="description" content="Aatu Isopahkala / ANOMANCER: järjestelmäajattelua, tekoälyä, kieltä ja prototyyppejä käännettynä ihmisille." />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
-  <link rel="canonical" href="https://anomancer.vercel.app/" />
-  <link rel="alternate" hreflang="fi" href="https://anomancer.vercel.app/" />
-  <link rel="alternate" hreflang="en" href="https://anomancer.vercel.app/en" />
-  <link rel="alternate" hreflang="x-default" href="https://anomancer.vercel.app/" />
+  <link rel="canonical" href="https://anomancer.com/" />
+  <link rel="alternate" hreflang="fi" href="https://anomancer.com/" />
+  <link rel="alternate" hreflang="en" href="https://anomancer.com/en" />
+  <link rel="alternate" hreflang="x-default" href="https://anomancer.com/" />
   <meta property="og:site_name" content="ANOMANCER" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="ANOMANCER — Aatu Isopahkala" />
   <meta property="og:description" content="Monimutkaiset järjestelmät auki, olennaiset asiat ihmiskielelle. Tekoälyä, kieltä, ohjelmistoja ja järjestelmäajattelua." />
-  <meta property="og:url" content="https://anomancer.vercel.app/" />
+  <meta property="og:url" content="https://anomancer.com/" />
   <meta property="og:locale" content="fi_FI" />
   <meta property="og:locale:alternate" content="en_US" />
   <meta name="twitter:card" content="summary" />
@@ -27,22 +27,22 @@
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://anomancer.vercel.app/#website",
-      "url": "https://anomancer.vercel.app/",
+      "@id": "https://anomancer.com/#website",
+      "url": "https://anomancer.com/",
       "name": "ANOMANCER",
       "inLanguage": [
         "fi",
         "en"
       ],
       "publisher": {
-        "@id": "https://anomancer.vercel.app/#person"
+        "@id": "https://anomancer.com/#person"
       }
     },
     {
       "@type": "Person",
-      "@id": "https://anomancer.vercel.app/#person",
+      "@id": "https://anomancer.com/#person",
       "name": "Aatu Isopahkala",
-      "url": "https://anomancer.vercel.app/",
+      "url": "https://anomancer.com/",
       "knowsAbout": [
         "artificial intelligence",
         "AI agents",
@@ -77,6 +77,7 @@
         <a href="#about">Kuka?</a>
         <a href="#work">Reitit</a>
         <a href="/lahetykset">Lähetykset</a>
+        <a href="#contact">Yhteys</a>
         <a href="https://bhc-observatory.vercel.app/">Observatorio</a>
       </nav>
       <div class="lang-switch" aria-label="Kieli"><a class="active" href="/" lang="fi">FI</a><span>/</span><a href="/en" lang="en">EN</a></div>
@@ -136,6 +137,61 @@
         </a>
       </div>
     </section>
+  
+    <!-- ANOMANCER 13.13 · CONTACT GATE -->
+    <section id="contact" class="section contact-section" aria-labelledby="contact-title">
+      <div class="contact-grid">
+        <div class="section-heading contact-heading">
+          <p class="eyebrow">Yhteys / Open channel</p>
+          <h2 id="contact-title">Ota yhteyttä.</h2>
+          <p class="contact-lead">Jokin ongelma, idea tai outo havainto? Lähetä se tänne.</p>
+        </div>
+        <div class="contact-body">
+          <div class="contact-copy">
+            <p>Minuun kannattaa olla rohkeasti yhteydessä matalalla kynnyksellä.</p>
+            <p>Aiheen ei tarvitse olla valmiiksi muotoiltu hanke, työtehtävä tai yhteistyöehdotus. Jos olet törmännyt ongelmaan, ajatukseen tai järjestelmään ja tuntuu siltä, että voisin nähdä siinä jotain hyödyllistä, voit kirjoittaa.</p>
+            <p>Minua kiinnostavat erityisesti tilanteet, joissa jokin ei oikein sovi valmiiseen muottiin. Se voi liittyä tekoälyyn, ohjelmistoihin, oppimiseen, luovaan työhön, tietoturvaan, viestintään, järjestelmiin, tutkimukseen tai johonkin aivan muuhun.</p>
+            <p>En tällä hetkellä tarjoa täällä valmiita maksullisia palvelupaketteja, kursseja tai konsultointituotteita. Lähestyn kokonaisuutta ennemmin ihmisen ja ongelman kautta.</p>
+            <p>Samalla etsin aktiivisesti uusia ihmisiä ympärilleni taustoista riippumatta. Olen avoin yhteistyölle, kokeiluille, tutkimukselle, projekteille, luoville yhdistelmille ja myös mahdollisille työkuvioille.</p>
+            <blockquote class="contact-quote">“Mulla on tällainen vähän outo ongelma. Mitä sä näet tässä?”</blockquote>
+            <p>Siitä voidaan aloittaa.</p>
+          </div>
+
+          <form class="contact-form" id="contact-form" novalidate>
+            <div class="contact-form-head">
+              <span>YHTEYDENOTTO</span>
+              <small>Ei uutiskirjettä. Ei markkinointilistaa.</small>
+            </div>
+            <label>
+              <span>Nimi <small>valinnainen</small></span>
+              <input name="name" autocomplete="name" maxlength="120" />
+            </label>
+            <label>
+              <span>Sähköposti</span>
+              <input name="email" type="email" autocomplete="email" maxlength="254" required />
+            </label>
+            <label>
+              <span>Aihe</span>
+              <input name="subject" maxlength="160" placeholder="Mistä suunnilleen on kyse?" />
+            </label>
+            <label>
+              <span>Viesti</span>
+              <textarea name="message" rows="8" maxlength="6000" required placeholder="Kerro omin sanoin. Sen ei tarvitse olla valmis suunnitelma."></textarea>
+            </label>
+            <div class="contact-honeypot" aria-hidden="true">
+              <label>Yritys<input name="company" tabindex="-1" autocomplete="off" /></label>
+            </div>
+            <input type="hidden" name="startedAt" value="" />
+            <button class="contact-submit" type="submit">LÄHETÄ VIESTI</button>
+            <p class="contact-privacy">Yhteystietoa käytetään vain viestiisi vastaamiseen. Lomake ei lisää sinua uutiskirjeeseen tai markkinointilistalle.</p>
+            <p class="contact-status" id="contact-status" role="status" aria-live="polite"></p>
+            <a class="contact-fallback" href="mailto:alakhapositu@proton.me">Tai lähetä sähköpostia suoraan →</a>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!-- /ANOMANCER 13.13 · CONTACT GATE -->
+
   </main>
 
   <footer class="footer">
@@ -158,6 +214,55 @@
       menu.classList.remove('is-open');
       button?.setAttribute('aria-expanded', 'false');
     }));
+  </script>
+
+  <script>
+    (() => {
+      const form = document.querySelector('#contact-form');
+      if (!form) return;
+      const status = document.querySelector('#contact-status');
+      const submit = form.querySelector('button[type="submit"]');
+      const started = form.querySelector('[name="startedAt"]');
+      if (started) started.value = String(Date.now());
+
+      const setStatus = (message, kind='') => {
+        if (!status) return;
+        status.textContent = message;
+        status.dataset.kind = kind;
+      };
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        submit.disabled = true;
+        setStatus('Lähetetään…', 'working');
+        const data = Object.fromEntries(new FormData(form).entries());
+        data.language = 'fi';
+        data.startedAt = Number(data.startedAt || 0);
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || !result.ok) throw new Error(result.error || 'SEND_FAILED');
+          form.reset();
+          if (started) started.value = String(Date.now());
+          setStatus('Viesti lähti. Kiitos.', 'success');
+        } catch (error) {
+          const code = String(error?.message || '');
+          const message = code === 'CONTACT_NOT_CONFIGURED'
+            ? 'Lomakkeen lähetys ei ole vielä käytössä. Voit lähettää sähköpostia suoraan alla olevasta linkistä.'
+            : code === 'RATE_LIMITED'
+              ? 'Viestiraja tuli hetkeksi vastaan. Kokeile myöhemmin tai lähetä sähköpostia suoraan.'
+              : 'Viestin lähetys ei onnistunut. Kokeile uudelleen tai lähetä sähköpostia suoraan.';
+          setStatus(message, 'error');
+        } finally {
+          submit.disabled = false;
+        }
+      });
+    })();
   </script>
 </body>
 </html>

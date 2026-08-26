@@ -1,3 +1,13 @@
+# ANOMANCER V13.14 · DOMAIN MIGRATION FULL
+
+Yksi ehjä tuotantopohja domain-vaihdon jälkeen. Canonical origin on `https://anomancer.com`. Mukana 7 FI-lähetystä, V13.13 Contact Gate, strict audience filtering sekä V13.11–V13.12 muutokset.
+
+**Tärkeä sääntö tästä eteenpäin:** älä deployaa vanhoista release-kansioista. Tämä puu tai sama GitHub-repo on tuotannon totuus.
+
+Katso `DOMAIN_MIGRATION.md`.
+
+---
+
 # ANOMANCER V13.5 · HUMAN LIBRARY
 
 Lähetyskoneen ihmiskäännöskerros. Sisältö järjestyy nyt lukijan ongelmien ja hyödyn mukaan, ei projektien sisäisen sanaston mukaan.
@@ -117,7 +127,7 @@ Tämän jälkeen `/admin`-julkaisu tekee commitin GitHubin production-branchiin,
 Avaa:
 
 ```text
-https://anomancer.vercel.app/admin
+https://anomancer.com/admin
 ```
 
 Kirjaudu omalla admin-salasanalla. Valitse vanha lähetys tai `+ Uusi`, kirjoita ja paina:
@@ -171,23 +181,3 @@ Desktopin hero-, identiteetti-, reitti-, lähetys- ja artikkeliotsikoiden maksim
 - Pinnattujen keskinäinen järjestys on edelleen päivämäärän mukaan.
 - Julkisessa kortissa näkyy pieni Pinnattu/Pinned-merkintä.
 - RSS pysyy kronologisena eikä pinnaus sotke syötteen ajallista luonnetta.
-
-
-## V13.11 · HUMAN CONTACTS
-
-- Updated public contact email to `alakhapositu@proton.me`.
-- Added the human-facing Instagram account `@kaikkeudenkasvot` to the FI and EN home footers.
-- Added Instagram to Person `sameAs` structured data.
-- ANOMANCER keeps human-facing contacts here; project/system links remain in the Observatory.
-
-
-## V13.12 · LIVE CLEANUP
-
-- article language switch opens the matching translation when one exists
-- duplicate article H1 matching the page title is removed during render
-- empty category filters are hidden
-- audience filters stay hidden until targeted audience metadata is actually in use
-- Dispatches index footer points to Home with the correct label
-- Finnish library SEO copy no longer claims formal selkokieli
-- RSS is explicitly chronological and independent of pinning
-- paired “Why does this page exist?” articles are polished, aligned and pinned in both languages via migration script

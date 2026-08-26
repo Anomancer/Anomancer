@@ -1,21 +1,109 @@
 {
-  "generatedAt": "2026-08-25T23:05:03.269Z",
+  "generatedAt": "2026-08-26T12:22:26.885Z",
   "published": [
+    {
+      "lang": "fi",
+      "slug": "enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan",
+      "title": "Entä jos oppilas ei vihaa matematiikkaa vaan tapaa, jolla se tulee vastaan?",
+      "category": "ai-work",
+      "audience": [
+        "teacher"
+      ],
+      "pinned": false,
+      "date": "2026-08-26",
+      "url": "https://anomancer.com/lahetykset/enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan",
+      "coverImage": ""
+    },
+    {
+      "lang": "fi",
+      "slug": "kuka-kirjoitti-taman-tekstin",
+      "title": "Kuka kirjoitti tämän tekstin?",
+      "category": "language-learning",
+      "audience": [
+        "all"
+      ],
+      "pinned": false,
+      "date": "2026-08-26",
+      "url": "https://anomancer.com/lahetykset/kuka-kirjoitti-taman-tekstin",
+      "coverImage": ""
+    },
+    {
+      "lang": "fi",
+      "slug": "miksi-tekoalyagentille-pitaisi-antaa-passi",
+      "title": "Miksi tekoälyagentille pitäisi antaa passi?",
+      "category": "ai-work",
+      "audience": [
+        "all"
+      ],
+      "pinned": false,
+      "date": "2026-08-26",
+      "url": "https://anomancer.com/lahetykset/miksi-tekoalyagentille-pitaisi-antaa-passi",
+      "coverImage": ""
+    },
     {
       "lang": "fi",
       "slug": "miksi-tama-sivu-on-olemassa",
       "title": "Miksi tämä sivu on olemassa?",
-      "category": "field",
+      "category": "info-media",
+      "audience": [
+        "all"
+      ],
+      "pinned": true,
       "date": "2026-08-26",
-      "url": "https://anomancer.vercel.app/lahetykset/miksi-tama-sivu-on-olemassa"
+      "url": "https://anomancer.com/lahetykset/miksi-tama-sivu-on-olemassa",
+      "coverImage": ""
+    },
+    {
+      "lang": "fi",
+      "slug": "miksi-yksinkertainen-it-ratkaisu-voi-muuttua-miljoonien-eurojen-hankkeeksi",
+      "title": "Miksi yksinkertainen IT-ratkaisu voi muuttua miljoonien eurojen hankkeeksi?",
+      "category": "info-media",
+      "audience": [
+        "all"
+      ],
+      "pinned": false,
+      "date": "2026-08-26",
+      "url": "https://anomancer.com/lahetykset/miksi-yksinkertainen-it-ratkaisu-voi-muuttua-miljoonien-eurojen-hankkeeksi",
+      "coverImage": ""
+    },
+    {
+      "lang": "fi",
+      "slug": "miten-tunnistaa-tekoalylla-tehdyn-tekstin-tai-kuvan",
+      "title": "Miten tunnistaa tekoälyllä tehdyn tekstin tai kuvan?",
+      "category": "info-media",
+      "audience": [
+        "all"
+      ],
+      "pinned": false,
+      "date": "2026-08-26",
+      "url": "https://anomancer.com/lahetykset/miten-tunnistaa-tekoalylla-tehdyn-tekstin-tai-kuvan",
+      "coverImage": ""
+    },
+    {
+      "lang": "fi",
+      "slug": "taide-ei-ehka-ole-menossa-kohti-tekoalytaidetta-vaan-kohti-jotain-paljon-laajempaa",
+      "title": "Taide ei ehkä ole menossa kohti tekoälytaidetta vaan kohti jotain paljon laajempaa",
+      "category": "info-media",
+      "audience": [
+        "all"
+      ],
+      "pinned": false,
+      "date": "2026-08-26",
+      "url": "https://anomancer.com/lahetykset/taide-ei-ehka-ole-menossa-kohti-tekoalytaidetta-vaan-kohti-jotain-paljon-laajempaa",
+      "coverImage": ""
     },
     {
       "lang": "en",
       "slug": "why-this-page-exists",
       "title": "Why does this page exist?",
-      "category": "field",
+      "category": "info-media",
+      "audience": [
+        "all"
+      ],
+      "pinned": true,
       "date": "2026-08-26",
-      "url": "https://anomancer.vercel.app/dispatches/why-this-page-exists"
+      "url": "https://anomancer.com/dispatches/why-this-page-exists",
+      "coverImage": ""
     }
   ]
 }

@@ -2,7 +2,10 @@
 title: "Miksi tekoälyagentille pitäisi antaa passi?"
 date: "2026-08-26"
 category: "ai-work"
+<<<<<<< HEAD
 audience: ["all"]
+=======
+>>>>>>> ab7df4c (ANOMANCER 13.14 domain migration)
 description: "Miksi tekoälyagentin pitäisi voida todistaa kuka se on, mitä se saa tehdä ja mitä se teki?"
 slug: "miksi-tekoalyagentille-pitaisi-antaa-passi"
 lang: "fi"
@@ -11,6 +14,8 @@ coverImage: ""
 coverAlt: ""
 pinned: false
 draft: false
+audience: ["all"]
+pinned: false
 ---
 
 >Tekoälyagentti ei ole enää pelkkä keskustelukumppani. Kun mallille annetaan työkaluja, käyttöoikeuksia ja mahdollisuus suorittaa tehtäviä itsenäisesti, puhutaan jo jostain ihan muusta kuin chatbotista. Agentti voi hakea tietoa, lukea tiedostoja, kirjoittaa järjestelmiin, lähettää viestejä tai käynnistää muita toimintoja. Siinä vaiheessa pitäisi pystyä vastaamaan aika yksinkertaiseen kysymykseen: **millä luvalla tämä agentti toimii?**
@@ -31,14 +36,9 @@ Jos ajossa näkyy toiminto, jota alkuperäinen sopimus ei sallinut, poikkeama vo
 
 Ajatellaan vaikka tutkimusagenttia.
 
-Tehtävä: etsi uusia tutkimuksia tietystä aiheesta ja tee niistä yhteenveto.
-Oikeudet: verkkohaku ja julkisten sivujen lukeminen.
-Kirjoitusoikeus: yksi raporttitiedosto.
-Budjetti: 50 hakua.
-Voimassaolo: yhden ajon ajan.
+Tehtävä: etsi uusia tutkimuksia tietystä aiheesta ja tee niistä yhteenveto. Oikeudet: verkkohaku ja julkisten sivujen lukeminen. Kirjoitusoikeus: yksi raporttitiedosto. Budjetti: 50 hakua. Voimassaolo: yhden ajon ajan.
 
-Sähköposti, muut tiedostot ja muut järjestelmät jäävät kokonaan ulkopuolelle.
-Kun työ päättyy, myös oikeudet päättyvät.
+Sähköposti, muut tiedostot ja muut järjestelmät jäävät kokonaan ulkopuolelle. Kun työ päättyy, myös oikeudet päättyvät.
 
 Ei kovin futuristista. Lähinnä normaalia käyttöoikeuksien hallintaa siirrettynä maailmaan, jossa ohjelmisto ei enää vain odota napinpainallusta vaan voi toimia itsenäisesti. Juuri tässä agenttien yleistyminen muuttaa asetelmaa.
 
