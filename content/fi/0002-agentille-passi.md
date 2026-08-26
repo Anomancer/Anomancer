@@ -1,11 +1,15 @@
 ---
 title: "Miksi tekoälyagentille pitäisi antaa passi?"
 date: "2026-08-26"
-category: "ai-agents"
-description: "Miksi tekoälyagentin pitäisi voida todistaa kuka se on, mitä se saa tehdä ja mitä se teki? Selkokielinen johdatus agenttipassiin."
+category: "ai-work"
+audience: ["all"]
+description: "Miksi tekoälyagentin pitäisi voida todistaa kuka se on, mitä se saa tehdä ja mitä se teki?"
 slug: "miksi-tekoalyagentille-pitaisi-antaa-passi"
 lang: "fi"
 translationKey: "why-an-ai-agent-needs-a-passport"
+coverImage: ""
+coverAlt: ""
+pinned: false
 draft: false
 ---
 
