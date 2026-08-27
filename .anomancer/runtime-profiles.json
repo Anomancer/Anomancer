@@ -1,8 +1,9 @@
 {
-  "format": "anomancer-runtime-store/v2",
-  "coreVersion": "15.8.0",
-  "revision": 2,
-  "updatedAt": "2026-08-26T21:07:37.307Z",
+  "format": "anomancer-runtime-store/v3",
+  "coreVersion": "16.3.0",
+  "workspaceId": "default",
+  "revision": 3,
+  "updatedAt": "2026-08-27T13:26:42.437Z",
   "profiles": {
     "source": {
       "format": "anomancer-agent-runtime/v1",
@@ -26,7 +27,7 @@
       "agentId": "structure",
       "contractHash": "98a56fa8436de1bdb6612e24a0820a762220900e08382909e77bd8874fd2842d",
       "active": true,
-      "maxOutputTokens": 12000,
+      "maxOutputTokens": 24000,
       "modelTarget": "deepseek.writer",
       "limits": {
         "minOutputTokens": 1000,
@@ -129,10 +130,28 @@
         ]
       }
     },
+    "visualization": {
+      "format": "anomancer-agent-runtime/v1",
+      "agentId": "visualization",
+      "contractHash": "ffa522d12c262d86028a6948991173740ae03d0c091d0f0c358d44efb162838a",
+      "active": true,
+      "maxOutputTokens": 10000,
+      "modelTarget": "deepseek.critic",
+      "limits": {
+        "minOutputTokens": 1000,
+        "maxOutputTokens": 20000,
+        "modelTargets": [
+          "deepseek.critic",
+          "openai.critic",
+          "anthropic.critic",
+          "gemini.critic"
+        ]
+      }
+    },
     "package": {
       "format": "anomancer-agent-runtime/v1",
       "agentId": "package",
-      "contractHash": "1ee5dde1e14e6d0dbe3a095766f86276863c4ba18517fb55b42db13c5b6ece0d",
+      "contractHash": "65db4db28a286fed833ef962cae421781c3a32bf2be06ae62793d960a6ebe26a",
       "active": true,
       "maxOutputTokens": 12000,
       "modelTarget": "deepseek.writer",
