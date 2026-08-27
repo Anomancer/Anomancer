@@ -2,9 +2,9 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.6.0",
   "workspaceId": "ws-romaani-6301c8",
-  "revision": 6,
-  "updatedAt": "2026-08-27T18:05:12.706Z",
-  "chainHead": "GENESIS",
+  "revision": 7,
+  "updatedAt": "2026-08-27T18:07:17.107Z",
+  "chainHead": "dd4863491791fae01cc4d090f8cf98a431531acd9862eff7d8f78e72b4714196",
   "runs": [
     {
       "format": "anomancer-run-record/v2",
@@ -17,18 +17,21 @@
         "name": "Narramancer Story Orchestra",
         "orchestraHash": "23f6609acd00356de0af012f0bcb6fa434e4d83cd1514371bb23671c2551a827"
       },
-      "status": "checkpoint",
+      "status": "failed",
       "humanApproval": {
         "required": true,
         "status": "pending",
         "appliedAt": ""
       },
       "startedAt": "2026-08-27T17:59:48.923Z",
-      "finishedAt": "",
-      "updatedAt": "2026-08-27T18:05:12.706Z",
+      "finishedAt": "2026-08-27T18:07:16.289Z",
+      "updatedAt": "2026-08-27T18:07:17.107Z",
       "degradedStages": [],
       "disabledStages": [],
-      "error": null,
+      "error": {
+        "code": "",
+        "message": ""
+      },
       "receipts": [
         {
           "format": "anomancer-run-receipt/v1",
@@ -347,26 +350,36 @@
         "orchestras": {}
       },
       "receiptCount": 5,
-      "previousRunHash": "",
-      "runHash": "",
-      "counted": false
+      "previousRunHash": "GENESIS",
+      "runHash": "dd4863491791fae01cc4d090f8cf98a431531acd9862eff7d8f78e72b4714196",
+      "counted": true
     }
   ],
   "lifetime": {
-    "runs": 0,
-    "inputTokens": 0,
-    "outputTokens": 0,
-    "totalTokens": 0,
-    "reasoningTokens": 0,
-    "durationMs": 0,
+    "runs": 1,
+    "inputTokens": 15408,
+    "outputTokens": 21898,
+    "totalTokens": 37306,
+    "reasoningTokens": 9426,
+    "durationMs": 305616,
     "estimatedCostEuro": 0,
     "pricedReceipts": 0,
     "fallbacks": 0,
     "toolAllows": 0,
     "toolDenies": 0,
     "toolHumanRequired": 0,
-    "providers": {},
-    "agents": {},
-    "orchestras": {}
+    "providers": {
+      "deepseek": 37306
+    },
+    "agents": {
+      "narrative-premise": 6201,
+      "narrative-world": 8856,
+      "narrative-character": 5983,
+      "narrative-plot": 8516,
+      "narrative-scene": 7750
+    },
+    "orchestras": {
+      "narramancer": 1
+    }
   }
 }
