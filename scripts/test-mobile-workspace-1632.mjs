@@ -36,6 +36,12 @@ test('Lisää avaa saman komentopinnan työtilalle, asetuksille ja julkaisuohjau
   assert.match(js,/function setMobileMore\(open\)/);
 });
 
+test('Lisää-komentopinta portaloidaan topbarin stacking contextin ulkopuolelle',()=>{
+  assert.match(html,/id="mobileCommandPortal"/);
+  assert.match(js,/function syncMobileCommandHost\(\)/);
+  assert.match(js,/portal\.append\(actions\)/);
+});
+
 test('lähetyslista on mobiilissa täyskorkea drawer eikä matala lista',()=>{
   assert.match(css,/\.sidebar\{z-index:74;width:min\(92vw,390px\);height:100dvh/);
 });
@@ -49,4 +55,4 @@ test('safe-area huomioidaan alapalkissa',()=>{
   assert.match(css,/height:calc\(var\(--mobile-dock-h\) \+ var\(--mobile-safe-bottom\)\)/);
 });
 
-console.log(`\n${ok}/${ok} MOBILE WORKSPACE 16.3.2 -testiä läpi`);
+console.log(`\n${ok}/${ok} MOBILE WORKSPACE 16.3.2.1 -testiä läpi`);
