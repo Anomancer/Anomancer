@@ -1,0 +1,73 @@
+{
+  "format": "anomancer-run-store/v2",
+  "coreVersion": "16.6.0",
+  "workspaceId": "ws-romaani-6301c8",
+  "revision": 1,
+  "updatedAt": "2026-08-27T17:59:51.528Z",
+  "chainHead": "GENESIS",
+  "runs": [
+    {
+      "format": "anomancer-run-record/v2",
+      "coreVersion": "16.6.0",
+      "workspaceId": "ws-romaani-6301c8",
+      "id": "narramancer-1787853588923-389zs",
+      "orchestraRunId": "narramancer-1787853588923-389zs",
+      "orchestra": {
+        "id": "narramancer",
+        "name": "Narramancer Story Orchestra",
+        "orchestraHash": "23f6609acd00356de0af012f0bcb6fa434e4d83cd1514371bb23671c2551a827"
+      },
+      "status": "checkpoint",
+      "humanApproval": {
+        "required": true,
+        "status": "pending",
+        "appliedAt": ""
+      },
+      "startedAt": "2026-08-27T17:59:48.923Z",
+      "finishedAt": "",
+      "updatedAt": "2026-08-27T17:59:51.528Z",
+      "degradedStages": [],
+      "disabledStages": [],
+      "error": null,
+      "receipts": [],
+      "usage": {
+        "runs": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0,
+        "reasoningTokens": 0,
+        "durationMs": 0,
+        "estimatedCostEuro": 0,
+        "pricedReceipts": 0,
+        "fallbacks": 0,
+        "toolAllows": 0,
+        "toolDenies": 0,
+        "toolHumanRequired": 0,
+        "providers": {},
+        "agents": {},
+        "orchestras": {}
+      },
+      "receiptCount": 0,
+      "previousRunHash": "",
+      "runHash": "",
+      "counted": false
+    }
+  ],
+  "lifetime": {
+    "runs": 0,
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "totalTokens": 0,
+    "reasoningTokens": 0,
+    "durationMs": 0,
+    "estimatedCostEuro": 0,
+    "pricedReceipts": 0,
+    "fallbacks": 0,
+    "toolAllows": 0,
+    "toolDenies": 0,
+    "toolHumanRequired": 0,
+    "providers": {},
+    "agents": {},
+    "orchestras": {}
+  }
+}
