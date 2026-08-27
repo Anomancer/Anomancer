@@ -21,8 +21,6 @@ pinned: false
 draft: false
 ---
 
-> Tekoälystä puhutaan usein automaationa: miten monta työvaihetta voidaan poistaa, miten nopeasti teksti saadaan ulos, miten monta agenttia voi päästää työskentelemään omin päin. Oma projektini lähti melkein päinvastaiseen suuntaan.
-
 > Rakensin Anomancer-nimisen kirjoitusjärjestelmän, jossa tekoäly joutuu kulkemaan usean tarkasti rajatun vaiheen läpi ennen kuin mitään voidaan edes ajatella julkaistavaksi. Järjestelmässä on yhdeksän agenttia. Niillä on nolla julkaisuvaltaa. Ihmisen portti – viimeinen hyväksyntävaihe – on päällä.
 
 > Kyse ei ole vahingosta eikä keskeneräisyydestä. Tämä on koko järjestelmän idea.
