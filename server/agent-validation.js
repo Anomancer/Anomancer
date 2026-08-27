@@ -10,6 +10,8 @@ const list=(value,max=20)=>Array.isArray(value)?value.slice(0,max):[];
 const strings=(value,max=20,itemMax=600)=>list(value,max).map(x=>text(x,itemMax)).filter(Boolean);
 const url=value=>{try{const parsed=new URL(String(value||''));return ['http:','https:'].includes(parsed.protocol)?parsed.href:'';}catch{return '';}};
 const qualityWarnings=(body,post,title=post.title)=>editorialQualityWarnings({lang:post.lang,title,body}).slice(0,12);
+const neutralizeWorkflowLabels=value=>String(value??'').replace(/\b(?:lähde-ehdokas|kandidaattilähde)\b/giu,m=>/^[A-ZÅÄÖ]/u.test(m)?'Lähde':'lähde').replace(/\b(?:source candidate|candidate source)\b/giu,m=>/^[A-Z]/.test(m)?'Source':'source');
+const bodyResult=(rawBody,post)=>{const original=text(rawBody,500_000),body=neutralizeWorkflowLabels(original),cleaned=body!==original;const warning=cleaned?(post.lang==='en'?'Internal source-status labels were moved out of publishable prose.':'Sisäinen lähdestatus poistettiin julkaisutekstistä; varmennustila kuuluu evidenssikerrokseen.'):'';return{body,warning};};
 
 function normalizeClaims(value,post){
   const sources=new Map((post.sources||[]).map(source=>[url(source.url),source]));
@@ -58,14 +60,14 @@ export function validateAgentResult(agent,value,post){
     outline:list(raw.outline,16).map(item=>({heading:text(object(item).heading,180),purpose:text(object(item).purpose,700)})).filter(x=>x.heading),
     closing:text(raw.closing,1500),notes:strings(raw.notes,12,700),
   };
-  if(agent==='writer') {const body=text(raw.body,500_000);return {body,titleSuggestions:strings(raw.titleSuggestions,8,180),description:text(raw.description,220),answer:text(raw.answer,1200),notes:[...strings(raw.notes,12,700),...qualityWarnings(body,post)].slice(0,20)};}
+  if(agent==='writer') {const clean=bodyResult(raw.body,post),body=clean.body;return {body,titleSuggestions:strings(raw.titleSuggestions,8,180),description:text(raw.description,220),answer:text(raw.answer,1200),notes:[...strings(raw.notes,12,700),...(clean.warning?[clean.warning]:[]),...qualityWarnings(body,post)].slice(0,20)};}
   if(agent==='critic') return {
     verdict:text(raw.verdict,1800),
     issues:list(raw.issues,30).map(item=>{const v=object(item);return {severity:SEVERITIES.has(v.severity)?v.severity:'medium',type:text(v.type,120),excerpt:text(v.excerpt,500),problem:text(v.problem,900),fix:text(v.fix,900)};}).filter(x=>x.problem),
     strengths:strings(raw.strengths,16,700),questions:strings(raw.questions,16,700),
   };
-  if(agent==='audience') {const body=text(raw.body,500_000);return {body,adaptationSummary:strings(raw.adaptationSummary,20,700),audienceFit:text(raw.audienceFit,1200),preservedCore:strings(raw.preservedCore,20,700),warnings:[...strings(raw.warnings,20,700),...qualityWarnings(body,post)].slice(0,28)};}
-  if(agent==='voice') {const body=text(raw.body,500_000);return {body,changes:strings(raw.changes,30,700),warnings:[...strings(raw.warnings,20,700),...qualityWarnings(body,post)].slice(0,28)};}
+  if(agent==='audience') {const clean=bodyResult(raw.body,post),body=clean.body;return {body,adaptationSummary:strings(raw.adaptationSummary,20,700),audienceFit:text(raw.audienceFit,1200),preservedCore:strings(raw.preservedCore,20,700),warnings:[...strings(raw.warnings,20,700),...(clean.warning?[clean.warning]:[]),...qualityWarnings(body,post)].slice(0,28)};}
+  if(agent==='voice') {const clean=bodyResult(raw.body,post),body=clean.body;return {body,changes:strings(raw.changes,30,700),warnings:[...strings(raw.warnings,20,700),...(clean.warning?[clean.warning]:[]),...qualityWarnings(body,post)].slice(0,28)};}
   if(agent==='visualization') return {summary:text(raw.summary,1200),charts:normalizeVisualizations(raw.charts,{sources:post.sources,claims:post.claims,body:post.body}),warnings:strings(raw.warnings,20,700)};
   if(agent==='package'){
     const category=CATEGORIES.includes(raw.category)?raw.category:post.category;
