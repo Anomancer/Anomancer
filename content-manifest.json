@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-27T17:40:50.553Z",
+  "generatedAt": "2026-08-27T17:46:52.134Z",
   "entity": {
     "siteName": "Anomancer",
     "author": "Aatu Isopahkala",
@@ -8,6 +8,32 @@
     "websiteId": "https://anomancer.com/#website"
   },
   "published": [
+    {
+      "lang": "fi",
+      "slug": "adhd-ja-autismi",
+      "title": "ADHD ja autismi",
+      "description": "ADHD- ja autismikokemuksesta syntynyt ajatelma siitä, miksi tekoäly voi toimia ajattelun työpöytänä, miksi sille tarvitaan rajat ja miksi ympäristöä voi muuttaa ihmisen sijaan.",
+      "answer": "",
+      "category": "info-media",
+      "audience": [
+        "all"
+      ],
+      "audienceDepth": "general",
+      "pinned": false,
+      "date": "2026-08-27",
+      "updated": "2026-08-27",
+      "url": "https://anomancer.com/lahetykset/adhd-ja-autismi",
+      "articleId": "https://anomancer.com/lahetykset/adhd-ja-autismi#article",
+      "authorId": "https://anomancer.com/#person",
+      "coverImage": "",
+      "evidence": {
+        "sourceCount": 4,
+        "claimCount": 0,
+        "supported": 0,
+        "interpretation": 0,
+        "open": 0
+      }
+    },
     {
       "lang": "fi",
       "slug": "en-rakentanut-agentteja-ajattelemaan-puolestani",
@@ -54,6 +80,32 @@
       "updated": "2026-08-27",
       "url": "https://anomancer.com/lahetykset/ennen-kuin-tekoaly-vie-tyopaikkasi-varmista-ettei-se-vie-kotihakemistoasi",
       "articleId": "https://anomancer.com/lahetykset/ennen-kuin-tekoaly-vie-tyopaikkasi-varmista-ettei-se-vie-kotihakemistoasi#article",
+      "authorId": "https://anomancer.com/#person",
+      "coverImage": "",
+      "evidence": {
+        "sourceCount": 5,
+        "claimCount": 0,
+        "supported": 0,
+        "interpretation": 0,
+        "open": 0
+      }
+    },
+    {
+      "lang": "fi",
+      "slug": "kirjoitan-myos-koneille-mutta-en-niiden-puolesta",
+      "title": "Kirjoitan myös koneille, mutta en niiden puolesta",
+      "description": "Julkaiseminen verkossa ei ole enää vain ihmisten välistä: teksti päätyy myös koneille. Essee pohtii, millaisen jäljen haluamme verkkoon jättää ja miksi rakenne, lähteet ja suomen kieli ovat nyt tärkeitä.",
+      "answer": "",
+      "category": "language-learning",
+      "audience": [
+        "all"
+      ],
+      "audienceDepth": "general",
+      "pinned": false,
+      "date": "2026-08-27",
+      "updated": "2026-08-27",
+      "url": "https://anomancer.com/lahetykset/kirjoitan-myos-koneille-mutta-en-niiden-puolesta",
+      "articleId": "https://anomancer.com/lahetykset/kirjoitan-myos-koneille-mutta-en-niiden-puolesta#article",
       "authorId": "https://anomancer.com/#person",
       "coverImage": "",
       "evidence": {
@@ -164,6 +216,58 @@
       "coverImage": "",
       "evidence": {
         "sourceCount": 0,
+        "claimCount": 0,
+        "supported": 0,
+        "interpretation": 0,
+        "open": 0
+      }
+    },
+    {
+      "lang": "fi",
+      "slug": "sinulle-joka-epailet",
+      "title": "Sinulle, joka epäilet",
+      "description": "Pohdiskeleva kirje nuorelle, joka epäilee: tulevaisuuden kartta on tyhjä, mutta siitä voi lähteä liikkeelle. Tärkeintä ei ole tietää valmiiksi, vaan uteliaisuus ja halu rakentaa.",
+      "answer": "",
+      "category": "creativity-tools",
+      "audience": [
+        "all"
+      ],
+      "audienceDepth": "general",
+      "pinned": false,
+      "date": "2026-08-27",
+      "updated": "2026-08-27",
+      "url": "https://anomancer.com/lahetykset/sinulle-joka-epailet",
+      "articleId": "https://anomancer.com/lahetykset/sinulle-joka-epailet#article",
+      "authorId": "https://anomancer.com/#person",
+      "coverImage": "",
+      "evidence": {
+        "sourceCount": 0,
+        "claimCount": 0,
+        "supported": 0,
+        "interpretation": 0,
+        "open": 0
+      }
+    },
+    {
+      "lang": "fi",
+      "slug": "alkaa-katkaisko-yhteytta-nyt",
+      "title": "Älkää katkaisko yhteyttä nyt",
+      "description": "Miksi tekoälyhuoli ei saisi katkaista aikuisen ja nuoren yhteyttä – ja miten kieltojen sijasta voi opetella yhdessä kysymään, tutkimaan ja rakentamaan.",
+      "answer": "",
+      "category": "info-media",
+      "audience": [
+        "all"
+      ],
+      "audienceDepth": "general",
+      "pinned": false,
+      "date": "2026-08-27",
+      "updated": "2026-08-27",
+      "url": "https://anomancer.com/lahetykset/alkaa-katkaisko-yhteytta-nyt",
+      "articleId": "https://anomancer.com/lahetykset/alkaa-katkaisko-yhteytta-nyt#article",
+      "authorId": "https://anomancer.com/#person",
+      "coverImage": "",
+      "evidence": {
+        "sourceCount": 6,
         "claimCount": 0,
         "supported": 0,
         "interpretation": 0,

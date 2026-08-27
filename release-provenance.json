@@ -2,8 +2,8 @@
   "format": "anomancer-release-provenance/v1",
   "release": "16.6.0",
   "coreVersion": "16.6.0",
-  "builtAt": "2026-08-27T17:40:50.553Z",
-  "sourceRevision": "e36077da3d45e40560fa022d68c75a26da482bc6",
+  "builtAt": "2026-08-27T17:46:52.134Z",
+  "sourceRevision": "b0d4b10f849b684a8a8208d73fc707033fba280d",
   "publicSchemaHash": "bcdc0a84be7cca9ae7a57aa3976ed33a9b22c529adfac390f50ca4e2ce9e832d",
   "registryHashes": {
     "agents": "d2cc30b49cc2c792184f9e8c8072eb4df02eb72526c90db12b0ad6a6698c56f3",
