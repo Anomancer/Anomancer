@@ -56,6 +56,15 @@ const narrativeAgents=allAgents.filter(id=>id.startsWith('narrative-'));
 
 const NARRAMANCER_EDITOR_DEFINITION=deepFreeze({
   format:'anomancer-workspace-editor-definition/v1',
+  navigation:{
+    format:'anomancer-workspace-navigation/v1',
+    groups:[
+      {id:'create',label:'Luo',items:['project','world','characters','plot']},
+      {id:'write',label:'Kirjoita',items:['chapters','timeline','canon']},
+      {id:'refine',label:'Jalosta',items:['orchestra']},
+      {id:'out',label:'Ulos',items:['export']}
+    ]
+  },
   sections:[
     {id:'project',label:'Projekti',kind:'form',fields:[
       {path:'project.title',label:'Projektin nimi',type:'text',maxLength:180},
@@ -108,6 +117,20 @@ export const WORKSPACE_TEMPLATE_REGISTRY=deepFreeze([
     allowedAgentIds:editorialAgents,builtInOrchestraIds:['editorial'],defaultOrchestraId:'editorial',
     artifactStoreId:'anomancer/github-markdown-content/v1',contentAdapterId:'anomancer/github-markdown/v1',
     outputAdapterId:'anomancer/vercel-publication/v1',uiProfileId:'anomancer/editorial-ui/v1',
+    editorDefinition:{
+      format:'anomancer-workspace-editor-definition/v1',
+      navigation:{format:'anomancer-workspace-navigation/v1',groups:[
+        {id:'create',label:'Luo',items:['write']},
+        {id:'verify',label:'Tarkista',items:['evidence','agents']},
+        {id:'out',label:'Ulos',items:['publish']}
+      ]},
+      sections:[
+        {id:'write',label:'Kirjoita',kind:'editor-tab'},
+        {id:'evidence',label:'Evidenssi',kind:'editor-tab'},
+        {id:'agents',label:'Agentit',kind:'editor-tab'},
+        {id:'publish',label:'Julkaisu',kind:'editor-action'}
+      ]
+    },
     capabilities:['content.read','content.write','media.write','publication.publish','runtime.manage','orchestra.custom','runs.read']
   }),
   finalizeTemplate({

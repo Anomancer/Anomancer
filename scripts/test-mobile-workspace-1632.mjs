@@ -32,7 +32,8 @@ test('esikatselu on mobiilissa oma overlay-näkymä',()=>{
 test('Lisää avaa saman komentopinnan työtilalle, asetuksille ja julkaisuohjaukselle',()=>{
   assert.match(html,/class="mobile-quick-actions"/);
   assert.match(html,/id="workspaceSelect"/);
-  assert.match(html,/id="layoutMenu"/);
+  assert.match(html,/id="mobileSettingsBtn"/);
+  assert.match(html,/id="coreSettingsDialog"/);
   assert.match(js,/function setMobileMore\(open\)/);
 });
 

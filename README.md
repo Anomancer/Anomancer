@@ -1,10 +1,10 @@
-# Anomancer 16.6.0 · Narramancer Vertical Slice
+# Anomancer 16.7.0 · Navigation Shell
 
-**16.6.0:** Lähetyskoneessa on nyt ensimmäinen Anomancerista aidosti eristetty uusi työtilatyyppi. `Työtila: Narramancer` vaihtaa editorin metadataohjattuun tarinatyötilaan, jossa ovat Projekti, Maailma, Hahmot, Juoni, Luvut, Aikajana, Kaanon, Orkesteri ja Vienti.
+**16.7.0:** Anomancer Corella on nyt pysyvä globaali navigaatiokuori. Työtilat, Lähetykset, Artefaktit, Konehuone ja Asetukset ovat eri järjestelmätasoja, ja valitun työtilan omat työkalut muodostuvat Workspace Templaten navigaatiometadatasta.
 
-Narramancerilla on oma Workspace Template, Constitution Contract, workspace-kohtainen private Artifact Store, yhdeksän narratiivisen agentin orkesteri sekä vain paikalliset vientipolut. Anomancerin julkaisut eivät näy Narramancerissa eikä Narramancerilla ole automaattista julkaisukykyä.
+Narramancer säilyttää 16.6:n eristetyn Constitution-, Artifact Store- ja orkesterimallin. 16.7 lisää sille ryhmitellyn paikallisnavigaation sekä vaiheistetun orkesteriajon, joka voidaan token- tai mallikatkon jälkeen jatkaa saman selainistunnon checkpointista.
 
-Katso `NARRAMANCER_VERTICAL_SLICE_16_6.md`, `WORKSPACE_TYPES_ARTIFACT_BOUNDARY_16_5.md` ja `FULL_RELEASE_16_6_0.md`.
+Katso `NAVIGATION_SHELL_16_7.md`, `NARRAMANCER_VERTICAL_SLICE_16_6.md`, `WORKSPACE_TYPES_ARTIFACT_BOUNDARY_16_5.md` ja `FULL_RELEASE_16_7_0.md`.
 
 ## Tarkistus
 
@@ -12,10 +12,10 @@ Katso `NARRAMANCER_VERTICAL_SLICE_16_6.md`, `WORKSPACE_TYPES_ARTIFACT_BOUNDARY_1
 npm run check
 ```
 
-Narramancerin kohdistettu hyväksymistesti:
+Navigation Shellin kohdistettu hyväksymistesti:
 
 ```bash
-npm run test:narramancer
+npm run test:navigation-shell
 ```
 
 ## Content-safe asennus
@@ -25,4 +25,4 @@ chmod +x INSTALL_TO_CURRENT.sh
 ./INSTALL_TO_CURRENT.sh /täysi/polku/Anomancer
 ```
 
-Asennin ei kopioi `content/`, `media/`, `public/`, rakennettuja lähetyksiä tai `.env`-salaisuuksia paketin mukana.
+Asennin ei kopioi `content/`, `media/`, `public/`, rakennettuja lähetyksiä tai `.env`-salaisuuksia paketin mukana. Kohteen oma build regeneroi julkaistut lähetykset sen omasta `content/`-aineistosta.

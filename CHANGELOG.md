@@ -1,3 +1,18 @@
+# Anomancer 16.7.0 · Navigation Shell
+
+## 16.7.0
+
+- lisätty pysyvä Core Shell: Työtilat, Lähetykset, Artefaktit, Konehuone ja Asetukset
+- lisätty Työtilat-kotipesä ja Workspace Context Bar
+- siirretty Konehuone editorin paikallistabista globaaliksi control planeksi
+- lisätty metadataohjattu navigaatiosopimus Anomancer- ja Narramancer-templateihin
+- lisätty työtilakohtainen Artefaktit-näkymä
+- säilytetty mobiilin tallenna-, julkaisu-, esikatselu-, Konehuone- ja asetustoiminnot uudessa shellissä
+- lisätty Narramancer-orkesterin vaiheprogressi ja selainistunnon checkpoint-jatkaminen token-/mallikatkosta
+- työtilan vaihto ei jatka navigointia, jos tallentamattomien muutosten portti perutaan
+- lisätty `admin-shell.js` ja `scripts/test-navigation-shell-167.mjs`
+- koko regressiosviitti läpäisee 16.7:n uuden informaatioarkkitehtuurin
+
 # Anomancer 16.6.0 · Narramancer Vertical Slice
 
 ## 16.6.0

@@ -1,6 +1,6 @@
 {
   "name": "anomancer-lahetyskone",
-  "version": "16.6.0",
+  "version": "16.7.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -11,7 +11,7 @@
     "new:post": "node scripts/new-post.mjs",
     "write": "node scripts/editor.mjs",
     "seo:check": "node seo-check.mjs",
-    "check": "node scripts/test-app-split-164.mjs && node scripts/test-living-machine-room-163.mjs && node scripts/test-senior-audit-163.mjs && node scripts/test-editorial-quality-1631.mjs && node scripts/test-editorial-gate-calibration-1634.mjs && node scripts/test-evidence-boundary-hygiene-1635.mjs && node scripts/test-mobile-workspace-1632.mjs && node scripts/test-mobile-control-plane-reflow-1633.mjs && node scripts/test-public-boundary.mjs && node scripts/test-api-surface.mjs && node scripts/test-evidence-presentation-162.mjs && node scripts/test-admin.mjs && node scripts/test-contact.mjs && node scripts/test-public-ui.mjs && node scripts/test-public-core.mjs && node scripts/test-agent-contracts.mjs && node scripts/test-ui-semantics.mjs && node scripts/test-surgical-ux-1602.mjs && node scripts/test-surgical-ux-1603.mjs && node scripts/build-blog.mjs --check && node scripts/test-language-boundaries.mjs && node scripts/test-entity-core.mjs && node scripts/test-evidence-layer.mjs && node scripts/test-discovery-layer.mjs && node scripts/test-core-foundation.mjs && node scripts/test-runtime-profiles.mjs && node scripts/test-custom-orchestras.mjs && node scripts/test-run-explorer.mjs && node scripts/test-workspace-foundation.mjs && node scripts/test-narramancer-166.mjs && node scripts/test-agent-pool-control.mjs && node scripts/test-tool-broker.mjs && node scripts/test-model-router.mjs && node scripts/test-agent-layer.mjs && node scripts/test-orchestrator.mjs && node scripts/domain-migration-check.mjs && node seo-check.mjs",
+    "check": "node scripts/test-app-split-164.mjs && node scripts/test-living-machine-room-163.mjs && node scripts/test-senior-audit-163.mjs && node scripts/test-editorial-quality-1631.mjs && node scripts/test-editorial-gate-calibration-1634.mjs && node scripts/test-evidence-boundary-hygiene-1635.mjs && node scripts/test-mobile-workspace-1632.mjs && node scripts/test-mobile-control-plane-reflow-1633.mjs && node scripts/test-public-boundary.mjs && node scripts/test-api-surface.mjs && node scripts/test-evidence-presentation-162.mjs && node scripts/test-admin.mjs && node scripts/test-contact.mjs && node scripts/test-public-ui.mjs && node scripts/test-public-core.mjs && node scripts/test-agent-contracts.mjs && node scripts/test-ui-semantics.mjs && node scripts/test-surgical-ux-1602.mjs && node scripts/test-surgical-ux-1603.mjs && node scripts/build-blog.mjs --check && node scripts/test-language-boundaries.mjs && node scripts/test-entity-core.mjs && node scripts/test-evidence-layer.mjs && node scripts/test-discovery-layer.mjs && node scripts/test-core-foundation.mjs && node scripts/test-runtime-profiles.mjs && node scripts/test-custom-orchestras.mjs && node scripts/test-run-explorer.mjs && node scripts/test-workspace-foundation.mjs && node scripts/test-navigation-shell-167.mjs && node scripts/test-narramancer-166.mjs && node scripts/test-agent-pool-control.mjs && node scripts/test-tool-broker.mjs && node scripts/test-model-router.mjs && node scripts/test-agent-layer.mjs && node scripts/test-orchestrator.mjs && node scripts/domain-migration-check.mjs && node seo-check.mjs",
     "admin:hash": "node scripts/hash-admin-password.mjs",
     "admin:secret": "node scripts/generate-session-secret.mjs",
     "test:admin": "node scripts/test-admin.mjs",
@@ -46,6 +46,7 @@
     "test:editorial-gate-calibration": "node scripts/test-editorial-gate-calibration-1634.mjs",
     "test:evidence-boundary-hygiene": "node scripts/test-evidence-boundary-hygiene-1635.mjs",
     "test:app-split": "node scripts/test-app-split-164.mjs",
-    "test:narramancer": "node scripts/test-narramancer-166.mjs"
+    "test:narramancer": "node scripts/test-narramancer-166.mjs",
+    "test:navigation-shell": "node scripts/test-navigation-shell-167.mjs"
   }
 }

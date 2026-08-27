@@ -404,7 +404,7 @@ fs.rmSync(PUBLIC, { recursive:true, force:true });
 ensureDir(PUBLIC);
 const publicFiles = [
   'index.html','en.html','core.html','lahetykset.html','dispatches.html','admin.html',
-  'ui-tokens.css','styles.css','core.css','admin.css','admin-control-plane.css','admin.js','admin-workspaces.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-machine-room.js','admin-orchestrator.js','admin-narramancer.js','narramancer-export.js','lahetyskone-pwa.js','lahetyskone-sw.js','manifest.webmanifest','favicon.svg',
+  'ui-tokens.css','styles.css','core.css','admin.css','admin-control-plane.css','admin.js','admin-workspaces.js','admin-shell.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-machine-room.js','admin-orchestrator.js','admin-narramancer.js','narramancer-export.js','lahetyskone-pwa.js','lahetyskone-sw.js','manifest.webmanifest','favicon.svg',
   'icons/lahetyskone.svg','icons/lahetyskone-192.png','icons/lahetyskone-512.png','icons/lahetyskone-maskable-512.png',
   'site.js','core-public.js','core-public.json','release-provenance.json',
   'robots.txt','sitemap.xml','rss.xml','rss-en.xml','content-manifest.json','evidence-manifest.json','llms.txt','discovery-manifest.json'

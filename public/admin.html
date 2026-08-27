@@ -6,11 +6,11 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="noindex,nofollow,noarchive" name="robots"/>
 <meta content="#09090f" name="theme-color"/>
-<meta content="Anomancer Lähetyskone" name="application-name"/>
+<meta content="Anomancer Core" name="application-name"/>
 <meta content="yes" name="mobile-web-app-capable"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
-<title>Lähetyskone · Anomancer</title>
+<title>Anomancer Core · Lähetyskone</title>
 <link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="/icons/lahetyskone-192.png" rel="apple-touch-icon"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
@@ -19,7 +19,7 @@
 <body>
 <main class="login-shell" hidden="" id="loginView">
 <form class="login-card" id="loginForm">
-<p class="kicker">LÄHETYSKONE 16.6 · YKSITYINEN</p>
+<p class="kicker">ANOMANCER CORE 16.7 · YKSITYINEN</p>
 <h1>Lähetyskone</h1>
 <p class="muted">Kirjoita, aja toimitusputki ja lähetä julkaisu Anomancerin eetteriin. Avaimet pysyvät palvelimella.</p>
 <label>Salasana<input autocomplete="current-password" id="password" required="" type="password"/></label>
@@ -30,6 +30,16 @@
 </form>
 </main>
 <div class="app" hidden="" id="appView">
+<header class="core-shell" id="coreShell">
+  <a class="core-shell-brand" href="#workspace" data-shell-route="workspace" aria-label="Anomancer Core · nykyinen työtila"><span class="core-shell-mark">◈</span><span><strong>ANOMANCER CORE</strong><small>16.7 · työtilaydin</small></span></a>
+  <nav class="core-shell-nav" aria-label="Anomancer Coren päänavigaatio">
+    <button type="button" data-shell-route="workspaces">Työtilat</button>
+    <button type="button" data-shell-route="dispatches">Lähetykset</button>
+    <button type="button" data-shell-route="artifacts">Artefaktit</button>
+    <button type="button" data-shell-route="machine">Konehuone</button>
+  </nav>
+  <div class="core-shell-status"><span class="connection-state" data-connection-state>Yhteyttä tarkistetaan…</span><button class="ghost core-settings-button" id="coreSettingsButton" type="button" aria-haspopup="dialog">Asetukset</button></div>
+</header>
 <aside class="sidebar" id="sidebar">
 <div class="side-head">
 <div><p class="kicker">Lähetyskone</p><h2>Lähetykset</h2></div>
@@ -42,23 +52,36 @@
 <div class="post-list" id="postList"></div>
 </aside><button aria-label="Sulje lähetysvalikko" class="sidebar-backdrop" id="sidebarBackdrop" tabindex="-1" type="button"></button>
 <section class="workspace">
-<header class="topbar">
-<div class="editor-title"><button aria-controls="sidebar" aria-expanded="false" aria-label="Avaa lähetysvalikko" class="ghost sidebar-toggle" id="sidebarToggle" type="button">Lähetykset</button><div><p class="kicker">LÄHETYSKONE / EDITORI</p><strong id="editingLabel">Uusi lähetys</strong></div></div>
-<div class="top-actions"><div class="mobile-quick-actions" aria-label="Lähetyksen toiminnot"><button class="secondary" id="mobileSaveBtn" type="button">Tallenna luonnos</button><button class="primary" id="mobilePublishBtn" type="button">Julkaise eetteriin</button><button class="ghost" id="mobilePreviewBtn" type="button">Esikatselu</button><button class="ghost" id="mobileCoreBtn" type="button">Konehuone</button></div><span class="connection-state" data-connection-state>Yhteyttä tarkistetaan…</span><button class="ghost install-app-button" data-install-app type="button">Asennusohje</button><label class="workspace-switcher"><span>Työtila</span><select aria-label="Valitse työtila" id="workspaceSelect"><option value="default">Anomancer · oletus</option></select></label><label class="workspace-switcher orchestra-switcher"><span>Orkesteri</span><select aria-label="Valitse orkesteri" id="orchestraSelect"><option value="editorial">Anomancer Toimitus</option></select></label><details class="layout-menu" id="layoutMenu">
-<summary>Asettelu</summary>
-<div class="layout-popover">
-<div class="layout-popover-head"><strong>Näkymän koko</strong><span>Tallentuu tähän selaimeen</span></div>
-<label>Editorin leveys <output id="editorWidthValue">56 %</output><input id="editorWidth" max="72" min="42" step="1" type="range" value="56"/></label>
-<label>Lähetysvalikon leveys <output id="libraryWidthValue">320 px</output><input id="libraryWidth" max="460" min="260" step="10" type="range" value="320"/></label>
-<label class="layout-check"><input checked="" id="previewToggle" type="checkbox"/><span>Näytä esikatselu</span></label>
-<button class="ghost" id="layoutReset" type="button">Palauta oletusasettelu</button>
-</div>
-</details><a href="/lahetykset" rel="noreferrer" target="_blank">Julkinen sivu ↗</a><button class="ghost" id="logoutBtn" type="button">Poistu</button></div>
+<header class="topbar workspace-context-bar">
+<div class="editor-title"><button aria-controls="sidebar" aria-expanded="false" aria-label="Avaa lähetysvalikko" class="ghost sidebar-toggle" id="sidebarToggle" type="button">Lähetykset</button><div><p class="kicker" id="workspaceContextKicker">TYÖTILA / ANOMANCER</p><strong id="editingLabel">Uusi lähetys</strong><small id="workspaceContextPurpose">Kirjoita, tarkista ja julkaise.</small></div></div>
+<div class="top-actions workspace-context-actions"><div class="mobile-quick-actions" aria-label="Työtilan pikatoiminnot"><button class="secondary" id="mobileSaveBtn" type="button">Tallenna luonnos</button><button class="primary" id="mobilePublishBtn" type="button">Julkaise eetteriin</button><button class="ghost" id="mobilePreviewBtn" type="button">Esikatselu</button><button class="ghost" id="mobileCoreBtn" type="button">Konehuone</button><button class="ghost" id="mobileSettingsBtn" type="button">Asetukset</button></div><label class="workspace-switcher"><span>Työtila</span><select aria-label="Vaihda työtilaa nopeasti" id="workspaceSelect"><option value="default">Anomancer · oletus</option></select></label><label class="workspace-switcher orchestra-switcher"><span>Orkesteri</span><select aria-label="Valitse orkesteri" id="orchestraSelect"><option value="editorial">Anomancer Toimitus</option></select></label><span class="workspace-save-indicator" id="workspaceSaveIndicator">VALMIS</span></div>
 </header>
+<div class="workspace-stage" id="workspaceStage">
+<aside class="workspace-local-sidebar" id="workspaceLocalSidebar" aria-label="Työtilan navigaatio">
+  <div class="workspace-local-context"><span id="workspaceLocalTypeBadge">Anomancer</span><strong id="workspaceLocalBadge">Anomancer</strong><small id="workspaceLocalHint">Työtilan työkalut</small></div>
+  <nav class="workspace-local-nav" id="workspaceLocalNav"></nav>
+</aside>
+<div class="workspace-content" id="workspaceContent">
 <div class="workspace-boundary-banner" hidden id="workspaceBoundaryBanner" role="status"></div>
+<section class="core-surface" id="coreSurface" hidden>
+  <section class="core-surface-view" data-shell-view="workspaces" hidden>
+    <header class="core-surface-head"><div><p class="kicker">CORE / TYÖTILAT</p><h1>Valitse kone, älä arvaa kontekstia.</h1><p>Työtila sitoo yhteen editorin, perustuslain, orkesterin, ajot ja artefaktirajan.</p></div><button class="primary" id="workspaceHomeNew" type="button">+ Uusi työtila</button></header>
+    <div class="workspace-home-state" id="workspaceHomeState">Työtiloja ladataan…</div>
+    <div class="workspace-home-grid" id="workspaceHomeCards"></div>
+  </section>
+  <section class="core-surface-view" data-shell-view="artifacts" hidden>
+    <header class="core-surface-head"><div><p class="kicker">CORE / ARTEFAKTIT</p><h1>Työtilan aineisto ja ulostuloraja</h1><p>Näe yhdellä silmäyksellä missä aineisto elää ja mihin se saa poistua.</p></div></header>
+    <div class="artifact-home" id="artifactHomeSummary"></div>
+    <div class="artifact-home-actions" id="artifactHomeActions"></div>
+  </section>
+  <section class="core-surface-view" data-shell-view="machine" hidden>
+    <header class="core-surface-head"><div><p class="kicker">CORE / KONEHUONE</p><h1 id="coreShellMachineTitle">Ohjaustaso</h1><p>Agentit, orkesterit, ajoprofiilit, ajot ja sopimusrajat kuuluvat tähän globaaliin kerrokseen.</p></div></header>
+    <div id="coreMachineHost"></div>
+  </section>
+</section>
 <section class="narramancer-workspace" id="narramancerWorkspace" hidden>
   <header class="narramancer-commandbar">
-    <div><p class="kicker">NARRAMANCER / PRIVATE STORY STUDIO</p><strong id="narramancerWorkspaceName">Narramancer</strong><small id="narramancerConstitution">Narramancer Story Constitution</small></div>
+    <div><p class="kicker">NARRAMANCER / YKSITYINEN TARINASTUDIO</p><strong id="narramancerWorkspaceName">Narramancer</strong><small id="narramancerConstitution">Narramancer Story Constitution</small></div>
     <div class="narramancer-command-actions"><span id="narramancerDirty">TALLENNETTU</span><button class="secondary" id="narramancerSave" type="button">Tallennettu</button></div>
   </header>
   <nav class="narramancer-nav" id="narramancerNav" aria-label="Narramancerin editori"></nav>
@@ -130,7 +153,6 @@
 <button aria-controls="editorPanelWrite" aria-selected="true" class="active" data-editor-tab="write" id="editorTabWrite" role="tab" type="button">Kirjoita</button>
 <button aria-controls="editorPanelEvidence" aria-selected="false" data-editor-tab="evidence" id="editorTabEvidence" role="tab" type="button">Evidenssi</button>
 <button aria-controls="editorPanelAgents" aria-selected="false" data-editor-tab="agents" id="editorTabAgents" role="tab" type="button">Agentit</button>
-<button aria-controls="editorPanelCore" aria-selected="false" data-editor-tab="core" id="editorTabCore" role="tab" type="button">Konehuone</button>
 </nav>
 <section aria-labelledby="editorTabWrite" class="editor-panel active" data-editor-panel="write" id="editorPanelWrite" role="tabpanel">
 <div class="body-head"><label for="body">Teksti · Markdown</label><span class="count" id="wordCount">0 sanaa · 0 min</span></div>
@@ -224,10 +246,10 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 </details>
 </section>
 </section>
-<section aria-labelledby="editorTabCore" class="editor-panel core-panel" data-editor-panel="core" hidden="" id="corePanel" role="tabpanel">
+<section aria-labelledby="coreShellMachineTitle" class="core-panel" hidden id="corePanel">
 <div class="core-hero">
-<div><p class="kicker">16.6 · NARRAMANCER VERTICAL SLICE</p><h3>Agenttien ohjaustaso</h3><p><strong id="workspaceBadge">Anomancer</strong> · <span id="workspaceTypeBadge">Anomancer</span> · Työtilatyyppi, perustuslakisopimus, orkesterit, ajoprofiilit, ajot ja artefaktiraja vaihtuvat yhtenä kontekstina.</p></div>
-<span class="core-version" id="coreVersion">CORE 16.6 / WS 16.6</span>
+<div><p class="kicker">16.7 · NAVIGATION SHELL</p><h3>Agenttien ohjaustaso</h3><p><strong id="workspaceBadge">Anomancer</strong> · <span id="workspaceTypeBadge">Anomancer</span> · Työtilatyyppi, perustuslakisopimus, orkesterit, ajoprofiilit, ajot ja artefaktiraja vaihtuvat yhtenä kontekstina.</p></div>
+<span class="core-version" id="coreVersion">CORE 16.7 / WS 16.7</span>
 </div>
 <div class="core-metrics">
 <article><span>Agentit</span><strong id="coreAgentCount">9</strong></article>
@@ -299,7 +321,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 <button class="danger" hidden="" id="deleteBtn" type="button">Poista</button>
 </div>
 <dialog aria-labelledby="coreWorkspaceDialogTitle" class="core-agent-dialog core-workspace-dialog" id="coreWorkspaceDialog">
-<div class="core-agent-dialog-head"><div><p class="kicker">TYÖTILA / 16.6</p><h3 id="coreWorkspaceDialogTitle">Uusi työtila</h3><p class="core-agent-dialog-id" id="coreWorkspaceDialogId">eristetty työtilainstanssi</p></div><button aria-label="Sulje" class="ghost" id="coreWorkspaceClose" type="button">×</button></div>
+<div class="core-agent-dialog-head"><div><p class="kicker">TYÖTILA / 16.7</p><h3 id="coreWorkspaceDialogTitle">Uusi työtila</h3><p class="core-agent-dialog-id" id="coreWorkspaceDialogId">eristetty työtilainstanssi</p></div><button aria-label="Sulje" class="ghost" id="coreWorkspaceClose" type="button">×</button></div>
 <div class="core-orchestra-form-meta"><label>Nimi<input id="coreWorkspaceName" maxlength="80" placeholder="Esim. Tutkimusprojekti"/></label><label>Työtilatyyppi<select id="coreWorkspaceTemplate"></select><small id="coreWorkspaceTemplateHint">Työtilatyyppi lukitaan luonnin yhteydessä.</small></label><label>Kuvaus<textarea id="coreWorkspaceDescription" maxlength="400" placeholder="Mihin tätä työtilaa käytetään?" rows="3"></textarea></label></div>
 <p class="core-runtime-notice">Uusi työtila saa omat ajoprofiilit, orkesterit ja ajot. Tyhjä eristetty työtilatyyppi ei peri Anomancerin Markdownia, toimitusorkesteria eikä Vercel-julkaisukohdetta.</p>
 <div class="core-agent-dialog-actions"><div><button class="danger" hidden="" id="coreWorkspaceArchive" type="button">Arkistoi</button><button class="ghost" hidden="" id="coreWorkspaceRestore" type="button">Palauta aktiiviseksi</button></div><div><button class="ghost" id="coreWorkspaceCancel" type="button">Peruuta</button><button class="primary" id="coreWorkspaceSave" type="button">Tallenna työtila</button></div></div>
@@ -331,6 +353,8 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 <article class="preview article" id="preview"></article>
 </aside>
 </div>
+</div><!-- /workspace-content -->
+</div><!-- /workspace-stage -->
 </section>
 <nav class="mobile-dock" id="mobileDock" aria-label="Lähetyskoneen mobiilinavigaatio">
 <button type="button" data-mobile-action="library" aria-label="Avaa lähetykset"><span aria-hidden="true">☰</span><small>Lähetykset</small></button>
@@ -342,6 +366,11 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 <button class="mobile-ui-backdrop" id="mobileUiBackdrop" aria-label="Sulje mobiilivalikko" tabindex="-1" type="button"></button>
 </div>
 <div class="mobile-command-portal" id="mobileCommandPortal"></div>
+<dialog aria-labelledby="coreSettingsTitle" class="core-settings-dialog" id="coreSettingsDialog">
+<div class="core-settings-head"><div><p class="kicker">ANOMANCER CORE / ASETUKSET</p><h2 id="coreSettingsTitle">Näkymä ja järjestelmä</h2></div><button aria-label="Sulje asetukset" class="ghost" id="coreSettingsClose" type="button">×</button></div>
+<section class="core-settings-section"><h3>Näkymä</h3><div class="settings-layout-grid"><label>Editorin leveys <output id="editorWidthValue">56 %</output><input id="editorWidth" max="72" min="42" step="1" type="range" value="56"/></label><label>Lähetysvalikon leveys <output id="libraryWidthValue">320 px</output><input id="libraryWidth" max="460" min="260" step="10" type="range" value="320"/></label><label class="layout-check"><input checked="" id="previewToggle" type="checkbox"/><span>Näytä esikatselu</span></label><button class="ghost" id="layoutReset" type="button">Palauta oletusasettelu</button></div></section>
+<section class="core-settings-section"><h3>Sovellus</h3><div class="core-settings-actions"><button class="ghost install-app-button" data-install-app type="button">Asennusohje</button><a href="/lahetykset" rel="noreferrer" target="_blank">Julkiset lähetykset ↗</a><button class="danger" id="logoutBtn" type="button">Kirjaudu ulos</button></div></section>
+</dialog>
 <dialog aria-labelledby="installHelpTitle" class="install-help-dialog" id="installHelpDialog">
 <div class="install-help-head"><div><p class="kicker">LÄHETYSKONE / ASENNUS</p><h2 id="installHelpTitle">Avaa kuin oma sovellus</h2></div><button aria-label="Sulje asennusohje" class="ghost" id="installHelpClose" type="button">×</button></div>
 <ol><li><strong>Android / Chromium:</strong> avaa selaimen valikko ja valitse Asenna sovellus tai Lisää aloitusnäyttöön.</li><li><strong>Tietokone / Chromium:</strong> valitse osoiterivin asennuskuvake tai selaimen valikosta Asenna Lähetyskone.</li><li><strong>Firefox Linuxissä:</strong> asennuskehote ei välttämättä ole käytettävissä. Avaa Lähetyskone Chromium-pohjaisessa selaimessa asennusta varten.</li></ol>
@@ -350,6 +379,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 <script src="/lahetyskone-pwa.js" type="module"></script>
 <script src="/admin.js" type="module"></script>
 <script src="/admin-workspaces.js" type="module"></script>
+<script src="/admin-shell.js" type="module"></script>
 <script src="/admin-core.js" type="module"></script>
 <script src="/admin-agents.js" type="module"></script>
 <script src="/admin-orchestras.js" type="module"></script>
