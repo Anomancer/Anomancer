@@ -8,7 +8,7 @@ description: "Tekoälyagentin virhe voi olla suoritettu komento. Siksi turvallis
 slug: "kun-tekoalyagentin-virhe-muuttuu-toiminnoksi"
 lang: "fi"
 translationKey: "kun-tekoalyagentin-virhe-muuttuu-toiminnoksi"
-aliases: ["ennen-kuin-tekoaly-vie-tyopaikkasi-varmista-ettei-se-vie-kotihakemistoasi"]
+aliases: []
 coverImage: ""
 coverAlt: ""
 answer: "Agentin turvallisuus ei synny pelkästä ohjeesta. Järjestelmän pitää rajata teknisesti, mitä agentti voi tehdä, vaatia hyväksyntä korkean riskin toiminnoille, jättää toiminnasta kuitti ja mahdollistaa palautuminen virheestä."

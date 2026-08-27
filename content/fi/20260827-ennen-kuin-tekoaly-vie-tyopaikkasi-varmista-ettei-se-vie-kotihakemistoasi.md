@@ -67,9 +67,9 @@ Lupa ilman teknistä pakotetta on vain ohje. Jos agentille sanotaan “Älä poi
 
 Erittäin kyvykäs järjestelmä, jolla on vähän teknistä pääsyä, voi olla melko turvallinen. Keskinkertainen järjestelmä, jonka ulottuvilla on kaikki, voi olla vaarallinen.
 
-[Anthropicin Agentic misalignment -tutkimus](https://www.anthropic.com/news/agentic-misalignment) (kandidaattilähde) päätyy siihen, etteivät ohjeet luotettavasti estä haitallista toimintaa, kun mallille annetaan tavoitteita ja työkaluja. Kokeet ovat keinotekoisia, joten niistä ei voi vetää suoria johtopäätöksiä työelämään. Silti se asettaa kysymyksen oikein: turvallisuus ei synny siitä, että malli noudattaa kieltoja. Turvallisuus syntyy siitä, että kieltojen rikkominen ei johda mihinkään.
+[Anthropicin Agentic misalignment -tutkimus](https://www.anthropic.com/news/agentic-misalignment)  päätyy siihen, etteivät ohjeet luotettavasti estä haitallista toimintaa, kun mallille annetaan tavoitteita ja työkaluja. Kokeet ovat keinotekoisia, joten niistä ei voi vetää suoria johtopäätöksiä työelämään. Silti se asettaa kysymyksen oikein: turvallisuus ei synny siitä, että malli noudattaa kieltoja. Turvallisuus syntyy siitä, että kieltojen rikkominen ei johda mihinkään.
 
-Ja tässä kohtaa tiukkuus kannattaa viedä absurdiksi: turvallisuus ei ole asenne, vaan mahdollisuuksien joukko. Älä kysy, ymmärtääkö malli turvallisuuden. Kysy, mitä tapahtuu, kun se ei ymmärrä.
+Tässä turvallisuus kannattaa määritellä mahdollisuuksien joukkona, ei asenteena. Älä kysy, ymmärtääkö malli turvallisuuden. Kysy, mitä tapahtuu, kun se ei ymmärrä.
 
 ## Sandbox ei ole taikapiiri, prompt ei ole raja
 
@@ -83,7 +83,7 @@ Todellinen raja pitää rakentaa niin, ettei agentilla ole edes mahdollisuutta t
 
 [OpenAI:n oma kuvaus Codexin turvallisesta ajamisesta](https://openai.com/ms-MY/index/running-codex-safely/) antaa esimerkin tällaisesta mekaniikasta: sandbox määrittelee kirjoituspaikat ja suojatut polut, hyväksyntäpolitiikka määrää, milloin agentti pysähtyy. Kyseessä on toimittajan oma kuvaus, ei riippumaton arvio, mutta se näyttää, miltä oikea raja voi näyttää.
 
-Tässä on absurdin tiukka testi: nimeä yksi tekninen komponentti, joka rajaa tuhoisan toiminnon. Jos et pysty, sinulla ei ole perusteltua turvallisuusväitettä. Sinulla on hyvä prompt.
+Testi on yksinkertainen: nimeä yksi tekninen komponentti, joka rajaa tuhoisan toiminnon. Jos et pysty, sinulla ei ole perusteltua turvallisuusväitettä. Sinulla on hyvä prompt.
 
 ## Rakenna organisaatio, älä kaikkivoipaa työntekijää
 
@@ -123,7 +123,7 @@ On eri asia pyytää tekoälyä luonnostelemaan markkinointiteksti kuin antaa se
 
 Siksi tekninen kyvykkyys ja työpaikan automatisoitavuus eivät ole sama asia. Välissä on kokonainen kerros: **vastuu, oikeudet, valvonta, auditointi, turvallisuus ja virheestä palautuminen.** Tämä asettaa rajoja sille, miten nopeasti automaatiota voidaan viedä vastuullisesti eteenpäin – myös silloin, kun malli itsessään on hyvä.
 
-Ja sama tiukkuus: jos et pysty antamaan järjestelmälle vastuuta ilman, että jonkun on valvottava jokaista välivaihetta, et ole automatisoinut työtä. Olet antanut sille näppäimistön.
+Sama arviointiperuste pätee vastuuseen: jos et pysty antamaan järjestelmälle vastuuta ilman, että jonkun on valvottava jokaista välivaihetta, et ole automatisoinut työtä. Olet antanut sille näppäimistön.
 
 ## Agentille pitää jäädä kuitti
 
