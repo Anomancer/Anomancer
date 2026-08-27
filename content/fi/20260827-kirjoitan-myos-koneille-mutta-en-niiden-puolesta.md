@@ -1,0 +1,88 @@
+---
+title: "Kirjoitan myös koneille, mutta en niiden puolesta"
+date: "2026-08-27"
+category: "language-learning"
+audience: ["all"]
+audienceDepth: "general"
+description: "Julkaiseminen verkossa ei ole enää vain ihmisten välistä: teksti päätyy myös koneille. Essee pohtii, millaisen jäljen haluamme verkkoon jättää ja miksi rakenne, lähteet ja suomen kieli ovat nyt tärkeitä."
+slug: "kirjoitan-myos-koneille-mutta-en-niiden-puolesta"
+lang: "fi"
+translationKey: "kirjoitan-myos-koneille-mutta-en-niiden-puolesta"
+aliases: []
+coverImage: ""
+coverAlt: ""
+answer: ""
+sources: [{"id":"src-1ybugmi","title":"The Impact of AI-Generated Text on the Internet","url":"https://ar5iv.labs.arxiv.org/html/2604.26965","publisher":"Stanford / arXiv","date":"2026-04-14","origin":"source-agent","verification":"verified","retrievedAt":"2026-08-27T17:11:21.906Z","why":"Tuore empiirinen tutkimus siitä, miten paljon verkkoon syntyy tekoälyllä tehtyä tekstiä ja mitä se tekee verkon rakenteelle.","supports":"Tukee esseen väitettä verkkoon vyöryvästä nopeasti tuotetusta tekstistä: tutkimuksen mukaan jopa ~35 % uusista verkkosivuista oli vuoden 2025 alkupuolella tekoälyllä tehtyjä tai avustettuja. Löytää 'semanttisen supistumisen' ja keinotekoisen positiivisuussävyn, jotka sopivat esseen käsitteellisen rakenteen kaventumisen huoleen.","challenges":"Haastaa keskeisen oletuksen: tutkimus ei löytänyt tilastollisesti merkittävää makrotason faktatarkkuuden romahdusta eikä tiukkaa tyylillistä yksipuolistumista. Sen mukaan ongelma on pikemminkin semanttinen kaventuminen kuin 'virheiden monistuminen', joten esseen virheenleviämiskuvaus on osin yliampuva."},{"id":"src-re0bnt","title":"AI models collapse when trained on recursively generated data","url":"https://www.nature.com/articles/s41586-024-07566-y","publisher":"Nature","date":"2024-07-24","origin":"source-agent","verification":"verified","retrievedAt":"2026-08-27T17:11:21.906Z","why":"Vertaisarvioitu mekanismitutkimus siitä, miten koneiden tuottama aineisto heikentää seuraavia malleja rekursiivisessa koulutuksessa.","supports":"Tukee esseen ajatusta, että saman väitteen kiertäminen ilman alkuperäistä lähdettä rappeuttaa informaatioympäristöä: paperi osoittaa mallin romahduksen ja monimuotoisuuden vähenemisen, kun dataa tuotetaan yhä enemmän koneiden kautta. Antaa tieteellisen selkänojan 'semanttisen kohinan' huolelle.","challenges":"Koskee nimenomaan koulutettavien mallien ominaisuuksia, ei suoraan verkon tiedon laatua. Ess e ekstrapoloi mallin romahduksen verkkosisällön laatuongelmaksi; tämä on tulkinta, jota paperi itsessään ei osoita. Päivämäärä 2024, joten ei kata viimeisintä kehitystä."},{"id":"src-1qz48ae","title":"Generative AI and News Report 2025: How People Think About AI’s Role in Journalism and Society","url":"https://users.ox.ac.uk/~polf0572/publication/generative-ai-and-news-report-2025/","publisher":"Reuters Institute for the Study of Journalism","date":"2025-10-06","origin":"source-agent","verification":"verified","retrievedAt":"2026-08-27T17:11:21.906Z","why":"Kansainvälinen, kansallisesti edustava selvitys siitä, miten yleisöt käyttävät ja luottavat AI-hakuun ja sen vastauksiin.","supports":"Tukee esseen AI-hakuosiota ja lähdeketjun korostumista: raportti ja sen yhteydessä BBC:n testi osoittivat, että merkittävä osa AI-vastauksista sisälsi virheitä, ja käyttäjien luottamus generatiivisiin vastauksiin on matala. Vahvistaa, että lähteen laatu ja klikkausten takana oleva lähdeketju ovat entistä tärkeämpiä.","challenges":"Keskittyy journalismiin ja uutisyleisöihin, ei yleisesti kirjoittamiseen tai RAG-järjestelmiin. Raportin luvut koskevat kuutta markkinaa, eivät suoraan suomenkielistä verkkoa. '45 % virheistä' -luku on BBC:n testin tulos, ei välttämättä raportin oma mittaus."},{"id":"src-1dg6su9","title":"Retrieval Collapses When AI Pollutes the Web","url":"https://ar5iv.labs.arxiv.org/html/2602.16136","publisher":"arXiv","date":"2026-02-18","origin":"source-agent","verification":"verified","retrievedAt":"2026-08-27T17:11:21.906Z","why":"Paperi käsittelee juuri sitä mekanismia, johon essee viittaa: RAG-järjestelmät ja hakukoneet kuluttavat tekoälyn tuottamaa aineistoa ja tasapäistyvät.","supports":"Tukee suoraan esseen RAG- ja 'semanttinen kohina' -osuuksia: osoittaa, että massatuotettu SEO-tyylinen synteettinen sisältö homogenisoi hakutuloksia ja päätyy osaksi hakuputkia 'auktoritatiivisena todisteena'. Tutkimus erottaa sisältöfarmien vaikutuksen yksittäisistä haitallisista hyökkäyksistä.","challenges":"Kontrolloitu koe (MS MARCO -aineisto, simuloidut dokumenttipoolit), ei todellisen verkon kenttätutkimus. Julkaisupäivämäärä (2026-02) on tulevaisuudessa suhteessa useimpiin lähteisiin ja vaatii varmistuksen ennen käyttöä."},{"id":"src-14spdtu","title":"Suomenkielisen tekoälyn kehittämisohjelma – esiselvitys","url":"https://core.ac.uk/download/334430646.pdf","publisher":"Vake Oy","date":"2019","origin":"source-agent","verification":"verified","retrievedAt":"2026-08-27T17:11:21.906Z","why":"Viranomaisen tilaama esiselvitys suomenkielisen tekoälyn kehittämisestä ja kieliresurssien niukkuudesta.","supports":"Tukee esseen suomen kielen osuutta: selvitys kuvaa suomenkielisten kieliaineistojen puutetta ja tarvetta rakentaa suomenkielistä ajattelua ja aineistoa tekoälyn kehittämisen pohjaksi. Vahvistaa ajatusta, että suomenkielinen sisältö on myös koneiden kannalta arvokas resurssi.","challenges":"Vuodelta 2019, ennen suurten kielimallien yleistymistä; kuvaus kieliresurssien tilasta on vanhentunut. Kyseessä on tilaustyö, ei vertaisarvioitu tutkimus, ja se käsittelee kieliteknologiaa, ei esseessä käsiteltyä henkilökohtaista julkaisun merkitystä."}]
+claims: []
+citationMode: "both"
+citationPlacements: []
+visualizations: []
+pinned: false
+draft: false
+---
+
+# Kirjoitan myös koneille, mutta en niiden puolesta
+
+Julkaiseminen verkossa on muuttunut. Kun teksti menee verkkoon, se päätyy hakukoneille, indekseille, AI-hakuihin, arkistoihin ja linkkiverkostoihin – ja järjestelmiin, joita ei ole vielä edes rakennettu. Siksi kysyn nykyään kaksi kysymystä: **mitä haluan sanoa ihmiselle nyt?** ja **mitä haluan jättää verkkoon löydettäväksi myöhemmin?**
+
+Käsittelen näitä kysymyksiä samassa tekstissä. Puhe on julkaisemisen laadusta, rakenteesta ja vastuusta aikana, jolloin tekstiä syntyy koneella lähes ilmaiseksi – mutta verkkoon jäävä jälki ratkaisee yhä enemmän, mitä ajatuksistamme on myöhemmin löydettävissä.
+
+## Internet on koneille muistikerros
+
+Ihminen lukee tekstin tarinana. Koneen kannalta samassa tekstissä on myös rakenteita, joita järjestelmät voivat poimia ja yhdistellä: käsitteitä, yhteyksiä, toistuvia termejä, lähteitä, päivämääriä, linkkejä ja merkitysyhteyksiä.
+
+Jos julkaisen tekstin rahapelien käyttöliittymistä, kone ei käsittele vain yhtä mielipidettä kasinosta. Se voi poimia samasta dokumentista yhteyden monien asioiden välillä: rahapelit, käyttöliittymäsuunnittelu, odotusarvo, käyttäytymisen ohjaaminen, dark patternit, läpinäkyvyys, impulssi, kitka, toimijuus. Yksi teksti ei muuta maailmaa, mutta se voi lisätä verkkoon yhden uuden yhteyden – ja kun julkaisuja kertyy, yhteydet alkavat muodostaa verkostoja.
+
+## Määrän sijaan laatua
+
+Generatiivinen tekoäly on tehnyt tekstin tuottamisesta lähes ilmaista. Tekstiä voi syntyä helposti enemmän kuin kukaan ehtii lukea. Se kuulostaa tehokkuudelta, mutta samalla syntyy riski: jos verkko täyttyy nopeasti tuotetusta, huonosti tarkistetusta ja toisiaan kopioivasta tekstistä, koneiden voi olla vaikeampi erottaa siitä luotettavaa tietoa. Syntyy semanttista kohinaa – merkityksellinen signaali hukkuu toistoon.
+
+Sama väite voi kiertää sadassa paikassa ilman alkuperäistä lähdettä. Yksi virhe voi muuttua kymmeneksi viitteeksi, ja kymmenen viitettä voivat näyttää sadalta vahvistukselta, vaikka kukaan ei enää tietäisi, mistä asia alun perin tuli. Tämä on huoli, ei varmistettu tosiasia – minulle se riittää.
+
+Siksi minua ei tällä hetkellä kiinnosta julkaista mahdollisimman paljon. Minua kiinnostaa julkaista jälkiä, joista pystyy vielä myöhemmin ymmärtämään jotain.
+
+## Mitä koneen kannalta hyvä teksti on
+
+Hakukoneoptimoinnista puhutaan usein näkyvyyden kautta: miten pääsen ylemmäs, millä avainsanoilla minut löydetään, miten saan lisää klikkauksia. Käytännöllisiä kaikki – mutta kiinnostavampi kysymys kuuluu: **millaista tietoa haluan hakukoneen ylipäätään pystyvän löytämään?**
+
+Jos kirjoitan nuorten tekoälyahdistuksesta, voin rakentaa tekstin niin, että siinä näkyy yhteys tekoälyyn, työelämän muutokseen, nuorten epävarmuuteen, oppimiseen, toimijuuteen, pedagogiikkaan ja yhdessä rakentamiseen. Silloin teksti voi löytyä ihmiselle, joka ei koskaan kirjoittaisi hakukenttään minun otsikkoani. Hän voi kysyä jotain aivan muuta – vaikkapa näin: **miten nuorten tekoälyyn liittyvää tulevaisuusahdistusta voisi käsitellä rakentamisen ja oppimisen kautta?** Jos kone pystyy hyödyntämään tekstin käsitteellistä rakennetta, koneella on mahdollisuus löytää se.
+
+Koneystävällisyys ei tarkoita robottikieltä. Päinvastoin: hyvä koneellisesti löydettävä teksti voi olla hyvin inhimillistä, kunhan rakenne on kunnossa. Otsikot kertovat, mistä puhutaan. Käsitteet selitetään, väitteet erotetaan mielipiteistä, lähteet ovat löydettävissä, ajankohta näkyy, kirjoittaja on tunnistettavissa ja linkit johtavat johonkin. Jos tekstissä on oma käsite, se on selitettävä niin hyvin, ettei koneen tarvitse arvata, mitä sillä tarkoitetaan.
+
+Tässä kohtaa tekninen rakenne muuttuu osaksi kirjoittamista. HTML, metatieto ja lähdeviite eivät ole enää pelkkiä lisukkeita. Ne ovat osa sitä jälkeä, jonka teksti jättää.
+
+## AI-haku korostaa lähdeketjua
+
+Perinteinen hakukone antaa listan linkkejä, ja käyttäjä vertailee niitä itse. AI-haku – hakukone, joka kokoaa vastauksen useista lähteistä – tekee toisin: se käy läpi useita lähteitä ja kokoaa niistä vastauksen. Se on kätevää, mutta samalla lähteen laadusta tulee entistä tärkeämpää. Jos järjestelmä käyttää huonoa tekstiä hyvän lähteen rinnalla, käyttäjä ei välttämättä enää näe, missä kohtaa huono väite pääsi mukaan.
+
+Siksi lähdeketju kiinnostaa minua: mistä väite tuli, mitä lähde oikeasti tukee, onko kyse havainnosta, tulkinnasta vai vahvistetusta tiedosta, muuttuiko väite muokkauksen aikana ja mitä ihminen lopulta hyväksyi. Jos nämä asiat pystyy pitämään erillään jo kirjoitusvaiheessa, valmis julkaisu on käyttökelpoisempi myös koneelle.
+
+## Oma käytäntö: tekoäly avustaa, ihminen päättää
+
+Kirjoittamiseni ympärille on rakentunut työtapa, jossa tekoäly hoitaa aputehtäviä: se voi tarkistaa rakennetta, auttaa kielen kanssa ja kiinnittää huomiota väitteisiin. Mikään sen tuottama versio ei julkaise itseään. Lopullisen päätöksen teen aina minä.
+
+Työtavan voisi nähdä pelkkänä tekstintuotantona, mutta minä näen siinä toisen tehtävän: se on tapa vähentää sitä, että verkkoon päätyisi tekstiä, jonka alkuperää, väitteitä ja muutoksia ei enää pysty seuraamaan. Tavoitteena ei ole täydellisyys – sellaista järjestelmää ei ole – vaan parempi jälki.
+
+Kun julkaisuja kertyy, niiden välille alkaa syntyä suhteita. Yksi teksti käsittelee kitkaa, toinen peliongelmaa, kolmas käyttöliittymiä, neljäs tekoälyn autonomiaa, viides nuorten tulevaisuuspelkoa, kuudes neurodivergenttiä oppimista. Ihminen näkee erillisiä esseitä, kone voi rakentaa niistä verkon. Kitka liittyy toimijuuteen, toimijuus tekoälyyn, tekoäly oppimiseen, oppiminen nuoriin. Käyttöliittymä liittyy käyttäytymisen ohjaamiseen, ja käyttäytymisen ohjaaminen peliongelmaan. Vähitellen sivusto alkaa muistuttaa pientä tietokantaa, joka on kirjoitettu esseiden muotoon.
+
+## Semanttinen jalanjälki
+
+Digitaalisesta jalanjäljestä puhutaan yleensä yksityisyyden kautta: mitä tietoa minusta jää verkkoon? Mutta verkkoon jää myös ajatuksellinen jalanjälki. Mitä käsitteitä yhdistimme toisiinsa, millaisia kysymyksiä esitimme, mitä pidimme tärkeänä, mitä vastustimme ja mitä ehdotimme tilalle?
+
+Jos joku kone lukee verkkoa kymmenen vuoden päästä, se ei löydä vain virallisia raportteja ja suuryritysten markkinointia. Se voi löytää myös pieniä, omaperäisiä näkökulmia – mutta vain jos ne on kirjoitettu näkyviin. Muuten niitä ei ole koneelle olemassa. Jos kaikki tekoälyä koskeva keskustelu julkaistaisiin vain suurten yritysten, tutkimuslaitosten, konsulttien ja uutismedioiden kautta, myöhempien järjestelmien käsitys aiheesta rakentuisi väistämättä niiden varaan.
+
+Kun mukaan julkaistaan myös nuorten näkökulmia, neurodivergenttejä näkökulmia, käyttäjien omia kokemuksia, kriittisiä käyttöliittymäanalyysejä, outoja kokeiluja, uusia käsitteitä ja pieniä avoimia projekteja, verkkoon tulee enemmän havaintopisteitä. Ne eivät kaikki ole oikeassa, eikä niiden pidäkään olla. Mutta todellisuutta on vaikea tarkastella, jos kaikki kamerat ovat samassa kulmassa.
+
+## Suomen kieli on myös koneiden resurssi
+
+Kaikkea ei tarvitse kirjoittaa englanniksi. Jos kaikki kiinnostava teknologia-ajattelu julkaistaan vain englanniksi, suomen kieli jää helposti paikaksi, jossa teknologiasta puhutaan jälkikäteen käännettyjen termien kautta. Minusta olisi parempi, että uusia ajatuksia syntyisi myös suomeksi. Kääntäminen yksin ei riitä.
+
+Kieli voi vaikuttaa siihen, miten ongelman hahmottaa: jokin englanninkielinen käsite voi olla tarkka, toinen taas aukeaa vasta, kun sille rakennetaan hyvä suomenkielinen ilmaisu. Ja jos koneet tulevaisuudessa etsivät suomenkielistä aineistoa, sitä pitää myös olla olemassa. Uutisten, viranomaistekstien ja massatuotetun sisällön rinnalle tarvitaan myös ihmisten omia ajatuksia.
+
+## Kirjoitan myös koneille, mutta en niiden puolesta
+
+Tässä on tärkeä raja. En halua kirjoittaa niin, että ihminen unohtuu ja jäljelle jää hakukoneelle optimoitu tekstimassa. Se olisi ironista, sillä tekstin ensimmäinen vastaanottaja on edelleen ihminen. Siinä saa olla ääntä, epävarmuutta, huumoria, kokemusta, persoonallisuutta ja ajatusta. Tämän rinnalle voi rakentaa rakenteen, joka kertoo myös koneelle, mistä tekstissä on kyse. Ne eivät ole toistensa vastakohtia. Hyvä julkaisu voi olla yhtä aikaa ihmiselle luettava, koneelle löydettävä, lähteiltään tarkastettava, rakenteeltaan ymmärrettävä – ja silti omituinen.
+
+Tässä ehkä kiteytyy se, mitä yritän tehdä. Tekoäly voi auttaa kirjoittamisessa, hakukone voi löytää tekstin, ja AI-järjestelmä voi joskus käyttää sitä lähteenä. Mutta minä haluan edelleen päättää, mitä verkkoon jätän. En halua syöttää koneille lisää massaa; haluan jättää niille paremmin jäsenneltyjä havaintoja, kysymyksiä, lähteitä, käsitteellisiä yhteyksiä ja erilaisia näkökulmia – jälkiä siitä, miten joku ihminen tässä ajassa yritti ymmärtää näitä järjestelmiä. Tulevaisuuden koneet eivät voi löytää näkökulmaa, jota emme koskaan kirjoittaneet näkyviin.
+
+Ja ehkä verkon tärkein tehtävä tekoälyn aikakaudella on juuri tämä: **jättää todellisuuteen tarpeeksi monta hyvin merkittyä ovea, jotta tulevaisuuden hakijan ei tarvitse kulkea aina saman käytävän kautta.**
