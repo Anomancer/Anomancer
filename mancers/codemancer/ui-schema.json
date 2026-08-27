@@ -1,0 +1,123 @@
+{
+  "format": "anomancer-mancer-ui-schema/v1",
+  "renderer": "schema-workbench",
+  "navigation": {
+    "mobilePrimary": [
+      {"id": "project", "label": "Project", "icon": "⌂", "target": "section"},
+      {"id": "code", "label": "Code", "icon": "</>", "target": "section"},
+      {"id": "tests", "label": "Tests", "icon": "✓", "target": "section"},
+      {"id": "review", "label": "Review", "icon": "◈", "target": "section"}
+    ],
+    "groups": [
+      {"id": "plan", "label": "Suunnittele", "items": ["project", "architecture", "tasks"]},
+      {"id": "build", "label": "Rakenna", "items": ["code", "tests", "runs"]},
+      {"id": "ship", "label": "Tarkista & julkaise", "items": ["review", "release", "documentation"]}
+    ]
+  },
+  "sections": [
+    {
+      "id": "project",
+      "label": "Project",
+      "kind": "form",
+      "description": "Projektin tavoite, ympäristö ja aktiivinen työhaara.",
+      "fields": [
+        {"path": "project.name", "label": "Projektin nimi", "type": "text", "maxLength": 180},
+        {"path": "project.language", "label": "Pääkieli", "type": "text", "maxLength": 80},
+        {"path": "project.repository", "label": "Repository / polku", "type": "text", "maxLength": 400},
+        {"path": "project.branch", "label": "Työhaara", "type": "text", "maxLength": 160},
+        {"path": "project.goal", "label": "Tavoite", "type": "textarea", "rows": 8, "maxLength": 20000},
+        {"path": "project.constraints", "label": "Rajat ja oletukset", "type": "textarea", "rows": 6, "maxLength": 20000}
+      ]
+    },
+    {
+      "id": "architecture",
+      "label": "Architecture",
+      "kind": "collection",
+      "description": "Arkkitehtuuripäätökset ja komponenttirajat.",
+      "itemLabel": "Arkkitehtuuripäätös",
+      "fields": [
+        {"path": "title", "label": "Otsikko", "type": "text", "maxLength": 200},
+        {"path": "status", "label": "Tila", "type": "select", "options": [{"value":"proposed","label":"Ehdotus"},{"value":"accepted","label":"Hyväksytty"},{"value":"superseded","label":"Korvattu"}]},
+        {"path": "decision", "label": "Päätös", "type": "textarea", "rows": 6, "maxLength": 30000},
+        {"path": "rationale", "label": "Perustelu", "type": "textarea", "rows": 5, "maxLength": 30000}
+      ]
+    },
+    {
+      "id": "code",
+      "label": "Code",
+      "kind": "collection",
+      "description": "Työtilan hallitut koodimuistiinpanot ja ehdotetut tiedostoversiot. Ei kirjoita repositoryyn automaattisesti.",
+      "itemLabel": "Tiedosto / snippet",
+      "monospaceField": "content",
+      "fields": [
+        {"path": "path", "label": "Polku", "type": "text", "maxLength": 500},
+        {"path": "language", "label": "Kieli", "type": "text", "maxLength": 80},
+        {"path": "content", "label": "Sisältö / ehdotus", "type": "textarea", "rows": 18, "maxLength": 200000},
+        {"path": "notes", "label": "Muutosmuistiinpano", "type": "textarea", "rows": 4, "maxLength": 20000}
+      ]
+    },
+    {
+      "id": "tasks",
+      "label": "Tasks",
+      "kind": "collection",
+      "description": "Ihmisen tehtävät, agenttiehdotukset ja orkesterista syntyneet jatkotyöt.",
+      "itemLabel": "Tehtävä",
+      "fields": [
+        {"path": "title", "label": "Tehtävä", "type": "text", "maxLength": 220},
+        {"path": "status", "label": "Tila", "type": "select", "options": [{"value":"todo","label":"Avoin"},{"value":"doing","label":"Työn alla"},{"value":"done","label":"Valmis"},{"value":"blocked","label":"Estynyt"}]},
+        {"path": "origin", "label": "Alkuperä", "type": "select", "options": [{"value":"human","label":"Ihminen"},{"value":"agent","label":"Agenttiehdotus"},{"value":"orchestra","label":"Orkesteri"}]},
+        {"path": "notes", "label": "Muistiinpanot", "type": "textarea", "rows": 5, "maxLength": 20000}
+      ]
+    },
+    {
+      "id": "tests",
+      "label": "Tests",
+      "kind": "collection",
+      "description": "Ajettujen testien ja regressiohavaintojen evidenssi.",
+      "itemLabel": "Testiajo",
+      "fields": [
+        {"path": "name", "label": "Testi / suite", "type": "text", "maxLength": 220},
+        {"path": "status", "label": "Tulos", "type": "select", "options": [{"value":"unknown","label":"Ei ajettu"},{"value":"passed","label":"Läpi"},{"value":"failed","label":"Hylätty"}]},
+        {"path": "command", "label": "Komento", "type": "text", "maxLength": 1000},
+        {"path": "evidence", "label": "Tulos / evidenssi", "type": "textarea", "rows": 8, "maxLength": 50000}
+      ]
+    },
+    {"id": "runs", "label": "Runs", "kind": "run-explorer", "description": "Nykyisen työtilan orkesteri- ja agenttiajot."},
+    {
+      "id": "review",
+      "label": "Review",
+      "kind": "form",
+      "description": "Muutoskuva, testitila ja ihmisen review-päätös ennen soveltamista.",
+      "fields": [
+        {"path": "review.summary", "label": "Muutosyhteenveto", "type": "textarea", "rows": 8, "maxLength": 40000},
+        {"path": "review.diff", "label": "Diff / muutokset", "type": "textarea", "rows": 16, "maxLength": 150000, "monospace": true},
+        {"path": "review.testState", "label": "Testitila", "type": "select", "options": [{"value":"unknown","label":"Ei varmennettu"},{"value":"passing","label":"Vihreä"},{"value":"failing","label":"Virheitä"}]},
+        {"path": "review.decision", "label": "Ihmisen päätös", "type": "select", "options": [{"value":"pending","label":"Odottaa"},{"value":"changes-requested","label":"Pyydä muutoksia"},{"value":"approved","label":"Hyväksytty"},{"value":"rejected","label":"Hylätty"}]}
+      ]
+    },
+    {
+      "id": "release",
+      "label": "Release",
+      "kind": "form",
+      "description": "Release-valmius. Tämä pinta ei deployaa tai pushaa omin luvin.",
+      "fields": [
+        {"path": "release.version", "label": "Versio", "type": "text", "maxLength": 80},
+        {"path": "release.check", "label": "Check-status", "type": "select", "options": [{"value":"not-run","label":"Ei ajettu"},{"value":"passing","label":"Vihreä"},{"value":"failing","label":"Virheitä"}]},
+        {"path": "release.notes", "label": "Release notes", "type": "textarea", "rows": 10, "maxLength": 50000},
+        {"path": "release.humanApproval", "label": "Ihmisen release-päätös", "type": "select", "options": [{"value":"pending","label":"Odottaa"},{"value":"approved","label":"Hyväksytty"},{"value":"rejected","label":"Hylätty"}]}
+      ]
+    },
+    {
+      "id": "documentation",
+      "label": "Documentation",
+      "kind": "collection",
+      "description": "Projektin dokumentaatio ja käyttöohjeet.",
+      "itemLabel": "Dokumentti",
+      "fields": [
+        {"path": "title", "label": "Otsikko", "type": "text", "maxLength": 220},
+        {"path": "kind", "label": "Tyyppi", "type": "select", "options": [{"value":"readme","label":"README"},{"value":"architecture","label":"Arkkitehtuuri"},{"value":"guide","label":"Ohje"},{"value":"release","label":"Release"}]},
+        {"path": "body", "label": "Sisältö", "type": "textarea", "rows": 14, "maxLength": 120000}
+      ]
+    }
+  ]
+}

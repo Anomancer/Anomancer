@@ -530,3 +530,11 @@
 
 /* Nanomancer capability workbench responsive contract */
 @media(max-width:760px){.nanomancer-lab{padding:14px;border-radius:14px}.nanomancer-head{display:grid}.nanomancer-source-grid{grid-template-columns:1fr}.nanomancer-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.nanomancer-actions{align-items:stretch}.nanomancer-actions button{min-height:44px}.nanomancer-change-table{display:block;overflow-x:auto;max-width:100%}}
+
+@media(max-width:900px){.archive-curator-controls{grid-template-columns:1fr 1fr}.archive-curator-controls label,.archive-curator-controls #archiveCuratorStatus{grid-column:1/-1}.archive-curator-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.archive-curator-head{display:grid}.archive-curator-readonly{justify-self:start}.archive-curator-controls{grid-template-columns:1fr}.archive-curator-controls label,.archive-curator-controls #archiveCuratorStatus{grid-column:auto}.archive-curator-summary{grid-template-columns:1fr}.archive-health-score{min-height:96px}.archive-curator-proposal{grid-template-columns:1fr}.archive-curator-proposal p,.archive-curator-proposal small{grid-column:1}}
+@media(max-width:420px){.archive-curator{padding:13px}.archive-curator-metrics{grid-template-columns:1fr 1fr}.archive-curator-controls button{width:100%}}
+
+/* 1.18.0 generic Mancer package workbench responsive ownership */
+@media(max-width:760px){.mancer-workspace{padding:12px 12px 88px}.mancer-commandbar,.mancer-section-head{align-items:stretch;flex-direction:column}.mancer-command-actions{justify-content:space-between}.mancer-contract-strip{grid-template-columns:1fr 1fr}.mancer-form{grid-template-columns:1fr}.mancer-form label:has(textarea){grid-column:auto}.mancer-runs{grid-template-columns:1fr}.mancer-collection-head,.mancer-run-toolbar{align-items:stretch;flex-direction:column}.mancer-collection-head button,.mancer-run-toolbar button{width:100%}}
+@media(max-width:390px){.mancer-contract-strip{grid-template-columns:1fr}}

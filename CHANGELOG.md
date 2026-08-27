@@ -1,3 +1,28 @@
+# Changelog
+
+## 1.18.0 · Mancer Runtime + Codemancer
+
+- Mancer Package Spec v1 + server-side package discovery/validation.
+- Codemancer reference package: Project, Architecture, Code, Tasks, Tests, Runs, Review, Release, Documentation.
+- Generic schema-workbench UI with package-driven desktop/mobile navigation.
+- Generic workspace-scoped Mancer Artifact Store.
+- Mancer Registry UI and safe missing-package fail-closed state.
+- Package-local Constitution, Artifact Boundary, Approval Model, Agent Bindings, Orchestra Registry and Archive Policy.
+- Browser and runtime release gates prove the Core Shell does not hardcode Codemancer navigation.
+
+# Anomancer 1.17.3 · Arkistonhoitaja
+
+- lisätty deterministinen Archive Governance Agent ja versionoidut governance report/proposal -sopimukset
+- lisätty Archive-indeksi tyypeille, työtiloille, projekteille, statuksille ja tageille
+- lisätty exact- ja near duplicate -seulonta ilman kielimallia
+- lisätty relation integrity, project relation, retention review ja orphan object -havainnot
+- lisätty Archive Health -pisteytys ja eheysraportti
+- kaikki Arkistonhoitajan ehdotukset ovat `mutationAllowed:false` ja vaativat ihmisen päätöksen
+- Arkistonhoitaja ei saa kirjoittaa, poistaa, myöntää granteja, varmentaa evidenssiä tai julkaista
+- lisätty Arkisto-pintaan responsiivinen Arkistonhoitaja-paneeli ja human-approved raportin tallennus
+- lisätty `scripts/test-archive-curator-1173.mjs` ja Chromiumissa ajettava `scripts/test-archive-curator-ui-1173.mjs`
+- säilytetty Archive Core-, Nanomancer-, Human Approval-, Workspace-, Evidence- ja Public/Private Boundary -rajat
+
 # Anomancer 1.17.2 · Nanomancer
 
 - lisätty versionoitu Capability Registry ja `anomancer-capability-plugin/v1` -sopimus

@@ -1,0 +1,10 @@
+{
+  "format": "anomancer-mancer-artifact-boundary/v1",
+  "id": "codemancer/artifact-boundary/1.0.0",
+  "workspaceIsolation": true,
+  "store": "mancer/package-artifact-store/v1",
+  "read": ["workspace-package-artifact", "workspace-runs", "granted-archive-context"],
+  "write": ["workspace-package-artifact"],
+  "forbidden": ["public-content", "other-workspace-artifact", "ungranted-archive-context", "automatic-release"],
+  "humanApprovalRequired": ["apply-code", "archive-approved-artifact", "release"]
+}

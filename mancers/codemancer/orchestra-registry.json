@@ -1,0 +1,20 @@
+{
+  "format": "anomancer-mancer-orchestra-registry/v1",
+  "orchestras": [
+    {
+      "id": "code-review",
+      "name": "Code Review",
+      "executable": false,
+      "stages": ["architecture", "implementation", "tests", "diff-review", "human-apply"],
+      "approvalGates": ["diff-review", "human-apply"]
+    },
+    {
+      "id": "release-readiness",
+      "name": "Release Readiness",
+      "executable": false,
+      "stages": ["tests", "review", "release-notes", "human-release"],
+      "approvalGates": ["human-release"]
+    }
+  ],
+  "runtimeNote": "Package-local registry is loaded in 1.18.0. Automatic plugin/orchestra stage execution remains behind Orchestra Registry v2."
+}

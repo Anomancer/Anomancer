@@ -17,9 +17,10 @@ function safeId(v=''){return clean(v).toLowerCase().replace(/[^a-z0-9-]+/g,'-').
 function workspaceView(input={},source='custom'){
   const id=source==='built-in'?DEFAULT_WORKSPACE_ID:safeId(input.id);
   const requested=source==='built-in'?ANOMANCER_TEMPLATE_ID:clean(input.templateId);
-  const templateId=getWorkspaceTemplate(requested)?.id||defaultTemplateIdFor(source);
-  const binding=workspaceTemplateBinding(templateId);
-  const base={format:WORKSPACE_FORMAT,coreVersion:CORE_VERSION,id,name:clean(input.name).slice(0,80)||getWorkspaceTemplate(templateId)?.name||'Untitled Workspace',description:clean(input.description).slice(0,400),status:input.status==='archived'?'archived':'active',source,...binding,createdAt:clean(input.createdAt),updatedAt:clean(input.updatedAt)};
+  const resolved=getWorkspaceTemplate(requested);
+  const templateId=resolved?.id||(source==='built-in'?ANOMANCER_TEMPLATE_ID:(requested||defaultTemplateIdFor(source)));
+  const binding=resolved?workspaceTemplateBinding(templateId):{templateId,templateHash:'',constitutionId:'core/blank-private-constitution/1.0.0',constitutionHash:'',enabledOrchestraIds:[],defaultOrchestraId:'',artifactStoreId:'workspace/private-isolated/v1',contentAdapterId:'workspace/unbound-private/v1',outputAdapterId:'workspace/no-publication/v1',uiProfileId:'workspace/missing-package-ui/v1'};
+  const base={format:WORKSPACE_FORMAT,coreVersion:CORE_VERSION,id,name:clean(input.name).slice(0,80)||resolved?.name||'Unavailable Workspace',description:clean(input.description).slice(0,400),status:input.status==='archived'?'archived':'active',source,...binding,createdAt:clean(input.createdAt),updatedAt:clean(input.updatedAt)};
   const hashable={...base};delete hashable.coreVersion;delete hashable.workspaceHash;delete hashable.updatedAt;base.workspaceHash=digest(hashable);return base;
 }
 export const DEFAULT_WORKSPACE=Object.freeze(workspaceView({id:DEFAULT_WORKSPACE_ID,name:'Anomancer',description:'Nykyinen Anomancer Core, julkaisut ja legacy runtime-, orkesteri- ja run-historia samoilla id- ja tag-refeillä.',status:'active'},'built-in'));

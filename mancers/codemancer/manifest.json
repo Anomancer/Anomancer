@@ -1,0 +1,26 @@
+{
+  "format": "anomancer-mancer-package/v1",
+  "id": "codemancer",
+  "templateId": "codemancer/development-workbench/1.0.0",
+  "name": "Codemancer",
+  "version": "1.0.0",
+  "kind": "development",
+  "instancePolicy": "multiple",
+  "description": "Yksityinen ohjelmistokehityksen työtila arkkitehtuurille, koodille, testeille, reviewlle ja releaselle.",
+  "purpose": "Suunnittele, toteuta, testaa, tarkista ja paketoi ohjelmistotyötä ihmisen hyväksymisporttien takana.",
+  "constitutionId": "codemancer/development-constitution/1.0.0",
+  "artifactStoreId": "mancer/package-artifact-store/v1",
+  "contentAdapterId": "codemancer/project-json/v1",
+  "outputAdapterId": "codemancer/human-approved-release/v1",
+  "uiProfileId": "mancer/schema-workbench-ui/v1",
+  "capabilities": [
+    "artifact.package.read",
+    "artifact.package.write",
+    "artifact.export",
+    "runtime.manage",
+    "orchestra.custom",
+    "runs.read",
+    "archive.read",
+    "archive.write.approved"
+  ]
+}

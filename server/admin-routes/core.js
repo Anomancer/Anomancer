@@ -5,6 +5,7 @@ import { modelRouterStatus } from '../model-router.js';
 import { listWorkspaces, upsertWorkspace, archiveWorkspace, workspaceStoreStatus } from '../workspace-store.js';
 import { listWorkspaceTemplates, listConstitutions } from '../workspace-templates.js';
 import { artifactBoundaryForWorkspace } from '../artifact-boundary.js';
+import { listMancerPackageHealth } from '../mancer-registry.js';
 
 function auth(req,res,mut=false){
   const session=getSession(req);
@@ -17,7 +18,7 @@ function resourceOf(req){
   catch{return 'core';}
 }
 function publicWorkspaceState(state){return{format:state.format,coreVersion:state.coreVersion,revision:state.revision,updatedAt:state.updatedAt};}
-function workspacePayload(data){return{builtins:data.builtins,custom:data.custom,all:data.all,state:publicWorkspaceState(data.state),store:workspaceStoreStatus(),templates:listWorkspaceTemplates(),constitutions:listConstitutions(),artifactBoundaries:Object.fromEntries(data.all.map(workspace=>[workspace.id,artifactBoundaryForWorkspace(workspace)]))};}
+function workspacePayload(data){return{builtins:data.builtins,custom:data.custom,all:data.all,state:publicWorkspaceState(data.state),store:workspaceStoreStatus(),templates:listWorkspaceTemplates(),constitutions:listConstitutions(),artifactBoundaries:Object.fromEntries(data.all.map(workspace=>[workspace.id,artifactBoundaryForWorkspace(workspace)])),mancerPackages:listMancerPackageHealth()};}
 
 async function workspaceHandler(req,res){
   if(req.method==='GET'){

@@ -113,5 +113,13 @@
       ]
     }
   ],
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "functions": {
+    "api/admin/core.js": {
+      "includeFiles": "mancers/**"
+    },
+    "api/admin/content.js": {
+      "includeFiles": "mancers/**"
+    }
+  }
 }

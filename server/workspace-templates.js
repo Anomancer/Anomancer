@@ -1,4 +1,5 @@
 import { CORE_VERSION, digest, listAgentIds } from './core-registry.js';
+import { listInstalledMancerPackages, getMancerPackageByTemplateId, MANCER_PACKAGE_FORMAT } from './mancer-registry.js';
 
 export const WORKSPACE_TEMPLATE_FORMAT='anomancer-workspace-template/v1';
 export const CONSTITUTION_FORMAT='anomancer-constitution/v1';
@@ -16,7 +17,7 @@ function finalizeConstitution(input){
   return deepFreeze(contract);
 }
 
-export const CONSTITUTION_REGISTRY=deepFreeze([
+const LEGACY_CONSTITUTION_REGISTRY=[
   finalizeConstitution({
     id:'anomancer/editorial-constitution/1.0.0',name:'Anomancer Editorial Constitution',version:'1.0.0',
     purpose:'Tutkiva, yleisölle hyödyllinen julkaisu, jossa kirjoittajan ääni, evidenssin tila ja ihmisen julkaisupäätös säilyvät.',
@@ -47,8 +48,11 @@ export const CONSTITUTION_REGISTRY=deepFreeze([
     requiredGates:['artifact-adapter.bind','output-adapter.bind','human.publish'],
     completionDefinition:'Työtilatyypille on sidottu oma artefaktisäilö ja nimenomainen ulostuloadapteri.'
   })
-]);
+];
 
+const MANCER_PACKAGES=listInstalledMancerPackages();
+const PACKAGE_CONSTITUTIONS=MANCER_PACKAGES.map(pkg=>finalizeConstitution(pkg.constitution));
+export const CONSTITUTION_REGISTRY=deepFreeze([...LEGACY_CONSTITUTION_REGISTRY,...PACKAGE_CONSTITUTIONS]);
 const CONSTITUTION_MAP=new Map(CONSTITUTION_REGISTRY.map(item=>[item.id,item]));
 const allAgents=listAgentIds();
 const editorialAgents=allAgents.filter(id=>!id.startsWith('narrative-'));
@@ -115,7 +119,7 @@ function finalizeTemplate(input){
   return deepFreeze(template);
 }
 
-export const WORKSPACE_TEMPLATE_REGISTRY=deepFreeze([
+const LEGACY_WORKSPACE_TEMPLATE_REGISTRY=[
   finalizeTemplate({
     id:ANOMANCER_TEMPLATE_ID,name:'Anomancer',version:'1.0.0',kind:'editorial-platform',instancePolicy:'singleton-default',
     description:'Nykyinen Lähetyskone, Anomancer-julkaisut ja toimituksellinen orkesterikerros.',
@@ -168,7 +172,20 @@ export const WORKSPACE_TEMPLATE_REGISTRY=deepFreeze([
     outputAdapterId:'workspace/no-publication/v1',uiProfileId:'workspace/blank-private-ui/v1',
     capabilities:['runtime.manage','orchestra.custom','runs.read']
   })
-]);
+];
+
+function packageTemplateInput(pkg){
+  const m=pkg.manifest,bindings=pkg.agentBindings||{},orchestras=pkg.orchestraRegistry?.orchestras||[];
+  return{
+    id:m.templateId,name:m.name,version:m.version,kind:m.kind,instancePolicy:m.instancePolicy||'multiple',description:m.description,purpose:m.purpose,constitutionId:m.constitutionId,
+    allowedAgentIds:(bindings.sharedAgentIds||[]).filter(id=>allAgents.includes(id)),builtInOrchestraIds:[],defaultOrchestraId:'',
+    packageOrchestraIds:orchestras.map(x=>x.id),artifactStoreId:m.artifactStoreId,contentAdapterId:m.contentAdapterId,outputAdapterId:m.outputAdapterId,uiProfileId:m.uiProfileId,
+    editorDefinition:{format:'anomancer-workspace-editor-definition/v1',renderer:pkg.uiSchema.renderer,navigation:pkg.uiSchema.navigation,sections:pkg.uiSchema.sections},
+    capabilities:m.capabilities||[],mancerPackage:{format:MANCER_PACKAGE_FORMAT,id:m.id,version:m.version,contractHash:pkg.contractHash,approvalModel:pkg.approvalModel,artifactBoundary:pkg.artifactBoundary,agentBindings:pkg.agentBindings,orchestraRegistry:pkg.orchestraRegistry,archivePolicy:pkg.archivePolicy}
+  };
+}
+const PACKAGE_TEMPLATES=MANCER_PACKAGES.map(pkg=>finalizeTemplate(packageTemplateInput(pkg)));
+export const WORKSPACE_TEMPLATE_REGISTRY=deepFreeze([...LEGACY_WORKSPACE_TEMPLATE_REGISTRY,...PACKAGE_TEMPLATES]);
 
 const TEMPLATE_MAP=new Map(WORKSPACE_TEMPLATE_REGISTRY.map(item=>[item.id,item]));
 
@@ -187,3 +204,5 @@ export function workspaceTemplateBinding(templateId){
     outputAdapterId:template.outputAdapterId,uiProfileId:template.uiProfileId
   };
 }
+
+export function getMancerPackageForTemplate(templateId){return getMancerPackageByTemplateId(templateId);}

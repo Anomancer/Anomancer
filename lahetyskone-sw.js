@@ -1,4 +1,4 @@
-const CACHE_NAME = 'anomancer-lahetyskone-v1.17.2';
+const CACHE_NAME = 'anomancer-lahetyskone-v1.18.0';
 const APP_PATH = '/lahetyskone';
 const SHELL_URLS = [
   APP_PATH,
@@ -11,11 +11,13 @@ const SHELL_URLS = [
   '/admin-control-plane.css',
   '/admin-archive.css',
   '/admin-nanomancer.css',
+  '/admin-mancer.css',
   '/admin-responsive.css',
   '/admin.js',
   '/admin-workspaces.js',
   '/admin-archive.js',
   '/admin-nanomancer.js',
+  '/admin-mancer.js',
   '/admin-shell.js',
   '/admin-overlays.js',
   '/admin-core.js',

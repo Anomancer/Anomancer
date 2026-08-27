@@ -2,11 +2,13 @@ import { json } from '../../server/http.js';
 import postsHandler from '../../server/admin-routes/posts.js';
 import mediaHandler from '../../server/admin-routes/media.js';
 import workspaceArtifactHandler from '../../server/admin-routes/workspace-artifact.js';
+import mancerArtifactHandler from '../../server/admin-routes/mancer-artifact.js';
 
 const ROUTES=new Map([
   ['posts',postsHandler],
   ['media',mediaHandler],
   ['workspace-artifact',workspaceArtifactHandler],
+  ['mancer-artifact',mancerArtifactHandler],
 ]);
 
 function resourceOf(req){

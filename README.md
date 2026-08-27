@@ -1,15 +1,27 @@
-# Anomancer 1.17.2 · Nanomancer
+# Anomancer 1.18.0 · Mancer Runtime + Codemancer
 
-**1.17.2** jatkaa Mancer Runtime -sarjaa lisäämällä Coren ensimmäisen versionoidun Capability Plugin -kerroksen. Ensimmäinen plugin on Nanomancer: deterministinen, read-only analyysimikroskooppi Archive Objectien, Run Recordien ja rakenteisen JSON-datan vertailuun.
+1.18.0 todistaa Anomancer Coren package-pohjaisen työtilamallin ensimmäisellä uudella domainilla: **Codemancerilla**.
 
-Nanomancer ei ole uusi työtila eikä uusi LLM-agentti. Sen contract kieltää mallikäytön, workspace-kirjoituksen ja Archive-kirjoituksen. Arkistoa luetaan vain aktiivisen työtilan omistuksen tai ihmisen eksplisiittisen grantin kautta, jolloin syntyy Context Receipt.
+Codemancer ei ole Core Shelliin kovakoodattu uusi sovellus. Se asennetaan `mancers/codemancer/`-pakettina, jonka sopimuksista Core muodostaa työtilan navigaation, Constitutionin, Artifact Boundaryn, Approval Modelin, Agent Bindingsin, Orchestra Registryn, Archive Policyn ja geneerisen Schema Workbench -UI:n.
 
-Analyysin mahdollinen tallennus Arkistoon tapahtuu erillisellä human-approved toiminnolla.
+Työpinnat:
+
+`Project · Architecture · Code · Tasks · Tests · Runs · Review · Release · Documentation`
+
+Tärkeät dokumentit:
+
+- `MANCER_RUNTIME_1_18_0.md`
+- `FULL_RELEASE_1_18_0.md`
+- `ARCHIVE_CORE_1_17_1.md`
+- `NANOMANCER_1_17_2.md`
+- `ARKISTONHOITAJA_1_17_3.md`
 
 Tarkistus:
 
 ```bash
+npm install
 npm run check
+npm run build
 ```
 
-Katso `NANOMANCER_1_17_2.md`, `ARCHIVE_CORE_1_17_1.md` ja `FULL_RELEASE_1_17_2.md`.
+Perusraja säilyy: agentti tai package ei saa itsenäisesti laajentaa toimivaltaansa, lukea toisen workspacen dataa, kirjoittaa julkista sisältöä tai tehdä releasea ilman nimenomaista sopimusta ja ihmisen hyväksyntää.

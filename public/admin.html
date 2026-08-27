@@ -67,7 +67,7 @@
   <section class="core-surface-view" data-shell-view="workspaces" hidden>
     <header class="core-surface-head"><div><p class="kicker">CORE / TYÖTILAT</p><h1>Valitse kone, älä arvaa kontekstia.</h1><p>Työtila sitoo yhteen editorin, perustuslain, orkesterin, ajot ja artefaktirajan.</p></div><button class="primary" id="workspaceHomeNew" type="button">+ Uusi työtila</button></header>
     <div class="workspace-home-state" id="workspaceHomeState">Työtiloja ladataan…</div>
-    <div class="workspace-home-grid" id="workspaceHomeCards"></div>
+    <div class="workspace-home-grid" id="workspaceHomeCards"></div><section class="mancer-registry-surface"><header><div><p class="kicker">MANCER REGISTRY / 1.18.0</p><h2>Asennetut työmaailmat</h2><p>Package-tyyppi tulee Coren ulkopuolisesta sopimuspaketista. Instanssin luonti ei lisää domain-nimikohtaista logiikkaa Core Shelliin.</p></div></header><div class="workspace-home-grid" id="mancerRegistryCards"></div></section>
   </section>
   <section class="core-surface-view" data-shell-view="materials" hidden>
     <header class="core-surface-head"><div><p class="kicker">TYÖTILA / AINEISTO</p><h1>Työtilan aineisto ja ulostuloraja</h1><p>Näe yhdellä silmäyksellä missä aineisto elää ja mihin se saa poistua.</p></div></header>
@@ -77,6 +77,12 @@
   <section class="core-surface-view archive-view" data-shell-view="archive" hidden>
     <header class="core-surface-head"><div><p class="kicker">CORE / ARKISTO</p><h1>Hallittu muistikerros</h1><p>Hyväksytyt artefaktit, päätökset, lähteet, aineistot ja ajohistoria säilyvät provenance-ketjun kanssa. Arkisto ei ole automaattinen LLM-muisti.</p></div><div class="archive-head-actions"><button class="ghost" id="archiveRefresh" type="button">Päivitä</button><button class="primary" id="archiveNewObject" type="button">+ Tallenna Arkistoon</button></div></header>
     <div class="archive-boundary-banner"><strong>ARCHIVE ≠ AUTOMATIC MODEL MEMORY</strong><span>Agentti saa lukea vain oman työtilansa tai ihmisen erikseen myöntämän kontekstin.</span></div>
+    <section class="archive-curator" id="archiveCurator" aria-labelledby="archiveCuratorTitle">
+      <header class="archive-curator-head"><div><p class="kicker">ARCHIVE GOVERNANCE / ARKISTONHOITAJA 1.17.3</p><h2 id="archiveCuratorTitle">Muistikerroksen järjestyksenvalvoja</h2><p>Indeksoi Arkiston, etsii duplikaatteja, rikkinäisiä suhteita, retention-velkaa ja irrallisia objekteja. Arkistonhoitaja ei käytä kielimallia eikä muuta, poista tai jaa dataa omin luvin.</p></div><span class="archive-curator-readonly">SUGGESTIONS ONLY</span></header>
+      <div class="archive-curator-contract"><span>MODEL · NONE</span><span>WRITE · NONE</span><span>DELETE · NONE</span><span>GRANTS · NONE</span><span>HUMAN DECISION · REQUIRED</span></div>
+      <div class="archive-curator-controls"><label><span>Tarkastusskooppi</span><select id="archiveCuratorScope"><option value="">Koko Arkisto · ihmisen näkymä</option><option value="current">Nykyinen työtila</option></select></label><button class="primary" id="archiveCuratorRun" type="button">Aja Arkistonhoitaja</button><button class="ghost" id="archiveCuratorSave" type="button" disabled>Tallenna raportti Arkistoon…</button><span id="archiveCuratorStatus" role="status"></span></div>
+      <div class="archive-curator-result" id="archiveCuratorResult"><div class="archive-curator-empty"><strong>Ei tarkastusraporttia.</strong><p>Ajo tapahtuu deterministisesti serverin sisällä. Sisältöä ei lähetetä mallille tai ulkoiseen palveluun.</p></div></div>
+    </section>
     <div class="archive-metrics" id="archiveMetrics"></div>
     <div class="archive-toolbar"><label><span>Haku</span><input id="archiveSearch" type="search" placeholder="Nimi, tagi, projekti, sisältö…" autocomplete="off"></label><label><span>Tyyppi</span><select id="archiveTypeFilter"><option value="">Kaikki tyypit</option><option value="project">Projektit</option><option value="artifact">Artefaktit</option><option value="run">Ajot</option><option value="source">Lähteet</option><option value="dataset">Aineistot</option><option value="decision">Päätökset</option><option value="note">Muistiinpanot</option><option value="snapshot">Snapshotit</option><option value="report">Raportit</option></select></label><label><span>Työtila</span><select id="archiveWorkspaceFilter"><option value="">Kaikki työtilat</option></select></label></div>
     <div class="archive-store-meta"><span id="archiveStoreMeta">Archive Store ladataan…</span><span id="archiveStatus" role="status"></span></div>
@@ -109,6 +115,14 @@
   <main class="narramancer-panel" id="narramancerPanel"></main>
   <div class="narramancer-undo" id="narramancerUndo" hidden role="status"><span id="narramancerUndoText">Poistettu.</span><button class="ghost" id="narramancerUndoBtn" type="button">Kumoa</button></div>
   <div class="narramancer-status" id="narramancerStatus" role="status">Yksityinen työtila.</div>
+</section>
+<section class="mancer-workspace" id="mancerWorkspace" hidden>
+  <header class="mancer-commandbar">
+    <div><p class="kicker" id="mancerPackageName">MANCER PACKAGE</p><strong id="mancerWorkspaceName">Mancer</strong><small id="mancerConstitution">Package contract + human approval</small></div>
+    <div class="mancer-command-actions"><span id="mancerDirty">TALLENNETTU</span><button class="secondary" id="mancerSave" type="button">Tallennettu</button></div>
+  </header>
+  <main class="mancer-panel" id="mancerPanel"></main>
+  <div class="mancer-status" id="mancerStatus" role="status">Package-työtila.</div>
 </section>
 <section class="blank-workspace" id="blankWorkspace" hidden>
   <header class="blank-workspace-hero">
@@ -443,5 +457,6 @@
 <script src="/admin-machine-room.js" type="module"></script>
 <script src="/admin-orchestrator.js" type="module"></script>
 <script src="/admin-narramancer.js" type="module"></script>
+<script src="/admin-mancer.js" type="module"></script>
 </body>
 </html>

@@ -56,7 +56,7 @@ content_fingerprint() {
 CONTENT_BEFORE="$(content_fingerprint "$TARGET_DIR")"
 CONTENT_COUNT_BEFORE="$(find "$TARGET_DIR/content" -type f -name '*.md' 2>/dev/null | wc -l | tr -d ' ')"
 
-echo "ANOMANCER 1.17.2 · NANOMANCER · CONTENT-SAFE INSTALL"
+echo "ANOMANCER 1.18.0 · MANCER RUNTIME + CODEMANCER · CONTENT-SAFE INSTALL"
 echo "Lähde: $SOURCE_DIR"
 echo "Kohde: $TARGET_DIR"
 echo "Varmuuskopio: $TARGET_DIR/$BACKUP_REL"
@@ -97,7 +97,7 @@ if [[ "$CONTENT_BEFORE" != "$CONTENT_AFTER" || "$CONTENT_COUNT_BEFORE" != "$CONT
   exit 1
 fi
 
-echo "✓ Anomancer 1.17.2 Nanomancer asennettu ja tarkistettu."
+echo "✓ Anomancer 1.18.0 Mancer Runtime + Codemancer asennettu ja tarkistettu."
 echo "✓ content/ säilyi identtisenä: $CONTENT_COUNT_AFTER Markdown-tiedostoa."
 echo "✓ Korvatut tiedostot ovat palautettavissa: $TARGET_DIR/$BACKUP_REL"
 if [[ -d .git ]]; then

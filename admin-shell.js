@@ -13,6 +13,7 @@ const coreSurface=q('#coreSurface');
 const localSidebar=q('#workspaceLocalSidebar');
 const editorGrid=q('.editor-grid');
 const narramancer=q('#narramancerWorkspace');
+const mancerWorkspace=q('#mancerWorkspace');
 const blankWorkspace=q('#blankWorkspace');
 const corePanel=q('#corePanel');
 const machineHost=q('#coreMachineHost');
@@ -27,11 +28,13 @@ function workspace(){return detail?.workspace||window.anomancerWorkspaces?.curre
 function artifact(){return detail?.artifact||window.anomancerWorkspaces?.artifact?.()||null;}
 function constitution(){return detail?.constitution||window.anomancerWorkspaces?.constitution?.()||null;}
 function isNarrative(){return template()?.kind==='narrative-authoring';}
+function isMancer(){return template()?.mancerPackage?.format==='anomancer-mancer-package/v1';}
 function isBlank(){return template()?.kind==='blank-private';}
 function setDocumentTitle(surface='workspace'){
   const names={workspaces:'Työtilat',archive:'Arkisto',machine:'Konehuone',materials:'Aineisto & ulostulo'};
   if(names[surface]){document.title=`Anomancer Core · ${names[surface]}`;return;}
   if(isNarrative()){window.anomancerNarramancer?.refreshDocumentTitle?.();return;}
+  if(isMancer()){window.anomancerMancer?.refreshDocumentTitle?.();return;}
   const name=isBlank()?(workspace()?.name||'Tyhjä työtila'):'Lähetyskone';
   document.title=`Anomancer Core · ${name}`;
 }
@@ -51,15 +54,23 @@ function showWorkspace(){
   if(isNarrative()){
     if(editorGrid)editorGrid.hidden=true;
     if(narramancer)narramancer.hidden=false;
+    if(mancerWorkspace)mancerWorkspace.hidden=true;
+    if(blankWorkspace)blankWorkspace.hidden=true;
+  }else if(isMancer()){
+    if(editorGrid)editorGrid.hidden=true;
+    if(narramancer)narramancer.hidden=true;
+    if(mancerWorkspace)mancerWorkspace.hidden=false;
     if(blankWorkspace)blankWorkspace.hidden=true;
   }else if(isBlank()){
     if(editorGrid)editorGrid.hidden=true;
     if(narramancer)narramancer.hidden=true;
+    if(mancerWorkspace)mancerWorkspace.hidden=true;
     if(blankWorkspace)blankWorkspace.hidden=false;
     renderBlankWorkspace();
   }else{
     if(editorGrid)editorGrid.hidden=false;
     if(narramancer)narramancer.hidden=true;
+    if(mancerWorkspace)mancerWorkspace.hidden=true;
     if(blankWorkspace)blankWorkspace.hidden=true;
   }
   document.body.dataset.shellSurface='workspace';
@@ -73,6 +84,7 @@ function showCoreView(name){
   if(localSidebar)localSidebar.hidden=true;
   if(editorGrid)editorGrid.hidden=true;
   if(narramancer)narramancer.hidden=true;
+  if(mancerWorkspace)mancerWorkspace.hidden=true;
   if(blankWorkspace)blankWorkspace.hidden=true;
   qa('[data-shell-view]').forEach(view=>view.hidden=view.dataset.shellView!==name);
   document.body.dataset.shellSurface=name;
@@ -98,7 +110,7 @@ function localSections(){
   if(!groups.length&&sections.length)groups=[{id:'main',label:'Työkalut',items:sections.map(s=>s.id)}];
   return groups.map(group=>({...group,sections:(group.items||[]).map(id=>sectionMap.get(id)).filter(Boolean)})).filter(group=>group.sections.length);
 }
-function activeLocalSection(){return route==='materials'?'materials':isNarrative()?window.anomancerNarramancer?.activeSection?.()||'project':editorialView;}
+function activeLocalSection(){return route==='materials'?'materials':isNarrative()?window.anomancerNarramancer?.activeSection?.()||'project':isMancer()?window.anomancerMancer?.activeSection?.()||editorSections()[0]?.id||'project':editorialView;}
 
 function renderLocalNavigation(){
   const nav=q('#workspaceLocalNav');if(!nav)return;
@@ -108,7 +120,10 @@ function renderLocalNavigation(){
 }
 
 function openLocalSection(id){
-  if(isNarrative()){
+  if(isMancer()){
+    navigate('workspace');
+    window.anomancerMancer?.selectSection?.(id);
+  }else if(isNarrative()){
     navigate('workspace');
     window.anomancerNarramancer?.selectSection?.(id);
   }else if(id==='dispatches'){
@@ -141,7 +156,7 @@ function renderMobileSheet(){
   const moreNav=q('#workspaceMobileMoreNav'),commands=q('#workspaceMobileCommands'),select=q('#mobileWorkspaceSelect');
   if(moreNav)moreNav.innerHTML=mobileSecondary().map(section=>`<button type="button" data-mobile-local="${esc(section.id)}"><strong>${esc(section.label||section.id)}</strong><small>${section.id==='publish'?'Ihmisen julkaisupäätös':'Avaa työtilassa'}</small></button>`).join('')||'<p class="muted">Ei muita työtilatyökaluja.</p>';
   if(commands){
-    const saveLabel=isNarrative()?'Tallenna projekti':'Tallenna luonnos';
+    const saveLabel=isNarrative()?'Tallenna projekti':isMancer()?'Tallenna työtila':'Tallenna luonnos';
     commands.innerHTML=`<button type="button" data-mobile-command="save"><strong>${saveLabel}</strong><small>Nykyinen työtila</small></button><button type="button" data-mobile-command="workspaces"><strong>Työtilat</strong><small>Vaihda kontekstia</small></button><button type="button" data-mobile-command="archive"><strong>Arkisto</strong><small>Hallittu muistikerros</small></button><button type="button" data-mobile-command="machine"><strong>Konehuone</strong><small>Globaali ohjaustaso</small></button><button type="button" data-mobile-command="settings"><strong>Asetukset</strong><small>Näkymä ja järjestelmä</small></button>`;
   }
   if(select){
@@ -173,7 +188,7 @@ function setMobileSheet(open,trigger=q('#mobileMoreBtn')){
 function runMobileCommand(command,trigger){
   if(command==='more'){setMobileSheet(true,trigger);return;}
   if(command==='preview'){setMobileSheet(false);window.anomancerAdminBridge?.openPreview?.();return;}
-  if(command==='save'){setMobileSheet(false);if(isNarrative())window.anomancerNarramancer?.save?.();else window.anomancerAdminBridge?.saveDraft?.();return;}
+  if(command==='save'){setMobileSheet(false);if(isNarrative())window.anomancerNarramancer?.save?.();else if(isMancer())window.anomancerMancer?.save?.();else window.anomancerAdminBridge?.saveDraft?.();return;}
   if(command==='workspaces'){setMobileSheet(false);navigate('workspaces');return;}
   if(command==='archive'){setMobileSheet(false);navigate('archive');return;}
   if(command==='machine'){setMobileSheet(false);navigate('machine');return;}
@@ -195,7 +210,7 @@ function renderArtifactHome(){
   const w=workspace()||{},t=template()||{},a=artifact()||{},c=constitution()||{};
   const store=t.artifactStoreId||'—',content=t.contentAdapterId||'—',output=t.outputAdapterId||'—';
   root.innerHTML=`<div class="artifact-hero"><div><span>${esc(t.name||'Työtila')}</span><h2>${esc(w.name||w.id||'Työtila')}</h2><p>${esc(t.purpose||w.description||'')}</p></div><span class="artifact-boundary-badge" data-isolated="${a.isolated?'true':'false'}">${a.isolated?'ERISTETTY':'JULKAISU SIDOTTU'}</span></div><div class="artifact-grid"><article><span>Artefaktisäilö</span><strong>${esc(store)}</strong><small>${a.privateArtifactWritable?'Yksityinen kirjoitus sallittu':(a.contentWritable?'Sisältökirjoitus sallittu':'Kirjoitus rajattu')}</small></article><article><span>Sisääntulo</span><strong>${esc(content)}</strong><small>${a.contentReadable?'Sisältö luettavissa':'Ei ristiinlukua'}</small></article><article><span>Ulostulo</span><strong>${esc(output)}</strong><small>${a.publicationEnabled?'Julkinen julkaisu mahdollinen':'Ei automaattista julkaisukohdetta'}</small></article><article><span>Perustuslaki</span><strong>${esc(c.name||w.constitutionId||'—')}</strong><small>Ihminen säilyttää lopullisen päätösvallan</small></article></div>`;
-  if(actions){actions.innerHTML=isNarrative()?`<button class="primary" type="button" data-artifact-action="export">Avaa Vienti</button><button class="ghost" type="button" data-artifact-action="workspace">Palaa työtilaan</button>`:isBlank()?`<button class="primary" type="button" data-artifact-action="workspace">Palaa työtilaan</button><button class="ghost" type="button" data-artifact-action="machine">Avaa Konehuone</button>`:`<button class="primary" type="button" data-artifact-action="dispatches">Avaa Lähetykset</button><a href="/lahetykset" target="_blank" rel="noreferrer">Julkinen sivu ↗</a>`;}
+  if(actions){actions.innerHTML=isNarrative()?`<button class="primary" type="button" data-artifact-action="export">Avaa Vienti</button><button class="ghost" type="button" data-artifact-action="workspace">Palaa työtilaan</button>`:isMancer()?`<button class="primary" type="button" data-artifact-action="workspace">Palaa työtilaan</button><button class="ghost" type="button" data-artifact-action="archive">Avaa Arkisto</button><button class="ghost" type="button" data-artifact-action="machine">Avaa Konehuone</button>`:isBlank()?`<button class="primary" type="button" data-artifact-action="workspace">Palaa työtilaan</button><button class="ghost" type="button" data-artifact-action="machine">Avaa Konehuone</button>`:`<button class="primary" type="button" data-artifact-action="dispatches">Avaa Lähetykset</button><a href="/lahetykset" target="_blank" rel="noreferrer">Julkinen sivu ↗</a>`;}
 }
 
 function applyWorkspace(next){
@@ -212,7 +227,7 @@ q('#coreSettingsButton')?.addEventListener('click',()=>settings?.showModal());
 q('#coreSettingsClose')?.addEventListener('click',()=>settings?.close());
 settings?.addEventListener('click',event=>{if(event.target===settings)settings.close();});
 q('#blankWorkspace')?.addEventListener('click',event=>{const action=event.target.closest?.('[data-blank-action]')?.dataset.blankAction;if(action)navigate(action);});
-q('#artifactHomeActions')?.addEventListener('click',event=>{const action=event.target.closest?.('[data-artifact-action]')?.dataset.artifactAction;if(action==='export'){navigate('workspace');window.anomancerNarramancer?.selectSection?.('export');}if(action==='workspace'||action==='machine')navigate(action);if(action==='dispatches'){navigate('workspace');window.anomancerAdminBridge?.selectEditorView?.('write');window.anomancerAdminBridge?.openDispatchLibrary?.();editorialView='dispatches';renderLocalNavigation();}});
+q('#artifactHomeActions')?.addEventListener('click',event=>{const action=event.target.closest?.('[data-artifact-action]')?.dataset.artifactAction;if(action==='export'){navigate('workspace');window.anomancerNarramancer?.selectSection?.('export');}if(action==='workspace'||action==='machine'||action==='archive')navigate(action);if(action==='dispatches'){navigate('workspace');window.anomancerAdminBridge?.selectEditorView?.('write');window.anomancerAdminBridge?.openDispatchLibrary?.();editorialView='dispatches';renderLocalNavigation();}});
 mobileDock?.addEventListener('click',event=>{
   const local=event.target.closest?.('[data-mobile-local]');if(local){setMobileSheet(false);openLocalSection(local.dataset.mobileLocal);window.scrollTo({top:0,behavior:'smooth'});return;}
   const command=event.target.closest?.('[data-mobile-command]');if(command)runMobileCommand(command.dataset.mobileCommand,command);
@@ -231,6 +246,7 @@ window.addEventListener('anomancer:overlay-close',event=>{if(event.detail?.name=
 window.addEventListener('anomancer:workspace-ready',event=>applyWorkspace(event.detail));
 window.addEventListener('anomancer:workspace-change',event=>applyWorkspace(event.detail));
 window.addEventListener('anomancer:narramancer-section-change',()=>{renderLocalNavigation();renderMobileNavigation();});
+window.addEventListener('anomancer:mancer-section-change',()=>{renderLocalNavigation();renderMobileNavigation();});
 window.addEventListener('anomancer:editor-view-change',event=>{editorialView=event.detail?.view||editorialView;renderLocalNavigation();renderMobileNavigation();});
 window.addEventListener('anomancer:shell-route',event=>navigate(event.detail?.route));
 window.addEventListener('anomancer:admin-ready',()=>{detail=window.anomancerWorkspaces?.getDetail?.()||detail;applyWorkspace(detail);navigate(route);});

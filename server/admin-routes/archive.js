@@ -2,6 +2,7 @@ import { getSession, requireCsrf } from '../auth.js';
 import { json, readJson, sameOrigin } from '../http.js';
 import { requireWorkspace } from '../workspace-store.js';
 import { archiveStoreStatus, createContextReceipt, getArchiveObject, grantArchiveAccess, putArchiveObject, removeArchiveObject, searchArchive } from '../archive-store.js';
+import { archiveCuratorStatus, runArchiveCurator } from '../archive-curator.js';
 
 function auth(req,res,mut=false){const session=getSession(req);if(!session){json(res,401,{ok:false,error:'AUTH'});return null;}if(mut&&(!sameOrigin(req)||!requireCsrf(req,session))){json(res,403,{ok:false,error:'CSRF'});return null;}return session;}
 function urlOf(req){return new URL(req.url||'/api/admin/core?resource=archive','http://anomancer.local');}
@@ -12,6 +13,7 @@ export default async function handler(req,res){
     if(!auth(req,res))return;
     try{
       const url=urlOf(req),id=String(url.searchParams.get('id')||'');
+      if(url.searchParams.get('curator')==='1'){const report=await runArchiveCurator({workspaceId:url.searchParams.get('workspace')||'',maxProposals:url.searchParams.get('maxProposals')||80});return json(res,200,{ok:true,report,curator:archiveCuratorStatus(),store:archiveStoreStatus()});}
       if(id){const object=await getArchiveObject(id,{humanView:true});return object?json(res,200,{ok:true,object,store:archiveStoreStatus()}):json(res,404,{ok:false,error:'ARCHIVE_OBJECT_NOT_FOUND'});}
       const data=await searchArchive({q:url.searchParams.get('q')||'',type:url.searchParams.get('type')||'',workspaceId:url.searchParams.get('workspace')||'',status:url.searchParams.get('status')||'',limit:url.searchParams.get('limit')||100,humanView:true});
       return json(res,200,{ok:true,...data});

@@ -1,0 +1,9 @@
+{
+  "format": "anomancer-mancer-archive-policy/v1",
+  "id": "codemancer/archive-policy/1.0.0",
+  "defaultReadScope": "workspace-owned",
+  "crossWorkspaceRead": "explicit-human-grant",
+  "automaticModelMemory": false,
+  "archiveOnApprovalOnly": true,
+  "allowedArchiveTypes": ["code-analysis", "architecture-decision", "test-report", "review-report", "release-report", "documentation"]
+}
