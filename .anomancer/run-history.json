@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.6.0",
   "workspaceId": "ws-romaani-6301c8",
-  "revision": 5,
-  "updatedAt": "2026-08-27T18:04:16.721Z",
+  "revision": 6,
+  "updatedAt": "2026-08-27T18:05:12.706Z",
   "chainHead": "GENESIS",
   "runs": [
     {
@@ -25,7 +25,7 @@
       },
       "startedAt": "2026-08-27T17:59:48.923Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-27T18:04:16.721Z",
+      "updatedAt": "2026-08-27T18:05:12.706Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
@@ -261,15 +261,73 @@
           "finishedAt": "2026-08-27T18:04:16.382Z",
           "durationMs": 76940,
           "humanApprovalRequired": true
+        },
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-ef17d83426fc7ed8dfec",
+          "workspaceId": "ws-romaani-6301c8",
+          "orchestraRunId": "narramancer-1787853588923-389zs",
+          "stageIndex": 4,
+          "agent": {
+            "id": "narrative-scene",
+            "label": "Kohtauskirjoittaja",
+            "version": "1.0.0",
+            "contractHash": "e31f73da42ba49cbc173dbfddcfa2a17290f1f0411f87e38f5406c57ddb17139",
+            "role": "narrative-scene-writer"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "writer",
+            "target": "deepseek.writer"
+          },
+          "routing": {
+            "route": "writer",
+            "requestedTarget": "deepseek.writer",
+            "selectedTarget": "deepseek.writer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.writer",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 28000,
+            "modelTarget": "deepseek.writer"
+          },
+          "usage": {
+            "inputTokens": 4244,
+            "outputTokens": 3506,
+            "totalTokens": 7750,
+            "reasoningTokens": 640,
+            "maxOutputTokens": 28000,
+            "costEuro": null
+          },
+          "tools": [],
+          "toolPolicy": [],
+          "status": "completed",
+          "inputHash": "cf2209350eca44ad00a7cb47a7d1ea459f48e79d7ca49aa02575312b12107356",
+          "outputHash": "831e6c32dd8b61140b51d1615e0d77ea7b4cbd969e5f084946410d0f2fda6443",
+          "startedAt": "2026-08-27T18:04:19.546Z",
+          "finishedAt": "2026-08-27T18:05:12.328Z",
+          "durationMs": 52782,
+          "humanApprovalRequired": true
         }
       ],
       "usage": {
         "runs": 0,
-        "inputTokens": 11164,
-        "outputTokens": 18392,
-        "totalTokens": 29556,
-        "reasoningTokens": 8786,
-        "durationMs": 252834,
+        "inputTokens": 15408,
+        "outputTokens": 21898,
+        "totalTokens": 37306,
+        "reasoningTokens": 9426,
+        "durationMs": 305616,
         "estimatedCostEuro": 0,
         "pricedReceipts": 0,
         "fallbacks": 0,
@@ -277,17 +335,18 @@
         "toolDenies": 0,
         "toolHumanRequired": 0,
         "providers": {
-          "deepseek": 29556
+          "deepseek": 37306
         },
         "agents": {
           "narrative-premise": 6201,
           "narrative-world": 8856,
           "narrative-character": 5983,
-          "narrative-plot": 8516
+          "narrative-plot": 8516,
+          "narrative-scene": 7750
         },
         "orchestras": {}
       },
-      "receiptCount": 4,
+      "receiptCount": 5,
       "previousRunHash": "",
       "runHash": "",
       "counted": false
