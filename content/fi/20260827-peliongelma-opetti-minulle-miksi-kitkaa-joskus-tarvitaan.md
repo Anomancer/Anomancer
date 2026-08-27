@@ -4,7 +4,7 @@ date: "2026-08-27"
 category: "software-safety"
 audience: ["all"]
 audienceDepth: "general"
-description: "Peliongelma pakotti kirjoittajan näkemään teknologian toisin. Kun käyttäjän halu ja etu erkanevat, liian sujuva järjestelmä voi tehdä pahaa. Joskus kitka on se väli, jossa ihminen pääsee takaisin päätökseensä."
+description: "Peliongelma pakotti näkemään teknologian toisin. Kun käyttäjän halu ja etu erkanevat, liian sujuva järjestelmä voi tehdä pahaa. Joskus kitka on se väli, jossa ihminen pääsee takaisin päätökseensä."
 slug: "peliongelma-opetti-minulle-miksi-kitkaa-joskus-tarvitaan"
 lang: "fi"
 translationKey: "peliongelma-opetti-minulle-miksi-kitkaa-joskus-tarvitaan"
