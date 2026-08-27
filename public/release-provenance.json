@@ -1,0 +1,31 @@
+{
+  "format": "anomancer-release-provenance/v1",
+  "release": "16.1.0",
+  "coreVersion": "16.1.0",
+  "builtAt": "2026-08-27T01:15:24.581Z",
+  "sourceRevision": "b1b99fb9863c14be103dee728d0235e3997303c7",
+  "publicSchemaHash": "4bb9eee682f200b57b98249b1bc8138c68988ba90dfe74e038ea6729d45e0556",
+  "registryHashes": {
+    "agents": "11206f0ed79add64c7d9a3c275a6989905de1e7cb3d574de86caa7c2dd2ffa25",
+    "orchestras": "2cf081eed109ec8738ced5cedafae2b35f484686e099a31740966025ac49d0c6",
+    "tools": "435735a8ac5506ddd94c7e0a75c4c48de6371a5f9aed38920965c1ef94f2d5d8"
+  },
+  "apiSurface": {
+    "functionCount": 4,
+    "gateways": [
+      "/api/admin/auth",
+      "/api/admin/content",
+      "/api/admin/core",
+      "/api/contact"
+    ]
+  },
+  "disclosureBoundary": {
+    "mode": "explicit-allowlist",
+    "privateByDefault": true,
+    "rawPrompts": false,
+    "rawOutputs": false,
+    "runHistory": false,
+    "providerConfiguration": false,
+    "runtimeProfiles": false
+  }
+}

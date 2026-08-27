@@ -5,10 +5,10 @@ import path from 'node:path';
 import { hashPassword, verifyPassword, signSession, verifySession, csrfForSession, sessionCookie } from '../server/auth.js';
 import { serializePost, parseMarkdown, newPostPath, normalizeCategory, normalizeAudience, normalizeAudienceDepth } from '../server/content.js';
 import { putFile, putBase64File, deleteFile } from '../server/github.js';
-import loginHandler from '../api/admin/login.js';
-import sessionHandler from '../api/admin/session.js';
-import postsHandler from '../api/admin/posts.js';
-import mediaHandler from '../api/admin/media.js';
+import loginHandler from '../server/admin-routes/login.js';
+import sessionHandler from '../server/admin-routes/session.js';
+import postsHandler from '../server/admin-routes/posts.js';
+import mediaHandler from '../server/admin-routes/media.js';
 const ROOT=process.cwd();
 let ok=0; const test=async(name,fn)=>{await fn();ok++;console.log(`✓ ${name}`)};
 function resMock(){return {statusCode:200,headers:{},body:'',setHeader(k,v){this.headers[k.toLowerCase()]=v},end(v=''){this.body+=v}};}

@@ -6,3 +6,7 @@ node_modules
 .DS_Store
 
 .anomancer-backups/
+# Never commit private IP audit material
+ANOMANCER_IP_PRIVATE/
+IP_PRIVATE/
+.private-ip/

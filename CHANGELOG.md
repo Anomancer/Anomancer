@@ -1,3 +1,12 @@
+# 16.1.0 — Boundary + Provenance Hardening
+
+- Public Core siirtyy eksplisiittiseen allowlist-snapshotiin (`anomancer-core-public/v2`): tarkat tokenrajat, provider-targetit, fallback-järjestys, runtime-profiilit ja write/deny-matriisit eivät enää kuulu julkiseen JSONiin.
+- Build tuottaa turvallisen `release-provenance.json`-kuitin: release/core-versio, build-aika, source revision kun saatavilla, public-schema-hash sekä agentti-, orkesteri- ja työkalurekisterien hashit.
+- Vercel API -entrypointit yhdistetty 12 → 4: `auth`, `content`, `core`, `contact`. Domain-handlerit säilyvät erillisinä `server/admin-routes/`-kerroksessa.
+- Tuntemattomat gateway-resurssit fail-closed 404:ään.
+- Lisätty pysyvät Public Disclosure Boundary- ja API Surface -regressioportit.
+- Ei uusia agentteja, työkaluoikeuksia tai julkaisuvaltaa.
+
 # 16.0.3 — Combo Filter & Mobile Core Surgery
 
 - Lähetykset: aihe + yleisö ovat nyt oikea AND-yhdistelmä. Nimetty yleisö näyttää vain eksplisiittisesti kohdennetun sisällön; `all` pysyy yleisenä sisältönä.

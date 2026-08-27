@@ -2,8 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { normalizeSources as normalizeContentSources, normalizeClaims as normalizeContentClaims, normalizeAliases, normalizeAudienceDepth } from '../server/content.js';
-import { AGENT_REGISTRY, ORCHESTRA_REGISTRY, TOOL_REGISTRY, MODEL_ROUTE_REGISTRY, CORE_VERSION } from '../server/core-registry.js';
-import { publicModelRouterSnapshot } from '../server/model-router.js';
+import { createPublicCoreView } from '../server/public-core.js';
+import { createReleaseProvenance } from '../server/release-provenance.js';
 
 const ROOT = process.cwd();
 const SITE = String(process.env.PUBLIC_SITE_URL || 'https://anomancer.com').replace(/\/$/,'');
@@ -367,28 +367,11 @@ write('evidence-manifest.json',JSON.stringify(evidenceManifest,null,2)+'\n');
 write('llms.txt',llmsTxt(posts));
 const discoveryManifestData=discoveryManifest(posts,manifest.generatedAt);
 write('discovery-manifest.json',JSON.stringify(discoveryManifestData,null,2)+'\n');
-const publicCore={
-  format:'anomancer-core-public/v1',
-  version:CORE_VERSION,
-  humanFinalAuthority:true,
-  privacy:{containsRawPrompt:false,containsRawOutput:false,containsRunHistory:false,adminApiUsed:false},
-  agents:AGENT_REGISTRY.map(agent=>({
-    id:agent.id,label:agent.label,version:agent.version,role:agent.role,description:agent.description,
-    modelRoute:agent.modelRoute,tools:[...(agent.tools||[])],maxOutputTokens:Number(agent.budget?.maxOutputTokens||0),maxOutputTokensCeiling:Number(agent.runtimePolicy?.maxOutputTokens||agent.budget?.maxOutputTokens||0),
-    write:[...(agent.authority?.write||[])],deny:[...(agent.authority?.deny||[])],humanApproval:[...(agent.humanApproval||[])],contractHash:agent.contractHash
-  })),
-  tools:TOOL_REGISTRY.map(tool=>({id:tool.id,label:tool.label,version:tool.version,kind:tool.kind,description:tool.description,risk:tool.risk,requiredCapability:tool.requiredCapability||null,actor:tool.actor,humanApproval:Boolean(tool.humanApproval),sideEffects:Boolean(tool.sideEffects),toolHash:tool.toolHash})),
-  toolBroker:{format:'anomancer-tool-policy/v1',enforcement:'server-side-fail-closed',implicitTools:false,policyLogInRunReceipt:true},
-  modelRouter:publicModelRouterSnapshot(),
-  modelRoutes:MODEL_ROUTE_REGISTRY.map(route=>({id:route.id,label:route.label,defaultTarget:route.defaultTarget,allowedTargets:[...route.allowedTargets],requires:[...route.requires],routeHash:route.routeHash})),
-  runExplorer:{persistence:'server-side-durable',containsRawPrompt:false,containsRawOutput:false,containsRunHistory:false,filters:['status','agent','provider','orchestra'],usageMetering:true,costEstimation:'server-configured-rates-only'},
-  workspaceControl:{format:'anomancer-workspace/v1',defaultWorkspace:'default',shared:['agent-contracts','tool-registry','model-router'],scoped:['runtime-profiles','custom-orchestras','runs','usage'],contentScope:'shared-in-15.9',multiUserAcl:false},
-  orchestras:ORCHESTRA_REGISTRY.map(orchestra=>({
-    id:orchestra.id,name:orchestra.name,version:orchestra.version,description:orchestra.description,mode:orchestra.mode,steps:(orchestra.steps||[]).map(step=>({mode:step.mode,agents:[...(step.agents||[])]})),stages:[...orchestra.stages],
-    humanFinalAuthority:Boolean(orchestra.humanFinalAuthority),evidencePolicy:orchestra.evidencePolicy,audiencePolicy:orchestra.audiencePolicy,orchestraHash:orchestra.orchestraHash
-  }))
-};
+const publicCore=createPublicCoreView();
 write('core-public.json',JSON.stringify(publicCore,null,2)+'\n');
+const apiFunctionCount=fs.readdirSync(path.join(ROOT,'api'),{recursive:true}).filter(name=>String(name).endsWith('.js')).length;
+const releaseProvenance=createReleaseProvenance({publicCore,apiFunctionCount,builtAt:manifest.generatedAt});
+write('release-provenance.json',JSON.stringify(releaseProvenance,null,2)+'\n');
 const digest=crypto.createHash('sha256').update(JSON.stringify(manifest.published)).digest('hex');
 console.log(`✓ Lähetyskone build: ${manifest.published.length} julkaistua · ${draftCount} luonnosta · manifest sha256 ${digest.slice(0,16)}…`);
 
@@ -400,7 +383,7 @@ ensureDir(PUBLIC);
 const publicFiles = [
   'index.html','en.html','core.html','lahetykset.html','dispatches.html','admin.html',
   'ui-tokens.css','styles.css','core.css','admin.css','admin-control-plane.css','admin.js','admin-workspaces.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-orchestrator.js','favicon.svg',
-  'site.js','core-public.js','core-public.json',
+  'site.js','core-public.js','core-public.json','release-provenance.json',
   'robots.txt','sitemap.xml','rss.xml','rss-en.xml','content-manifest.json','evidence-manifest.json','llms.txt','discovery-manifest.json'
 ];
 for (const rel of publicFiles) {

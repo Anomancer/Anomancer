@@ -1,11 +1,21 @@
 {
-  "format": "anomancer-core-public/v1",
-  "version": "16.0.0",
+  "format": "anomancer-core-public/v2",
+  "version": "16.1.0",
+  "boundary": {
+    "version": "1.0",
+    "mode": "explicit-allowlist",
+    "publicPrinciple": "architecture-without-control-plane-secrets",
+    "privateByDefault": true
+  },
   "humanFinalAuthority": true,
   "privacy": {
     "containsRawPrompt": false,
     "containsRawOutput": false,
     "containsRunHistory": false,
+    "containsWorkspaceData": false,
+    "containsProviderConfiguration": false,
+    "containsRuntimeProfiles": false,
+    "containsPolicyImplementation": false,
     "adminApiUsed": false
   },
   "agents": [
@@ -19,22 +29,8 @@
       "tools": [
         "web.search"
       ],
-      "maxOutputTokens": 16000,
-      "maxOutputTokensCeiling": 32000,
-      "write": [
-        "sourceCandidates",
-        "researchMemo"
-      ],
-      "deny": [
-        "source.verify",
-        "claims.promote",
-        "publish",
-        "github.write"
-      ],
-      "humanApproval": [
-        "source.verify",
-        "publish"
-      ],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
       "contractHash": "cae9f23ac154681654fedd2fedfdf2fe787a35877daabb117848c38b07174aab"
     },
     {
@@ -45,20 +41,8 @@
       "description": "Ehdottaa artikkelin rakennetta valitulle yleisölle muuttamatta evidenssin tilaa.",
       "modelRoute": "writer",
       "tools": [],
-      "maxOutputTokens": 12000,
-      "maxOutputTokensCeiling": 24000,
-      "write": [
-        "structure"
-      ],
-      "deny": [
-        "sources.write",
-        "claims.write",
-        "publish",
-        "github.write"
-      ],
-      "humanApproval": [
-        "publish"
-      ],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
       "contractHash": "98a56fa8436de1bdb6612e24a0820a762220900e08382909e77bd8874fd2842d"
     },
     {
@@ -69,23 +53,8 @@
       "description": "Kirjoittaa ja järjestää luonnoksen, mutta ei saa nostaa lähde-ehdokasta varmennetuksi tiedoksi.",
       "modelRoute": "writer",
       "tools": [],
-      "maxOutputTokens": 24000,
-      "maxOutputTokensCeiling": 48000,
-      "write": [
-        "body",
-        "titleSuggestions",
-        "description",
-        "answer"
-      ],
-      "deny": [
-        "source.verify",
-        "claims.promote",
-        "publish",
-        "github.write"
-      ],
-      "humanApproval": [
-        "publish"
-      ],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
       "contractHash": "64b26469510faf8f3b7e850c14eb189eb9436b3e4af012f1bd3fd563bdd4de89"
     },
     {
@@ -96,21 +65,8 @@
       "description": "Etsii heikot oletukset, ylivarmat väitteet, puuttuvan vastanäytön ja yleisöongelmat.",
       "modelRoute": "critic",
       "tools": [],
-      "maxOutputTokens": 12000,
-      "maxOutputTokensCeiling": 24000,
-      "write": [
-        "critique"
-      ],
-      "deny": [
-        "draft.commit",
-        "sources.write",
-        "claims.write",
-        "publish",
-        "github.write"
-      ],
-      "humanApproval": [
-        "publish"
-      ],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
       "contractHash": "3ed32c0a5ebcc9dc6aa35ec9323d9b01a66f9b733f973cd2fabb35a8eb347c64"
     },
     {
@@ -121,23 +77,8 @@
       "description": "Vaihtaa havaintoposition ja syvyystason muuttamatta tekstin epistemistä ydintä.",
       "modelRoute": "writer",
       "tools": [],
-      "maxOutputTokens": 24000,
-      "maxOutputTokensCeiling": 48000,
-      "write": [
-        "body",
-        "adaptationSummary",
-        "audienceFit"
-      ],
-      "deny": [
-        "sources.write",
-        "claims.write",
-        "source.verify",
-        "publish",
-        "github.write"
-      ],
-      "humanApproval": [
-        "publish"
-      ],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
       "contractHash": "a285bc6d9e2fb16ea4ecf07b00d845bf0f6721c2f4f697ec0b1af4796b1fe4b2"
     },
     {
@@ -148,23 +89,8 @@
       "description": "Poistaa geneeristä mallikieltä ja säilyttää kirjoittajan äänen sekä yleisösopimuksen.",
       "modelRoute": "writer",
       "tools": [],
-      "maxOutputTokens": 24000,
-      "maxOutputTokensCeiling": 48000,
-      "write": [
-        "body",
-        "changes",
-        "warnings"
-      ],
-      "deny": [
-        "sources.write",
-        "claims.write",
-        "source.verify",
-        "publish",
-        "github.write"
-      ],
-      "humanApproval": [
-        "publish"
-      ],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
       "contractHash": "c6dab04c7066a9391cba78fce9526cc762e7294a92e970b76173bb033c88315e"
     },
     {
@@ -175,23 +101,8 @@
       "description": "Tarkistaa lopullisen proosan väitteet ja niiden evidenssikytkennät. Ei voi varmentaa lähteitä.",
       "modelRoute": "critic",
       "tools": [],
-      "maxOutputTokens": 16000,
-      "maxOutputTokensCeiling": 32000,
-      "write": [
-        "claims",
-        "answer",
-        "warnings"
-      ],
-      "deny": [
-        "sources.write",
-        "source.verify",
-        "publish",
-        "github.write"
-      ],
-      "humanApproval": [
-        "source.verify",
-        "publish"
-      ],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
       "contractHash": "48751e292aea0eaeaa6cb32de9ea903eb70dc8f7498bfbfbbfc84f1c37daac8c"
     },
     {
@@ -202,350 +113,11 @@
       "description": "Valmistelee metadataa. Evidence Layer ja ihmisen Audience Contract ovat lukittuja.",
       "modelRoute": "writer",
       "tools": [],
-      "maxOutputTokens": 12000,
-      "maxOutputTokensCeiling": 24000,
-      "write": [
-        "title",
-        "description",
-        "slug",
-        "answer",
-        "category",
-        "notes"
-      ],
-      "deny": [
-        "claims.write",
-        "sources.write",
-        "audience.write",
-        "source.verify",
-        "publish",
-        "github.write"
-      ],
-      "humanApproval": [
-        "publish"
-      ],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
       "contractHash": "1ee5dde1e14e6d0dbe3a095766f86276863c4ba18517fb55b42db13c5b6ece0d"
     }
   ],
-  "tools": [
-    {
-      "id": "web.search",
-      "label": "Web Search",
-      "version": "1.0.0",
-      "kind": "external-read",
-      "description": "Hakee julkisesta verkosta lähde-ehdokkaita Source Agentin käyttöön.",
-      "risk": "medium",
-      "requiredCapability": "web.search",
-      "actor": "agent",
-      "humanApproval": false,
-      "sideEffects": false,
-      "toolHash": "b8325d675cf42de3bc2c7e3cc85885ac9e71bceb5ebbddde01485ab6cc2a6115"
-    },
-    {
-      "id": "source.verify",
-      "label": "Verify Source",
-      "version": "1.0.0",
-      "kind": "evidence-authority",
-      "description": "Muuttaa lähde-ehdokkaan varmennetuksi evidenssiksi.",
-      "risk": "high",
-      "requiredCapability": null,
-      "actor": "human",
-      "humanApproval": true,
-      "sideEffects": true,
-      "toolHash": "c661947fe85119894fbee4e9afb95fa2c50f050e00218ee7413c29139d45a0ac"
-    },
-    {
-      "id": "publication.publish",
-      "label": "Publish",
-      "version": "1.0.0",
-      "kind": "publication-write",
-      "description": "Tekee julkaisupäätöksen ja siirtää sisällön julkiseksi.",
-      "risk": "critical",
-      "requiredCapability": null,
-      "actor": "human",
-      "humanApproval": true,
-      "sideEffects": true,
-      "toolHash": "07098f97c67ffdd6e88b4a2d6d43dfceb86a231d70c899729c50bf5842170b4f"
-    },
-    {
-      "id": "github.write",
-      "label": "GitHub Write",
-      "version": "1.0.0",
-      "kind": "repository-write",
-      "description": "Kirjoittaa sisältöä tai metadataa GitHub-repositorioon.",
-      "risk": "critical",
-      "requiredCapability": null,
-      "actor": "human",
-      "humanApproval": true,
-      "sideEffects": true,
-      "toolHash": "c7c80c03977e3ecc6bb621819a4b3fd559b351c59ca2a9ffc0fd80af84aa8fd3"
-    }
-  ],
-  "toolBroker": {
-    "format": "anomancer-tool-policy/v1",
-    "enforcement": "server-side-fail-closed",
-    "implicitTools": false,
-    "policyLogInRunReceipt": true
-  },
-  "modelRouter": {
-    "format": "anomancer-model-router/v1",
-    "providers": [
-      {
-        "id": "deepseek",
-        "label": "DeepSeek",
-        "kind": "native",
-        "supports": [
-          "json",
-          "web_search"
-        ]
-      },
-      {
-        "id": "openai",
-        "label": "OpenAI",
-        "kind": "responses-api",
-        "supports": [
-          "json",
-          "web_search"
-        ]
-      },
-      {
-        "id": "anthropic",
-        "label": "Anthropic",
-        "kind": "messages-api",
-        "supports": [
-          "json"
-        ]
-      },
-      {
-        "id": "gemini",
-        "label": "Google Gemini",
-        "kind": "generate-content",
-        "supports": [
-          "json",
-          "web_search"
-        ]
-      }
-    ],
-    "targets": [
-      {
-        "id": "deepseek.research",
-        "provider": "deepseek",
-        "route": "research",
-        "capabilities": [
-          "json",
-          "web_search"
-        ]
-      },
-      {
-        "id": "deepseek.writer",
-        "provider": "deepseek",
-        "route": "writer",
-        "capabilities": [
-          "json"
-        ]
-      },
-      {
-        "id": "deepseek.critic",
-        "provider": "deepseek",
-        "route": "critic",
-        "capabilities": [
-          "json"
-        ]
-      },
-      {
-        "id": "openai.research",
-        "provider": "openai",
-        "route": "research",
-        "capabilities": [
-          "json",
-          "web_search"
-        ]
-      },
-      {
-        "id": "openai.writer",
-        "provider": "openai",
-        "route": "writer",
-        "capabilities": [
-          "json"
-        ]
-      },
-      {
-        "id": "openai.critic",
-        "provider": "openai",
-        "route": "critic",
-        "capabilities": [
-          "json"
-        ]
-      },
-      {
-        "id": "anthropic.writer",
-        "provider": "anthropic",
-        "route": "writer",
-        "capabilities": [
-          "json"
-        ]
-      },
-      {
-        "id": "anthropic.critic",
-        "provider": "anthropic",
-        "route": "critic",
-        "capabilities": [
-          "json"
-        ]
-      },
-      {
-        "id": "gemini.research",
-        "provider": "gemini",
-        "route": "research",
-        "capabilities": [
-          "json",
-          "web_search"
-        ]
-      },
-      {
-        "id": "gemini.writer",
-        "provider": "gemini",
-        "route": "writer",
-        "capabilities": [
-          "json"
-        ]
-      },
-      {
-        "id": "gemini.critic",
-        "provider": "gemini",
-        "route": "critic",
-        "capabilities": [
-          "json"
-        ]
-      }
-    ],
-    "routes": [
-      {
-        "id": "research",
-        "label": "Research route",
-        "defaultTarget": "deepseek.research",
-        "allowedTargets": [
-          "deepseek.research",
-          "openai.research",
-          "gemini.research"
-        ],
-        "requires": [
-          "json",
-          "web_search"
-        ],
-        "routeHash": "38bc3eb416fb04275848f04e15119b04502538d8eb99e74f3cf04f17c55c9422"
-      },
-      {
-        "id": "writer",
-        "label": "Writer route",
-        "defaultTarget": "deepseek.writer",
-        "allowedTargets": [
-          "deepseek.writer",
-          "openai.writer",
-          "anthropic.writer",
-          "gemini.writer"
-        ],
-        "requires": [
-          "json"
-        ],
-        "routeHash": "f3fbd4eb3ca02f4df829b458cfb0660751e4aab43c50ed64e8b71800ffa2bd06"
-      },
-      {
-        "id": "critic",
-        "label": "Critic route",
-        "defaultTarget": "deepseek.critic",
-        "allowedTargets": [
-          "deepseek.critic",
-          "openai.critic",
-          "anthropic.critic",
-          "gemini.critic"
-        ],
-        "requires": [
-          "json"
-        ],
-        "routeHash": "b8989931e40804d30ad94c7bfd270e5ac291e869974f9099d6df4ac6eaeb3bec"
-      }
-    ],
-    "fallbackPolicy": "configured-targets-only/transient-errors-only",
-    "secretsExposed": false
-  },
-  "modelRoutes": [
-    {
-      "id": "research",
-      "label": "Research route",
-      "defaultTarget": "deepseek.research",
-      "allowedTargets": [
-        "deepseek.research",
-        "openai.research",
-        "gemini.research"
-      ],
-      "requires": [
-        "json",
-        "web_search"
-      ],
-      "routeHash": "38bc3eb416fb04275848f04e15119b04502538d8eb99e74f3cf04f17c55c9422"
-    },
-    {
-      "id": "writer",
-      "label": "Writer route",
-      "defaultTarget": "deepseek.writer",
-      "allowedTargets": [
-        "deepseek.writer",
-        "openai.writer",
-        "anthropic.writer",
-        "gemini.writer"
-      ],
-      "requires": [
-        "json"
-      ],
-      "routeHash": "f3fbd4eb3ca02f4df829b458cfb0660751e4aab43c50ed64e8b71800ffa2bd06"
-    },
-    {
-      "id": "critic",
-      "label": "Critic route",
-      "defaultTarget": "deepseek.critic",
-      "allowedTargets": [
-        "deepseek.critic",
-        "openai.critic",
-        "anthropic.critic",
-        "gemini.critic"
-      ],
-      "requires": [
-        "json"
-      ],
-      "routeHash": "b8989931e40804d30ad94c7bfd270e5ac291e869974f9099d6df4ac6eaeb3bec"
-    }
-  ],
-  "runExplorer": {
-    "persistence": "server-side-durable",
-    "containsRawPrompt": false,
-    "containsRawOutput": false,
-    "containsRunHistory": false,
-    "filters": [
-      "status",
-      "agent",
-      "provider",
-      "orchestra"
-    ],
-    "usageMetering": true,
-    "costEstimation": "server-configured-rates-only"
-  },
-  "workspaceControl": {
-    "format": "anomancer-workspace/v1",
-    "defaultWorkspace": "default",
-    "shared": [
-      "agent-contracts",
-      "tool-registry",
-      "model-router"
-    ],
-    "scoped": [
-      "runtime-profiles",
-      "custom-orchestras",
-      "runs",
-      "usage"
-    ],
-    "contentScope": "shared-in-15.9",
-    "multiUserAcl": false
-  },
   "orchestras": [
     {
       "id": "editorial",
@@ -603,20 +175,137 @@
           ]
         }
       ],
-      "stages": [
-        "source",
-        "structure",
-        "writer",
-        "critic",
-        "audience",
-        "voice",
-        "claims",
-        "package"
-      ],
       "humanFinalAuthority": true,
       "evidencePolicy": "candidate-never-equals-verified",
       "audiencePolicy": "adapt-then-recheck-claims",
       "orchestraHash": "a925c29c80e92f700d558eaeb6ebb97e95abf7fcf758d8b8db716507c7bc6b73"
     }
-  ]
+  ],
+  "tools": [
+    {
+      "id": "web.search",
+      "label": "Web Search",
+      "version": "1.0.0",
+      "kind": "external-read",
+      "description": "Hakee julkisesta verkosta lähde-ehdokkaita Source Agentin käyttöön.",
+      "risk": "medium",
+      "actor": "agent",
+      "humanApproval": false,
+      "sideEffects": false,
+      "toolHash": "8edfd1d2b1374ce2253156c778a094ca2ac96c80190e61f519e1a240a6e08d95"
+    },
+    {
+      "id": "source.verify",
+      "label": "Verify Source",
+      "version": "1.0.0",
+      "kind": "evidence-authority",
+      "description": "Muuttaa lähde-ehdokkaan varmennetuksi evidenssiksi.",
+      "risk": "high",
+      "actor": "human",
+      "humanApproval": true,
+      "sideEffects": true,
+      "toolHash": "917267546e032a7c98cd2917ef6367b85d1d4a72ee75178a5901a6144c673164"
+    },
+    {
+      "id": "publication.publish",
+      "label": "Publish",
+      "version": "1.0.0",
+      "kind": "publication-write",
+      "description": "Tekee julkaisupäätöksen ja siirtää sisällön julkiseksi.",
+      "risk": "critical",
+      "actor": "human",
+      "humanApproval": true,
+      "sideEffects": true,
+      "toolHash": "47f9e8785d0196eaf2d7166d8af98cf834a3101365ac7d34ac95768c7067e142"
+    },
+    {
+      "id": "github.write",
+      "label": "GitHub Write",
+      "version": "1.0.0",
+      "kind": "repository-write",
+      "description": "Kirjoittaa sisältöä tai metadataa GitHub-repositorioon.",
+      "risk": "critical",
+      "actor": "human",
+      "humanApproval": true,
+      "sideEffects": true,
+      "toolHash": "e9f797c84134e73a2f2cbb34f8da4038917e7f1004f457a3d125d5e67fa6168e"
+    }
+  ],
+  "toolBroker": {
+    "format": "anomancer-tool-policy/v1",
+    "enforcement": "server-side-fail-closed",
+    "implicitTools": false,
+    "humanOnlyActionsRemainHumanOnly": true,
+    "implementationDetails": "private"
+  },
+  "modelRoutes": [
+    {
+      "id": "research",
+      "label": "Research route",
+      "requires": [
+        "json",
+        "web_search"
+      ],
+      "routeHash": "d05156a395bc318e84becb7d842acfde393e6764098ec0cca58e74e238501cf2"
+    },
+    {
+      "id": "writer",
+      "label": "Writer route",
+      "requires": [
+        "json"
+      ],
+      "routeHash": "515c8865ed20088e3d0c2f2a2deb77a87634b8766c53e6eeb7a85b5e4b868008"
+    },
+    {
+      "id": "critic",
+      "label": "Critic route",
+      "requires": [
+        "json"
+      ],
+      "routeHash": "5a861abc4a5003df7caf30df5cab4383e7670af57279b5925dc6670e92a7d136"
+    }
+  ],
+  "modelRouter": {
+    "format": "anomancer-model-router-public/v1",
+    "routeIds": [
+      "research",
+      "writer",
+      "critic"
+    ],
+    "providerDetails": "private",
+    "targetDetails": "private",
+    "fallbackDetails": "private"
+  },
+  "runReceipt": {
+    "format": "anomancer-run-receipt/v1",
+    "publicShape": "hashes-and-boundaries-only",
+    "containsRawPrompt": false,
+    "containsRawOutput": false,
+    "realRuns": "private"
+  },
+  "usagePolicy": {
+    "contractBudgets": "private",
+    "actualUsage": "private",
+    "providerCosts": "private",
+    "publicReceipt": "hashes-and-boundaries-only"
+  },
+  "workspaceControl": {
+    "format": "anomancer-workspace/v1",
+    "defaultWorkspace": "default",
+    "shared": [
+      "agent-contracts",
+      "tool-registry",
+      "model-router"
+    ],
+    "scoped": [
+      "runtime-profiles",
+      "custom-orchestras",
+      "runs",
+      "usage"
+    ],
+    "contentScope": "shared",
+    "multiUserAcl": false,
+    "workspaceNames": "private"
+  },
+  "releaseProvenance": "/release-provenance.json"
 }

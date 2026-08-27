@@ -1,7 +1,7 @@
-import { getSession, requireCsrf } from '../../server/auth.js';
-import { json, readJson, sameOrigin } from '../../server/http.js';
-import { loadRuntimeState, updateRuntimeProfile, resetRuntimeProfile, createRuntimeSnapshot, runtimeStoreStatus } from '../../server/runtime-store.js';
-import { requireWorkspace, workspaceIdFromRequest } from '../../server/workspace-store.js';
+import { getSession, requireCsrf } from '../auth.js';
+import { json, readJson, sameOrigin } from '../http.js';
+import { loadRuntimeState, updateRuntimeProfile, resetRuntimeProfile, createRuntimeSnapshot, runtimeStoreStatus } from '../runtime-store.js';
+import { requireWorkspace, workspaceIdFromRequest } from '../workspace-store.js';
 function auth(req,res,mutating=false){const session=getSession(req);if(!session){json(res,401,{ok:false,error:'AUTH'});return null;}if(mutating&&(!sameOrigin(req)||!requireCsrf(req,session))){json(res,403,{ok:false,error:'CSRF'});return null;}return session;}
 function publicState(state){return{format:state.format,coreVersion:state.coreVersion,workspaceId:state.workspaceId,revision:state.revision,updatedAt:state.updatedAt,profiles:state.profiles};}
 export default async function handler(req,res){

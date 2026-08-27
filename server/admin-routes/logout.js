@@ -1,5 +1,5 @@
-import { sessionCookie } from '../../server/auth.js';
-import { json, sameOrigin } from '../../server/http.js';
+import { sessionCookie } from '../auth.js';
+import { json, sameOrigin } from '../http.js';
 export default async function handler(req,res){
   if(req.method!=='POST') return json(res,405,{ok:false,error:'METHOD'});
   if(!sameOrigin(req)) return json(res,403,{ok:false,error:'ORIGIN'});

@@ -1,8 +1,8 @@
-import { getSession, requireCsrf } from '../../server/auth.js';
-import { json, readJson, sameOrigin } from '../../server/http.js';
-import { listRuns, getRun, finalizeRun, checkpointRun, markRunApplied, runStoreStatus, usageSnapshot } from '../../server/run-store.js';
-import { verifyRuntimeSnapshot } from '../../server/runtime-store.js';
-import { requireWorkspace, workspaceIdFromRequest } from '../../server/workspace-store.js';
+import { getSession, requireCsrf } from '../auth.js';
+import { json, readJson, sameOrigin } from '../http.js';
+import { listRuns, getRun, finalizeRun, checkpointRun, markRunApplied, runStoreStatus, usageSnapshot } from '../run-store.js';
+import { verifyRuntimeSnapshot } from '../runtime-store.js';
+import { requireWorkspace, workspaceIdFromRequest } from '../workspace-store.js';
 function auth(req,res,mut=false){const s=getSession(req);if(!s){json(res,401,{ok:false,error:'AUTH'});return null;}if(mut&&(!sameOrigin(req)||!requireCsrf(req,s))){json(res,403,{ok:false,error:'CSRF'});return null;}return s;}
 export default async function handler(req,res){const workspaceId=workspaceIdFromRequest(req);
   if(req.method==='GET'){if(!auth(req,res))return;try{const workspace=await requireWorkspace(workspaceId),url=new URL(req.url||'/api/admin/runs','http://local'),id=String(url.searchParams.get('id')||'');if(id){const run=await getRun(id,workspace.id);return run?json(res,200,{ok:true,workspace,run,store:runStoreStatus(workspace.id)}):json(res,404,{ok:false,error:'RUN_NOT_FOUND'});}const data=await listRuns({limit:url.searchParams.get('limit'),status:url.searchParams.get('status')||'',agent:url.searchParams.get('agent')||'',provider:url.searchParams.get('provider')||'',orchestra:url.searchParams.get('orchestra')||'',workspaceId:workspace.id});return json(res,200,{ok:true,workspace,...data});}catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'RUN_STORE',message:e.message,store:runStoreStatus(workspaceId)});}}

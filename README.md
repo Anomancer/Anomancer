@@ -1,4 +1,7 @@
-# Anomancer 16.0 · Interface System
+# Anomancer 16.1 · Boundary + Provenance Hardening
+
+
+**16.1 Boundary + Provenance Hardening:** Julkinen Core rakennetaan nyt eksplisiittisestä allowlistista eikä yksityisen Coren redaktoidusta dumpista. Build tuottaa turvallisen release-provenance-kuitin ja Vercelin API-pinta on yhdistetty 12 entrypointista neljään ilman domain-logiikan yhdistämistä. Katso `PUBLIC_DISCLOSURE_BOUNDARY.md` ja `BOUNDARY_PROVENANCE_HARDENING.md`.
 
 **16.0.1 Surgical UX Pass:** Lähetyskoneen lähetyslista on oletuksena suljettu drawer, editori/esikatselu-jako on säädettävä ja toissijaiset julkaisun sekä agenttien asetukset avautuvat tarvittaessa. Ei uusia agenttikyvykkyyksiä.
 
