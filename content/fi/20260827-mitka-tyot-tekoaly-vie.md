@@ -18,10 +18,6 @@ pinned: true
 draft: false
 ---
 
->**Tekoäly ei todennäköisesti nielaise ammatteja kokonaisina. Se purkaa ne tehtäviksi, muuttaa työn painopisteitä ja vasta sitten – joskus – vähentää tarvittavien ihmisten määrän. Siksi kysymys ”mitkä työt tekoäly vie?” on ymmärrettävä mutta liian karkea.**
-
-Kirjoittanut Aatu Isopahkala
-
 Kun puhutaan tekoälystä ja työstä, ensimmäinen kysymys on usein hyvin suora: **mitkä työt tekoäly vie?**
 
 Kysymys on ymmärrettävä. Jos ohjelma kirjoittaa tekstiä, tekee kuvia, analysoi taulukoita, tuottaa koodia ja vastaa asiakkaalle muutamassa sekunnissa, on luonnollista miettiä, mitä ihmiselle jää.
