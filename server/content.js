@@ -5,6 +5,8 @@ export const AUDIENCE_DEPTHS = ['plain','general','professional','technical'];
 export const CLAIM_STATUSES = ['supported','interpretation','open'];
 export const SOURCE_VERIFICATIONS = ['candidate','verified','rejected'];
 export const SOURCE_ORIGINS = ['human','source-agent','import'];
+export const CITATION_MODES = ['inline','sources','both'];
+export const CHART_TYPES = ['bar','line'];
 
 export function stableSourceId(url='') {
   let hash=2166136261;
@@ -61,6 +63,68 @@ export function normalizeClaims(value, sources=[]) {
     const evidence=[...new Set((Array.isArray(src.evidence)?src.evidence:[]).map(cleanHttpUrl).filter(Boolean))];
     return {status,text,evidence:evidence.filter(url=>allowed.has(url)),note};
   }).filter(x=>x.text);
+}
+
+export function normalizeCitationMode(value='inline') {
+  const raw=String(value||'inline').trim();
+  return CITATION_MODES.includes(raw)?raw:'inline';
+}
+
+function occurrences(haystack,needle){
+  if(!needle)return 0;let count=0,pos=0;
+  while((pos=haystack.indexOf(needle,pos))!==-1){count++;pos+=needle.length;}
+  return count;
+}
+
+export function approvedEvidenceUrls(sources=[],claims=[]) {
+  const verified=new Set(sources.filter(src=>src.verification==='verified').map(src=>src.url));
+  const approved=new Set();
+  for(const claim of claims){if(claim.status!=='supported')continue;for(const link of claim.evidence||[])if(verified.has(link))approved.add(link);}
+  return approved;
+}
+
+export function normalizeCitationPlacements(value,{sources=[],claims=[],body=''}={}) {
+  const approved=approvedEvidenceUrls(sources,claims),seen=new Set(),out=[];
+  for(const item of Array.isArray(value)?value:[]){
+    const raw=item&&typeof item==='object'?item:{};
+    const evidenceUrl=cleanHttpUrl(raw.evidenceUrl),quote=String(raw.quote||'').trim(),anchorText=String(raw.anchorText||'').trim(),claimText=String(raw.claimText||'').trim();
+    if(!approved.has(evidenceUrl)||quote.length<12||quote.length>420||anchorText.length<2||anchorText.length>180)continue;
+    if(anchorText.includes('[')||anchorText.includes(']')||anchorText.includes('(')||anchorText.includes(')')||anchorText.includes('`')||anchorText.includes('\n')||anchorText.includes('\r')||!quote.includes(anchorText)||occurrences(String(body||''),quote)!==1)continue;
+    const key=`${evidenceUrl}\n${quote}\n${anchorText}`;if(seen.has(key))continue;seen.add(key);
+    out.push({claimText:claimText.slice(0,600),evidenceUrl,quote,anchorText});
+    if(out.length>=40)break;
+  }
+  return out;
+}
+
+function numberTokens(text=''){
+  return [...String(text).matchAll(/[-+]?\d[\d\s]*(?:[.,]\d+)?/g)].map(m=>Number(m[0].replace(/\s+/g,'').replace(',','.'))).filter(Number.isFinite);
+}
+function quoteSupportsValue(quote,value){
+  const n=Number(value);if(!Number.isFinite(n))return false;
+  return numberTokens(quote).some(x=>Math.abs(x-n)<=Math.max(1e-9,Math.abs(n)*1e-9));
+}
+function chartId(raw,index=0){
+  const base=String(raw.id||raw.title||`chart-${index+1}`).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,56);
+  return base||`chart-${index+1}`;
+}
+export function normalizeVisualizations(value,{sources=[],claims=[],body=''}={}){
+  const approved=approvedEvidenceUrls(sources,claims),claimText=claims.filter(c=>c.status==='supported').map(c=>c.text).join('\n'),out=[];
+  for(const [index,item] of (Array.isArray(value)?value:[]).slice(0,6).entries()){
+    const raw=item&&typeof item==='object'?item:{};const type=CHART_TYPES.includes(raw.type)?raw.type:'bar';
+    const title=String(raw.title||'').trim().slice(0,180),unit=String(raw.unit||'').trim().slice(0,60),caption=String(raw.caption||'').trim().slice(0,500);
+    if(!title)continue;const series=[];
+    for(const point of (Array.isArray(raw.series)?raw.series:[]).slice(0,20)){
+      const p=point&&typeof point==='object'?point:{};const label=String(p.label||'').trim().slice(0,120),valueNum=Number(p.value),evidenceUrl=cleanHttpUrl(p.evidenceUrl),evidenceQuote=String(p.evidenceQuote||'').trim().slice(0,420);
+      if(!label||!Number.isFinite(valueNum)||!approved.has(evidenceUrl)||evidenceQuote.length<3)continue;
+      if(!String(body||'').includes(evidenceQuote)&&!claimText.includes(evidenceQuote))continue;
+      if(!quoteSupportsValue(evidenceQuote,valueNum))continue;
+      series.push({label,value:valueNum,evidenceUrl,evidenceQuote});
+    }
+    if(series.length<2)continue;
+    out.push({id:chartId(raw,index),type,title,unit,caption,series});
+  }
+  return out;
 }
 
 export const LEGACY_CATEGORY_MAP = {
@@ -127,7 +191,11 @@ export function parseMarkdown(raw, path='') {
   }
   const sources=normalizeSources(data.sources);
   const claims=normalizeClaims(data.claims,sources);
-  return { ...data, category:normalizeCategory(data.category), audience:normalizeAudience(data.audience), audienceDepth:normalizeAudienceDepth(data.audienceDepth), aliases:normalizeAliases(data.aliases,data.slug), answer:String(data.answer||'').trim(), sources, claims, pinned:Boolean(data.pinned), draft:Boolean(data.draft), body:text.slice(end+5).replace(/^\n+/,'') };
+  const body=text.slice(end+5).replace(/^\n+/,'');
+  const citationMode=normalizeCitationMode(data.citationMode);
+  const citationPlacements=normalizeCitationPlacements(data.citationPlacements,{sources,claims,body});
+  const visualizations=normalizeVisualizations(data.visualizations,{sources,claims,body});
+  return { ...data, category:normalizeCategory(data.category), audience:normalizeAudience(data.audience), audienceDepth:normalizeAudienceDepth(data.audienceDepth), aliases:normalizeAliases(data.aliases,data.slug), answer:String(data.answer||'').trim(), sources, claims, citationMode, citationPlacements, visualizations, pinned:Boolean(data.pinned), draft:Boolean(data.draft), body };
 }
 
 export function normalizeAliases(value,currentSlug='') {
@@ -150,6 +218,9 @@ export function validatePost(input,{forPublish=!Boolean(input?.draft)}={}) {
   const answer = String(input.answer || '').trim();
   const sources = normalizeSources(input.sources);
   const claims = normalizeClaims(input.claims,sources);
+  const citationMode = normalizeCitationMode(input.citationMode);
+  const citationPlacements = normalizeCitationPlacements(input.citationPlacements,{sources,claims,body});
+  const visualizations = normalizeVisualizations(input.visualizations,{sources,claims,body});
   const coverImage = String(input.coverImage || '').trim();
   const coverAlt = String(input.coverAlt || '').trim();
   const pinned = Boolean(input.pinned);
@@ -182,12 +253,12 @@ export function validatePost(input,{forPublish=!Boolean(input?.draft)}={}) {
   if (coverImage && !/^\/media\/[A-Za-z0-9._\/-]+$/.test(coverImage)) throw Object.assign(new Error('Kansikuvan polku on virheellinen.'), { statusCode:400 });
   if (coverImage && !coverAlt) throw Object.assign(new Error('Kansikuvalta puuttuu alt-teksti.'), { statusCode:400 });
   if (coverAlt.length > 180) throw Object.assign(new Error('Kansikuvan alt-teksti on liian pitkä (max 180 merkkiä).'), { statusCode:400 });
-  return { lang,title,date,category,audience,audienceDepth,description,slug,translationKey,aliases,coverImage,coverAlt,answer,sources,claims,pinned,draft,body };
+  return { lang,title,date,category,audience,audienceDepth,description,slug,translationKey,aliases,coverImage,coverAlt,answer,sources,claims,citationMode,citationPlacements,visualizations,pinned,draft,body };
 }
 
 export function serializePost(input) {
   const p = validatePost(input,{forPublish:!Boolean(input?.draft)});
-  return `---\ntitle: ${JSON.stringify(p.title)}\ndate: ${JSON.stringify(p.date)}\ncategory: ${JSON.stringify(p.category)}\naudience: ${JSON.stringify(p.audience)}\naudienceDepth: ${JSON.stringify(p.audienceDepth)}\ndescription: ${JSON.stringify(p.description)}\nslug: ${JSON.stringify(p.slug)}\nlang: ${JSON.stringify(p.lang)}\ntranslationKey: ${JSON.stringify(p.translationKey)}\naliases: ${JSON.stringify(p.aliases)}\ncoverImage: ${JSON.stringify(p.coverImage)}\ncoverAlt: ${JSON.stringify(p.coverAlt)}\nanswer: ${JSON.stringify(p.answer)}\nsources: ${JSON.stringify(p.sources)}\nclaims: ${JSON.stringify(p.claims)}\npinned: ${p.pinned}\ndraft: ${p.draft}\n---\n\n${p.body}\n`;
+  return `---\ntitle: ${JSON.stringify(p.title)}\ndate: ${JSON.stringify(p.date)}\ncategory: ${JSON.stringify(p.category)}\naudience: ${JSON.stringify(p.audience)}\naudienceDepth: ${JSON.stringify(p.audienceDepth)}\ndescription: ${JSON.stringify(p.description)}\nslug: ${JSON.stringify(p.slug)}\nlang: ${JSON.stringify(p.lang)}\ntranslationKey: ${JSON.stringify(p.translationKey)}\naliases: ${JSON.stringify(p.aliases)}\ncoverImage: ${JSON.stringify(p.coverImage)}\ncoverAlt: ${JSON.stringify(p.coverAlt)}\nanswer: ${JSON.stringify(p.answer)}\nsources: ${JSON.stringify(p.sources)}\nclaims: ${JSON.stringify(p.claims)}\ncitationMode: ${JSON.stringify(p.citationMode)}\ncitationPlacements: ${JSON.stringify(p.citationPlacements)}\nvisualizations: ${JSON.stringify(p.visualizations)}\npinned: ${p.pinned}\ndraft: ${p.draft}\n---\n\n${p.body}\n`;
 }
 
 export function newPostPath(post) {

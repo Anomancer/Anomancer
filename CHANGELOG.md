@@ -1,3 +1,10 @@
+# Anomancer 16.2 · Evidence Presentation + Visualization
+
+- hyväksytyn evidenssin inline / lähderivi / molemmat -esitystapa
+- Julkaisupaketti ehdottaa vain varmennettuja citation placement -rakenteita
+- valinnainen Visualisointivahti, evidenssisidottu chart spec, deterministic SVG, human approval
+- Core 16.2.0
+
 # 16.1.0 — Boundary + Provenance Hardening
 
 - Public Core siirtyy eksplisiittiseen allowlist-snapshotiin (`anomancer-core-public/v2`): tarkat tokenrajat, provider-targetit, fallback-järjestys, runtime-profiilit ja write/deny-matriisit eivät enää kuulu julkiseen JSONiin.

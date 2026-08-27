@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-export const CORE_VERSION='16.1.0';
+export const CORE_VERSION='16.2.0';
 export const AGENT_CONTRACT_FORMAT='anomancer-agent/v1';
 export const ORCHESTRA_FORMAT='anomancer-orchestra/v2';
 export const CUSTOM_ORCHESTRA_FORMAT='anomancer-custom-orchestra/v1';
@@ -72,10 +72,16 @@ const RAW_AGENTS=[
     budget:{maxOutputTokens:16000,maxOutputTokensCeiling:32000,timeoutMs:180000},humanApproval:['source.verify','publish']
   },
   {
-    id:'package',label:'Julkaisupaketti',version:'1.0.0',role:'publication-packager',description:'Valmistelee metadataa. Evidence Layer ja ihmisen Audience Contract ovat lukittuja.',
-    modelRoute:'writer',tools:[],capabilities:['draft.read','package.propose'],
-    authority:{read:['draft','claims','sources','audience'],write:['title','description','slug','answer','category','notes'],deny:['claims.write','sources.write','audience.write','source.verify','publish','github.write']},
-    budget:{maxOutputTokens:12000,maxOutputTokensCeiling:24000,timeoutMs:180000},humanApproval:['publish']
+    id:'visualization',label:'Visualisointivahti',version:'1.0.0',role:'evidence-visualization',description:'Ehdottaa varmennetusta, tekstissä näkyvästä datasta deterministisesti renderöitäviä kaavioita. Ei saa keksiä datapisteitä.',
+    modelRoute:'critic',tools:[],capabilities:['draft.read','claims.read','visualization.propose'],
+    authority:{read:['draft','claims','sources'],write:['visualizationCandidates'],deny:['body.write','claims.write','sources.write','source.verify','publish','github.write']},
+    budget:{maxOutputTokens:10000,maxOutputTokensCeiling:20000,timeoutMs:180000},humanApproval:['visualization.approve','publish']
+  },
+  {
+    id:'package',label:'Julkaisupaketti',version:'1.1.0',role:'publication-packager',description:'Valmistelee metadataa ja varmennettujen evidenssiviitteiden esityspaikkoja. Evidence Layer ja ihmisen Audience Contract ovat lukittuja.',
+    modelRoute:'writer',tools:[],capabilities:['draft.read','package.propose','citation.propose'],
+    authority:{read:['draft','claims','sources','audience'],write:['title','description','slug','answer','category','citationPlacements','notes'],deny:['body.write','claims.write','sources.write','audience.write','source.verify','publish','github.write']},
+    budget:{maxOutputTokens:12000,maxOutputTokensCeiling:24000,timeoutMs:180000},humanApproval:['citation.apply','publish']
   }
 ];
 
@@ -136,7 +142,7 @@ const RAW_ORCHESTRAS=[{
     {id:'step-05',mode:'sequential',agents:['audience']},{id:'step-06',mode:'sequential',agents:['voice']},
     {id:'step-07',mode:'sequential',agents:['claims']},{id:'step-08',mode:'sequential',agents:['package']}
   ],
-  humanFinalAuthority:true,evidencePolicy:'candidate-never-equals-verified',audiencePolicy:'adapt-then-recheck-claims',source:'built-in'
+  humanFinalAuthority:true,evidencePolicy:'candidate-never-equals-verified',citationPolicy:'verified-supported-only',visualizationPolicy:'human-approved-structured-data-only',audiencePolicy:'adapt-then-recheck-claims',source:'built-in'
 }];
 function flattenSteps(steps=[]){return steps.flatMap(step=>Array.isArray(step?.agents)?step.agents:[]);}
 function finalizeOrchestra(input){
@@ -202,7 +208,7 @@ export function normalizeOrchestraDefinition(input={},options={}){
     const agents=[...new Set((Array.isArray(step?.agents)?step.agents:[]).map(x=>String(x||'').trim()).filter(Boolean))].slice(0,3);
     return {id:`step-${String(index+1).padStart(2,'0')}`,mode,agents};
   }).filter(step=>step.agents.length);
-  const normalized={format:custom?CUSTOM_ORCHESTRA_FORMAT:ORCHESTRA_FORMAT,coreVersion:CORE_VERSION,id,name,version:String(input.version||'1.0.0').slice(0,24),description,mode:steps.some(step=>step.mode==='parallel')?'mixed':'sequential',steps,stages:flattenSteps(steps),humanFinalAuthority:true,evidencePolicy:'candidate-never-equals-verified',audiencePolicy:'adapt-then-recheck-claims',source:custom?'custom':'built-in'};
+  const normalized={format:custom?CUSTOM_ORCHESTRA_FORMAT:ORCHESTRA_FORMAT,coreVersion:CORE_VERSION,id,name,version:String(input.version||'1.0.0').slice(0,24),description,mode:steps.some(step=>step.mode==='parallel')?'mixed':'sequential',steps,stages:flattenSteps(steps),humanFinalAuthority:true,evidencePolicy:'candidate-never-equals-verified',citationPolicy:'verified-supported-only',visualizationPolicy:'human-approved-structured-data-only',audiencePolicy:'adapt-then-recheck-claims',source:custom?'custom':'built-in'};
   const hashable=clone(normalized);delete hashable.coreVersion;delete hashable.orchestraHash;delete hashable.updatedAt;delete hashable.createdAt;normalized.orchestraHash=digest(hashable);
   return normalized;
 }

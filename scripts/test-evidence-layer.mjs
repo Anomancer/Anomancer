@@ -29,7 +29,7 @@ const fixture={
 };
 
 try{
-  test('evidence metadata validoituu',()=>{const p=validatePost(fixture);assert.equal(p.sources.length,2);assert.equal(p.claims.length,3);assert.equal(p.answer,fixture.answer);});
+  test('evidence metadata validoituu ja oletusesitys on inline',()=>{const p=validatePost(fixture);assert.equal(p.sources.length,2);assert.equal(p.claims.length,3);assert.equal(p.answer,fixture.answer);assert.equal(p.citationMode,'inline');});
   test('Markdown roundtrip säilyttää evidence-rakenteen ja tarkistustilan',()=>{const normalized=validatePost(fixture);const md=serializePost(fixture);const p=parseMarkdown(md,'fixture');assert.equal(p.answer,fixture.answer);assert.deepEqual(p.sources,normalized.sources);assert.deepEqual(p.claims,normalized.claims);assert.ok(p.sources.every(source=>source.verification==='verified'));});
   test('tuettu väite ilman lähdettä estetään',()=>{assert.throws(()=>validatePost({...fixture,claims:[{status:'supported',text:'Ei lähdettä',evidence:[],note:''}]}),/vähintään yksi lähde/);});
   test('evidence URL ei voi viitata lähderekisterin ulkopuolelle',()=>{const p=validatePost({...fixture,claims:[{status:'interpretation',text:'Tulkinta',evidence:['https://outside.example/test'],note:''}]});assert.deepEqual(p.claims[0].evidence,[]);});
@@ -44,7 +44,17 @@ try{
 
   test('julkinen artikkeli näyttää ydinvastauksen',()=>{assert.match(html,/class="article-answer"/);assert.match(html,/Suora vastaus erotetaan/);});
   test('julkinen artikkeli näyttää väitteet statuksineen',()=>{assert.match(html,/data-status="supported"/);assert.match(html,/Tuettu väite/);assert.match(html,/Tulkinta/);assert.match(html,/Avoin/);});
-  test('lähteet saavat pysyvät source-ankkurit',()=>{assert.match(html,/id="source-1"/);assert.match(html,/href="#source-1"/);assert.match(html,/https:\/\/example\.org\/research/);});
+  test('inline-oletus vie väitteen evidenssiviitteen suoraan lähteeseen',()=>{assert.match(html,/href="https:\/\/example\.org\/research"/);assert.doesNotMatch(html,/href="#source-1"/);});
+  test('sources-esitystapa tuottaa pysyvän source-ankkurin ja lähderivin',()=>{
+    fs.writeFileSync(FIX,serializePost({...fixture,citationMode:'sources'}));
+    build();
+    const sourcesHtml=fs.readFileSync(OUT,'utf8');
+    assert.match(sourcesHtml,/class="article-source-strip"/);
+    assert.match(sourcesHtml,/id="source-1"/);
+    assert.match(sourcesHtml,/href="#source-1"/);
+    fs.writeFileSync(FIX,serializePost(fixture));
+    build();
+  });
   test('BlogPosting JSON-LD sisältää abstract + citation',()=>{const m=html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);assert.ok(m);const g=JSON.parse(m[1]);const article=g['@graph'].find(x=>x['@type']==='BlogPosting');assert.equal(article.abstract,fixture.answer);assert.deepEqual(article.citation,[sourceA.url,sourceB.url]);});
   test('content-manifest julkaisee evidence-yhteenvedon',()=>{const p=contentManifest.published.find(x=>x.slug===fixture.slug);assert.ok(p);assert.equal(p.answer,fixture.answer);assert.deepEqual(p.evidence,{sourceCount:2,claimCount:3,supported:1,interpretation:1,open:1});});
   test('evidence-manifest on erillinen koneellinen kerros',()=>{assert.equal(evidenceManifest.version,'anomancer.evidence/v1');const p=evidenceManifest.articles.find(x=>x.url===`${SITE}/lahetykset/${fixture.slug}`);assert.ok(p);assert.equal(p.sources.length,2);assert.equal(p.claims.length,3);});

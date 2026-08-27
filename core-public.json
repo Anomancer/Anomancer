@@ -1,6 +1,6 @@
 {
   "format": "anomancer-core-public/v2",
-  "version": "16.1.0",
+  "version": "16.2.0",
   "boundary": {
     "version": "1.0",
     "mode": "explicit-allowlist",
@@ -106,16 +106,28 @@
       "contractHash": "48751e292aea0eaeaa6cb32de9ea903eb70dc8f7498bfbfbbfc84f1c37daac8c"
     },
     {
+      "id": "visualization",
+      "label": "Visualisointivahti",
+      "version": "1.0.0",
+      "role": "evidence-visualization",
+      "description": "Ehdottaa varmennetusta, tekstissä näkyvästä datasta deterministisesti renderöitäviä kaavioita. Ei saa keksiä datapisteitä.",
+      "modelRoute": "critic",
+      "tools": [],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
+      "contractHash": "ffa522d12c262d86028a6948991173740ae03d0c091d0f0c358d44efb162838a"
+    },
+    {
       "id": "package",
       "label": "Julkaisupaketti",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "role": "publication-packager",
-      "description": "Valmistelee metadataa. Evidence Layer ja ihmisen Audience Contract ovat lukittuja.",
+      "description": "Valmistelee metadataa ja varmennettujen evidenssiviitteiden esityspaikkoja. Evidence Layer ja ihmisen Audience Contract ovat lukittuja.",
       "modelRoute": "writer",
       "tools": [],
       "humanApprovalRequired": true,
       "publishAuthority": false,
-      "contractHash": "1ee5dde1e14e6d0dbe3a095766f86276863c4ba18517fb55b42db13c5b6ece0d"
+      "contractHash": "65db4db28a286fed833ef962cae421781c3a32bf2be06ae62793d960a6ebe26a"
     }
   ],
   "orchestras": [
@@ -178,7 +190,7 @@
       "humanFinalAuthority": true,
       "evidencePolicy": "candidate-never-equals-verified",
       "audiencePolicy": "adapt-then-recheck-claims",
-      "orchestraHash": "a925c29c80e92f700d558eaeb6ebb97e95abf7fcf758d8b8db716507c7bc6b73"
+      "orchestraHash": "4ea599224d820827847b72ceb3f97b88c710c0756d78afc4fcc8ae360a254656"
     }
   ],
   "tools": [
@@ -192,7 +204,7 @@
       "actor": "agent",
       "humanApproval": false,
       "sideEffects": false,
-      "toolHash": "8edfd1d2b1374ce2253156c778a094ca2ac96c80190e61f519e1a240a6e08d95"
+      "toolHash": "cb5f7baf0a23b078cdaadef0cf8a7a58d8ca24f4ca8f03fa19cb5a6ece1bf00f"
     },
     {
       "id": "source.verify",
@@ -204,7 +216,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "917267546e032a7c98cd2917ef6367b85d1d4a72ee75178a5901a6144c673164"
+      "toolHash": "3595cb65db44873841d67f16d8e02cb4a851a8259fe3d5a1ec2bbf6e8028e960"
     },
     {
       "id": "publication.publish",
@@ -216,7 +228,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "47f9e8785d0196eaf2d7166d8af98cf834a3101365ac7d34ac95768c7067e142"
+      "toolHash": "88a04c90b72479224a5e45cbefbd87e24c4cdc61afffca5bff95ad00d08efb6e"
     },
     {
       "id": "github.write",
@@ -228,7 +240,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "e9f797c84134e73a2f2cbb34f8da4038917e7f1004f457a3d125d5e67fa6168e"
+      "toolHash": "e23cd429c8a1228e653a913d664db636adba8cea0cf547d70e8820dded1fb5b5"
     }
   ],
   "toolBroker": {
@@ -246,7 +258,7 @@
         "json",
         "web_search"
       ],
-      "routeHash": "d05156a395bc318e84becb7d842acfde393e6764098ec0cca58e74e238501cf2"
+      "routeHash": "853a0ddfd0fb40803972ab93d8e33a302d02810529f05c8f5ac18f90f447a5ab"
     },
     {
       "id": "writer",
@@ -254,7 +266,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "515c8865ed20088e3d0c2f2a2deb77a87634b8766c53e6eeb7a85b5e4b868008"
+      "routeHash": "6d77007d5a36a404f044daa91d0e39e3f1b09b81d38a34b0fe10d4e8b0eb828a"
     },
     {
       "id": "critic",
@@ -262,7 +274,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "5a861abc4a5003df7caf30df5cab4383e7670af57279b5925dc6670e92a7d136"
+      "routeHash": "eeffdff99bb3cc2a5325846cfcb62d9b58319c0b53578c0e277727d7495a568c"
     }
   ],
   "modelRouter": {

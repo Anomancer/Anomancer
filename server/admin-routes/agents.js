@@ -3,7 +3,7 @@ import { json, readJson, sameOrigin } from '../http.js';
 import { deepseekConfigStatus } from '../deepseek.js';
 import { routeAgentJson, modelRouterStatus } from '../model-router.js';
 import { promptFor, SOURCE_SCHEMA, CATEGORIES, AUDIENCES, AUDIENCE_DEPTHS } from '../agent-prompts.js';
-import { normalizeClaims, normalizeSources } from '../content.js';
+import { normalizeClaims, normalizeSources, normalizeCitationMode, normalizeCitationPlacements, normalizeVisualizations } from '../content.js';
 import { validateAgentResult } from '../agent-validation.js';
 import { getAgentContract, listAgentIds, CORE_VERSION } from '../core-registry.js';
 import { createRunReceipt } from '../core-receipt.js';
@@ -39,7 +39,7 @@ function normalizePost(input={}){
     audience:normalizeAudienceInput(input.audience),
     audienceDepth:AUDIENCE_DEPTHS.includes(input.audienceDepth)?input.audienceDepth:'general',
     description:cleanString(input.description,220),answer:cleanString(input.answer,1200),slug:cleanString(input.slug,100),
-    sources,claims,body,
+    sources,claims,body,citationMode:normalizeCitationMode(input.citationMode),citationPlacements:normalizeCitationPlacements(input.citationPlacements,{sources,claims,body}),visualizations:normalizeVisualizations(input.visualizations,{sources,claims,body}),
   };
 }
 

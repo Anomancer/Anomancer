@@ -1,5 +1,5 @@
 import { AUDIENCE_DEPTHS, CATEGORIES } from './agent-prompts.js';
-import { stableSourceId } from './content.js';
+import { stableSourceId, approvedEvidenceUrls, normalizeCitationPlacements, normalizeVisualizations } from './content.js';
 
 const CLAIM_STATUSES=new Set(['supported','interpretation','open']);
 const SEVERITIES=new Set(['high','medium','low']);
@@ -64,6 +64,7 @@ export function validateAgentResult(agent,value,post){
   };
   if(agent==='audience') return {body:text(raw.body,500_000),adaptationSummary:strings(raw.adaptationSummary,20,700),audienceFit:text(raw.audienceFit,1200),preservedCore:strings(raw.preservedCore,20,700),warnings:strings(raw.warnings,20,700)};
   if(agent==='voice') return {body:text(raw.body,500_000),changes:strings(raw.changes,30,700),warnings:strings(raw.warnings,20,700)};
+  if(agent==='visualization') return {summary:text(raw.summary,1200),charts:normalizeVisualizations(raw.charts,{sources:post.sources,claims:post.claims,body:post.body}),warnings:strings(raw.warnings,20,700)};
   if(agent==='package'){
     const category=CATEGORIES.includes(raw.category)?raw.category:post.category;
     // Packaging may suggest presentation metadata, but audience intent and Evidence Layer
@@ -74,7 +75,7 @@ export function validateAgentResult(agent,value,post){
     const audienceDepth=AUDIENCE_DEPTHS.includes(post.audienceDepth)?post.audienceDepth:'general';
     return {
       title:text(raw.title||post.title,180),description:text(raw.description||post.description,220),slug:text(raw.slug||post.slug,100),answer:text(raw.answer||post.answer,1200),category,
-      audience,audienceDepth,claims,sources,notes:strings(raw.notes,20,700),
+      audience,audienceDepth,claims,sources,citationPlacements:normalizeCitationPlacements(raw.citationPlacements,{sources,claims,body:post.body}),notes:strings(raw.notes,20,700),
     };
   }
   throw Object.assign(new Error('Tuntematon agenttitulos.'),{statusCode:400,code:'AGENT_RESULT_UNKNOWN'});

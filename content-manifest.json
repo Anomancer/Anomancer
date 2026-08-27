@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-27T01:15:24.581Z",
+  "generatedAt": "2026-08-27T01:36:07.746Z",
   "entity": {
     "siteName": "Anomancer",
     "author": "Aatu Isopahkala",
@@ -8,6 +8,32 @@
     "websiteId": "https://anomancer.com/#website"
   },
   "published": [
+    {
+      "lang": "fi",
+      "slug": "mitka-tyot-tekoaly-vie",
+      "title": "Mitkä työt tekoäly vie?",
+      "description": "Tekoäly ei syö ammatteja kokonaisina, vaan purkaa ne tehtäviksi. ILO:n ja OECD:n tuoreet luvut osoittavat, mitä altistuminen oikeasti tarkoittaa – ja miksi kysymys ”mitkä työt tekoäly vie?” on liian karkea.",
+      "answer": "",
+      "category": "ai-work",
+      "audience": [
+        "all"
+      ],
+      "audienceDepth": "general",
+      "pinned": true,
+      "date": "2026-08-27",
+      "updated": "2026-08-27",
+      "url": "https://anomancer.com/lahetykset/mitka-tyot-tekoaly-vie",
+      "articleId": "https://anomancer.com/lahetykset/mitka-tyot-tekoaly-vie#article",
+      "authorId": "https://anomancer.com/#person",
+      "coverImage": "",
+      "evidence": {
+        "sourceCount": 5,
+        "claimCount": 0,
+        "supported": 0,
+        "interpretation": 0,
+        "open": 0
+      }
+    },
     {
       "lang": "fi",
       "slug": "enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan",

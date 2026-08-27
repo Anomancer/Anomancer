@@ -23,6 +23,7 @@ Author: Aatu Isopahkala (https://anomancer.com/#about)
 - [Discovery manifest](https://anomancer.com/discovery-manifest.json)
 
 ## Finnish dispatches
+- [Mitkä työt tekoäly vie?](https://anomancer.com/lahetykset/mitka-tyot-tekoaly-vie): Tekoäly ei syö ammatteja kokonaisina, vaan purkaa ne tehtäviksi. ILO:n ja OECD:n tuoreet luvut osoittavat, mitä altistuminen oikeasti tarkoittaa – ja miksi kysymys ”mitkä työt tekoäly vie?” on liian karkea.
 - [Entä jos oppilas ei vihaa matematiikkaa vaan tapaa, jolla se tulee vastaan?](https://anomancer.com/lahetykset/enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan): Entä jos oppilas ei vihaa matematiikkaa vaan tapaa, jolla se tulee vastaan? Teksti opettajille epätasaisista kykyprofiileista, vahvuuksista ja siitä, miksi käyttöliittymäongelma voi näyttää kyvyttömyydeltä.
 - [Kuka kirjoitti tämän tekstin?](https://anomancer.com/lahetykset/kuka-kirjoitti-taman-tekstin): Kuka oikeastaan kirjoittaa tekstin, jos ihminen käyttää kielimallia osana työprosessia? Pohdintaa tekijyydestä, alkuperäisistä teksteistä, editoinnista, vastuusta ja siitä, missä koneen rooli alkaa ja loppuu.
 - [Miksi tekoälyagentille pitäisi antaa passi?](https://anomancer.com/lahetykset/miksi-tekoalyagentille-pitaisi-antaa-passi): Tekoälyagentti voi jo hakea tietoa, lukea tiedostoja ja lähettää viestejä. Millä luvalla se toimii, ja miten sen voi osoittaa? Agenttipassi olisi koneellisesti luettava sopimus siitä, mitä agentti saa tehdä.

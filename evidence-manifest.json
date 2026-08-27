@@ -1,7 +1,85 @@
 {
   "version": "anomancer.evidence/v1",
-  "generatedAt": "2026-08-27T01:15:24.581Z",
+  "generatedAt": "2026-08-27T01:36:07.746Z",
   "articles": [
+    {
+      "articleId": "https://anomancer.com/lahetykset/mitka-tyot-tekoaly-vie#article",
+      "url": "https://anomancer.com/lahetykset/mitka-tyot-tekoaly-vie",
+      "title": "Mitkä työt tekoäly vie?",
+      "lang": "fi",
+      "answer": "",
+      "claims": [],
+      "sources": [
+        {
+          "id": "src-5iurlu",
+          "title": "Generative AI and Jobs: A Refined Global Index of Occupational Exposure (ILO Working Paper 140)",
+          "url": "https://www.ilo.org/publications/generative-ai-and-jobs-refined-global-index-occupational-exposure",
+          "publisher": "ILO",
+          "date": "2025-05-18",
+          "origin": "source-agent",
+          "verification": "verified",
+          "retrievedAt": "2026-08-27T00:46:34.680Z",
+          "why": "Primaarilähde ILO:n vuoden 2025 tutkimukselle, johon luonnoksen kansainväliset luvut perustuvat.",
+          "supports": "Vahvistaa väitteet: noin joka neljäs työntekijä työskentelee ammatissa, jolla on jonkinasteista altistumista generatiiviselle tekoälylle, ja vain 3,3 prosenttia globaalista työllisyydestä kuuluu korkeimpaan altistusluokkaan. Raportti myös toteaa suoraan, että työn muuttuminen on todennäköisempi lopputulos kuin työpaikan katoaminen.",
+          "challenges": "Luku kuvaa altistumista, ei työpaikkojen katoamista, ja altistus vaihtelee voimakkaasti sukupuolen ja tulotason mukaan (naiset 4,7 %, miehet 2,4 %; korkean tulotason maissa ero kasvaa). Menetelmä perustuu puolalaiseen ammattiluokitukseen ja asiantuntija-/Delphi-arvioihin, joten globaali yleistys on rajallinen."
+        },
+        {
+          "id": "src-1exlryq",
+          "title": "Future of Jobs Report 2025: 78 Million New Job Opportunities by 2030 but Urgent Upskilling Needed",
+          "url": "https://www.weforum.org/press/2025/01/future-of-jobs-report-2025-78-million-new-job-opportunities-by-2030-but-urgent-upskilling-needed-to-prepare-workforces/",
+          "publisher": "World Economic Forum",
+          "date": "2025-01-06",
+          "origin": "source-agent",
+          "verification": "verified",
+          "retrievedAt": "2026-08-27T00:46:34.680Z",
+          "why": "Primaarilähde luonnoksen luvuille noin 170 miljoonasta uudesta ja 92 miljoonasta syrjäytyvästä työpaikasta vuoteen 2030 mennessä.",
+          "supports": "Vahvistaa väitteen useista samanaikaisista muutoksista, jotka synnyttävät 170 miljoonaa ja syrjäyttävät 92 miljoonaa työpaikkaa, jolloin nettomäärä on positiivinen.",
+          "challenges": "Luvut eivät koske pelkkää tekoälyä, vaan myös väestö-, vihreän siirtymän ja talouden muutoksia, ja ne ovat ennusteita, eivät varmoja lopputuloksia. Luonnos kyllä tunnustaa tämän, mutta lukujen ympärillä on epävarmuutta."
+        },
+        {
+          "id": "src-1skfy1b",
+          "title": "Beyond automation: Decoding the impact of Generative AI on regional labour markets (Job Creation and Local Economic Development 2024)",
+          "url": "https://read.oecd-ilibrary.org/en/publications/job-creation-and-local-economic-development-2024_83325127-en/full-report/component-7.html",
+          "publisher": "OECD",
+          "date": "2024-11-27",
+          "origin": "source-agent",
+          "verification": "verified",
+          "retrievedAt": "2026-08-27T00:46:34.680Z",
+          "why": "Primaarilähde altistumisen määritelmälle ja OECD:n noin 26 prosentin keskiarvolle, joihin luonnoksen luvut perustuvat.",
+          "supports": "Vahvistaa: altistuva työntekijä, jonka vähintään 20 prosenttia työtehtävistä voitaisiin tehdä puolessa ajassa (\"in half the time\", eli kaksi kertaa nopeammin) generatiivisella tekoälyllä. Tukee myös korkeasti koulutettujen ja urbaanien töiden suurempaa altistumista.",
+          "challenges": "OECD:n määritelmä on \"puolessa ajassa\" (=2x nopeammin), mutta osa mediasta esittää sen virheellisesti \"50 prosenttia nopeammin\" — lähde vahvistaa luonnoksen sanamuodon, mutta ero kannattaa pitää mielessä. Altistuminen on tehtävätason potentiaalia, ei työpaikkojen häviämistä."
+        },
+        {
+          "id": "src-1ssyaii",
+          "title": "Job Creation and Local Economic Development 2024: The Geography of Generative AI (pääsivu)",
+          "url": "https://www.oecd.org/en/publications/job-creation-and-local-economic-development-2024_83325127-en.html",
+          "publisher": "OECD",
+          "date": "2024-11-26",
+          "origin": "source-agent",
+          "verification": "verified",
+          "retrievedAt": "2026-08-27T00:46:34.680Z",
+          "why": "Virallinen OECD-julkaisun pääsivu, jonka tiedote vahvistaa OECD-tason noin neljäsosan altistumisosuuden.",
+          "supports": "Vahvistaa väitteen, jonka mukaan noin joka neljäs OECD-työntekijä on altistunut generatiiviselle tekoälylle, ja osoittaa, että altistuminen osuu erityisesti tietotyöhön.",
+          "challenges": "Pääsivulta ei löydy Suomea koskevaa 29,4 prosentin lukua, joten maakohtainen väite on tarkistettava raportin liiteaineistosta."
+        },
+        {
+          "id": "src-qcjyil",
+          "title": "Exposición de los empleos a la inteligencia artificial en Europa (OECD-datan visualisointi)",
+          "url": "https://datawrapper.dwcdn.net/TwATA/3/",
+          "publisher": "Datawrapper (OECD-datan pohjalta)",
+          "date": "2024-11",
+          "origin": "source-agent",
+          "verification": "verified",
+          "retrievedAt": "2026-08-27T00:46:34.680Z",
+          "why": "Ainoa löytämäni lähde, joka vahvistaa Suomen 29,4 prosentin altistumisosuuden ja OECD:n 26 prosentin keskiarvon samassa kuvassa.",
+          "supports": "Vahvistaa luonnoksen väitteen, että Suomessa osuus (29,4 %) on OECD:n keskiarvoa (26 %) korkeampi.",
+          "challenges": "Kyseessä on espanjankielinen kolmannen osapuolen visualisointi OECD:n raportin datasta, ei OECD:n oma primaarilähde. Maakohtainen luku olisi vahvistettava OECD:n raportin liitteistä."
+        }
+      ],
+      "citationMode": "inline",
+      "citationPlacements": [],
+      "visualizations": []
+    },
     {
       "articleId": "https://anomancer.com/lahetykset/enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan#article",
       "url": "https://anomancer.com/lahetykset/enta-jos-oppilas-ei-vihaa-matematiikkaa-vaan-tapaa-jolla-se-tulee-vastaan",
@@ -9,7 +87,10 @@
       "lang": "fi",
       "answer": "",
       "claims": [],
-      "sources": []
+      "sources": [],
+      "citationMode": "inline",
+      "citationPlacements": [],
+      "visualizations": []
     },
     {
       "articleId": "https://anomancer.com/lahetykset/kuka-kirjoitti-taman-tekstin#article",
@@ -18,7 +99,10 @@
       "lang": "fi",
       "answer": "",
       "claims": [],
-      "sources": []
+      "sources": [],
+      "citationMode": "inline",
+      "citationPlacements": [],
+      "visualizations": []
     },
     {
       "articleId": "https://anomancer.com/lahetykset/miksi-tekoalyagentille-pitaisi-antaa-passi#article",
@@ -27,7 +111,10 @@
       "lang": "fi",
       "answer": "",
       "claims": [],
-      "sources": []
+      "sources": [],
+      "citationMode": "inline",
+      "citationPlacements": [],
+      "visualizations": []
     },
     {
       "articleId": "https://anomancer.com/lahetykset/miksi-tekoalyagentti-ei-saisi-unohtaa-missa-se-on-toissa#article",
@@ -36,7 +123,10 @@
       "lang": "fi",
       "answer": "",
       "claims": [],
-      "sources": []
+      "sources": [],
+      "citationMode": "inline",
+      "citationPlacements": [],
+      "visualizations": []
     },
     {
       "articleId": "https://anomancer.com/lahetykset/miksi-tama-sivu-on-olemassa#article",
@@ -45,7 +135,10 @@
       "lang": "fi",
       "answer": "",
       "claims": [],
-      "sources": []
+      "sources": [],
+      "citationMode": "inline",
+      "citationPlacements": [],
+      "visualizations": []
     },
     {
       "articleId": "https://anomancer.com/lahetykset/miksi-yksinkertainen-it-ratkaisu-voi-muuttua-miljoonien-eurojen-hankkeeksi#article",
@@ -54,7 +147,10 @@
       "lang": "fi",
       "answer": "",
       "claims": [],
-      "sources": []
+      "sources": [],
+      "citationMode": "inline",
+      "citationPlacements": [],
+      "visualizations": []
     },
     {
       "articleId": "https://anomancer.com/lahetykset/miten-tunnistaa-tekoalylla-tehdyn-tekstin-tai-kuvan#article",
@@ -63,7 +159,10 @@
       "lang": "fi",
       "answer": "",
       "claims": [],
-      "sources": []
+      "sources": [],
+      "citationMode": "inline",
+      "citationPlacements": [],
+      "visualizations": []
     },
     {
       "articleId": "https://anomancer.com/lahetykset/taide-ei-ehka-ole-menossa-kohti-tekoalytaidetta-vaan-kohti-jotain-paljon-laajempaa#article",
@@ -72,7 +171,10 @@
       "lang": "fi",
       "answer": "",
       "claims": [],
-      "sources": []
+      "sources": [],
+      "citationMode": "inline",
+      "citationPlacements": [],
+      "visualizations": []
     },
     {
       "articleId": "https://anomancer.com/dispatches/why-this-page-exists#article",
@@ -81,7 +183,10 @@
       "lang": "en",
       "answer": "",
       "claims": [],
-      "sources": []
+      "sources": [],
+      "citationMode": "inline",
+      "citationPlacements": [],
+      "visualizations": []
     }
   ]
 }

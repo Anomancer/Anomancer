@@ -9,7 +9,7 @@ if(box){
   function workspaceId(){return window.anomancerWorkspaces?.currentId?.()||'default';}
   function wsHeaders(extra={}){return window.anomancerWorkspaces?.headers?.(extra)||{...extra,'X-Anomancer-Workspace':workspaceId()};}
 
-  const AGENT_LABELS={source:'Lähdeagentti',claims:'Väitevahti',structure:'Rakenneagentti',writer:'Kirjoitusagentti',critic:'Kriitikko',audience:'Yleisöadapteri',voice:'Äänieditori',package:'Julkaisupaketti'};
+  const AGENT_LABELS={source:'Lähdeagentti',claims:'Väitevahti',structure:'Rakenneagentti',writer:'Kirjoitusagentti',critic:'Kriitikko',audience:'Yleisöadapteri',voice:'Äänieditori',visualization:'Visualisointivahti',package:'Julkaisupaketti'};
   const CATEGORY_VALUES=new Set(['ai-work','info-media','work-decisions','money-risk','software-safety','language-learning','creativity-tools','society-systems']);
   const AUDIENCE_VALUES=new Set(['all','employee','entrepreneur','developer','teacher','creative','decision-maker','investor']);
   const AUDIENCE_DEPTH_VALUES=new Set(['plain','general','professional','technical']);
@@ -32,7 +32,7 @@ if(box){
     return{
       lang:q('#lang')?.value||'fi',title:q('#title')?.value||'',category:q('#category')?.value||'info-media',
       audience:qa('input[name="audience"]:checked').map(x=>x.value),audienceDepth:AUDIENCE_DEPTH_VALUES.has(q('#audienceDepth')?.value)?q('#audienceDepth').value:'general',description:q('#description')?.value||'',answer:q('#answer')?.value||'',
-      slug:q('#slug')?.value||'',sources:parseSources(q('#sources')?.value||''),claims:parseClaims(q('#claims')?.value||''),body:q('#body')?.value||''
+      slug:q('#slug')?.value||'',sources:parseSources(q('#sources')?.value||''),claims:parseClaims(q('#claims')?.value||''),citationMode:qa('input[name="citationMode"]:checked')[0]?.value||'inline',citationPlacements:(()=>{try{return JSON.parse(q('#citationPlacements')?.value||'[]')}catch{return[]}})(),visualizations:(()=>{try{return JSON.parse(q('#visualizations')?.value||'[]')}catch{return[]}})(),body:q('#body')?.value||''
     };
   }
   function fire(el){if(el)el.dispatchEvent(new Event('input',{bubbles:true}));}
@@ -67,17 +67,18 @@ if(box){
     else if(agent==='critic')cards=(result.issues||[]).map(issue=>`<article data-severity="${escapeAttr(issue.severity)}"><span>${escapeHtml(issue.severity||'medium')}</span><h4>${escapeHtml(issue.type||'Havainto')}</h4><p>${escapeHtml(issue.problem)}</p>${issue.fix?`<p><strong>Korjaus:</strong> ${escapeHtml(issue.fix)}</p>`:''}</article>`);
     else if(agent==='audience')cards=(result.adaptationSummary||[]).map((item,index)=>`<article><span>${String(index+1).padStart(2,'0')}</span><h4>Yleisömuutos</h4><p>${escapeHtml(item)}</p></article>`);
     else if(agent==='structure')cards=(result.outline||[]).map((item,index)=>`<article><span>${String(index+1).padStart(2,'0')}</span><h4>${escapeHtml(item.heading)}</h4><p>${escapeHtml(item.purpose)}</p></article>`);
+    else if(agent==='visualization')cards=(result.charts||[]).map((chart,index)=>`<article><span>KAAVIO ${index+1}</span><h4>${escapeHtml(chart.title)}</h4><p>${escapeHtml(chart.caption||'')}</p><p><strong>${(chart.series||[]).length} datapistettä</strong> · ${(chart.series||[]).every(p=>p.evidenceUrl&&p.evidenceQuote)?'evidenssijälki mukana':'puutteellinen jälki'}</p></article>`);
     visual.innerHTML=cards.length?cards.join(''):`<div class="agent-summary"><strong>${escapeHtml(title)}</strong><p>${escapeHtml(summaryText(agent,result))}</p></div>`;
     copyBtn.hidden=false;
     const sourceCount=agent==='source'&&Array.isArray(result?.candidateSources)?result.candidateSources.length:0;
     const rawFallback=agent==='source'&&meta?.structured===false;
-    applyBtn.hidden=(rawFallback&&sourceCount===0)||!['source','claims','writer','audience','voice','package'].includes(agent);
-    applyBtn.textContent=agent==='source'?(rawFallback?'Lisää pelastetut lähteet':'Lisää lähde-ehdokkaat'):agent==='claims'?'Siirrä evidenssikerrokseen':agent==='writer'?'Käytä luonnosta':agent==='audience'?'Käytä yleisöversiota':agent==='voice'?'Käytä äänieditointia':'Käytä julkaisupakettia';
+    applyBtn.hidden=(rawFallback&&sourceCount===0)||!['source','claims','writer','audience','voice','visualization','package'].includes(agent);
+    applyBtn.textContent=agent==='source'?(rawFallback?'Lisää pelastetut lähteet':'Lisää lähde-ehdokkaat'):agent==='claims'?'Siirrä evidenssikerrokseen':agent==='writer'?'Käytä luonnosta':agent==='audience'?'Käytä yleisöversiota':agent==='voice'?'Käytä äänieditointia':agent==='visualization'?'Hyväksy kaavioehdotukset':'Käytä julkaisupakettia';
     if(moreBtn)moreBtn.hidden=agent!=='source'||sourceCount===0;
   }
   function escapeHtml(value=''){return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));}
   function escapeAttr(value=''){return escapeHtml(value);}
-  function summaryText(agent,result){if(agent==='claims')return `${result.claims?.length||0} väitettä · tarkista statukset Evidenssi-välilehdellä.`;if(agent==='writer'||agent==='audience'||agent==='voice')return `${String(result.body||'').split(/\s+/).filter(Boolean).length} sanaa · vertaa nykyiseen tekstiin ennen käyttöä.`;if(agent==='package')return 'Esitysmetatieto valmis. Yleisösopimus ja evidenssikerros säilyvät ennallaan.';return 'Tulos valmis.';}
+  function summaryText(agent,result){if(agent==='claims')return `${result.claims?.length||0} väitettä · tarkista statukset Evidenssi-välilehdellä.`;if(agent==='writer'||agent==='audience'||agent==='voice')return `${String(result.body||'').split(/\s+/).filter(Boolean).length} sanaa · vertaa nykyiseen tekstiin ennen käyttöä.`;if(agent==='visualization')return `${result.charts?.length||0} kaavioehdotusta · vain tekstissä jo näkyvästä varmennetusta datasta.`;if(agent==='package')return `${result.citationPlacements?.length||0} inline-viitesijoitusta + esitysmetatieto. Evidenssin tila säilyy ennallaan.`;return 'Tulos valmis.';}
   async function run({more=false}={}){
     try{
       runBtn.disabled=true;if(moreBtn)moreBtn.disabled=true;applyBtn.hidden=true;copyBtn.hidden=true;setStatus(more?'Lähdeagentti etsii lisää ilman duplikaatteja…':'Agentti työskentelee…','working');
@@ -133,12 +134,14 @@ if(box){
       }
       setStatus('✓ Agentin tekstiversio siirretty editoriin. Tarkista se ennen tallennusta.','ok');return;
     }
+    if(a==='visualization'){const charts=Array.isArray(r.charts)?r.charts:[];if(!charts.length)return setStatus('Visualisointivahti ei löytänyt turvallista kaavioehdotusta.','warn');if(!confirm(`Hyväksytäänkö ${charts.length} kaavioehdotusta julkaisuun? Jokainen datapiste on sidottu varmennettuun evidenssiin. Mitään ei julkaista vielä.`))return;const el=q('#visualizations');let existing=[];try{existing=JSON.parse(el?.value||'[]');if(!Array.isArray(existing))existing=[];}catch{}const byId=new Map(existing.map(x=>[x.id,x]));for(const chart of charts)byId.set(chart.id,chart);el.value=JSON.stringify([...byId.values()],null,2);fire(el);setStatus(`✓ ${charts.length} kaavioehdotusta hyväksyttiin editoriin. Julkaisu vaatii edelleen sinut.`,'ok');return;}
     if(a==='package'){
       if(!confirm('Siirretäänkö julkaisupaketin metadata editoriin? Mitään ei julkaista automaattisesti.'))return;
       const pairs=[['#title','title',180],['#description','description',220],['#slug','slug',100],['#answer','answer',1200]];
       for(const [sel,key,max] of pairs){if(typeof r[key]==='string'&&r[key]){q(sel).value=r[key].slice(0,max);fire(q(sel));}}
       if(CATEGORY_VALUES.has(r.category)){q('#category').value=r.category;fire(q('#category'));}
-            setStatus('✓ Julkaisupaketti siirretty editoriin. Ihmisen hyväksyntäportti on edelleen kiinni.','ok');
+      if(Array.isArray(r.citationPlacements)){q('#citationPlacements').value=JSON.stringify(r.citationPlacements,null,2);fire(q('#citationPlacements'));}
+      setStatus(`✓ Julkaisupaketti siirretty editoriin · ${r.citationPlacements?.length||0} varmennettua inline-viitesijoitusta. Ihmisen hyväksyntäportti on edelleen kiinni.`,'ok');
     }
   }
   runBtn.addEventListener('click',()=>run());

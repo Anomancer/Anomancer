@@ -133,12 +133,16 @@
 interpretation | Tulkinta | https://source1 | Miksi tämä on tulkinta
 open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 <p class="field-help">Konearvot: <code>supported</code> vaatii vähintään yhden ihmisen tarkistaman lähteen. Ehdokaslähteen URL voi silti näkyä <code>open</code>- tai <code>interpretation</code>-väitteen provisionaalisena tutkimusjälkenä. Muuten julkaisu estetään.</p>
+<fieldset class="citation-mode"><legend>Lähteiden esitystapa</legend><label><input checked name="citationMode" type="radio" value="inline"><span><strong>Inline-linkit</strong><small>Hyväksytty lähde istuu väitteen yhteydessä.</small></span></label><label><input name="citationMode" type="radio" value="sources"><span><strong>Lähderivi lopussa</strong><small>Leipäteksti pysyy puhtaana, lähteet tulevat siistiksi riviksi alas.</small></span></label><label><input name="citationMode" type="radio" value="both"><span><strong>Molemmat</strong><small>Inline-linkit ja lähderivi.</small></span></label></fieldset>
+<div class="citation-status" id="citationStatus">Ei hyväksyttyjä inline-sijoituksia.</div>
+<details class="source-raw"><summary>Viitesijoitusten konedata</summary><label>Inline-sijoitukset<textarea id="citationPlacements" rows="4" placeholder='[{"evidenceUrl":"https://...","quote":"...","anchorText":"..."}]'></textarea></label><p class="field-help">Julkaisupaketti ehdottaa sijoitukset. Build hyväksyy vain varmennetun supported-evidenssin ja täsmälleen tekstistä löytyvän ankkurin.</p></details>
+<div class="visualization-editor"><div class="evidence-editor-head"><div><strong>Visualisoinnit</strong><span>rakenteinen data → deterministinen SVG → ihmisen hyväksyntä</span></div></div><div id="visualizationReview" class="visualization-review"></div><details class="source-raw"><summary>Hyväksytty visualisointidata</summary><label>Kaaviot<textarea id="visualizations" rows="5" placeholder="[]"></textarea></label></details></div>
 </section>
 </section>
 <section aria-labelledby="editorTabAgents" class="editor-panel" data-editor-panel="agents" hidden="" id="editorPanelAgents" role="tabpanel">
 <details class="desk-disclosure" id="agentSingleDisclosure"><summary><span>Yksittäinen agentti</span><small>manuaalinen erikoisajo</small></summary><section aria-labelledby="agentDeskTitle" class="agent-desk" id="agentDesk">
 <div class="agent-desk-head">
-<div><p class="kicker">16.0 · TYÖTILAKOHTAISET AGENTIT</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
+<div><p class="kicker">16.2 · TYÖTILAKOHTAISET AGENTIT</p><h3 id="agentDeskTitle">Toimitusagentit</h3></div>
 <span class="agent-model-status" id="agentModelStatus">Agenttitila tarkistetaan…</span>
 </div>
 <p class="agent-rule"><strong>Ihmisen hyväksyntäportti:</strong> agentit saavat tutkia, ehdottaa ja muokata luonnosta. Ne eivät saa tallentaa GitHubiin eivätkä julkaista.</p>
@@ -151,6 +155,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 <option value="critic">Kriitikko</option>
 <option value="audience">Yleisöadapteri</option>
 <option value="voice">Äänieditori</option>
+<option value="visualization">Visualisointivahti · valinnainen</option>
 <option value="package">Julkaisupaketti</option>
 </select></label>
 <label class="wide">Lisäohje agentille<textarea id="agentInstruction" maxlength="2000" placeholder="Valinnainen. Esim. etsi erityisesti alkuperäistutkimuksia tai älä muuta kirsikkatomaattikohtaa." rows="2"></textarea></label>
