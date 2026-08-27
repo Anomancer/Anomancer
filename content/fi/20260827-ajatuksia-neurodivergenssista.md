@@ -1,14 +1,14 @@
 ---
-title: "Ajatuksia neurodivergenssistä"
+title: "ADHD ja autismi"
 date: "2026-08-27"
 category: "info-media"
 audience: ["all"]
 audienceDepth: "general"
 description: "ADHD- ja autismikokemuksesta syntynyt ajatelma siitä, miksi tekoäly voi toimia ajattelun työpöytänä, miksi sille tarvitaan rajat ja miksi ympäristöä voi muuttaa ihmisen sijaan."
-slug: "ajatuksia-neurodivergenssista"
+slug: "adhd-ja-autismi"
 lang: "fi"
-translationKey: "ajatuksia-neurodivergenssista"
-aliases: []
+translationKey: "adhd-ja-autismi"
+aliases: ["ajatuksia-neurodivergenssista"]
 coverImage: ""
 coverAlt: ""
 answer: ""
