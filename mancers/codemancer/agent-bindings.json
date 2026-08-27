@@ -1,6 +1,12 @@
 {
   "format": "anomancer-mancer-agent-bindings/v1",
-  "sharedAgentIds": ["source", "structure", "critic", "claims", "package"],
+  "sharedAgentIds": [
+    "source",
+    "structure",
+    "critic",
+    "claims",
+    "package"
+  ],
   "specialistAgents": [],
-  "notes": "1.18.0 ei luo koodausagentteja nimien vuoksi. Specialist-agentit lisätään vasta, kun niille on oma kyvykkyyssopimus."
+  "notes": "Codemancer ei luo koodausagentteja pelkän nimen vuoksi. Specialist-agentit lisätään vasta, kun niille on oma kyvykkyyssopimus."
 }

@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "kind": "development",
   "instancePolicy": "multiple",
-  "description": "Yksityinen ohjelmistokehityksen työtila arkkitehtuurille, koodille, testeille, reviewlle ja releaselle.",
+  "description": "Yksityinen ohjelmistokehityksen työtila arkkitehtuurille, koodille, testeille, katselmukselle ja julkaisulle.",
   "purpose": "Suunnittele, toteuta, testaa, tarkista ja paketoi ohjelmistotyötä ihmisen hyväksymisporttien takana.",
   "constitutionId": "codemancer/development-constitution/1.0.0",
   "artifactStoreId": "mancer/package-artifact-store/v1",

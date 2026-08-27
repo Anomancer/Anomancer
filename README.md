@@ -1,27 +1,16 @@
-# Anomancer 1.18.0 · Mancer Runtime + Codemancer
+# Anomancer 1.18.2 · Native Dialog Consolidation
 
-1.18.0 todistaa Anomancer Coren package-pohjaisen työtilamallin ensimmäisellä uudella domainilla: **Codemancerilla**.
+1.18.2 kovettaa 1.18.1 Semantic Workbench -kerroksen yhdenmukaistamalla legacy-adminin ihmisen vahvistukset, syötedialogit ja virheilmoitukset yhteiseen async-dialogijärjestelmään.
 
-Codemancer ei ole Core Shelliin kovakoodattu uusi sovellus. Se asennetaan `mancers/codemancer/`-pakettina, jonka sopimuksista Core muodostaa työtilan navigaation, Constitutionin, Artifact Boundaryn, Approval Modelin, Agent Bindingsin, Orchestra Registryn, Archive Policyn ja geneerisen Schema Workbench -UI:n.
+Keskeiset muutokset:
 
-Työpinnat:
+- yhteinen `window.anomancerDialogs` confirm / prompt / form / notice API
+- fokus palautuu toiminnon laukaisijaan
+- muu sovellus on dialogin aikana `inert`
+- Escape ja peruuttaminen palauttavat turvallisen false/null-tuloksen
+- natiivit `window.alert()`, `window.confirm()` ja `window.prompt()` on poistettu adminin työpoluista
+- kuvan alt-teksti ja kuvateksti kerätään yhdessä saavutettavassa lomakedialogissa
+- workspace-, orkesteri-, Archive-, agentti- ja editorial-toimivaltarajat säilyvät eksplisiittisinä ihmisen päätöksinä
+- PWA:n `beforeinstallprompt`-objektin `prompt.prompt()` säilyy, koska se ei ole selain-`window.prompt()`
 
-`Project · Architecture · Code · Tasks · Tests · Runs · Review · Release · Documentation`
-
-Tärkeät dokumentit:
-
-- `MANCER_RUNTIME_1_18_0.md`
-- `FULL_RELEASE_1_18_0.md`
-- `ARCHIVE_CORE_1_17_1.md`
-- `NANOMANCER_1_17_2.md`
-- `ARKISTONHOITAJA_1_17_3.md`
-
-Tarkistus:
-
-```bash
-npm install
-npm run check
-npm run build
-```
-
-Perusraja säilyy: agentti tai package ei saa itsenäisesti laajentaa toimivaltaansa, lukea toisen workspacen dataa, kirjoittaa julkista sisältöä tai tehdä releasea ilman nimenomaista sopimusta ja ihmisen hyväksyntää.
+Katso `NATIVE_DIALOG_CONSOLIDATION_1_18_2.md` ja `FULL_RELEASE_1_18_2.md`.

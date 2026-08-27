@@ -47,7 +47,7 @@ await test('projektin ja aktiivisen luvun nimi päivittyvät selaimen titleen ja
   assert.match(js,/function refreshDocumentTitle\(\)/);
   assert.match(js,/chapterTitle/);
   assert.match(js,/document\.title=`\$\{dirty\(\)\?'• ':''\}/);
-  assert.match(js,/Narramancer · Anomancer Core/);
+  assert.match(js,/Romancer · Anomancer Core/);
 });
 
 await test('orkesteriehdotus näyttää muutokset ennen ihmisen soveltamista',()=>{

@@ -538,3 +538,8 @@
 /* 1.18.0 generic Mancer package workbench responsive ownership */
 @media(max-width:760px){.mancer-workspace{padding:12px 12px 88px}.mancer-commandbar,.mancer-section-head{align-items:stretch;flex-direction:column}.mancer-command-actions{justify-content:space-between}.mancer-contract-strip{grid-template-columns:1fr 1fr}.mancer-form{grid-template-columns:1fr}.mancer-form label:has(textarea){grid-column:auto}.mancer-runs{grid-template-columns:1fr}.mancer-collection-head,.mancer-run-toolbar{align-items:stretch;flex-direction:column}.mancer-collection-head button,.mancer-run-toolbar button{width:100%}}
 @media(max-width:390px){.mancer-contract-strip{grid-template-columns:1fr}}
+
+/* 1.18.2 semantic workbench hardening */
+@media(max-width:760px){.mancer-authority-note{padding:13px}.mancer-undo{align-items:stretch;flex-direction:column}.mancer-undo button{width:100%}.workspace-tech-details summary{min-height:44px;display:flex;align-items:center}}
+@media(max-width:420px){.core-shell{grid-template-columns:minmax(0,1fr) auto}.core-shell-brand{display:none}.core-shell-nav{min-width:0}.core-shell-nav button{padding-inline:7px}.mancer-section-kind{align-self:flex-start}}
+@media(max-width:520px){.core-system-dialog{width:calc(100vw - 16px);max-height:calc(100dvh - 16px)}.core-system-dialog-head,.core-system-dialog-body{padding-left:15px;padding-right:15px}.core-system-dialog-actions{padding:12px 15px 15px}.core-system-dialog-actions button{min-height:44px;flex:1}}

@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.18.2 · Native Dialog Consolidation
+
+- Korvaa adminin natiivit `alert()`, `confirm()` ja `prompt()` -työpolut yhteisellä async-dialogi-API:lla.
+- Säilyttää human authority -vahvistukset workspace-, Archive-, orchestra-, agentti- ja editorial-toiminnoissa.
+- Lisää fokuspalautuksen, `inert`-rajan, Escape/peruuta-polun ja yhtenäisen mobiilidialogin.
+- Yhdistää kuvan alt-tekstin ja kuvatekstin yhteen validoituun lomakedialogiin.
+- Lisää 1.18.2 Chromium-portin desktopille ja 360 px puhelimelle.
+- Jättää PWA install-promptin koskemattomaksi, koska `prompt.prompt()` ei ole `window.prompt()`.
+
+
+## 1.18.1 · Semantic Workbench Hardening
+
+- korjattu release-estävä Mancer CSS -integraatio: `admin-mancer.css` kuuluu nyt sekä tuotannon stylesheet-manifestiin että browser-porttiin
+- vaihdettu käyttäjälle näkyvä Narramancer-nimi Romanceriksi legacy-ID:t säilyttäen
+- lokalisoitu Codemancerin näkyvät osiot, hyväksymisvaiheet ja orkesterinimet kone-id:itä muuttamatta
+- siirretty workspace-/package-id:t ja hashit avattaviin teknisiin tietoihin
+- lisätty Codemancerin Tarkistus- ja Julkaisu-osioihin eksplisiittinen human authority -raja
+- lisätty geneeriselle Mancer-kokoelman poistolle Kumoa ennen tallennusta
+- yhtenäistetty Mancer-editorin ja Core Shellin tallennustila
+- selkeytetty Arkiston ja Nanomancerin näkyvää protokollajargonia
+- kovetettu alle 420 px Core-navin tilankäyttö
+- lisätty `scripts/test-semantic-workbench-1181.mjs` ja päivitetty oikea Chromium-pohjainen Mancer UI -portti
+- dokumentoitu 21 legacy-native-dialog -kutsua erilliseksi myöhemmäksi overlay-konsolidointivelaksi
+
 ## 1.18.0 · Mancer Runtime + Codemancer
 
 - Mancer Package Spec v1 + server-side package discovery/validation.

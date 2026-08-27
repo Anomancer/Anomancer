@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-export const CORE_VERSION='1.18.0';
+export const CORE_VERSION='1.18.2';
 export const AGENT_CONTRACT_FORMAT='anomancer-agent/v1';
 export const ORCHESTRA_FORMAT='anomancer-orchestra/v2';
 export const CUSTOM_ORCHESTRA_FORMAT='anomancer-custom-orchestra/v1';
@@ -200,7 +200,7 @@ const RAW_ORCHESTRAS=[{
   ],
   humanFinalAuthority:true,evidencePolicy:'candidate-never-equals-verified',citationPolicy:'verified-supported-only',visualizationPolicy:'human-approved-structured-data-only',audiencePolicy:'adapt-then-recheck-claims',source:'built-in'
 },{
-  id:'narramancer',name:'Narramancer Story Orchestra',version:'1.0.0',description:'Premissistä käsikirjoituspakettiin kulkeva yksityinen tarinaorkesteri. Mikään vaihe ei tallenna tai julkaise automaattisesti.',mode:'sequential',
+  id:'narramancer',name:'Romancer Story Orchestra',version:'1.0.0',description:'Premissistä käsikirjoituspakettiin kulkeva yksityinen tarinaorkesteri. Mikään vaihe ei tallenna tai julkaise automaattisesti.',mode:'sequential',
   steps:[
     {id:'step-01',mode:'sequential',agents:['narrative-premise']},{id:'step-02',mode:'sequential',agents:['narrative-world']},
     {id:'step-03',mode:'sequential',agents:['narrative-character']},{id:'step-04',mode:'sequential',agents:['narrative-plot']},
@@ -295,8 +295,8 @@ export function validateOrchestraDefinition(input={},options={}){
   const lastBody=Math.max(position('writer'),position('audience'),position('voice'));
   const claims=position('claims');if(lastBody>=0&&(claims<0||claims<=lastBody))errors.push({code:'ORCHESTRA_CLAIMS_AFTER_BODY',message:'Väitevahdin pitää olla viimeisen body-muokkauksen jälkeen.'});
   const packageStep=position('package');if(packageStep>=0){const step=orchestra.steps[packageStep];if(packageStep!==orchestra.steps.length-1||step.mode!=='sequential'||step.agents.length!==1)errors.push({code:'ORCHESTRA_PACKAGE_LAST',message:'Julkaisupaketin pitää olla viimeinen yksittäinen konevaihe.'});}
-  const narrativePackageStep=position('narrative-package');if(narrativePackageStep>=0){const step=orchestra.steps[narrativePackageStep];if(narrativePackageStep!==orchestra.steps.length-1||step.mode!=='sequential'||step.agents.length!==1)errors.push({code:'ORCHESTRA_NARRATIVE_PACKAGE_LAST',message:'Käsikirjoituspaketin pitää olla Narramancer-orkesterin viimeinen yksittäinen konevaihe.'});}
-  if(orchestra.humanFinalAuthority!==true)errors.push({code:'ORCHESTRA_HUMAN_GATE',message:'Human final authority on pakollinen.'});
+  const narrativePackageStep=position('narrative-package');if(narrativePackageStep>=0){const step=orchestra.steps[narrativePackageStep];if(narrativePackageStep!==orchestra.steps.length-1||step.mode!=='sequential'||step.agents.length!==1)errors.push({code:'ORCHESTRA_NARRATIVE_PACKAGE_LAST',message:'Käsikirjoituspaketin pitää olla Romancer-orkesterin viimeinen yksittäinen konevaihe.'});}
+  if(orchestra.humanFinalAuthority!==true)errors.push({code:'ORCHESTRA_HUMAN_GATE',message:'Ihmisen lopullinen päätösvalta on pakollinen.'});
   return {ok:errors.length===0,orchestra,errors};
 }
 export function listAgentIds(){return AGENT_REGISTRY.map(item=>item.id);}

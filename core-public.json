@@ -1,6 +1,6 @@
 {
   "format": "anomancer-core-public/v2",
-  "version": "1.18.0",
+  "version": "1.18.2",
   "boundary": {
     "version": "1.0",
     "mode": "explicit-allowlist",
@@ -302,7 +302,7 @@
     },
     {
       "id": "narramancer",
-      "name": "Narramancer Story Orchestra",
+      "name": "Romancer Story Orchestra",
       "version": "1.0.0",
       "description": "Premissistä käsikirjoituspakettiin kulkeva yksityinen tarinaorkesteri. Mikään vaihe ei tallenna tai julkaise automaattisesti.",
       "mode": "sequential",
@@ -365,7 +365,7 @@
       "humanFinalAuthority": true,
       "evidencePolicy": "not-applicable",
       "audiencePolicy": "author-intent-preserved",
-      "orchestraHash": "23f6609acd00356de0af012f0bcb6fa434e4d83cd1514371bb23671c2551a827"
+      "orchestraHash": "d1825c030b1f29b190f3a764bc2e9f36db6a971e3f5130cdd4d8c0d4a23ae933"
     }
   ],
   "tools": [
@@ -379,7 +379,7 @@
       "actor": "agent",
       "humanApproval": false,
       "sideEffects": false,
-      "toolHash": "946efe872a3ff6e50071540703019083d4534f3897303e14dda42f25a01cc8ec"
+      "toolHash": "070fe7999000fd918fc99cd7e151468d709d7dd8fc2469640b4e7d5bcc975660"
     },
     {
       "id": "source.verify",
@@ -391,7 +391,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "a7e7e6bc26762bfcceca3ea0772ef6e7e011b4d6ebfbf92e9c8f36e15ae06915"
+      "toolHash": "22ad4e40796a0f6d8cdf597696971fa29e80be6e6e4b0bbeed6c9bc7034665fa"
     },
     {
       "id": "publication.publish",
@@ -403,7 +403,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "95e4682ec32de4dccf4a35276eee87a4c7c466e9158ce0861fd1a5d72960afc4"
+      "toolHash": "a79e8e6a43e0fed8df8c34780f6d46a97348fd986712ca5d8aebd0f64951a519"
     },
     {
       "id": "github.write",
@@ -415,7 +415,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "f662c34005b3b828dd4348e720549ba338d843a1fda5318dc2a3fb930884d50e"
+      "toolHash": "83dfa336938a29c0755be0fe59d144891a0515ae680a8c99568f4a18d68630d4"
     }
   ],
   "toolBroker": {
@@ -433,7 +433,7 @@
         "json",
         "web_search"
       ],
-      "routeHash": "13930f84ce92aa95f5780519b780bfc2d1e62faf884976d47b398cae062658a8"
+      "routeHash": "5154e25a2b5c832cf3153a744ffbd26318ff5d5807a7baa04c289e532b7403dc"
     },
     {
       "id": "writer",
@@ -441,7 +441,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "fe2045f867b8e88899331fac7a93ab1140dfdb82fda4531161c3eefea36ed9a4"
+      "routeHash": "10dd9ad5ddced0ca99b9aea5cb749132b12fa4b5e8dfdd15de0326cb1e581028"
     },
     {
       "id": "critic",
@@ -449,7 +449,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "e0a02f883ce5731f35a6f01f9bd529eea3ad0b009b333c551f214a7d143c97c5"
+      "routeHash": "c93799946e4a10db602274adb26db924f7a2d2154a2291f36892ba0d961eed4b"
     }
   ],
   "modelRouter": {

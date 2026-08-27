@@ -1,7 +1,7 @@
 {
   "format": "anomancer-constitution/v1",
   "id": "codemancer/development-constitution/1.0.0",
-  "name": "Codemancer Development Constitution",
+  "name": "Codemancerin kehitysperustuslaki",
   "version": "1.0.0",
   "purpose": "Ohjelmistotyö, jossa nykyinen lähdekoodi, testit, diff, provenance ja ihmisen lopullinen soveltamis- ja release-valta säilyvät.",
   "protectedProperties": [

@@ -200,7 +200,7 @@ function renderBlankWorkspace(){
   const put=(selector,value)=>{const node=q(selector);if(node)node.textContent=value||'—';};
   put('#blankWorkspaceName',w.name||t.name||'Tyhjä työtila');
   put('#blankWorkspacePurpose',w.description||t.purpose||'Rakenna uusi työtilatyyppi turvallisen aineisto- ja ulostulorajan taakse.');
-  put('#blankWorkspaceConstitution',c.name||w.constitutionId||'Blank Private Constitution');
+  put('#blankWorkspaceConstitution',c.name||w.constitutionId||'Tyhjän työtilan perustuslaki');
   put('#blankWorkspaceArtifact',t.artifactStoreId==='workspace/private-isolated/v1'?'Yksityinen eristetty säilö':(t.artifactStoreId||'Yksityinen säilö'));
   put('#blankWorkspaceOutput',t.outputAdapterId==='workspace/no-publication/v1'?'Ei julkaisukohdetta':(t.outputAdapterId||'Ei ulostuloa sidottuna'));
 }
@@ -235,10 +235,10 @@ mobileDock?.addEventListener('click',event=>{
 q('#workspaceMobileMoreNav')?.addEventListener('click',event=>{const local=event.target.closest?.('[data-mobile-local]');if(local){setMobileSheet(false);openLocalSection(local.dataset.mobileLocal);window.scrollTo({top:0,behavior:'smooth'});}});
 q('#workspaceMobileCommands')?.addEventListener('click',event=>{const command=event.target.closest?.('[data-mobile-command]');if(command)runMobileCommand(command.dataset.mobileCommand,command);});
 q('#workspaceMobileSheetClose')?.addEventListener('click',()=>setMobileSheet(false));
-q('#mobileWorkspaceSelect')?.addEventListener('change',event=>{
+q('#mobileWorkspaceSelect')?.addEventListener('change',async event=>{
   const id=event.target.value,before=workspace()?.id||'';
   if(id===before){setMobileSheet(false);navigate('workspace');return;}
-  const changed=window.anomancerWorkspaces?.switchTo?.(id);
+  const changed=await window.anomancerWorkspaces?.switchTo?.(id);
   if(changed){setMobileSheet(false);navigate('workspace');}else renderMobileSheet();
 });
 window.addEventListener('anomancer:overlay-open',event=>{if(event.detail?.name==='workspace-sheet')q('#mobileMoreBtn')?.setAttribute('aria-expanded','true');});

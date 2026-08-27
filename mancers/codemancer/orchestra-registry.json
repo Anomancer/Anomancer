@@ -3,18 +3,34 @@
   "orchestras": [
     {
       "id": "code-review",
-      "name": "Code Review",
+      "name": "Koodikatselmus",
       "executable": false,
-      "stages": ["architecture", "implementation", "tests", "diff-review", "human-apply"],
-      "approvalGates": ["diff-review", "human-apply"]
+      "stages": [
+        "architecture",
+        "implementation",
+        "tests",
+        "diff-review",
+        "human-apply"
+      ],
+      "approvalGates": [
+        "diff-review",
+        "human-apply"
+      ]
     },
     {
       "id": "release-readiness",
-      "name": "Release Readiness",
+      "name": "Julkaisuvalmius",
       "executable": false,
-      "stages": ["tests", "review", "release-notes", "human-release"],
-      "approvalGates": ["human-release"]
+      "stages": [
+        "tests",
+        "review",
+        "release-notes",
+        "human-release"
+      ],
+      "approvalGates": [
+        "human-release"
+      ]
     }
   ],
-  "runtimeNote": "Package-local registry is loaded in 1.18.0. Automatic plugin/orchestra stage execution remains behind Orchestra Registry v2."
+  "runtimeNote": "Pakettikohtainen orkesterirekisteri ladataan Coreen. Automaattinen plugin-/orkesterivaiheiden suoritus pysyy Orchestra Registry v2 -portin takana."
 }

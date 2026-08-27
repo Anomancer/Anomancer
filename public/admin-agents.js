@@ -109,12 +109,12 @@ if(box){
     }catch(e){setStatus(`✗ ${e.message}`,'err');output.textContent='';visual.innerHTML='';rawBox.hidden=true;if(moreBtn)moreBtn.hidden=true;}
     finally{runBtn.disabled=false;if(moreBtn)moreBtn.disabled=false;syncRuntimeState();}
   }
-  function apply(){
+  async function apply(){
     if(!last?.result)return;const a=last.agent,r=last.result;
     if(a==='source'){
       const recovered=last.meta?.structured===false;
       const prompt=recovered?'Lisätäänkö kesken jääneestä vastauksesta pelastetut lähde-ehdokkaat Lähteet-kenttään? Tarkista jokainen URL ja lähteen sisältö itse ennen julkaisua.':'Lisätäänkö verkkohaun lähde-ehdokkaat Lähteet-kenttään? Tarkista URL:t ja sisältö itse ennen julkaisua.';
-      if(!confirm(prompt))return;
+      if(!await window.anomancerDialogs.confirm(prompt,{title:'Lisää lähde-ehdokkaat',confirmLabel:'Lisää editoriin'}))return;
       const existing=parseSources(q('#sources').value),seen=new Set(existing.map(x=>x.url));
 	      const add=(Array.isArray(r.candidateSources)?r.candidateSources:[]).filter(x=>x?.url&&!seen.has(x.url)).map(x=>({...x,title:x.title||x.url,origin:'source-agent',verification:'candidate'}));
       q('#sources').value=formatSources([...existing,...add]);fire(q('#sources'));setStatus(`✓ Lisättiin ${add.length} lähde-ehdokasta. Tarkistusvastuu jäi ihmiselle.`,'ok');return;
@@ -126,7 +126,7 @@ if(box){
     }
     if(a==='writer'||a==='audience'||a==='voice'){
       if(!r.body)return setStatus('Agentin vastauksessa ei ollut tekstikenttää.','err');
-      if(!confirm('Korvataanko editorin nykyinen Markdown tällä agentin versiolla? Tätä ei vielä tallenneta GitHubiin.'))return;
+      if(!await window.anomancerDialogs.confirm('Korvataanko editorin nykyinen Markdown tällä agentin versiolla?',{title:'Sovella agentin tekstiversio',details:'Muutosta ei vielä tallenneta GitHubiin. Tarkista teksti ennen tallennusta.',confirmLabel:'Korvaa editorissa'}))return;
       q('#body').value=r.body;fire(q('#body'));
       if(a==='writer'){
         if(typeof r.description==='string'&&r.description){q('#description').value=r.description.slice(0,220);fire(q('#description'));}
@@ -134,9 +134,9 @@ if(box){
       }
       setStatus('✓ Agentin tekstiversio siirretty editoriin. Tarkista se ennen tallennusta.','ok');return;
     }
-    if(a==='visualization'){const charts=Array.isArray(r.charts)?r.charts:[];if(!charts.length)return setStatus('Visualisointivahti ei löytänyt turvallista kaavioehdotusta.','warn');if(!confirm(`Hyväksytäänkö ${charts.length} kaavioehdotusta julkaisuun? Jokainen datapiste on sidottu varmennettuun evidenssiin. Mitään ei julkaista vielä.`))return;const el=q('#visualizations');let existing=[];try{existing=JSON.parse(el?.value||'[]');if(!Array.isArray(existing))existing=[];}catch{}const byId=new Map(existing.map(x=>[x.id,x]));for(const chart of charts)byId.set(chart.id,chart);el.value=JSON.stringify([...byId.values()],null,2);fire(el);setStatus(`✓ ${charts.length} kaavioehdotusta hyväksyttiin editoriin. Julkaisu vaatii edelleen sinut.`,'ok');return;}
+    if(a==='visualization'){const charts=Array.isArray(r.charts)?r.charts:[];if(!charts.length)return setStatus('Visualisointivahti ei löytänyt turvallista kaavioehdotusta.','warn');if(!await window.anomancerDialogs.confirm(`Hyväksytäänkö ${charts.length} kaavioehdotusta editoriin?`,{title:'Hyväksy kaavioehdotukset',details:'Jokainen datapiste on sidottu varmennettuun evidenssiin. Mitään ei julkaista tällä toiminnolla.',confirmLabel:'Lisää editoriin'}))return;const el=q('#visualizations');let existing=[];try{existing=JSON.parse(el?.value||'[]');if(!Array.isArray(existing))existing=[];}catch{}const byId=new Map(existing.map(x=>[x.id,x]));for(const chart of charts)byId.set(chart.id,chart);el.value=JSON.stringify([...byId.values()],null,2);fire(el);setStatus(`✓ ${charts.length} kaavioehdotusta hyväksyttiin editoriin. Julkaisu vaatii edelleen sinut.`,'ok');return;}
     if(a==='package'){
-      if(!confirm('Siirretäänkö julkaisupaketin metadata editoriin? Mitään ei julkaista automaattisesti.'))return;
+      if(!await window.anomancerDialogs.confirm('Siirretäänkö julkaisupaketin metadata editoriin?',{title:'Sovella julkaisupaketti',details:'Mitään ei julkaista automaattisesti. Julkaisu vaatii edelleen ihmisen hyväksynnän.',confirmLabel:'Siirrä editoriin'}))return;
       const pairs=[['#title','title',180],['#description','description',220],['#slug','slug',100],['#answer','answer',1200]];
       for(const [sel,key,max] of pairs){if(typeof r[key]==='string'&&r[key]){q(sel).value=r[key].slice(0,max);fire(q(sel));}}
       if(CATEGORY_VALUES.has(r.category)){q('#category').value=r.category;fire(q('#category'));}

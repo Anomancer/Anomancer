@@ -29,7 +29,7 @@ const LEGACY_CONSTITUTION_REGISTRY=[
     completionDefinition:'Julkaisupaketti on tarkistettu ja ihminen hyväksyy lähetyksen eetteriin.'
   }),
   finalizeConstitution({
-    id:'narramancer/story-constitution/1.0.0',name:'Narramancer Story Constitution',version:'1.0.0',
+    id:'narramancer/story-constitution/1.0.0',name:'Romancerin tarinaperustuslaki',version:'1.0.0',
     purpose:'Yksityinen tarinatyötila, jossa tekijän intentio, kaanon, jatkuvuus, hahmojen identiteetti ja ihmisen lopullinen kirjoitusvalta säilyvät.',
     protectedProperties:['author-intent','canon-integrity','character-identity','continuity-history','workspace-isolation','human-application-authority'],
     forbiddenTransformations:['cross-workspace-read','cross-workspace-write','silent-canon-rewrite','silent-character-merge','agent-save','agent-publish','implicit-publication-target'],
@@ -153,7 +153,7 @@ const LEGACY_WORKSPACE_TEMPLATE_REGISTRY=[
     capabilities:['content.read','content.write','media.write','publication.publish','runtime.manage','orchestra.custom','runs.read']
   }),
   finalizeTemplate({
-    id:NARRAMANCER_TEMPLATE_ID,name:'Narramancer',version:'1.0.0',kind:'narrative-authoring',instancePolicy:'multiple',
+    id:NARRAMANCER_TEMPLATE_ID,name:'Romancer',version:'1.0.0',kind:'narrative-authoring',instancePolicy:'multiple',
     description:'Yksityinen tarina- ja käsikirjoitustyötila omalla kaanonilla, luvuilla, orkesterilla ja vientirajalla.',
     purpose:'Rakenna maailma, hahmot, juoni, luvut, aikajana ja kaanon erillään Anomancerin julkaisuista.',
     constitutionId:'narramancer/story-constitution/1.0.0',

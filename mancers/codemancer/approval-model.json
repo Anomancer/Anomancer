@@ -3,10 +3,31 @@
   "id": "codemancer/developer-human-gate/1.0.0",
   "humanFinalAuthority": true,
   "gates": [
-    {"id": "proposal", "label": "Ehdotus", "requiresHuman": false},
-    {"id": "tests", "label": "Testit", "requiresHuman": false, "evidenceRequired": true},
-    {"id": "diff-review", "label": "Diff review", "requiresHuman": true},
-    {"id": "apply", "label": "Sovella", "requiresHuman": true},
-    {"id": "release", "label": "Release", "requiresHuman": true}
+    {
+      "id": "proposal",
+      "label": "Ehdotus",
+      "requiresHuman": false
+    },
+    {
+      "id": "tests",
+      "label": "Testit",
+      "requiresHuman": false,
+      "evidenceRequired": true
+    },
+    {
+      "id": "diff-review",
+      "label": "Diffin tarkistus",
+      "requiresHuman": true
+    },
+    {
+      "id": "apply",
+      "label": "Soveltaminen",
+      "requiresHuman": true
+    },
+    {
+      "id": "release",
+      "label": "Julkaisu",
+      "requiresHuman": true
+    }
   ]
 }

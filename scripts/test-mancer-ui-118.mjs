@@ -1,2 +1,41 @@
-import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import {spawn} from 'node:child_process';import {readAdminCss} from './read-admin-css.mjs';
-const CHROMIUM=[process.env.CHROMIUM_BIN,'/usr/bin/chromium','/usr/bin/chromium-browser','/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/brave-browser','/snap/bin/chromium'].filter(Boolean).find(p=>fs.existsSync(p));assert.ok(CHROMIUM,'Mancer UI tarvitsee Chromiumin.');const profile=fs.mkdtempSync(path.join(os.tmpdir(),'anomancer-mancer-ui-')),chrome=spawn(CHROMIUM,['--headless=new','--no-sandbox','--disable-gpu','--hide-scrollbars','--allow-file-access-from-files','--remote-debugging-port=0',`--user-data-dir=${profile}`,'about:blank'],{stdio:['ignore','ignore','pipe']});let wsUrl='';await new Promise((resolve,reject)=>{let b='';const t=setTimeout(()=>reject(new Error('Chromium timeout')),8000);chrome.stderr.on('data',d=>{b+=d;const m=String(b).match(/DevTools listening on (ws:\/\/[^\s]+)/);if(m){wsUrl=m[1];clearTimeout(t);resolve();}});});const ws=new WebSocket(wsUrl);await new Promise((r,j)=>{ws.onopen=r;ws.onerror=j});let seq=0;const pending=new Map();ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id&&pending.has(m.id)){const p=pending.get(m.id);pending.delete(m.id);m.error?p.reject(new Error(m.error.message)):p.resolve(m.result);}};const send=(method,params={},sessionId)=>new Promise((resolve,reject)=>{const id=++seq;pending.set(id,{resolve,reject});ws.send(JSON.stringify({id,method,params,...(sessionId?{sessionId}:{})}));});const {targetId}=await send('Target.createTarget',{url:'about:blank'}),{sessionId}=await send('Target.attachToTarget',{targetId,flatten:true});await send('Page.enable',{},sessionId);await send('Runtime.enable',{},sessionId);await send('Accessibility.enable',{},sessionId);const frameId=(await send('Page.getFrameTree',{},sessionId)).frameTree.frame.id;const src=fs.readFileSync('visual-fixtures/mancer-118.html','utf8').replace(/<link[^>]+admin\.css[^>]*>/,`<style>${readAdminCss()}</style>`);let passed=0;for(const [name,width,height] of [['desktop',1440,900],['phone-360',360,800]]){await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<=760},sessionId);await send('Page.setDocumentContent',{frameId,html:src},sessionId);await send('Runtime.evaluate',{expression:'new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))',awaitPromise:true},sessionId);const r=await send('Runtime.evaluate',{returnByValue:true,expression:`(()=>{const visible=e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0};const controls=[...document.querySelectorAll('button,select,input,textarea')].filter(visible);const strip=getComputedStyle(document.querySelector('.mancer-contract-strip')).gridTemplateColumns;return{innerWidth,scrollWidth:document.documentElement.scrollWidth,minTarget:Math.min(...controls.map(e=>e.getBoundingClientRect().height)),strip,title:document.querySelector('h2').textContent.trim()}})()`},sessionId);const m=r.result.value;assert.ok(m.scrollWidth-m.innerWidth<=1,`${name}: horizontal overflow`);assert.ok(m.minTarget>=43.5,`${name}: control under 44px (${m.minTarget})`);assert.equal(m.title,'Review');if(width===360)assert.ok(m.strip.split(' ').length<=2);passed++;console.log(`✓ Mancer UI ${name} · ${width}×${height}`);}await send('Target.closeTarget',{targetId});ws.close();chrome.kill('SIGTERM');await new Promise(r=>setTimeout(r,300));fs.rmSync(profile,{recursive:true,force:true});console.log(`\n${passed}/${passed} MANCER UI 1.18.0 browser-porttia läpi`);
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import {spawn} from 'node:child_process';
+import {readAdminCss} from './read-admin-css.mjs';
+
+const CHROMIUM=[process.env.CHROMIUM_BIN,'/usr/bin/chromium','/usr/bin/chromium-browser','/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/brave-browser','/snap/bin/chromium'].filter(Boolean).find(p=>fs.existsSync(p));
+assert.ok(CHROMIUM,'Mancer UI tarvitsee Chromiumin.');
+const outDir=path.resolve('.visual-regression/1.18.2');fs.mkdirSync(outDir,{recursive:true});
+const profile=fs.mkdtempSync(path.join(os.tmpdir(),'anomancer-mancer-ui-'));
+const chrome=spawn(CHROMIUM,['--headless=new','--no-sandbox','--disable-gpu','--hide-scrollbars','--allow-file-access-from-files','--remote-debugging-port=0',`--user-data-dir=${profile}`,'about:blank'],{stdio:['ignore','ignore','pipe']});
+let wsUrl='';
+await new Promise((resolve,reject)=>{let b='';const t=setTimeout(()=>reject(new Error('Chromium timeout')),8000);chrome.stderr.on('data',d=>{b+=d;const m=String(b).match(/DevTools listening on (ws:\/\/[^\s]+)/);if(m){wsUrl=m[1];clearTimeout(t);resolve();}});});
+const ws=new WebSocket(wsUrl);await new Promise((r,j)=>{ws.onopen=r;ws.onerror=j});
+let seq=0;const pending=new Map();
+ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id&&pending.has(m.id)){const p=pending.get(m.id);pending.delete(m.id);m.error?p.reject(new Error(m.error.message)):p.resolve(m.result);}};
+const send=(method,params={},sessionId)=>new Promise((resolve,reject)=>{const id=++seq;pending.set(id,{resolve,reject});ws.send(JSON.stringify({id,method,params,...(sessionId?{sessionId}:{})}));});
+const {targetId}=await send('Target.createTarget',{url:'about:blank'}),{sessionId}=await send('Target.attachToTarget',{targetId,flatten:true});
+await send('Page.enable',{},sessionId);await send('Runtime.enable',{},sessionId);await send('Accessibility.enable',{},sessionId);
+const frameId=(await send('Page.getFrameTree',{},sessionId)).frameTree.frame.id;
+const src=fs.readFileSync('visual-fixtures/mancer-118.html','utf8').replace(/<link[^>]+admin\.css[^>]*>/,`<style>${readAdminCss()}</style>`);
+let passed=0;
+for(const [name,width,height] of [['desktop',1440,900],['phone-360',360,800]]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<=760},sessionId);
+  await send('Page.setDocumentContent',{frameId,html:src},sessionId);
+  await send('Runtime.evaluate',{expression:'new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))',awaitPromise:true},sessionId);
+  const r=await send('Runtime.evaluate',{returnByValue:true,expression:`(()=>{const visible=e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0};const controls=[...document.querySelectorAll('button,select,input,textarea,summary')].filter(visible);const form=getComputedStyle(document.querySelector('.mancer-form')).gridTemplateColumns;const details=document.querySelector('.mancer-contract-details');return{innerWidth,scrollWidth:document.documentElement.scrollWidth,minTarget:Math.min(...controls.map(e=>e.getBoundingClientRect().height)),form,title:document.querySelector('h2').textContent.trim(),detailsOpen:details.open,text:document.body.innerText}})()`},sessionId);
+  const m=r.result.value;
+  assert.ok(m.scrollWidth-m.innerWidth<=1,`${name}: horizontal overflow`);
+  assert.ok(m.minTarget>=43.5,`${name}: control under 44px (${m.minTarget})`);
+  assert.equal(m.title,'Tarkistus');
+  assert.equal(m.detailsOpen,false,`${name}: tekniset sopimustiedot ovat oletuksena kiinni`);
+  assert.doesNotMatch(m.text,/Human final authority|Package contract|\bReview\b/);
+  if(width===360)assert.ok(m.form.split(' ').length<=2,`${name}: Mancer form ei reflowannut yhteen palstaan`);
+  const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false},sessionId);
+  fs.writeFileSync(path.join(outDir,`mancer-${name}.png`),Buffer.from(shot.data,'base64'));
+  passed++;console.log(`✓ Mancer UI ${name} · ${width}×${height}`);
+}
+await send('Target.closeTarget',{targetId});ws.close();chrome.kill('SIGTERM');await new Promise(r=>setTimeout(r,300));fs.rmSync(profile,{recursive:true,force:true});
+console.log(`\n${passed}/${passed} MANCER UI 1.18.2 browser-porttia läpi`);
