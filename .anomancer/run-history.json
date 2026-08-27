@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.3.0",
   "workspaceId": "default",
-  "revision": 109,
-  "updatedAt": "2026-08-27T12:37:41.449Z",
+  "revision": 110,
+  "updatedAt": "2026-08-27T13:19:36.955Z",
   "chainHead": "75cdb50009ab7d7ffb4fd9bd1c652abbf52d4db701185743b5f3c76accdae905",
   "runs": [
     {
@@ -6035,6 +6035,115 @@
       "previousRunHash": "71e889b039d00850fb018d834c44aa7cc7663a5e2ed912783e3d6b0936472f5f",
       "runHash": "75cdb50009ab7d7ffb4fd9bd1c652abbf52d4db701185743b5f3c76accdae905",
       "counted": true
+    },
+    {
+      "format": "anomancer-run-record/v2",
+      "coreVersion": "16.3.0",
+      "workspaceId": "default",
+      "id": "87db0876-311e-4403-9b36-7961e80c563c",
+      "orchestraRunId": "87db0876-311e-4403-9b36-7961e80c563c",
+      "orchestra": {
+        "id": "custom-henkilo-kohtaisempi-teksti-020acc",
+        "name": "Henkilökohtaisempi teksti",
+        "orchestraHash": "97e87f779e193881d62360c254072ba711c9a349e91064605ed00e1cad7013e6"
+      },
+      "status": "running",
+      "humanApproval": {
+        "required": true,
+        "status": "pending",
+        "appliedAt": ""
+      },
+      "startedAt": "2026-08-27T13:17:53.973Z",
+      "finishedAt": "",
+      "updatedAt": "2026-08-27T13:19:36.954Z",
+      "degradedStages": [],
+      "disabledStages": [],
+      "error": null,
+      "receipts": [
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-c45a81ceee6a76b4cfa2",
+          "workspaceId": "default",
+          "orchestraRunId": "87db0876-311e-4403-9b36-7961e80c563c",
+          "stageIndex": 0,
+          "agent": {
+            "id": "structure",
+            "label": "Rakenneagentti",
+            "version": "1.0.0",
+            "contractHash": "98a56fa8436de1bdb6612e24a0820a762220900e08382909e77bd8874fd2842d",
+            "role": "editorial-structure"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "writer",
+            "target": "deepseek.writer"
+          },
+          "routing": {
+            "route": "writer",
+            "requestedTarget": "deepseek.writer",
+            "selectedTarget": "deepseek.writer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.writer",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 12000,
+            "modelTarget": "deepseek.writer"
+          },
+          "usage": {
+            "inputTokens": 4712,
+            "outputTokens": 10323,
+            "totalTokens": 15035,
+            "reasoningTokens": 8957,
+            "maxOutputTokens": 12000,
+            "costEuro": null
+          },
+          "tools": [],
+          "toolPolicy": [],
+          "status": "completed",
+          "inputHash": "dd3271546ed26d1e1f0049cd698d91a014ec9a1f284ef52c42e4e8d2db7c0ebc",
+          "outputHash": "deda034a2a8c0eab819cbec4e5c11febe9e49797316395279fd717b10cc43c2b",
+          "startedAt": "2026-08-27T13:17:53.973Z",
+          "finishedAt": "2026-08-27T13:19:36.546Z",
+          "durationMs": 102573,
+          "humanApprovalRequired": true
+        }
+      ],
+      "usage": {
+        "runs": 0,
+        "inputTokens": 4712,
+        "outputTokens": 10323,
+        "totalTokens": 15035,
+        "reasoningTokens": 8957,
+        "durationMs": 102573,
+        "estimatedCostEuro": 0,
+        "pricedReceipts": 0,
+        "fallbacks": 0,
+        "toolAllows": 0,
+        "toolDenies": 0,
+        "toolHumanRequired": 0,
+        "providers": {
+          "deepseek": 15035
+        },
+        "agents": {
+          "structure": 15035
+        },
+        "orchestras": {}
+      },
+      "receiptCount": 1,
+      "previousRunHash": "",
+      "runHash": "",
+      "counted": false
     }
   ],
   "lifetime": {
