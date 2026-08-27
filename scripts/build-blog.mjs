@@ -6,7 +6,7 @@ import { normalizeSources as normalizeContentSources, normalizeClaims as normali
 import { createPublicCoreView } from '../server/public-core.js';
 import { createReleaseProvenance } from '../server/release-provenance.js';
 
-const ROOT = process.cwd();
+const ROOT = path.resolve(process.cwd());
 const SITE = String(process.env.PUBLIC_SITE_URL || 'https://anomancer.com').replace(/\/$/,'');
 const ENTITY = JSON.parse(fs.readFileSync(path.join(ROOT,'entity-core.json'),'utf8'));
 const DISCOVERY = JSON.parse(fs.readFileSync(path.join(ROOT,'discovery-policy.json'),'utf8'));
@@ -73,6 +73,10 @@ function escAttr(s='') { return esc(s).replace(/'/g, '&#39;'); }
 function slugify(s='') {
   return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,90);
 }
+function projectPath(rel=''){
+  const raw=String(rel);if(!raw||raw.includes('\0')||raw.includes('\\')||path.isAbsolute(raw))throw new Error(`Turvaton build-polku: ${raw||'(tyhjä)'}`);
+  const target=path.resolve(ROOT,raw),prefix=`${ROOT}${path.sep}`;if(target===ROOT||!target.startsWith(prefix))throw new Error(`Build-polku poistuu projektista: ${raw}`);return target;
+}
 function parseScalar(raw) {
   const s = raw.trim();
   if (s === 'true') return true;
@@ -102,7 +106,7 @@ function parsePost(file, lang) {
     data[line.slice(0,i).trim()] = parseScalar(line.slice(i+1));
   }
   data.lang = data.lang || lang;
-  data.slug = data.slug || slugify(data.title);
+  data.slug = String(data.slug || slugify(data.title)).trim();
   data.category = normalizeCategory(data.category);
   data.audience = normalizeAudience(data.audience);
   data.audienceDepth = normalizeAudienceDepth(data.audienceDepth);
@@ -117,6 +121,7 @@ function parsePost(file, lang) {
   data.draft = Boolean(data.draft);
   data.translationKey = data.translationKey || data.slug;
   for (const req of ['title','date','slug','lang']) if (!data[req]) throw new Error(`${file}: ${req} puuttuu`);
+  if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(data.slug)||data.slug.length>90)throw new Error(`${file}: slug on virheellinen`);
   if(!data.draft&&!data.description) throw new Error(`${file}: description puuttuu julkaistusta tekstistä`);
   if(!data.draft&&data.sources.some(source=>source.verification!=='verified')) throw new Error(`${file}: julkaistussa tekstissä on tarkistamaton lähde`);
   if(!data.draft){const verified=new Set(data.sources.filter(source=>source.verification==='verified').map(source=>source.url));for(const claim of data.claims){if(claim.status==='supported'&&!claim.evidence.some(url=>verified.has(url)))throw new Error(`${file}: tuettu väite ei nojaa tarkistettuun lähteeseen`);}}
@@ -142,7 +147,7 @@ function inline(md) {
   let s = esc(md);
   const code = [];
   s = s.replace(/`([^`]+)`/g, (_,x)=>`@@CODE${code.push(`<code>${x}</code>`)-1}@@`);
-  s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]*)\)/g, (_,label,url)=>`<a href="${escAttr(url)}">${label}</a>`);
+  s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]*)\)/g, (_,label,url)=>`<a href="${escAttr(decodeHtmlAttr(url))}">${label}</a>`);
   s = s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
   s = s.replace(/__([^_]+)__/g,'<strong>$1</strong>');
   s = s.replace(/(^|[^*])\*([^*]+)\*/g,'$1<em>$2</em>');
@@ -202,7 +207,7 @@ function personNode(){
 }
 function websiteNode(){ return {'@type':'WebSite','@id':WEBSITE_ID,url:`${SITE}/`,name:SITE_NAME,inLanguage:['fi','en'],publisher:{'@id':PERSON_ID},creator:{'@id':PERSON_ID}}; }
 function webpageNode({url,name,description,lang}){ return {'@type':'WebPage','@id':`${url}#webpage`,url,name,description,inLanguage:lang,isPartOf:{'@id':WEBSITE_ID},about:{'@id':PERSON_ID}}; }
-function graphJson(nodes){ return JSON.stringify({'@context':'https://schema.org','@graph':nodes},null,2); }
+function graphJson(nodes){ return JSON.stringify({'@context':'https://schema.org','@graph':nodes},null,2).replace(/[<>&\u2028\u2029]/g,char=>`\\u${char.charCodeAt(0).toString(16).padStart(4,'0')}`); }
 function pageHead({lang,title,description,url,type='website',alternates=[],jsonLd='',rss='',image='',published='',modified=''}) {
   const locale=lang==='fi'?'fi_FI':'en_US';
   const altLocale=lang==='fi'?'en_US':'fi_FI';
@@ -340,7 +345,7 @@ function sitemap(posts){ const urls=[['/',null],['/en',null],['/core',null],['/e
 function decodeHtmlAttr(s=''){ return String(s).replace(/&#x27;|&#39;/gi,"'").replace(/&quot;/gi,'\"').replace(/&amp;/gi,'&').replace(/&lt;/gi,'<').replace(/&gt;/gi,'>'); }
 function staticHomeJsonLd(lang,title,description,url){ return graphJson([websiteNode(),personNode(),webpageNode({url,name:title,description,lang})]); }
 function syncStaticHome(rel,lang){
-  const file=path.join(ROOT,rel);
+  const file=projectPath(rel);
   if(!fs.existsSync(file)) return;
   let html=fs.readFileSync(file,'utf8');
   const url=lang==='fi'?`${SITE}/`:`${SITE}/en`;
@@ -357,7 +362,7 @@ function syncStaticHome(rel,lang){
   fs.writeFileSync(file,html);
 }
 function ensureDir(p){ fs.mkdirSync(p,{recursive:true}); }
-function write(rel,data){ const target=path.join(ROOT,rel); ensureDir(path.dirname(target)); fs.writeFileSync(target,data); }
+function write(rel,data){ const target=projectPath(rel); ensureDir(path.dirname(target)); fs.writeFileSync(target,data); }
 
 syncStaticHome('index.html','fi');
 syncStaticHome('en.html','en');
@@ -398,7 +403,7 @@ fs.rmSync(PUBLIC, { recursive:true, force:true });
 ensureDir(PUBLIC);
 const publicFiles = [
   'index.html','en.html','core.html','lahetykset.html','dispatches.html','admin.html',
-  'ui-tokens.css','styles.css','core.css','admin.css','admin-control-plane.css','admin.js','admin-workspaces.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-orchestrator.js','favicon.svg',
+  'ui-tokens.css','styles.css','core.css','admin.css','admin-control-plane.css','admin.js','admin-workspaces.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-machine-room.js','admin-orchestrator.js','favicon.svg',
   'site.js','core-public.js','core-public.json','release-provenance.json',
   'robots.txt','sitemap.xml','rss.xml','rss-en.xml','content-manifest.json','evidence-manifest.json','llms.txt','discovery-manifest.json'
 ];
@@ -421,10 +426,10 @@ console.log(`✓ Vercel public-output: ${PUBLIC}`);
 
 if (process.argv.includes('--check')) {
   for (const p of posts.filter(p=>!p.draft)) {
-    const out=path.join(ROOT,copy[p.lang].articleBase.slice(1),`${p.slug}.html`);
+    const out=projectPath(`${copy[p.lang].articleBase.slice(1)}/${p.slug}.html`);
     if(!fs.existsSync(out)) throw new Error(`Build puuttuu: ${out}`);
     const refs=[p.coverImage,...[...p.body.matchAll(/!\[[^\]]*\]\((\/media\/[^\s)]+)(?:\s+"[^"]*")?\)/g)].map(m=>m[1])].filter(Boolean);
-    for(const ref of refs){const src=path.join(ROOT,ref.replace(/^\//,''));if(!fs.existsSync(src))throw new Error(`Media puuttuu: ${ref} (${p.title})`);}
+    for(const ref of refs){const src=projectPath(ref.replace(/^\//,''));if(!fs.existsSync(src))throw new Error(`Media puuttuu: ${ref} (${p.title})`);}
   }
   console.log('✓ Content + media check OK');
 }

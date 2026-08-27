@@ -181,3 +181,136 @@ body.library-open .sidebar-backdrop{opacity:1;pointer-events:auto}
 
 /* 16.2 · Evidence presentation + deterministic charts */
 .citation-mode{border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:8px}.citation-mode legend{padding:0 6px;font-weight:700}.citation-mode label{display:flex;align-items:flex-start;gap:10px;padding:10px;border-radius:10px;background:rgba(255,255,255,.025)}.citation-mode label span{display:grid;gap:2px}.citation-mode small,.citation-status{color:var(--muted)}.citation-status{font-size:.9rem;padding:4px 2px}.visualization-editor{display:grid;gap:12px;margin-top:8px}.visualization-review{display:grid;gap:12px}.visualization-card{border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:10px;background:rgba(255,255,255,.02)}.visualization-card svg,.preview-chart svg{width:100%;height:auto;max-height:260px;color:var(--accent)}.visualization-card svg text,.preview-chart svg text{fill:currentColor;font-size:12px}.preview-chart{border:1px solid var(--line);border-radius:14px;padding:14px;margin:20px 0}.agent-visual article[data-chart]{overflow:hidden}
+
+/* 16.3.2 · Mobile command surface
+   Phone UI is a purpose-built workspace, not a squeezed desktop shell. */
+.mobile-dock,.mobile-ui-backdrop,.mobile-quick-actions,.mobile-preview-close{display:none}
+.preview-head-actions{display:flex;align-items:center;gap:8px}
+
+@media(max-width:760px){
+  :root{--mobile-dock-h:62px;--mobile-safe-bottom:env(safe-area-inset-bottom,0px)}
+  html{scroll-padding-bottom:calc(var(--mobile-dock-h) + 18px)}
+  body{overflow-x:hidden}
+  .app{padding-bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom))}
+  body.library-open,body.mobile-more-open,body.mobile-preview-open{overflow:hidden}
+
+  /* Compact header. Desktop controls become a bottom sheet behind “Lisää”. */
+  .topbar{min-height:54px;display:flex;align-items:center;gap:8px;padding:8px 12px;position:sticky;top:0;z-index:20}
+  .editor-title{width:100%;min-width:0;gap:0}
+  .editor-title>.sidebar-toggle{display:none}
+  .editor-title>div{min-width:0;display:grid;gap:2px}
+  .editor-title .kicker{font-size:.58rem;letter-spacing:.14em}
+  .editor-title strong{display:block;max-width:calc(100vw - 32px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.86rem}
+
+  .top-actions{display:none;position:fixed;z-index:72;left:10px;right:10px;bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom) + 8px);max-height:min(72dvh,620px);overflow:auto;padding:14px;border:1px solid #3a3a46;border-radius:16px;background:rgba(10,10,16,.985);box-shadow:0 -22px 70px rgba(0,0,0,.7);backdrop-filter:blur(20px)}
+  body.mobile-more-open .top-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;align-items:stretch}
+  .mobile-quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;grid-column:1/-1;padding-bottom:12px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+  .mobile-quick-actions button{min-height:44px;padding:9px 10px}
+  .workspace-switcher{grid-column:1/-1;width:100%;min-width:0}
+  .workspace-switcher select{min-height:44px;width:100%}
+  .top-actions>.layout-menu{grid-column:1/-1;justify-self:stretch}
+  .layout-menu>summary{justify-content:center;width:100%;min-height:44px}
+  .top-actions>a,.top-actions>button{display:flex;align-items:center;justify-content:center;min-height:44px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:9px 10px}
+  .top-actions>a{background:#111119}
+  .layout-popover{position:static;width:100%;max-height:none;margin-top:8px;box-shadow:none}
+  .layout-popover label:not(.layout-check):nth-of-type(-n+2){display:none}
+  .layout-popover-head span{display:none}
+
+  /* The content gets the vertical real estate back. */
+  .form-panel{padding:12px 12px 26px}
+  .editor-grid{display:block;min-height:0}
+  .meta-grid{gap:10px}
+  .meta-grid label{font-size:.76rem}
+  .meta-grid input,.meta-grid select,.meta-grid textarea,.body-editor{min-height:44px;padding:10px 11px}
+  .public-url-box{margin-top:10px;padding:9px 10px;gap:8px;border-radius:8px}
+  .public-url-label{font-size:.62rem}
+  .public-url-hint{display:none}
+  .public-url-copy code{font-size:.7rem;line-height:1.35;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+  .public-open{padding:8px 10px}
+
+  /* Tabs move to the thumb dock. */
+  .editor-tabs{display:none}
+  .editor-panel{padding-top:8px}
+  .body-head{margin:6px 0 7px}
+  .body-editor{min-height:58dvh;max-height:none;font-size:16px;line-height:1.55;resize:vertical}
+  .media-toolbar{display:grid;grid-template-columns:1fr;margin-bottom:6px}
+  .media-toolbar span{display:none}
+  .media-toolbar button{width:100%;min-height:42px}
+
+  /* Existing sticky publish rail would fight the new dock. */
+  .actions{position:static;margin:18px 0 0;padding:0;border:0;background:transparent;backdrop-filter:none}
+  .actions>#saveDraftBtn,.actions>#publishBtn{display:none}
+  .actions>.danger{width:100%;margin-left:0;min-height:44px}
+  .status{margin:8px 2px 0;padding-bottom:4px}
+
+  /* Phone drawer: full-height, generous hit targets, no 340px squeeze. */
+  .sidebar{z-index:74;width:min(92vw,390px);height:100dvh;padding:14px 12px calc(18px + var(--mobile-safe-bottom));border-bottom:0}
+  .side-head{position:sticky;top:-14px;z-index:2;margin:-14px -12px 0;padding:14px 12px 10px;background:rgba(7,7,12,.98);backdrop-filter:blur(14px)}
+  .sidebar-close{display:inline-flex;width:42px;height:42px;padding:0;font-size:1.35rem}
+  .side-actions #newBtn{min-height:42px}
+  .filters{position:sticky;top:62px;z-index:2;margin:0 -12px 10px;padding:8px 12px;background:rgba(7,7,12,.98)}
+  .filters button{min-height:38px;flex:1}
+  .post-list{gap:7px;padding-bottom:30px}
+  .post-item{min-height:58px;padding:11px}
+  .post-item strong{font-size:.88rem}
+  .post-item span{font-size:.66rem;line-height:1.35}
+  .sidebar-backdrop{z-index:73}
+
+  /* Bottom navigation. Thin, safe-area aware and always thumb-reachable. */
+  .mobile-dock{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;z-index:80;left:0;right:0;bottom:0;height:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom));padding:4px 6px calc(4px + var(--mobile-safe-bottom));border-top:1px solid rgba(255,255,255,.1);background:rgba(5,5,10,.965);box-shadow:0 -12px 32px rgba(0,0,0,.46);backdrop-filter:blur(18px)}
+  .mobile-dock button{min-width:0;min-height:52px;display:grid;place-items:center;align-content:center;gap:2px;padding:4px 2px;border:0;border-radius:9px;background:transparent;color:#96919e}
+  .mobile-dock button>span{font:800 1rem/1 ui-sans-serif,system-ui,sans-serif}
+  .mobile-dock button>small{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.56rem;font-weight:750;letter-spacing:.01em}
+  .mobile-dock button.active,.mobile-dock button[aria-expanded="true"]{color:#fff;background:rgba(255,22,61,.1);box-shadow:inset 0 0 0 1px rgba(255,88,116,.22)}
+  .mobile-dock button.active>span,.mobile-dock button[aria-expanded="true"]>span{color:#ff6a83}
+
+  .mobile-ui-backdrop{display:block;position:fixed;z-index:70;inset:0 0 calc(var(--mobile-dock-h) + var(--mobile-safe-bottom)) 0;border:0;border-radius:0;padding:0;background:rgba(0,0,0,.56);opacity:0;pointer-events:none;backdrop-filter:blur(2px);transition:opacity .16s ease}
+  body.mobile-more-open .mobile-ui-backdrop,body.mobile-preview-open .mobile-ui-backdrop{opacity:1;pointer-events:auto}
+
+  /* Preview is an actual mobile view instead of another giant panel under the editor. */
+  .preview-panel{display:none;position:fixed;z-index:76;inset:8px 8px calc(var(--mobile-dock-h) + var(--mobile-safe-bottom) + 8px);max-height:none;border:1px solid #33333f;border-radius:16px;background:#08080d;box-shadow:0 24px 90px #000;overflow:hidden}
+  body.mobile-preview-open .preview-panel{display:flex}
+  .preview-head{flex:0 0 auto;padding:10px 12px}
+  .preview-head-actions{gap:7px}
+  .mobile-preview-close{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;padding:0;font-size:1.2rem}
+  .preview{flex:1;min-height:0;max-height:none;padding:22px 16px 40px;overscroll-behavior:contain}
+  .preview h1{font-size:clamp(1.8rem,9vw,2.6rem)}
+
+  /* Dense subsystems get single-column mobile ergonomics. */
+  .advanced-grid,.agent-controls,.orchestra-select-row,.core-runtime-controls,.core-agent-contract-grid,.core-run-filters,.core-run-detail-grid{grid-template-columns:1fr!important}
+  .agent-desk,.orchestra-desk,.machine-room,.core-section{border-radius:10px}
+  .agent-desk,.orchestra-desk{padding:12px}
+  .agent-desk-head,.orchestra-head,.evidence-editor-head{gap:8px}
+  .agent-desk-head h3,.orchestra-head h3{font-size:1rem}
+  .agent-model-status,.orchestra-lock{font-size:.58rem;line-height:1.3}
+  .agent-rule,.orchestra-rule,.machine-room-rule{font-size:.66rem;line-height:1.45}
+  .agent-actions,.orchestra-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .agent-actions button,.orchestra-actions button{width:100%;min-height:44px}
+  .orchestra-actions .orchestra-run{grid-column:1/-1}
+  .orchestra-terminal{height:150px;font-size:.65rem}
+  .machine-room{padding:10px}
+  .machine-room-rule{display:none}
+  .machine-room-stage{min-height:64px}
+  .machine-room-log{margin-top:6px}
+  .core-panel{padding-bottom:10px}
+  .core-hero{padding:14px}
+  .core-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .core-metrics article{min-width:0;padding:10px}
+  .core-metrics strong{overflow-wrap:anywhere}
+  .core-section{padding:12px}
+  .core-section-head{gap:8px}
+  .core-section-actions{width:100%}
+  .core-section-actions button{width:100%;min-height:42px}
+
+  dialog{width:calc(100vw - 16px);max-width:none;max-block-size:calc(100dvh - var(--mobile-dock-h) - 22px);margin:8px auto calc(var(--mobile-dock-h) + 8px);padding:14px;border-radius:14px}
+  .publish-dialog .dialog-actions{display:grid;grid-template-columns:1fr;gap:8px}
+  .publish-dialog .dialog-actions button{width:100%;min-height:46px}
+}
+
+@media(max-width:390px){
+  .mobile-dock button>small{font-size:.52rem}
+  .form-panel{padding-inline:10px}
+  .agent-actions,.orchestra-actions{grid-template-columns:1fr}
+  .orchestra-actions .orchestra-run{grid-column:auto}
+  .core-metrics{grid-template-columns:1fr 1fr}
+}

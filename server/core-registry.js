@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-export const CORE_VERSION='16.2.0';
+export const CORE_VERSION='16.3.0';
 export const AGENT_CONTRACT_FORMAT='anomancer-agent/v1';
 export const ORCHESTRA_FORMAT='anomancer-orchestra/v2';
 export const CUSTOM_ORCHESTRA_FORMAT='anomancer-custom-orchestra/v1';
@@ -11,6 +11,7 @@ export const MODEL_ROUTER_FORMAT='anomancer-model-router/v1';
 export const MODEL_ROUTE_FORMAT='anomancer-model-route/v1';
 
 const clone=value=>JSON.parse(JSON.stringify(value));
+const deepFreeze=value=>{if(!value||typeof value!=='object'||Object.isFrozen(value))return value;for(const child of Object.values(value))deepFreeze(child);return Object.freeze(value);};
 const stable=value=>{
   if(Array.isArray(value)) return `[${value.map(stable).join(',')}]`;
   if(value&&typeof value==='object') return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${stable(value[key])}`).join(',')}}`;
@@ -24,8 +25,8 @@ const RAW_MODEL_ROUTES=[
   {id:'writer',label:'Writer route',defaultTarget:'deepseek.writer',allowedTargets:['deepseek.writer','openai.writer','anthropic.writer','gemini.writer'],requires:['json']},
   {id:'critic',label:'Critic route',defaultTarget:'deepseek.critic',allowedTargets:['deepseek.critic','openai.critic','anthropic.critic','gemini.critic'],requires:['json']}
 ];
-function finalizeModelRoute(input){const route={format:MODEL_ROUTE_FORMAT,coreVersion:CORE_VERSION,...clone(input)};route.routeHash=digest(route);return Object.freeze(route);}
-export const MODEL_ROUTE_REGISTRY=Object.freeze(RAW_MODEL_ROUTES.map(finalizeModelRoute));
+function finalizeModelRoute(input){const route={format:MODEL_ROUTE_FORMAT,coreVersion:CORE_VERSION,...clone(input)};route.routeHash=digest(route);return deepFreeze(route);}
+export const MODEL_ROUTE_REGISTRY=deepFreeze(RAW_MODEL_ROUTES.map(finalizeModelRoute));
 const MODEL_ROUTE_MAP=new Map(MODEL_ROUTE_REGISTRY.map(route=>[route.id,route]));
 
 const RAW_AGENTS=[
@@ -108,9 +109,9 @@ const RAW_TOOLS=[
 function finalizeTool(input){
   const tool={format:'anomancer-tool/v1',coreVersion:CORE_VERSION,...clone(input)};
   tool.toolHash=digest(tool);
-  return Object.freeze(tool);
+  return deepFreeze(tool);
 }
-export const TOOL_REGISTRY=Object.freeze(RAW_TOOLS.map(finalizeTool));
+export const TOOL_REGISTRY=deepFreeze(RAW_TOOLS.map(finalizeTool));
 const TOOL_MAP=new Map(TOOL_REGISTRY.map(tool=>[tool.id,tool]));
 
 function finalizeAgent(input){
@@ -129,9 +130,9 @@ function finalizeAgent(input){
   };
   const hashable=clone(contract);delete hashable.coreVersion;delete hashable.contractHash;
   contract.contractHash=digest(hashable);
-  return Object.freeze(contract);
+  return deepFreeze(contract);
 }
-export const AGENT_REGISTRY=Object.freeze(RAW_AGENTS.map(finalizeAgent));
+export const AGENT_REGISTRY=deepFreeze(RAW_AGENTS.map(finalizeAgent));
 const AGENT_MAP=new Map(AGENT_REGISTRY.map(agent=>[agent.id,agent]));
 
 const RAW_ORCHESTRAS=[{
@@ -149,9 +150,9 @@ function finalizeOrchestra(input){
   const steps=(input.steps||[]).map((step,index)=>({id:String(step.id||`step-${String(index+1).padStart(2,'0')}`),mode:step.mode==='parallel'?'parallel':'sequential',agents:[...(step.agents||[])]}));
   const orchestra={format:ORCHESTRA_FORMAT,coreVersion:CORE_VERSION,...clone(input),steps,stages:flattenSteps(steps),humanFinalAuthority:true};
   const hashable=clone(orchestra);delete hashable.coreVersion;delete hashable.orchestraHash;orchestra.orchestraHash=digest(hashable);
-  return Object.freeze(orchestra);
+  return deepFreeze(orchestra);
 }
-export const ORCHESTRA_REGISTRY=Object.freeze(RAW_ORCHESTRAS.map(finalizeOrchestra));
+export const ORCHESTRA_REGISTRY=deepFreeze(RAW_ORCHESTRAS.map(finalizeOrchestra));
 const ORCHESTRA_MAP=new Map(ORCHESTRA_REGISTRY.map(item=>[item.id,item]));
 
 function validateRegistry(){
@@ -212,8 +213,10 @@ export function normalizeOrchestraDefinition(input={},options={}){
   const hashable=clone(normalized);delete hashable.coreVersion;delete hashable.orchestraHash;delete hashable.updatedAt;delete hashable.createdAt;normalized.orchestraHash=digest(hashable);
   return normalized;
 }
-export function validateOrchestraDefinition(input={}){
-  const orchestra=normalizeOrchestraDefinition(input,{custom:input?.source!=='built-in'}),errors=[];
+export function validateOrchestraDefinition(input={},options={}){
+  const builtInCandidate=normalizeOrchestraDefinition(input,{custom:false}),registered=ORCHESTRA_MAP.get(builtInCandidate.id);
+  const exactBuiltIn=Boolean(registered&&input?.source==='built-in'&&builtInCandidate.orchestraHash===registered.orchestraHash);
+  const orchestra=normalizeOrchestraDefinition(input,{custom:typeof options.custom==='boolean'?options.custom:!exactBuiltIn}),errors=[];
   if(!orchestra.steps.length)errors.push({code:'ORCHESTRA_EMPTY',message:'Orkesterissa pitää olla vähintään yksi vaihe.'});
   const all=[];
   for(const [index,step] of orchestra.steps.entries()){

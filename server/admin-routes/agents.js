@@ -82,11 +82,10 @@ export default async function handler(req,res){
     const abortController=new AbortController();
     const abort=()=>abortController.abort();
     req.once?.('aborted',abort);
-    const response=await routeAgentJson({
+    let response;try{response=await routeAgentJson({
       contract,runtime,system,user,schema:agent==='source'?SOURCE_SCHEMA:null,
       maxTokens:runtime.maxOutputTokens,thinking:!['voice'].includes(agent),webSearch:agent==='source',signal:abortController.signal
-    });
-    req.removeListener?.('aborted',abort);
+    });}finally{req.removeListener?.('aborted',abort);}
     const result=validateAgentResult(agent,response.result,post);
     const receipt=createRunReceipt({contract,runtime,post,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId,orchestra:snapshotOrchestra,workspace:workspace,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
     let runPersistence={stored:false,error:null};

@@ -1,3 +1,5 @@
+import { assertEditorialPublishQuality } from './editorial-quality.js';
+
 export const CATEGORIES = ['ai-work','info-media','work-decisions','money-risk','software-safety','language-learning','creativity-tools','society-systems'];
 export const AUDIENCES = ['all','employee','entrepreneur','developer','teacher','creative','decision-maker','investor'];
 export const AUDIENCE_DEPTHS = ['plain','general','professional','technical'];
@@ -162,6 +164,11 @@ export function slugify(s='') {
   return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,90);
 }
 
+function validMediaPath(value=''){
+  const raw=String(value||'').trim();if(!raw.startsWith('/media/')||raw.includes('\\')||raw.includes('\0'))return false;
+  const parts=raw.slice('/media/'.length).split('/');return Boolean(parts.length&&parts.every(part=>part&&part!=='.'&&part!=='..'&&/^[A-Za-z0-9._-]+$/.test(part)));
+}
+
 function parseScalar(raw) {
   const s = raw.trim();
   if (s === 'true') return true;
@@ -250,9 +257,10 @@ export function validatePost(input,{forPublish=!Boolean(input?.draft)}={}) {
       if (!claim.evidence.some(url=>verified.has(url))) throw Object.assign(new Error('Tuetulla väitteellä pitää olla vähintään yksi ihmisen tarkistama lähde.'), { statusCode:400, code:'CLAIM_SOURCE_NOT_VERIFIED' });
     }
   }
-  if (coverImage && !/^\/media\/[A-Za-z0-9._\/-]+$/.test(coverImage)) throw Object.assign(new Error('Kansikuvan polku on virheellinen.'), { statusCode:400 });
+  if (coverImage && !validMediaPath(coverImage)) throw Object.assign(new Error('Kansikuvan polku on virheellinen.'), { statusCode:400 });
   if (coverImage && !coverAlt) throw Object.assign(new Error('Kansikuvalta puuttuu alt-teksti.'), { statusCode:400 });
   if (coverAlt.length > 180) throw Object.assign(new Error('Kansikuvan alt-teksti on liian pitkä (max 180 merkkiä).'), { statusCode:400 });
+  if (forPublish) assertEditorialPublishQuality({lang,title,body});
   return { lang,title,date,category,audience,audienceDepth,description,slug,translationKey,aliases,coverImage,coverAlt,answer,sources,claims,citationMode,citationPlacements,visualizations,pinned,draft,body };
 }
 

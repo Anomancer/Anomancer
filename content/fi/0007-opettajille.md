@@ -20,7 +20,7 @@ draft: false
 
 >Onko oppilas, joka sanoo vihaavansa matematiikkaa, oikeasti pettynyt aiheeseen – vai siihen, miten aihe tulee vastaan? Tämä kysymys on seurannut minua siitä lähtien, kun aloin seurata opettajaveljeäni työssään.
 
-Minulla on isoveli, joka on opettaja. Arvostan häntä ennen kaikkea siksi, että hän lähestyy oppilasta ennen oppiainetta. Hän ei oleta, että samaan asiaan pitää päästä sisälle samaa reittiä. Kun aihe ei avaudu, hän vaihtaa näkökulmaa: lukee ääneen, piirtää, keksii vertauksen tai etsii esimerkin, joka tekee asiasta edes vähän todellisen. Se ei ole hänellä mikään hieno pedagoginen termi, vaan tapa olla.
+Minulla on isoveli, joka on opettaja. Arvostan häntä ennen kaikkea siksi, että hän lähestyy oppilasta ennen oppiainetta. Hän ei oleta, että samaan asiaan pitää päästä sisälle samaa reittiä. Kun aihe ei avaudu, hän vaihtaa näkökulmaa: lukee ääneen, piirtää, keksii vertauksen tai etsii esimerkin, joka tekee asiasta edes vähän todellisen. Hänelle se on tapa olla, ei hieno pedagoginen termi.
 
 ## Mistä tässä on kysymys: kyvyt eivät jakaudu siisteihin riveihin
 
@@ -34,7 +34,7 @@ Epätasainen kykyprofiili ei kuitenkaan yksiselitteisesti kerro, että oppimista
 
 Ulospäin kaksi tilannetta voivat näyttää samalta: oppilas ei tee tehtävää. Taustalla voi kuitenkin olla monta eri asiaa. Joskus kiinnostus puuttuu kokonaan. Joskus kiinnostukseen ei ole vielä löytynyt yhteyttä – ja silloin kiinnostuksen puute on usein seuraus, ei syy. Joskus kyse on väsymyksestä, ryhmäpaineesta, elämäntilanteesta tai oppimisvaikeudesta, joka tarvitsee tukea.
 
-Nämä eivät ole toistensa vastakohtia, vaan jatkumo. Siksi opettajan ensimmäinen tehtävä ei ole päättää, kumpi vaihtoehto on kyseessä, vaan pitää tulkinta avoimena ja etsiä lisää tietoa.
+Nämä muodostavat jatkumon. Opettajan ensimmäinen tehtävä on pitää tulkinta avoimena ja etsiä lisää tietoa ennen johtopäätöstä.
 
 Kun ihminen ei löydä yhteyttä aiheeseen, hän ei välttämättä ole kyvytön – hän voi olla väärällä ovella. Jos sisäänkäynti asiaan on väärässä paikassa, ihminen voi viettää vuosia luullen, ettei rakennus kiinnosta häntä. Vaikka hän ei vain ole koskaan löytänyt ovea.
 
@@ -42,15 +42,15 @@ Tämä ei tarkoita, etteikö todellisia oppimisvaikeuksia olisi olemassa. Esimer
 
 ## Käyttöliittymäongelma vai kykyongelma?
 
-Käytän tarkoituksella metaforaa: oppilaan ”heikkous” voi joskus olla enemmän käyttöliittymäongelma kuin kykyongelma. Ongelma ei välttämättä ole oppijan päässä, vaan siinä, miten asia tuodaan hänen luokseen.
+Käytän tarkoituksella metaforaa: oppilaan ”heikkous” voi joskus olla enemmän käyttöliittymäongelma kuin kykyongelma. Vaikeus voi syntyä tavasta, jolla asia tuodaan oppijan luokse.
 
 Metaforalla on rajansa. Se ei sovi kaikkiin oppimisvaikeuksiin eikä se saa kieltää neurokognitiivista taustaa. Mutta jos selitys ei kohtaa juuri tätä oppilasta, rohkeus kokeilla toista ovea on taito, jota voi harjoitella.
 
-Tunnistan tämän itsessäni. Vihasin pitkään matematiikkaa ja pidin monia teknisiä asioita vieraina. Olisin voinut päätellä, ettei ala vain kiinnosta minua. Viime vuosina käsitykseni on muuttunut – mutta muutos ei tapahtunut siksi, että olisin yhtäkkiä alkanut yrittää kovemmin, vaan siksi, että löysin toisen tavan lähestyä asiaa.
+Tunnistan tämän itsessäni. Vihasin pitkään matematiikkaa ja pidin monia teknisiä asioita vieraina. Olisin voinut päätellä, ettei ala vain kiinnosta minua. Viime vuosina käsitykseni muuttui, kun löysin toisen tavan lähestyä asiaa. Kovempi yrittäminen ei ollut ratkaiseva muutos.
 
 ## Vahvuus siltana vaikeaan asiaan
 
-Tällaista ajattelua voi kutsua vahvuusperustaiseksi, mutta tärkeintä on suunta: ei tehdä jokaisesta asiasta viihdettä eikä rakentaa jokaiselle oppilaalle omaa opetussuunnitelmaa, vaan selvittää, **minkä kautta tämä ihminen pääsee tähän asiaan sisälle**.
+Tällaista ajattelua voi kutsua vahvuusperustaiseksi, mutta tärkeintä on suunta: selvitetään, **minkä kautta tämä ihminen pääsee asiaan sisälle**. Jokaisesta aiheesta ei tarvitse tehdä viihdettä eikä jokaiselle oppilaalle rakentaa omaa opetussuunnitelmaa.
 
 Vahvuus ei ole vain ”kiva juttu” tai harrastus. Se on tapa ajatella ja selittää. Oppilas, joka on tottunut ratkomaan ongelmia tietokoneen kanssa, voi päästä matematiikkaan kiinni vaikkapa algoritmisten ongelmien kautta. Oppilas, joka ajattelee kuvina, voi hahmottaa kirjoittamisen rakenteen piirtämällä. Historiaa rakastava voi kohdata fysiikan jonkin keksinnön tai keksijän kautta.
 

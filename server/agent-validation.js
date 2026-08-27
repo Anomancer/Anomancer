@@ -1,5 +1,6 @@
 import { AUDIENCE_DEPTHS, CATEGORIES } from './agent-prompts.js';
 import { stableSourceId, approvedEvidenceUrls, normalizeCitationPlacements, normalizeVisualizations } from './content.js';
+import { editorialQualityWarnings } from './editorial-quality.js';
 
 const CLAIM_STATUSES=new Set(['supported','interpretation','open']);
 const SEVERITIES=new Set(['high','medium','low']);
@@ -8,6 +9,7 @@ const text=(value,max=10_000)=>String(value??'').trim().slice(0,max);
 const list=(value,max=20)=>Array.isArray(value)?value.slice(0,max):[];
 const strings=(value,max=20,itemMax=600)=>list(value,max).map(x=>text(x,itemMax)).filter(Boolean);
 const url=value=>{try{const parsed=new URL(String(value||''));return ['http:','https:'].includes(parsed.protocol)?parsed.href:'';}catch{return '';}};
+const qualityWarnings=(body,post,title=post.title)=>editorialQualityWarnings({lang:post.lang,title,body}).slice(0,12);
 
 function normalizeClaims(value,post){
   const sources=new Map((post.sources||[]).map(source=>[url(source.url),source]));
@@ -56,14 +58,14 @@ export function validateAgentResult(agent,value,post){
     outline:list(raw.outline,16).map(item=>({heading:text(object(item).heading,180),purpose:text(object(item).purpose,700)})).filter(x=>x.heading),
     closing:text(raw.closing,1500),notes:strings(raw.notes,12,700),
   };
-  if(agent==='writer') return {body:text(raw.body,500_000),titleSuggestions:strings(raw.titleSuggestions,8,180),description:text(raw.description,220),answer:text(raw.answer,1200),notes:strings(raw.notes,12,700)};
+  if(agent==='writer') {const body=text(raw.body,500_000);return {body,titleSuggestions:strings(raw.titleSuggestions,8,180),description:text(raw.description,220),answer:text(raw.answer,1200),notes:[...strings(raw.notes,12,700),...qualityWarnings(body,post)].slice(0,20)};}
   if(agent==='critic') return {
     verdict:text(raw.verdict,1800),
     issues:list(raw.issues,30).map(item=>{const v=object(item);return {severity:SEVERITIES.has(v.severity)?v.severity:'medium',type:text(v.type,120),excerpt:text(v.excerpt,500),problem:text(v.problem,900),fix:text(v.fix,900)};}).filter(x=>x.problem),
     strengths:strings(raw.strengths,16,700),questions:strings(raw.questions,16,700),
   };
-  if(agent==='audience') return {body:text(raw.body,500_000),adaptationSummary:strings(raw.adaptationSummary,20,700),audienceFit:text(raw.audienceFit,1200),preservedCore:strings(raw.preservedCore,20,700),warnings:strings(raw.warnings,20,700)};
-  if(agent==='voice') return {body:text(raw.body,500_000),changes:strings(raw.changes,30,700),warnings:strings(raw.warnings,20,700)};
+  if(agent==='audience') {const body=text(raw.body,500_000);return {body,adaptationSummary:strings(raw.adaptationSummary,20,700),audienceFit:text(raw.audienceFit,1200),preservedCore:strings(raw.preservedCore,20,700),warnings:[...strings(raw.warnings,20,700),...qualityWarnings(body,post)].slice(0,28)};}
+  if(agent==='voice') {const body=text(raw.body,500_000);return {body,changes:strings(raw.changes,30,700),warnings:[...strings(raw.warnings,20,700),...qualityWarnings(body,post)].slice(0,28)};}
   if(agent==='visualization') return {summary:text(raw.summary,1200),charts:normalizeVisualizations(raw.charts,{sources:post.sources,claims:post.claims,body:post.body}),warnings:strings(raw.warnings,20,700)};
   if(agent==='package'){
     const category=CATEGORIES.includes(raw.category)?raw.category:post.category;
@@ -73,9 +75,10 @@ export function validateAgentResult(agent,value,post){
     const claims=normalizeClaims(post.claims,post);
     const audience=Array.isArray(post.audience)&&post.audience.length?[...post.audience]:['all'];
     const audienceDepth=AUDIENCE_DEPTHS.includes(post.audienceDepth)?post.audienceDepth:'general';
+    const title=text(raw.title||post.title,180);
     return {
-      title:text(raw.title||post.title,180),description:text(raw.description||post.description,220),slug:text(raw.slug||post.slug,100),answer:text(raw.answer||post.answer,1200),category,
-      audience,audienceDepth,claims,sources,citationPlacements:normalizeCitationPlacements(raw.citationPlacements,{sources,claims,body:post.body}),notes:strings(raw.notes,20,700),
+      title,description:text(raw.description||post.description,220),slug:text(raw.slug||post.slug,100),answer:text(raw.answer||post.answer,1200),category,
+      audience,audienceDepth,claims,sources,citationPlacements:normalizeCitationPlacements(raw.citationPlacements,{sources,claims,body:post.body}),notes:[...strings(raw.notes,20,700),...qualityWarnings(post.body,post,title)].slice(0,28),
     };
   }
   throw Object.assign(new Error('Tuntematon agenttitulos.'),{statusCode:400,code:'AGENT_RESULT_UNKNOWN'});

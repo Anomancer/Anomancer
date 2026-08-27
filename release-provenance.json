@@ -1,14 +1,14 @@
 {
   "format": "anomancer-release-provenance/v1",
-  "release": "16.2.0",
-  "coreVersion": "16.2.0",
-  "builtAt": "2026-08-27T01:36:07.746Z",
-  "sourceRevision": "456579ffa78f711a72a096da3d2fe074f4b0a665",
-  "publicSchemaHash": "965c720f7a9389c4ca40e61187aa31e267286f3ba8759367fbe748c8ee1800c1",
+  "release": "16.3.2",
+  "coreVersion": "16.3.0",
+  "builtAt": "2026-08-27T10:57:26.959Z",
+  "sourceRevision": "1da353e4277084722d66c3763f8a7db46e629527",
+  "publicSchemaHash": "a0e4e2c71ea44fe3de3377b49f03f8420886c6d24e783af9cc29a40d16abb4e3",
   "registryHashes": {
     "agents": "926cae8780c66f9bf54e3aebab7539e726046e90a9dff4de2829a4bc7ce29e0e",
     "orchestras": "bdfa0da98c583099d3364c5eaa030de68e801643a9c51998585f6bcbd17488bd",
-    "tools": "6455ff6b0aea42f97acdc4303af74e3587c2a989017289dd208934c7c6a0450b"
+    "tools": "2b58ac7388de8fafc049d0cd99137e903833247818f1f438375013e86b1214ea"
   },
   "apiSurface": {
     "functionCount": 4,

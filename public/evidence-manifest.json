@@ -1,13 +1,91 @@
 {
   "version": "anomancer.evidence/v1",
-  "generatedAt": "2026-08-27T01:36:07.746Z",
+  "generatedAt": "2026-08-27T10:57:26.959Z",
   "articles": [
+    {
+      "articleId": "https://anomancer.com/lahetykset/kun-tekoalyagentin-virhe-muuttuu-toiminnoksi#article",
+      "url": "https://anomancer.com/lahetykset/kun-tekoalyagentin-virhe-muuttuu-toiminnoksi",
+      "title": "Kun tekoälyagentin virhe muuttuu toiminnoksi",
+      "lang": "fi",
+      "answer": "Agentin turvallisuus ei synny pelkästä ohjeesta. Järjestelmän pitää rajata teknisesti, mitä agentti voi tehdä, vaatia hyväksyntä korkean riskin toiminnoille, jättää toiminnasta kuitti ja mahdollistaa palautuminen virheestä.",
+      "claims": [],
+      "sources": [
+        {
+          "id": "src-docker-horror",
+          "title": "Coding Agent Horror Stories: The rm -rf ~/ Incident",
+          "url": "https://www.docker.com/blog/coding-agent-horror-stories-the-rm-rf-incident/",
+          "publisher": "Docker",
+          "date": "2026",
+          "origin": "source-agent",
+          "verification": "verified",
+          "retrievedAt": "",
+          "why": "",
+          "supports": "",
+          "challenges": ""
+        },
+        {
+          "id": "src-aiid-7311",
+          "title": "Report 7311 (PocketOS-tapahtuma)",
+          "url": "https://incidentdatabase.ai/reports/7311/",
+          "publisher": "AI Incident Database",
+          "date": "2026",
+          "origin": "source-agent",
+          "verification": "verified",
+          "retrievedAt": "",
+          "why": "",
+          "supports": "",
+          "challenges": ""
+        },
+        {
+          "id": "src-owasp-agentic",
+          "title": "OWASP Top 10 for Agentic Applications",
+          "url": "https://genai.owasp.org/2025/12/09/owasp-top-10-for-agentic-applications-the-benchmark-for-agentic-security-in-the-age-of-autonomous-ai/",
+          "publisher": "OWASP",
+          "date": "2025-12-09",
+          "origin": "source-agent",
+          "verification": "verified",
+          "retrievedAt": "",
+          "why": "",
+          "supports": "",
+          "challenges": ""
+        },
+        {
+          "id": "src-openai-codex-safety",
+          "title": "Running Codex safely at OpenAI",
+          "url": "https://openai.com/ms-MY/index/running-codex-safely/",
+          "publisher": "OpenAI",
+          "date": "2026",
+          "origin": "source-agent",
+          "verification": "verified",
+          "retrievedAt": "",
+          "why": "",
+          "supports": "",
+          "challenges": ""
+        },
+        {
+          "id": "src-anthropic-misalignment",
+          "title": "Agentic misalignment: How LLMs could be insider threats",
+          "url": "https://www.anthropic.com/news/agentic-misalignment",
+          "publisher": "Anthropic",
+          "date": "2025",
+          "origin": "source-agent",
+          "verification": "verified",
+          "retrievedAt": "",
+          "why": "",
+          "supports": "",
+          "challenges": ""
+        }
+      ],
+      "citationMode": "sources",
+      "citationPlacements": [],
+      "visualizations": []
+    },
     {
       "articleId": "https://anomancer.com/lahetykset/mitka-tyot-tekoaly-vie#article",
       "url": "https://anomancer.com/lahetykset/mitka-tyot-tekoaly-vie",
       "title": "Mitkä työt tekoäly vie?",
       "lang": "fi",
-      "answer": "",
+      "answer": "Tekoäly muuttaa ensin ammattien sisäisiä tehtäviä. Työpaikkojen määrä riippuu siitä, kuinka suuri osa tehtävistä voidaan automatisoida, kuinka paljon vastuuta koneelle voidaan turvallisesti antaa ja kenelle tuottavuushyöty päätyy.",
       "claims": [],
       "sources": [
         {
@@ -18,10 +96,10 @@
           "date": "2025-05-18",
           "origin": "source-agent",
           "verification": "verified",
-          "retrievedAt": "2026-08-27T00:46:34.680Z",
-          "why": "Primaarilähde ILO:n vuoden 2025 tutkimukselle, johon luonnoksen kansainväliset luvut perustuvat.",
-          "supports": "Vahvistaa väitteet: noin joka neljäs työntekijä työskentelee ammatissa, jolla on jonkinasteista altistumista generatiiviselle tekoälylle, ja vain 3,3 prosenttia globaalista työllisyydestä kuuluu korkeimpaan altistusluokkaan. Raportti myös toteaa suoraan, että työn muuttuminen on todennäköisempi lopputulos kuin työpaikan katoaminen.",
-          "challenges": "Luku kuvaa altistumista, ei työpaikkojen katoamista, ja altistus vaihtelee voimakkaasti sukupuolen ja tulotason mukaan (naiset 4,7 %, miehet 2,4 %; korkean tulotason maissa ero kasvaa). Menetelmä perustuu puolalaiseen ammattiluokitukseen ja asiantuntija-/Delphi-arvioihin, joten globaali yleistys on rajallinen."
+          "retrievedAt": "",
+          "why": "",
+          "supports": "",
+          "challenges": ""
         },
         {
           "id": "src-1exlryq",
@@ -31,52 +109,65 @@
           "date": "2025-01-06",
           "origin": "source-agent",
           "verification": "verified",
-          "retrievedAt": "2026-08-27T00:46:34.680Z",
-          "why": "Primaarilähde luonnoksen luvuille noin 170 miljoonasta uudesta ja 92 miljoonasta syrjäytyvästä työpaikasta vuoteen 2030 mennessä.",
-          "supports": "Vahvistaa väitteen useista samanaikaisista muutoksista, jotka synnyttävät 170 miljoonaa ja syrjäyttävät 92 miljoonaa työpaikkaa, jolloin nettomäärä on positiivinen.",
-          "challenges": "Luvut eivät koske pelkkää tekoälyä, vaan myös väestö-, vihreän siirtymän ja talouden muutoksia, ja ne ovat ennusteita, eivät varmoja lopputuloksia. Luonnos kyllä tunnustaa tämän, mutta lukujen ympärillä on epävarmuutta."
+          "retrievedAt": "",
+          "why": "",
+          "supports": "",
+          "challenges": ""
         },
         {
           "id": "src-1skfy1b",
-          "title": "Beyond automation: Decoding the impact of Generative AI on regional labour markets (Job Creation and Local Economic Development 2024)",
+          "title": "Beyond automation: Decoding the impact of Generative AI on regional labour markets",
           "url": "https://read.oecd-ilibrary.org/en/publications/job-creation-and-local-economic-development-2024_83325127-en/full-report/component-7.html",
           "publisher": "OECD",
           "date": "2024-11-27",
           "origin": "source-agent",
           "verification": "verified",
-          "retrievedAt": "2026-08-27T00:46:34.680Z",
-          "why": "Primaarilähde altistumisen määritelmälle ja OECD:n noin 26 prosentin keskiarvolle, joihin luonnoksen luvut perustuvat.",
-          "supports": "Vahvistaa: altistuva työntekijä, jonka vähintään 20 prosenttia työtehtävistä voitaisiin tehdä puolessa ajassa (\"in half the time\", eli kaksi kertaa nopeammin) generatiivisella tekoälyllä. Tukee myös korkeasti koulutettujen ja urbaanien töiden suurempaa altistumista.",
-          "challenges": "OECD:n määritelmä on \"puolessa ajassa\" (=2x nopeammin), mutta osa mediasta esittää sen virheellisesti \"50 prosenttia nopeammin\" — lähde vahvistaa luonnoksen sanamuodon, mutta ero kannattaa pitää mielessä. Altistuminen on tehtävätason potentiaalia, ei työpaikkojen häviämistä."
+          "retrievedAt": "",
+          "why": "",
+          "supports": "",
+          "challenges": ""
         },
         {
           "id": "src-1ssyaii",
-          "title": "Job Creation and Local Economic Development 2024: The Geography of Generative AI (pääsivu)",
+          "title": "Job Creation and Local Economic Development 2024: The Geography of Generative AI",
           "url": "https://www.oecd.org/en/publications/job-creation-and-local-economic-development-2024_83325127-en.html",
           "publisher": "OECD",
           "date": "2024-11-26",
           "origin": "source-agent",
           "verification": "verified",
-          "retrievedAt": "2026-08-27T00:46:34.680Z",
-          "why": "Virallinen OECD-julkaisun pääsivu, jonka tiedote vahvistaa OECD-tason noin neljäsosan altistumisosuuden.",
-          "supports": "Vahvistaa väitteen, jonka mukaan noin joka neljäs OECD-työntekijä on altistunut generatiiviselle tekoälylle, ja osoittaa, että altistuminen osuu erityisesti tietotyöhön.",
-          "challenges": "Pääsivulta ei löydy Suomea koskevaa 29,4 prosentin lukua, joten maakohtainen väite on tarkistettava raportin liiteaineistosta."
+          "retrievedAt": "",
+          "why": "",
+          "supports": "",
+          "challenges": ""
         },
         {
-          "id": "src-qcjyil",
-          "title": "Exposición de los empleos a la inteligencia artificial en Europa (OECD-datan visualisointi)",
-          "url": "https://datawrapper.dwcdn.net/TwATA/3/",
-          "publisher": "Datawrapper (OECD-datan pohjalta)",
-          "date": "2024-11",
+          "id": "src-etla-register",
+          "title": "Generatiivisen tekoälyn vaikutukset eivät ainakaan vielä näy työmarkkinoilla",
+          "url": "https://www.etla.fi/julkaisut/muistiot/generatiivisen-tekoalyn-vaikutukset-eivat-ainakaan-viela-nay-tyomarkkinoilla-palkat-eniten-altistuneissa-ammateissa-pikemminkin-nousseet/",
+          "publisher": "ETLA",
+          "date": "2025",
           "origin": "source-agent",
           "verification": "verified",
-          "retrievedAt": "2026-08-27T00:46:34.680Z",
-          "why": "Ainoa löytämäni lähde, joka vahvistaa Suomen 29,4 prosentin altistumisosuuden ja OECD:n 26 prosentin keskiarvon samassa kuvassa.",
-          "supports": "Vahvistaa luonnoksen väitteen, että Suomessa osuus (29,4 %) on OECD:n keskiarvoa (26 %) korkeampi.",
-          "challenges": "Kyseessä on espanjankielinen kolmannen osapuolen visualisointi OECD:n raportin datasta, ei OECD:n oma primaarilähde. Maakohtainen luku olisi vahvistettava OECD:n raportin liitteistä."
+          "retrievedAt": "",
+          "why": "",
+          "supports": "",
+          "challenges": ""
+        },
+        {
+          "id": "src-oecd-skills",
+          "title": "How is AI changing the way workers perform their jobs and the skills they require?",
+          "url": "https://www.oecd.org/en/publications/how-is-ai-changing-the-way-workers-perform-their-jobs-and-the-skills-they-require_8dc62c72-en/full-report.html",
+          "publisher": "OECD",
+          "date": "2024",
+          "origin": "source-agent",
+          "verification": "verified",
+          "retrievedAt": "",
+          "why": "",
+          "supports": "",
+          "challenges": ""
         }
       ],
-      "citationMode": "inline",
+      "citationMode": "sources",
       "citationPlacements": [],
       "visualizations": []
     },

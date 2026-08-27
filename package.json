@@ -1,6 +1,6 @@
 {
   "name": "anomancer-lahetyskone",
-  "version": "16.2.0",
+  "version": "16.3.2",
   "private": true,
   "type": "module",
   "engines": {
@@ -11,7 +11,7 @@
     "new:post": "node scripts/new-post.mjs",
     "write": "node scripts/editor.mjs",
     "seo:check": "node seo-check.mjs",
-    "check": "node scripts/test-public-boundary.mjs && node scripts/test-api-surface.mjs && node scripts/test-evidence-presentation-162.mjs && node scripts/test-admin.mjs && node scripts/test-contact.mjs && node scripts/test-public-ui.mjs && node scripts/test-public-core.mjs && node scripts/test-agent-contracts.mjs && node scripts/test-ui-semantics.mjs && node scripts/test-surgical-ux-1602.mjs && node scripts/test-surgical-ux-1603.mjs && node scripts/build-blog.mjs --check && node scripts/test-language-boundaries.mjs && node scripts/test-entity-core.mjs && node scripts/test-evidence-layer.mjs && node scripts/test-discovery-layer.mjs && node scripts/test-core-foundation.mjs && node scripts/test-runtime-profiles.mjs && node scripts/test-custom-orchestras.mjs && node scripts/test-run-explorer.mjs && node scripts/test-workspace-foundation.mjs && node scripts/test-agent-pool-control.mjs && node scripts/test-tool-broker.mjs && node scripts/test-model-router.mjs && node scripts/test-agent-layer.mjs && node scripts/test-orchestrator.mjs && node scripts/domain-migration-check.mjs && node seo-check.mjs",
+    "check": "node scripts/test-living-machine-room-163.mjs && node scripts/test-senior-audit-163.mjs && node scripts/test-editorial-quality-1631.mjs && node scripts/test-mobile-workspace-1632.mjs && node scripts/test-public-boundary.mjs && node scripts/test-api-surface.mjs && node scripts/test-evidence-presentation-162.mjs && node scripts/test-admin.mjs && node scripts/test-contact.mjs && node scripts/test-public-ui.mjs && node scripts/test-public-core.mjs && node scripts/test-agent-contracts.mjs && node scripts/test-ui-semantics.mjs && node scripts/test-surgical-ux-1602.mjs && node scripts/test-surgical-ux-1603.mjs && node scripts/build-blog.mjs --check && node scripts/test-language-boundaries.mjs && node scripts/test-entity-core.mjs && node scripts/test-evidence-layer.mjs && node scripts/test-discovery-layer.mjs && node scripts/test-core-foundation.mjs && node scripts/test-runtime-profiles.mjs && node scripts/test-custom-orchestras.mjs && node scripts/test-run-explorer.mjs && node scripts/test-workspace-foundation.mjs && node scripts/test-agent-pool-control.mjs && node scripts/test-tool-broker.mjs && node scripts/test-model-router.mjs && node scripts/test-agent-layer.mjs && node scripts/test-orchestrator.mjs && node scripts/domain-migration-check.mjs && node seo-check.mjs",
     "admin:hash": "node scripts/hash-admin-password.mjs",
     "admin:secret": "node scripts/generate-session-secret.mjs",
     "test:admin": "node scripts/test-admin.mjs",
@@ -37,6 +37,10 @@
     "test:ux-1602": "node scripts/test-surgical-ux-1602.mjs",
     "test:public-boundary": "node scripts/test-public-boundary.mjs",
     "test:api-surface": "node scripts/test-api-surface.mjs",
-    "test:evidence-presentation": "node scripts/test-evidence-presentation-162.mjs"
+    "test:evidence-presentation": "node scripts/test-evidence-presentation-162.mjs",
+    "test:machine-room": "node scripts/test-living-machine-room-163.mjs",
+    "test:senior-audit": "node scripts/test-senior-audit-163.mjs",
+    "test:editorial-quality": "node scripts/test-editorial-quality-1631.mjs",
+    "test:mobile-workspace": "node scripts/test-mobile-workspace-1632.mjs"
   }
 }

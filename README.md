@@ -1,3 +1,15 @@
+# Anomancer 16.3.2 · Mobile Workspace
+
+**16.3.2 Mobile Workspace:** yksityinen Lähetyskone käyttää puhelimessa omaa peukalopohjaista komentopintaa: Lähetykset, Kirjoita, Evidenssi, Agentit ja Lisää. Esikatselu on oma overlay-näkymä, lähetyslista täyskorkea drawer ja desktopin päällekkäiset sticky-ohjaimet poistuvat mobiilissa. Core- ja evidenssisopimukset eivät muutu. Katso `MOBILE_WORKSPACE_16_3_2.md`.
+
+# Anomancer 16.3.1 · Editorial Quality Hardening
+
+**16.3.1 Editorial Quality Hardening:** julkaisuputki erottaa ihmisohjeen tarkoituksen sen sanamuodosta, pitää varmistamattoman lähdeaineiston poissa julkisesta proosasta ja pysäyttää deterministisellä portilla näkyvän orkesterimetakielen sekä ylikäytetyn argumenttikaavan. Katso `EDITORIAL_QUALITY_HARDENING.md`.
+
+# Anomancer 16.3 · Living Machine Room
+
+**16.3 Living Machine Room:** Lähetyskone näyttää orkesterin todelliset runtime-tilat turvallisena, allowlistattuna telemetriana. Työrauha, Elävä konehuone ja OE-tila muuttavat vain esitystä. Promptit, raakavastaukset ja sisäinen päättely eivät kuulu tapahtumiin. Katso `LIVING_MACHINE_ROOM.md`.
+
 # Anomancer 16.2 · Evidence Presentation + Visualization
 
 - hyväksytyn evidenssin inline / lähderivi / molemmat -esitystapa

@@ -70,7 +70,8 @@ export function parseCookies(req) {
   for (const part of raw.split(';')) {
     const i = part.indexOf('=');
     if (i < 0) continue;
-    out[part.slice(0, i).trim()] = decodeURIComponent(part.slice(i + 1).trim());
+    const name=part.slice(0,i).trim();if(!name)continue;
+    try{out[name]=decodeURIComponent(part.slice(i+1).trim());}catch{}
   }
   return out;
 }

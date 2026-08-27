@@ -12,7 +12,7 @@
 <body>
 <main class="login-shell" hidden="" id="loginView">
 <form class="login-card" id="loginForm">
-<p class="kicker">ANOMANCER CORE 16.0</p>
+<p class="kicker">ANOMANCER CORE 16.3</p>
 <h1>CORE</h1>
 <p class="muted">Yksityinen admin. Ei sitemapissa, ei navigaatiossa, ei hakukoneille.</p>
 <label>Salasana<input autocomplete="current-password" id="password" required="" type="password"/></label>
@@ -24,10 +24,10 @@
 <aside class="sidebar" id="sidebar">
 <div class="side-head">
 <div><p class="kicker">Anomancer Core</p><h2>Lähetykset</h2></div>
-<div class="side-actions"><button class="ghost" id="newBtn">+ Uusi</button><button aria-label="Sulje tekstilista" class="ghost sidebar-close" id="sidebarClose" type="button">×</button></div>
+<div class="side-actions"><button class="ghost" id="newBtn" type="button">+ Uusi</button><button aria-label="Sulje tekstilista" class="ghost sidebar-close" id="sidebarClose" type="button">×</button></div>
 </div>
 <div class="filters">
-<button class="active" data-filter="all">Kaikki</button><button data-filter="published">Julkaistut</button><button data-filter="draft">Luonnokset</button>
+<button class="active" data-filter="all" type="button">Kaikki</button><button data-filter="published" type="button">Julkaistut</button><button data-filter="draft" type="button">Luonnokset</button>
 </div>
 <div class="repo-status" id="repoStatus"></div>
 <div class="post-list" id="postList"></div>
@@ -35,7 +35,7 @@
 <section class="workspace">
 <header class="topbar">
 <div class="editor-title"><button aria-controls="sidebar" aria-expanded="false" aria-label="Avaa lähetysvalikko" class="ghost sidebar-toggle" id="sidebarToggle" type="button">Lähetykset</button><div><p class="kicker">CORE / LÄHETYSEDITORI</p><strong id="editingLabel">Uusi lähetys</strong></div></div>
-<div class="top-actions"><label class="workspace-switcher"><span>Työtila</span><select aria-label="Valitse työtila" id="workspaceSelect"><option value="default">Anomancer · oletus</option></select></label><details class="layout-menu" id="layoutMenu">
+<div class="top-actions"><div class="mobile-quick-actions" aria-label="Lähetyksen toiminnot"><button class="secondary" id="mobileSaveBtn" type="button">Tallenna luonnos</button><button class="primary" id="mobilePublishBtn" type="button">Julkaise</button><button class="ghost" id="mobilePreviewBtn" type="button">Esikatselu</button><button class="ghost" id="mobileCoreBtn" type="button">Core</button></div><label class="workspace-switcher"><span>Työtila</span><select aria-label="Valitse työtila" id="workspaceSelect"><option value="default">Anomancer · oletus</option></select></label><details class="layout-menu" id="layoutMenu">
 <summary>Asettelu</summary>
 <div class="layout-popover">
 <div class="layout-popover-head"><strong>Näkymän koko</strong><span>Tallentuu tähän selaimeen</span></div>
@@ -44,7 +44,7 @@
 <label class="layout-check"><input checked="" id="previewToggle" type="checkbox"/><span>Näytä esikatselu</span></label>
 <button class="ghost" id="layoutReset" type="button">Palauta oletusasettelu</button>
 </div>
-</details><a href="/lahetykset" rel="noreferrer" target="_blank">Julkinen sivu ↗</a><button class="ghost" id="logoutBtn">Poistu</button></div>
+</details><a href="/lahetykset" rel="noreferrer" target="_blank">Julkinen sivu ↗</a><button class="ghost" id="logoutBtn" type="button">Poistu</button></div>
 </header>
 <div class="editor-grid">
 <section class="form-panel">
@@ -171,13 +171,22 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 </section></details>
 <section aria-labelledby="orchestraTitle" class="orchestra-desk" id="orchestraDesk">
 <div class="orchestra-head">
-<div><p class="kicker">16.0 · TYÖTILAORKESTROINTI</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
+<div><p class="kicker">16.3 · TYÖTILAORKESTROINTI</p><h3 id="orchestraTitle">Koko toimitusputki</h3></div>
 <span class="orchestra-lock">IHMINEN PÄÄTTÄÄ LOPULLISESTI</span>
 </div>
 <p class="orchestra-rule">Valitse palvelimella validoitu orkesterisopimus. Peräkkäiset vaiheet kulkevat järjestyksessä; rinnakkaisvaiheen agentit saavat saman jäädytetyn syötteen eivätkä näe toistensa vastauksia ennen determinististä yhdistämistä. <strong>Ihminen päättää lopullisesti kaikissa orkestereissa.</strong></p>
 <div class="orchestra-select-row"><label>Orkesteri<select id="orchestraSelect"><option value="editorial">Anomancer Toimitus</option></select></label><button class="ghost" id="orchestraBuilderBtn" type="button">Rakenna orkesteri</button></div>
-<details class="orchestra-options" id="orchestraAdvanced"><summary><span>Vaiheet ja lisäohje</span><small>8 vaihetta · valinnainen</small></summary><div aria-label="Orkesterin vaiheet" class="orchestra-stages" id="orchestraStages"></div><label class="orchestra-instruction">Orkesterin lisäohje <span class="count">valinnainen</span><textarea id="orchestraInstruction" maxlength="2400" placeholder="Esim. pidä teksti tutkivana, älä silota outoja havaintoja ja etsi aktiivisesti vastanäyttöä." rows="2"></textarea></label></details>
+<details class="orchestra-options" id="orchestraAdvanced"><summary><span>Vaiheet ja lisäohje</span><small id="orchestraAdvancedSummary">8 vaihetta · valinnainen</small></summary><div aria-label="Orkesterin vaiheet" class="orchestra-stages" id="orchestraStages"></div><label class="orchestra-instruction">Orkesterin lisäohje <span class="count">valinnainen</span><textarea id="orchestraInstruction" maxlength="2400" placeholder="Esim. pidä teksti tutkivana, älä silota outoja havaintoja ja etsi aktiivisesti vastanäyttöä." rows="2"></textarea></label></details>
 
+<section class="machine-room" data-mode="living" id="machineRoom" aria-labelledby="machineRoomTitle">
+<div class="machine-room-head"><div><p class="kicker">16.3 · ELÄVÄ KONEHUONE</p><h4 id="machineRoomTitle">Prosessikursori</h4></div><div class="machine-room-modes" role="group" aria-label="Konehuoneen esitystila"><button class="ghost" data-machine-mode="quiet" aria-pressed="false" type="button">Työrauha</button><button class="ghost" data-machine-mode="living" aria-pressed="true" type="button">Elävä konehuone</button><button class="ghost" data-machine-mode="oe" aria-pressed="false" type="button">OE-tila</button></div></div>
+<p class="machine-room-rule">Esitystila muuttaa vain animaatiota ja käyttöliittymätekstiä. Se ei muuta promptteja, malleja, agenttien valtaa, evidenssikynnystä eikä julkaisupäätöstä.</p>
+<div class="machine-room-stage">
+<div class="machine-room-character" aria-hidden="true"><span id="machineRoomRaccoon">🦝</span><span id="machineRoomRaccoonPeer" hidden>🦝</span><i class="machine-room-wall" id="machineRoomWall" hidden aria-hidden="true"></i></div>
+<div class="machine-room-message"><strong id="machineRoomComment"></strong><span aria-atomic="true" aria-live="polite" id="machineRoomFact" role="status">Ei ajoa · telemetria näyttää vain turvallisia tilatapahtumia.</span></div>
+</div>
+<details class="machine-room-log"><summary>Turvalliset tilatapahtumat</summary><ol id="machineRoomHistory"></ol></details>
+</section>
 <div class="orchestra-actions">
 <button class="orchestra-run" id="orchestraRunBtn" type="button">▶ Aja koko putki</button>
 <button class="ghost" disabled="" id="orchestraStopBtn" type="button">■ Pysäytä</button>
@@ -188,7 +197,7 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 </div>
 <div class="orchestra-terminal-shell">
 <div class="orchestra-terminal-bar"><span>ORKESTERI / AJO</span><span id="orchestraRunState">VALMIS</span></div>
-<pre aria-live="polite" class="orchestra-terminal" id="orchestraTerminal" role="log">$ valmis · nykyistä editoria ei ole muutettu</pre>
+<pre aria-live="off" class="orchestra-terminal" id="orchestraTerminal" role="log">$ valmis · nykyistä editoria ei ole muutettu</pre>
 </div>
 <details class="orchestra-result" hidden="" id="orchestraResultBox">
 <summary>Orkesterin lopputulos</summary>
@@ -198,11 +207,11 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 </section>
 <section aria-labelledby="editorTabCore" class="editor-panel core-panel" data-editor-panel="core" hidden="" id="corePanel" role="tabpanel">
 <div class="core-hero">
-<div><p class="kicker">16.0 · TYÖTILAPERUSTA</p><h3>Agenttien ohjaustaso</h3><p><strong id="workspaceBadge">Anomancer</strong> · Agenttirekisteri on yhteinen alustakerros, mutta ajoprofiilit, mukautetut orkesterit, ajot ja käyttö ovat työtilakohtaisia.</p></div>
-<span class="core-version" id="coreVersion">CORE 16.0</span>
+<div><p class="kicker">16.3 · TYÖTILAPERUSTA</p><h3>Agenttien ohjaustaso</h3><p><strong id="workspaceBadge">Anomancer</strong> · Agenttirekisteri on yhteinen alustakerros, mutta ajoprofiilit, mukautetut orkesterit, ajot ja käyttö ovat työtilakohtaisia.</p></div>
+<span class="core-version" id="coreVersion">CORE 16.3</span>
 </div>
 <div class="core-metrics">
-<article><span>Agentit</span><strong id="coreAgentCount">8</strong></article>
+<article><span>Agentit</span><strong id="coreAgentCount">9</strong></article>
 <article><span>Orkesterit</span><strong id="coreOrchestraCount">1</strong></article>
 <article><span>Ajokuitit</span><strong id="coreRunCount">0</strong></article>
 <article><span>Tokenit yhteensä</span><strong id="coreTokenCount">0</strong></article>
@@ -266,19 +275,19 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 </dialog>
 </section>
 <div class="actions">
-<button class="secondary" id="saveDraftBtn">Tallenna luonnos</button>
-<button class="primary" id="publishBtn">Julkaise</button>
-<button class="danger" hidden="" id="deleteBtn">Poista</button>
+<button class="secondary" id="saveDraftBtn" type="button">Tallenna luonnos</button>
+<button class="primary" id="publishBtn" type="button">Julkaise</button>
+<button class="danger" hidden="" id="deleteBtn" type="button">Poista</button>
 </div>
 <dialog aria-labelledby="coreWorkspaceDialogTitle" class="core-agent-dialog core-workspace-dialog" id="coreWorkspaceDialog">
-<div class="core-agent-dialog-head"><div><p class="kicker">TYÖTILA / 16.0</p><h3 id="coreWorkspaceDialogTitle">Uusi työtila</h3><p class="core-agent-dialog-id" id="coreWorkspaceDialogId">eristetty agenttisäde</p></div><button aria-label="Sulje" class="ghost" onclick="this.closest('dialog').close()" type="button">×</button></div>
+<div class="core-agent-dialog-head"><div><p class="kicker">TYÖTILA / 16.3</p><h3 id="coreWorkspaceDialogTitle">Uusi työtila</h3><p class="core-agent-dialog-id" id="coreWorkspaceDialogId">eristetty agenttisäde</p></div><button aria-label="Sulje" class="ghost" id="coreWorkspaceClose" type="button">×</button></div>
 <div class="core-orchestra-form-meta"><label>Nimi<input id="coreWorkspaceName" maxlength="80" placeholder="Esim. Tutkimusprojekti"/></label><label>Kuvaus<textarea id="coreWorkspaceDescription" maxlength="400" placeholder="Mihin tätä työtilaa käytetään?" rows="3"></textarea></label></div>
 <p class="core-runtime-notice">Uusi työtila saa omat ajoprofiilit, orkesterit ja ajot. Agenttirekisteri, työkaluvälittäjä ja mallireititin pysyvät yhteisinä alustasopimuksina. Työtila ei vielä rajaa artikkelirepositorion sisältöä.</p>
-<div class="core-agent-dialog-actions"><div><button class="danger" hidden="" id="coreWorkspaceArchive" type="button">Arkistoi</button><button class="ghost" hidden="" id="coreWorkspaceRestore" type="button">Palauta aktiiviseksi</button></div><div><button class="ghost" onclick="this.closest('dialog').close()" type="button">Peruuta</button><button class="primary" id="coreWorkspaceSave" type="button">Tallenna työtila</button></div></div>
+<div class="core-agent-dialog-actions"><div><button class="danger" hidden="" id="coreWorkspaceArchive" type="button">Arkistoi</button><button class="ghost" hidden="" id="coreWorkspaceRestore" type="button">Palauta aktiiviseksi</button></div><div><button class="ghost" id="coreWorkspaceCancel" type="button">Peruuta</button><button class="primary" id="coreWorkspaceSave" type="button">Tallenna työtila</button></div></div>
 </dialog>
 <dialog aria-labelledby="coreOrchestraDialogTitle" class="core-agent-dialog core-orchestra-dialog" id="coreOrchestraDialog">
 <form id="coreOrchestraForm" method="dialog">
-<div class="core-agent-dialog-head"><div><p class="kicker">MUKAUTETTU ORKESTERI / 16.0</p><h3 id="coreOrchestraDialogTitle">Uusi orkesteri</h3><p class="core-agent-dialog-id" id="coreOrchestraDialogId">palvelinpuolen sopimus</p></div><button aria-label="Sulje" class="ghost" id="coreOrchestraClose" value="cancel">×</button></div>
+<div class="core-agent-dialog-head"><div><p class="kicker">MUKAUTETTU ORKESTERI / 16.3</p><h3 id="coreOrchestraDialogTitle">Uusi orkesteri</h3><p class="core-agent-dialog-id" id="coreOrchestraDialogId">palvelinpuolen sopimus</p></div><button aria-label="Sulje" class="ghost" id="coreOrchestraClose" value="cancel">×</button></div>
 <div class="core-orchestra-form-meta"><label>Nimi<input id="coreOrchestraName" maxlength="80" placeholder="Esim. Tutkimuksen stressitesti"/></label><label>Kuvaus<textarea id="coreOrchestraDescription" maxlength="400" placeholder="Mitä tämä orkesteri tekee?" rows="2"></textarea></label></div>
 <p class="core-runtime-notice">Rinnakkaisvaiheessa agentit saavat saman syötteen. Core estää päällekkäiset kirjoitusoikeudet, pakottaa Väitevahdin tekstimuokkausten jälkeen ja pitää Julkaisupaketin viimeisenä. Ihmisen lopullista päätösvaltaa ei voi poistaa.</p>
 <div class="core-orchestra-builder-head"><strong>Vaiheet</strong><div><button class="ghost" id="coreAddSequential" type="button">+ Peräkkäinen</button><button class="ghost" id="coreAddParallel" type="button">+ Rinnakkainen</button></div></div>
@@ -299,17 +308,26 @@ open | Avoin kysymys | | Mitä emme vielä tiedä" rows="6"></textarea></label>
 <div class="status" id="status" role="status"></div>
 </section>
 <div aria-label="Säädä editorin ja esikatselun leveyttä" aria-orientation="vertical" aria-valuemax="72" aria-valuemin="42" aria-valuenow="56" class="editor-resizer" id="editorResizer" role="separator" tabindex="0"></div><aside class="preview-panel">
-<div class="preview-head"><p class="kicker">ESIKATSELU</p><span id="previewBadge">LUONNOS</span></div>
+<div class="preview-head"><p class="kicker">ESIKATSELU</p><div class="preview-head-actions"><span id="previewBadge">LUONNOS</span><button aria-label="Sulje esikatselu" class="ghost mobile-preview-close" id="mobilePreviewClose" type="button">×</button></div></div>
 <article class="preview article" id="preview"></article>
 </aside>
 </div>
 </section>
+<nav class="mobile-dock" id="mobileDock" aria-label="Lähetyskoneen mobiilinavigaatio">
+<button type="button" data-mobile-action="library" aria-label="Avaa lähetykset"><span aria-hidden="true">☰</span><small>Lähetykset</small></button>
+<button type="button" data-mobile-view="write" class="active" aria-pressed="true"><span aria-hidden="true">✎</span><small>Kirjoita</small></button>
+<button type="button" data-mobile-view="evidence" aria-pressed="false"><span aria-hidden="true">◈</span><small>Evidenssi</small></button>
+<button type="button" data-mobile-view="agents" aria-pressed="false"><span aria-hidden="true">⬡</span><small>Agentit</small></button>
+<button type="button" data-mobile-action="more" id="mobileMoreBtn" aria-expanded="false"><span aria-hidden="true">•••</span><small>Lisää</small></button>
+</nav>
+<button class="mobile-ui-backdrop" id="mobileUiBackdrop" aria-label="Sulje mobiilivalikko" tabindex="-1" type="button"></button>
 </div>
 <script src="/admin.js" type="module"></script>
 <script src="/admin-workspaces.js" type="module"></script>
 <script src="/admin-core.js" type="module"></script>
 <script src="/admin-agents.js" type="module"></script>
 <script src="/admin-orchestras.js" type="module"></script>
+<script src="/admin-machine-room.js" type="module"></script>
 <script src="/admin-orchestrator.js" type="module"></script>
 </body>
 </html>

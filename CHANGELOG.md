@@ -1,3 +1,50 @@
+# Anomancer 16.3.2 · Mobile Workspace
+
+- Lähetyskoneen mobiili on nyt oma käyttötila eikä desktop-layoutin kutistettu versio.
+- Uusi ohut safe-area-tietoinen alapalkki: Lähetykset, Kirjoita, Evidenssi, Agentit ja Lisää.
+- Lähetykset avautuu täyskorkeana drawerina; editorin vanha mobiilissa ahdas listanäkymä poistuu.
+- Kirjoita-, Evidenssi- ja Agentit-näkymiin vaihdetaan suoraan peukalodokista ilman erillistä sticky-tab-riviä.
+- Lisää avaa mobiilin komentolevyn tallennukselle, julkaisulle, esikatselulle, Corelle, työtilalle, asettelulle, julkiselle sivulle ja poistumiselle.
+- Esikatselu on puhelimessa oma overlay-työtila eikä editorin alle pinoutuva pitkä paneeli.
+- Vanha sticky Tallenna/Julkaise-rivi poistuu mobiilissa dokin tieltä; poisto pysyy erillisenä vaaratoimintona.
+- Markdown-editori saa 58dvh työskentelykorkeuden ja 16 px tekstikoon, joka ehkäisee mobiiliselainten tahatonta input-zoomia.
+- Orkesteri-, evidenssi- ja Core-pinnat taittuvat puhelimessa yksipalstaisiksi, mutta agenttien toimivalta, evidenssiportit ja runtime pysyvät muuttumattomina.
+- Uusi `test-mobile-workspace-1632.mjs` lukitsee mobiilinavigaation, overlay-esikatselun, drawerin ja safe-area-käytöksen regressiotestiksi.
+- Core pysyy 16.3.0:ssa; muutos koskee yksityisen Lähetyskoneen käyttöliittymää.
+
+# Anomancer 16.3.1 · Editorial Quality Hardening
+
+- Ihmisen lisäohje tulkitaan toimitukselliseksi tarkoitukseksi, ei julkaisutekstiksi kopioitavaksi sanastoksi.
+- Kirjoitusagentti ei saa nostaa varmistamattomia lähde-ehdokkaita julkiseen proosaan; evidenssivaje jää toimituksen huomioihin.
+- Kriitikko ja äänieditori etsivät nyt prosessimetakieltä, toistuvia argumenttikaavoja, kasautuneita varauksia ja pääaiheesta harhautuvia otsikoita.
+- Uusi deterministinen julkaisuportti torjuu orkesterin metakielen, sisäisen lähdevelan ja ylikäytetyn “ei X vaan Y” -rytmin. Luonnoksen voi silti tallentaa keskeneräisenä.
+- Tämänpäiväiset työ- ja agenttiturvallisuustekstit on tiivistetty, luokiteltu uudelleen ja puhdistettu sisäisestä toimitussanastosta.
+- Agenttiturvallisuustekstin otsikko ja slug kuvaavat nyt varsinaista aihetta. Vanha URL ohjautuu pysyvästi uuteen artikkeliin.
+- Myös taide- ja opettajatekstien toistuvaa vastakkainasettelurytmiä on kevennetty merkitystä muuttamatta.
+- Core-sopimukset, työkalupinta, toimivaltarajat ja Core 16.3.0 säilyvät ennallaan.
+
+# Anomancer 16.3 · Living Machine Room
+
+## Senior UI/UX + logic/security audit hardening
+
+- Poistettu admin-dialogin CSP:n estämät inline-eventit ja lisätty painikkeiden eksplisiittiset tyypit.
+- Korvattu konehuoneen ja orkesterisuunnitelman dynaamiset `innerHTML`-rakenteet turvallisilla tekstisolmuilla.
+- Rajattu telemetrian tapahtumakoodit, numerot ja ohjausmerkit sekä selkeytetty ruudunlukijan live-alue.
+- Korjattu orkesterin stop/resume-vaiheen kohdistus, keskeytettävä retry-viive ja kaikkien agenttien disabled-tila.
+- Rajoitettu ajo kirjataan ja esitetään nyt rajoitettuna myös disabled-vaiheiden vuoksi.
+- Agenttien väliset tulokset välitetään eksplisiittisesti epäluotettavana datana prompt-injektion vaikutuksen pienentämiseksi.
+- Syväjäädytetty Core Registryjen sisäiset toimivalta-, reitti- ja orkesterirakenteet.
+- Kovennettu custom/built-in Orchestra Contract -raja, cookie-parseri, media-polut, buildin kirjoituspolut, slug-validointi ja JSON-LD-karkaisu.
+- Lisätty pysyvä `test-senior-audit-163.mjs`-regressioportti.
+
+- Turvallinen `anomancer:telemetry`-tapahtumakerros orkesteriajolle.
+- Kolme esitystilaa: Työrauha, Elävä konehuone ja OE-tila.
+- Pesukarhu toimii prosessikursorina eikä muuta runtimea tai päätösvaltaa.
+- Telemetrian detail on eksplisiittisesti allowlistattu eikä sisällä promptteja, post-dataa, raakavastauksia tai päättelyä.
+- Virhe-, retry-, rinnakkaisajo-, evidenssi- ja julkaisupakettitilat saavat omat vakioidut event-koodit.
+- `prefers-reduced-motion` sammuttaa animaatiot.
+- Core 16.3.0.
+
 # Anomancer 16.2 · Evidence Presentation + Visualization
 
 - hyväksytyn evidenssin inline / lähderivi / molemmat -esitystapa
@@ -233,4 +280,3 @@
 - Optimoitu etusivun kuvat WebP-muotoon.
 - Korvattu vaarallinen oletusasennus varmuuskopioivalla turvallisella asennuksella.
 - Laajennettu regressio-, agenttisopimus-, evidenssi-, SEO- ja build-testit.
-
