@@ -18,7 +18,7 @@ citationMode: "sources"
 citationPlacements: []
 visualizations: []
 pinned: false
-draft: true
+draft: false
 ---
 
 > Tekoälystä puhutaan usein automaationa: miten monta työvaihetta voidaan poistaa, miten nopeasti teksti saadaan ulos, miten monta agenttia voi päästää työskentelemään omin päin. Oma projektini lähti melkein päinvastaiseen suuntaan.
@@ -47,11 +47,11 @@ Järjestelmän laidalla on myös metavalvoja – metaforinen pesukarhu – jonka
 
 Tämä kuulostaa vähemmän futuristiselta kuin täysin autonominen agenttiparvi. Juuri siksi se on kiinnostavampaa.
 
-## Lähde-ehdokas ei ole todiste
+## Lähde ei ole todiste
 
 Järjestelmän yksinkertaisin sääntö: löydetty lähde on ehdokas, ei vahvistettu tieto. Hakutulos ei ole evidenssiä. URL ei ole evidenssiä. Tieteellisen näköinen PDF ei ole evidenssiä. Kolme lähdettä, jotka toistavat samaa alkuperäistä virhettä, eivät muutu kolmeksi riippumattomaksi vahvistukseksi.
 
-Järjestelmän pitää siksi pystyä pitämään erillään havainto, lähde-ehdokas, tarkastettu lähde, väite, tulkinta ja johtopäätös. Ilman tätä kaikki muuttuu nopeasti yhdeksi suureksi semanttiseksi perunamuusiksi. Kielimallit ovat siinä vaarallisen hyviä: ne osaavat tehdä perunamuusista erittäin vakuuttavan näköistä.
+Järjestelmän pitää siksi pystyä pitämään erillään havainto, lähde, tarkastettu lähde, väite, tulkinta ja johtopäätös. Ilman tätä kaikki muuttuu nopeasti yhdeksi suureksi semanttiseksi perunamuusiksi. Kielimallit ovat siinä vaarallisen hyviä: ne osaavat tehdä perunamuusista erittäin vakuuttavan näköistä.
 
 ## Putki ei tee totuutta, mutta se tekee ongelmat näkyviksi
 
