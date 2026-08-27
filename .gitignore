@@ -10,3 +10,5 @@ node_modules
 ANOMANCER_IP_PRIVATE/
 IP_PRIVATE/
 .private-ip/
+
+.visual-regression/

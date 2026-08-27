@@ -1,0 +1,532 @@
+/* Single responsive owner for private Core surfaces */
+/* admin.css · Base shell and legacy editor primitives */
+@media(max-width:1100px){.editor-grid{grid-template-columns:1fr}.preview-panel{position:relative;top:auto;max-height:none;border-left:0;border-top:1px solid var(--line)}.preview{max-height:70vh}.app{grid-template-columns:280px 1fr}}
+
+/* admin.css · Base shell and legacy editor primitives */
+@media(max-width:760px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto;max-height:340px;border-right:0;border-bottom:1px solid var(--line)}.topbar{top:0}.meta-grid{grid-template-columns:1fr}.meta-grid .wide{grid-column:auto}.form-panel{padding:16px}.topbar{padding:12px 16px}.editor-grid{min-height:auto}.preview-panel{max-height:none}.preview{max-height:70vh}}
+
+/* admin.css · Base shell and legacy editor primitives */
+@media(max-width:760px){.public-url-box{align-items:stretch;flex-direction:column}.public-open{text-align:center}.public-url-copy code{white-space:normal;overflow-wrap:anywhere}}
+
+/* admin.css · Media and cover controls */
+@media(max-width:760px){.cover-field-head{align-items:flex-start;flex-direction:column}.media-toolbar{align-items:stretch}.media-toolbar button{width:100%}}
+
+/* admin.css · Agent execution panel */
+@media(max-width:760px){.agent-desk-head{flex-direction:column}.agent-model-status{text-align:left}.agent-controls{grid-template-columns:1fr}.agent-actions button{flex:1 1 auto}}
+
+/* admin.css · Orchestrator recovery and checkpoints */
+@media(max-width:980px){.orchestra-stages{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* admin.css · Orchestrator recovery and checkpoints */
+@media(max-width:760px){.orchestra-head{flex-direction:column}.orchestra-stages{grid-template-columns:repeat(2,minmax(0,1fr))}.orchestra-actions button{flex:1 1 auto}.orchestra-terminal{height:170px}}
+
+/* admin.css · Editorial views, source review and safety gates */
+@media(max-width:760px){.sidebar-toggle,.sidebar-close{display:inline-flex}.sidebar{position:fixed;z-index:30;inset:0 auto 0 0;width:min(88vw,340px);height:100vh;max-height:none;transform:translateX(-105%);transition:transform .2s ease;box-shadow:20px 0 70px #000}.sidebar.is-open{transform:translateX(0)}.actions{margin:20px -16px -16px;padding:12px 16px}.publish-summary dl div{grid-template-columns:1fr;gap:3px}.dialog-actions{flex-direction:column-reverse}.dialog-actions button{width:100%}}
+
+/* admin.css · Core foundation */
+@media(max-width:1100px){.core-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.core-stage-line{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* admin.css · Core foundation */
+@media(max-width:760px){.core-hero,.core-section-head{flex-direction:column;align-items:flex-start}.core-section-head>span{text-align:left}.core-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.core-agent-grid{grid-template-columns:1fr}.core-stage-line{grid-template-columns:repeat(2,minmax(0,1fr))}.core-run-row{grid-template-columns:1fr}.core-run-row>div:last-child{flex-wrap:wrap}}
+
+/* admin.css · Agent runtime controls */
+@media(max-width:760px){.core-runtime-controls,.core-agent-contract-grid{grid-template-columns:1fr}.core-contract-hash{grid-column:auto}.core-agent-dialog-actions{align-items:stretch;flex-direction:column}.core-agent-dialog-actions>div{display:grid;grid-template-columns:1fr 1fr}.core-agent-dialog-actions button{width:100%}}
+
+/* admin.css · Tool broker and policy controls */
+@media(max-width:980px){.core-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* admin.css · Tool broker and policy controls */
+@media(max-width:760px){.core-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.core-tool-policy-grid{grid-template-columns:1fr}.core-policy-log-head{align-items:flex-start;flex-direction:column}.core-policy-log article{grid-template-columns:1fr}.core-policy-log article>div:last-child{flex-wrap:wrap}}
+
+/* admin.css · Custom orchestra builder */
+@media(max-width:760px){.orchestra-select-row,.core-section-actions{align-items:stretch;flex-direction:column}.orchestra-select-row label{min-width:0}.orchestra-step{grid-template-columns:30px 64px 1fr}.core-orchestra-custom-card{grid-template-columns:1fr}.core-orchestra-custom-card>div:last-child{justify-content:flex-start}.core-orchestra-form-meta{grid-template-columns:1fr}.core-builder-agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* admin.css · Run explorer and usage metering */
+@media(max-width:900px){.core-usage-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.core-run-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.core-run-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.core-run-stage{grid-template-columns:36px 1fr}.core-run-stage-meta,.core-run-stage-flags{grid-column:2}.core-run-stage-flags{justify-content:flex-start}}
+
+/* admin.css · Run explorer and usage metering */
+@media(max-width:560px){.core-run-filters,.core-run-detail-grid{grid-template-columns:1fr}.core-usage-strip{grid-template-columns:1fr 1fr}.core-run-stage{grid-template-columns:32px 1fr}}
+
+/* admin.css · Workspace controls */
+@media(max-width:760px){.workspace-switcher{min-width:0;width:100%}.top-actions{flex-wrap:wrap}.core-workspace-card{grid-template-columns:1fr}.core-workspace-card>div:last-child{justify-content:flex-start}}
+
+/* admin.css · Editor semantics */
+@media(max-width:760px){.editor-tabs{top:66px}.top-actions{flex-wrap:wrap;justify-content:flex-end}.topbar{align-items:flex-start}.form-panel{padding:16px}.editor-tabs{margin-top:16px}}
+
+/* admin.css · Viewport containment */
+@media(max-width:760px){
+  .topbar{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:10px}
+  .editor-title{min-width:0}
+  .top-actions{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end;justify-content:stretch}
+  .workspace-switcher{grid-column:1/-1;min-width:0;width:100%}
+  .top-actions>a{align-self:center;overflow-wrap:anywhere}
+  .top-actions>button{white-space:nowrap}
+}
+
+/* admin.css · Surgical UX pass: focus, drawers and adjustable panes */
+@media(max-width:1100px){.editor-grid{grid-template-columns:1fr}.editor-resizer{display:none}.preview-panel{display:flex}.editor-grid.preview-hidden .preview-panel{display:none}}
+
+/* admin.css · Surgical UX pass: focus, drawers and adjustable panes */
+@media(max-width:760px){
+  :root{--library-width:340px}
+  .sidebar{width:min(90vw,var(--library-width))}
+  .layout-menu{justify-self:end}
+  .layout-popover{position:fixed;top:auto;right:12px;bottom:12px;left:12px;width:auto;max-height:70dvh;overflow:auto}
+  .advanced-grid{grid-template-columns:1fr}.advanced-grid>*{grid-column:1}
+  .editor-disclosure>summary small,.desk-disclosure>summary small,.orchestra-options>summary small{display:none}
+}
+
+/* admin.css · Mobile command surface Phone UI is a purpose-built workspace, not a squeezed desktop shell. */
+@media(max-width:760px){
+  :root{--mobile-dock-h:62px;--mobile-safe-bottom:env(safe-area-inset-bottom,0px)}
+  html{scroll-padding-bottom:calc(var(--mobile-dock-h) + 18px)}
+  body{overflow-x:hidden}
+  .app{padding-bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom))}
+  body.library-open,body.mobile-more-open,body.mobile-preview-open{overflow:hidden}
+
+  /* Compact header. Desktop controls become a bottom sheet behind “Lisää”. */
+  .topbar{min-height:54px;display:flex;align-items:center;gap:8px;padding:8px 12px;position:sticky;top:0;z-index:20}
+  .editor-title{width:100%;min-width:0;gap:0}
+  .editor-title>.sidebar-toggle{display:none}
+  .editor-title>div{min-width:0;display:grid;gap:2px}
+  .editor-title .kicker{font-size:var(--font-size-meta);letter-spacing:.14em}
+  .editor-title strong{display:block;max-width:calc(100vw - 32px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--font-size-ui)}
+
+  .top-actions{display:none;position:fixed;z-index:72;left:10px;right:10px;bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom) + 8px);max-height:min(72dvh,620px);overflow:auto;padding:14px;border:1px solid #3a3a46;border-radius:16px;background:rgba(10,10,16,.985);box-shadow:0 -22px 70px var(--color-overlay-soft);backdrop-filter:blur(20px)}
+  body.mobile-more-open .top-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;align-items:stretch}
+  .mobile-quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;grid-column:1/-1;padding-bottom:12px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+  .mobile-quick-actions button{min-height:44px;padding:9px 10px}
+  .workspace-switcher{grid-column:1/-1;width:100%;min-width:0}
+  .workspace-switcher select{min-height:44px;width:100%}
+  .top-actions>.layout-menu{grid-column:1/-1;justify-self:stretch}
+  .layout-menu>summary{justify-content:center;width:100%;min-height:44px}
+  .top-actions>a,.top-actions>button{display:flex;align-items:center;justify-content:center;min-height:44px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:9px 10px}
+  .top-actions>a{background:#111119}
+  .layout-popover{position:static;width:100%;max-height:none;margin-top:8px;box-shadow:none}
+  .layout-popover label:not(.layout-check):nth-of-type(-n+2){display:none}
+  .layout-popover-head span{display:none}
+
+  /* The content gets the vertical real estate back. */
+  .form-panel{padding:12px 12px 26px}
+  .editor-grid{display:block;min-height:0}
+  .meta-grid{gap:10px}
+  .meta-grid label{font-size:var(--font-size-ui)}
+  .meta-grid input,.meta-grid select,.meta-grid textarea,.body-editor{min-height:44px;padding:10px 11px}
+  .public-url-box{margin-top:10px;padding:9px 10px;gap:8px;border-radius:8px}
+  .public-url-label{font-size:var(--font-size-meta)}
+  .public-url-hint{display:none}
+  .public-url-copy code{font-size:var(--font-size-meta);line-height:1.35;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+  .public-open{padding:8px 10px}
+
+  /* Tabs move to the thumb dock. */
+  .editor-tabs{display:none}
+  .editor-panel{padding-top:8px}
+  .body-head{margin:6px 0 7px}
+  .body-editor{min-height:58dvh;max-height:none;font-size:16px;line-height:1.55;resize:vertical}
+  .media-toolbar{display:grid;grid-template-columns:1fr;margin-bottom:6px}
+  .media-toolbar span{display:none}
+  .media-toolbar button{width:100%;min-height:42px}
+
+  /* Existing sticky publish rail would fight the new dock. */
+  .actions{position:static;margin:18px 0 0;padding:0;border:0;background:transparent;backdrop-filter:none}
+  .actions>#saveDraftBtn,.actions>#publishBtn{display:none}
+  .actions>.danger{width:100%;margin-left:0;min-height:44px}
+  .status{margin:8px 2px 0;padding-bottom:4px}
+
+  /* Phone drawer: full-height, generous hit targets, no 340px squeeze. */
+  .sidebar{z-index:74;width:min(92vw,390px);height:100dvh;padding:14px 12px calc(18px + var(--mobile-safe-bottom));border-bottom:0}
+  .side-head{position:sticky;top:-14px;z-index:2;margin:-14px -12px 0;padding:14px 12px 10px;background:rgba(7,7,12,.98);backdrop-filter:blur(14px)}
+  .sidebar-close{display:inline-flex;width:42px;height:42px;padding:0;font-size:1.35rem}
+  .side-actions #newBtn{min-height:42px}
+  .filters{position:sticky;top:62px;z-index:2;margin:0 -12px 10px;padding:8px 12px;background:rgba(7,7,12,.98)}
+  .filters button{min-height:38px;flex:1}
+  .post-list{gap:7px;padding-bottom:30px}
+  .post-item{min-height:58px;padding:11px}
+  .post-item strong{font-size:.88rem}
+  .post-item span{font-size:var(--font-size-meta);line-height:1.35}
+  .sidebar-backdrop{z-index:73}
+
+  /* Bottom navigation. Thin, safe-area aware and always thumb-reachable. */
+  .mobile-dock{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;z-index:80;left:0;right:0;bottom:0;height:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom));padding:4px 6px calc(4px + var(--mobile-safe-bottom));border-top:1px solid rgba(255,255,255,.1);background:rgba(5,5,10,.965);box-shadow:0 -12px 32px rgba(0,0,0,.46);backdrop-filter:blur(18px)}
+  .mobile-dock button{min-width:0;min-height:52px;display:grid;place-items:center;align-content:center;gap:2px;padding:4px 2px;border:0;border-radius:9px;background:transparent;color:#96919e}
+  .mobile-dock button>span{font:800 1rem/1 ui-sans-serif,system-ui,sans-serif}
+  .mobile-dock button>small{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--font-size-meta);font-weight:750;letter-spacing:.01em}
+  .mobile-dock button.active,.mobile-dock button[aria-expanded="true"]{color:var(--color-text-strong);background:rgba(255,22,61,.1);box-shadow:inset 0 0 0 1px rgba(255,88,116,.22)}
+  .mobile-dock button.active>span,.mobile-dock button[aria-expanded="true"]>span{color:#ff6a83}
+
+  .mobile-ui-backdrop{display:block;position:fixed;z-index:70;inset:0 0 calc(var(--mobile-dock-h) + var(--mobile-safe-bottom)) 0;border:0;border-radius:0;padding:0;background:rgba(0,0,0,.56);opacity:0;pointer-events:none;backdrop-filter:blur(2px);transition:opacity .16s ease}
+  body.mobile-more-open .mobile-ui-backdrop,body.mobile-preview-open .mobile-ui-backdrop{opacity:1;pointer-events:auto}
+
+  /* Preview is an actual mobile view instead of another giant panel under the editor. */
+  .preview-panel{display:none;position:fixed;z-index:76;inset:8px 8px calc(var(--mobile-dock-h) + var(--mobile-safe-bottom) + 8px);max-height:none;border:1px solid #33333f;border-radius:16px;background:var(--color-surface-preview);box-shadow:0 24px 90px #000;overflow:hidden}
+  body.mobile-preview-open .preview-panel{display:flex}
+  .preview-head{flex:0 0 auto;padding:10px 12px}
+  .preview-head-actions{gap:7px}
+  .mobile-preview-close{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;padding:0;font-size:1.2rem}
+  .preview{flex:1;min-height:0;max-height:none;padding:22px 16px 40px;overscroll-behavior:contain}
+  .preview h1{font-size:clamp(1.8rem,9vw,2.6rem)}
+
+  /* Dense subsystems get single-column mobile ergonomics. */
+  .advanced-grid,.agent-controls,.orchestra-select-row,.core-runtime-controls,.core-agent-contract-grid,.core-run-filters,.core-run-detail-grid{grid-template-columns:1fr}
+  .agent-desk,.orchestra-desk,.machine-room,.core-section{border-radius:10px}
+  .agent-desk,.orchestra-desk{padding:12px}
+  .agent-desk-head,.orchestra-head,.evidence-editor-head{gap:8px}
+  .agent-desk-head h3,.orchestra-head h3{font-size:1rem}
+  .agent-model-status,.orchestra-lock{font-size:var(--font-size-meta);line-height:1.3}
+  .agent-rule,.orchestra-rule,.machine-room-rule{font-size:var(--font-size-meta);line-height:1.45}
+  .agent-actions,.orchestra-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .agent-actions button,.orchestra-actions button{width:100%;min-height:44px}
+  .orchestra-actions .orchestra-run{grid-column:1/-1}
+  .orchestra-terminal{height:150px;font-size:var(--font-size-meta)}
+  .machine-room{padding:10px}
+  .machine-room-rule{display:none}
+  .machine-room-stage{min-height:64px}
+  .machine-room-log{margin-top:6px}
+  .core-panel{padding-bottom:10px}
+  .core-hero{padding:14px}
+  .core-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .core-metrics article{min-width:0;padding:10px}
+  .core-metrics strong{overflow-wrap:anywhere}
+  .core-section{padding:12px}
+  .core-section-head{gap:8px}
+  .core-section-actions{width:100%}
+  .core-section-actions button{width:100%;min-height:42px}
+
+  dialog{width:calc(100vw - 16px);max-width:none;max-block-size:calc(100dvh - var(--mobile-dock-h) - 22px);margin:8px auto calc(var(--mobile-dock-h) + 8px);padding:14px;border-radius:14px}
+  .publish-dialog .dialog-actions{display:grid;grid-template-columns:1fr;gap:8px}
+  .publish-dialog .dialog-actions button{width:100%;min-height:46px}
+}
+
+/* admin.css · Mobile command surface Phone UI is a purpose-built workspace, not a squeezed desktop shell. */
+@media(max-width:390px){
+  .mobile-dock button>small{font-size:var(--font-size-meta)}
+  .form-panel{padding-inline:10px}
+  .agent-actions,.orchestra-actions{grid-template-columns:1fr}
+  .orchestra-actions .orchestra-run{grid-column:auto}
+  .core-metrics{grid-template-columns:1fr 1fr}
+}
+
+/* admin.css · LAHETYSKONE APP SPLIT */
+@media(display-mode:standalone){
+  .topbar{padding-top:max(12px,env(safe-area-inset-top))}
+  .login-shell{padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom))}
+}
+
+/* admin.css · LAHETYSKONE APP SPLIT */
+@media(max-width:760px){
+  .connection-state{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--color-glass-soft)}
+  .install-app-button{width:100%}
+  .install-help-dialog{padding:18px;margin:auto}
+}
+
+/* admin.css · Narramancer Vertical Slice */
+@media (max-width: 850px){
+  body[data-workspace-template="narrative-authoring"] .topbar { grid-template-columns:1fr; }
+  body[data-workspace-template="narrative-authoring"] .top-actions { width:100%; flex-wrap:wrap; }
+  .narramancer-workspace { padding:10px; }
+  .narramancer-commandbar { align-items:flex-start; flex-direction:column; }
+  .narramancer-split { grid-template-columns:1fr; }
+  .narramancer-list { border-right:0; border-bottom:1px solid var(--line); padding:0 0 12px; max-height:240px; overflow:auto; }
+  .narramancer-form-grid,.narramancer-inline-fields,.narramancer-export { grid-template-columns:1fr; }
+  .narramancer-form-grid .narramancer-field:has(input) { grid-column:1/-1; }
+}
+
+/* admin.css · Navigation Shell / Information Architecture Rebuild */
+@media(max-width:980px){:root{--workspace-nav-width:190px}.core-shell{grid-template-columns:minmax(180px,.7fr) minmax(340px,1.3fr) auto;gap:8px;padding-inline:12px}.core-shell-nav button{padding-inline:8px}.core-shell-status .connection-state{display:none}.workspace-context-actions .orchestra-switcher{display:none}}
+
+/* admin.css · Navigation Shell / Information Architecture Rebuild */
+@media(max-width:760px){:root{--core-shell-height:58px;--workspace-bar-height:56px}.app{padding-bottom:calc(var(--mobile-dock-h,62px) + var(--mobile-safe-bottom,0px))}.core-shell{grid-template-columns:auto minmax(0,1fr) auto;min-height:var(--core-shell-height);padding:7px 9px;gap:6px}.core-shell-brand small{display:none}.core-shell-brand strong{font-size:var(--font-size-meta)}.core-shell-mark{width:32px;height:32px}.core-shell-nav{justify-content:flex-start;overflow-x:auto;scrollbar-width:none}.core-shell-nav::-webkit-scrollbar{display:none}.core-shell-nav button{flex:0 0 auto;padding:8px 8px;font-size:var(--font-size-meta)}.core-shell-nav button[data-shell-route="artifacts"]{display:none}.core-settings-button{width:36px;height:36px;padding:0;overflow:hidden;font-size:0}.core-settings-button::before{content:"⚙";font-size:1rem}.workspace-context-bar{top:var(--core-shell-height);min-height:var(--workspace-bar-height);padding:7px 10px}.editor-title small{display:none}.workspace-context-actions{display:none}.workspace-stage{display:block;min-height:0}.workspace-local-sidebar{position:sticky;top:calc(var(--core-shell-height) + var(--workspace-bar-height));z-index:45;height:auto;max-height:none;overflow-x:auto;overflow-y:hidden;padding:6px 8px;border-right:0;border-bottom:1px solid var(--line);background:rgba(8,8,13,.98)}.workspace-local-context{display:none}.workspace-local-nav{display:flex;gap:12px;min-width:max-content}.workspace-local-group{display:flex;align-items:center;gap:5px}.workspace-local-group>span{padding:0 4px;font-size:var(--font-size-meta)}.workspace-local-group button{width:auto;min-height:38px;padding:7px 9px}.workspace-local-group button.active{box-shadow:inset 0 -2px 0 var(--red)}.workspace-content{grid-column:auto}.core-surface{padding:14px 12px 90px;min-height:0}.core-surface-head{display:grid;gap:14px;padding-top:6px}.core-surface-head h1{font-size:1.45rem}.workspace-home-grid{grid-template-columns:1fr}.workspace-home-grid .workspace-home-card{min-height:0;padding:14px}.artifact-grid{grid-template-columns:1fr}.artifact-hero{align-items:flex-start;flex-direction:column}.settings-layout-grid{grid-template-columns:1fr}.core-settings-actions{display:grid;grid-template-columns:1fr}.core-settings-actions>*{width:100%;justify-content:center}.core-settings-actions .danger{margin-left:0}.narramancer-workspace{padding:8px 10px 90px}.narramancer-run-progress{align-items:flex-start;flex-direction:column}}
+
+/* admin.css · Navigation Shell / Information Architecture Rebuild */
+@media(max-width:760px){body:not([data-workspace-template="narrative-authoring"]) .workspace-local-sidebar{display:none}}
+
+/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
+@media(max-width:1220px){
+  :root{--workspace-nav-width:210px}
+  .core-shell{grid-template-columns:minmax(200px,auto) minmax(0,1fr) auto;gap:12px;padding-inline:16px}
+  .core-shell-nav button{padding-inline:10px}
+  .workspace-context-bar{padding-inline:16px}
+  .workspace-switcher{min-width:170px}.workspace-switcher.orchestra-switcher{min-width:210px}
+  #coreMachineHost .core-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
+@media(max-width:980px){
+  :root{--workspace-nav-width:190px}
+  .core-shell{grid-template-columns:auto minmax(0,1fr) auto}
+  .core-shell-brand small{display:none}
+  .core-shell-nav{justify-self:stretch;overflow-x:auto;scrollbar-width:none}
+  .core-shell-nav::-webkit-scrollbar{display:none}
+  .core-shell-nav button{flex:0 0 auto}
+  .core-shell-status .connection-state{display:none}
+  .workspace-context-bar{grid-template-columns:minmax(240px,1fr) auto}
+  .workspace-context-actions .orchestra-switcher{display:none}
+  #coreMachineHost .core-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
+@media(max-width:760px){
+  :root{--core-shell-height:58px;--workspace-bar-height:58px}
+  .app{grid-template-columns:minmax(0,1fr);padding-bottom:calc(var(--mobile-dock-h,62px) + var(--mobile-safe-bottom,0px))}
+  .core-shell{grid-column:1;grid-template-columns:auto minmax(0,1fr) auto;min-height:var(--core-shell-height);gap:6px;padding:7px 9px}
+  .core-shell-brand{min-height:42px;gap:7px}.core-shell-brand strong{font-size:var(--font-size-meta)}.core-shell-mark{width:32px;height:32px}
+  .core-shell-nav{padding:2px;border:0;background:transparent;border-radius:0}
+  .core-shell-nav button{min-height:38px;padding:7px 8px;font-size:var(--font-size-meta)}
+  .core-shell-nav button.active{box-shadow:inset 0 -2px 0 var(--red)}
+  .core-settings-button{width:36px;height:36px;min-height:36px;padding:0;overflow:hidden;font-size:0}
+  .core-settings-button::before{content:"⚙";font-size:1rem}
+  .workspace{grid-column:1}
+  .workspace-context-bar{grid-template-columns:minmax(0,1fr);min-height:var(--workspace-bar-height);padding:7px 10px}
+  .editor-title{gap:8px}.editor-title strong{font-size:var(--font-size-ui)}.editor-title small{display:none}
+  .workspace-context-actions{display:none}
+  .workspace-stage{display:block;min-height:0}
+  .workspace-local-sidebar{top:calc(var(--core-shell-height) + var(--workspace-bar-height));height:auto;padding:6px 8px}
+  .core-surface{padding:16px 12px 90px;min-height:0}
+  .core-surface-head{display:grid;gap:14px;padding-top:5px}.core-surface-head h1{font-size:1.5rem}.core-surface-head p{font-size:var(--font-size-ui)}
+  #coreMachineHost .core-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #coreMachineHost .core-section{padding:12px}
+  .workspace-home-grid .workspace-home-card{padding:15px;min-height:0}
+  .narramancer-workspace{padding:9px 10px 90px}
+}
+
+/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
+@media(max-width:390px){
+  .core-shell-brand .core-shell-mark{display:none}
+  .core-shell-nav button{padding-inline:7px}
+  #coreMachineHost .core-metrics{grid-template-columns:1fr 1fr}
+}
+
+/* admin.css · Core shell semantics and isolated workspace home */
+@media(max-width:760px){
+  body[data-workspace-template="blank-private"] .app{padding-bottom:0}
+  .blank-workspace{min-height:0;padding:16px 12px 42px}
+  .blank-workspace-hero{display:grid;gap:18px;padding:20px}
+  .blank-workspace-grid{grid-template-columns:1fr}
+  .blank-workspace-grid article{min-height:0;padding:17px}
+  .blank-workspace-actions{display:grid;grid-template-columns:1fr}
+}
+
+/* admin.css · Narramancer Authoring Maturity */
+@media(max-width:760px){
+  :root{--mobile-dock-h:66px}
+  html{scroll-padding-bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom,0px) + 16px)}
+  .app{padding-bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom,0px))}
+
+  /* Desktop rail never becomes a third horizontal chrome row. */
+  .workspace-local-sidebar,
+  body[data-workspace-template="narrative-authoring"] .workspace-local-sidebar{display:none}
+  .workspace-stage{display:block;grid-template-columns:minmax(0,1fr)}
+  .workspace-content{grid-column:1;min-width:0}
+
+  /* Same template metadata drives the dock for both Anomancer and Narramancer. */
+  .mobile-dock:not([hidden]),
+  body[data-workspace-template="narrative-authoring"] .mobile-dock:not([hidden]){
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    height:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom,0px));
+    padding:5px 6px calc(5px + var(--mobile-safe-bottom,0px));
+  }
+  .mobile-dock[hidden]{display:none}
+  .mobile-dock button{min-height:54px;min-width:44px;padding:4px 2px;touch-action:manipulation}
+  .mobile-dock button>small{font-size:var(--font-size-meta);line-height:1.05;font-weight:750;letter-spacing:0}
+  .mobile-dock button>span{font-size:1.05rem}
+
+  .core-shell-nav button{min-height:44px;font-size:var(--font-size-ui)}
+  .core-shell-brand strong{font-size:var(--font-size-ui)}
+  .editor-title strong{font-size:var(--font-size-ui)}
+  .workspace-context-bar{min-height:var(--workspace-bar-height)}
+  .core-surface-head p,.workspace-home-card p,.artifact-grid p,.narramancer-export p,.narramancer-empty{font-size:var(--font-size-ui);line-height:1.5}
+  .narramancer-panel-head span,.narramancer-panel-head small,
+  .narramancer-field>span,.narramancer-inline-fields label>span,
+  .narramancer-orchestra-head>span,.narramancer-command-actions>span{font-size:var(--font-size-ui)}
+  .narramancer-workspace input,.narramancer-workspace textarea,.narramancer-workspace select{font-size:16px}
+  .narramancer-workspace button{min-height:44px}
+  .narramancer-status{font-size:var(--font-size-ui);line-height:1.45}
+
+  .workspace-mobile-sheet[open]{
+    position:fixed;
+    inset:auto 8px calc(var(--mobile-dock-h) + var(--mobile-safe-bottom,0px) + 8px) 8px;
+    width:auto;
+    max-width:none;
+    max-height:min(70dvh,610px);
+    margin:0;
+    overflow:auto;
+  }
+  .workspace-mobile-more-nav,.workspace-mobile-command-grid{grid-template-columns:1fr}
+  .workspace-mobile-more-nav button,.workspace-mobile-command-grid button{min-height:48px;font-size:var(--font-size-ui)}
+
+  .narramancer-commandbar{gap:12px;padding:14px}
+  .narramancer-command-actions{width:100%;justify-content:space-between;flex-wrap:wrap}
+  .narramancer-panel{min-height:0;padding:14px 12px}
+  .narramancer-panel-head{align-items:flex-start}
+  .narramancer-detail-head{align-items:flex-start;flex-direction:column}
+  .narramancer-detail-actions{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .narramancer-detail-actions button{min-width:0}
+  .narramancer-proposal-head{display:grid}
+  .narramancer-diff-list article{grid-template-columns:minmax(0,1fr)}
+  .narramancer-diff-list article>div p{font-size:var(--font-size-ui)}
+  .narramancer-undo{position:sticky;bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom,0px));z-index:65}
+}
+
+/* admin.css · Narramancer Authoring Maturity */
+@media(max-width:390px){
+  .core-shell-nav button{padding-inline:6px}
+  .mobile-dock button>small{font-size:var(--font-size-meta)}
+  .narramancer-detail-actions{grid-template-columns:1fr 1fr}
+  .narramancer-detail-actions .danger{grid-column:1/-1}
+}
+
+/* admin.css · Evidence Interaction */
+@media(max-width:760px){.evidence-readiness{grid-template-columns:1fr}.evidence-section-head{align-items:flex-start}.evidence-section-head button{min-height:42px}.source-composer{grid-template-columns:1fr}.source-composer .wide{grid-column:auto}.source-composer button{width:100%;min-height:44px}.claim-card-head{align-items:flex-start;flex-direction:column}.claim-card-head select{width:100%;min-height:44px}.claim-source-option{min-height:44px}.evidence-workbench{padding:11px}}
+
+/* admin-control-plane.css · responsive orchestra flow */
+@media(max-width:980px){
+  .orchestra-stages[data-step-count="8"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(1){grid-column:1;grid-row:1}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(2){grid-column:2;grid-row:1}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(3){grid-column:2;grid-row:2}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(4){grid-column:1;grid-row:2}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(5){grid-column:1;grid-row:3}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(6){grid-column:2;grid-row:3}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(7){grid-column:2;grid-row:4}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(8){grid-column:1;grid-row:4}
+  .orchestra-stages[data-step-count="8"] .orchestra-step::after{content:"→";right:-20px;left:auto;top:50%;bottom:auto;transform:translateY(-50%)}
+  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(2)::after,.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(6)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}
+  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(3)::after,.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(7)::after{content:"←";right:auto;left:-20px;top:50%;bottom:auto;transform:translateY(-50%)}
+  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(4)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}
+  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(8)::after{display:none}
+}
+
+/* admin-control-plane.css · responsive orchestra flow */
+@media(max-width:600px){
+  .orchestra-stages,.orchestra-stages[data-step-count="8"]{position:relative;grid-template-columns:1fr;gap:12px;padding-left:28px}
+  .orchestra-stages[data-step-count="8"]::before{content:"";position:absolute;left:9px;top:18px;bottom:18px;width:1px;background:linear-gradient(180deg,rgba(113,125,240,.18),rgba(113,125,240,.62),rgba(113,125,240,.18));pointer-events:none}
+  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(n){grid-column:1;grid-row:auto}
+  .orchestra-stages[data-step-count="8"] .orchestra-step::before{content:"";position:absolute;left:-23px;top:18px;width:8px;height:8px;border:2px solid #06060b;border-radius:50%;background:#9aa5ff;box-shadow:0 0 0 1px rgba(113,125,240,.34)}
+  .orchestra-stages[data-step-count="8"] .orchestra-step::after{display:none}
+}
+
+/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
+@media(max-width:720px){.machine-room-head{display:grid}.machine-room-modes{justify-content:flex-start}.machine-room-stage{grid-template-columns:66px minmax(0,1fr);gap:9px}.machine-room-character{font-size:1.72rem}.machine-room-message strong{font-size:var(--font-size-meta)}.machine-room-log li{grid-template-columns:56px minmax(0,1fr)}}
+
+/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
+@media(max-width:460px){.machine-room-modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.machine-room-modes button{padding-inline:5px}.machine-room-stage{grid-template-columns:54px minmax(0,1fr);padding:9px}.machine-room-character{font-size:1.48rem}.machine-room-rule{font-size:var(--font-size-meta)}}
+
+/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
+@media(prefers-reduced-motion:reduce){.machine-room *{animation:none!important;transition:none!important}}
+
+/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
+@media(prefers-reduced-motion:reduce){html[data-machine-mode] #orchestraStages [data-stage][data-state="running"]::before{animation:none!important}}
+
+/* admin-control-plane.css · MOBILE CONTROL PLANE REFLOW */
+@media(max-width:760px){
+  /* The control-plane stylesheet is loaded after admin.css, so its mobile
+     rules must live here after the desktop component declarations. */
+  html,body{max-width:100%;overflow-x:clip}
+  body{width:100%;max-width:100dvw}
+  .app,.workspace,.editor-grid,.form-panel,.core-panel,.core-section{min-width:0;max-width:100%}
+  .app,.workspace{width:100%;overflow-x:clip}
+  .core-panel{gap:12px}
+  .core-hero{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:14px}
+  .core-version{justify-self:start}
+  .core-section{padding:12px;overflow:hidden}
+  .core-section-head{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:7px}
+  .core-section-head>span{max-width:100%;text-align:left;overflow-wrap:anywhere}
+  .core-section-actions{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;justify-items:start;gap:7px}
+  .core-section-actions>span{max-width:100%;overflow-wrap:anywhere}
+
+  /* Overview metrics: two readable cards instead of a seven-column barcode. */
+  .core-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .core-metrics article{min-width:0;padding:10px}
+  .core-metrics strong{max-width:100%;overflow:hidden;overflow-wrap:normal;text-overflow:ellipsis;white-space:nowrap}
+
+  /* Registry cards become actual phone cards. */
+  .core-agent-grid,.core-tool-policy-grid{grid-template-columns:minmax(0,1fr)}
+  .core-agent-card,.core-tool-policy-grid article,.core-orchestra-card,.core-workspace-card,.core-orchestra-custom-card,.core-run-row{min-width:0;max-width:100%}
+  .core-agent-card dl div{grid-template-columns:minmax(76px,.34fr) minmax(0,1fr)}
+  .core-tool-policy-grid dl div{grid-template-columns:minmax(70px,.32fr) minmax(0,1fr)}
+  .core-agent-card dd,.core-tool-policy-grid dd{word-break:normal;overflow-wrap:anywhere}
+  .core-policy-log-head{display:grid;align-items:start;gap:4px}
+  .core-policy-log article{grid-template-columns:minmax(0,1fr);gap:7px}
+  .core-policy-log article>div{flex-wrap:wrap}
+  .core-router-providers,.core-router-routes{grid-template-columns:minmax(0,1fr)}
+  .core-orchestra-custom-card,.core-workspace-card{grid-template-columns:minmax(0,1fr)}
+  .core-orchestra-custom-card>div:last-child,.core-workspace-card>div:last-child{justify-content:flex-start;flex-wrap:wrap}
+
+  /* Usage and run explorer: compact metrics + deliberate metadata layout. */
+  .core-usage-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .core-usage-strip article{min-width:0;padding:10px}
+  .core-usage-strip article:last-child:nth-child(odd){grid-column:1/-1}
+  .core-usage-strip strong{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .core-run-filters{grid-template-columns:minmax(0,1fr);gap:9px}
+  .core-run-filters select,.core-run-filters button{width:100%;min-height:44px}
+  .core-run-row{grid-template-columns:minmax(0,1fr);gap:9px;padding:11px}
+  .core-run-row>div{min-width:0}
+  .core-run-row>div:first-child{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px 9px;align-items:center}
+  .core-run-row>div:first-child strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .core-run-row>div:first-child>span:not(.core-run-status){grid-column:1/-1;display:block;min-width:0;max-width:100%;overflow:hidden;overflow-wrap:normal;text-overflow:ellipsis;white-space:nowrap}
+  .core-run-row>div:last-child{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px;align-items:start}
+  .core-run-row>div:last-child span{min-width:0;overflow-wrap:normal;word-break:normal}
+  .core-run-row>div:last-child time{grid-column:1/-1;overflow-wrap:normal;word-break:normal}
+
+  /* Native dialogs use the visual viewport and stop inheriting desktop form grids. */
+  .core-agent-dialog,.core-workspace-dialog,.core-orchestra-dialog,.core-run-dialog{box-sizing:border-box;width:calc(100dvw - 16px);max-width:calc(100dvw - 16px);max-height:calc(100dvh - var(--mobile-dock-h,62px) - var(--mobile-safe-bottom,0px) - 18px);margin:8px auto calc(var(--mobile-dock-h,62px) + var(--mobile-safe-bottom,0px) + 8px);padding:0;overflow:auto}
+  .core-agent-dialog form{min-width:0;max-width:100%}
+  .core-agent-dialog-head{gap:10px;padding:14px 12px 12px}
+  .core-agent-dialog-head>div{min-width:0}
+  .core-agent-dialog-head h3,.core-agent-dialog-id{overflow-wrap:anywhere}
+  .core-agent-dialog-head>button{flex:0 0 46px;min-width:46px;min-height:46px;padding:8px}
+  .core-agent-dialog-description{margin:13px 12px 0}
+  .core-orchestra-form-meta{grid-template-columns:minmax(0,1fr);gap:10px;margin:12px}
+  .core-orchestra-form-meta input,.core-orchestra-form-meta textarea{font-size:16px}
+  .core-runtime-controls,.core-agent-contract-grid{grid-template-columns:minmax(0,1fr)}
+  .core-runtime-controls{margin:12px}
+  .core-agent-contract-grid{padding:0 12px 12px}
+  .core-runtime-notice{margin:0 12px 12px}
+  .core-toggle-row,.core-token-control{align-items:flex-start;flex-direction:column}
+  .core-token-control input,.core-token-control select{width:100%;min-width:0;max-width:100%;font-size:16px}
+  .core-agent-dialog-actions{display:grid;grid-template-columns:minmax(0,1fr);align-items:stretch;gap:9px;padding:12px}
+  .core-agent-dialog-actions>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .core-agent-dialog-actions>span{min-width:0;overflow-wrap:anywhere}
+  .core-agent-dialog-actions button{min-width:0;width:100%;min-height:46px}
+
+  /* Orchestra builder keeps choice density, but not desktop density. */
+  .core-orchestra-builder-head{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:8px;margin:0 12px 9px}
+  .core-orchestra-builder-head>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .core-orchestra-builder-head button{min-width:0;width:100%}
+  .core-orchestra-builder-steps{padding:0 12px 12px}
+  .core-builder-agent-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .core-builder-agent{min-width:0}
+  .core-builder-agent strong{overflow-wrap:anywhere}
+  .core-orchestra-step-card header{align-items:flex-start}
+  .core-orchestra-step-card header>div:last-child{display:grid;grid-template-columns:repeat(3,44px);gap:5px}
+  .core-orchestra-step-card header button{min-width:44px;min-height:44px;padding:7px}
+  .core-orchestra-errors{margin:0 12px 12px}
+
+  /* Run detail gets the same one-dimensional reading order. */
+  .core-run-detail{padding:12px}
+  .core-run-detail-grid{grid-template-columns:minmax(0,1fr)}
+  .core-run-hashes code{display:block;max-width:100%;overflow:hidden;overflow-wrap:normal;text-overflow:ellipsis;white-space:nowrap}
+  .core-run-stage{grid-template-columns:32px minmax(0,1fr);gap:8px}
+  .core-run-stage-meta,.core-run-stage-flags{grid-column:2}
+  .core-run-stage-flags{justify-content:flex-start}
+}
+
+/* admin-control-plane.css · MOBILE CONTROL PLANE REFLOW */
+@media(max-width:420px){
+  .core-metrics span,.core-usage-strip span{letter-spacing:.045em}
+  .core-agent-dialog-actions>div{grid-template-columns:minmax(0,1fr)}
+  .core-builder-agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Interaction floors: release-wide pointer and keyboard target contract. */
+.app button,.login-shell button{min-width:var(--tap-target);min-height:var(--tap-target)}
+.app select,.login-shell input{min-height:var(--tap-target)}
+
+/* Compact mobile chrome: keep persistent top layers within the audited 100–112px target. */
+@media(max-width:760px){
+  :root{--core-shell-height:56px;--workspace-bar-height:54px}
+  .core-shell{padding:5px 9px}
+  .workspace-context-bar{padding:5px 10px}
+}
+
+/* Archive Core 1.17.1 responsive contract */
+@media(max-width:900px){.archive-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.archive-toolbar{grid-template-columns:1fr 1fr}.archive-toolbar label:first-child{grid-column:1/-1}.archive-layout{grid-template-columns:minmax(250px,.82fr) minmax(0,1.18fr)}.archive-object-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.archive-object-meta>div:nth-child(n+3){border-top:1px solid var(--line)}.archive-object-meta>div:not(:nth-child(3n+1)){border-left:0}.archive-object-meta>div:nth-child(even){border-left:1px solid var(--line)}}
+@media(max-width:760px){.archive-boundary-banner{align-items:flex-start;flex-direction:column;gap:5px}.archive-layout{grid-template-columns:1fr;min-height:0}.archive-browser{max-height:none}.archive-object-list{max-height:420px}.archive-inspector{padding:16px}.archive-inspector-head{flex-direction:column}.archive-object-meta{grid-template-columns:1fr}.archive-object-meta.archive-object-meta>div{border-left:0}.archive-object-meta>div+div{border-top:1px solid var(--line)}.archive-provenance-grid{grid-template-columns:1fr}.archive-grant-form{grid-template-columns:1fr}.archive-store-meta{align-items:flex-start;flex-direction:column;gap:4px}.archive-object-form{grid-template-columns:1fr;padding:14px}.archive-object-form .wide{grid-column:auto}.archive-provenance-fields{grid-template-columns:1fr}.archive-toolbar{grid-template-columns:1fr}.archive-toolbar label:first-child{grid-column:auto}}
+@media(max-width:420px){.archive-metrics{grid-template-columns:1fr 1fr;gap:7px}.archive-metrics article{min-height:74px;padding:11px}.archive-view .core-surface-head{gap:14px}.archive-head-actions{width:100%}.archive-head-actions>*{flex:1 1 140px}.archive-object-card{min-height:132px;padding:13px}.archive-inspector{padding:13px}.archive-content-text,.archive-content-json{font-size:12px}.archive-object-dialog{width:calc(100vw - 12px)}}
+
+/* Nanomancer capability workbench responsive contract */
+@media(max-width:760px){.nanomancer-lab{padding:14px;border-radius:14px}.nanomancer-head{display:grid}.nanomancer-source-grid{grid-template-columns:1fr}.nanomancer-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.nanomancer-actions{align-items:stretch}.nanomancer-actions button{min-height:44px}.nanomancer-change-table{display:block;overflow-x:auto;max-width:100%}}

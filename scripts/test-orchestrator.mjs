@@ -1,13 +1,14 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { readAdminCss } from './read-admin-css.mjs';
 let ok=0;const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`)};
 const html=fs.readFileSync('admin.html','utf8');
 const js=fs.readFileSync('admin-orchestrator.js','utf8');
-const css=fs.readFileSync('admin.css','utf8')+fs.readFileSync('admin-control-plane.css','utf8');
+const css=readAdminCss();
 const build=fs.readFileSync('scripts/build-blog.mjs','utf8');
 const api=fs.readFileSync('server/admin-routes/agents.js','utf8');
 await import('node:child_process').then(({execFileSync})=>execFileSync(process.execPath,['--check','admin-orchestrator.js'],{stdio:'pipe'}));
-test('adminissa on 16.3 työtilaorkestrointi ja ajoloki',()=>{assert.match(html,/16\.3 · TYÖTILAORKESTROINTI/);assert.match(html,/orchestraTerminal/);assert.match(html,/IHMINEN PÄÄTTÄÄ LOPULLISESTI/);});
+test('adminissa on työtilaorkestrointi ja ajoloki ilman työpinnan release-leimaa',()=>{assert.match(html,/>TYÖTILAORKESTROINTI</);assert.doesNotMatch(html,/16\.3 · TYÖTILAORKESTROINTI/);assert.match(html,/orchestraTerminal/);assert.match(html,/IHMINEN PÄÄTTÄÄ LOPULLISESTI/);});
 test('putki sisältää kaikki kahdeksan agenttia oikeassa järjestyksessä',()=>{assert.match(js,/source[\s\S]*structure[\s\S]*writer[\s\S]*critic[\s\S]*audience[\s\S]*voice[\s\S]*claims[\s\S]*package/);});
 test('orkestrointi käyttää vain olemassa olevaa agentti-API:a',()=>{assert.match(js,/\/api\/admin\/core\?resource=agents/);assert.doesNotMatch(js,/api\.github\.com|\/api\/admin\/posts|publishBtn\.click|saveDraftBtn\.click/);});
 test('human approval gate jää viimeiseksi',()=>{assert.match(js,/humanApprovalRequired:true/);assert.match(js,/Lähdeagentin ehdokkaat ovat edelleen ihmisen tarkistettavia/);assert.match(js,/Mitään ei julkaista tällä toiminnolla/);});

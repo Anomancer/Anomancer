@@ -1,0 +1,48 @@
+/* Workspace chrome, local navigation and editor workspace layout */
+/* Workspace controls */
+
+/* Editor semantics */
+
+.editor-tabs{position:sticky;top:70px;z-index:8;display:flex;gap:6px;margin:22px 0 0;padding:7px;border:1px solid var(--line);border-radius:var(--radius-md);background:rgba(8,8,14,.96);backdrop-filter:blur(14px);overflow-x:auto}.editor-tabs button{flex:1;min-width:max-content;background:transparent;color:var(--muted);font-size:var(--font-size-ui);font-weight:750}.editor-tabs button[aria-selected="true"]{color:var(--color-text-strong);border-color:#844059;background:#25121a}.editor-panel[hidden]{display:none}.editor-panel{min-width:0}.dialog-actions button,.actions button{min-height:var(--tap-target)}dialog{max-block-size:min(90dvh,900px);overflow:auto}
+/* Viewport containment */
+
+.audience-options input{width:1px;height:1px;margin:0}
+/* Mobile command surface
+   Phone UI is a purpose-built workspace, not a squeezed desktop shell. */
+
+.mobile-dock,.mobile-ui-backdrop,.mobile-quick-actions,.mobile-preview-close{display:none}
+.mobile-command-portal{display:contents}
+.preview-head-actions{display:flex;align-items:center;gap:8px}
+/* Responsive Workspace Navigation */
+
+html,body,.app,.workspace,.workspace-stage,.workspace-content,.narramancer-workspace{max-width:100%;min-width:0}
+html,body{overflow-x:clip}
+:where(.core-shell,.workspace-context-bar,.workspace-local-sidebar,.workspace-mobile-sheet,.narramancer-workspace) :focus-visible{
+  outline:2px solid var(--red);
+  outline-offset:2px;
+}
+.workspace-mobile-sheet{
+  box-sizing:border-box;
+  width:min(560px,calc(100vw - 28px));
+  max-height:min(78dvh,680px);
+  padding:0;
+  border:1px solid #363642;
+  border-radius:18px;
+  background:var(--color-surface-card);
+  color:var(--text);
+  box-shadow:0 30px 100px var(--color-overlay);
+}
+.workspace-mobile-sheet::backdrop{background:var(--color-overlay);backdrop-filter:blur(5px)}
+.workspace-mobile-sheet-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:16px 16px 13px;border-bottom:1px solid var(--line)}
+.workspace-mobile-sheet-head>div{display:grid;gap:3px;min-width:0}
+.workspace-mobile-sheet-head span,.workspace-mobile-sheet-section>span,.workspace-mobile-switch>span{color:var(--dim);font-size:var(--font-size-ui);font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.workspace-mobile-sheet-head strong{font-size:1rem}
+.workspace-mobile-sheet-head button{min-width:44px;min-height:44px}
+.workspace-mobile-switch{display:grid;gap:7px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.workspace-mobile-switch select{width:100%;min-height:46px;font-size:var(--font-size-ui)}
+.workspace-mobile-sheet-section{display:grid;gap:9px;padding:14px 16px}
+.workspace-mobile-sheet-section+.workspace-mobile-sheet-section{border-top:1px solid var(--line)}
+.workspace-mobile-more-nav,.workspace-mobile-command-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.workspace-mobile-more-nav button,.workspace-mobile-command-grid button{min-width:0;min-height:48px;padding:10px 12px;text-align:left;font-size:var(--font-size-ui)}
+.mobile-ui-backdrop.is-open,.sidebar-backdrop.is-open{opacity:1;pointer-events:auto}
+body.workspace-sheet-open{overflow:hidden}

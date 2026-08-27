@@ -1,3 +1,106 @@
+# Anomancer 1.17.2 · Nanomancer
+
+- lisätty versionoitu Capability Registry ja `anomancer-capability-plugin/v1` -sopimus
+- lisätty Nanomancer ensimmäiseksi uudelleenkäytettäväksi read-only capability-pluginiksi
+- lisätty deterministiset compare-, diff-, consistency-, deviation- ja cross-run-operaatiot
+- lisätty `anomancer-nanomancer-analysis/v1` structured analysis artifact ja deterministinen SHA-256 analysisHash
+- rajattu Archive-luku owner/grant-periaatteella ja kirjattu käytetty muistijoukko Context Receiptiin
+- rajattu Run Record -vertailu aktiiviseen workspaceen; raakaa promptia/outputia ei käsitellä
+- lisätty private Capability API nykyisen Core gatewayn alle ilman uutta serverless entrypointtia
+- lisätty Konehuoneeseen Nanomancer Analyysimikroskooppi ja erillinen human-approved Arkistoon tallennus
+- lisätty `admin-nanomancer.js/css` Visual System -omistusrakenteeseen ja PWA/build stageen
+- lisätty `scripts/test-nanomancer-1172.mjs` sekä Chromiumissa ajettava `scripts/test-nanomancer-ui-1172.mjs`
+- säilytetty Human Approval-, Archive-, Workspace-, Artifact-, Evidence- ja Public/Private Boundary -rajat muuttumattomina
+
+# Anomancer 1.17.1 · Archive Core
+
+- lisätty server-authoritative Archive Store memory- ja GitHub tag -backendeilla
+- lisätty versionoitu Archive Object v1 provenance-, relations-, retention-, visibility- ja integrity-kentillä
+- tehty Archive-kirjoituksesta eksplisiittisen human approval -portin takainen
+- lisätty workspace-oletuseristys ja ihmisen hyväksymä cross-workspace read grant
+- lisätty Context Receipt v1 käytetyn ja avaamatta jääneen muistijoukon todentamiseen
+- lisätty poistoihin integrity-tombstone hiljaisen muistiaukon estämiseksi
+- lisätty globaali Arkisto-reitti, haku, suodatus, Inspector, provenance-, relation- ja grant-näkymät
+- lisätty `admin-archive.js` ja `admin-archive.css` Visual Systemin omistusrakenteeseen
+- lisätty Archive API olemassa olevan `/api/admin/core?resource=archive` -gatewayn alle ilman uutta serverless entrypointtia
+- lisätty `scripts/test-archive-core-1171.mjs` ja oikeassa Chromiumissa ajettava `scripts/test-archive-ui-1171.mjs`
+- säilytetty Archive erillään automaattisesta LLM-muistista sekä nykyiset Human Approval-, Workspace Isolation- ja Public/Private Boundary -rajat
+
+# Anomancer 16.9.0 · Public Clarity Pass
+
+- jaettu julkinen Core kolmeen päälukuun säilyttäen yhdeksän teknistä rakenneankkuria
+- yhdistetty build-fallback ja client-renderi samaan `public-core-render.js`-snapshot-rendereriin
+- poistettu kovakoodattu vanhentunut Core-fallback ja generoitu nykyiset agentit sekä orkesterit allowlist-snapshotista
+- vaihdettu julkinen ohjaustaso/control plane -terminologia rakennenäkymäksi ja vähennetty toistuvat status-/Admin-CTA:t
+- lisätty Narramancerin 9-vaiheiselle orkesterille kapean puhelimen pystyaikajana
+- yhdistetty Lähetysten mobiilin aihe- ja yleisöfiltterit yhteen bottom sheetiin
+- lisätty yleisöfiltterien määrät, aktiivisten suodattimien yhteenveto ja Tyhjennä-toiminto
+- poistettu nollasisältöiset yleisöfiltterit aktiivisesta julkisesta suodatinpinnasta
+- tiivistetty FI/EN-etusivun hero ja yhteyscopy sekä poistettu kovakoodattu ikä ja vanheneva aikajakso
+- lisätty `scripts/test-public-clarity-169.mjs` osaksi `npm run check` -ketjua
+
+# Anomancer 16.8.4 · Visual System Consolidation
+
+- jaettu yksityisen UI:n CSS selkeisiin token-, shell-, workspace-, editorial-, narrative-, control-plane- ja responsive-omistajiin
+- muutettu `admin.css` stylesheet-manifestiksi ja keskitetty breakpointit `admin-responsive.css`:ään
+- laajennettu semanttisia design tokeneita sekä kovetettu fontti- ja spacing-rytmi
+- poistettu alle 12 px suorat ja shorthand-fonttikoot yksityisestä UI:sta
+- rajattu komponenttikerroksen `!important` visibility-rajaan
+- lisätty 44 px kosketuskohdesopimus ja kompakti mobiilikromi
+- lisätty pitkä-, empty-, error-, evidence- ja Narramancer-visuaalifixture
+- lisätty oikeassa Chromium-renderissä ajettava desktop/tablet/mobile/reduced-motion/contrast-matriisi
+- selainportti tarkistaa overflow'n, kosketuskohteet, fonttifloorit, fokuksen ja accessibility-puun
+- lisätty `scripts/test-visual-system-1684.mjs` osaksi `npm run check` -ketjua
+
+# Anomancer 16.8.3 · Evidence Interaction
+
+- rakenteiset lähde- ja väitekortit Evidence Layeriin
+- lähteiden valinta suoraan väitteille
+- valmiusmittari ja väitekohtaiset julkaisuesteet
+- raakamuoto siirretty Tekninen data -osioon
+- serveripuolen evidenssi- ja julkaisuportti säilytetty muuttumattomana
+- lisätty `scripts/test-evidence-interaction-1683.mjs`
+
+# Anomancer 16.8.2 · Responsive Workspace + Narramancer Maturity
+
+## 16.8.2
+
+- lisätty Narramanceriin näkyvä Suomi / English -projektikieli ja viety kieli Markdown-artefakteihin
+- lokalisoitu lukujen ja kaanonin kone-enumit käyttöliittymässä ilman tallennusformaatin rikkomista
+- lisätty 10 sekunnin Kumoa-poisto hahmoille, luvuille, aikajanalle ja kaanonille
+- lisätty lukujen ylös/alas-järjestely ja hallittu uudelleennumerointi
+- lisätty projektin ja aktiivisen luvun selainotsikko sekä tallentamattoman työn indikaattori
+- lisätty orkesteriehdotuksen rakenteinen diff ennen ihmisen soveltamista
+- siirretty raaka agentti-JSON Tekninen data -pinnan alle
+- PWA-cache ja release metadata päivitetty 16.8.2:een
+- lisätty `scripts/test-narramancer-authoring-1682.mjs`
+
+## 16.8.1
+
+- lisätty Workspace Template -ohjattu `mobilePrimary` sekä Anomancerille että Narramancerille
+- rakennettu mobiilidokki dynaamisesti samasta editorimetadatasta kuin desktopin paikallisnavigaatio
+- poistettu Narramancerin vaakavieritettävä kolmas mobiilinavigaatiokerros
+- lisätty yhteinen natiivi bottom sheet työtilan toissijaisille reiteille, työtilan vaihdolle ja komennoille
+- lisätty yhteinen `admin-overlays.js`: yksi overlay kerrallaan, Escape, inert, fokusrajaus ja fokuksen palautus
+- nostettu mobiilin pakollisten kosketuskohteiden ja navigaatiolabelien vähimmäiskokoa
+- lisätty 360 px vaakavuodon suoja
+- lisätty `scripts/test-responsive-workspace-navigation-1681.mjs`
+
+# Anomancer 16.8.0 · Core Shell Semantics
+
+## 16.8.0
+
+- erotettu globaali Anomancer Core -shell Anomancerin Lähetyskone-työtilasta
+- rajattu globaali navigaatio kohteisiin Työtilat, Nykyinen työ, Konehuone ja Asetukset
+- siirretty Lähetykset, Orkesteriajo, Julkaisu sekä Aineisto & ulostulo Anomancerin metadataohjattuun paikallisnavigaatioon
+- poistettu Lähetykset-reitin piilotettu työtilanvaihto ja siitä syntynyt tallentamattomien muutosten sivuvaikutus
+- lisätty tyhjälle eristetylle työtilalle oma turvallinen kotinäkymä ilman Anomancer-editoria tai julkaisukohdetta
+- siirretty näkyvä julkaisumetadata Asetusten Järjestelmätiedot-osioon
+- säilytetty `/lahetyskone`-reitti, PWA-scope, Workspace/Constitution/Artifact Boundary -rajat ja ihmisen lopullinen päätösvalta
+- lisätty 16.7-avainten jatkuvuusmigraatio 16.8-selaintilaan
+- PWA-cache päivitetty 16.8.0:aan
+- lisätty `scripts/test-core-shell-semantics-168.mjs`
+
 # Anomancer 16.7.1 · Navigation Shell Visual Hardening
 
 ## 16.7.1

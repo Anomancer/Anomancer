@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { editorialQualityReport } from '../server/editorial-quality.js';
 import { validatePost } from '../server/content.js';
+import { readAdminCss } from './read-admin-css.mjs';
 
 let passed=0;
 const test=(name,fn)=>{fn();passed++;console.log(`✓ editorial gate 16.3.4 · ${name}`);};
@@ -41,7 +42,7 @@ test('POST-reitti palauttaa editorial-issues osumineen ja warningit onnistuneess
 
 test('admin näyttää portin tarkan osuman eikä vain geneeristä viestiä',()=>{
   const js=fs.readFileSync('admin.js','utf8');
-  const css=fs.readFileSync('admin.css','utf8');
+  const css=readAdminCss();
   assert.match(js,/function formatEditorialIssues\(/);
   assert.match(js,/osuma:/);
   assert.match(js,/formatEditorialWarnings/);

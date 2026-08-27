@@ -1,0 +1,14 @@
+<!doctype html><html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../admin.css"></head><body><main style="max-width:1200px;margin:auto;padding:20px"><section class="nanomancer-lab" id="nanomancerLab" aria-labelledby="nanomancerTitle">
+      <header class="nanomancer-head"><div><p class="kicker">CAPABILITY PLUGIN / NANOMANCER 1.17.2</p><h2 id="nanomancerTitle">Analyysimikroskooppi</h2><p>Vertaa Archive-objekteja, saman työtilan ajoja tai rakenteista JSON-dataa. Nanomancer on deterministinen ja read-only: se ei käytä kielimallia eikä kirjoita tulosta takaisin ilman ihmisen erillistä hyväksyntää.</p></div><span class="nanomancer-readonly">READ ONLY</span></header>
+      <div class="nanomancer-contract" id="nanomancerContract"><span>Capability Registry ladataan…</span></div>
+      <div class="nanomancer-controls">
+        <label>Analyysi<select id="nanomancerOperation"><option value="compare">Vertaa</option><option value="diff">Diff</option><option value="consistency">Johdonmukaisuus</option><option value="deviation">Numeerinen poikkeama</option><option value="cross-run">Cross-run</option></select></label>
+        <div class="nanomancer-source-grid">
+          <fieldset class="nanomancer-source" data-nano-source="0"><legend>A · Vertailupohja</legend><label>Lähde<select data-nano-kind><option value="archive">Arkisto</option><option value="run">Ajo</option><option value="inline">JSON</option></select></label><label data-nano-ref-wrap>Kohde<select data-nano-ref></select></label><label data-nano-inline-wrap hidden>Rakenteinen JSON<textarea data-nano-inline rows="7" spellcheck="false">{}</textarea></label></fieldset>
+          <fieldset class="nanomancer-source" data-nano-source="1"><legend>B · Vertailukohde</legend><label>Lähde<select data-nano-kind><option value="archive">Arkisto</option><option value="run">Ajo</option><option value="inline">JSON</option></select></label><label data-nano-ref-wrap>Kohde<select data-nano-ref></select></label><label data-nano-inline-wrap hidden>Rakenteinen JSON<textarea data-nano-inline rows="7" spellcheck="false">{}</textarea></label></fieldset>
+        </div>
+        <div class="nanomancer-actions"><button class="primary" id="nanomancerRun" type="button">Aja Nanomancer</button><button class="ghost" id="nanomancerArchiveResult" type="button" disabled>Tallenna analyysi Arkistoon…</button><span id="nanomancerStatus" role="status"></span></div>
+      </div>
+      <div class="nanomancer-result" id="nanomancerResult"><div class="nanomancer-empty"><strong>Ei analyysiä.</strong><p>Valitse kaksi syötettä. Vertailu tapahtuu paikallisesti serverin deterministisessä plugin-runtimessa.</p></div></div>
+    </section>
+    </main></body></html>

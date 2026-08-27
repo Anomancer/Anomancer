@@ -4,10 +4,12 @@ const slug=value=>safe(value).toLowerCase().normalize('NFKD').replace(/[^a-z0-9]
 const section=(title,body)=>safe(body)?`## ${title}\n\n${safe(body)}\n\n`:'';
 const bullets=items=>items.filter(Boolean).map(item=>`- ${item}`).join('\n');
 const sortedChapters=project=>[...(project?.chapters||[])].sort((a,b)=>(Number(a.number)||0)-(Number(b.number)||0));
+const languageLabel=value=>value==='en'?'English':'Suomi';
+const canonStatusLabel=value=>({candidate:'Ehdokas',accepted:'Hyväksytty',retired:'Poistettu käytöstä'})[value]||safe(value)||'Hyväksytty';
 
 export function manuscriptMarkdown(project={}){
   const p=project.project||{},chapters=sortedChapters(project),title=safe(p.title)||'Nimetön käsikirjoitus';
-  const front=[`# ${title}`,'',p.premise?`> ${safe(p.premise).replace(/\n+/g,' ')}`:'',p.genre?`**Genre / muoto:** ${safe(p.genre)}`:'',p.pointOfView?`**Näkökulma:** ${safe(p.pointOfView)}`:''].filter(Boolean).join('\n\n');
+  const front=[`# ${title}`,'',p.premise?`> ${safe(p.premise).replace(/\n+/g,' ')}`:'',p.genre?`**Genre / muoto:** ${safe(p.genre)}`:'',p.pointOfView?`**Näkökulma:** ${safe(p.pointOfView)}`:'',`**Kieli:** ${languageLabel(p.language)}`].filter(Boolean).join('\n\n');
   const body=chapters.map(chapter=>{
     const heading=`# ${chapter.title?`${Number(chapter.number)||''}. ${safe(chapter.title)}`:`Luku ${Number(chapter.number)||''}`}`.replace(/# \./,'# Luku');
     return `${heading}\n\n${safe(chapter.body)||'*Luku on vielä tyhjä.*'}`;
@@ -18,14 +20,14 @@ export function manuscriptMarkdown(project={}){
 export function projectMarkdownFiles(project={}){
   const p=project.project||{},world=project.world||{},plot=project.plot||{},files=[];
   files.push({name:'README.md',content:`# ${safe(p.title)||'Narramancer-projekti'}\n\nYksityisestä Narramancer-työtilasta viety Markdown-projektikansio. Vienti ei julkaise sisältöä verkkoon.\n`});
-  files.push({name:'project.md',content:`# Projekti\n\n${section('Premissi',p.premise)}${section('Genre / muoto',p.genre)}${section('Näkökulma',p.pointOfView)}${section('Sävy ja rytmi',p.tone)}${section('Muistiinpanot',p.notes)}`});
+  files.push({name:'project.md',content:`# Projekti\n\n**Kieli:** ${languageLabel(p.language)}\n\n${section('Premissi',p.premise)}${section('Genre / muoto',p.genre)}${section('Näkökulma',p.pointOfView)}${section('Sävy ja rytmi',p.tone)}${section('Muistiinpanot',p.notes)}`});
   files.push({name:'world.md',content:`# Maailma\n\n${section('Yleiskuva',world.summary)}${section('Säännöt',world.rules)}${section('Paikat',world.locations)}${section('Muistiinpanot',world.notes)}`});
   files.push({name:'plot.md',content:`# Juoni\n\n${section('Juonen ydin',plot.summary)}${section('Beatit / käännekohdat',plot.beats)}${section('Loppu / ratkaisu',plot.ending)}${section('Muistiinpanot',plot.notes)}`});
   for(const [index,char] of (project.characters||[]).entries())files.push({name:`characters/${String(index+1).padStart(3,'0')}-${slug(char.name||char.id)}.md`,content:`# ${safe(char.name)||'Hahmo'}\n\n${section('Rooli',char.role)}${section('Yhteenveto',char.summary)}${section('Tavoite',char.goal)}${section('Ristiriita',char.conflict)}${section('Ääni',char.voice)}${section('Muistiinpanot',char.notes)}`});
   for(const chapter of sortedChapters(project))files.push({name:`chapters/${String(Number(chapter.number)||1).padStart(3,'0')}-${slug(chapter.title||chapter.id)}.md`,content:`# ${safe(chapter.title)||`Luku ${chapter.number}`}\n\n${chapter.summary?`> ${safe(chapter.summary).replace(/\n+/g,' ')}\n\n`:''}${safe(chapter.body)}\n\n${section('Lukumuistiinpanot',chapter.notes)}`});
   const timeline=(project.timeline||[]).map(item=>`## ${safe(item.when)||'Ajankohta avoin'}\n\n${safe(item.event)}${item.chapterRef?`\n\nLuku: \`${safe(item.chapterRef)}\``:''}${item.notes?`\n\n${safe(item.notes)}`:''}`).join('\n\n');
   files.push({name:'timeline.md',content:`# Aikajana\n\n${timeline||'*Ei aikajanan merkintöjä.*'}\n`});
-  const canon=(project.canon||[]).map(item=>`- **${safe(item.status||'accepted')}** ${safe(item.statement)}${item.source?` _(lähde: ${safe(item.source)})_`:''}`).join('\n');
+  const canon=(project.canon||[]).map(item=>`- **${canonStatusLabel(item.status)}** ${safe(item.statement)}${item.source?` _(lähde: ${safe(item.source)})_`:''}`).join('\n');
   files.push({name:'canon.md',content:`# Kaanon\n\n${canon||'*Ei kaanonmerkintöjä.*'}\n`});
   files.push({name:'MANUSCRIPT.md',content:manuscriptMarkdown(project)});
   return files;

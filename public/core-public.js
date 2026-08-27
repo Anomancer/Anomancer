@@ -1,33 +1,44 @@
+import { renderPublicCore, publicCoreLang } from './public-core-render.js';
+
 const q=s=>document.querySelector(s);
 const qa=s=>[...document.querySelectorAll(s)];
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const lang=document.documentElement.lang==='en'?'en':'fi';
-const C={
-  fi:{role:'Rooli',route:'Mallireitti',tools:'Työkalupinta',human:'Ihmisportti',publish:'Julkaisu',deny:'ESTETTY',yes:'KYLLÄ',no:'EI',none:'ei työkaluja',agents:'agenttia',requirements:'Reitin julkiset vaatimukset',providerPrivate:'Palveluntarjoajat, mallikohteet, fallback-järjestys ja tokenrajat pysyvät yksityisessä ohjaustasossa.',humanOnly:'VAIN IHMINEN',brokerAllow:'VÄLITTÄJÄ SALLII',unassigned:'EI LIITETTY',humanTool:'Agentti ei voi suorittaa tätä toimintoa.',contractAgents:'Sopimusagentit',noAgent:'Ei agenttisopimukseen liitettynä.',risk:'riski',policy:'käytäntö',evidence:'Evidenssi',audience:'Yleisö',humanAuthority:'Ihminen päättää lopullisesti',shared:'YHTEINEN ALUSTA',scoped:'TYÖTILAKOHTAINEN',defaultWs:'OLETUS',acl:'MONEN KÄYTTÄJÄN OIKEUDET',sharedDesc:'Yhteinen sopimus- ja käytäntökerros',scopedDesc:'Eristetty agenttimoottorin tila',legacy:'Vanha historia säilyy ilman migraatiota',notYet:'EI VIELÄ',contentShared:'Sisältö on vielä yhteinen',contentScoped:'Sisällön rajaus määritelty',private:'YKSITYINEN',receipt:'KUITTI',loadOrch:'Rakennekarttaa ei saatu ladattua.',loadAgents:'Agenttirekisteriä ei saatu ladattua.',loadModels:'Mallireittejä ei saatu ladattua.',loadTools:'Työkalupintaa ei saatu ladattua.'},
-  en:{role:'Role',route:'Model route',tools:'Tool surface',human:'Human gate',publish:'Publish',deny:'DENY',yes:'YES',no:'NO',none:'no tools',agents:'agents',requirements:'Public route requirements',providerPrivate:'Providers, model targets, fallback order and token limits stay inside the private control plane.',humanOnly:'HUMAN ONLY',brokerAllow:'BROKER ALLOW',unassigned:'UNASSIGNED',humanTool:'An agent cannot execute this action.',contractAgents:'Contract agents',noAgent:'Not attached to an agent contract.',risk:'risk',policy:'policy',evidence:'Evidence',audience:'Audience',humanAuthority:'Human final authority',shared:'SHARED PLATFORM',scoped:'WORKSPACE SCOPED',defaultWs:'DEFAULT',acl:'MULTI-USER ACL',sharedDesc:'Shared contract and policy layer',scopedDesc:'Isolated agent-engine state',legacy:'Legacy history remains without migration',notYet:'NOT YET',contentShared:'Content is still shared',contentScoped:'Content scope defined',private:'PRIVATE',receipt:'RECEIPT',loadOrch:'Architecture map could not be loaded.',loadAgents:'Agent Registry could not be loaded.',loadModels:'Model routes could not be loaded.',loadTools:'Tool surface could not be loaded.'}
-}[lang];
-const AGENT={
-  source:{fi:['Lähdeagentti','Etsii verkosta lähde-ehdokkaita ja tutkimusaukkoja. Ei voi hyväksyä omaa evidenssiään.'],en:['Source Agent','Finds source candidates and research gaps on the public web. Cannot verify its own evidence.']},
-  structure:{fi:['Rakenneagentti','Ehdottaa artikkelin rakennetta valitulle yleisölle muuttamatta evidenssin tilaa.'],en:['Structure Agent','Proposes article structure for the selected audience without changing evidence state.']},
-  writer:{fi:['Kirjoitusagentti','Kirjoittaa ja järjestää luonnoksen, mutta ei saa nostaa lähde-ehdokasta varmennetuksi tiedoksi.'],en:['Writer Agent','Writes and organizes the draft but cannot promote a source candidate into verified evidence.']},
-  critic:{fi:['Kriitikko','Etsii heikot oletukset, ylivarmat väitteet, puuttuvan vastanäytön ja yleisöongelmat.'],en:['Critic','Finds weak assumptions, overconfident claims, missing counterevidence and audience problems.']},
-  audience:{fi:['Yleisöadapteri','Vaihtaa havaintoposition ja syvyystason muuttamatta tekstin epistemistä ydintä.'],en:['Audience Adapter','Changes viewpoint and depth without changing the epistemic core of the text.']},
-  voice:{fi:['Äänieditori','Poistaa geneeristä mallikieltä ja säilyttää kirjoittajan äänen sekä yleisösopimuksen.'],en:['Voice Editor','Removes generic model language while preserving author voice and the audience contract.']},
-  claims:{fi:['Väitevahti','Tarkistaa lopullisen proosan väitteet ja niiden evidenssikytkennät. Ei voi varmentaa lähteitä.'],en:['Claim Watcher','Audits final prose claims and evidence links. Cannot verify sources.']},
-  package:{fi:['Julkaisupaketti','Valmistelee julkaisumetatietoa. Evidenssikerros ja ihmisen yleisösopimus ovat lukittuja.'],en:['Publication Package','Prepares publication metadata. The Evidence Layer and human audience contract remain locked.']}
-};
-const orchCopy={fi:['Anomancer Toimitus','Sisäänrakennettu toimitusorkesteri.'],en:['Anomancer Editorial','Built-in editorial orchestra.']};
-const toolNames={'web.search':{fi:'Verkkohaku',en:'Web Search'},'source.verify':{fi:'Lähteen varmennus',en:'Verify Source'},'publication.publish':{fi:'Julkaisu',en:'Publish'},'github.write':{fi:'GitHub-kirjoitus',en:'GitHub Write'}};
-const routeNames={research:{fi:'tutkimus',en:'research'},writer:{fi:'kirjoitus',en:'writer'},critic:{fi:'kritiikki',en:'critic'}};
-const t=(map,key,fallback=key)=>map?.[key]?.[lang]||fallback;
-function agentLabel(a){return AGENT[a?.id]?.[lang]?.[0]||a?.label||a?.id||''}
-function agentDescription(a){return AGENT[a?.id]?.[lang]?.[1]||a?.description||''}
-function renderOrchestra(core){const root=q('#corePublicOrchestra'),o=core?.orchestras?.[0];if(!root||!o)return;const agents=new Map((core.agents||[]).map(a=>[a.id,a])),steps=Array.isArray(o.steps)&&o.steps.length?o.steps:[];root.innerHTML=`<article class="core-public-orchestra-card"><div class="core-public-orchestra-head"><div><span>${esc(o.id)} / ${esc(o.version)}</span><strong>${esc(o.id==='editorial'?orchCopy[lang][0]:o.name)}</strong></div><code>${esc(String(o.orchestraHash||'').slice(0,16))}…</code></div><p>${esc(o.id==='editorial'?orchCopy[lang][1]:o.description)}</p><div class="core-public-stage-line" data-step-count="${steps.length}">${steps.map((step,i)=>`<div class="core-public-stage${step.mode==='parallel'?' parallel':''}"><span>${String(i+1).padStart(2,'0')}${step.mode==='parallel'?' ∥':''}</span>${(step.agents||[]).map(id=>{const a=agents.get(id);return `<strong>${esc(agentLabel(a)||id)}</strong><small>${esc(a?.role||'')}</small>`}).join('')}</div>`).join('')}</div><div class="core-public-policy-row"><span>${C.evidence}: <code>${esc(o.evidencePolicy)}</code></span><span>${C.audience}: <code>${esc(o.audiencePolicy)}</code></span><span>${C.humanAuthority}: ${o.humanFinalAuthority?C.yes:C.no}</span></div></article>`}
-function renderAgents(core){const root=q('#corePublicAgents');if(!root)return;root.innerHTML=(core.agents||[]).map(a=>`<article class="core-public-agent-card"><div class="core-public-agent-head"><div><span>${esc(a.id)}</span><strong>${esc(agentLabel(a))}</strong></div><code>${esc(String(a.contractHash||'').slice(0,12))}…</code></div><p>${esc(agentDescription(a))}</p><dl><div><dt>${C.role}</dt><dd><code>${esc(a.role)}</code></dd></div><div><dt>${C.route}</dt><dd>${esc(t(routeNames,a.modelRoute,a.modelRoute))}</dd></div><div><dt>${C.tools}</dt><dd>${esc((a.tools||[]).map(id=>toolNames[id]?.[lang]||id).join(', ')||C.none)}</dd></div><div><dt>${C.human}</dt><dd>${a.humanApprovalRequired?C.yes:C.no}</dd></div><div><dt>${C.publish}</dt><dd class="core-deny">${C.deny}</dd></div></dl></article>`).join('')}
-function renderModels(core){const root=q('#corePublicModels');if(!root)return;const groups=new Map();for(const a of core.agents||[]){const list=groups.get(a.modelRoute)||[];list.push(agentLabel(a));groups.set(a.modelRoute,list)}root.innerHTML=(core.modelRoutes||[]).map(route=>{const agents=groups.get(route.id)||[];return `<article><span class="core-model-route">${esc(t(routeNames,route.id,route.id))}</span><strong>${agents.length} ${C.agents} · <code>${esc(route.id)}</code></strong><p>${esc(agents.join(' · '))}</p><div class="core-model-targets"><span>${C.requirements}: <code>${esc((route.requires||[]).join(' · ')||'—')}</code></span></div><small>${C.providerPrivate}</small></article>`}).join('')}
-function renderTools(core){const root=q('#corePublicTools');if(!root)return;const users=new Map();for(const a of core.agents||[])for(const tool of a.tools||[]){const list=users.get(tool)||[];list.push(agentLabel(a));users.set(tool,list)}root.innerHTML=(core.tools||[]).map(tool=>{const agents=users.get(tool.id)||[],state=tool.actor==='human'?C.humanOnly:agents.length?C.brokerAllow:C.unassigned,detail=tool.actor==='human'?C.humanTool:agents.length?`${C.contractAgents}: ${agents.join(', ')}`:C.noAgent;return `<article data-risk="${esc(tool.risk||'unknown')}"><span class="core-tool-state">${esc(state)}</span><strong>${esc(toolNames[tool.id]?.[lang]||tool.label||tool.id)}</strong><p>${esc(detail)}</p><small><code>${esc(tool.id)}</code> · ${C.risk} <code>${esc(tool.risk||'unknown')}</code> · ${C.policy} <code>${esc(core.toolBroker?.enforcement||'fail-closed')}</code></small></article>`}).join('')}
-function renderUsage(){if(q('#corePublicRunBudget'))q('#corePublicRunBudget').textContent=C.private;if(q('#corePublicLargestBudget'))q('#corePublicLargestBudget').textContent=C.private;if(q('#corePublicReceiptMode'))q('#corePublicReceiptMode').textContent=C.receipt}
-function renderWorkspaces(core){const root=q('#corePublicWorkspaces'),c=core.workspaceControl;if(!root||!c)return;const cards=[[C.shared,(c.shared||[]).join(' · '),C.sharedDesc],[C.scoped,(c.scoped||[]).join(' · '),C.scopedDesc],[C.defaultWs,c.defaultWorkspace||'default',C.legacy],[C.acl,c.multiUserAcl?C.yes:C.notYet,c.contentScope==='shared'?C.contentShared:C.contentScoped]];root.innerHTML=cards.map(([k,v,d])=>`<article><span>${esc(k)}</span><strong><code>${esc(v)}</code></strong><p>${esc(d)}</p></article>`).join('')}
-function initSectionNav(){const links=new Map(qa('[data-core-nav]').map(a=>[a.dataset.coreNav,a])),sections=qa('[data-core-section]');if(!('IntersectionObserver'in window)||!sections.length)return;const observer=new IntersectionObserver(entries=>{const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(!visible)return;for(const link of links.values()){link.classList.remove('active');link.removeAttribute('aria-current')}const active=links.get(visible.target.id);active?.classList.add('active');active?.setAttribute('aria-current','location')},{rootMargin:'-30% 0px -55% 0px',threshold:[0,.15,.35,.6]});sections.forEach(s=>observer.observe(s))}
-async function load(){try{const r=await fetch('/core-public.json',{credentials:'omit'});if(!r.ok)throw new Error('snapshot');const core=await r.json();q('#corePublicVersion').textContent=`CORE ${core.version}`;q('#corePublicAgentCount').textContent=String(core.agents?.length||0);q('#corePublicOrchestraCount').textContent=String(core.orchestras?.length||0);renderOrchestra(core);renderAgents(core);renderModels(core);renderTools(core);renderUsage(core);renderWorkspaces(core)}catch{if(q('#corePublicOrchestra'))q('#corePublicOrchestra').innerHTML=`<p class="core-public-error">${C.loadOrch}</p>`;if(q('#corePublicAgents'))q('#corePublicAgents').innerHTML=`<p class="core-public-error">${C.loadAgents}</p>`;if(q('#corePublicModels'))q('#corePublicModels').innerHTML=`<p class="core-public-error">${C.loadModels}</p>`;if(q('#corePublicTools'))q('#corePublicTools').innerHTML=`<p class="core-public-error">${C.loadTools}</p>`}}
+const lang=publicCoreLang(document.documentElement.lang);
+const loadCopy={fi:{orch:'Rakennekarttaa ei saatu ladattua.',agents:'Agenttirekisteriä ei saatu ladattua.',models:'Mallireittejä ei saatu ladattua.',tools:'Työkalupintaa ei saatu ladattua.'},en:{orch:'Architecture map could not be loaded.',agents:'Agent Registry could not be loaded.',models:'Model routes could not be loaded.',tools:'Tool surface could not be loaded.'}}[lang];
+
+function apply(core){
+  const view=renderPublicCore(core,lang);
+  if(q('#corePublicVersion'))q('#corePublicVersion').textContent=`CORE ${view.version}`;
+  if(q('#corePublicAgentCount'))q('#corePublicAgentCount').textContent=String(view.agentCount);
+  if(q('#corePublicOrchestraCount'))q('#corePublicOrchestraCount').textContent=String(view.orchestraCount);
+  if(q('#corePublicAgents'))q('#corePublicAgents').innerHTML=view.agentsHtml;
+  if(q('#corePublicOrchestra'))q('#corePublicOrchestra').innerHTML=view.orchestrasHtml;
+  if(q('#corePublicModels'))q('#corePublicModels').innerHTML=view.modelsHtml;
+  if(q('#corePublicTools'))q('#corePublicTools').innerHTML=view.toolsHtml;
+  if(q('#corePublicWorkspaces'))q('#corePublicWorkspaces').innerHTML=view.workspacesHtml;
+  if(q('#corePublicRunBudget'))q('#corePublicRunBudget').textContent=view.usage.runBudget;
+  if(q('#corePublicLargestBudget'))q('#corePublicLargestBudget').textContent=view.usage.largestBudget;
+  if(q('#corePublicReceiptMode'))q('#corePublicReceiptMode').textContent=view.usage.receipt;
+}
+
+function initSectionNav(){
+  const links=new Map(qa('[data-core-nav]').map(a=>[a.dataset.coreNav,a])),sections=qa('[data-core-section]');
+  if(!('IntersectionObserver'in window)||!sections.length)return;
+  const observer=new IntersectionObserver(entries=>{
+    const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(!visible)return;
+    for(const link of links.values()){link.classList.remove('active');link.removeAttribute('aria-current')}
+    const active=links.get(visible.target.id);active?.classList.add('active');active?.setAttribute('aria-current','location');
+  },{rootMargin:'-25% 0px -60% 0px',threshold:[0,.15,.35,.6]});
+  sections.forEach(section=>observer.observe(section));
+}
+
+async function load(){
+  try{const response=await fetch('/core-public.json',{credentials:'omit'});if(!response.ok)throw new Error('snapshot');apply(await response.json());}
+  catch{
+    if(q('#corePublicOrchestra')&&!q('#corePublicOrchestra').children.length)q('#corePublicOrchestra').innerHTML=`<p class="core-public-error">${loadCopy.orch}</p>`;
+    if(q('#corePublicAgents')&&!q('#corePublicAgents').children.length)q('#corePublicAgents').innerHTML=`<p class="core-public-error">${loadCopy.agents}</p>`;
+    if(q('#corePublicModels')&&!q('#corePublicModels').children.length)q('#corePublicModels').innerHTML=`<p class="core-public-error">${loadCopy.models}</p>`;
+    if(q('#corePublicTools')&&!q('#corePublicTools').children.length)q('#corePublicTools').innerHTML=`<p class="core-public-error">${loadCopy.tools}</p>`;
+  }
+}
+
 initSectionNav();load();

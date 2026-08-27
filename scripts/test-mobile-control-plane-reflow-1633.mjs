@@ -1,13 +1,14 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { readAdminCss } from './read-admin-css.mjs';
 
 const html=fs.readFileSync('admin.html','utf8');
-const adminCss=fs.readFileSync('admin.css','utf8');
-const controlCss=fs.readFileSync('admin-control-plane.css','utf8');
+const adminCss=readAdminCss();
+const controlCss=fs.readFileSync('admin-responsive.css','utf8');
 const js=fs.readFileSync('admin.js','utf8');
 let ok=0;const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`)};
 
-const mobile=controlCss.slice(controlCss.indexOf('/* 16.3.3 MOBILE CONTROL PLANE REFLOW */'));
+const mobile=controlCss.slice(controlCss.indexOf('MOBILE CONTROL PLANE REFLOW'));
 
 test('Lisää-komentopinta elää body-tason portaalissa',()=>{
   assert.match(html,/id="mobileCommandPortal"/);
@@ -16,10 +17,10 @@ test('Lisää-komentopinta elää body-tason portaalissa',()=>{
   assert.match(js,/portal\.append\(actions\)/);
 });
 
-test('myöhemmin ladattu control-plane sisältää oman mobiilicascade-kerroksen',()=>{
+test('yhteinen responsive-omistaja sisältää control-plane mobiilicascaden',()=>{
   assert.ok(mobile.length>1000);
   assert.match(mobile,/@media\(max-width:760px\)/);
-  assert.match(html,/admin\.css[^>]*><link href="\/admin-control-plane\.css"/);
+  assert.match(html,/href="\/admin\.css"/);assert.doesNotMatch(html,/href="\/admin-control-plane\.css"/);
 });
 
 test('Core-mittarit reflowavat kahteen luettavaan sarakkeeseen',()=>{

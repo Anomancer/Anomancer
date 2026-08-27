@@ -4,6 +4,8 @@ import agentsHandler from '../../server/admin-routes/agents.js';
 import orchestrasHandler from '../../server/admin-routes/orchestras.js';
 import runsHandler from '../../server/admin-routes/runs.js';
 import runtimeHandler from '../../server/admin-routes/runtime.js';
+import archiveHandler from '../../server/admin-routes/archive.js';
+import capabilitiesHandler from '../../server/admin-routes/capabilities.js';
 
 const ROUTES=new Map([
   ['core',coreHandler],
@@ -12,6 +14,8 @@ const ROUTES=new Map([
   ['orchestras',orchestrasHandler],
   ['runs',runsHandler],
   ['runtime',runtimeHandler],
+  ['archive',archiveHandler],
+  ['capabilities',capabilitiesHandler],
 ]);
 
 function resourceOf(req){

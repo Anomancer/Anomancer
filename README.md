@@ -1,29 +1,15 @@
-# Anomancer 16.7.1 · Navigation Shell Visual Hardening
+# Anomancer 1.17.2 · Nanomancer
 
-**16.7.1:** 16.7:n informaatiarkkitehtuuri säilyy, mutta Core Shellin vanhasta kaksisarakkeisesta app-gridistä periytynyt 320 px puristus on korjattu. Header, workspace-konteksti, Konehuoneen mittarit, spacing ja responsiivinen hierarkia on kovetettu.
+**1.17.2** jatkaa Mancer Runtime -sarjaa lisäämällä Coren ensimmäisen versionoidun Capability Plugin -kerroksen. Ensimmäinen plugin on Nanomancer: deterministinen, read-only analyysimikroskooppi Archive Objectien, Run Recordien ja rakenteisen JSON-datan vertailuun.
 
-Narramancer säilyttää 16.6:n eristetyn Constitution-, Artifact Store- ja orkesterimallin. 16.7 lisää sille ryhmitellyn paikallisnavigaation sekä vaiheistetun orkesteriajon, joka voidaan token- tai mallikatkon jälkeen jatkaa saman selainistunnon checkpointista.
+Nanomancer ei ole uusi työtila eikä uusi LLM-agentti. Sen contract kieltää mallikäytön, workspace-kirjoituksen ja Archive-kirjoituksen. Arkistoa luetaan vain aktiivisen työtilan omistuksen tai ihmisen eksplisiittisen grantin kautta, jolloin syntyy Context Receipt.
 
-Katso `NAVIGATION_SHELL_VISUAL_HARDENING_16_7_1.md`, `FULL_RELEASE_16_7_1.md`, `NAVIGATION_SHELL_16_7.md`, `NARRAMANCER_VERTICAL_SLICE_16_6.md`, `WORKSPACE_TYPES_ARTIFACT_BOUNDARY_16_5.md` ja `FULL_RELEASE_16_7_0.md`.
+Analyysin mahdollinen tallennus Arkistoon tapahtuu erillisellä human-approved toiminnolla.
 
-## Tarkistus
+Tarkistus:
 
 ```bash
 npm run check
 ```
 
-Navigation Shellin kohdistettu hyväksymistesti:
-
-```bash
-npm run test:navigation-shell
-npm run test:navigation-shell-visual
-```
-
-## Content-safe asennus
-
-```bash
-chmod +x INSTALL_TO_CURRENT.sh
-./INSTALL_TO_CURRENT.sh /täysi/polku/Anomancer
-```
-
-Asennin ei kopioi `content/`, `media/`, `public/`, rakennettuja lähetyksiä tai `.env`-salaisuuksia paketin mukana. Kohteen oma build regeneroi julkaistut lähetykset sen omasta `content/`-aineistosta.
+Katso `NANOMANCER_1_17_2.md`, `ARCHIVE_CORE_1_17_1.md` ja `FULL_RELEASE_1_17_2.md`.

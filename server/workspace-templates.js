@@ -58,6 +58,12 @@ const NARRAMANCER_EDITOR_DEFINITION=deepFreeze({
   format:'anomancer-workspace-editor-definition/v1',
   navigation:{
     format:'anomancer-workspace-navigation/v1',
+    mobilePrimary:[
+      {id:'project',label:'Projekti',icon:'⌂',target:'section'},
+      {id:'characters',label:'Hahmot',icon:'◎',target:'section'},
+      {id:'chapters',label:'Luvut',icon:'≡',target:'section'},
+      {id:'orchestra',label:'Orkesteri',icon:'⬡',target:'section'}
+    ],
     groups:[
       {id:'create',label:'Luo',items:['project','world','characters','plot']},
       {id:'write',label:'Kirjoita',items:['chapters','timeline','canon']},
@@ -68,6 +74,7 @@ const NARRAMANCER_EDITOR_DEFINITION=deepFreeze({
   sections:[
     {id:'project',label:'Projekti',kind:'form',fields:[
       {path:'project.title',label:'Projektin nimi',type:'text',maxLength:180},
+      {path:'project.language',label:'Kieli',type:'select',options:[{value:'fi',label:'Suomi'},{value:'en',label:'English'}]},
       {path:'project.premise',label:'Premissi',type:'textarea',rows:8,maxLength:12000},
       {path:'project.genre',label:'Genre / muoto',type:'text',maxLength:180},
       {path:'project.pointOfView',label:'Kertoja / näkökulma',type:'text',maxLength:180},
@@ -119,16 +126,24 @@ export const WORKSPACE_TEMPLATE_REGISTRY=deepFreeze([
     outputAdapterId:'anomancer/vercel-publication/v1',uiProfileId:'anomancer/editorial-ui/v1',
     editorDefinition:{
       format:'anomancer-workspace-editor-definition/v1',
-      navigation:{format:'anomancer-workspace-navigation/v1',groups:[
-        {id:'create',label:'Luo',items:['write']},
-        {id:'verify',label:'Tarkista',items:['evidence','agents']},
-        {id:'out',label:'Ulos',items:['publish']}
+      navigation:{format:'anomancer-workspace-navigation/v1',mobilePrimary:[
+        {id:'write',label:'Kirjoita',icon:'✎',target:'section'},
+        {id:'evidence',label:'Evidenssi',icon:'◈',target:'section'},
+        {id:'orchestra',label:'Orkesteri',icon:'⬡',target:'section'},
+        {id:'preview',label:'Esikatselu',icon:'▣',target:'command'}
+      ],groups:[
+        {id:'work',label:'Työ',items:['dispatches','write']},
+        {id:'verify',label:'Tarkista',items:['evidence','agents','orchestra']},
+        {id:'out',label:'Ulos',items:['publish','materials']}
       ]},
       sections:[
+        {id:'dispatches',label:'Lähetykset',kind:'editor-action'},
         {id:'write',label:'Kirjoita',kind:'editor-tab'},
         {id:'evidence',label:'Evidenssi',kind:'editor-tab'},
         {id:'agents',label:'Agentit',kind:'editor-tab'},
-        {id:'publish',label:'Julkaisu',kind:'editor-action'}
+        {id:'orchestra',label:'Orkesteriajo',kind:'editor-anchor'},
+        {id:'publish',label:'Julkaisu',kind:'editor-action'},
+        {id:'materials',label:'Aineisto & ulostulo',kind:'shell-surface'}
       ]
     },
     capabilities:['content.read','content.write','media.write','publication.publish','runtime.manage','orchestra.custom','runs.read']

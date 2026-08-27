@@ -48,7 +48,7 @@ if(box){
   }
   async function refreshConfig(){
     try{await getSession();const r=await fetch('/api/admin/core?resource=agents',{credentials:'same-origin',headers:wsHeaders()});const d=await r.json();if(!r.ok)throw new Error(d.message||'Agenttien tila ei auennut.');
-	      const c=d.deepseek||{};modelStatus.textContent=c.configured?`Core ${d.coreVersion||'16.0'} · DeepSeek valmis · ${c.defaultModel} · lähdehaku ${c.sourceReasoningEffort||'low'} (teho ${c.sourceReasoningEffective||c.sourceReasoningEffort||'low'}) / ${c.sourceMaxOutputTokens||16000}`:'DeepSeek API-avain puuttuu';modelStatus.dataset.kind=c.configured?'ok':'warn';
+	      const c=d.deepseek||{};modelStatus.textContent=c.configured?`DeepSeek valmis · ${c.defaultModel} · lähdehaku ${c.sourceReasoningEffort||'low'} (teho ${c.sourceReasoningEffective||c.sourceReasoningEffort||'low'}) / ${c.sourceMaxOutputTokens||16000}`:'DeepSeek API-avain puuttuu';modelStatus.dataset.kind=c.configured?'ok':'warn';
     }catch{modelStatus.textContent='Kirjaudu sisään, niin agenttitila tarkistetaan.';modelStatus.dataset.kind='';}
   }
   function renderResult(agent,result,meta){

@@ -1,6 +1,6 @@
 {
   "format": "anomancer-core-public/v2",
-  "version": "16.7.1",
+  "version": "1.17.2",
   "boundary": {
     "version": "1.0",
     "mode": "explicit-allowlist",
@@ -379,7 +379,7 @@
       "actor": "agent",
       "humanApproval": false,
       "sideEffects": false,
-      "toolHash": "dad2b189f9020cff3f11288a41365fb8c8d8b5aaa4ab6f96efad00c4b25f9bab"
+      "toolHash": "736e2652966abc072f585b5994cc2bebbed5f7547a956ed311bffc7122ca68bf"
     },
     {
       "id": "source.verify",
@@ -391,7 +391,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "e5a8bc75dcfa5b36f6c98480280cd2014735aa3274622de52bc560014bb1c8fc"
+      "toolHash": "00b245863f63ea1c30b1e9b1829187f8ce3ee85addf47ca5b6d3a3af728c4c51"
     },
     {
       "id": "publication.publish",
@@ -403,7 +403,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "1d603bb23336ec585824a1c71dcc8828917529b0baeff4ded000d97628aa74f5"
+      "toolHash": "e6f00432b75749a48092c399f7f55a63bf01143db358301d2199c24d380e17be"
     },
     {
       "id": "github.write",
@@ -415,7 +415,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "b8853ae172c29b965c3a03dce9ef8f1f6a4e8d409ccb67d89192e7c109b7b0c6"
+      "toolHash": "21ba47a21285d096b1bebbd38cc02f8f1b6685c213688ebc1b63db8fc598e7e1"
     }
   ],
   "toolBroker": {
@@ -433,7 +433,7 @@
         "json",
         "web_search"
       ],
-      "routeHash": "344e10f14f02ce971c6ecf6f7f9753cf8b580208cd09c01c5f1d7d631a5f38af"
+      "routeHash": "7b7de0c666d9d758ad6b2282973bc45af2067886f149dfe4526017b4f4395ca3"
     },
     {
       "id": "writer",
@@ -441,7 +441,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "3114f2c591d768266c606677197a3652d8eb3882281b4d1bbf16cc80c4fb9c3f"
+      "routeHash": "0a3cf3a18892905de4469dfe7be07237945f012cb6129b3995ec961b6a99924c"
     },
     {
       "id": "critic",
@@ -449,7 +449,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "24c6601d705f29eb1b80573795a1b15a3cbacca1da5d639194e3176a19d1f2c5"
+      "routeHash": "95b831b693c053db665089d96aca82c790ac6deaef1a77f3984d7f87e849ab6c"
     }
   ],
   "modelRouter": {

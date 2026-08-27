@@ -1,7 +1,7 @@
 const q=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const KEY='anomancer.core.workspace.v16.7';
-let csrf='',state={revision:0},store=null,all=[],templates=[],constitutions=[],boundaries={},currentId=localStorage.getItem(KEY)||localStorage.getItem('anomancer.core.workspace.v16.6')||localStorage.getItem('anomancer.core.workspace.v15.9')||'default',editingId='';
+const KEY='anomancer.core.workspace.v16.8';
+let csrf='',state={revision:0},store=null,all=[],templates=[],constitutions=[],boundaries={},currentId=localStorage.getItem(KEY)||localStorage.getItem('anomancer.core.workspace.v16.7')||localStorage.getItem('anomancer.core.workspace.v16.6')||localStorage.getItem('anomancer.core.workspace.v15.9')||'default',editingId='';
 function current(){return all.find(w=>w.id===currentId)||all.find(w=>w.id==='default')||{id:'default',name:'Anomancer',source:'built-in',status:'active'};}
 function currentTemplate(){return templates.find(item=>item.id===current().templateId)||null;}
 function currentConstitution(){return constitutions.find(item=>item.id===current().constitutionId)||null;}

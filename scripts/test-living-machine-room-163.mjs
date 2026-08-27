@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {safeDetail,factualLine,copyFor,LIVING_COPY,OE_COPY,SAFE_DETAIL_KEYS} from '../admin-machine-room.js';
+import { readAdminCss } from './read-admin-css.mjs';
 
 const html=fs.readFileSync('admin.html','utf8');
-const css=fs.readFileSync('admin-control-plane.css','utf8');
+const css=readAdminCss();
 const orch=fs.readFileSync('admin-orchestrator.js','utf8');
 const build=fs.readFileSync('scripts/build-blog.mjs','utf8');
 let n=0;const test=(name,fn)=>{fn();n++;console.log(`✓ 16.3 ${name}`)};

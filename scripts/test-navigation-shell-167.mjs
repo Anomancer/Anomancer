@@ -15,15 +15,16 @@ const build=read('scripts/build-blog.mjs');
 const worker=read('lahetyskone-sw.js');
 const installer=read('INSTALL_TO_CURRENT.sh');
 
-await test('Core ja paketti säilyttävät Navigation Shell 16.7 -arkkitehtuurin 16.7.1:ssä',()=>{
-  assert.equal(pkg.version,'16.7.1');
-  assert.equal(CORE_VERSION,'16.7.1');
+await test('Core ja paketti rakentavat 16.8.4:n 16.7 Navigation Shell -arkkitehtuurille',()=>{
+  assert.equal(pkg.version,'1.17.2');
+  assert.equal(CORE_VERSION,'1.17.2');
   assert.match(html,/ANOMANCER CORE/);
-  assert.match(html,/16\.7\.1 · navigation shell/);
+  assert.doesNotMatch(html,/navigation shell/i);
 });
 
 await test('Core Shell on pysyvä globaali navigaatiokerros',()=>{
-  for(const route of ['workspaces','dispatches','artifacts','machine'])assert.match(html,new RegExp(`data-shell-route="${route}"`));
+  for(const route of ['workspaces','workspace','machine'])assert.match(html,new RegExp(`data-shell-route="${route}"`));
+  assert.doesNotMatch(html,/data-shell-route="(?:dispatches|artifacts|materials)"/);
   assert.match(html,/id="coreSettingsButton"/);
   assert.match(html,/id="workspaceContextKicker"/);
   assert.match(html,/id="workspaceSelect"/);
@@ -31,8 +32,8 @@ await test('Core Shell on pysyvä globaali navigaatiokerros',()=>{
   assert.match(html,/id="workspaceSaveIndicator"/);
 });
 
-await test('Työtilat, Artefaktit ja Konehuone ovat omia Core-surfaceja',()=>{
-  for(const view of ['workspaces','artifacts','machine'])assert.match(html,new RegExp(`data-shell-view="${view}"`));
+await test('Työtilat, paikallinen aineistoraja ja Konehuone ovat omia surfaceja',()=>{
+  for(const view of ['workspaces','materials','machine'])assert.match(html,new RegExp(`data-shell-view="${view}"`));
   assert.match(html,/id="workspaceHomeCards"/);
   assert.match(html,/id="artifactHomeSummary"/);
   assert.match(html,/id="coreMachineHost"/);
@@ -47,9 +48,9 @@ await test('Konehuone ei ole enää Anomancer-editorin paikallinen tabi',()=>{
 await test('Anomancerin paikallisnavigaatio tulee Workspace Templaten metadatasta',()=>{
   const t=getWorkspaceTemplate(ANOMANCER_TEMPLATE_ID);
   assert.deepEqual(t.editorDefinition.navigation.groups.map(g=>[g.label,...g.items]),[
-    ['Luo','write'],['Tarkista','evidence','agents'],['Ulos','publish']
+    ['Työ','dispatches','write'],['Tarkista','evidence','agents','orchestra'],['Ulos','publish','materials']
   ]);
-  assert.deepEqual(t.editorDefinition.sections.map(s=>s.id),['write','evidence','agents','publish']);
+  assert.deepEqual(t.editorDefinition.sections.map(s=>s.id),['dispatches','write','evidence','agents','orchestra','publish','materials']);
 });
 
 await test('Narramancerin paikallisnavigaatio on ryhmitelty metadataan eikä kovakoodattu shelliin',()=>{
@@ -73,9 +74,9 @@ await test('Työtilakortti on ensisijainen kotipesä ja dropdown vain pikavaihta
   assert.match(workspaces,/workspaceSelect/);
 });
 
-await test('Navigointi ei ohita tallentamattomien muutosten workspace-porttia',()=>{
-  assert.match(shell,/const switched=window\.anomancerWorkspaces\?\.switchTo\?\.\('default'\)/);
-  assert.match(shell,/if\(!switched\)\{setRouteButtons\(\);return false;\}/);
+await test('Globaali navigointi ei vaihda työtilaa sivuvaikutuksena',()=>{
+  assert.doesNotMatch(shell,/switchTo\?\.\('default'\)/);
+  assert.doesNotMatch(shell,/next==='dispatches'/);
   assert.match(workspaces,/if\(changed\)window\.anomancerShell\?\.navigate/);
 });
 
@@ -92,7 +93,7 @@ await test('16.7 shell stageataan buildiin ja PWA-cacheen',()=>{
   assert.match(html,/admin-shell\.js/);
   assert.match(build,/admin-shell\.js/);
   assert.match(worker,/admin-shell\.js/);
-  assert.match(worker,/v16\.7\.1/);
+  assert.match(worker,/v1\.17\.2/);
 });
 
 await test('Content-safe asennus ei koske julkaistuihin lähteisiin tai generoituun sisältöön',()=>{
@@ -108,4 +109,4 @@ await test('Admin HTML:ssa ei ole päällekkäisiä id-arvoja',()=>{
   assert.deepEqual([...new Set(duplicates)],[]);
 });
 
-console.log(`\n${passed}/12 NAVIGATION SHELL 16.7 -testiä läpi.`);
+console.log(`\n${passed}/12 NAVIGATION SHELL -yhteensopivuustestiä läpi.`);

@@ -14,12 +14,16 @@ export function matchesDispatchFilters(card={},filters={}){
   return matchesCategory&&matchesAudience;
 }
 
-function setPressed(buttons,active){
+function syncPressed(buttons,dataKey,value){
   for(const button of buttons){
-    const selected=button===active;
+    const selected=String(button.dataset[dataKey]||'all')===String(value);
     button.classList.toggle('is-active',selected);
     button.setAttribute('aria-pressed',String(selected));
   }
+}
+
+function labelFor(buttons,dataKey,value){
+  return buttons.find(button=>String(button.dataset[dataKey]||'all')===String(value))?.dataset.filterLabel||String(value);
 }
 
 export function initSiteUi(root=document){
@@ -38,7 +42,19 @@ export function initSiteUi(root=document){
   const cards=[...root.querySelectorAll('.dispatch-card')];
   const empty=root.querySelector('#dispatch-empty');
   const count=root.querySelector('#dispatch-count');
+  const summary=root.querySelector('#dispatch-filter-summary');
+  const dialog=root.querySelector('#dispatch-filter-dialog');
+  const openButton=root.querySelector('[data-filter-open]');
+  const closeButtons=[...root.querySelectorAll('[data-filter-close]')];
+  const clearButton=root.querySelector('[data-filter-clear]');
   let category='all',audience='all';
+
+  const updateSummary=()=>{
+    if(!summary)return;
+    const topicLabel=summary.dataset.topicLabel||'Topic';
+    const audienceLabel=summary.dataset.audienceLabel||'Audience';
+    summary.textContent=`${topicLabel}: ${labelFor(categoryButtons,'categoryFilter',category)} · ${audienceLabel}: ${labelFor(audienceButtons,'audienceFilter',audience)}`;
+  };
   const apply=()=>{
     let visible=0;
     for(const card of cards){
@@ -51,10 +67,18 @@ export function initSiteUi(root=document){
     }
     if(count)count.textContent=String(visible);
     if(empty)empty.hidden=visible!==0;
+    syncPressed(categoryButtons,'categoryFilter',category);
+    syncPressed(audienceButtons,'audienceFilter',audience);
+    updateSummary();
   };
-  categoryButtons.forEach(button=>button.addEventListener('click',()=>{category=button.dataset.categoryFilter||'all';setPressed(categoryButtons,button);apply();}));
-  audienceButtons.forEach(button=>button.addEventListener('click',()=>{audience=button.dataset.audienceFilter||'all';setPressed(audienceButtons,button);apply();}));
-  return {apply,getState:()=>({category,audience})};
+  categoryButtons.forEach(button=>button.addEventListener('click',()=>{category=button.dataset.categoryFilter||'all';apply();}));
+  audienceButtons.forEach(button=>button.addEventListener('click',()=>{audience=button.dataset.audienceFilter||'all';apply();}));
+  clearButton?.addEventListener('click',()=>{category='all';audience='all';apply();});
+  openButton?.addEventListener('click',()=>{if(dialog?.showModal)dialog.showModal();});
+  closeButtons.forEach(button=>button.addEventListener('click',()=>dialog?.close?.()));
+  dialog?.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});
+  apply();
+  return {apply,getState:()=>({category,audience}),clear:()=>{category='all';audience='all';apply();}};
 }
 
 if(typeof document!=='undefined'){

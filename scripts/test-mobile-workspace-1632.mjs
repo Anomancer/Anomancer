@@ -1,16 +1,23 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { ANOMANCER_TEMPLATE_ID, getWorkspaceTemplate } from '../server/workspace-templates.js';
+import { readAdminCss } from './read-admin-css.mjs';
 
 const html=fs.readFileSync('admin.html','utf8');
-const css=fs.readFileSync('admin.css','utf8');
+const css=readAdminCss();
 const js=fs.readFileSync('admin.js','utf8');
+const shell=fs.readFileSync('admin-shell.js','utf8');
 let ok=0;const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`)};
 
-test('mobiilidokissa on viisi peukalonavigaation kohdetta',()=>{
+test('mobiilidokki säilyttää viisi peukalopaikkaa mutta sisältö tulee työtilametadatasta',()=>{
   const dock=html.match(/<nav class="mobile-dock"[\s\S]*?<\/nav>/)?.[0]||'';
+  const primary=getWorkspaceTemplate(ANOMANCER_TEMPLATE_ID).editorDefinition.navigation.mobilePrimary;
   assert.ok(dock);
-  assert.equal((dock.match(/<button/g)||[]).length,5);
-  for(const label of ['Lähetykset','Kirjoita','Evidenssi','Agentit','Lisää'])assert.match(dock,new RegExp(label));
+  assert.equal((dock.match(/<button/g)||[]).length,0);
+  assert.deepEqual(primary.map(x=>x.label),['Kirjoita','Evidenssi','Orkesteri','Esikatselu']);
+  assert.match(shell,/mobilePrimary\.slice\(0,4\)/);
+  assert.match(shell,/data-mobile-command="more"/);
+  assert.match(css,/grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
 });
 
 test('desktopin editoritabit piilotetaan puhelimessa dokin tieltä',()=>{
@@ -27,14 +34,16 @@ test('esikatselu on mobiilissa oma overlay-näkymä',()=>{
   assert.match(css,/body\.mobile-preview-open \.preview-panel\{display:flex\}/);
   assert.match(html,/id="mobilePreviewClose"/);
   assert.match(js,/function setMobilePreview\(open\)/);
+  assert.match(js,/register\?\.\('editor-preview'/);
 });
 
-test('Lisää avaa saman komentopinnan työtilalle, asetuksille ja julkaisuohjaukselle',()=>{
-  assert.match(html,/class="mobile-quick-actions"/);
-  assert.match(html,/id="workspaceSelect"/);
-  assert.match(html,/id="mobileSettingsBtn"/);
+test('Lisää kokoaa työtilan toissijaiset reitit ja komennot yhteen bottom sheetiin',()=>{
+  assert.match(html,/id="workspaceMobileSheet"/);
+  assert.match(html,/id="mobileWorkspaceSelect"/);
+  assert.match(html,/id="workspaceMobileCommands"/);
   assert.match(html,/id="coreSettingsDialog"/);
-  assert.match(js,/function setMobileMore\(open\)/);
+  assert.match(shell,/function setMobileSheet\(open/);
+  assert.match(shell,/command==='settings'/);
 });
 
 test('lähetyslista on mobiilissa täyskorkea drawer eikä matala lista',()=>{
@@ -47,7 +56,7 @@ test('tekstieditori käyttää mobiilissa selaimen zoomia välttävää 16px fon
 
 test('safe-area huomioidaan alapalkissa',()=>{
   assert.match(css,/--mobile-safe-bottom:env\(safe-area-inset-bottom,0px\)/);
-  assert.match(css,/height:calc\(var\(--mobile-dock-h\) \+ var\(--mobile-safe-bottom\)\)/);
+  assert.match(css,/height:calc\(var\(--mobile-dock-h\) \+ var\(--mobile-safe-bottom\)/);
 });
 
-console.log(`\n${ok}/${ok} MOBILE WORKSPACE 16.3.2 -testiä läpi`);
+console.log(`\n${ok}/${ok} MOBILE WORKSPACE 16.3.2 COMPAT -testiä läpi`);

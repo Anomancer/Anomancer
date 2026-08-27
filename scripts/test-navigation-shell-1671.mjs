@@ -1,24 +1,25 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { CORE_VERSION } from '../server/core-registry.js';
+import { readAdminCss } from './read-admin-css.mjs';
 
 let passed=0;
 async function test(name,fn){try{await fn();passed++;console.log(`✓ ${name}`);}catch(error){console.error(`✗ ${name}`);throw error;}}
 const read=file=>fs.readFileSync(file,'utf8');
 const pkg=JSON.parse(read('package.json'));
 const html=read('admin.html');
-const css=read('admin.css');
+const css=readAdminCss();
 const worker=read('lahetyskone-sw.js');
 const installer=read('INSTALL_TO_CURRENT.sh');
 
-await test('Core ja paketti ovat 16.7.1 Visual Hardening',()=>{
-  assert.equal(pkg.version,'16.7.1');
-  assert.equal(CORE_VERSION,'16.7.1');
-  assert.match(html,/16\.7\.1 · navigation shell/);
+await test('Core ja paketti ovat 16.8.4 ja säilyttävät 16.7.1 Visual Hardeningin',()=>{
+  assert.equal(pkg.version,'1.17.2');
+  assert.equal(CORE_VERSION,'1.17.2');
+  assert.match(html,/Yksityinen työpöytä/);
 });
 
 await test('Vanhan 320px app-gridin vuoto Core Shelliin on eksplisiittisesti nollattu',()=>{
-  assert.match(css,/16\.7\.1 · Navigation Shell Visual Hardening/);
+  assert.match(css,/Navigation Shell Visual Hardening/);
   assert.match(css,/\.app\{[\s\S]*?grid-template-columns:minmax\(0,1fr\)/);
   assert.match(css,/\.core-shell,\.workspace\{grid-column:1\/-1/);
 });
@@ -55,8 +56,8 @@ await test('Mobiilissa shell palaa yhteen sarakkeeseen eikä amputoi asetuksia',
   assert.match(html,/id="mobilePublishBtn"/);
 });
 
-await test('PWA-cache bustataan 16.7.1:een',()=>{
-  assert.match(worker,/v16\.7\.1/);
+await test('PWA-cache bustataan 16.8.4:een',()=>{
+  assert.match(worker,/v1\.17\.2/);
 });
 
 await test('Content-safe installer säilyttää sisältö- ja julkaisurajat',()=>{
@@ -70,4 +71,4 @@ await test('Admin HTML:ssa ei ole päällekkäisiä id-arvoja',()=>{
   assert.deepEqual([...new Set(ids.filter((id,i)=>ids.indexOf(id)!==i))],[]);
 });
 
-console.log(`\n${passed}/10 NAVIGATION SHELL VISUAL HARDENING 16.7.1 -testiä läpi.`);
+console.log(`\n${passed}/10 NAVIGATION SHELL VISUAL HARDENING -regressiotestiä läpi.`);
