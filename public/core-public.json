@@ -1,6 +1,6 @@
 {
   "format": "anomancer-core-public/v2",
-  "version": "16.3.0",
+  "version": "16.6.0",
   "boundary": {
     "version": "1.0",
     "mode": "explicit-allowlist",
@@ -128,6 +128,114 @@
       "humanApprovalRequired": true,
       "publishAuthority": false,
       "contractHash": "65db4db28a286fed833ef962cae421781c3a32bf2be06ae62793d960a6ebe26a"
+    },
+    {
+      "id": "narrative-premise",
+      "label": "Premissi",
+      "version": "1.0.0",
+      "role": "narrative-premise-editor",
+      "description": "Terävöittää tarinan ydinkysymyksen, lupauksen ja rajauksen muuttamatta tekijän intentiota tallennetuksi totuudeksi.",
+      "modelRoute": "writer",
+      "tools": [],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
+      "contractHash": "493a6b5481044c4499ca7dfe6730f0fbfcf5c778de86e7cc122b72d14a517bcc"
+    },
+    {
+      "id": "narrative-world",
+      "label": "Maailmanrakentaja",
+      "version": "1.0.0",
+      "role": "narrative-world-builder",
+      "description": "Rakentaa maailman sääntöjä, paikkoja ja seurauksia olemassa olevan premissin ja kaanonin ehdoilla.",
+      "modelRoute": "writer",
+      "tools": [],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
+      "contractHash": "9526b58d404253257bd807ffcb883d6b6254fffcd258165a532fa3b17739f758"
+    },
+    {
+      "id": "narrative-character",
+      "label": "Hahmoarkkitehti",
+      "version": "1.0.0",
+      "role": "narrative-character-architect",
+      "description": "Syventää hahmojen tavoitteita, ristiriitoja ja ääntä säilyttäen tunnisteet ja jo hyväksytyn kaanonin.",
+      "modelRoute": "writer",
+      "tools": [],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
+      "contractHash": "28b53918d0bb9295fd7d88f977408147c0e3938caff0f09a9fc5fcd8d73e92c6"
+    },
+    {
+      "id": "narrative-plot",
+      "label": "Juonisuunnittelija",
+      "version": "1.0.0",
+      "role": "narrative-plot-architect",
+      "description": "Ehdottaa juonen rakennetta, käännekohtia ja lukusuunnitelmaa ilman että olemassa olevia lukuja poistetaan.",
+      "modelRoute": "writer",
+      "tools": [],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
+      "contractHash": "9cfb4f06c133ca6fab1d81f8ccef3bacd99936d49ca4d6096c63b64ae643318e"
+    },
+    {
+      "id": "narrative-scene",
+      "label": "Kohtauskirjoittaja",
+      "version": "1.0.0",
+      "role": "narrative-scene-writer",
+      "description": "Kirjoittaa tai jatkaa yhtä valittua lukua käyttäen projektin maailmaa, hahmoja, juonta, aikajanaa ja kaanonia.",
+      "modelRoute": "writer",
+      "tools": [],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
+      "contractHash": "e31f73da42ba49cbc173dbfddcfa2a17290f1f0411f87e38f5406c57ddb17139"
+    },
+    {
+      "id": "narrative-continuity",
+      "label": "Jatkuvuusvahti",
+      "version": "1.0.0",
+      "role": "narrative-continuity-auditor",
+      "description": "Etsii ristiriidat kaanonin, aikajanan, hahmojen ja lukujen välillä. Ei korjaa niitä hiljaisesti.",
+      "modelRoute": "critic",
+      "tools": [],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
+      "contractHash": "e727e64d6876fbd79d74e4b9ab91f24723f3af009c18249d787f10777a3c6e40"
+    },
+    {
+      "id": "narrative-voice",
+      "label": "Äänieditori",
+      "version": "1.0.0",
+      "role": "narrative-voice-editor",
+      "description": "Hioo valitun luvun rytmiä ja ääntä muuttamatta tapahtumia, kaanonia tai hahmojen identiteettiä.",
+      "modelRoute": "writer",
+      "tools": [],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
+      "contractHash": "5bbd8d4f0bb9edab042e811e1af7a236a4b272a3fd7c5c584b2e560e75fab08b"
+    },
+    {
+      "id": "narrative-critic",
+      "label": "Kriitikko",
+      "version": "1.0.0",
+      "role": "narrative-adversarial-critic",
+      "description": "Arvioi tarinan jännitettä, rakennetta, hahmologiikkaa, kohtauksen toimivuutta ja selittämisen määrää ilman automaattista uudelleenkirjoitusta.",
+      "modelRoute": "critic",
+      "tools": [],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
+      "contractHash": "1aee40fb48fc30a113e7042495beb144f03a5752976780f1e29a1f4e3d4fd2b2"
+    },
+    {
+      "id": "narrative-package",
+      "label": "Käsikirjoituspaketti",
+      "version": "1.0.0",
+      "role": "narrative-manuscript-packager",
+      "description": "Valmistelee käsikirjoituksen järjestyksen, etumateriaalin ja vientihuomiot. Ei tallenna, julkaise tai vie tiedostoja.",
+      "modelRoute": "writer",
+      "tools": [],
+      "humanApprovalRequired": true,
+      "publishAuthority": false,
+      "contractHash": "2c50ee6137722dd7869cee5fa30923c964ab8ba10ebb09ba93d3b528f88964c1"
     }
   ],
   "orchestras": [
@@ -191,6 +299,73 @@
       "evidencePolicy": "candidate-never-equals-verified",
       "audiencePolicy": "adapt-then-recheck-claims",
       "orchestraHash": "4ea599224d820827847b72ceb3f97b88c710c0756d78afc4fcc8ae360a254656"
+    },
+    {
+      "id": "narramancer",
+      "name": "Narramancer Story Orchestra",
+      "version": "1.0.0",
+      "description": "Premissistä käsikirjoituspakettiin kulkeva yksityinen tarinaorkesteri. Mikään vaihe ei tallenna tai julkaise automaattisesti.",
+      "mode": "sequential",
+      "steps": [
+        {
+          "mode": "sequential",
+          "agents": [
+            "narrative-premise"
+          ]
+        },
+        {
+          "mode": "sequential",
+          "agents": [
+            "narrative-world"
+          ]
+        },
+        {
+          "mode": "sequential",
+          "agents": [
+            "narrative-character"
+          ]
+        },
+        {
+          "mode": "sequential",
+          "agents": [
+            "narrative-plot"
+          ]
+        },
+        {
+          "mode": "sequential",
+          "agents": [
+            "narrative-scene"
+          ]
+        },
+        {
+          "mode": "sequential",
+          "agents": [
+            "narrative-continuity"
+          ]
+        },
+        {
+          "mode": "sequential",
+          "agents": [
+            "narrative-voice"
+          ]
+        },
+        {
+          "mode": "sequential",
+          "agents": [
+            "narrative-critic"
+          ]
+        },
+        {
+          "mode": "sequential",
+          "agents": [
+            "narrative-package"
+          ]
+        }
+      ],
+      "humanFinalAuthority": true,
+      "evidencePolicy": "not-applicable",
+      "audiencePolicy": "author-intent-preserved",
+      "orchestraHash": "23f6609acd00356de0af012f0bcb6fa434e4d83cd1514371bb23671c2551a827"
     }
   ],
   "tools": [
@@ -204,7 +379,7 @@
       "actor": "agent",
       "humanApproval": false,
       "sideEffects": false,
-      "toolHash": "0f4d957d86bb73cd9d66faa74ebd536a469765f2a75fc0971b3d9c38c3dc36b8"
+      "toolHash": "f5a9bfd53e43f55b71a5b8f06a71bc290f8ffe454c5de585fad5dacfa0174512"
     },
     {
       "id": "source.verify",
@@ -216,7 +391,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "723e2523605dd8daaba6a106e0b7a01b719e7b06b4ebf0716f046c2c8cb3d25c"
+      "toolHash": "f77df7513ee811a88240f8434dc944d87d5c449e7894efc0fa52c5d0477ad6ce"
     },
     {
       "id": "publication.publish",
@@ -228,7 +403,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "ae36033911b5985ac9817a82e9eb0b7c691e33c8b98977f9e0ea94a4e12d678b"
+      "toolHash": "e605c51f569b5c9530e0edde1c5fad667fab44697d2cae7fe7360d6e8938f09c"
     },
     {
       "id": "github.write",
@@ -240,7 +415,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "8096c18c49b42e1f2a7832efd639a1917ab1f8fb1869617a201917d4388804eb"
+      "toolHash": "6ff4d56ccb88d8ed7bef263f8ef1f241933aacdc1a06c5343d3b48af6cd0372b"
     }
   ],
   "toolBroker": {
@@ -258,7 +433,7 @@
         "json",
         "web_search"
       ],
-      "routeHash": "cdf5e3eda91c08862c1d37909f2855a540a1c870594c9bd9f7795711ce02e4d3"
+      "routeHash": "bda979fe7cee55f48d6f77cbed1379d66de5627b590631c79f84e9552b3ee917"
     },
     {
       "id": "writer",
@@ -266,7 +441,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "f597b237c7dba14348477a12249ef90a1fe36a6d6fb055f3c7e851ceb98ead6e"
+      "routeHash": "f518bcf8d36bca4e9555b8bcf0e5b52dc97ac25567e317779db176e1772d4e98"
     },
     {
       "id": "critic",
@@ -274,7 +449,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "f2edf666cc1c6cf1f6ba89e4200520df861f93c5e0989d152b8e54cd92ed02e5"
+      "routeHash": "e089a15acecb9c573baa7db475c0879bb6e88238e23633bdfb03cf3e22961f9b"
     }
   ],
   "modelRouter": {
@@ -302,8 +477,12 @@
     "publicReceipt": "hashes-and-boundaries-only"
   },
   "workspaceControl": {
-    "format": "anomancer-workspace/v1",
+    "format": "anomancer-workspace/v2",
+    "templateFormat": "anomancer-workspace-template/v1",
+    "constitutionFormat": "anomancer-constitution/v1",
+    "artifactBoundaryFormat": "anomancer-artifact-boundary/v1",
     "defaultWorkspace": "default",
+    "defaultWorkspaceName": "Anomancer",
     "shared": [
       "agent-contracts",
       "tool-registry",
@@ -313,9 +492,12 @@
       "runtime-profiles",
       "custom-orchestras",
       "runs",
-      "usage"
+      "usage",
+      "artifact-store",
+      "content-adapter",
+      "output-adapter"
     ],
-    "contentScope": "shared",
+    "contentScope": "workspace-artifact-adapter",
     "multiUserAcl": false,
     "workspaceNames": "private"
   },

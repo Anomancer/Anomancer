@@ -2,6 +2,8 @@ import crypto from 'node:crypto';
 import { getSession, requireCsrf } from '../auth.js';
 import { json, readJson, sameOrigin } from '../http.js';
 import { putBase64File } from '../github.js';
+import { requireWorkspace, workspaceIdFromRequest } from '../workspace-store.js';
+import { requireArtifactCapability } from '../artifact-boundary.js';
 
 const TYPES={
   'image/webp':'webp',
@@ -28,6 +30,7 @@ export default async function handler(req,res){
   if(req.method!=='POST')return json(res,405,{ok:false,error:'METHOD'});
   if(!authorized(req,res))return;
   try{
+    const workspace=await requireWorkspace(workspaceIdFromRequest(req)),artifact=requireArtifactCapability(workspace,'media.write');
     const body=await readJson(req,3_400_000);
     const raw=String(body.data||'');
     const m=raw.match(/^data:(image\/(?:webp|jpeg|png));base64,([A-Za-z0-9+/=\r\n]+)$/);
@@ -41,6 +44,6 @@ export default async function handler(req,res){
     const file=`${slug(body.name)}-${crypto.randomBytes(4).toString('hex')}.${ext}`;
     const path=`media/${year}/${month}/${file}`;
     const result=await putBase64File(path,base64,{message:`media: add ${file}`});
-    return json(res,200,{ok:true,path,url:`/${path}`,mime,size:bytes.length,commitSha:result.commitSha,htmlUrl:result.htmlUrl});
+    return json(res,200,{ok:true,workspace,artifact,path,url:`/${path}`,mime,size:bytes.length,commitSha:result.commitSha,htmlUrl:result.htmlUrl});
   }catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'MEDIA',message:e.message});}
 }

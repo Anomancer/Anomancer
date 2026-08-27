@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-export const CORE_VERSION='16.3.0';
+export const CORE_VERSION='16.6.0';
 export const AGENT_CONTRACT_FORMAT='anomancer-agent/v1';
 export const ORCHESTRA_FORMAT='anomancer-orchestra/v2';
 export const CUSTOM_ORCHESTRA_FORMAT='anomancer-custom-orchestra/v1';
@@ -83,6 +83,61 @@ const RAW_AGENTS=[
     modelRoute:'writer',tools:[],capabilities:['draft.read','package.propose','citation.propose'],
     authority:{read:['draft','claims','sources','audience'],write:['title','description','slug','answer','category','citationPlacements','notes'],deny:['body.write','claims.write','sources.write','audience.write','source.verify','publish','github.write']},
     budget:{maxOutputTokens:12000,maxOutputTokensCeiling:24000,timeoutMs:180000},humanApproval:['citation.apply','publish']
+  },
+
+  {
+    id:'narrative-premise',label:'Premissi',version:'1.0.0',role:'narrative-premise-editor',description:'Terävöittää tarinan ydinkysymyksen, lupauksen ja rajauksen muuttamatta tekijän intentiota tallennetuksi totuudeksi.',
+    modelRoute:'writer',tools:[],capabilities:['narrative.read','premise.propose'],
+    authority:{read:['project','canon','chapters'],write:['premiseProposal','projectNotes'],deny:['artifact.save','canon.accept','publish','github.write']},
+    budget:{maxOutputTokens:10000,maxOutputTokensCeiling:20000,timeoutMs:180000},humanApproval:['artifact.apply','artifact.save']
+  },
+  {
+    id:'narrative-world',label:'Maailmanrakentaja',version:'1.0.0',role:'narrative-world-builder',description:'Rakentaa maailman sääntöjä, paikkoja ja seurauksia olemassa olevan premissin ja kaanonin ehdoilla.',
+    modelRoute:'writer',tools:[],capabilities:['narrative.read','world.propose','canon.propose'],
+    authority:{read:['project','world','characters','plot','canon'],write:['worldPatch','canonCandidates'],deny:['artifact.save','canon.accept','publish','github.write']},
+    budget:{maxOutputTokens:16000,maxOutputTokensCeiling:32000,timeoutMs:180000},humanApproval:['artifact.apply','canon.accept']
+  },
+  {
+    id:'narrative-character',label:'Hahmoarkkitehti',version:'1.0.0',role:'narrative-character-architect',description:'Syventää hahmojen tavoitteita, ristiriitoja ja ääntä säilyttäen tunnisteet ja jo hyväksytyn kaanonin.',
+    modelRoute:'writer',tools:[],capabilities:['narrative.read','characters.propose'],
+    authority:{read:['project','world','characters','plot','canon'],write:['characterUpdates','characterCandidates'],deny:['character.delete','artifact.save','canon.accept','publish','github.write']},
+    budget:{maxOutputTokens:16000,maxOutputTokensCeiling:32000,timeoutMs:180000},humanApproval:['artifact.apply']
+  },
+  {
+    id:'narrative-plot',label:'Juonisuunnittelija',version:'1.0.0',role:'narrative-plot-architect',description:'Ehdottaa juonen rakennetta, käännekohtia ja lukusuunnitelmaa ilman että olemassa olevia lukuja poistetaan.',
+    modelRoute:'writer',tools:[],capabilities:['narrative.read','plot.propose','chapters.plan'],
+    authority:{read:['project','world','characters','plot','chapters','timeline','canon'],write:['plotPatch','chapterPlan'],deny:['chapter.delete','artifact.save','canon.accept','publish','github.write']},
+    budget:{maxOutputTokens:18000,maxOutputTokensCeiling:36000,timeoutMs:180000},humanApproval:['artifact.apply']
+  },
+  {
+    id:'narrative-scene',label:'Kohtauskirjoittaja',version:'1.0.0',role:'narrative-scene-writer',description:'Kirjoittaa tai jatkaa yhtä valittua lukua käyttäen projektin maailmaa, hahmoja, juonta, aikajanaa ja kaanonia.',
+    modelRoute:'writer',tools:[],capabilities:['narrative.read','chapter.propose'],
+    authority:{read:['project','world','characters','plot','chapters','timeline','canon'],write:['chapterBodyProposal','chapterSummaryProposal'],deny:['otherChapter.write','artifact.save','canon.accept','publish','github.write']},
+    budget:{maxOutputTokens:28000,maxOutputTokensCeiling:56000,timeoutMs:180000},humanApproval:['artifact.apply']
+  },
+  {
+    id:'narrative-continuity',label:'Jatkuvuusvahti',version:'1.0.0',role:'narrative-continuity-auditor',description:'Etsii ristiriidat kaanonin, aikajanan, hahmojen ja lukujen välillä. Ei korjaa niitä hiljaisesti.',
+    modelRoute:'critic',tools:[],capabilities:['narrative.read','continuity.audit'],
+    authority:{read:['project','world','characters','plot','chapters','timeline','canon'],write:['continuityIssues','canonConflicts','timelineConflicts'],deny:['chapter.write','canon.write','artifact.save','publish','github.write']},
+    budget:{maxOutputTokens:14000,maxOutputTokensCeiling:28000,timeoutMs:180000},humanApproval:['artifact.apply','canon.accept']
+  },
+  {
+    id:'narrative-voice',label:'Äänieditori',version:'1.0.0',role:'narrative-voice-editor',description:'Hioo valitun luvun rytmiä ja ääntä muuttamatta tapahtumia, kaanonia tai hahmojen identiteettiä.',
+    modelRoute:'writer',tools:[],capabilities:['narrative.read','chapter.voice.propose'],
+    authority:{read:['project','characters','chapters','canon','continuityIssues'],write:['chapterBodyProposal','voiceChanges'],deny:['plot.write','canon.write','artifact.save','publish','github.write']},
+    budget:{maxOutputTokens:28000,maxOutputTokensCeiling:56000,timeoutMs:180000},humanApproval:['artifact.apply']
+  },
+  {
+    id:'narrative-critic',label:'Kriitikko',version:'1.0.0',role:'narrative-adversarial-critic',description:'Arvioi tarinan jännitettä, rakennetta, hahmologiikkaa, kohtauksen toimivuutta ja selittämisen määrää ilman automaattista uudelleenkirjoitusta.',
+    modelRoute:'critic',tools:[],capabilities:['narrative.read','narrative.critique'],
+    authority:{read:['project','world','characters','plot','chapters','timeline','canon','continuityIssues'],write:['critique'],deny:['chapter.write','canon.write','artifact.save','publish','github.write']},
+    budget:{maxOutputTokens:14000,maxOutputTokensCeiling:28000,timeoutMs:180000},humanApproval:['artifact.apply']
+  },
+  {
+    id:'narrative-package',label:'Käsikirjoituspaketti',version:'1.0.0',role:'narrative-manuscript-packager',description:'Valmistelee käsikirjoituksen järjestyksen, etumateriaalin ja vientihuomiot. Ei tallenna, julkaise tai vie tiedostoja.',
+    modelRoute:'writer',tools:[],capabilities:['narrative.read','manuscript.package.propose'],
+    authority:{read:['project','world','characters','plot','chapters','timeline','canon','critique'],write:['manuscriptPackage'],deny:['chapter.write','canon.write','artifact.save','artifact.export','publish','github.write']},
+    budget:{maxOutputTokens:12000,maxOutputTokensCeiling:24000,timeoutMs:180000},humanApproval:['artifact.apply','artifact.export']
   }
 ];
 
@@ -144,6 +199,16 @@ const RAW_ORCHESTRAS=[{
     {id:'step-07',mode:'sequential',agents:['claims']},{id:'step-08',mode:'sequential',agents:['package']}
   ],
   humanFinalAuthority:true,evidencePolicy:'candidate-never-equals-verified',citationPolicy:'verified-supported-only',visualizationPolicy:'human-approved-structured-data-only',audiencePolicy:'adapt-then-recheck-claims',source:'built-in'
+},{
+  id:'narramancer',name:'Narramancer Story Orchestra',version:'1.0.0',description:'Premissistä käsikirjoituspakettiin kulkeva yksityinen tarinaorkesteri. Mikään vaihe ei tallenna tai julkaise automaattisesti.',mode:'sequential',
+  steps:[
+    {id:'step-01',mode:'sequential',agents:['narrative-premise']},{id:'step-02',mode:'sequential',agents:['narrative-world']},
+    {id:'step-03',mode:'sequential',agents:['narrative-character']},{id:'step-04',mode:'sequential',agents:['narrative-plot']},
+    {id:'step-05',mode:'sequential',agents:['narrative-scene']},{id:'step-06',mode:'sequential',agents:['narrative-continuity']},
+    {id:'step-07',mode:'sequential',agents:['narrative-voice']},{id:'step-08',mode:'sequential',agents:['narrative-critic']},
+    {id:'step-09',mode:'sequential',agents:['narrative-package']}
+  ],
+  humanFinalAuthority:true,evidencePolicy:'not-applicable',citationPolicy:'not-applicable',visualizationPolicy:'not-applicable',audiencePolicy:'author-intent-preserved',continuityPolicy:'canon-conflicts-must-be-reported-not-silently-fixed',source:'built-in'
 }];
 function flattenSteps(steps=[]){return steps.flatMap(step=>Array.isArray(step?.agents)?step.agents:[]);}
 function finalizeOrchestra(input){
@@ -209,7 +274,7 @@ export function normalizeOrchestraDefinition(input={},options={}){
     const agents=[...new Set((Array.isArray(step?.agents)?step.agents:[]).map(x=>String(x||'').trim()).filter(Boolean))].slice(0,3);
     return {id:`step-${String(index+1).padStart(2,'0')}`,mode,agents};
   }).filter(step=>step.agents.length);
-  const normalized={format:custom?CUSTOM_ORCHESTRA_FORMAT:ORCHESTRA_FORMAT,coreVersion:CORE_VERSION,id,name,version:String(input.version||'1.0.0').slice(0,24),description,mode:steps.some(step=>step.mode==='parallel')?'mixed':'sequential',steps,stages:flattenSteps(steps),humanFinalAuthority:true,evidencePolicy:'candidate-never-equals-verified',citationPolicy:'verified-supported-only',visualizationPolicy:'human-approved-structured-data-only',audiencePolicy:'adapt-then-recheck-claims',source:custom?'custom':'built-in'};
+  const normalized={format:custom?CUSTOM_ORCHESTRA_FORMAT:ORCHESTRA_FORMAT,coreVersion:CORE_VERSION,id,name,version:String(input.version||'1.0.0').slice(0,24),description,mode:steps.some(step=>step.mode==='parallel')?'mixed':'sequential',steps,stages:flattenSteps(steps),humanFinalAuthority:true,evidencePolicy:String(input.evidencePolicy||'candidate-never-equals-verified'),citationPolicy:String(input.citationPolicy||'verified-supported-only'),visualizationPolicy:String(input.visualizationPolicy||'human-approved-structured-data-only'),audiencePolicy:String(input.audiencePolicy||'adapt-then-recheck-claims'),...(input.continuityPolicy?{continuityPolicy:String(input.continuityPolicy)}:{}),source:custom?'custom':'built-in'};
   const hashable=clone(normalized);delete hashable.coreVersion;delete hashable.orchestraHash;delete hashable.updatedAt;delete hashable.createdAt;normalized.orchestraHash=digest(hashable);
   return normalized;
 }
@@ -230,6 +295,7 @@ export function validateOrchestraDefinition(input={},options={}){
   const lastBody=Math.max(position('writer'),position('audience'),position('voice'));
   const claims=position('claims');if(lastBody>=0&&(claims<0||claims<=lastBody))errors.push({code:'ORCHESTRA_CLAIMS_AFTER_BODY',message:'Väitevahdin pitää olla viimeisen body-muokkauksen jälkeen.'});
   const packageStep=position('package');if(packageStep>=0){const step=orchestra.steps[packageStep];if(packageStep!==orchestra.steps.length-1||step.mode!=='sequential'||step.agents.length!==1)errors.push({code:'ORCHESTRA_PACKAGE_LAST',message:'Julkaisupaketin pitää olla viimeinen yksittäinen konevaihe.'});}
+  const narrativePackageStep=position('narrative-package');if(narrativePackageStep>=0){const step=orchestra.steps[narrativePackageStep];if(narrativePackageStep!==orchestra.steps.length-1||step.mode!=='sequential'||step.agents.length!==1)errors.push({code:'ORCHESTRA_NARRATIVE_PACKAGE_LAST',message:'Käsikirjoituspaketin pitää olla Narramancer-orkesterin viimeinen yksittäinen konevaihe.'});}
   if(orchestra.humanFinalAuthority!==true)errors.push({code:'ORCHESTRA_HUMAN_GATE',message:'Human final authority on pakollinen.'});
   return {ok:errors.length===0,orchestra,errors};
 }
@@ -270,6 +336,6 @@ export function publicCoreSnapshot({modelRouter=null}={}){
     orchestraControl:{format:CUSTOM_ORCHESTRA_FORMAT,persistence:'server-side-durable',customBuilder:true,parallelIsolation:'same-input-deterministic-merge',humanFinalAuthority:true},
     toolBroker:{format:TOOL_POLICY_FORMAT,enforcement:'server-side-fail-closed',implicitTools:false,humanApprovalClientSpoofable:false,policyLogInRunReceipt:true},
     runExplorer:{persistence:'server-side-durable',containsRawPrompt:false,containsRawOutput:false,filters:['status','agent','provider','orchestra'],usageMetering:true,costEstimation:'server-configured-rates-only'},
-    workspaceControl:{format:'anomancer-workspace/v1',defaultWorkspace:'default',shared:['agent-contracts','tool-registry','model-router'],scoped:['runtime-profiles','custom-orchestras','runs','usage'],contentScope:'shared-in-15.9',multiUserAcl:false}
+    workspaceControl:{format:'anomancer-workspace/v2',templateFormat:'anomancer-workspace-template/v1',constitutionFormat:'anomancer-constitution/v1',artifactBoundaryFormat:'anomancer-artifact-boundary/v1',defaultWorkspace:'default',defaultWorkspaceName:'Anomancer',shared:['agent-contracts','tool-registry','model-router'],scoped:['runtime-profiles','custom-orchestras','runs','usage','artifact-store','content-adapter','output-adapter'],contentScope:'workspace-artifact-adapter',multiUserAcl:false}
   };
 }

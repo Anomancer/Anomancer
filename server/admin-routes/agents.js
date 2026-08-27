@@ -11,6 +11,9 @@ import { authorizeAgentTools } from '../tool-broker.js';
 import { getRuntimeProfile, verifyRuntimeSnapshot } from '../runtime-store.js';
 import { appendRunReceipt } from '../run-store.js';
 import { requireWorkspace, workspaceIdFromRequest } from '../workspace-store.js';
+import { getWorkspaceTemplate } from '../workspace-templates.js';
+import { normalizeNarramancerProject } from '../narramancer-project.js';
+import { promptForNarrativeAgent, validateNarrativeAgentResult } from '../narrative-agents.js';
 
 const AGENTS=new Set(listAgentIds());
 const MAX_BODY_CHARS=60_000;
@@ -61,6 +64,8 @@ export default async function handler(req,res){
     if(!AGENTS.has(agent)) return json(res,400,{ok:false,error:'AGENT_UNKNOWN'});
     const contract=getAgentContract(agent);
     if(!contract) return json(res,400,{ok:false,error:'AGENT_UNKNOWN'});
+    const template=getWorkspaceTemplate(workspace.templateId);
+    if(!template?.allowedAgentIds?.includes(agent)) return json(res,409,{ok:false,error:'WORKSPACE_AGENT_NOT_ALLOWED',message:'Valitun työtilatyypin perustuslaki ei salli tätä agenttia.'});
     const orchestraRunId=cleanString(body.orchestraRunId,120)||null;
     let runtime,snapshotOrchestra=null;
     if(orchestraRunId){
@@ -74,20 +79,22 @@ export default async function handler(req,res){
       if(!runtime) return json(res,409,{ok:false,error:'RUNTIME_SNAPSHOT_AGENT',message:'Agentin Runtime Profile puuttuu orkesterin snapshotista.'});
     }else runtime=await getRuntimeProfile(agent,workspace.id);
     if(!runtime?.active) return json(res,409,{ok:false,error:'AGENT_DISABLED',message:`${contract.label} on poistettu käytöstä Core Runtime Profilessa.`});
-    const post=normalizePost(body.post||{});
+    const narrative=agent.startsWith('narrative-');
     const custom=cleanString(body.instruction,MAX_CUSTOM_CHARS);
-    const {system,user}=promptFor(agent,post,custom);
+    const activeChapterId=cleanString(body.activeChapterId,80);
+    const input=narrative?normalizeNarramancerProject(body.narrativeProject||{},workspace.id):normalizePost(body.post||{});
+    const {system,user}=narrative?promptForNarrativeAgent(agent,input,custom,activeChapterId):promptFor(agent,input,custom);
     const startedAt=new Date();
     const toolPolicy=authorizeAgentTools({contract,toolIds:contract.tools||[],context:{workspaceId:workspace.id,orchestraRunId,orchestraId:snapshotOrchestra?.id||null,orchestraHash:snapshotOrchestra?.orchestraHash||null,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null}});
     const abortController=new AbortController();
     const abort=()=>abortController.abort();
     req.once?.('aborted',abort);
     let response;try{response=await routeAgentJson({
-      contract,runtime,system,user,schema:agent==='source'?SOURCE_SCHEMA:null,
-      maxTokens:runtime.maxOutputTokens,thinking:!['voice'].includes(agent),webSearch:agent==='source',signal:abortController.signal
+      contract,runtime,system,user,schema:!narrative&&agent==='source'?SOURCE_SCHEMA:null,
+      maxTokens:runtime.maxOutputTokens,thinking:!['voice','narrative-voice'].includes(agent),webSearch:!narrative&&agent==='source',signal:abortController.signal
     });}finally{req.removeListener?.('aborted',abort);}
-    const result=validateAgentResult(agent,response.result,post);
-    const receipt=createRunReceipt({contract,runtime,post,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId,orchestra:snapshotOrchestra,workspace:workspace,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
+    const result=narrative?validateNarrativeAgentResult(agent,response.result,input,{activeChapterId}):validateAgentResult(agent,response.result,input);
+    const receipt=createRunReceipt({contract,runtime,post:input,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId,orchestra:snapshotOrchestra,workspace:workspace,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
     let runPersistence={stored:false,error:null};
     if(orchestraRunId){try{await appendRunReceipt(receipt);runPersistence={stored:true,error:null};}catch(error){runPersistence={stored:false,error:String(error?.code||'RUN_STORE')};}}
     return json(res,200,{ok:true,workspace,coreVersion:CORE_VERSION,agent,contract:{id:contract.id,version:contract.version,contractHash:contract.contractHash,role:contract.role,authority:contract.authority,budget:contract.budget,runtimePolicy:contract.runtimePolicy},runtime,toolPolicy,result,meta:response.meta,receipt,runPersistence,humanApprovalRequired:true});

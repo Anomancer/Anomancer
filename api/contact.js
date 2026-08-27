@@ -146,7 +146,7 @@ export default async function handler(req, res) {
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
-        'User-Agent': 'Anomancer-Contact/14.2',
+        'User-Agent': 'Anomancer-Contact/16.3.5',
         'Idempotency-Key': `anomancer-contact-${now}-${Math.random().toString(36).slice(2, 10)}`
       },
       body: JSON.stringify(payload)

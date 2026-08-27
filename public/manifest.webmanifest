@@ -1,0 +1,21 @@
+{
+  "id": "/lahetyskone",
+  "name": "Anomancer Lähetyskone",
+  "short_name": "Lähetyskone",
+  "description": "Yksityinen kirjoitus-, evidenssi- ja julkaisuympäristö Anomancerin lähetyksille.",
+  "lang": "fi",
+  "dir": "ltr",
+  "start_url": "/lahetyskone",
+  "scope": "/lahetyskone",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#050509",
+  "theme_color": "#09090f",
+  "categories": ["productivity", "writing"],
+  "icons": [
+    {"src": "/icons/lahetyskone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/icons/lahetyskone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "/icons/lahetyskone-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

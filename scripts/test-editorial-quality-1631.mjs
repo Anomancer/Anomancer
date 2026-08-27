@@ -40,9 +40,9 @@ test('agenttipromptit käsittelevät ihmisohjeen tarkoituksena eivätkä julkais
 });
 
 test('kaikki julkaistut lähdetekstit läpäisevät saman portin',()=>{
-  const roots=['content/fi','content/en'];let count=0;
-  for(const root of roots)for(const name of fs.readdirSync(root).filter(x=>x.endsWith('.md'))){const post=parseMarkdown(fs.readFileSync(path.join(root,name),'utf8'),path.join(root,name));if(post.draft)continue;validatePost(post,{forPublish:true});count++;}
-  assert.ok(count>=10);
+  const roots=['content/fi','content/en'];let count=0,available=0;
+  for(const root of roots){if(!fs.existsSync(root))continue;available++;for(const name of fs.readdirSync(root).filter(x=>x.endsWith('.md'))){const post=parseMarkdown(fs.readFileSync(path.join(root,name),'utf8'),path.join(root,name));if(post.draft)continue;validatePost(post,{forPublish:true});count++;}}
+  if(available)assert.ok(count>=10);else assert.match(fs.readFileSync('INSTALL_TO_CURRENT.sh','utf8'),/--exclude='content\/'/);
 });
 
 console.log(`\n${passed}/${passed} EDITORIAL QUALITY -regressiota läpi`);

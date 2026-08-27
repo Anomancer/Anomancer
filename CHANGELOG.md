@@ -1,3 +1,61 @@
+# Anomancer 16.6.0 · Narramancer Vertical Slice
+
+## 16.6.0
+
+- lisätty `narramancer/story-studio/1.0.0` Workspace Template ja `narramancer/story-constitution/1.0.0`
+- lisätty metadataohjattu Narramancer-editori: projekti, maailma, hahmot, juoni, luvut, aikajana, kaanon, orkesteri ja vienti
+- lisätty workspace-kohtainen private Artifact Store revision conflict -suojalla
+- lisätty 9 narratiivista agenttia ja built-in Narramancer Story Orchestra
+- palvelin estää agentit, joita valitun Workspace Templaten `allowedAgentIds` ei salli
+- Runtime Snapshot kantaa nyt koko Orchestra Contractin policy-kentät, myös Narramancerin continuity-policyn
+- Narramancer-orkesteri toimii ehdotuskopiolla ja vaatii ihmisen soveltamisen sekä erillisen tallennuksen
+- lisätty Markdown-projektikansio ZIPinä, koottu Markdown-käsikirjoitus ja JSON-varmuuskopio
+- ei automaattista julkaisua eikä Anomancer-sisällön näkyvyyttä Narramancerissa
+- lisätty `scripts/test-narramancer-166.mjs`
+
+# Anomancer 16.5.0 · Workspace Types + Artifact Boundary
+
+## 16.5.0
+
+- Workspace Registry v2: server-authoritative `templateId`, Template- ja Constitution-hashit sekä artifact/content/output/UI-sidokset.
+- Sisäänrakennettu Anomancer-template säilyttää `default`-id:n, legacy-tagit, sisällön ja julkaisuputken.
+- Uusi `Tyhjä eristetty työtila` ei peri Anomancerin sisältöä, Editorial-orkesteria eikä Vercel-julkaisukohdetta.
+- Artifact Boundary estää muun työtilan postaus-, media- ja julkaisukirjoitukset palvelimella; listaus palauttaa tyhjän näkymän ilman sisältövuotoa.
+- Yläpalkissa erilliset Työtila- ja Orkesteri-valitsimet. Työtilan vaihto päivittää orkesterit, runtimen, ajot, käytön ja editorin artefaktikontekstin.
+- Runtime Snapshot v4 allekirjoittaa Workspace Templaten, Constitutionin ja Artifact Boundaryn.
+- Sisältöturvallinen asennin jättää `content/`, `media/`, `public/` ja generoidut julkaisuhakemistot kopioimatta sekä varmistaa sisältösormenjäljen testien jälkeen.
+
+## 16.4.0
+
+- Lisätty asennettava `/lahetyskone`-PWA, standalone-ikkuna ja turvallinen offline-sovelluskuori.
+- Rajattu service worker vain Lähetyskoneeseen; API:t ja julkiset Anomancer-pinnat jätetään välimuistin ulkopuolelle.
+- Lisätty sovelluksen asennusohjaus, verkkoyhteyden tila ja PWA-kuvakkeet.
+- Ohjattu `/admin` yhteensopivasti `/lahetyskone`-osoitteeseen.
+- Erotettu julkinen Core yksityisestä Konehuoneesta käyttöliittymäkielellä.
+- Nimetty ihmisen lopullinen toiminto `Julkaise eetteriin` -portiksi muuttamatta palvelinauktoriteettia.
+- Lisätty App Split -raja- ja regressiotestit.
+
+# Anomancer 16.3.5 · Evidence Boundary Hygiene + consolidated full release
+
+- `lähde-ehdokas`, `kandidaattilähde`, `source candidate` ja `candidate source` eivät saa vuotaa writer-, audience- tai voice-agentin julkaistavaan bodyyn.
+- Evidenssin `verification: candidate` säilyy evidenssimetadatassa; neutralointi ei promotoi lähdettä varmennetuksi.
+- Nykyiselle vanhalle luonnokselle admin tarjoaa hallitun workflow-leiman neutraloinnin editorissa ilman automaattijulkaisua.
+- 16.3.4:n editorial-portti säilyy viimeisenä hard block -turvaverkkona.
+- Full release sisältää myös 16.3.3:n mobiilin control-plane reflow'n ja Lisää-komentopinnan portal-korjauksen.
+
+# Anomancer 16.3.4 · Editorial Gate Calibration
+
+- Sisäiset lähdestatukset (`kandidaattilähde`, `lähde-ehdokas`) pysyvät julkaisuesteenä.
+- Rehellinen epävarmuuskieli (`toistaiseksi varmistamaton`, vahvistamatta jääminen) on warning, ei hard block.
+- Admin näyttää editorial-portin tarkan osuman ja onnistuneen julkaisun warningit.
+
+# Anomancer 16.3.3 · Mobile Control Plane Reflow
+
+- Myöhemmin ladattu `admin-control-plane.css` omistaa lopullisen mobiilicascaden.
+- Core-mittarit, agentit, työkalut, usage-kortit, dialogit ja ajohistoria reflowavat puhelimessa ilman kirjainpylväitä tai hash-vesiputousta.
+- Viewportin vaakavuoto katkaistaan control-plane-juuresta ja alapalkki pysyy ruudun sisällä.
+- Lisää-komentopinta portaloidaan headerin stacking contextin ulkopuolelle.
+
 # Anomancer 16.3.2 · Mobile Workspace
 
 - Lähetyskoneen mobiili on nyt oma käyttötila eikä desktop-layoutin kutistettu versio.

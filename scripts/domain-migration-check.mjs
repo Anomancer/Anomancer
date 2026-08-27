@@ -28,7 +28,9 @@ for(const rel of generated){
 }
 const manifest=JSON.parse(fs.readFileSync(path.join(ROOT,'content-manifest.json'),'utf8'));
 const fi=manifest.published.filter(x=>x.lang==='fi');
-if(fi.length===0) failures.push('FI-julkaisuja ei löytynyt manifestista');
+const fiSourceDir=path.join(ROOT,'content','fi');
+const contentIncluded=fs.existsSync(fiSourceDir)&&fs.readdirSync(fiSourceDir,{withFileTypes:true}).some(entry=>entry.isFile()&&/\.md$/i.test(entry.name));
+if(contentIncluded&&fi.length===0) failures.push('FI-julkaisuja ei löytynyt manifestista vaikka content/fi on mukana');
 const allowedAudiences=new Set(['all','employee','entrepreneur','developer','teacher','creative','decision-maker','investor']);
 for(const item of fi){
   const audience=Array.isArray(item.audience)?item.audience:[];
@@ -44,4 +46,4 @@ if(!list.includes('src="/site.js"')) failures.push('ulkoinen käyttöliittymäsk
 if(!siteJs.includes("audience==='all'||cardAudiences.includes(audience)")) failures.push('kohdennettu audience-filtteri puuttuu');
 if(siteJs.includes("cardAudiences.includes('all')||cardAudiences.includes(audience)")) failures.push('audience-filtteri vuotaa yleissisällön kohderajaukseen');
 if(failures.length){console.error('DOMAIN MIGRATION FAIL');for(const f of failures)console.error(' -',f);process.exit(1)}
-console.log(`✓ Domain migration OK · ${fi.length} FI-lähetystä · canonical ${SITE}`);
+console.log(`✓ Domain migration OK · ${contentIncluded?`${fi.length} FI-lähetystä`:'content-safe ilman julkaisu-corpusta'} · canonical ${SITE}`);

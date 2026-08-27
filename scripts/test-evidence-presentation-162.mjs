@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { normalizeCitationPlacements, normalizeVisualizations, validatePost, serializePost, parseMarkdown } from '../server/content.js';
 import { validateAgentResult } from '../server/agent-validation.js';
@@ -11,7 +12,7 @@ const body='Tutkimuksessa kasvu oli 27 prosenttia vuonna 2025. Vertailussa kasvu
 const sources=[{id:'s1',title:'Study',url,verification:'verified',origin:'human'}];
 const claims=[{status:'supported',text:'Kasvu oli 27 prosenttia vuonna 2025.',evidence:[url],note:''},{status:'supported',text:'Kasvu oli 18 prosenttia vuonna 2024.',evidence:[url],note:''}];
 const base={lang:'fi',title:'Testi',date:'2026-08-27',category:'info-media',audience:['all'],audienceDepth:'general',description:'Testi',slug:'testi',translationKey:'testi',aliases:[],coverImage:'',coverAlt:'',answer:'',sources,claims,pinned:false,draft:false,body};
-ok('Core version',()=>assert.equal(CORE_VERSION,'16.3.0'));
+ok('Core version',()=>assert.equal(CORE_VERSION,'16.6.0'));
 ok('package can propose citation placements but cannot write body',()=>{const c=getAgentContract('package');assert(c.authority.write.includes('citationPlacements'));assert(c.authority.deny.includes('body.write'));});
 ok('visualization agent is optional and fail-closed',()=>{const c=getAgentContract('visualization');assert(c);assert(c.authority.deny.includes('claims.write'));assert(!getOrchestra('editorial').stages.includes('visualization'));});
 ok('valid placement survives',()=>assert.equal(normalizeCitationPlacements([{claimText:claims[0].text,evidenceUrl:url,quote:'Tutkimuksessa kasvu oli 27 prosenttia vuonna 2025.',anchorText:'27 prosenttia'}],{sources,claims,body}).length,1));
@@ -31,7 +32,10 @@ ok('admin exposes visualization watcher',()=>assert(fs.readFileSync(new URL('../
 ok('build has deterministic SVG renderer',()=>{const b=fs.readFileSync(new URL('./build-blog.mjs',import.meta.url),'utf8');assert(b.includes('function chartSvg'));assert(b.includes('function applyCitationPlacements'));});
 ok('public renderer supports compact source strip',()=>assert(fs.readFileSync(new URL('../styles.css',import.meta.url),'utf8').includes('.article-source-strip')));
 ok('end-to-end build renders grounded inline link and deterministic SVG',()=>{
-  const root=path.resolve(new URL('..',import.meta.url).pathname);
+  const source=path.resolve(new URL('..',import.meta.url).pathname),root=fs.mkdtempSync(path.join(os.tmpdir(),'anomancer-v162-'));
+  fs.cpSync(source,root,{recursive:true,filter:src=>!src.includes(`${path.sep}node_modules${path.sep}`)});
+  fs.mkdirSync(path.join(root,'content','fi'),{recursive:true});
+  fs.mkdirSync(path.join(root,'content','en'),{recursive:true});
   const fixture={...base,slug:'v162-presentation-fixture',translationKey:'v162-presentation-fixture',title:'V16.2 Presentation Fixture',date:'2099-12-30',description:'V16.2 julkaisuputken inline-linkki- ja visualisointitesti.',citationMode:'inline',citationPlacements:[{claimText:claims[0].text,evidenceUrl:url,quote:'Tutkimuksessa kasvu oli 27 prosenttia vuonna 2025.',anchorText:'27 prosenttia'}],visualizations:[chart]};
   const file=path.join(root,'content','fi','9997-v162-presentation-fixture.md');
   const out=path.join(root,'lahetykset','v162-presentation-fixture.html');
@@ -49,6 +53,7 @@ ok('end-to-end build renders grounded inline link and deterministic SVG',()=>{
     if(fs.existsSync(file))fs.unlinkSync(file);
     build();
     if(fs.existsSync(out))fs.unlinkSync(out);
+    fs.rmSync(root,{recursive:true,force:true});
   }
 });
 console.log(`16.2 evidence presentation: ${n}/${n}`);

@@ -15,6 +15,7 @@
   },
   "privatePaths": [
     "/admin",
+    "/lahetyskone",
     "/api/admin/"
   ],
   "machineEndpoints": {

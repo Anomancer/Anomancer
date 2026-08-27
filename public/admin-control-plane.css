@@ -5,6 +5,9 @@
 /* Control-plane responsive and interaction polish */
 .core-agent-card,.core-orchestra-card,.core-run-row,.core-workspace-card{border-color:var(--color-border-subtle)}.core-agent-dialog{box-shadow:var(--shadow-dialog)}.core-agent-dialog h3,.core-panel h2,.core-panel h3{text-wrap:balance}.core-empty{color:var(--color-text-tertiary)}
 
+/* 16.5 Workspace Types + Artifact Boundary */
+.orchestra-switcher{min-width:220px}.workspace-boundary-banner{margin:12px 24px 0;padding:12px 14px;border:1px solid rgba(255,192,109,.34);border-left:3px solid #ffc06d;border-radius:10px;background:rgba(255,192,109,.06);color:#d6c6aa;font-size:.78rem;line-height:1.5}.workspace-boundary-banner strong{color:#ffd89a}.workspace-contract-summary{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 18px;margin:0 0 13px;padding:11px 12px;border:1px solid #2d2d3b;border-radius:9px;background:#090911}.workspace-contract-summary span{color:var(--muted);font-size:.72rem}.workspace-contract-summary strong{font-size:.74rem;color:#c8b8ff}.workspace-contract-summary small{grid-column:1/-1;color:var(--dim);font:600 .62rem/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.workspace-artifact-locked .public-url-box,.workspace-artifact-locked .actions{opacity:.48}.core-orchestra-form-meta small{display:block;margin-top:5px;color:var(--dim);font-size:.64rem;line-height:1.4}
+
 
 /* 16.0.2 responsive orchestra flow */
 .orchestra-stages{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px 20px;overflow:visible}

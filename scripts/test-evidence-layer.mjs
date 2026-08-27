@@ -1,10 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { serializePost, parseMarkdown, validatePost } from '../server/content.js';
 
-const ROOT=process.cwd();
+const SOURCE=process.cwd();
+const ROOT=fs.mkdtempSync(path.join(os.tmpdir(),'anomancer-evidence-'));
+fs.cpSync(SOURCE,ROOT,{recursive:true,filter:src=>!src.includes(`${path.sep}node_modules${path.sep}`)});
+fs.mkdirSync(path.join(ROOT,'content','fi'),{recursive:true});
+fs.mkdirSync(path.join(ROOT,'content','en'),{recursive:true});
 const FIX=path.join(ROOT,'content','fi','9999-v1318-evidence-fixture.md');
 const OUT=path.join(ROOT,'lahetykset','v1318-evidence-fixture.html');
 const SITE='https://anomancer.com';
@@ -63,6 +68,7 @@ try{
   if(fs.existsSync(FIX)) fs.unlinkSync(FIX);
   build();
   if(fs.existsSync(OUT)) fs.unlinkSync(OUT);
+  fs.rmSync(ROOT,{recursive:true,force:true});
 }
 
 console.log(`\n${ok}/${ok} EVIDENCE LAYER -testiä läpi`);

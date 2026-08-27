@@ -3,6 +3,8 @@ import { json, readJson, sameOrigin } from '../http.js';
 import { publicCoreSnapshot } from '../core-registry.js';
 import { modelRouterStatus } from '../model-router.js';
 import { listWorkspaces, upsertWorkspace, archiveWorkspace, workspaceStoreStatus } from '../workspace-store.js';
+import { listWorkspaceTemplates, listConstitutions } from '../workspace-templates.js';
+import { artifactBoundaryForWorkspace } from '../artifact-boundary.js';
 
 function auth(req,res,mut=false){
   const session=getSession(req);
@@ -15,13 +17,14 @@ function resourceOf(req){
   catch{return 'core';}
 }
 function publicWorkspaceState(state){return{format:state.format,coreVersion:state.coreVersion,revision:state.revision,updatedAt:state.updatedAt};}
+function workspacePayload(data){return{builtins:data.builtins,custom:data.custom,all:data.all,state:publicWorkspaceState(data.state),store:workspaceStoreStatus(),templates:listWorkspaceTemplates(),constitutions:listConstitutions(),artifactBoundaries:Object.fromEntries(data.all.map(workspace=>[workspace.id,artifactBoundaryForWorkspace(workspace)]))};}
 
 async function workspaceHandler(req,res){
   if(req.method==='GET'){
     if(!auth(req,res))return;
     try{
       const data=await listWorkspaces({includeArchived:true});
-      return json(res,200,{ok:true,builtins:data.builtins,custom:data.custom,all:data.all,state:publicWorkspaceState(data.state),store:workspaceStoreStatus()});
+      return json(res,200,{ok:true,...workspacePayload(data)});
     }catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'WORKSPACE_STORE',message:e.message,store:workspaceStoreStatus()});}
   }
   if(req.method==='POST'||req.method==='PUT'){
@@ -30,7 +33,7 @@ async function workspaceHandler(req,res){
       const body=await readJson(req,100_000);
       const result=await upsertWorkspace(body.workspace||body,{expectedRevision:body.expectedRevision});
       const data=await listWorkspaces({includeArchived:true});
-      return json(res,200,{ok:true,workspace:result.workspace,builtins:data.builtins,custom:data.custom,all:data.all,state:publicWorkspaceState(result.state),store:workspaceStoreStatus()});
+      return json(res,200,{ok:true,workspace:result.workspace,...workspacePayload({...data,state:result.state})});
     }catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'WORKSPACE_SAVE',message:e.message});}
   }
   if(req.method==='DELETE'){
@@ -39,7 +42,7 @@ async function workspaceHandler(req,res){
       const body=await readJson(req,100_000);
       const result=await archiveWorkspace(String(body.id||''),{expectedRevision:body.expectedRevision,archived:body.archived!==false});
       const data=await listWorkspaces({includeArchived:true});
-      return json(res,200,{ok:true,workspace:result.workspace,builtins:data.builtins,custom:data.custom,all:data.all,state:publicWorkspaceState(result.state),store:workspaceStoreStatus()});
+      return json(res,200,{ok:true,workspace:result.workspace,...workspacePayload({...data,state:result.state})});
     }catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'WORKSPACE_ARCHIVE',message:e.message});}
   }
   return json(res,405,{ok:false,error:'METHOD'});

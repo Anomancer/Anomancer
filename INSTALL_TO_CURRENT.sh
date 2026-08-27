@@ -44,10 +44,23 @@ elif [[ -n "$MODE" ]]; then
   exit 2
 fi
 
-echo "ANOMANCER 14.2 · SAFE INSTALL"
+content_fingerprint() {
+  local root="$1"
+  if [[ ! -d "$root/content" ]]; then
+    echo "missing"
+    return
+  fi
+  find "$root/content" -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum | sha256sum | awk '{print $1}'
+}
+
+CONTENT_BEFORE="$(content_fingerprint "$TARGET_DIR")"
+CONTENT_COUNT_BEFORE="$(find "$TARGET_DIR/content" -type f -name '*.md' 2>/dev/null | wc -l | tr -d ' ')"
+
+echo "ANOMANCER 16.6.0 · NARRAMANCER VERTICAL SLICE · CONTENT-SAFE INSTALL"
 echo "Lähde: $SOURCE_DIR"
 echo "Kohde: $TARGET_DIR"
 echo "Varmuuskopio: $TARGET_DIR/$BACKUP_REL"
+echo "Sisältösuoja: $CONTENT_COUNT_BEFORE Markdown-tiedostoa · content/ ja media/ jätetään koskematta"
 
 rsync -a --itemize-changes --backup --backup-dir="$BACKUP_REL" "${DELETE_ARGS[@]}" \
   --exclude='.git/' \
@@ -56,12 +69,36 @@ rsync -a --itemize-changes --backup --backup-dir="$BACKUP_REL" "${DELETE_ARGS[@]
   --exclude='.anomancer-backups/' \
   --exclude='.env' \
   --exclude='.env.*' \
+  --exclude='.anomancer/' \
+  --exclude='content/' \
+  --exclude='media/' \
+  --exclude='public/' \
+  --exclude='lahetykset/' \
+  --exclude='dispatches/' \
+  --exclude='lahetykset.html' \
+  --exclude='dispatches.html' \
+  --exclude='content-manifest.json' \
+  --exclude='evidence-manifest.json' \
+  --exclude='discovery-manifest.json' \
+  --exclude='release-provenance.json' \
+  --exclude='rss.xml' \
+  --exclude='rss-en.xml' \
+  --exclude='sitemap.xml' \
+  --exclude='llms.txt' \
   "$SOURCE_DIR/" "$TARGET_DIR/"
 
 cd "$TARGET_DIR"
 npm run check
 
-echo "✓ Anomancer 14.2 asennettu ja tarkistettu."
+CONTENT_AFTER="$(content_fingerprint "$TARGET_DIR")"
+CONTENT_COUNT_AFTER="$(find "$TARGET_DIR/content" -type f -name '*.md' 2>/dev/null | wc -l | tr -d ' ')"
+if [[ "$CONTENT_BEFORE" != "$CONTENT_AFTER" || "$CONTENT_COUNT_BEFORE" != "$CONTENT_COUNT_AFTER" ]]; then
+  echo "VIRHE: content/-sisältö muuttui tarkistuksen aikana. Älä deployaa; tarkista git diff." >&2
+  exit 1
+fi
+
+echo "✓ Anomancer 16.6.0 Narramancer Vertical Slice asennettu ja tarkistettu."
+echo "✓ content/ säilyi identtisenä: $CONTENT_COUNT_AFTER Markdown-tiedostoa."
 echo "✓ Korvatut tiedostot ovat palautettavissa: $TARGET_DIR/$BACKUP_REL"
 if [[ -d .git ]]; then
   echo "Seuraava vaihe: tarkista git status ja tee commit vasta oman katselmoinnin jälkeen."

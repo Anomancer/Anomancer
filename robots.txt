@@ -4,6 +4,7 @@
 User-agent: OAI-SearchBot
 Allow: /
 Disallow: /admin
+Disallow: /lahetyskone
 Disallow: /api/admin/
 
 User-agent: GPTBot
@@ -12,6 +13,7 @@ Disallow: /
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /lahetyskone
 Disallow: /api/admin/
 
 Sitemap: https://anomancer.com/sitemap.xml

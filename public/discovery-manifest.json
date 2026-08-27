@@ -1,6 +1,6 @@
 {
   "version": "anomancer.discovery/v1",
-  "generatedAt": "2026-08-27T13:08:06.111Z",
+  "generatedAt": "2026-08-27T17:40:50.553Z",
   "site": "https://anomancer.com",
   "entity": {
     "siteName": "Anomancer",
@@ -13,7 +13,7 @@
     "fi",
     "en"
   ],
-  "publishedArticles": 12,
+  "publishedArticles": 15,
   "search": {
     "openai": {
       "userAgent": "OAI-SearchBot",
@@ -28,6 +28,7 @@
   },
   "privatePaths": [
     "/admin",
+    "/lahetyskone",
     "/api/admin/"
   ],
   "endpoints": {

@@ -132,6 +132,7 @@ function readPosts() {
   const posts = [];
   for (const lang of ['fi','en']) {
     const dir = path.join(ROOT,'content',lang);
+    if(!fs.existsSync(dir)) continue;
     for (const name of fs.readdirSync(dir).filter(n=>n.endsWith('.md')).sort()) posts.push(parsePost(path.join(dir,name),lang));
   }
   const seen = new Set();
@@ -403,14 +404,17 @@ fs.rmSync(PUBLIC, { recursive:true, force:true });
 ensureDir(PUBLIC);
 const publicFiles = [
   'index.html','en.html','core.html','lahetykset.html','dispatches.html','admin.html',
-  'ui-tokens.css','styles.css','core.css','admin.css','admin-control-plane.css','admin.js','admin-workspaces.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-machine-room.js','admin-orchestrator.js','favicon.svg',
+  'ui-tokens.css','styles.css','core.css','admin.css','admin-control-plane.css','admin.js','admin-workspaces.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-machine-room.js','admin-orchestrator.js','admin-narramancer.js','narramancer-export.js','lahetyskone-pwa.js','lahetyskone-sw.js','manifest.webmanifest','favicon.svg',
+  'icons/lahetyskone.svg','icons/lahetyskone-192.png','icons/lahetyskone-512.png','icons/lahetyskone-maskable-512.png',
   'site.js','core-public.js','core-public.json','release-provenance.json',
   'robots.txt','sitemap.xml','rss.xml','rss-en.xml','content-manifest.json','evidence-manifest.json','llms.txt','discovery-manifest.json'
 ];
 for (const rel of publicFiles) {
   const src=path.join(ROOT,rel);
-  if (fs.existsSync(src)) fs.copyFileSync(src,path.join(PUBLIC,rel));
+  if (fs.existsSync(src)) { const target=path.join(PUBLIC,rel);ensureDir(path.dirname(target));fs.copyFileSync(src,target); }
 }
+const appShellSrc=path.join(ROOT,'admin.html');
+if (fs.existsSync(appShellSrc)) fs.copyFileSync(appShellSrc,path.join(PUBLIC,'lahetyskone.html'));
 const enCoreSrc=path.join(ROOT,'core-en.html');
 if (fs.existsSync(enCoreSrc)) {
   ensureDir(path.join(PUBLIC,'en'));
