@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.6.0",
   "workspaceId": "ws-romaani-6301c8",
-  "revision": 2,
-  "updatedAt": "2026-08-27T18:00:36.311Z",
+  "revision": 3,
+  "updatedAt": "2026-08-27T18:01:52.819Z",
   "chainHead": "GENESIS",
   "runs": [
     {
@@ -25,7 +25,7 @@
       },
       "startedAt": "2026-08-27T17:59:48.923Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-27T18:00:36.311Z",
+      "updatedAt": "2026-08-27T18:01:52.819Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
@@ -87,15 +87,73 @@
           "finishedAt": "2026-08-27T18:00:35.940Z",
           "durationMs": 41869,
           "humanApprovalRequired": true
+        },
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-9d47d28e951c84d81dad",
+          "workspaceId": "ws-romaani-6301c8",
+          "orchestraRunId": "narramancer-1787853588923-389zs",
+          "stageIndex": 1,
+          "agent": {
+            "id": "narrative-world",
+            "label": "Maailmanrakentaja",
+            "version": "1.0.0",
+            "contractHash": "9526b58d404253257bd807ffcb883d6b6254fffcd258165a532fa3b17739f758",
+            "role": "narrative-world-builder"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "writer",
+            "target": "deepseek.writer"
+          },
+          "routing": {
+            "route": "writer",
+            "requestedTarget": "deepseek.writer",
+            "selectedTarget": "deepseek.writer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.writer",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 16000,
+            "modelTarget": "deepseek.writer"
+          },
+          "usage": {
+            "inputTokens": 3043,
+            "outputTokens": 5813,
+            "totalTokens": 8856,
+            "reasoningTokens": 4741,
+            "maxOutputTokens": 16000,
+            "costEuro": null
+          },
+          "tools": [],
+          "toolPolicy": [],
+          "status": "completed",
+          "inputHash": "54afd0b8d34989f35e0f4a2ed9780148135b6363ec4b9de81024b9c46925bb51",
+          "outputHash": "426bcf1c0692d45ae7503d179e9fb2471804de4fe986dbd5809c923dc064b5c8",
+          "startedAt": "2026-08-27T18:00:39.208Z",
+          "finishedAt": "2026-08-27T18:01:52.437Z",
+          "durationMs": 73229,
+          "humanApprovalRequired": true
         }
       ],
       "usage": {
         "runs": 0,
-        "inputTokens": 3050,
-        "outputTokens": 3151,
-        "totalTokens": 6201,
-        "reasoningTokens": 1315,
-        "durationMs": 41869,
+        "inputTokens": 6093,
+        "outputTokens": 8964,
+        "totalTokens": 15057,
+        "reasoningTokens": 6056,
+        "durationMs": 115098,
         "estimatedCostEuro": 0,
         "pricedReceipts": 0,
         "fallbacks": 0,
@@ -103,14 +161,15 @@
         "toolDenies": 0,
         "toolHumanRequired": 0,
         "providers": {
-          "deepseek": 6201
+          "deepseek": 15057
         },
         "agents": {
-          "narrative-premise": 6201
+          "narrative-premise": 6201,
+          "narrative-world": 8856
         },
         "orchestras": {}
       },
-      "receiptCount": 1,
+      "receiptCount": 2,
       "previousRunHash": "",
       "runHash": "",
       "counted": false
