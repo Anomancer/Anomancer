@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.3.0",
   "workspaceId": "default",
-  "revision": 149,
-  "updatedAt": "2026-08-27T16:34:19.179Z",
+  "revision": 150,
+  "updatedAt": "2026-08-27T16:36:24.832Z",
   "chainHead": "e64d3de9dd231ee90bf9e462e7b61e9c1be95da4c1f259a7ffc3381c5aa200e3",
   "runs": [
     {
@@ -7823,7 +7823,7 @@
       },
       "startedAt": "2026-08-27T16:24:49.527Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-27T16:34:19.178Z",
+      "updatedAt": "2026-08-27T16:36:24.832Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
@@ -8079,15 +8079,73 @@
           "finishedAt": "2026-08-27T16:34:18.687Z",
           "durationMs": 227122,
           "humanApprovalRequired": true
+        },
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-2f4e48289848125e2b46",
+          "workspaceId": "default",
+          "orchestraRunId": "f6cc01d2-7841-48bf-8fd6-1aa7fbceaa3e",
+          "stageIndex": 4,
+          "agent": {
+            "id": "audience",
+            "label": "Yleisöadapteri",
+            "version": "1.0.0",
+            "contractHash": "a285bc6d9e2fb16ea4ecf07b00d845bf0f6721c2f4f697ec0b1af4796b1fe4b2",
+            "role": "audience-adapter"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "writer",
+            "target": "deepseek.writer"
+          },
+          "routing": {
+            "route": "writer",
+            "requestedTarget": "deepseek.writer",
+            "selectedTarget": "deepseek.writer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.writer",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 33000,
+            "modelTarget": "deepseek.writer"
+          },
+          "usage": {
+            "inputTokens": 7944,
+            "outputTokens": 13592,
+            "totalTokens": 21536,
+            "reasoningTokens": 10193,
+            "maxOutputTokens": 33000,
+            "costEuro": null
+          },
+          "tools": [],
+          "toolPolicy": [],
+          "status": "completed",
+          "inputHash": "5de584a93afd8f406eca4c305b310e6f0b30185997f3f18aa70ebf3735641849",
+          "outputHash": "586f338c6b5559b12910be0340e7aff3866b8088eeb40253d74de97c71a285fc",
+          "startedAt": "2026-08-27T16:34:21.557Z",
+          "finishedAt": "2026-08-27T16:36:24.414Z",
+          "durationMs": 122857,
+          "humanApprovalRequired": true
         }
       ],
       "usage": {
         "runs": 0,
-        "inputTokens": 62802,
-        "outputTokens": 56183,
-        "totalTokens": 118985,
-        "reasoningTokens": 45614,
-        "durationMs": 560209,
+        "inputTokens": 70746,
+        "outputTokens": 69775,
+        "totalTokens": 140521,
+        "reasoningTokens": 55807,
+        "durationMs": 683066,
         "estimatedCostEuro": 0,
         "pricedReceipts": 0,
         "fallbacks": 0,
@@ -8095,17 +8153,18 @@
         "toolDenies": 0,
         "toolHumanRequired": 0,
         "providers": {
-          "deepseek": 118985
+          "deepseek": 140521
         },
         "agents": {
           "source": 50012,
           "structure": 16446,
           "writer": 25698,
-          "critic": 26829
+          "critic": 26829,
+          "audience": 21536
         },
         "orchestras": {}
       },
-      "receiptCount": 4,
+      "receiptCount": 5,
       "previousRunHash": "",
       "runHash": "",
       "counted": false
