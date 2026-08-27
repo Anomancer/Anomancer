@@ -1,0 +1,87 @@
+{
+  "format": "anomancer-orchestra-store/v2",
+  "coreVersion": "16.3.0",
+  "workspaceId": "default",
+  "revision": 1,
+  "updatedAt": "2026-08-27T13:14:34.379Z",
+  "orchestras": [
+    {
+      "format": "anomancer-custom-orchestra/v1",
+      "coreVersion": "16.3.0",
+      "id": "custom-henkilo-kohtaisempi-teksti-020acc",
+      "name": "Henkilökohtaisempi teksti",
+      "version": "1.0.0",
+      "description": "Ei tee vahvoja väitteitä, eikä hae lähteitä netistä.",
+      "mode": "sequential",
+      "steps": [
+        {
+          "id": "step-01",
+          "mode": "sequential",
+          "agents": [
+            "structure"
+          ]
+        },
+        {
+          "id": "step-02",
+          "mode": "sequential",
+          "agents": [
+            "writer"
+          ]
+        },
+        {
+          "id": "step-03",
+          "mode": "sequential",
+          "agents": [
+            "critic"
+          ]
+        },
+        {
+          "id": "step-04",
+          "mode": "sequential",
+          "agents": [
+            "audience"
+          ]
+        },
+        {
+          "id": "step-05",
+          "mode": "sequential",
+          "agents": [
+            "voice"
+          ]
+        },
+        {
+          "id": "step-06",
+          "mode": "sequential",
+          "agents": [
+            "claims"
+          ]
+        },
+        {
+          "id": "step-07",
+          "mode": "sequential",
+          "agents": [
+            "package"
+          ]
+        }
+      ],
+      "stages": [
+        "structure",
+        "writer",
+        "critic",
+        "audience",
+        "voice",
+        "claims",
+        "package"
+      ],
+      "humanFinalAuthority": true,
+      "evidencePolicy": "candidate-never-equals-verified",
+      "citationPolicy": "verified-supported-only",
+      "visualizationPolicy": "human-approved-structured-data-only",
+      "audiencePolicy": "adapt-then-recheck-claims",
+      "source": "custom",
+      "orchestraHash": "97e87f779e193881d62360c254072ba711c9a349e91064605ed00e1cad7013e6",
+      "createdAt": "2026-08-27T13:14:34.020Z",
+      "updatedAt": "2026-08-27T13:14:34.020Z"
+    }
+  ]
+}
