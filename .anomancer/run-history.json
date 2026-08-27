@@ -1,14 +1,14 @@
 {
   "format": "anomancer-run-store/v2",
-  "coreVersion": "16.0.0",
+  "coreVersion": "16.2.0",
   "workspaceId": "default",
-  "revision": 79,
-  "updatedAt": "2026-08-27T01:02:06.491Z",
+  "revision": 80,
+  "updatedAt": "2026-08-27T01:43:35.774Z",
   "chainHead": "ce85228759a22c77b7f890ab1d0f3635dc1e1dd2212eedb2a2bf13d5d0426954",
   "runs": [
     {
       "format": "anomancer-run-record/v2",
-      "coreVersion": "16.0.0",
+      "coreVersion": "16.2.0",
       "workspaceId": "default",
       "id": "cd448c56-e34e-45f1-8161-b65558ae7606",
       "orchestraRunId": "cd448c56-e34e-45f1-8161-b65558ae7606",
@@ -313,7 +313,7 @@
     },
     {
       "format": "anomancer-run-record/v2",
-      "coreVersion": "16.0.0",
+      "coreVersion": "16.2.0",
       "workspaceId": "default",
       "id": "9aee3b47-1d41-43c9-bd87-31390bc9fb83",
       "orchestraRunId": "9aee3b47-1d41-43c9-bd87-31390bc9fb83",
@@ -795,7 +795,7 @@
     },
     {
       "format": "anomancer-run-record/v2",
-      "coreVersion": "16.0.0",
+      "coreVersion": "16.2.0",
       "workspaceId": "default",
       "id": "5099a35a-d3b9-4934-a4cc-e35e6c5e0c8f",
       "orchestraRunId": "5099a35a-d3b9-4934-a4cc-e35e6c5e0c8f",
@@ -1336,7 +1336,7 @@
     },
     {
       "format": "anomancer-run-record/v2",
-      "coreVersion": "16.0.0",
+      "coreVersion": "16.2.0",
       "workspaceId": "default",
       "id": "4c21c64a-7903-4ebb-b5c8-0385c6b1b833",
       "orchestraRunId": "4c21c64a-7903-4ebb-b5c8-0385c6b1b833",
@@ -1878,7 +1878,7 @@
     },
     {
       "format": "anomancer-run-record/v2",
-      "coreVersion": "16.0.0",
+      "coreVersion": "16.2.0",
       "workspaceId": "default",
       "id": "dc37e962-667b-4057-bdfa-48910e763f7d",
       "orchestraRunId": "dc37e962-667b-4057-bdfa-48910e763f7d",
@@ -2010,7 +2010,7 @@
     },
     {
       "format": "anomancer-run-record/v2",
-      "coreVersion": "16.0.0",
+      "coreVersion": "16.2.0",
       "workspaceId": "default",
       "id": "3eafcdba-ae22-4094-a051-752f7257b77c",
       "orchestraRunId": "3eafcdba-ae22-4094-a051-752f7257b77c",
@@ -2630,7 +2630,7 @@
     },
     {
       "format": "anomancer-run-record/v2",
-      "coreVersion": "16.0.0",
+      "coreVersion": "16.2.0",
       "workspaceId": "default",
       "id": "c41148b4-4186-44ef-bbdf-5c5b1b17c83b",
       "orchestraRunId": "c41148b4-4186-44ef-bbdf-5c5b1b17c83b",
@@ -3250,7 +3250,7 @@
     },
     {
       "format": "anomancer-run-record/v2",
-      "coreVersion": "16.0.0",
+      "coreVersion": "16.2.0",
       "workspaceId": "default",
       "id": "b6dafb7c-753e-46ea-96bb-8e9e8794d745",
       "orchestraRunId": "b6dafb7c-753e-46ea-96bb-8e9e8794d745",
@@ -3792,7 +3792,7 @@
     },
     {
       "format": "anomancer-run-record/v2",
-      "coreVersion": "16.0.0",
+      "coreVersion": "16.2.0",
       "workspaceId": "default",
       "id": "9941ce6b-0e07-4fe3-b273-48e768e1cc27",
       "orchestraRunId": "9941ce6b-0e07-4fe3-b273-48e768e1cc27",
@@ -4409,6 +4409,135 @@
       "previousRunHash": "47e49582c60b6384ad78db2ce49ad8a413f7b2eafe63d7353392a4d50a2c3037",
       "runHash": "ce85228759a22c77b7f890ab1d0f3635dc1e1dd2212eedb2a2bf13d5d0426954",
       "counted": true
+    },
+    {
+      "format": "anomancer-run-record/v2",
+      "coreVersion": "16.2.0",
+      "workspaceId": "default",
+      "id": "47662dc5-c7d3-4bd2-a9ab-fd719e612ffc",
+      "orchestraRunId": "47662dc5-c7d3-4bd2-a9ab-fd719e612ffc",
+      "orchestra": {
+        "id": "editorial",
+        "name": "Anomancer Editorial",
+        "orchestraHash": "4ea599224d820827847b72ceb3f97b88c710c0756d78afc4fcc8ae360a254656"
+      },
+      "status": "running",
+      "humanApproval": {
+        "required": true,
+        "status": "pending",
+        "appliedAt": ""
+      },
+      "startedAt": "2026-08-27T01:42:40.515Z",
+      "finishedAt": "",
+      "updatedAt": "2026-08-27T01:43:35.773Z",
+      "degradedStages": [],
+      "disabledStages": [],
+      "error": null,
+      "receipts": [
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-7aa0c013e51ff680f38a",
+          "workspaceId": "default",
+          "orchestraRunId": "47662dc5-c7d3-4bd2-a9ab-fd719e612ffc",
+          "stageIndex": 0,
+          "agent": {
+            "id": "source",
+            "label": "Lähdeagentti",
+            "version": "1.0.0",
+            "contractHash": "cae9f23ac154681654fedd2fedfdf2fe787a35877daabb117848c38b07174aab",
+            "role": "research-source-scout"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "research",
+            "target": "deepseek.research"
+          },
+          "routing": {
+            "route": "research",
+            "requestedTarget": "deepseek.research",
+            "selectedTarget": "deepseek.research",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.research",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 16000,
+            "modelTarget": "deepseek.research"
+          },
+          "usage": {
+            "inputTokens": 65407,
+            "outputTokens": 4321,
+            "totalTokens": 69728,
+            "reasoningTokens": 1397,
+            "maxOutputTokens": 16000,
+            "costEuro": null
+          },
+          "tools": [
+            "web.search"
+          ],
+          "toolPolicy": [
+            {
+              "format": "anomancer-tool-policy/v1",
+              "decisionId": "policy-9c87209b344f6ce88b24",
+              "policyHash": "1070b8628beed479d3da85b96b2a0945943ec8bfc4a2f2cf43343af8a5b1ce8e",
+              "agentId": "source",
+              "toolId": "web.search",
+              "outcome": "allow",
+              "reason": "CONTRACT_ALLOW",
+              "risk": "medium",
+              "kind": "external-read",
+              "decidedAt": "2026-08-27T01:42:40.515Z",
+              "requestContext": {
+                "workspaceId": "default",
+                "orchestraRunId": "47662dc5-c7d3-4bd2-a9ab-fd719e612ffc",
+                "stageIndex": 0
+              }
+            }
+          ],
+          "status": "completed",
+          "inputHash": "31ea0d80dfaabb7dd17c24c6251b84a0b2d239a9496587549fcbcf68eba2eb3b",
+          "outputHash": "07f3ee605317697ca154f0d633a625dc8c9f02da49f85ab49d242dcc19514853",
+          "startedAt": "2026-08-27T01:42:40.515Z",
+          "finishedAt": "2026-08-27T01:43:35.468Z",
+          "durationMs": 54953,
+          "humanApprovalRequired": true
+        }
+      ],
+      "usage": {
+        "runs": 0,
+        "inputTokens": 65407,
+        "outputTokens": 4321,
+        "totalTokens": 69728,
+        "reasoningTokens": 1397,
+        "durationMs": 54953,
+        "estimatedCostEuro": 0,
+        "pricedReceipts": 0,
+        "fallbacks": 0,
+        "toolAllows": 1,
+        "toolDenies": 0,
+        "toolHumanRequired": 0,
+        "providers": {
+          "deepseek": 69728
+        },
+        "agents": {
+          "source": 69728
+        },
+        "orchestras": {}
+      },
+      "receiptCount": 1,
+      "previousRunHash": "",
+      "runHash": "",
+      "counted": false
     }
   ],
   "lifetime": {
