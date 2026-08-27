@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.3.0",
   "workspaceId": "default",
-  "revision": 124,
-  "updatedAt": "2026-08-27T13:54:32.612Z",
+  "revision": 125,
+  "updatedAt": "2026-08-27T13:59:36.806Z",
   "chainHead": "55d5aca9772695a41f0720cb97c6801c02eac5675db516213ed0b738ff4c5295",
   "runs": [
     {
@@ -6619,7 +6619,7 @@
         "name": "Anomancer Editorial",
         "orchestraHash": "4ea599224d820827847b72ceb3f97b88c710c0756d78afc4fcc8ae360a254656"
       },
-      "status": "running",
+      "status": "checkpoint",
       "humanApproval": {
         "required": true,
         "status": "pending",
@@ -6627,10 +6627,13 @@
       },
       "startedAt": "2026-08-27T13:51:46.210Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-27T13:54:32.611Z",
+      "updatedAt": "2026-08-27T13:59:36.805Z",
       "degradedStages": [],
       "disabledStages": [],
-      "error": null,
+      "error": {
+        "code": "AGENT_HTTP_ERROR",
+        "message": "HTTP 504"
+      },
       "receipts": [
         {
           "format": "anomancer-run-receipt/v1",
