@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.3.0",
   "workspaceId": "default",
-  "revision": 102,
-  "updatedAt": "2026-08-27T12:28:50.987Z",
+  "revision": 103,
+  "updatedAt": "2026-08-27T12:30:36.547Z",
   "chainHead": "71e889b039d00850fb018d834c44aa7cc7663a5e2ed912783e3d6b0936472f5f",
   "runs": [
     {
@@ -5513,7 +5513,7 @@
       },
       "startedAt": "2026-08-27T12:19:43.904Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-27T12:28:50.987Z",
+      "updatedAt": "2026-08-27T12:30:36.547Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
@@ -5711,15 +5711,73 @@
           "finishedAt": "2026-08-27T12:28:50.593Z",
           "durationMs": 179475,
           "humanApprovalRequired": true
+        },
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-7d93f5822593b37065a3",
+          "workspaceId": "default",
+          "orchestraRunId": "590e9789-b002-41d7-87c6-a61372c6ce3d",
+          "stageIndex": 3,
+          "agent": {
+            "id": "critic",
+            "label": "Kriitikko",
+            "version": "1.0.0",
+            "contractHash": "3ed32c0a5ebcc9dc6aa35ec9323d9b01a66f9b733f973cd2fabb35a8eb347c64",
+            "role": "adversarial-review"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "critic",
+            "target": "deepseek.critic"
+          },
+          "routing": {
+            "route": "critic",
+            "requestedTarget": "deepseek.critic",
+            "selectedTarget": "deepseek.critic",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.critic",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 18000,
+            "modelTarget": "deepseek.critic"
+          },
+          "usage": {
+            "inputTokens": 6285,
+            "outputTokens": 9806,
+            "totalTokens": 16091,
+            "reasoningTokens": 6947,
+            "maxOutputTokens": 18000,
+            "costEuro": null
+          },
+          "tools": [],
+          "toolPolicy": [],
+          "status": "completed",
+          "inputHash": "f32f645fa3af54445cd91640b5dcd8057d69f460ea2841da6c2ed24cc190e5ee",
+          "outputHash": "8a70d89057b9a82b9006bf29b6464a994c945ea41a84f886e2618443f7f23f94",
+          "startedAt": "2026-08-27T12:28:53.648Z",
+          "finishedAt": "2026-08-27T12:30:36.177Z",
+          "durationMs": 102529,
+          "humanApprovalRequired": true
         }
       ],
       "usage": {
         "runs": 0,
-        "inputTokens": 58691,
-        "outputTokens": 33301,
-        "totalTokens": 91992,
-        "reasoningTokens": 24904,
-        "durationMs": 330977,
+        "inputTokens": 64976,
+        "outputTokens": 43107,
+        "totalTokens": 108083,
+        "reasoningTokens": 31851,
+        "durationMs": 433506,
         "estimatedCostEuro": 0,
         "pricedReceipts": 0,
         "fallbacks": 0,
@@ -5727,16 +5785,17 @@
         "toolDenies": 0,
         "toolHumanRequired": 0,
         "providers": {
-          "deepseek": 91992
+          "deepseek": 108083
         },
         "agents": {
           "source": 47328,
           "structure": 15997,
-          "writer": 28667
+          "writer": 28667,
+          "critic": 16091
         },
         "orchestras": {}
       },
-      "receiptCount": 3,
+      "receiptCount": 4,
       "previousRunHash": "",
       "runHash": "",
       "counted": false
