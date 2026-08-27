@@ -1,3 +1,16 @@
+# Anomancer 16.7.1 · Navigation Shell Visual Hardening
+
+## 16.7.1
+
+- korjattu Core Shellin 320 px puristus nollaamalla legacy `.app`-gridin sarakkeet
+- yhtenäistetty Core Shellin desktop-header ja aktiivisen reitin visuaalinen tila
+- kovetettu Workspace Context Barin grid, dropdownit ja tallennusstatus
+- parannettu Konehuoneen leveys, spacing, 7 mittarin desktop-rivi ja Constitution-yhteenveto
+- lisätty 1220/980/760 px hallittu reflow ilman vaakavuotoa
+- säilytetty mobiilin pikatoiminnot ja metadataohjattu paikallisnavigaatio
+- PWA-cache päivitetty 16.7.1:een
+- lisätty `scripts/test-navigation-shell-1671.mjs`
+
 # Anomancer 16.7.0 · Navigation Shell
 
 ## 16.7.0

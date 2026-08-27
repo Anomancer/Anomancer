@@ -1,4 +1,4 @@
-const CACHE_NAME = 'anomancer-lahetyskone-v16.7.0';
+const CACHE_NAME = 'anomancer-lahetyskone-v16.7.1';
 const APP_PATH = '/lahetyskone';
 const SHELL_URLS = [
   APP_PATH,
