@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.6.0",
   "workspaceId": "ws-romaani-6301c8",
-  "revision": 1,
-  "updatedAt": "2026-08-27T17:59:51.528Z",
+  "revision": 2,
+  "updatedAt": "2026-08-27T18:00:36.311Z",
   "chainHead": "GENESIS",
   "runs": [
     {
@@ -25,29 +25,92 @@
       },
       "startedAt": "2026-08-27T17:59:48.923Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-27T17:59:51.528Z",
+      "updatedAt": "2026-08-27T18:00:36.311Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
-      "receipts": [],
+      "receipts": [
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-2e20fd7822a98895e9c2",
+          "workspaceId": "ws-romaani-6301c8",
+          "orchestraRunId": "narramancer-1787853588923-389zs",
+          "stageIndex": 0,
+          "agent": {
+            "id": "narrative-premise",
+            "label": "Premissi",
+            "version": "1.0.0",
+            "contractHash": "493a6b5481044c4499ca7dfe6730f0fbfcf5c778de86e7cc122b72d14a517bcc",
+            "role": "narrative-premise-editor"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "writer",
+            "target": "deepseek.writer"
+          },
+          "routing": {
+            "route": "writer",
+            "requestedTarget": "deepseek.writer",
+            "selectedTarget": "deepseek.writer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.writer",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 10000,
+            "modelTarget": "deepseek.writer"
+          },
+          "usage": {
+            "inputTokens": 3050,
+            "outputTokens": 3151,
+            "totalTokens": 6201,
+            "reasoningTokens": 1315,
+            "maxOutputTokens": 10000,
+            "costEuro": null
+          },
+          "tools": [],
+          "toolPolicy": [],
+          "status": "completed",
+          "inputHash": "3cc0a7a3bbfbedd260893726c3b7af05c25fb357a77a9f5dce19c16aa1582816",
+          "outputHash": "d6d2d4b3c81135c0a7d81d28013f68b413b2713faedec1cbea14254a2503f80e",
+          "startedAt": "2026-08-27T17:59:54.071Z",
+          "finishedAt": "2026-08-27T18:00:35.940Z",
+          "durationMs": 41869,
+          "humanApprovalRequired": true
+        }
+      ],
       "usage": {
         "runs": 0,
-        "inputTokens": 0,
-        "outputTokens": 0,
-        "totalTokens": 0,
-        "reasoningTokens": 0,
-        "durationMs": 0,
+        "inputTokens": 3050,
+        "outputTokens": 3151,
+        "totalTokens": 6201,
+        "reasoningTokens": 1315,
+        "durationMs": 41869,
         "estimatedCostEuro": 0,
         "pricedReceipts": 0,
         "fallbacks": 0,
         "toolAllows": 0,
         "toolDenies": 0,
         "toolHumanRequired": 0,
-        "providers": {},
-        "agents": {},
+        "providers": {
+          "deepseek": 6201
+        },
+        "agents": {
+          "narrative-premise": 6201
+        },
         "orchestras": {}
       },
-      "receiptCount": 0,
+      "receiptCount": 1,
       "previousRunHash": "",
       "runHash": "",
       "counted": false
