@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.3.0",
   "workspaceId": "default",
-  "revision": 157,
-  "updatedAt": "2026-08-27T16:49:41.496Z",
+  "revision": 158,
+  "updatedAt": "2026-08-27T16:55:39.254Z",
   "chainHead": "c24a3897133b079654d3bfaa19483e09c922ab2327e4a257199fed00f9c7b14b",
   "runs": [
     {
@@ -8365,7 +8365,7 @@
       },
       "startedAt": "2026-08-27T16:47:20.290Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-27T16:49:41.496Z",
+      "updatedAt": "2026-08-27T16:55:39.254Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
@@ -8505,15 +8505,73 @@
           "finishedAt": "2026-08-27T16:49:41.024Z",
           "durationMs": 74839,
           "humanApprovalRequired": true
+        },
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-f71c085a0e1f8e8a71e5",
+          "workspaceId": "default",
+          "orchestraRunId": "c1b0808f-0946-48c8-b428-e1e18b39437d",
+          "stageIndex": 2,
+          "agent": {
+            "id": "writer",
+            "label": "Kirjoitusagentti",
+            "version": "1.0.0",
+            "contractHash": "64b26469510faf8f3b7e850c14eb189eb9436b3e4af012f1bd3fd563bdd4de89",
+            "role": "draft-writer"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "writer",
+            "target": "deepseek.writer"
+          },
+          "routing": {
+            "route": "writer",
+            "requestedTarget": "deepseek.writer",
+            "selectedTarget": "deepseek.writer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.writer",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 34000,
+            "modelTarget": "deepseek.writer"
+          },
+          "usage": {
+            "inputTokens": 6731,
+            "outputTokens": 9792,
+            "totalTokens": 16523,
+            "reasoningTokens": 7132,
+            "maxOutputTokens": 34000,
+            "costEuro": null
+          },
+          "tools": [],
+          "toolPolicy": [],
+          "status": "completed",
+          "inputHash": "06d75aa5d34c4f630e4371f41bc45077937d508bdeb73638350b0e5a7c2082b3",
+          "outputHash": "63ea9bd4a81cafe893a3397990498383747673ba798309545bed64b36ca82eb5",
+          "startedAt": "2026-08-27T16:54:11.034Z",
+          "finishedAt": "2026-08-27T16:55:38.877Z",
+          "durationMs": 87843,
+          "humanApprovalRequired": true
         }
       ],
       "usage": {
         "runs": 0,
-        "inputTokens": 68495,
-        "outputTokens": 11671,
-        "totalTokens": 80166,
-        "reasoningTokens": 7384,
-        "durationMs": 137915,
+        "inputTokens": 75226,
+        "outputTokens": 21463,
+        "totalTokens": 96689,
+        "reasoningTokens": 14516,
+        "durationMs": 225758,
         "estimatedCostEuro": 0,
         "pricedReceipts": 0,
         "fallbacks": 0,
@@ -8521,15 +8579,16 @@
         "toolDenies": 0,
         "toolHumanRequired": 0,
         "providers": {
-          "deepseek": 80166
+          "deepseek": 96689
         },
         "agents": {
           "source": 66618,
-          "structure": 13548
+          "structure": 13548,
+          "writer": 16523
         },
         "orchestras": {}
       },
-      "receiptCount": 2,
+      "receiptCount": 3,
       "previousRunHash": "",
       "runHash": "",
       "counted": false
