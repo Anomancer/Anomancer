@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-27T10:57:26.959Z",
+  "generatedAt": "2026-08-27T12:36:37.819Z",
   "entity": {
     "siteName": "Anomancer",
     "author": "Aatu Isopahkala",
@@ -8,6 +8,34 @@
     "websiteId": "https://anomancer.com/#website"
   },
   "published": [
+    {
+      "lang": "fi",
+      "slug": "ennen-kuin-tekoaly-vie-tyopaikkasi-varmista-ettei-se-vie-kotihakemistoasi",
+      "title": "Ennen kuin tekoäly vie työpaikkasi, varmista ettei se vie kotihakemistoasi",
+      "description": "Tekoälyagentin virhe ei ole enää väärä vastaus vaan tehty toiminto. Teksti erottaa kyvykkyyden, luvan ja toimivallan ja päätyy siihen, että työpaikkojen tulevaisuus on käyttöoikeuskysymys.",
+      "answer": "",
+      "category": "software-safety",
+      "audience": [
+        "employee",
+        "developer",
+        "creative"
+      ],
+      "audienceDepth": "general",
+      "pinned": false,
+      "date": "2026-08-27",
+      "updated": "2026-08-27",
+      "url": "https://anomancer.com/lahetykset/ennen-kuin-tekoaly-vie-tyopaikkasi-varmista-ettei-se-vie-kotihakemistoasi",
+      "articleId": "https://anomancer.com/lahetykset/ennen-kuin-tekoaly-vie-tyopaikkasi-varmista-ettei-se-vie-kotihakemistoasi#article",
+      "authorId": "https://anomancer.com/#person",
+      "coverImage": "",
+      "evidence": {
+        "sourceCount": 5,
+        "claimCount": 0,
+        "supported": 0,
+        "interpretation": 0,
+        "open": 0
+      }
+    },
     {
       "lang": "fi",
       "slug": "kun-tekoalyagentin-virhe-muuttuu-toiminnoksi",
@@ -40,9 +68,9 @@
       "lang": "fi",
       "slug": "mitka-tyot-tekoaly-vie",
       "title": "Mitkä työt tekoäly vie?",
-      "description": "Tekoäly ei syö ammatteja kokonaisina, vaan purkaa ne tehtäviksi. ILO:n ja OECD:n luvut näyttävät, mitä altistuminen tarkoittaa ja kuka voi hyötyä säästyvästä ajasta.",
-      "answer": "Tekoäly muuttaa ensin ammattien sisäisiä tehtäviä. Työpaikkojen määrä riippuu siitä, kuinka suuri osa tehtävistä voidaan automatisoida, kuinka paljon vastuuta koneelle voidaan turvallisesti antaa ja kenelle tuottavuushyöty päätyy.",
-      "category": "ai-work",
+      "description": "Tekoäly ei syö ammatteja kokonaisina, vaan purkaa ne tehtäviksi. ILO:n ja OECD:n luvut osoittavat, mitä altistuminen oikeasti tarkoittaa – ja miksi keskeisin kysymys on, miten säästyvä aika jaetaan.",
+      "answer": "",
+      "category": "info-media",
       "audience": [
         "all"
       ],
@@ -55,7 +83,7 @@
       "authorId": "https://anomancer.com/#person",
       "coverImage": "",
       "evidence": {
-        "sourceCount": 6,
+        "sourceCount": 9,
         "claimCount": 0,
         "supported": 0,
         "interpretation": 0,

@@ -38,3 +38,103 @@
 @media(max-width:460px){.machine-room-modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.machine-room-modes button{padding-inline:5px}.machine-room-stage{grid-template-columns:54px minmax(0,1fr);padding:9px}.machine-room-character{font-size:1.48rem}.machine-room-rule{font-size:.63rem}}
 @media(prefers-reduced-motion:reduce){.machine-room *{animation:none!important;transition:none!important}}
 html[data-machine-mode="living"] #orchestraStages [data-stage][data-state="running"],html[data-machine-mode="oe"] #orchestraStages [data-stage][data-state="running"]{position:relative;padding-left:24px!important}html[data-machine-mode="living"] #orchestraStages [data-stage][data-state="running"]::before,html[data-machine-mode="oe"] #orchestraStages [data-stage][data-state="running"]::before{content:"🦝";position:absolute;left:5px;top:50%;transform:translateY(-52%);font-size:.82rem;filter:saturate(.8);animation:machine-room-node-cursor .6s ease-in-out infinite alternate}html[data-machine-mode="oe"] #orchestraStages [data-stage][data-state="running"]::before{font-size:.9rem;filter:none}@keyframes machine-room-node-cursor{from{transform:translateY(-55%) translateX(-1px) rotate(-3deg)}to{transform:translateY(-48%) translateX(2px) rotate(3deg)}}@media(prefers-reduced-motion:reduce){html[data-machine-mode] #orchestraStages [data-stage][data-state="running"]::before{animation:none!important}}
+
+
+/* 16.3.3 MOBILE CONTROL PLANE REFLOW */
+@media(max-width:760px){
+  /* The control-plane stylesheet is loaded after admin.css, so its mobile
+     rules must live here after the desktop component declarations. */
+  html,body{max-width:100%;overflow-x:clip}
+  body{width:100%;max-width:100dvw}
+  .app,.workspace,.editor-grid,.form-panel,.core-panel,.core-section{min-width:0;max-width:100%}
+  .app,.workspace{width:100%;overflow-x:clip}
+  .core-panel{gap:12px}
+  .core-hero{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:14px}
+  .core-version{justify-self:start}
+  .core-section{padding:12px;overflow:hidden}
+  .core-section-head{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:7px}
+  .core-section-head>span{max-width:100%;text-align:left;overflow-wrap:anywhere}
+  .core-section-actions{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;justify-items:start;gap:7px}
+  .core-section-actions>span{max-width:100%;overflow-wrap:anywhere}
+
+  /* Overview metrics: two readable cards instead of a seven-column barcode. */
+  .core-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .core-metrics article{min-width:0;padding:10px}
+  .core-metrics strong{max-width:100%;overflow:hidden;overflow-wrap:normal;text-overflow:ellipsis;white-space:nowrap}
+
+  /* Registry cards become actual phone cards. */
+  .core-agent-grid,.core-tool-policy-grid{grid-template-columns:minmax(0,1fr)}
+  .core-agent-card,.core-tool-policy-grid article,.core-orchestra-card,.core-workspace-card,.core-orchestra-custom-card,.core-run-row{min-width:0;max-width:100%}
+  .core-agent-card dl div{grid-template-columns:minmax(76px,.34fr) minmax(0,1fr)}
+  .core-tool-policy-grid dl div{grid-template-columns:minmax(70px,.32fr) minmax(0,1fr)}
+  .core-agent-card dd,.core-tool-policy-grid dd{word-break:normal;overflow-wrap:anywhere}
+  .core-policy-log-head{display:grid;align-items:start;gap:4px}
+  .core-policy-log article{grid-template-columns:minmax(0,1fr);gap:7px}
+  .core-policy-log article>div{flex-wrap:wrap}
+  .core-router-providers,.core-router-routes{grid-template-columns:minmax(0,1fr)}
+  .core-orchestra-custom-card,.core-workspace-card{grid-template-columns:minmax(0,1fr)}
+  .core-orchestra-custom-card>div:last-child,.core-workspace-card>div:last-child{justify-content:flex-start;flex-wrap:wrap}
+
+  /* Usage and run explorer: compact metrics + deliberate metadata layout. */
+  .core-usage-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .core-usage-strip article{min-width:0;padding:10px}
+  .core-usage-strip article:last-child:nth-child(odd){grid-column:1/-1}
+  .core-usage-strip strong{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .core-run-filters{grid-template-columns:minmax(0,1fr);gap:9px}
+  .core-run-filters select,.core-run-filters button{width:100%;min-height:44px}
+  .core-run-row{grid-template-columns:minmax(0,1fr);gap:9px;padding:11px}
+  .core-run-row>div{min-width:0}
+  .core-run-row>div:first-child{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px 9px;align-items:center}
+  .core-run-row>div:first-child strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .core-run-row>div:first-child>span:not(.core-run-status){grid-column:1/-1;display:block;min-width:0;max-width:100%;overflow:hidden;overflow-wrap:normal;text-overflow:ellipsis;white-space:nowrap}
+  .core-run-row>div:last-child{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px;align-items:start}
+  .core-run-row>div:last-child span{min-width:0;overflow-wrap:normal;word-break:normal}
+  .core-run-row>div:last-child time{grid-column:1/-1;overflow-wrap:normal;word-break:normal}
+
+  /* Native dialogs use the visual viewport and stop inheriting desktop form grids. */
+  .core-agent-dialog,.core-workspace-dialog,.core-orchestra-dialog,.core-run-dialog{box-sizing:border-box;width:calc(100dvw - 16px);max-width:calc(100dvw - 16px);max-height:calc(100dvh - var(--mobile-dock-h,62px) - var(--mobile-safe-bottom,0px) - 18px);margin:8px auto calc(var(--mobile-dock-h,62px) + var(--mobile-safe-bottom,0px) + 8px);padding:0;overflow:auto}
+  .core-agent-dialog form{min-width:0;max-width:100%}
+  .core-agent-dialog-head{gap:10px;padding:14px 12px 12px}
+  .core-agent-dialog-head>div{min-width:0}
+  .core-agent-dialog-head h3,.core-agent-dialog-id{overflow-wrap:anywhere}
+  .core-agent-dialog-head>button{flex:0 0 46px;min-width:46px;min-height:46px;padding:8px}
+  .core-agent-dialog-description{margin:13px 12px 0}
+  .core-orchestra-form-meta{grid-template-columns:minmax(0,1fr);gap:10px;margin:12px}
+  .core-orchestra-form-meta input,.core-orchestra-form-meta textarea{font-size:16px}
+  .core-runtime-controls,.core-agent-contract-grid{grid-template-columns:minmax(0,1fr)}
+  .core-runtime-controls{margin:12px}
+  .core-agent-contract-grid{padding:0 12px 12px}
+  .core-runtime-notice{margin:0 12px 12px}
+  .core-toggle-row,.core-token-control{align-items:flex-start;flex-direction:column}
+  .core-token-control input,.core-token-control select{width:100%;min-width:0;max-width:100%;font-size:16px}
+  .core-agent-dialog-actions{display:grid;grid-template-columns:minmax(0,1fr);align-items:stretch;gap:9px;padding:12px}
+  .core-agent-dialog-actions>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .core-agent-dialog-actions>span{min-width:0;overflow-wrap:anywhere}
+  .core-agent-dialog-actions button{min-width:0;width:100%;min-height:46px}
+
+  /* Orchestra builder keeps choice density, but not desktop density. */
+  .core-orchestra-builder-head{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:8px;margin:0 12px 9px}
+  .core-orchestra-builder-head>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .core-orchestra-builder-head button{min-width:0;width:100%}
+  .core-orchestra-builder-steps{padding:0 12px 12px}
+  .core-builder-agent-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .core-builder-agent{min-width:0}
+  .core-builder-agent strong{overflow-wrap:anywhere}
+  .core-orchestra-step-card header{align-items:flex-start}
+  .core-orchestra-step-card header>div:last-child{display:grid;grid-template-columns:repeat(3,44px);gap:5px}
+  .core-orchestra-step-card header button{min-width:44px;min-height:44px;padding:7px}
+  .core-orchestra-errors{margin:0 12px 12px}
+
+  /* Run detail gets the same one-dimensional reading order. */
+  .core-run-detail{padding:12px}
+  .core-run-detail-grid{grid-template-columns:minmax(0,1fr)}
+  .core-run-hashes code{display:block;max-width:100%;overflow:hidden;overflow-wrap:normal;text-overflow:ellipsis;white-space:nowrap}
+  .core-run-stage{grid-template-columns:32px minmax(0,1fr);gap:8px}
+  .core-run-stage-meta,.core-run-stage-flags{grid-column:2}
+  .core-run-stage-flags{justify-content:flex-start}
+}
+@media(max-width:420px){
+  .core-metrics span,.core-usage-strip span{letter-spacing:.045em}
+  .core-agent-dialog-actions>div{grid-template-columns:minmax(0,1fr)}
+  .core-builder-agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}

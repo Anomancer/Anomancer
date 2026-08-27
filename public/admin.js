@@ -23,7 +23,7 @@ const els={
   body:$('#body'),bodyImagePicker:$('#bodyImagePicker'),insertImage:$('#insertImageBtn'),mediaStatus:$('#mediaStatus'),
   descCount:$('#descCount'),answerCount:$('#answerCount'),wordCount:$('#wordCount'),preview:$('#preview'),previewBadge:$('#previewBadge'),status:$('#status'),
   saveDraft:$('#saveDraftBtn'),publish:$('#publishBtn'),del:$('#deleteBtn'),live:$('#liveLink'),publicUrl:$('#publicUrl'),publicUrlHint:$('#publicUrlHint'),
-  audienceChecks:$$('input[name="audience"]'),sourceReview:$('#sourceReview'),publishDialog:$('#publishDialog'),publishSummary:$('#publishSummary'),publishConfirm:$('#publishConfirmBtn'),sidebar:$('#sidebar'),sidebarToggle:$('#sidebarToggle'),sidebarClose:$('#sidebarClose'),mobileDock:$('#mobileDock'),mobileMore:$('#mobileMoreBtn'),mobileBackdrop:$('#mobileUiBackdrop'),mobileSave:$('#mobileSaveBtn'),mobilePublish:$('#mobilePublishBtn'),mobilePreview:$('#mobilePreviewBtn'),mobilePreviewClose:$('#mobilePreviewClose'),mobileCore:$('#mobileCoreBtn')
+  audienceChecks:$$('input[name="audience"]'),sourceReview:$('#sourceReview'),publishDialog:$('#publishDialog'),publishSummary:$('#publishSummary'),publishConfirm:$('#publishConfirmBtn'),sidebar:$('#sidebar'),sidebarToggle:$('#sidebarToggle'),sidebarClose:$('#sidebarClose'),mobileDock:$('#mobileDock'),mobileMore:$('#mobileMoreBtn'),mobileBackdrop:$('#mobileUiBackdrop'),mobileSave:$('#mobileSaveBtn'),mobilePublish:$('#mobilePublishBtn'),mobilePreview:$('#mobilePreviewBtn'),mobilePreviewClose:$('#mobilePreviewClose'),mobileCore:$('#mobileCoreBtn'),topActions:$('.top-actions'),mobileCommandPortal:$('#mobileCommandPortal')
 };
 
 function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -100,6 +100,8 @@ function closeSidebar(){setSidebarOpen(false);}
 function updateSidebarLabel(){if(els.sidebarToggle)els.sidebarToggle.textContent=`Lähetykset${state.posts.length?` · ${state.posts.length}`:''}`;}
 function syncMobileDock(name){$$('[data-mobile-view]').forEach(button=>{const active=button.dataset.mobileView===name;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));});}
 function setMobileMore(open){const value=Boolean(open);document.body.classList.toggle('mobile-more-open',value);els.mobileMore?.setAttribute('aria-expanded',String(value));if(value){document.body.classList.remove('mobile-preview-open');}}
+const mobileCommandMedia=window.matchMedia('(max-width:760px)');
+function syncMobileCommandHost(){const actions=els.topActions,portal=els.mobileCommandPortal,topbar=$('.topbar');if(!actions||!portal||!topbar)return;if(mobileCommandMedia.matches){if(actions.parentElement!==portal)portal.append(actions);}else{if(actions.parentElement!==topbar)topbar.append(actions);setMobileMore(false);setMobilePreview(false);}}
 function setMobilePreview(open){const value=Boolean(open);document.body.classList.toggle('mobile-preview-open',value);if(value){setMobileMore(false);closeSidebar();refreshPreview();}}
 function selectEditorView(name){$$('[data-editor-tab]').forEach(button=>{const active=button.dataset.editorTab===name;button.classList.toggle('active',active);button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;});$$('[data-editor-panel]').forEach(panel=>{const active=panel.dataset.editorPanel===name;panel.classList.toggle('active',active);panel.hidden=!active;});syncMobileDock(name);}
 
@@ -172,6 +174,7 @@ $('#sidebarBackdrop')?.addEventListener('click',closeSidebar);
 $$('[data-mobile-view]').forEach(button=>button.addEventListener('click',()=>{setMobileMore(false);setMobilePreview(false);selectEditorView(button.dataset.mobileView);window.scrollTo({top:0,behavior:'smooth'});}));
 els.mobileDock?.querySelector('[data-mobile-action=\"library\"]')?.addEventListener('click',()=>setSidebarOpen(true));
 els.mobileMore?.addEventListener('click',()=>setMobileMore(!document.body.classList.contains('mobile-more-open')));
+mobileCommandMedia.addEventListener?.('change',syncMobileCommandHost);syncMobileCommandHost();
 els.mobileBackdrop?.addEventListener('click',()=>{setMobileMore(false);setMobilePreview(false);});
 els.mobilePreview?.addEventListener('click',()=>setMobilePreview(true));
 els.mobilePreviewClose?.addEventListener('click',()=>setMobilePreview(false));

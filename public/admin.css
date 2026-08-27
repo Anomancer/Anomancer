@@ -185,6 +185,7 @@ body.library-open .sidebar-backdrop{opacity:1;pointer-events:auto}
 /* 16.3.2 · Mobile command surface
    Phone UI is a purpose-built workspace, not a squeezed desktop shell. */
 .mobile-dock,.mobile-ui-backdrop,.mobile-quick-actions,.mobile-preview-close{display:none}
+.mobile-command-portal{display:contents}
 .preview-head-actions{display:flex;align-items:center;gap:8px}
 
 @media(max-width:760px){
