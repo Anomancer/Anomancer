@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.3.0",
   "workspaceId": "default",
-  "revision": 111,
-  "updatedAt": "2026-08-27T13:25:55.707Z",
+  "revision": 112,
+  "updatedAt": "2026-08-27T13:28:10.173Z",
   "chainHead": "75cdb50009ab7d7ffb4fd9bd1c652abbf52d4db701185743b5f3c76accdae905",
   "runs": [
     {
@@ -6047,7 +6047,7 @@
         "name": "Henkilökohtaisempi teksti",
         "orchestraHash": "97e87f779e193881d62360c254072ba711c9a349e91064605ed00e1cad7013e6"
       },
-      "status": "checkpoint",
+      "status": "stopped",
       "humanApproval": {
         "required": true,
         "status": "pending",
@@ -6055,13 +6055,10 @@
       },
       "startedAt": "2026-08-27T13:17:53.973Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-27T13:25:55.702Z",
+      "updatedAt": "2026-08-27T13:28:10.173Z",
       "degradedStages": [],
       "disabledStages": [],
-      "error": {
-        "code": "DEEPSEEK_LENGTH",
-        "message": "DeepSeek-vastaus katkesi tokenrajaan."
-      },
+      "error": null,
       "receipts": [
         {
           "format": "anomancer-run-receipt/v1",
