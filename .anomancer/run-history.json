@@ -2,9 +2,9 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.3.0",
   "workspaceId": "default",
-  "revision": 173,
-  "updatedAt": "2026-08-27T17:30:13.694Z",
-  "chainHead": "368eab842489879a2e6109adf74033024d02e803a1397aa00401d6dc681a2d60",
+  "revision": 174,
+  "updatedAt": "2026-08-27T17:30:16.489Z",
+  "chainHead": "8962a538e29d4673b4e3d99bb475ea0f984c7946f395ddb3b72054b7391b896b",
   "runs": [
     {
       "format": "anomancer-run-record/v2",
@@ -8899,15 +8899,15 @@
         "name": "Anomancer Editorial",
         "orchestraHash": "4ea599224d820827847b72ceb3f97b88c710c0756d78afc4fcc8ae360a254656"
       },
-      "status": "running",
+      "status": "completed",
       "humanApproval": {
         "required": true,
         "status": "pending",
         "appliedAt": ""
       },
       "startedAt": "2026-08-27T17:10:11.566Z",
-      "finishedAt": "",
-      "updatedAt": "2026-08-27T17:30:13.694Z",
+      "finishedAt": "2026-08-27T17:30:15.876Z",
+      "updatedAt": "2026-08-27T17:30:16.489Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": null,
@@ -9426,39 +9426,39 @@
         "orchestras": {}
       },
       "receiptCount": 8,
-      "previousRunHash": "",
-      "runHash": "",
-      "counted": false
+      "previousRunHash": "368eab842489879a2e6109adf74033024d02e803a1397aa00401d6dc681a2d60",
+      "runHash": "8962a538e29d4673b4e3d99bb475ea0f984c7946f395ddb3b72054b7391b896b",
+      "counted": true
     }
   ],
   "lifetime": {
-    "runs": 14,
-    "inputTokens": 1963952,
-    "outputTokens": 1025801,
-    "totalTokens": 2989753,
-    "reasoningTokens": 728984,
-    "durationMs": 9569772,
+    "runs": 15,
+    "inputTokens": 2063313,
+    "outputTokens": 1130345,
+    "totalTokens": 3193658,
+    "reasoningTokens": 808193,
+    "durationMs": 10475693,
     "estimatedCostEuro": 0,
     "pricedReceipts": 0,
     "fallbacks": 0,
-    "toolAllows": 15,
+    "toolAllows": 16,
     "toolDenies": 0,
     "toolHumanRequired": 0,
     "providers": {
-      "deepseek": 2989753
+      "deepseek": 3193658
     },
     "agents": {
-      "source": 1340608,
-      "structure": 173609,
-      "writer": 310525,
-      "critic": 245526,
-      "audience": 342621,
-      "voice": 189269,
-      "claims": 230351,
-      "package": 157244
+      "source": 1391085,
+      "structure": 187144,
+      "writer": 348780,
+      "critic": 261997,
+      "audience": 372619,
+      "voice": 203677,
+      "claims": 253939,
+      "package": 174417
     },
     "orchestras": {
-      "editorial": 12,
+      "editorial": 13,
       "custom-henkilo-kohtaisempi-teksti-020acc": 2
     }
   }
