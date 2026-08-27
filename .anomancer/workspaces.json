@@ -1,0 +1,32 @@
+{
+  "format": "anomancer-workspace-store/v2",
+  "coreVersion": "16.6.0",
+  "revision": 1,
+  "updatedAt": "2026-08-27T17:49:36.297Z",
+  "workspaces": [
+    {
+      "format": "anomancer-workspace/v2",
+      "coreVersion": "16.6.0",
+      "id": "ws-romaani-6301c8",
+      "name": "Romaani",
+      "description": "Saapa nähdä",
+      "status": "active",
+      "source": "custom",
+      "templateId": "narramancer/story-studio/1.0.0",
+      "templateHash": "f95910cc9ac5584bf8e0fa18a68745293d5cfb53041d5a4db646a65ab8856c81",
+      "constitutionId": "narramancer/story-constitution/1.0.0",
+      "constitutionHash": "2061c704d1a42fe28a12cc0a3170cf8dbc127079e617eb7f1e5c91ac6dfc27a7",
+      "enabledOrchestraIds": [
+        "narramancer"
+      ],
+      "defaultOrchestraId": "narramancer",
+      "artifactStoreId": "narramancer/private-project-store/v1",
+      "contentAdapterId": "narramancer/story-project-json/v1",
+      "outputAdapterId": "narramancer/local-export-only/v1",
+      "uiProfileId": "narramancer/story-editor-ui/v1",
+      "createdAt": "2026-08-27T17:49:35.945Z",
+      "updatedAt": "2026-08-27T17:49:35.945Z",
+      "workspaceHash": "15859f5a96835879a9fc431ce365a6ad1bfcdc80397777ea3242c68c7dbda916"
+    }
+  ]
+}
