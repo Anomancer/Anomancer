@@ -315,3 +315,6 @@ body.library-open .sidebar-backdrop{opacity:1;pointer-events:auto}
   .orchestra-actions .orchestra-run{grid-column:auto}
   .core-metrics{grid-template-columns:1fr 1fr}
 }
+
+/* 16.3.4 EDITORIAL GATE FEEDBACK */
+.status{white-space:pre-line}

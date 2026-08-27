@@ -2,12 +2,24 @@ import { getSession, requireCsrf } from '../auth.js';
 import { json, readJson, sameOrigin } from '../http.js';
 import { listPosts, putFile, deleteFile } from '../github.js';
 import { parseMarkdown, serializePost, validatePost, newPostPath } from '../content.js';
+import { editorialQualityReport } from '../editorial-quality.js';
 
 function auth(req,res,mutating=false){
   const session=getSession(req);
   if(!session){json(res,401,{ok:false,error:'AUTH'});return null;}
   if(mutating && (!sameOrigin(req)||!requireCsrf(req,session))){json(res,403,{ok:false,error:'CSRF'});return null;}
   return session;
+}
+
+function editorialIssuesForResponse(error){
+  if(error?.code!=='EDITORIAL_QUALITY'||!Array.isArray(error?.issues))return [];
+  return error.issues.slice(0,12).map(issue=>({
+    code:String(issue?.code||'').slice(0,80),
+    severity:issue?.severity==='warning'?'warning':'error',
+    count:Number.isFinite(Number(issue?.count))?Math.max(0,Math.min(999,Number(issue.count))):0,
+    message:String(issue?.message||'').slice(0,400),
+    excerpt:String(issue?.excerpt||'').slice(0,160),
+  }));
 }
 
 export default async function handler(req,res){
@@ -27,12 +39,13 @@ export default async function handler(req,res){
     try{
       const body=await readJson(req);
       const post=validatePost(body.post||{});
+      const editorial=post.draft?null:editorialQualityReport(post);
       const path=String(body.path||'').trim() || newPostPath(post);
       if(!/^content\/(fi|en)\/[A-Za-z0-9._-]+\.md$/.test(path)) return json(res,400,{ok:false,error:'PATH'});
       const content=serializePost(post);
       const result=await putFile(path,content,{sha:body.sha||undefined,message:`content: ${post.draft?'save draft':'publish'} ${post.title}`});
-      return json(res,200,{ok:true,path,sha:result.sha,commitSha:result.commitSha,htmlUrl:result.htmlUrl,published:!post.draft});
-    }catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'SAVE',message:e.message});}
+      return json(res,200,{ok:true,path,sha:result.sha,commitSha:result.commitSha,htmlUrl:result.htmlUrl,published:!post.draft,editorialWarnings:editorial?.issues?.filter(issue=>issue.severity==='warning')||[]});
+    }catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'SAVE',message:e.message,issues:editorialIssuesForResponse(e)});}
   }
   if(req.method==='DELETE'){
     if(!auth(req,res,true)) return;

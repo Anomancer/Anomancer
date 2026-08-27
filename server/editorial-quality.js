@@ -6,8 +6,13 @@ const RULES=[
   },
   {
     code:'EDITORIAL_SOURCE_DEBT',severity:'error',
-    pattern:/\b(?:kandidaattilähde|lähde-ehdokas|toistaiseksi\s+varmistamaton|ei\s+ole\s+(?:tässä\s+yhteydessä\s+)?pystytty\s+vahvistamaan)\b/giu,
-    message:'Julkaisutekstissä on toimituksen sisäistä lähdevelkaa. Varmista lähde, poista väite tai siirrä epävarmuus evidenssikerrokseen.',
+    pattern:/\b(?:kandidaattilähde|lähde-ehdokas)\b/giu,
+    message:'Julkaisutekstissä näkyy toimituksen sisäinen lähdestatus. Varmista lähde tai poista workflow-leima julkaisuproosasta.',
+  },
+  {
+    code:'EDITORIAL_EPISTEMIC_UNCERTAINTY',severity:'warning',
+    pattern:/\b(?:toistaiseksi\s+varmistamaton|ei\s+ole\s+(?:tässä\s+yhteydessä\s+)?pystytty\s+vahvistamaan)\b/giu,
+    message:'Teksti ilmaisee avoimen epävarmuuden. Tämä ei estä julkaisua; varmista, että muotoilu vastaa evidenssin tilaa.',
   },
   {
     code:'EDITORIAL_PIPELINE_VOICE',severity:'error',

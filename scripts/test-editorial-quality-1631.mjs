@@ -10,8 +10,15 @@ const test=(name,fn)=>{fn();passed++;console.log(`✓ editorial quality · ${nam
 const base={lang:'fi',title:'Selkeä otsikko',date:'2026-08-27',category:'info-media',audience:['all'],audienceDepth:'general',description:'Kuvaus',slug:'selkea-otsikko',sources:[],claims:[],draft:false,body:'Konkreettinen havainto johtaa perusteltuun päätelmään.'};
 
 test('julkaisun metakieli ja sisäinen lähdevelka tunnistetaan',()=>{
-  const report=editorialQualityReport({...base,body:'Tässä on absurdin tiukka testi. ETLA:n toistaiseksi varmistamaton selvitys kertoo luvun.'});
+  const report=editorialQualityReport({...base,body:'Tässä on absurdin tiukka testi. ETLA:n kandidaattilähde kertoo luvun.'});
   assert.equal(report.ok,false);assert.ok(report.issues.some(x=>x.code==='EDITORIAL_META_STRICTNESS'));assert.ok(report.issues.some(x=>x.code==='EDITORIAL_SOURCE_DEBT'));
+});
+
+test('rehellinen epävarmuuskieli varoittaa mutta ei estä julkaisua',()=>{
+  const body='Aineisto on toistaiseksi varmistamaton, joten johtopäätös jätetään avoimeksi.';
+  const report=editorialQualityReport({...base,body});
+  assert.equal(report.ok,true);assert.ok(report.issues.some(x=>x.code==='EDITORIAL_EPISTEMIC_UNCERTAINTY'&&x.severity==='warning'));
+  assert.doesNotThrow(()=>validatePost({...base,body},{forPublish:true}));
 });
 
 test('luonnoksen saa tallentaa mutta epäsiisti julkaisu pysähtyy',()=>{
