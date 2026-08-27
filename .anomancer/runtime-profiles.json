@@ -2,8 +2,8 @@
   "format": "anomancer-runtime-store/v3",
   "coreVersion": "16.3.0",
   "workspaceId": "default",
-  "revision": 3,
-  "updatedAt": "2026-08-27T13:26:42.437Z",
+  "revision": 4,
+  "updatedAt": "2026-08-27T13:26:56.264Z",
   "profiles": {
     "source": {
       "format": "anomancer-agent-runtime/v1",
@@ -45,7 +45,7 @@
       "agentId": "writer",
       "contractHash": "64b26469510faf8f3b7e850c14eb189eb9436b3e4af012f1bd3fd563bdd4de89",
       "active": true,
-      "maxOutputTokens": 24000,
+      "maxOutputTokens": 34000,
       "modelTarget": "deepseek.writer",
       "limits": {
         "minOutputTokens": 1000,
