@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.3.0",
   "workspaceId": "default",
-  "revision": 125,
-  "updatedAt": "2026-08-27T13:59:36.806Z",
+  "revision": 126,
+  "updatedAt": "2026-08-27T14:04:47.926Z",
   "chainHead": "55d5aca9772695a41f0720cb97c6801c02eac5675db516213ed0b738ff4c5295",
   "runs": [
     {
@@ -6627,12 +6627,12 @@
       },
       "startedAt": "2026-08-27T13:51:46.210Z",
       "finishedAt": "",
-      "updatedAt": "2026-08-27T13:59:36.805Z",
+      "updatedAt": "2026-08-27T14:04:47.925Z",
       "degradedStages": [],
       "disabledStages": [],
       "error": {
-        "code": "AGENT_HTTP_ERROR",
-        "message": "HTTP 504"
+        "code": "DEEPSEEK_LENGTH",
+        "message": "DeepSeek-vastaus katkesi tokenrajaan."
       },
       "receipts": [
         {
