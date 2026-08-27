@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "16.3.0",
   "workspaceId": "default",
-  "revision": 112,
-  "updatedAt": "2026-08-27T13:28:10.173Z",
+  "revision": 113,
+  "updatedAt": "2026-08-27T13:28:18.565Z",
   "chainHead": "75cdb50009ab7d7ffb4fd9bd1c652abbf52d4db701185743b5f3c76accdae905",
   "runs": [
     {
@@ -6141,6 +6141,52 @@
         "orchestras": {}
       },
       "receiptCount": 1,
+      "previousRunHash": "",
+      "runHash": "",
+      "counted": false
+    },
+    {
+      "format": "anomancer-run-record/v2",
+      "coreVersion": "16.3.0",
+      "workspaceId": "default",
+      "id": "327e090a-ce45-43a3-84a8-741b97a81cda",
+      "orchestraRunId": "327e090a-ce45-43a3-84a8-741b97a81cda",
+      "orchestra": {
+        "id": "custom-henkilo-kohtaisempi-teksti-020acc",
+        "name": "Henkilökohtaisempi teksti",
+        "orchestraHash": "97e87f779e193881d62360c254072ba711c9a349e91064605ed00e1cad7013e6"
+      },
+      "status": "stopped",
+      "humanApproval": {
+        "required": true,
+        "status": "pending",
+        "appliedAt": ""
+      },
+      "startedAt": "2026-08-27T13:28:14.457Z",
+      "finishedAt": "",
+      "updatedAt": "2026-08-27T13:28:18.564Z",
+      "degradedStages": [],
+      "disabledStages": [],
+      "error": null,
+      "receipts": [],
+      "usage": {
+        "runs": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0,
+        "reasoningTokens": 0,
+        "durationMs": 0,
+        "estimatedCostEuro": 0,
+        "pricedReceipts": 0,
+        "fallbacks": 0,
+        "toolAllows": 0,
+        "toolDenies": 0,
+        "toolHumanRequired": 0,
+        "providers": {},
+        "agents": {},
+        "orchestras": {}
+      },
+      "receiptCount": 0,
       "previousRunHash": "",
       "runHash": "",
       "counted": false
