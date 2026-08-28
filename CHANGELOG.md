@@ -1,5 +1,14 @@
 # Changelog
 
+## Phase 7.1 · Visual consolidation
+
+- Removed the pulse artwork from Anomancer and Core hero surfaces; the pulse remains a transmission/Dispatches motif.
+- Replaced the Core hero network mark with the Anomancer Core wordmark.
+- Unified public header height, logo scale, navigation typography and spacing across Home, Core and generated publication surfaces.
+- Reworked Home/Core footers into a compact shared layout without oversized brand artwork.
+- Updated the Phase 7 brand regression contract without increasing release-gate step count.
+
+
 ## Phase 7 · Brand Integration
 
 - Added one canonical public brand asset boundary under `media/brand/` and preserved `public/` as generated output.
