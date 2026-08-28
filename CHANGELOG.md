@@ -1,5 +1,31 @@
 # Changelog
 
+## 1.18.2 · P1 Codemancer Visual Surgery · 2026-08-28
+
+- korvattu viisi määrittelemätöntä CSS-muuttujaa yhteisen Visual Systemin kanonisilla design-tokeneilla
+- lisätty Codemancerin input-, select- ja textarea-kontrolleille eksplisiittinen tumma pinta, reunus, kontrasti, padding, hover-, focus- ja disabled-tila
+- säilytetty natiivien kontrollien semantiikka sekä lisätty tumma `color-scheme` ja mobiilin 16 px tekstikoko
+- tiivistetty Codemancerin mobiilikomennuspalkki yhdelle riville ja poistettu toistuva metadata pieneltä näytöltä
+- muutettu governance-hierarkiaa: ihmisen lopullinen päätösvalta näkyy otsikon tunnisteena, varsinainen työ tulee ennen teknistä sopimusluukkua
+- siirretty sopimusmetadata suljettuun tekniseen disclosureen työpinnan jälkeen
+- päivitetty deterministinen Codemancer-fixture sekä Chromium-portti mittaamaan kontrollien pinta, kontrasti, korkeus, mobiilifontti, komentopalkin korkeus ja sisällön järjestys
+- lisätty `scripts/test-p1-codemancer-visual-1182.mjs` pääregressioketjuun
+- säilytetty pakettiversio 1.18.2, jotta roadmapin 1.18.3 pysyy varsinaisena Codemancer Workbench -julkaisuna
+
+## 1.18.2 · P0 Integrity Hardening Patch · 2026-08-28
+
+- lisätty yhteinen dirty-rekisteri Lähetyskoneelle, Romancerille ja geneerisille Mancer-työtiloille
+- korjattu `beforeunload`, uloskirjautuminen ja työtilavaihto vartioimaan kaikkien rekisteröityjen editorien tallentamattomia muutoksia
+- poistettu Codemancerin ja Romancerin revision conflict -polkujen automaattinen reload, joka saattoi korvata paikallisen työn
+- lisätty konfliktipalkit: paikallisen ja palvelinversion JSON-turvakopio, palvelinversion hyväksyminen sekä eksplisiittinen paikallisen version säilyttäminen
+- sidottu Mancer-, Romancer-, Nanomancer- ja Lähetyskone-pyynnöt workspace-id:hen, request-id:hen ja peruttavaan `AbortController`-signaaliin
+- säilytetty tallennuspyynnön aikana syntyneet uudemmat paikalliset muutokset Mancer- ja Romancer-editoreissa
+- tyhjennetty Nanomancerin tulos, lähteet ja capability-metadata välittömästi työtilavaihdossa
+- estetty Nanomancer-analyysin arkistointi väärän työtilan alle
+- estetty työtilavaihto aktiivisen Lähetyskone-tallennuksen aikana
+- lisätty `scripts/test-p0-integrity-1182.mjs` pääregressioketjun ensimmäiseksi portiksi
+- säilytetty pakettiversio 1.18.2: tämä on auditin P0-korjauspatch, ja roadmapin 1.18.3 pysyy varattuna Codemancer Workbenchille
+
 ## 1.18.2 · Senior Core / UI / Security Hardening · 2026-08-28
 
 - päivitetty julkinen CORE vastaamaan 1.18.x-rakennetta: Workspace Runtime, Mancer Package Runtime, Codemancer, Capability Registry / Nanomancer, Archive / Arkistonhoitaja, Artifact Boundary, Constitution Runtime, Human Approval, Model Router, Tool Broker sekä yhteinen interface system

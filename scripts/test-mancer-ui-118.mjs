@@ -25,14 +25,26 @@ for(const [name,width,height] of [['desktop',1440,900],['phone-360',360,800]]){
   await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<=760},sessionId);
   await send('Page.setDocumentContent',{frameId,html:src},sessionId);
   await send('Runtime.evaluate',{expression:'new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))',awaitPromise:true},sessionId);
-  const r=await send('Runtime.evaluate',{returnByValue:true,expression:`(()=>{const visible=e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0};const controls=[...document.querySelectorAll('button,select,input,textarea,summary')].filter(visible);const form=getComputedStyle(document.querySelector('.mancer-form')).gridTemplateColumns;const details=document.querySelector('.mancer-contract-details');return{innerWidth,scrollWidth:document.documentElement.scrollWidth,minTarget:Math.min(...controls.map(e=>e.getBoundingClientRect().height)),form,title:document.querySelector('h2').textContent.trim(),detailsOpen:details.open,text:document.body.innerText}})()`},sessionId);
+  const r=await send('Runtime.evaluate',{returnByValue:true,expression:`(()=>{const visible=e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0};const controls=[...document.querySelectorAll('button,select,input,textarea,summary')].filter(visible);const form=getComputedStyle(document.querySelector('.mancer-form')).gridTemplateColumns;const details=document.querySelector('.mancer-contract-details');const first=document.querySelector('.mancer-form textarea,.mancer-form input,.mancer-form select');const control=getComputedStyle(first);return{innerWidth,scrollWidth:document.documentElement.scrollWidth,minTarget:Math.min(...controls.map(e=>e.getBoundingClientRect().height)),form,title:document.querySelector('h2').textContent.trim(),detailsOpen:details.open,text:document.body.innerText,firstControlTop:first.getBoundingClientRect().top,contractTop:details.getBoundingClientRect().top,commandbarHeight:document.querySelector('.mancer-commandbar').getBoundingClientRect().height,control:{backgroundColor:control.backgroundColor,color:control.color,borderStyle:control.borderStyle,borderWidth:control.borderWidth,borderRadius:control.borderRadius,paddingLeft:control.paddingLeft,fontSize:control.fontSize}}})()`},sessionId);
   const m=r.result.value;
   assert.ok(m.scrollWidth-m.innerWidth<=1,`${name}: horizontal overflow`);
   assert.ok(m.minTarget>=43.5,`${name}: control under 44px (${m.minTarget})`);
   assert.equal(m.title,'Tarkistus');
   assert.equal(m.detailsOpen,false,`${name}: tekniset sopimustiedot ovat oletuksena kiinni`);
   assert.doesNotMatch(m.text,/Human final authority|Package contract|\bReview\b/);
-  if(width===360)assert.ok(m.form.split(' ').length<=2,`${name}: Mancer form ei reflowannut yhteen palstaan`);
+  assert.equal(m.control.borderStyle,'solid',`${name}: kontrollilta puuttuu eksplisiittinen reunus`);
+  assert.notEqual(m.control.borderWidth,'0px',`${name}: kontrollin reunus katosi`);
+  assert.equal(m.control.backgroundColor,'rgb(8, 8, 14)',`${name}: kontrolli ei käytä input-pintatokenia`);
+  assert.equal(m.control.color,'rgb(255, 255, 255)',`${name}: kontrollin tekstikontrasti ei käytä vahvaa tekstitokenia`);
+  assert.equal(m.control.borderRadius,'8px',`${name}: kontrollin kulmasäde irtosi tokenista`);
+  assert.ok(parseFloat(m.control.paddingLeft)>=10,`${name}: kontrollin sisämarginaali on liian pieni`);
+  assert.ok(m.contractTop>m.firstControlTop,`${name}: tekninen governance syrjäytti varsinaisen työn`);
+  if(width===360){
+    assert.equal(m.form.split(' ').length,1,`${name}: Mancer form ei reflowannut yhteen palstaan`);
+    assert.ok(m.firstControlTop<520,`${name}: ensimmäinen työohjain alkaa liian myöhään (${m.firstControlTop}px)`);
+    assert.ok(m.commandbarHeight<=72,`${name}: komentopalkki vie liikaa pystypinta-alaa (${m.commandbarHeight}px)`);
+    assert.ok(parseFloat(m.control.fontSize)>=16,`${name}: mobiilikontrolli altistaa iOS-automaattizoomille`);
+  }
   const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false},sessionId);
   fs.writeFileSync(path.join(outDir,`mancer-${name}.png`),Buffer.from(shot.data,'base64'));
   passed++;console.log(`✓ Mancer UI ${name} · ${width}×${height}`);

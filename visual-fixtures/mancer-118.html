@@ -1,2 +1,59 @@
-<!doctype html><html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../admin.css"></head><body><main class="mancer-workspace"><header class="mancer-commandbar"><div><p class="kicker">TYÖMAAILMA / CODEMANCER</p><strong>Codemancer Lab</strong><small>Codemancerin kehitysperustuslaki</small></div><div class="mancer-command-actions"><span>TALLENNETTU</span><button class="secondary" disabled>Tallennettu</button></div></header><section class="mancer-panel"><header class="mancer-section-head"><div><p class="kicker">CODEMANCER / TARKISTUS</p><h2>Tarkistus</h2><p>Tarkista muutoskuva, testitila ja ihmisen päätös ennen soveltamista.</p></div><span class="mancer-section-kind">Lomake</span></header><div class="mancer-section-notice" data-tone="authority"><strong>Toimivaltaraja</strong><span>Tarkistus ei sovella koodia. Koodivarasto muuttuu vasta erillisen ihmisen hyväksymän soveltamisvaiheen kautta.</span></div><section class="mancer-authority-note" aria-label="Työtilan toimivaltaraja"><div><strong>Ihminen hyväksyy soveltamisen ja julkaisun.</strong><span>Työtila tallentaa omaan artefaktisäilöön eikä kirjoita koodivarastoon automaattisesti.</span></div><details class="mancer-contract-details"><summary>Sopimuksen tekniset tiedot</summary><div class="mancer-contract-strip"><div><span>Mancer-paketti</span><strong>codemancer 1.0.0</strong></div><div><span>Hyväksyntämalli</span><strong>Ihmisellä lopullinen päätösvalta</strong></div><div><span>Orkesterirekisteri</span><strong>2 määritelty</strong></div><div><span>Arkistopolitiikka</span><strong>Ei automaattista mallimuistia</strong></div></div></details></section><div class="mancer-form"><label><span>Muutosyhteenveto</span><textarea rows="8">Mancer Runtime irrotettiin domain-kohtaisesta navigaatiosta.</textarea></label><label><span>Diff / muutokset</span><textarea class="mancer-monospace" rows="16">+ package runtime
-- hardcoded branch</textarea></label><label><span>Testien tila</span><select><option>Vihreä</option></select></label><label><span>Ihmisen tarkistuspäätös</span><select><option>Odottaa</option></select></label></div></section><div class="mancer-status" role="status" aria-live="polite">Työtilan aineisto ladattu · revisio 3</div></main></body></html>
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="../admin.css">
+</head>
+<body>
+  <main class="mancer-workspace">
+    <header class="mancer-commandbar">
+      <div>
+        <p class="kicker">TYÖMAAILMA / CODEMANCER</p>
+        <strong>Codemancer Lab</strong>
+        <small>Codemancerin kehitysperustuslaki</small>
+      </div>
+      <div class="mancer-command-actions">
+        <span>TALLENNETTU</span>
+        <button class="secondary" disabled>Tallennettu</button>
+      </div>
+    </header>
+    <section class="mancer-panel">
+      <header class="mancer-section-head">
+        <div>
+          <p class="kicker">CODEMANCER / TARKISTUS</p>
+          <h2>Tarkistus</h2>
+          <p>Tarkista muutoskuva, testitila ja ihmisen päätös ennen soveltamista.</p>
+        </div>
+        <div class="mancer-section-meta">
+          <span class="mancer-authority-badge" title="Ihmisellä on lopullinen päätösvalta">Ihminen hyväksyy</span>
+          <span class="mancer-section-kind">Lomake</span>
+        </div>
+      </header>
+      <div class="mancer-section-notice" data-tone="authority">
+        <strong>Toimivaltaraja</strong>
+        <span>Tarkistus ei sovella koodia. Koodivarasto muuttuu vasta erillisen ihmisen hyväksymän soveltamisvaiheen kautta.</span>
+      </div>
+      <div class="mancer-work-body">
+        <div class="mancer-form">
+          <label><span>Muutosyhteenveto</span><textarea rows="8">Mancer Runtime irrotettiin domain-kohtaisesta navigaatiosta.</textarea></label>
+          <label><span>Diff / muutokset</span><textarea class="mancer-monospace" rows="16">+ package runtime
+- hardcoded branch</textarea></label>
+          <label><span>Testien tila</span><select><option>Vihreä</option></select></label>
+          <label><span>Ihmisen tarkistuspäätös</span><select><option>Odottaa</option></select></label>
+        </div>
+      </div>
+      <details class="mancer-contract-details">
+        <summary>Sopimuksen tekniset tiedot</summary>
+        <div class="mancer-contract-strip">
+          <div><span>Mancer-paketti</span><strong>codemancer 1.0.0</strong></div>
+          <div><span>Hyväksyntämalli</span><strong>Ihmisellä lopullinen päätösvalta</strong></div>
+          <div><span>Orkesterirekisteri</span><strong>2 määritelty</strong></div>
+          <div><span>Arkistopolitiikka</span><strong>Ei automaattista mallimuistia</strong></div>
+        </div>
+      </details>
+    </section>
+    <div class="mancer-status" role="status" aria-live="polite">Työtilan aineisto ladattu · revisio 3</div>
+  </main>
+</body>
+</html>
