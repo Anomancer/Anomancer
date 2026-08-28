@@ -244,3 +244,13 @@
   .core-roadmap-phase>header>span{width:36px;height:36px}
 }
 @media(prefers-reduced-motion:reduce){.core-roadmap-toggle{transition:none}}
+
+/* ==========================================================================
+   PHASE 7 · CORE BRAND
+   ========================================================================== */
+.core-brand-mark{display:block;width:clamp(210px,28vw,340px);height:auto;margin:6px auto 8px;filter:drop-shadow(0 28px 46px rgba(0,0,0,.58)) drop-shadow(0 0 28px rgba(255,22,61,.12))}
+.core-brand-signal{display:block;width:min(430px,70vw);height:auto;margin:0 auto 16px;opacity:.76;filter:drop-shadow(0 0 12px rgba(255,22,61,.16))}
+@media(max-width:680px){
+  .core-brand-mark{width:clamp(190px,62vw,280px)}
+  .core-brand-signal{width:min(360px,82vw)}
+}
