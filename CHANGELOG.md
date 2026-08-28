@@ -1,5 +1,14 @@
 # Changelog
 
+## Phase 7.2 · Header and hero copy consolidation
+
+- Core public header now uses the same Anomancer wordmark as Home.
+- Public navigation typography is explicitly unified across Home/Core.
+- Removed the Core hero status/version pill and architecture eyebrow.
+- Replaced the Finnish Home intro line with: "Minimalistinen viisaus hiottu kiveksi".
+- Updated brand regression coverage while keeping the release gate at 73 steps.
+
+
 ## Phase 7.1 · Visual consolidation
 
 - Removed the pulse artwork from Anomancer and Core hero surfaces; the pulse remains a transmission/Dispatches motif.
