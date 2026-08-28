@@ -10,6 +10,8 @@ export const MANCER_ARTIFACT_BOUNDARY_FORMAT='anomancer-mancer-artifact-boundary
 export const MANCER_AGENT_BINDINGS_FORMAT='anomancer-mancer-agent-bindings/v1';
 export const MANCER_ORCHESTRA_REGISTRY_FORMAT='anomancer-mancer-orchestra-registry/v1';
 export const MANCER_ARCHIVE_POLICY_FORMAT='anomancer-mancer-archive-policy/v1';
+export const MANCER_RENDERER_CAPABILITIES=Object.freeze(['file-tree','code-editor','diff-view','task-board','test-run-list','approval-review','release-gate','document-preview']);
+const MANCER_SECTION_RENDERERS=new Set(['form','collection','run-explorer','code-editor','task-board','test-run-list','approval-review','release-gate','document-preview']);
 
 const REQUIRED_FILES=['manifest.json','constitution.json','artifact-boundary.json','ui-schema.json','approval-model.json','agent-bindings.json','orchestra-registry.json','archive-policy.json'];
 const clone=v=>JSON.parse(JSON.stringify(v));
@@ -32,13 +34,15 @@ function validateFields(pkg){
   assert(uiSchema?.format===MANCER_UI_SCHEMA_FORMAT,'Mancer UI schema format is invalid.');
   assert(uiSchema.renderer==='schema-workbench','Unsupported Mancer UI renderer.');
   assert(Array.isArray(uiSchema.sections)&&uiSchema.sections.length>0,'Mancer UI schema needs sections.');
+  const rendererCapabilities=Array.isArray(uiSchema.rendererCapabilities)?uiSchema.rendererCapabilities:[];
+  for(const capability of rendererCapabilities)assert(MANCER_RENDERER_CAPABILITIES.includes(capability),`Unsupported Mancer renderer capability: ${capability}`);
   assert(approvalModel?.format===MANCER_APPROVAL_MODEL_FORMAT,'Mancer approval model format is invalid.');
   assert(approvalModel.humanFinalAuthority===true,'Mancer approval model must preserve human final authority.');
   assert(agentBindings?.format===MANCER_AGENT_BINDINGS_FORMAT,'Mancer agent bindings format is invalid.');
   assert(orchestraRegistry?.format===MANCER_ORCHESTRA_REGISTRY_FORMAT,'Mancer orchestra registry format is invalid.');
   assert(archivePolicy?.format===MANCER_ARCHIVE_POLICY_FORMAT,'Mancer archive policy format is invalid.');
   assert(archivePolicy.automaticModelMemory===false,'Mancer archive policy cannot enable automatic model memory.');
-  const ids=new Set();for(const section of uiSchema.sections){assert(clean(section.id),'Mancer UI section id missing.');assert(!ids.has(section.id),'Duplicate Mancer UI section id.');ids.add(section.id);}
+  const ids=new Set();for(const section of uiSchema.sections){assert(clean(section.id),'Mancer UI section id missing.');assert(!ids.has(section.id),'Duplicate Mancer UI section id.');ids.add(section.id);const renderer=clean(section.renderer||section.kind||'form');assert(MANCER_SECTION_RENDERERS.has(renderer),`Unsupported Mancer section renderer: ${renderer}`);}
   const navItems=(uiSchema.navigation?.groups||[]).flatMap(group=>group.items||[]);for(const id of navItems)assert(ids.has(id),`Mancer UI navigation points to unknown section: ${id}`);
   return true;
 }

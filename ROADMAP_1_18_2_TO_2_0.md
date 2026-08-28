@@ -27,11 +27,11 @@ CORE
 
 ```
 
-1.18.2\:n jälkeen perusrunko on siinä kunnossa, että seuraavaksi rakennetaan ensisijaisesti **uusia maailmoja ja niiden välistä infrastruktuuria**, ei enää Coren perustuksia uudestaan.
+1.18.3\:n jälkeen perusrunko ja ensimmäinen Codemancer Workbench -vertical slice ovat siinä kunnossa, että seuraavaksi rakennetaan ensisijaisesti **uusia maailmoja ja niiden välistä infrastruktuuria**, ei enää Coren perustuksia uudestaan.
 
 ---
 
-# 1.18.3 — CODEMANCER WORKBENCH
+# 1.18.3 — CODEMANCER WORKBENCH · TOTEUTETTU VERTICAL SLICE
 
 Codemancer syvennetään oikeaksi päivittäiseksi kehitystyötilaksi.
 
@@ -1009,10 +1009,6 @@ Lyhyesti:
 
 ```text
 NYT
-1.18.2
-Native Dialog Consolidation
-        │
-        ▼
 1.18.3
 Codemancer Workbench
         │

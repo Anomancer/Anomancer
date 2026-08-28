@@ -15,7 +15,7 @@ const ui=JSON.parse(fs.readFileSync('mancers/codemancer/ui-schema.json','utf8'))
 let passed=0;
 const test=(name,fn)=>{fn();passed++;console.log(`✓ ${name}`);};
 
-test('1.18.2 release metadata on yhtenäinen',()=>{assert.equal(pkg.version,'1.18.2');assert.equal(CORE_VERSION,'1.18.2');assert.match(html,/<dd>1\.18\.2<\/dd>/);assert.doesNotMatch(html,/MANCER REGISTRY \/ 1\.18\.0|ARKISTONHOITAJA 1\.17\.3|NANOMANCER 1\.17\.2|ARCHIVE CORE 1\.17\.1/);});
+test('1.18.2 release metadata on yhtenäinen',()=>{assert.equal(pkg.version,'1.18.3');assert.equal(CORE_VERSION,'1.18.3');assert.match(html,/<dd>1\.18\.3<\/dd>/);assert.doesNotMatch(html,/MANCER REGISTRY \/ 1\.18\.0|ARKISTONHOITAJA 1\.17\.3|NANOMANCER 1\.17\.2|ARCHIVE CORE 1\.17\.1/);});
 
 test('Romancer on näkyvä nimi, legacy Narramancer-id säilyy',()=>{const template=getWorkspaceTemplate('narramancer/story-studio/1.0.0');assert.equal(template.name,'Romancer');assert.match(html,/ROMANCER \/ YKSITYINEN TARINASTUDIO/);assert.doesNotMatch(html,/>Narramancer</);assert.match(coreFi,/Romancer/);});
 
@@ -33,4 +33,4 @@ test('Mancer-komponenttityyli kuuluu sekä tuotannon CSS-manifestiin että brows
 
 test('Kapealla puhelimella Core-brand väistyy päänavigaation tieltä myös konsolidoidussa media-blokissa',()=>{assert.match(responsive,/@media\(max-width:420px\)\{[\s\S]*?\.core-shell\{grid-template-columns:minmax\(0,1fr\) auto\}[\s\S]*?\.core-shell-brand\{display:none\}/);});
 
-console.log(`\n${passed}/${passed} SEMANTIC WORKBENCH 1.18.2 checks passed.`);
+console.log(`\n${passed}/${passed} SEMANTIC WORKBENCH 1.18.3 checks passed.`);

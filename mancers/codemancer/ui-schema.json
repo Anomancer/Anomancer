@@ -189,7 +189,8 @@
           "maxLength": 20000
         }
       ],
-      "emptyMessage": "Ei koodiehdotuksia vielä. Lisää tiedosto tai snippet työtilan omaan artefaktisäilöön."
+      "emptyMessage": "Ei koodiehdotuksia vielä. Lisää tiedosto tai snippet työtilan omaan artefaktisäilöön.",
+      "renderer": "code-editor"
     },
     {
       "id": "tasks",
@@ -254,7 +255,8 @@
           "maxLength": 20000
         }
       ],
-      "emptyMessage": "Ei avoimia tehtäviä. Lisää tehtävä tai kirjaa myöhemmin orkesterista syntynyt jatkotyö."
+      "emptyMessage": "Ei avoimia tehtäviä. Lisää tehtävä tai kirjaa myöhemmin orkesterista syntynyt jatkotyö.",
+      "renderer": "task-board"
     },
     {
       "id": "tests",
@@ -302,7 +304,8 @@
           "maxLength": 50000
         }
       ],
-      "emptyMessage": "Ei testituloksia vielä. Kirjaa ajettu testi vasta, kun tulos tai evidenssi on saatavilla."
+      "emptyMessage": "Ei testituloksia vielä. Kirjaa ajettu testi vasta, kun tulos tai evidenssi on saatavilla.",
+      "renderer": "test-run-list"
     },
     {
       "id": "runs",
@@ -375,7 +378,8 @@
         }
       ],
       "notice": "Tarkistus ei sovella koodia. Koodivarasto muuttuu vasta erillisen ihmisen hyväksymän soveltamisvaiheen kautta.",
-      "noticeTone": "authority"
+      "noticeTone": "authority",
+      "renderer": "approval-review"
     },
     {
       "id": "release",
@@ -436,7 +440,8 @@
         }
       ],
       "notice": "Julkaisu vaatii ihmisen nimenomaisen päätöksen. Hyväksytty tila ei vielä käynnistä julkaisua tai Git-pushia.",
-      "noticeTone": "authority"
+      "noticeTone": "authority",
+      "renderer": "release-gate"
     },
     {
       "id": "documentation",
@@ -482,7 +487,18 @@
           "maxLength": 120000
         }
       ],
-      "emptyMessage": "Ei dokumentteja vielä. Lisää README, arkkitehtuurikuvaus, ohje tai julkaisumuistio."
+      "emptyMessage": "Ei dokumentteja vielä. Lisää README, arkkitehtuurikuvaus, ohje tai julkaisumuistio.",
+      "renderer": "document-preview"
     }
+  ],
+  "rendererCapabilities": [
+    "file-tree",
+    "code-editor",
+    "diff-view",
+    "task-board",
+    "test-run-list",
+    "approval-review",
+    "release-gate",
+    "document-preview"
   ]
 }

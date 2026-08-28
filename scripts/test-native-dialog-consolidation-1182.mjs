@@ -75,4 +75,4 @@ for(const [name,width,height] of [['desktop',1440,900],['phone',360,800]]){
   await send('Target.closeTarget',{targetId});
 }
 ws.close();chrome.kill('SIGTERM');await new Promise(r=>setTimeout(r,250));fs.rmSync(profile,{recursive:true,force:true});
-console.log(`\n${passed}/${passed} NATIVE DIALOG CONSOLIDATION 1.18.2 checks passed.`);
+console.log(`\n${passed}/${passed} NATIVE DIALOG CONSOLIDATION 1.18.3 checks passed.`);

@@ -1,16 +1,20 @@
-# Anomancer 1.18.2 · Native Dialog Consolidation
+# Anomancer 1.18.3 · Codemancer Workbench
 
-1.18.2 kovettaa 1.18.1 Semantic Workbench -kerroksen yhdenmukaistamalla legacy-adminin ihmisen vahvistukset, syötedialogit ja virheilmoitukset yhteiseen async-dialogijärjestelmään.
+1.18.3 muuttaa Codemancerin geneerisestä schema-workbenchista tehtäväkohtaiseksi kehitystyöpöydäksi säilyttäen Mancer Runtime -periaatteen: Core ei hardkoodaa työtilan nimeä, vaan paketti ilmoittaa tarvitsemansa renderer-capabilityt.
 
 Keskeiset muutokset:
 
-- yhteinen `window.anomancerDialogs` confirm / prompt / form / notice API
-- fokus palautuu toiminnon laukaisijaan
-- muu sovellus on dialogin aikana `inert`
-- Escape ja peruuttaminen palauttavat turvallisen false/null-tuloksen
-- natiivit `window.alert()`, `window.confirm()` ja `window.prompt()` on poistettu adminin työpoluista
-- kuvan alt-teksti ja kuvateksti kerätään yhdessä saavutettavassa lomakedialogissa
-- workspace-, orkesteri-, Archive-, agentti- ja editorial-toimivaltarajat säilyvät eksplisiittisinä ihmisen päätöksinä
-- PWA:n `beforeinstallprompt`-objektin `prompt.prompt()` säilyy, koska se ei ole selain-`window.prompt()`
+- kahdeksan validoitua workbench-renderer-capabilitya
+- Koodi: tiedostoindeksi → editori → inspector
+- Tehtävät: task board
+- Testit: tulos- ja evidenssipinta
+- Tarkistus: diff + testit + ihmisen päätös
+- Julkaisu: eksplisiittiset gate-tilat ilman deploy-sivuvaikutusta
+- Dokumentaatio: editori + turvallinen live-preview
+- desktopin rinnakkainen workbench ja mobiilin yhden työpalstan reflow
+- kylmien URL-syvälinkkien lifecycle-korjaus
+- koko 1.18.2 P0/P1/P2-hardening säilyy alla
 
-Katso `NATIVE_DIALOG_CONSOLIDATION_1_18_2.md` ja `FULL_RELEASE_1_18_2.md`.
+1.18.3 ei vielä anna Codemancerille repository-write-, Git-, test runner- tai deploy-toimivaltaa. Workbench tekee työn ja päätösrajat näkyviksi ennen näiden capabilityjen turvallista liittämistä.
+
+Katso `CODEMANCER_WORKBENCH_1_18_3.md`, `FULL_RELEASE_1_18_3.md` ja `FINAL_VALIDATION_1_18_3.md`.

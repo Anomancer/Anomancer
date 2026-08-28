@@ -1,6 +1,6 @@
 {
   "format": "anomancer-core-public/v2",
-  "version": "1.18.2",
+  "version": "1.18.3",
   "boundary": {
     "version": "1.0",
     "mode": "explicit-allowlist",
@@ -19,7 +19,7 @@
         {
           "id": "codemancer",
           "name": "Codemancer",
-          "version": "1.0.0",
+          "version": "1.1.0",
           "kind": "development",
           "health": "ok"
         }
@@ -425,7 +425,7 @@
       "actor": "agent",
       "humanApproval": false,
       "sideEffects": false,
-      "toolHash": "070fe7999000fd918fc99cd7e151468d709d7dd8fc2469640b4e7d5bcc975660"
+      "toolHash": "71f31670c193714d1ce5a6edb4fdf5af26b0ab2cf41b86ace0d92d179c395dc0"
     },
     {
       "id": "source.verify",
@@ -437,7 +437,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "22ad4e40796a0f6d8cdf597696971fa29e80be6e6e4b0bbeed6c9bc7034665fa"
+      "toolHash": "1c8fe40b91f34673a23093e4222d382b2f8539aaf999642699ae3cad50bbe42a"
     },
     {
       "id": "publication.publish",
@@ -449,7 +449,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "a79e8e6a43e0fed8df8c34780f6d46a97348fd986712ca5d8aebd0f64951a519"
+      "toolHash": "8ecbe97cca7543b2a18994e3b378db89a29005afecc3a524d680cd4d38d70db7"
     },
     {
       "id": "github.write",
@@ -461,7 +461,7 @@
       "actor": "human",
       "humanApproval": true,
       "sideEffects": true,
-      "toolHash": "83dfa336938a29c0755be0fe59d144891a0515ae680a8c99568f4a18d68630d4"
+      "toolHash": "9c9bb7c1d16cb180718b43c811f5719f744475e4ce1b3dc863d0c62d8beccfa2"
     }
   ],
   "toolBroker": {
@@ -479,7 +479,7 @@
         "json",
         "web_search"
       ],
-      "routeHash": "5154e25a2b5c832cf3153a744ffbd26318ff5d5807a7baa04c289e532b7403dc"
+      "routeHash": "11c938d8a8d049975f70d3fa45b243fac5686445352e5cd7982655e3a9de5ecf"
     },
     {
       "id": "writer",
@@ -487,7 +487,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "10dd9ad5ddced0ca99b9aea5cb749132b12fa4b5e8dfdd15de0326cb1e581028"
+      "routeHash": "85983a3b2ff82379d685f9064888a3d13991c93644ef08482c74e3c52c7726b6"
     },
     {
       "id": "critic",
@@ -495,7 +495,7 @@
       "requires": [
         "json"
       ],
-      "routeHash": "c93799946e4a10db602274adb26db924f7a2d2154a2291f36892ba0d961eed4b"
+      "routeHash": "c0ea21169346360df142b6c740e00b1f8d4cb1db529f62dbcbf17edcb72b0940"
     }
   ],
   "modelRouter": {

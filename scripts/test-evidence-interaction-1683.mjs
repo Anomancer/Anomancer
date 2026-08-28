@@ -15,6 +15,6 @@ test('väitteet muokataan rakenteisina kortteina',()=>{assert.match(html,/id="cl
 test('supported-väite näyttää väitekohtaisen porttiongelman ja estää ehdokaslähteen valinnan',()=>{assert.match(js,/claim\.status==='supported'/);assert.match(js,/ei kelpaa tuetun väitteen evidenssiksi/);assert.match(js,/claim-blocker/);assert.match(css,/\.claim-card\.has-blocker/);});
 test('putki ja JSON säilyvät vain teknisenä edistyneenä pintana',()=>{assert.match(html,/Tekninen data · tuo tai korjaa raakamuotoa/);assert.match(html,/id="sources"/);assert.match(html,/id="claims"/);assert.match(css,/technical-evidence-data/);});
 test('mobiilissa evidenssityöpinta reflowaa yhteen sarakkeeseen',()=>{assert.match(css,/@media\(max-width:760px\)[\s\S]*?\.evidence-readiness\{grid-template-columns:1fr\}/);assert.match(css,/\.source-composer\{grid-template-columns:1fr\}/);});
-test('release metadata ja check-portti ovat 16.8.4',()=>{assert.equal(pkg.version,'1.18.2');assert.match(pkg.scripts.check,/test-evidence-interaction-1683/);assert.match(html,/id="systemCoreVersion">1\.18\.2/);});
+test('release metadata ja check-portti ovat 16.8.4',()=>{assert.equal(pkg.version,'1.18.3');assert.match(pkg.scripts.check,/test-evidence-interaction-1683/);assert.match(html,/id="systemCoreVersion">1\.18\.3/);});
 
 console.log(`\n${n}/7 EVIDENCE INTERACTION 16.8.4 -testiä läpi`);

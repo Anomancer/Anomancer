@@ -27,4 +27,4 @@ for(const [name,width,height] of [['desktop',1440,900],['phone',390,844],['narro
   passed++;console.log(`✓ roadmap Chromium ${name} · ${width}×${height}`);await send('Target.closeTarget',{targetId});
 }
 ws.close();chrome.kill('SIGTERM');await new Promise(r=>setTimeout(r,200));fs.rmSync(profile,{recursive:true,force:true});
-console.log(`\n${passed}/${passed} CORE ROADMAP UI 1.18.2 -porttia läpi`);
+console.log(`\n${passed}/${passed} CORE ROADMAP UI 1.18.3 -porttia läpi`);

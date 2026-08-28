@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.18.3 · Codemancer Workbench · 2026-08-28
+
+- lisätty geneerinen Mancer renderer registry ilman Codemancer-nimikohtaista Core-haaraa
+- lisätty kahdeksan validoitua renderer-capabilitya: file-tree, code-editor, diff-view, task-board, test-run-list, approval-review, release-gate ja document-preview
+- muutettu Koodi kolmipaneeliseksi tiedostoindeksi → editori → inspector -työpöydäksi
+- muutettu Tehtävät neljän tilan task boardiksi ja Testit tulos/evidenssi-työpinnaksi
+- yhdistetty Tarkistuksessa diff, testitila ja ihmisen päätös samaan hyväksyntäpintaan
+- lisätty Julkaisuun eksplisiittiset portit ilman Git/push/deploy-sivuvaikutusta
+- lisätty Dokumentaatioon item-lista, editori ja turvallinen live-preview
+- lisätty desktopin rinnakkainen workbench ja mobiilin yhden työpalstan reflow ilman komponenttikohtaisia media queryja
+- korjattu kylmän `section`-syvälinkin lifecycle-race myöhään rekisteröityvän Mancer-rendererin kanssa
+- lisätty `scripts/test-codemancer-workbench-1183.mjs` 8/8 ja Chromium-pohjainen `scripts/test-codemancer-workbench-ui-1183.mjs` 9/9 pääregressioketjuun
+- koko `npm run check` läpäisee myös P0/P1/P2-, full-app-, Visual System-, Domain migration- ja SEO-portit
+- repository-write, Git, test runner ja deploy säilyvät 1.18.3:ssa eksplisiittisesti Workbenchin toimivallan ulkopuolella
+
 ## 1.18.2 · P2 Interaction & Navigation Hardening · 2026-08-28
 
 - lisätty adminin URL-state: `workspace`, `view` ja `section` voidaan palauttaa osoitteesta ja selaimen back/forward toimii työtilan sisällä

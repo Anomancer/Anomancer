@@ -180,7 +180,7 @@ function packageTemplateInput(pkg){
     id:m.templateId,name:m.name,version:m.version,kind:m.kind,instancePolicy:m.instancePolicy||'multiple',description:m.description,purpose:m.purpose,constitutionId:m.constitutionId,
     allowedAgentIds:(bindings.sharedAgentIds||[]).filter(id=>allAgents.includes(id)),builtInOrchestraIds:[],defaultOrchestraId:'',
     packageOrchestraIds:orchestras.map(x=>x.id),artifactStoreId:m.artifactStoreId,contentAdapterId:m.contentAdapterId,outputAdapterId:m.outputAdapterId,uiProfileId:m.uiProfileId,
-    editorDefinition:{format:'anomancer-workspace-editor-definition/v1',renderer:pkg.uiSchema.renderer,navigation:pkg.uiSchema.navigation,sections:pkg.uiSchema.sections},
+    editorDefinition:{format:'anomancer-workspace-editor-definition/v1',renderer:pkg.uiSchema.renderer,rendererCapabilities:pkg.uiSchema.rendererCapabilities||[],navigation:pkg.uiSchema.navigation,sections:pkg.uiSchema.sections},
     capabilities:m.capabilities||[],mancerPackage:{format:MANCER_PACKAGE_FORMAT,id:m.id,version:m.version,contractHash:pkg.contractHash,approvalModel:pkg.approvalModel,artifactBoundary:pkg.artifactBoundary,agentBindings:pkg.agentBindings,orchestraRegistry:pkg.orchestraRegistry,archivePolicy:pkg.archivePolicy}
   };
 }

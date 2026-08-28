@@ -582,6 +582,33 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
   .mancer-collection-head,.mancer-run-toolbar{align-items:stretch;flex-direction:column}
   .mancer-collection-head button,.mancer-run-toolbar button{width:100%}
 .mancer-undo{align-items:stretch;flex-direction:column}.mancer-undo button{width:100%}.workspace-tech-details summary{min-height:44px;display:flex;align-items:center}
+  /* 1.18.3 capability workbench mobile drilldown */
+  .mancer-workbench{grid-template-columns:minmax(0,1fr);gap:9px}
+  .mancer-workbench-nav,.mancer-workbench-inspector,.mancer-document-preview,.mancer-review-inspector,.mancer-release-layout .mancer-workbench-inspector{position:static;top:auto;max-height:none}
+  .mancer-workbench-nav>header{position:sticky;top:0;z-index:2;background:var(--panel)}
+  .mancer-item-index{display:flex;max-height:none;overflow-x:auto;overflow-y:hidden;gap:6px;padding:7px;scroll-snap-type:x proximity}
+  .mancer-item-index button{flex:0 0 min(76vw,280px);scroll-snap-align:start}
+  .mancer-workbench-main{padding:12px}
+  .mancer-focus-head{align-items:center}
+  .mancer-code-meta,.mancer-task-inline,.mancer-review-decisions{grid-template-columns:1fr}
+  .mancer-code-workbench .mancer-code-editor textarea,.mancer-code-editor textarea{min-height:54dvh;font-size:16px}
+  .mancer-workbench-inspector{padding:12px}
+  .mancer-board-head{align-items:stretch;flex-direction:column}
+  .mancer-board-head button{width:100%}
+  .mancer-task-board{grid-template-columns:repeat(var(--mancer-board-columns,4),minmax(82vw,1fr));scroll-snap-type:x mandatory}
+  .mancer-task-column{scroll-snap-align:start}
+  .mancer-task-card :is(input,select,textarea){font-size:16px}
+  .mancer-test-summary{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .mancer-test-summary>.secondary{grid-column:1/-1;width:100%}
+  .mancer-test-card>header{align-items:flex-start}
+  .mancer-test-fields{grid-template-columns:1fr}
+  .mancer-review-grid,.mancer-release-layout{grid-template-columns:1fr}
+  .mancer-review-evidence{grid-template-columns:1fr 1fr}
+  .mancer-review-inspector{padding:12px}
+  .mancer-diff-view{max-height:46dvh}
+  .mancer-release-gates{grid-template-columns:1fr 1fr}
+  .mancer-release-layout>section{padding:12px}
+  .mancer-document-preview{padding:12px}
 }
 
 /* consolidated from 1 block */

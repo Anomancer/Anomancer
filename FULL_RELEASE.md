@@ -1,9 +1,11 @@
-# Anomancer · Full Release 1.18.2
+# Anomancer · Full Release 1.18.3
 
-Nykyinen koottu full release on **1.18.2 Native Dialog Consolidation**.
+Nykyinen koottu full release on **1.18.3 Codemancer Workbench**.
 
-Se säilyttää 1.18.1 Semantic Workbench Hardeningin, 1.18.0 Mancer Runtime + Codemancer -arkkitehtuurin sekä 1.17.x Archive Core / Nanomancer / Arkistonhoitaja -kerrokset.
+Se säilyttää koko 1.18.2 hardening-ketjun ja lisää Mancer Runtimeen geneerisen renderer-capability -rekisterin. Codemancerin Koodi-, Tehtävät-, Testit-, Tarkistus-, Julkaisu- ja Dokumentaatio-osiot ovat nyt tehtäväkohtaisia työpintoja geneerisen CRUD-lomakkeen sijaan.
 
-1.18.2 poistaa legacy-adminin selaimen natiivit alert/confirm/prompt-kutsut ja siirtää turvallisuuskriittiset ihmisen vahvistukset yhteiseen async overlay -järjestelmään. Fokus, inert, Escape, validointi ja fokuksen palautus ovat nyt yhden controllerin vastuulla.
+Core ei tunne Codemanceria nimeltä renderer-valinnassa. Package Spec ilmoittaa capabilityn, registry validoi sen ja runtime renderöi pinnan. Repository/Git/deploy-sivuvaikutuksia ei ole annettu tälle kerrokselle.
 
-Katso `NATIVE_DIALOG_CONSOLIDATION_1_18_2.md` ja `FULL_RELEASE_1_18_2.md`.
+Release-portti: `npm run build` **PASS**, `npm run check` **PASS**, Workbench static **8/8**, Workbench browser **9/9**, Visual System **8/8**.
+
+Katso `CODEMANCER_WORKBENCH_1_18_3.md`, `FULL_RELEASE_1_18_3.md` ja `FINAL_VALIDATION_1_18_3.md`.
