@@ -47,19 +47,26 @@ for(const [name,html] of [['FI home',fi],['EN home',en]]){
   assert.match(html,/aria-label="Anomancer"/);
 }
 console.log('✓ BRAND SYSTEM · Anomancer FI/EN käyttää pulssitonta hero-identiteettiä ja yhtenäistä footeria');
+assert.match(fi,/Minimalistinen viisaus hiottu kiveksi/);
+assert.doesNotMatch(fi,/Rakennan samalla omia järjestelmiä ja kokeiluja/);
+console.log('✓ BRAND SYSTEM · FI Home käyttää päivitettyä minimalistista intro-copya');
 
 const coreFi=read('site/pages/core.html'), coreEn=read('site/pages/core-en.html');
 for(const [name,html] of [['FI Core',coreFi],['EN Core',coreEn]]){
   assert.match(html,/\/media\/brand\/core-mark\.png/);
-  assert.match(html,/brand-wordmark-core/);
+  assert.match(html,/brand-wordmark-anomancer/);
+  assert.match(html,/\/media\/brand\/anomancer-wordmark\.png/);
+  assert.doesNotMatch(html,/brand-wordmark-core/);
   assert.match(html,/core-hero-wordmark/);
   assert.match(html,/anomancer-core-wordmark\.png/);
+  assert.doesNotMatch(html,/core-public-status/);
+  assert.doesNotMatch(html,/Agenttijärjestelmän rakennenäkymä|Agent-system architecture view/);
   assert.doesNotMatch(html,/core-brand-mark/);
   assert.doesNotMatch(html,/core-brand-signal/);
   assert.doesNotMatch(html,/transmission-pulse\.png/);
   assert.match(html,/footer-polished/);
 }
-console.log('✓ BRAND SYSTEM · Core FI/EN käyttää Anomancer Core -wordmarkia ilman hero-pulssia');
+console.log('✓ BRAND SYSTEM · Core FI/EN käyttää yhteistä Anomancer-headeria ja puhdasta Anomancer Core -heroa');
 
 const build=read('scripts/build-blog.mjs');
 assert.match(build,/\/media\/brand\/anomancer-mark\.png/);

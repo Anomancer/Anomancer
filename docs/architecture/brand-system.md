@@ -33,3 +33,7 @@ The existing stable PWA paths under `icons/lahetyskone-*.png` are retained, but 
 ## Phase 7.1 visual consolidation
 
 The pulse artwork is reserved for Lähetykset / Dispatches transmission identity. Public Home and Core hero surfaces use wordmarks without the pulse. Home, Core and generated publication headers share one size and spacing contract. Core keeps the standalone Core mark as favicon/PWA-adjacent artwork, not as the public hero identity.
+
+## Phase 7.2 header identity
+
+Public Home and Core use the same Anomancer wordmark in the shared site header. The Anomancer Core wordmark is reserved for the Core hero identity. Header navigation typography is governed by one explicit shared contract in `styles.css`.
