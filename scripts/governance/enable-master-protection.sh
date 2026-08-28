@@ -19,7 +19,7 @@ if [[ -z "$CURRENT_BRANCH" || "$CURRENT_BRANCH" == "$BRANCH" ]]; then
   exit 1
 fi
 
-PR_NUMBER="$(gh pr view --repo "$REPO" --json number,baseRefName,state,isDraft --jq 'select(.baseRefName=="master" and .state=="OPEN" and .isDraft==false) | .number' 2>/dev/null || true)"
+PR_NUMBER="$(gh pr list --repo "$REPO" --head "$CURRENT_BRANCH" --base "$BRANCH" --state open --json number,isDraft --jq '.[] | select(.isDraft==false) | .number' | head -n1)"
 if [[ -z "$PR_NUMBER" ]]; then
   echo "VIRHE: nykyiselle haaralle ei löytynyt avointa ei-draft PR:ää masteriin." >&2
   exit 1

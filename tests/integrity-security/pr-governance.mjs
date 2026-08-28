@@ -44,7 +44,9 @@ test('master protection activation is explicit, PR-bound and fail-closed',()=>{
   assert.match(enable,/ANOMANCER_PROTECTION_CONFIRM/);
   assert.match(enable,/Anomancer\/Anomancer/);
   assert.match(enable,/Release Gate/);
-  assert.match(enable,/gh pr view/);
+  assert.match(enable,/gh pr list/);
+  assert.ok(enable.includes('--head "$CURRENT_BRANCH"'));
+  assert.ok(enable.includes('--base "$BRANCH"'));
   assert.match(enable,/check-runs/);
   assert.match(enable,/"strict": true/);
   assert.match(enable,/"enforce_admins": true/);
