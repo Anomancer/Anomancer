@@ -1,4 +1,22 @@
-# Anomancer 1.18.3 · Codemancer Workbench
+# Anomancer 1.18.4 · P3 Capability Wiring & Operational Safety
+
+> **P3 · Repository, Git, tests, Vercel and rollback · 2026-08-28**
+> Codemancerin tallennettu artefakti voidaan nyt viedä turvallisen operation-ketjun läpi: sivuvaikutukseton plan → plan hashiin sidottu kirjallinen hyväksyntä → erillinen execute → operation-haara → testit → PR → yhdistetyn PR:n tarkka merge-SHA → production. PR:ää ei automergata, default-haaraa ei kirjoiteta suoraan eikä selain voi toimittaa komentomerkkijonoa.
+
+Keskeiset P3-muutokset:
+
+- seitsemän rajattua capabilitya: repository-write, testit, PR, preview, production sekä repository- ja deployment-rollback
+- työtilakohtainen, revision conflict -suojattu ja hash-ketjutettu operation-audit
+- 24 tunnissa vanheneva plan sekä erilliset plan-, approve-, execute- ja refresh-tapahtumat
+- palvelimen tallennetusta artefaktista johtamat tiedostot; polku-, koko-, duplikaatti- ja secret-guardit
+- vain uusi `anomancer/op-*`-haara; ei default-haaran ref-päivitystä eikä automergea
+- GitHub Actions -portti ajaa `npm run check` ennen Vercel prebuilt -previewta tai -productionia
+- production sidotaan yhdistetyn PR:n täsmälliseen merge-SHA:han ja GitHubin `production`-environmentiin
+- rollback vaatii oman kirjallisen hyväksynnän ja täsmällisen muuttumattoman haaran tai Vercel deployment -kohteen
+
+Asennus, ympäristömuuttujat ja hyväksyntävirta: `P3_CAPABILITY_WIRING_1_18_4.md`. Koottu julkaisu: `FULL_RELEASE_1_18_4.md`.
+
+## Edellinen julkaisu: 1.18.3 Codemancer Workbench
 
 > **Hotfix 2 · Core Flow & P2 Completion · 2026-08-28**
 > Korjaa julkisen Coren 9-vaiheisen orkesterin desktopilla 3×3-käärmeeksi, tabletilla kahden sarakkeen käärmeeksi ja puhelimella pystyaikajanaksi. Pitkät nimet rivittyvät turvallisesti ja nuolet seuraavat suoritusjärjestystä. Full-app admin story alkaa nyt oikeasta kirjautumisesta. Katso `CORE_FLOW_P2_COMPLETION_1_18_3_H2.md`.
@@ -22,6 +40,6 @@ Keskeiset muutokset:
 - kylmien URL-syvälinkkien lifecycle-korjaus
 - koko 1.18.2 P0/P1/P2-hardening säilyy alla
 
-1.18.3 ei vielä anna Codemancerille repository-write-, Git-, test runner- tai deploy-toimivaltaa. Workbench tekee työn ja päätösrajat näkyviksi ennen näiden capabilityjen turvallista liittämistä.
+1.18.3 ei vielä antanut Codemancerille repository-write-, Git-, test runner- tai deploy-toimivaltaa. P3 1.18.4 liittää nämä rajattuina, erikseen hyväksyttävinä operaatioina.
 
 Katso `CODEMANCER_WORKBENCH_1_18_3.md`, `FULL_RELEASE_1_18_3.md` ja `FINAL_VALIDATION_1_18_3.md`.

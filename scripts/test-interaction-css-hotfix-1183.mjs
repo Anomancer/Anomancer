@@ -33,7 +33,7 @@ await test('kapea Core-nav käyttää lyhyitä semanttisia label-varianteja ilma
 });
 
 await test('PWA shell käyttää network-firstia eikä vanhaa cache-first split-brainia',()=>{
-  assert.match(sw,/CACHE_NAME = 'anomancer-lahetyskone-v1\.18\.3-hotfix1'/);
+  assert.match(sw,/CACHE_NAME = 'anomancer-lahetyskone-v1\.18\.4-p3'/);
   assert.match(sw,/if \(!SHELL_URLS\.includes\(url\.pathname\)\) return;[\s\S]*?fetch\(request\)[\s\S]*?\.catch\(\(\) => caches\.match\(request\)\)/);
   assert.doesNotMatch(sw,/caches\.match\(request\)\.then\(cached => cached \|\| fetch\(request\)/);
 });
@@ -71,4 +71,4 @@ await test('content-safe installer rakentaa public-peilit ennen regressioporttia
   assert.ok(installPos >= 0 && buildPos > installPos && checkPos > buildPos, 'installer order must be npm install -> build -> check');
 });
 
-console.log(`\n${passed}/9 INTERACTION + CSS HOTFIX 1.18.3 checks passed.`);
+console.log(`\n${passed}/9 INTERACTION + CSS HOTFIX 1.18.4 checks passed.`);

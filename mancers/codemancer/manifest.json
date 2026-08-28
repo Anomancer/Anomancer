@@ -3,7 +3,7 @@
   "id": "codemancer",
   "templateId": "codemancer/development-workbench/1.0.0",
   "name": "Codemancer",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "kind": "development",
   "instancePolicy": "multiple",
   "description": "Yksityinen ohjelmistokehityksen capability-workbench arkkitehtuurille, koodille, tehtäville, testeille, katselmukselle ja julkaisulle.",
@@ -21,6 +21,13 @@
     "orchestra.custom",
     "runs.read",
     "archive.read",
-    "archive.write.approved"
+    "archive.write.approved",
+    "repository.write.approved",
+    "tests.run.approved",
+    "git.pull-request.approved",
+    "deploy.preview.approved",
+    "deploy.production.approved",
+    "repository.rollback.approved",
+    "deploy.rollback.approved"
   ]
 }

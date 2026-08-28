@@ -2,7 +2,7 @@
   "format": "anomancer-constitution/v1",
   "id": "codemancer/development-constitution/1.0.0",
   "name": "Codemancerin kehitysperustuslaki",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "purpose": "Ohjelmistotyö, jossa nykyinen lähdekoodi, testit, diff, provenance ja ihmisen lopullinen soveltamis- ja release-valta säilyvät.",
   "protectedProperties": [
     "source-integrity",
@@ -10,7 +10,10 @@
     "diff-visibility",
     "workspace-isolation",
     "human-apply-authority",
-    "human-release-authority"
+    "human-release-authority",
+    "immutable-operation-plan",
+    "append-only-audit-chain",
+    "rollback-target-integrity"
   ],
   "forbiddenTransformations": [
     "silent-source-overwrite",
@@ -19,7 +22,12 @@
     "cross-workspace-write",
     "agent-apply-without-review",
     "agent-release",
-    "implicit-publication-target"
+    "implicit-publication-target",
+    "direct-default-branch-write",
+    "automatic-pull-request-merge",
+    "arbitrary-shell-command",
+    "unapproved-workflow-dispatch",
+    "secret-material-in-operation-record"
   ],
   "truthPolicy": "Testitulos, diff ja ajokuitti ovat evidenssiä toteutuksen tilasta. Agentin kuvaus ei korvaa ajettua testiä tai tarkastettua diffiä.",
   "continuityPolicy": "Projektin arkkitehtuuri, tiedostot, tehtävät, testit, ajot, reviewt, releaset ja dokumentaatio pysyvät saman workspace-id:n alla.",
@@ -27,8 +35,13 @@
     "artifact.package.write",
     "tests.review",
     "diff.review",
+    "operation.plan",
+    "human.written-approval",
+    "operation.execute",
+    "ci.evidence",
     "human.apply",
-    "human.release"
+    "human.release",
+    "human.rollback"
   ],
-  "completionDefinition": "Muutos on tarkistettu diffistä, testitila on näkyvä, ihminen hyväksyy soveltamisen ja release syntyy vain nimenomaisesta hyväksynnästä."
+  "completionDefinition": "Muutos on tarkistettu diffistä, hyväksyntä on sidottu muuttumattomaan plan hashiin, testievidenssi on vihreä ja ihminen hyväksyy erikseen soveltamisen, julkaisun tai palautuksen."
 }

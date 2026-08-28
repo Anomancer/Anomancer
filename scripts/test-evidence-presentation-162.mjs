@@ -12,7 +12,7 @@ const body='Tutkimuksessa kasvu oli 27 prosenttia vuonna 2025. Vertailussa kasvu
 const sources=[{id:'s1',title:'Study',url,verification:'verified',origin:'human'}];
 const claims=[{status:'supported',text:'Kasvu oli 27 prosenttia vuonna 2025.',evidence:[url],note:''},{status:'supported',text:'Kasvu oli 18 prosenttia vuonna 2024.',evidence:[url],note:''}];
 const base={lang:'fi',title:'Testi',date:'2026-08-27',category:'info-media',audience:['all'],audienceDepth:'general',description:'Testi',slug:'testi',translationKey:'testi',aliases:[],coverImage:'',coverAlt:'',answer:'',sources,claims,pinned:false,draft:false,body};
-ok('Core version',()=>assert.equal(CORE_VERSION,'1.18.3'));
+ok('Core version',()=>assert.equal(CORE_VERSION,'1.18.4'));
 ok('package can propose citation placements but cannot write body',()=>{const c=getAgentContract('package');assert(c.authority.write.includes('citationPlacements'));assert(c.authority.deny.includes('body.write'));});
 ok('visualization agent is optional and fail-closed',()=>{const c=getAgentContract('visualization');assert(c);assert(c.authority.deny.includes('claims.write'));assert(!getOrchestra('editorial').stages.includes('visualization'));});
 ok('valid placement survives',()=>assert.equal(normalizeCitationPlacements([{claimText:claims[0].text,evidenceUrl:url,quote:'Tutkimuksessa kasvu oli 27 prosenttia vuonna 2025.',anchorText:'27 prosenttia'}],{sources,claims,body}).length,1));

@@ -582,7 +582,7 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
   .mancer-collection-head,.mancer-run-toolbar{align-items:stretch;flex-direction:column}
   .mancer-collection-head button,.mancer-run-toolbar button{width:100%}
 .mancer-undo{align-items:stretch;flex-direction:column}.mancer-undo button{width:100%}.workspace-tech-details summary{min-height:44px;display:flex;align-items:center}
-  /* 1.18.3 capability workbench mobile drilldown */
+  /* 1.18.4 capability workbench mobile drilldown */
   .mancer-workbench{grid-template-columns:minmax(0,1fr);gap:9px}
   .mancer-workbench-nav,.mancer-workbench-inspector,.mancer-document-preview,.mancer-review-inspector,.mancer-release-layout .mancer-workbench-inspector{position:static;top:auto;max-height:none}
   .mancer-workbench-nav>header{position:sticky;top:0;z-index:2;background:var(--panel)}
@@ -609,6 +609,15 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
   .mancer-release-gates{grid-template-columns:1fr 1fr}
   .mancer-release-layout>section{padding:12px}
   .mancer-document-preview{padding:12px}
+  .mancer-operation-console{padding:12px}
+  .operation-console-head{align-items:stretch;flex-direction:column}.operation-console-head button{width:100%}
+  .operation-runtime{grid-template-columns:1fr}
+  .operation-create{align-items:stretch;flex-direction:column}.operation-create button{width:100%}.operation-create p{flex-basis:auto}
+  .operation-card>header{align-items:stretch;flex-direction:column}.operation-card>header code{max-width:100%;white-space:normal;overflow-wrap:anywhere}
+  .operation-card>dl{display:grid;grid-template-columns:1fr}.operation-card>dl>div{justify-content:space-between}
+  .operation-actions{align-items:stretch;flex-direction:column}.operation-actions button{width:100%;min-height:44px}
+  .operation-files li{align-items:flex-start;flex-direction:column}.operation-files li span{white-space:normal}
+  .operation-audit li{grid-template-columns:1fr}.operation-audit li code{overflow-wrap:anywhere}
 }
 
 /* consolidated from 1 block */

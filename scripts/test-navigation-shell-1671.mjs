@@ -13,8 +13,8 @@ const worker=read('lahetyskone-sw.js');
 const installer=read('INSTALL_TO_CURRENT.sh');
 
 await test('Core ja paketti ovat 16.8.4 ja säilyttävät 16.7.1 Visual Hardeningin',()=>{
-  assert.equal(pkg.version,'1.18.3');
-  assert.equal(CORE_VERSION,'1.18.3');
+  assert.equal(pkg.version,'1.18.4');
+  assert.equal(CORE_VERSION,'1.18.4');
   assert.match(html,/Yksityinen työpöytä/);
 });
 
@@ -57,7 +57,7 @@ await test('Mobiilissa shell palaa yhteen sarakkeeseen eikä amputoi asetuksia',
 });
 
 await test('PWA-cache bustataan 16.8.4:een',()=>{
-  assert.match(worker,/v1\.18\.3-hotfix1/);
+  assert.match(worker,/v1\.18\.4-p3/);
 });
 
 await test('Content-safe installer säilyttää sisältö- ja julkaisurajat',()=>{

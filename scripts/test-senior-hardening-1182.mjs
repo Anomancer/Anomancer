@@ -68,4 +68,4 @@ await test('uudet välilehdet eivät saa opener-kahvaa',()=>{
   }
 });
 
-console.log(`\n${ok}/${ok} SENIOR HARDENING 1.18.3 -testiä läpi`);
+console.log(`\n${ok}/${ok} SENIOR HARDENING 1.18.4 -testiä läpi`);

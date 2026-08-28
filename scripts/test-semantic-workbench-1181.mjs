@@ -15,13 +15,13 @@ const ui=JSON.parse(fs.readFileSync('mancers/codemancer/ui-schema.json','utf8'))
 let passed=0;
 const test=(name,fn)=>{fn();passed++;console.log(`✓ ${name}`);};
 
-test('1.18.2 release metadata on yhtenäinen',()=>{assert.equal(pkg.version,'1.18.3');assert.equal(CORE_VERSION,'1.18.3');assert.match(html,/<dd>1\.18\.3<\/dd>/);assert.doesNotMatch(html,/MANCER REGISTRY \/ 1\.18\.0|ARKISTONHOITAJA 1\.17\.3|NANOMANCER 1\.17\.2|ARCHIVE CORE 1\.17\.1/);});
+test('1.18.2 release metadata on yhtenäinen',()=>{assert.equal(pkg.version,'1.18.4');assert.equal(CORE_VERSION,'1.18.4');assert.match(html,/<dd>1\.18\.4<\/dd>/);assert.doesNotMatch(html,/MANCER REGISTRY \/ 1\.18\.0|ARKISTONHOITAJA 1\.17\.3|NANOMANCER 1\.17\.2|ARCHIVE CORE 1\.17\.1/);});
 
 test('Romancer on näkyvä nimi, legacy Narramancer-id säilyy',()=>{const template=getWorkspaceTemplate('narramancer/story-studio/1.0.0');assert.equal(template.name,'Romancer');assert.match(html,/ROMANCER \/ YKSITYINEN TARINASTUDIO/);assert.doesNotMatch(html,/>Narramancer</);assert.match(coreFi,/Romancer/);});
 
 test('Codemancerin kone-id:t pysyvät, mutta näkyvät osiot ovat suomeksi',()=>{assert.deepEqual(ui.sections.map(x=>x.id),['project','architecture','code','tasks','tests','runs','review','release','documentation']);assert.deepEqual(ui.sections.map(x=>x.label),['Projekti','Arkkitehtuuri','Koodi','Tehtävät','Testit','Ajot','Tarkistus','Julkaisu','Dokumentaatio']);assert.deepEqual(ui.navigation.mobilePrimary.map(x=>x.label),['Projekti','Koodi','Testit','Tarkistus']);});
 
-test('Review ja julkaisu näyttävät toimivaltarajan ennen sivuvaikutusta',()=>{const review=ui.sections.find(x=>x.id==='review'),release=ui.sections.find(x=>x.id==='release');assert.match(review.notice,/ei sovella koodia/i);assert.match(release.notice,/ei vielä käynnistä julkaisua/i);assert.match(mancer,/mancer-section-notice/);});
+test('Review ja julkaisu näyttävät toimivaltarajan ennen sivuvaikutusta',()=>{const review=ui.sections.find(x=>x.id==='review'),release=ui.sections.find(x=>x.id==='release');assert.match(review.notice,/ei sovella koodia/i);assert.match(release.notice,/suunnitellaan, hyväksytään kirjallisesti ja suoritetaan erikseen/i);assert.match(mancer,/mancer-section-notice/);});
 
 test('Mancerin tekninen sopimusmetadata on oletuksena details-luukun takana',()=>{assert.match(mancer,/mancer-contract-details/);assert.match(mancer,/Sopimuksen tekniset tiedot/);assert.doesNotMatch(mancer,/Human final authority|Package contract/);});
 
@@ -33,4 +33,4 @@ test('Mancer-komponenttityyli kuuluu sekä tuotannon CSS-manifestiin että brows
 
 test('Kapealla puhelimella Core-brand väistyy päänavigaation tieltä myös konsolidoidussa media-blokissa',()=>{assert.match(responsive,/@media\(max-width:420px\)\{[\s\S]*?\.core-shell\{grid-template-columns:minmax\(0,1fr\) auto\}[\s\S]*?\.core-shell-brand\{display:none\}/);});
 
-console.log(`\n${passed}/${passed} SEMANTIC WORKBENCH 1.18.3 checks passed.`);
+console.log(`\n${passed}/${passed} SEMANTIC WORKBENCH 1.18.4 checks passed.`);

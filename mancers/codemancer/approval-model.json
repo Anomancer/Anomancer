@@ -9,6 +9,12 @@
       "requiresHuman": false
     },
     {
+      "id": "operation-plan",
+      "label": "Sivuvaikutukseton operation plan",
+      "requiresHuman": false,
+      "evidenceRequired": true
+    },
+    {
       "id": "tests",
       "label": "Testit",
       "requiresHuman": false,
@@ -25,9 +31,28 @@
       "requiresHuman": true
     },
     {
+      "id": "written-approval",
+      "label": "Plan hashiin sidottu kirjallinen hyväksyntä",
+      "requiresHuman": true,
+      "evidenceRequired": true
+    },
+    {
+      "id": "pull-request",
+      "label": "Pull request ja CI",
+      "requiresHuman": true,
+      "evidenceRequired": true
+    },
+    {
       "id": "release",
       "label": "Julkaisu",
-      "requiresHuman": true
+      "requiresHuman": true,
+      "evidenceRequired": true
+    },
+    {
+      "id": "rollback",
+      "label": "Eksplisiittinen palautus",
+      "requiresHuman": true,
+      "evidenceRequired": true
     }
   ]
 }

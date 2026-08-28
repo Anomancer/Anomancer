@@ -6,6 +6,7 @@ import runsHandler from '../../server/admin-routes/runs.js';
 import runtimeHandler from '../../server/admin-routes/runtime.js';
 import archiveHandler from '../../server/admin-routes/archive.js';
 import capabilitiesHandler from '../../server/admin-routes/capabilities.js';
+import operationsHandler from '../../server/admin-routes/operations.js';
 
 const ROUTES=new Map([
   ['core',coreHandler],
@@ -16,6 +17,7 @@ const ROUTES=new Map([
   ['runtime',runtimeHandler],
   ['archive',archiveHandler],
   ['capabilities',capabilitiesHandler],
+  ['operations',operationsHandler],
 ]);
 
 function resourceOf(req){

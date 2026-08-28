@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.18.4 — P3 Capability Wiring & Operational Safety
+
+- lisätty Codemancerin Operations-pinta sekä autentikoitu ja CSRF-suojattu `operations`-resurssi
+- lisätty seitsemän suljettua capabilitya: repository-write, test runner, pull request, preview, production sekä repository- ja deployment-rollback
+- erotettu jokaisessa sivuvaikutuksessa plan, plan hashiin sidottu kirjallinen hyväksyntä ja execute omiksi auditoiduiksi tapahtumikseen
+- lisätty työtilakohtainen memory/GitHub-tag Operation Store, optimistic revision -lukitus ja hash-ketjutettu audit trail
+- johdettu repository-tiedostot palvelimen tallennetusta Codemancer-artefaktista; selain ei voi syöttää execute-vaiheessa tiedostoja tai komentoa
+- estetty default-haaran suora kirjoitus: Git Data -adapteri luo vain uuden `anomancer/op-*`-haaran täsmällisestä base SHA:sta
+- estetty automerge ja avattu production vasta yhdistetyn PR:n, vihreän release-checkin ja ihmisen release-päätöksen jälkeen
+- sidottu production-deploy liikkuvan haaran sijaan täsmälliseen merge commit SHA:han
+- lisätty allowlistattu GitHub Actions -workflow: lukitut syötteet, täydet testit, Vercel pull/build/deploy `--prebuilt`, production environment ja eksplisiittinen rollback
+- lisätty tiedostopolku-, duplikaatti-, koko- ja secret-guardit sekä muuttuneen pohjahaaran, artefaktin ja rollback-haaran fail-closed-tarkistukset
+- lisätty P3:n backend- ja UI/CI-regressioportit
+
 ## 1.18.3 Hotfix 2 — Core Flow & P2 Completion
 
 - muutettu julkisen Coren 9-vaiheinen orkesteri desktopilla 3×3-käärmevirraksi

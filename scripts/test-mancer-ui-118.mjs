@@ -7,7 +7,7 @@ import {readAdminCss} from './read-admin-css.mjs';
 
 const CHROMIUM=[process.env.CHROMIUM_BIN,'/usr/bin/chromium','/usr/bin/chromium-browser','/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/brave-browser','/snap/bin/chromium'].filter(Boolean).find(p=>fs.existsSync(p));
 assert.ok(CHROMIUM,'Mancer UI tarvitsee Chromiumin.');
-const outDir=path.resolve('.visual-regression/1.18.3');fs.mkdirSync(outDir,{recursive:true});
+const outDir=path.resolve('.visual-regression/1.18.4');fs.mkdirSync(outDir,{recursive:true});
 const profile=fs.mkdtempSync(path.join(os.tmpdir(),'anomancer-mancer-ui-'));
 const chrome=spawn(CHROMIUM,['--headless=new','--no-sandbox','--disable-gpu','--hide-scrollbars','--allow-file-access-from-files','--remote-debugging-port=0',`--user-data-dir=${profile}`,'about:blank'],{stdio:['ignore','ignore','pipe']});
 let wsUrl='';
@@ -50,4 +50,4 @@ for(const [name,width,height] of [['desktop',1440,900],['phone-360',360,800]]){
   passed++;console.log(`✓ Mancer UI ${name} · ${width}×${height}`);
 }
 await send('Target.closeTarget',{targetId});ws.close();chrome.kill('SIGTERM');await new Promise(r=>setTimeout(r,300));fs.rmSync(profile,{recursive:true,force:true});
-console.log(`\n${passed}/${passed} MANCER UI 1.18.3 browser-porttia läpi`);
+console.log(`\n${passed}/${passed} MANCER UI 1.18.4 browser-porttia läpi`);
