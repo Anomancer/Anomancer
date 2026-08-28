@@ -1,4 +1,4 @@
-const CACHE_NAME = 'anomancer-lahetyskone-v1.18.3';
+const CACHE_NAME = 'anomancer-lahetyskone-v1.18.3-hotfix1';
 const APP_PATH = '/lahetyskone';
 const SHELL_URLS = [
   APP_PATH,
@@ -67,9 +67,11 @@ self.addEventListener('fetch', event => {
 
   if (!SHELL_URLS.includes(url.pathname)) return;
   event.respondWith(
-    caches.match(request).then(cached => cached || fetch(request).then(response => {
-      if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
-      return response;
-    }))
+    fetch(request)
+      .then(response => {
+        if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
+        return response;
+      })
+      .catch(() => caches.match(request))
   );
 });

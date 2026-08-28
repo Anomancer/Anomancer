@@ -56,7 +56,7 @@ content_fingerprint() {
 CONTENT_BEFORE="$(content_fingerprint "$TARGET_DIR")"
 CONTENT_COUNT_BEFORE="$(find "$TARGET_DIR/content" -type f -name '*.md' 2>/dev/null | wc -l | tr -d ' ')"
 
-echo "ANOMANCER 1.18.3 · CODEMANCER WORKBENCH · CONTENT-SAFE INSTALL"
+echo "ANOMANCER 1.18.3 HOTFIX 1 r1 · INTERACTION/CSS · CONTENT-SAFE INSTALL"
 echo "Lähde: $SOURCE_DIR"
 echo "Kohde: $TARGET_DIR"
 echo "Varmuuskopio: $TARGET_DIR/$BACKUP_REL"
@@ -97,12 +97,14 @@ PUBLIC_RUNTIME_ASSETS=(
   admin-shell.css
   admin-workspaces.js
   admin-mancer.js
+  admin-mancer.css
   admin-narramancer.js
   admin-archive.js
   admin-archive.css
   admin-nanomancer.js
   admin-responsive.css
   admin-feedback.js
+  lahetyskone-pwa.js
   lahetyskone-sw.js
 )
 mkdir -p "$TARGET_DIR/public"
@@ -113,6 +115,11 @@ for asset in "${PUBLIC_RUNTIME_ASSETS[@]}"; do
 done
 
 cd "$TARGET_DIR"
+# Installerin release-portti on tarkoituksella tässä järjestyksessä:
+# riippuvuudet -> public-peilien build/synkronointi -> regressiot.
+# Näin root/public strictEqual -vartijat eivät koskaan näe vanhaa deploy-peiliä.
+npm install
+npm run build
 npm run check
 
 CONTENT_AFTER="$(content_fingerprint "$TARGET_DIR")"
@@ -122,7 +129,7 @@ if [[ "$CONTENT_BEFORE" != "$CONTENT_AFTER" || "$CONTENT_COUNT_BEFORE" != "$CONT
   exit 1
 fi
 
-echo "✓ Anomancer 1.18.3 Codemancer Workbench asennettu ja tarkistettu."
+echo "✓ Anomancer 1.18.3 Hotfix 1 r1 asennettu, rakennettu ja tarkistettu."
 echo "✓ content/ säilyi identtisenä: $CONTENT_COUNT_AFTER Markdown-tiedostoa."
 echo "✓ Korvatut tiedostot ovat palautettavissa: $TARGET_DIR/$BACKUP_REL"
 if [[ -d .git ]]; then

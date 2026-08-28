@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.18.3 Hotfix 1 r1 — Installer mirror sync
+
+- Korjaa content-safe-installerin root/public-peilien järjestyksen: `npm install` → `npm run build` → `npm run check`.
+- Lisää `admin-mancer.css` ja `lahetyskone-pwa.js` eksplisiittiseen public runtime -allowlistiin.
+- Lisää regressioportti, joka estää installeria ajamasta strict mirror -testejä vanhaa public-puuta vasten.
+
+## 1.18.3 Hotfix 1 · Interaction & CSS Bug Sweep · 2026-08-28
+
+- korjattu Workbench-kontrollien harmaa native fallback laajentamalla control contract kaikkiin `data-mancer-path`-ohjaimiin
+- korjattu 360–420 px Core-navin label-leikkaus lyhyillä semanttisilla näyttölabel-varianteilla
+- vaihdettu PWA shell cache-first → network-first + cache fallback
+- lisätty `updateViaCache: none`, eksplisiittinen worker update ja dirty-safe `controllerchange`
+- lisätty 8/8 hotfix-portti ja oikeita CDP-pointer-tapahtumia käyttävä 13/13 full-admin Workbench-portti
+- koko `npm run check` PASS
+
+
 ## 1.18.3 · Codemancer Workbench · 2026-08-28
 
 - lisätty geneerinen Mancer renderer registry ilman Codemancer-nimikohtaista Core-haaraa

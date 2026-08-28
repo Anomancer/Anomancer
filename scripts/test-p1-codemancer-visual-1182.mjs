@@ -19,7 +19,7 @@ test('kaikki käytetyt design-tokenit on määritelty tai niillä on fallback',(
 
 test('Codemancer-kontrollit käyttävät yhteistä tummaa kontrollisopimusta',()=>{
   const css=read('admin-mancer.css');
-  assert.match(css,/\.mancer-form :is\(input,select,textarea\)/);
+  assert.match(css,/\.mancer-form :is\(input,select,textarea\)[\s\S]*?#mancerPanel :is\(input,select,textarea\)\[data-mancer-path\]/);
   for(const token of ['--tap-target','--color-border-input','--color-surface-input','--color-text-strong','--color-focus-border','--focus-ring']){
     assert.ok(css.includes(`var(${token})`),`${token} puuttuu Mancer-kontrolleista`);
   }
@@ -41,7 +41,7 @@ test('mobiilihierarkia pitää komentopalkin tiiviinä ja estää kontrollien au
   const css=read('admin-responsive.css');
   assert.match(css,/\.mancer-commandbar\{min-height:56px;align-items:center;flex-direction:row/);
   assert.match(css,/\.mancer-commandbar \.kicker,\.mancer-commandbar small,\.mancer-command-actions>span\{display:none\}/);
-  assert.match(css,/\.mancer-form :is\(input,select,textarea\)\{font-size:16px\}/);
+  assert.match(css,/\.mancer-form :is\(input,select,textarea\),#mancerPanel :is\(input,select,textarea\)\[data-mancer-path\]\{font-size:16px\}/);
   assert.match(css,/\.mancer-section-kind\{display:none\}/);
 });
 

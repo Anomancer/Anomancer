@@ -575,7 +575,7 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
   .mancer-section-notice{gap:3px;padding:10px 12px}
   .mancer-form{grid-template-columns:1fr}
   .mancer-form label:has(textarea){grid-column:auto}
-  .mancer-form :is(input,select,textarea){font-size:16px}
+  .mancer-form :is(input,select,textarea),#mancerPanel :is(input,select,textarea)[data-mancer-path]{font-size:16px}
   .mancer-contract-strip{grid-template-columns:1fr 1fr}
   .mancer-contract-details{padding:7px 11px}
   .mancer-runs{grid-template-columns:1fr}
@@ -648,6 +648,9 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
 .archive-metrics{grid-template-columns:1fr 1fr;gap:7px}.archive-metrics article{min-height:74px;padding:11px}.archive-view .core-surface-head{gap:14px}.archive-head-actions{width:100%}.archive-head-actions>*{flex:1 1 140px}.archive-object-card{min-height:132px;padding:13px}.archive-inspector{padding:13px}.archive-content-text,.archive-content-json{font-size:12px}.archive-object-dialog{width:calc(100vw - 12px)}
 .archive-curator{padding:13px}.archive-curator-metrics{grid-template-columns:1fr 1fr}.archive-curator-controls button{width:100%}
 .core-shell{grid-template-columns:minmax(0,1fr) auto}.core-shell-brand{display:none}.core-shell-nav{min-width:0}.core-shell-nav button{padding-inline:7px}.mancer-section-kind{align-self:flex-start}
+
+  .core-shell-nav button[data-short-label]{font-size:0;min-width:0;padding-inline:7px}
+  .core-shell-nav button[data-short-label]::after{content:attr(data-short-label);font-size:var(--font-size-meta)}
 }
 
 /* consolidated from 4 blocks */

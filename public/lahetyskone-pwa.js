@@ -56,8 +56,32 @@ window.addEventListener('offline', updateConnectionUi);
 window.matchMedia('(display-mode: standalone)').addEventListener?.('change', updateInstallUi);
 
 if ('serviceWorker' in navigator) {
+  const hadServiceWorkerController = Boolean(navigator.serviceWorker.controller);
+  let controllerReloaded = false;
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadServiceWorkerController || controllerReloaded) return;
+    const dirty = Boolean(
+      window.anomancerAdminBridge?.hasAnyUnsavedChanges?.() ||
+      window.anomancerNarramancer?.hasUnsavedChanges?.() ||
+      window.anomancerMancer?.hasUnsavedChanges?.()
+    );
+    if (dirty) {
+      window.anomancerFeedback?.show?.(
+        'Uusi sovellusversio on valmis. Tallenna työ ja päivitä sivu.',
+        { tone: 'warning', source: 'PWA', timeout: 0 }
+      );
+      return;
+    }
+    controllerReloaded = true;
+    window.location.reload();
+  });
+
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/lahetyskone-sw.js', { scope: '/lahetyskone' }).catch(() => null);
+    navigator.serviceWorker.register('/lahetyskone-sw.js', {
+      scope: '/lahetyskone',
+      updateViaCache: 'none'
+    }).then(registration => registration.update()).catch(() => null);
   });
 }
 

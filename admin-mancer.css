@@ -2,11 +2,11 @@
 
 /* Codemancer control contract: native semantics, Anomancer surfaces. */
 .mancer-work-body{display:grid;gap:14px;min-width:0}
-.mancer-form :is(input,select,textarea){width:100%;min-height:var(--tap-target);padding:11px 12px;border:1px solid var(--color-border-input);border-radius:var(--radius-sm);background:var(--color-surface-input);color:var(--color-text-strong);caret-color:var(--color-accent);outline:0;line-height:var(--line-height-ui);color-scheme:dark;accent-color:var(--color-accent)}
-.mancer-form :is(input,select,textarea):hover:not(:disabled){border-color:var(--color-border-control);background:var(--color-surface-subtle)}
-.mancer-form :is(input,select,textarea):focus-visible{border-color:var(--color-focus-border);outline:0;box-shadow:var(--focus-ring)}
-.mancer-form :is(input,textarea)::placeholder{color:var(--color-text-tertiary)}
-.mancer-form :is(input,select,textarea):disabled{cursor:not-allowed;opacity:.58}
+.mancer-form :is(input,select,textarea),#mancerPanel :is(input,select,textarea)[data-mancer-path]{width:100%;min-height:var(--tap-target);padding:11px 12px;border:1px solid var(--color-border-input);border-radius:var(--radius-sm);background:var(--color-surface-input);color:var(--color-text-strong);caret-color:var(--color-accent);outline:0;line-height:var(--line-height-ui);color-scheme:dark;accent-color:var(--color-accent)}
+.mancer-form :is(input,select,textarea):hover:not(:disabled),#mancerPanel :is(input,select,textarea)[data-mancer-path]:hover:not(:disabled){border-color:var(--color-border-control);background:var(--color-surface-subtle)}
+.mancer-form :is(input,select,textarea):focus-visible,#mancerPanel :is(input,select,textarea)[data-mancer-path]:focus-visible{border-color:var(--color-focus-border);outline:0;box-shadow:var(--focus-ring)}
+.mancer-form :is(input,textarea)::placeholder,#mancerPanel :is(input,textarea)[data-mancer-path]::placeholder{color:var(--color-text-tertiary)}
+.mancer-form :is(input,select,textarea):disabled,#mancerPanel :is(input,select,textarea)[data-mancer-path]:disabled{cursor:not-allowed;opacity:.58}
 .mancer-form textarea{resize:vertical}.mancer-monospace{font-family:var(--font-mono)}
 
 /* Semantic workbench hardening */

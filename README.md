@@ -1,5 +1,9 @@
 # Anomancer 1.18.3 · Codemancer Workbench
 
+> **Hotfix 1 · Interaction & CSS Bug Sweep · 2026-08-28**
+> Korjaa Workbench-kontrollien selector-sopimuksen, kapean Core-navin sekä PWA:n stale shell -split-brainin. Täysi regressioketju PASS. Katso `INTERACTION_CSS_HOTFIX_1_18_3_H1.md`.
+
+
 1.18.3 muuttaa Codemancerin geneerisestä schema-workbenchista tehtäväkohtaiseksi kehitystyöpöydäksi säilyttäen Mancer Runtime -periaatteen: Core ei hardkoodaa työtilan nimeä, vaan paketti ilmoittaa tarvitsemansa renderer-capabilityt.
 
 Keskeiset muutokset:

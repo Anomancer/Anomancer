@@ -39,7 +39,7 @@ await test('service worker ei hallitse julkista Corea tai API-vastauksia',()=>{
 });
 
 await test('PWA rekisteröidään vain Lähetyskoneen scopeen',()=>{
-  assert.match(pwa,/register\('\/lahetyskone-sw\.js', \{ scope: '\/lahetyskone' \}\)/);
+  assert.match(pwa,/register\('\/lahetyskone-sw\.js', \{[\s\S]*?scope: '\/lahetyskone',[\s\S]*?updateViaCache: 'none'[\s\S]*?\}\)/);
   assert.doesNotMatch(pwa,/localStorage|sessionStorage|indexedDB/);
 });
 

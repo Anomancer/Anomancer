@@ -57,7 +57,7 @@ await test('Mobiilissa shell palaa yhteen sarakkeeseen eikä amputoi asetuksia',
 });
 
 await test('PWA-cache bustataan 16.8.4:een',()=>{
-  assert.match(worker,/v1\.18\.3/);
+  assert.match(worker,/v1\.18\.3-hotfix1/);
 });
 
 await test('Content-safe installer säilyttää sisältö- ja julkaisurajat',()=>{
