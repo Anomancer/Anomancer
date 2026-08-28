@@ -49,5 +49,31 @@ for(const [name,width,height] of [['desktop',1440,900],['phone-360',360,800]]){
   fs.writeFileSync(path.join(outDir,`mancer-${name}.png`),Buffer.from(shot.data,'base64'));
   passed++;console.log(`✓ Mancer UI ${name} · ${width}×${height}`);
 }
-await send('Target.closeTarget',{targetId});ws.close();chrome.kill('SIGTERM');await new Promise(r=>setTimeout(r,300));fs.rmSync(profile,{recursive:true,force:true});
+await send('Target.closeTarget',{targetId});
+ws.close();
+
+async function waitForExit(proc,timeoutMs){
+  if(proc.exitCode!==null||proc.signalCode!==null)return true;
+  return new Promise(resolve=>{
+    const onExit=()=>{clearTimeout(timer);resolve(true);};
+    const timer=setTimeout(()=>{
+      proc.off('exit',onExit);
+      resolve(false);
+    },timeoutMs);
+    proc.once('exit',onExit);
+  });
+}
+
+chrome.kill('SIGTERM');
+if(!(await waitForExit(chrome,3000))){
+  chrome.kill('SIGKILL');
+  await waitForExit(chrome,2000);
+}
+
+fs.rmSync(profile,{
+  recursive:true,
+  force:true,
+  maxRetries:10,
+  retryDelay:100
+});
 console.log(`\n${passed}/${passed} MANCER UI 1.18.4 browser-porttia läpi`);
