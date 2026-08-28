@@ -1085,3 +1085,27 @@ body{overflow-x:hidden}h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}.skip-li
     letter-spacing:.11em;
   }
 }
+
+/* ==========================================================================
+   PHASE 7.3 · TRANSMISSION ACCENT
+   ========================================================================== */
+.transmission-shell .transmission-intro::after{
+  content:"";
+  display:block;
+  width:min(126px,28vw);
+  aspect-ratio:960 / 347;
+  margin:18px auto 0;
+  background:url('/media/brand/transmission-pulse.png') center / contain no-repeat;
+  opacity:.52;
+  filter:drop-shadow(0 0 9px rgba(255,0,46,.13));
+}
+.transmission-shell .transmission-brand-mark{
+  display:none!important;
+}
+@media(max-width:820px){
+  .transmission-shell .transmission-intro::after{
+    width:min(104px,32vw);
+    margin-top:14px;
+  }
+}
+

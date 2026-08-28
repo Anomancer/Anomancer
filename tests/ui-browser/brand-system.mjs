@@ -58,7 +58,8 @@ for(const [name,html] of [['FI Core',coreFi],['EN Core',coreEn]]){
   assert.match(html,/\/media\/brand\/anomancer-wordmark\.png/);
   assert.doesNotMatch(html,/brand-wordmark-core/);
   assert.match(html,/core-hero-wordmark/);
-  assert.match(html,/anomancer-core-wordmark\.png/);
+  assert.match(html,/core-hero-label">CORE</);
+  assert.doesNotMatch(html,/anomancer-core-wordmark\.png/);
   assert.doesNotMatch(html,/core-public-status/);
   assert.doesNotMatch(html,/Agenttijärjestelmän rakennenäkymä|Agent-system architecture view/);
   assert.doesNotMatch(html,/core-brand-mark/);
@@ -66,14 +67,14 @@ for(const [name,html] of [['FI Core',coreFi],['EN Core',coreEn]]){
   assert.doesNotMatch(html,/transmission-pulse\.png/);
   assert.match(html,/footer-polished/);
 }
-console.log('✓ BRAND SYSTEM · Core FI/EN käyttää yhteistä Anomancer-headeria ja puhdasta Anomancer Core -heroa');
+console.log('✓ BRAND SYSTEM · Core FI/EN käyttää Home-wordmarkia ja kompaktia CORE-labelia');
 
 const build=read('scripts/build-blog.mjs');
 assert.match(build,/\/media\/brand\/anomancer-mark\.png/);
 assert.match(build,/brand-wordmark-anomancer/);
-assert.match(build,/transmission-brand-mark/);
+assert.doesNotMatch(build,/transmission-brand-mark/);
 assert.match(build,/footer-brand/);
-console.log('✓ BRAND SYSTEM · generoitu Lähetykset/Dispatches/artikkeli UI perii yhteisen Anomancer-brandin');
+console.log('✓ BRAND SYSTEM · Lähetykset/Dispatches ei käytä suurta inline pulse-heroa');
 
 const admin=read('admin.html');
 assert.match(admin,/\/media\/brand\/anomancer-mark\.png/);
@@ -97,8 +98,10 @@ for(const file of assets){
 assert.match(read('public/index.html'),/hero-brand-wordmark/);
 assert.doesNotMatch(read('public/index.html'),/hero-signal-mark/);
 assert.match(read('public/core.html'),/core-hero-wordmark/);
+assert.match(read('public/core.html'),/core-hero-label">CORE</);
 assert.doesNotMatch(read('public/core.html'),/core-brand-signal/);
 assert.match(read('public/en/core.html'),/core-hero-wordmark/);
+assert.match(read('public/en/core.html'),/core-hero-label">CORE</);
 assert.doesNotMatch(read('public/en/core.html'),/core-brand-signal/);
 console.log('✓ BRAND SYSTEM · build stageaa brand-assettien ja FI/EN-sivujen public-outputin');
 

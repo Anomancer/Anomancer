@@ -1,5 +1,13 @@
 # Changelog
 
+## Phase 7.3 · Core hero and transmission tuning
+
+- Core hero now reuses the Home Anomancer wordmark with a compact CORE label below it.
+- Core hero scale, paragraph width and section text rhythm were tightened.
+- Lähetykset/Dispatches no longer use the large inline transmission pulse; pulse remains only as a small supporting accent.
+- Updated visual and public-boundary regression coverage.
+
+
 ## Phase 7.2 · Header and hero copy consolidation
 
 - Core public header now uses the same Anomancer wordmark as Home.

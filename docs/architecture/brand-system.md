@@ -37,3 +37,9 @@ The pulse artwork is reserved for Lähetykset / Dispatches transmission identity
 ## Phase 7.2 header identity
 
 Public Home and Core use the same Anomancer wordmark in the shared site header. The Anomancer Core wordmark is reserved for the Core hero identity. Header navigation typography is governed by one explicit shared contract in `styles.css`.
+
+## Phase 7.3 hero hierarchy
+
+Home and Core now share the same primary Anomancer hero wordmark. Core is distinguished by a compact textual **CORE** label below the mark instead of an oversized Core-specific wordmark.
+
+The transmission pulse is retained as a small supporting accent on Lähetykset/Dispatches rather than as a dominant inline hero image.
