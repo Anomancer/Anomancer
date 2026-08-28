@@ -1,45 +1,60 @@
-# Anomancer 1.18.5 · Live Path Verification & Canary Gate
+# Anomancer
 
-> **P3 · Repository, Git, tests, Vercel and rollback · 2026-08-28**
-> Codemancerin tallennettu artefakti voidaan nyt viedä turvallisen operation-ketjun läpi: sivuvaikutukseton plan → plan hashiin sidottu kirjallinen hyväksyntä → erillinen execute → operation-haara → testit → PR → yhdistetyn PR:n tarkka merge-SHA → production. PR:ää ei automergata, default-haaraa ei kirjoiteta suoraan eikä selain voi toimittaa komentomerkkijonoa.
+Anomancer is a private, workspace-based orchestration platform with a separate public publishing surface. It separates agent contracts, orchestras, model routing, tools, artifacts, memory/archive and side-effectful operations behind explicit policy and human-approval boundaries.
 
-Keskeiset P3-muutokset:
+Current release: **1.18.5 — Live Path Verification & Canary Gate**.
 
-- seitsemän rajattua capabilitya: repository-write, testit, PR, preview, production sekä repository- ja deployment-rollback
-- työtilakohtainen, revision conflict -suojattu ja hash-ketjutettu operation-audit
-- 24 tunnissa vanheneva plan sekä erilliset plan-, approve-, execute- ja refresh-tapahtumat
-- palvelimen tallennetusta artefaktista johtamat tiedostot; polku-, koko-, duplikaatti- ja secret-guardit
-- vain uusi `anomancer/op-*`-haara; ei default-haaran ref-päivitystä eikä automergea
-- GitHub Actions -portti ajaa `npm run check` ennen Vercel prebuilt -previewta tai -productionia
-- production sidotaan yhdistetyn PR:n täsmälliseen merge-SHA:han ja GitHubin `production`-environmentiin
-- rollback vaatii oman kirjallisen hyväksynnän ja täsmällisen muuttumattoman haaran tai Vercel deployment -kohteen
+## Architecture at a glance
 
-Live-canary, repository-lukko ja evidenssivirta: `LIVE_PATH_VERIFICATION_1_18_5.md`. Koottu julkaisu: `FULL_RELEASE_1_18_5.md`. P3:n alkuperäinen capability-sopimus säilyy dokumentissa `P3_CAPABILITY_WIRING_1_18_4.md`. Lopullinen paikallinen validointi: `FINAL_VALIDATION_1_18_5.md`.
+```text
+Core
+├── Workspaces
+│   ├── Anomancer editorial
+│   ├── Romancer narrative authoring
+│   ├── blank private workspace
+│   └── Mancer package workspaces
+├── Agent + Orchestra contracts
+├── Model Router + Tool Broker
+├── Runtime / Run / Archive stores
+├── Capability Registry
+└── bounded Operations
+    └── plan → written approval → execute → evidence
+```
 
-## Edellinen julkaisu: 1.18.3 Codemancer Workbench
+Codemancer is the current reference Mancer package. It proves that a domain workbench can declare its own Constitution, Artifact Boundary, UI schema, approval model, agent bindings and orchestras without the Core hardcoding the workspace name.
 
-> **Hotfix 2 · Core Flow & P2 Completion · 2026-08-28**
-> Korjaa julkisen Coren 9-vaiheisen orkesterin desktopilla 3×3-käärmeeksi, tabletilla kahden sarakkeen käärmeeksi ja puhelimella pystyaikajanaksi. Pitkät nimet rivittyvät turvallisesti ja nuolet seuraavat suoritusjärjestystä. Full-app admin story alkaa nyt oikeasta kirjautumisesta. Katso `CORE_FLOW_P2_COMPLETION_1_18_3_H2.md`.
+## Repository map
 
-> **Hotfix 1 · Interaction & CSS Bug Sweep · 2026-08-28**
-> Korjaa Workbench-kontrollien selector-sopimuksen, kapean Core-navin sekä PWA:n stale shell -split-brainin. Täysi regressioketju PASS. Katso `INTERACTION_CSS_HOTFIX_1_18_3_H1.md`.
+- `server/` — server-authoritative Core, stores, registries and domain services
+- `api/` — thin Vercel HTTP entry adapters
+- `mancers/` — package-defined domain workbenches
+- `content/` — editorial Markdown source
+- `media/` — source media
+- `scripts/` — build and development utilities
+- `tests/` — semantically grouped release-gate suites
+- `docs/` — canonical current architecture and release documentation
+- `public/` — generated Vercel static output; not source of truth
 
+See [`docs/README.md`](docs/README.md) and [`docs/development/repository-layout.md`](docs/development/repository-layout.md).
 
-1.18.3 muuttaa Codemancerin geneerisestä schema-workbenchista tehtäväkohtaiseksi kehitystyöpöydäksi säilyttäen Mancer Runtime -periaatteen: Core ei hardkoodaa työtilan nimeä, vaan paketti ilmoittaa tarvitsemansa renderer-capabilityt.
+## Build and validation
 
-Keskeiset muutokset:
+Requirements: Node.js 20+ and a Chromium-compatible browser for the browser release gates.
 
-- kahdeksan validoitua workbench-renderer-capabilitya
-- Koodi: tiedostoindeksi → editori → inspector
-- Tehtävät: task board
-- Testit: tulos- ja evidenssipinta
-- Tarkistus: diff + testit + ihmisen päätös
-- Julkaisu: eksplisiittiset gate-tilat ilman deploy-sivuvaikutusta
-- Dokumentaatio: editori + turvallinen live-preview
-- desktopin rinnakkainen workbench ja mobiilin yhden työpalstan reflow
-- kylmien URL-syvälinkkien lifecycle-korjaus
-- koko 1.18.2 P0/P1/P2-hardening säilyy alla
+```bash
+npm ci
+npm run build
+CHROMIUM_BIN=/usr/bin/chromium npm run check
+```
 
-1.18.3 ei vielä antanut Codemancerille repository-write-, Git-, test runner- tai deploy-toimivaltaa. P3 1.18.4 liitti nämä rajattuina, erikseen hyväksyttävinä operaatioina. 1.18.5 kovettaa niiden oikean live-canary-polun.
+`npm run check` also bootstraps the build, so generated deployment output does not need to be committed.
 
-Katso `CODEMANCER_WORKBENCH_1_18_3.md`, `FULL_RELEASE_1_18_3.md` ja `FINAL_VALIDATION_1_18_3.md`.
+## Safety model
+
+The platform deliberately keeps consequential effects separate from model output. Repository writes, tests, pull requests, preview/production deployment and rollback use bounded server-side capabilities with explicit planning, exact written approval and external evidence refresh. Direct default-branch writes and automerge are outside the Codemancer operation contract.
+
+The public Core is an explicit allowlist projection. Private prompts, outputs, workspace state, runtime profiles, provider configuration and operational history remain outside the public architecture snapshot.
+
+## Current release evidence
+
+See [`docs/releases/1.18.5/`](docs/releases/1.18.5/) for release, validation, live-path and canary material. The live GitHub/Vercel canary is a separate environment-specific gate from the local release validation.

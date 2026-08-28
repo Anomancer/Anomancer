@@ -12,3 +12,20 @@ IP_PRIVATE/
 .private-ip/
 
 .visual-regression/
+
+# Generated deployment/publication output (npm run build)
+/public/
+/lahetykset/
+/dispatches/
+/lahetykset.html
+/dispatches.html
+/rss.xml
+/rss-en.xml
+/sitemap.xml
+/robots.txt
+/content-manifest.json
+/evidence-manifest.json
+/discovery-manifest.json
+/core-public.json
+/release-provenance.json
+/llms.txt
