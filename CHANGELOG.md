@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.18.3 Hotfix 2 — Core Flow & P2 Completion
+
+- muutettu julkisen Coren 9-vaiheinen orkesteri desktopilla 3×3-käärmevirraksi
+- muutettu sama virta tabletilla kahden sarakkeen käärmeeksi ja säilytetty puhelimen pystyaikajana
+- sidottu oikea-, vasen- ja alas-nuolet DOMin suoritusjärjestykseen jokaisessa leveysluokassa
+- lisätty pitkille stage-nimille `min-width: 0` ja `overflow-wrap: anywhere`
+- kovetettu P2 full-app admin story alkamaan oikeasta login-formista ennen URL-työtilaa, muokkausta, tallennusta, revision conflictia ja työtilavaihtoa
+- lisätty Core-flow P2-regressioporttiin; kaikki 55 ei-selaimellista testi/build/domain/SEO-porttia läpäisevät
+- 9 Chromium-porttia säilyvät pakollisessa `npm run check` -ketjussa ja vaativat `CHROMIUM_BIN`-binäärin
+
 ## 1.18.3 Hotfix 1 r1 — Installer mirror sync
 
 - Korjaa content-safe-installerin root/public-peilien järjestyksen: `npm install` → `npm run build` → `npm run check`.

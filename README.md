@@ -1,5 +1,8 @@
 # Anomancer 1.18.3 · Codemancer Workbench
 
+> **Hotfix 2 · Core Flow & P2 Completion · 2026-08-28**
+> Korjaa julkisen Coren 9-vaiheisen orkesterin desktopilla 3×3-käärmeeksi, tabletilla kahden sarakkeen käärmeeksi ja puhelimella pystyaikajanaksi. Pitkät nimet rivittyvät turvallisesti ja nuolet seuraavat suoritusjärjestystä. Full-app admin story alkaa nyt oikeasta kirjautumisesta. Katso `CORE_FLOW_P2_COMPLETION_1_18_3_H2.md`.
+
 > **Hotfix 1 · Interaction & CSS Bug Sweep · 2026-08-28**
 > Korjaa Workbench-kontrollien selector-sopimuksen, kapean Core-navin sekä PWA:n stale shell -split-brainin. Täysi regressioketju PASS. Katso `INTERACTION_CSS_HOTFIX_1_18_3_H1.md`.
 
