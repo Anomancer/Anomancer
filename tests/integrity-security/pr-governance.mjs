@@ -49,6 +49,8 @@ test('master protection activation is explicit, PR-bound and fail-closed',()=>{
   assert.ok(enable.includes('--base "$BRANCH"'));
   assert.match(enable,/check-runs/);
   assert.match(enable,/"strict": true/);
+  assert.ok(enable.includes('"contexts": ["$REQUIRED_CHECK"]'));
+  assert.ok(!enable.includes('"checks": ['));
   assert.match(enable,/"enforce_admins": true/);
   assert.match(enable,/"required_pull_request_reviews": \{/);
   assert.match(enable,/"required_approving_review_count": 0/);

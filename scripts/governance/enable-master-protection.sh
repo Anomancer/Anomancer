@@ -49,13 +49,7 @@ gh api --method PUT \
 {
   "required_status_checks": {
     "strict": true,
-    "contexts": [],
-    "checks": [
-      {
-        "context": "$REQUIRED_CHECK",
-        "app_id": $CHECK_APP_ID
-      }
-    ]
+    "contexts": ["$REQUIRED_CHECK"]
   },
   "enforce_admins": true,
   "required_pull_request_reviews": {
