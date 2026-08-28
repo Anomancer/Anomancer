@@ -2,6 +2,9 @@ import { spawnSync } from 'node:child_process';
 
 const STEPS = [
   [
+    "tests/integrity-security/frontend-runtime-boundary.mjs"
+  ],
+  [
     "tests/operations-release/live-path-verification.mjs"
   ],
   [

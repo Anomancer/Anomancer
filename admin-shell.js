@@ -1,3 +1,4 @@
+import {runtime} from './admin-runtime.js';
 const q=s=>document.querySelector(s);
 const qa=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -27,18 +28,18 @@ const mobileSheet=q('#workspaceMobileSheet');
 
 if(corePanel&&machineHost){machineHost.appendChild(corePanel);corePanel.hidden=false;}
 
-function template(){return detail?.template||window.anomancerWorkspaces?.template?.()||null;}
-function workspace(){return detail?.workspace||window.anomancerWorkspaces?.current?.()||null;}
-function artifact(){return detail?.artifact||window.anomancerWorkspaces?.artifact?.()||null;}
-function constitution(){return detail?.constitution||window.anomancerWorkspaces?.constitution?.()||null;}
+function template(){return detail?.template||runtime.service('workspaces')?.template?.()||null;}
+function workspace(){return detail?.workspace||runtime.service('workspaces')?.current?.()||null;}
+function artifact(){return detail?.artifact||runtime.service('workspaces')?.artifact?.()||null;}
+function constitution(){return detail?.constitution||runtime.service('workspaces')?.constitution?.()||null;}
 function isNarrative(){return template()?.kind==='narrative-authoring';}
 function isMancer(){return template()?.mancerPackage?.format==='anomancer-mancer-package/v1';}
 function isBlank(){return template()?.kind==='blank-private';}
 function setDocumentTitle(surface='workspace'){
   const names={workspaces:'Työtilat',archive:'Arkisto',machine:'Konehuone',materials:'Aineisto & ulostulo'};
   if(names[surface]){document.title=`Anomancer Core · ${names[surface]}`;return;}
-  if(isNarrative()){window.anomancerNarramancer?.refreshDocumentTitle?.();return;}
-  if(isMancer()){window.anomancerMancer?.refreshDocumentTitle?.();return;}
+  if(isNarrative()){runtime.service('narramancer')?.refreshDocumentTitle?.();return;}
+  if(isMancer()){runtime.service('mancer')?.refreshDocumentTitle?.();return;}
   const name=isBlank()?(workspace()?.name||'Tyhjä työtila'):'Lähetyskone';
   document.title=`Anomancer Core · ${name}`;
 }
@@ -94,14 +95,14 @@ function showCoreView(name){
   document.body.dataset.shellSurface=name;
   setDocumentTitle(name);
   if(name==='materials')renderArtifactHome();
-  if(name==='archive')window.anomancerArchive?.activate?.();
+  if(name==='archive')runtime.service('archive')?.activate?.();
   renderMobileNavigation();
 }
 
-function navigationUrl(){const url=new URL(location.href),workspaceId=window.anomancerWorkspaces?.currentId?.()||workspace()?.id||'';if(workspaceId)url.searchParams.set('workspace',workspaceId);else url.searchParams.delete('workspace');url.searchParams.set('view',route);if(route==='workspace'){const section=activeLocalSection();if(section)url.searchParams.set('section',section);else url.searchParams.delete('section');}else url.searchParams.delete('section');return url;}
+function navigationUrl(){const url=new URL(location.href),workspaceId=runtime.service('workspaces')?.currentId?.()||workspace()?.id||'';if(workspaceId)url.searchParams.set('workspace',workspaceId);else url.searchParams.delete('workspace');url.searchParams.set('view',route);if(route==='workspace'){const section=activeLocalSection();if(section)url.searchParams.set('section',section);else url.searchParams.delete('section');}else url.searchParams.delete('section');return url;}
 function writeNavigationState(mode='push'){if(restoringHistory&&mode!=='replace')return false;const url=navigationUrl(),next=url.href,current=location.href;if(next===current)return false;history[mode==='replace'?'replaceState':'pushState']({workspace:url.searchParams.get('workspace'),view:route,section:url.searchParams.get('section')},'',next);return true;}
 function navigate(next='workspace',{history:historyMode='push'}={}){
-  window.anomancerOverlays?.close?.('workspace-sheet',{restore:false});
+  runtime.service('overlays')?.close?.('workspace-sheet',{restore:false});
   route=VALID_ROUTES.has(next)?next:'workspace';
   localStorage.setItem(ROUTE_KEY,route);setRouteButtons();
   if(route==='workspace')showWorkspace();else showCoreView(route);
@@ -117,7 +118,7 @@ function localSections(){
   if(!groups.length&&sections.length)groups=[{id:'main',label:'Työkalut',items:sections.map(s=>s.id)}];
   return groups.map(group=>({...group,sections:(group.items||[]).map(id=>sectionMap.get(id)).filter(Boolean)})).filter(group=>group.sections.length);
 }
-function activeLocalSection(){return route==='materials'?'materials':isNarrative()?window.anomancerNarramancer?.activeSection?.()||'project':isMancer()?window.anomancerMancer?.activeSection?.()||editorSections()[0]?.id||'project':editorialView;}
+function activeLocalSection(){return route==='materials'?'materials':isNarrative()?runtime.service('narramancer')?.activeSection?.()||'project':isMancer()?runtime.service('mancer')?.activeSection?.()||editorSections()[0]?.id||'project':editorialView;}
 
 function renderLocalNavigation(){
   const nav=q('#workspaceLocalNav');if(!nav)return;
@@ -131,20 +132,20 @@ function openLocalSection(id,{history:historyMode='push'}={}){
   try{
     if(isMancer()){
       navigate('workspace',{history:'none'});
-      window.anomancerMancer?.selectSection?.(id);
+      runtime.service('mancer')?.selectSection?.(id);
     }else if(isNarrative()){
       navigate('workspace',{history:'none'});
-      window.anomancerNarramancer?.selectSection?.(id);
+      runtime.service('narramancer')?.selectSection?.(id);
     }else if(id==='dispatches'){
-      navigate('workspace',{history:'none'});window.anomancerAdminBridge?.selectEditorView?.('write');window.anomancerAdminBridge?.openDispatchLibrary?.();editorialView='dispatches';
+      navigate('workspace',{history:'none'});runtime.service('admin')?.selectEditorView?.('write');runtime.service('admin')?.openDispatchLibrary?.();editorialView='dispatches';
     }else if(id==='orchestra'){
-      navigate('workspace',{history:'none'});window.anomancerAdminBridge?.openOrchestraRun?.();editorialView='orchestra';
+      navigate('workspace',{history:'none'});runtime.service('admin')?.openOrchestraRun?.();editorialView='orchestra';
     }else if(id==='publish'){
-      navigate('workspace',{history:'none'});window.anomancerAdminBridge?.openPublicationSettings?.();editorialView='publish';
+      navigate('workspace',{history:'none'});runtime.service('admin')?.openPublicationSettings?.();editorialView='publish';
     }else if(id==='materials'){
       navigate('materials',{history:'none'});
     }else{
-      navigate('workspace',{history:'none'});editorialView=id;window.anomancerAdminBridge?.selectEditorView?.(id);
+      navigate('workspace',{history:'none'});editorialView=id;runtime.service('admin')?.selectEditorView?.(id);
     }
     renderLocalNavigation();
     if(historyMode!=='none')writeNavigationState(historyMode);
@@ -171,7 +172,7 @@ function renderMobileSheet(){
     commands.innerHTML=`<button type="button" data-mobile-command="save"><strong>${saveLabel}</strong><small>Nykyinen työtila</small></button><button type="button" data-mobile-command="workspaces"><strong>Työtilat</strong><small>Vaihda kontekstia</small></button><button type="button" data-mobile-command="archive"><strong>Arkisto</strong><small>Hallittu muistikerros</small></button><button type="button" data-mobile-command="machine"><strong>Konehuone</strong><small>Globaali ohjaustaso</small></button><button type="button" data-mobile-command="settings"><strong>Asetukset</strong><small>Näkymä ja järjestelmä</small></button>`;
   }
   if(select){
-    const all=(window.anomancerWorkspaces?.getAll?.()||[]).filter(w=>w.status!=='archived');
+    const all=(runtime.service('workspaces')?.getAll?.()||[]).filter(w=>w.status!=='archived');
     select.innerHTML=all.map(w=>`<option value="${esc(w.id)}">${esc(w.name)}</option>`).join('');
     select.value=workspace()?.id||'';
   }
@@ -185,21 +186,21 @@ function renderMobileNavigation(){
   mobileDock.innerHTML=items.map(item=>{
     const target=item.target||'section',isActive=target==='section'&&item.id===active;
     return `<button type="button" data-mobile-${target==='command'?'command':'local'}="${esc(item.id)}" data-mobile-target="${esc(target)}" class="${isActive?'active':''}" aria-pressed="${isActive?'true':'false'}"><span aria-hidden="true">${esc(item.icon||'•')}</span><small>${esc(mobileItemLabel(item))}</small></button>`;
-  }).join('')+`<button type="button" data-mobile-command="more" id="mobileMoreBtn" aria-haspopup="dialog" aria-expanded="${window.anomancerOverlays?.active?.()==='workspace-sheet'?'true':'false'}"><span aria-hidden="true">•••</span><small>Lisää</small></button>`;
+  }).join('')+`<button type="button" data-mobile-command="more" id="mobileMoreBtn" aria-haspopup="dialog" aria-expanded="${runtime.service('overlays')?.active?.()==='workspace-sheet'?'true':'false'}"><span aria-hidden="true">•••</span><small>Lisää</small></button>`;
   renderMobileSheet();
 }
 function setMobileSheet(open,trigger=q('#mobileMoreBtn')){
   if(!mobileSheet)return false;
   renderMobileSheet();
-  const overlay=window.anomancerOverlays;
+  const overlay=runtime.service('overlays');
   if(overlay){return open?overlay.open('workspace-sheet',trigger):overlay.close('workspace-sheet');}
   if(open&&!mobileSheet.open)mobileSheet.showModal();else if(!open&&mobileSheet.open)mobileSheet.close();
   return true;
 }
 function runMobileCommand(command,trigger){
   if(command==='more'){setMobileSheet(true,trigger);return;}
-  if(command==='preview'){setMobileSheet(false);window.anomancerAdminBridge?.openPreview?.();return;}
-  if(command==='save'){setMobileSheet(false);if(isNarrative())window.anomancerNarramancer?.save?.();else if(isMancer())window.anomancerMancer?.save?.();else window.anomancerAdminBridge?.saveDraft?.();return;}
+  if(command==='preview'){setMobileSheet(false);runtime.service('admin')?.openPreview?.();return;}
+  if(command==='save'){setMobileSheet(false);if(isNarrative())runtime.service('narramancer')?.save?.();else if(isMancer())runtime.service('mancer')?.save?.();else runtime.service('admin')?.saveDraft?.();return;}
   if(command==='workspaces'){setMobileSheet(false);navigate('workspaces');return;}
   if(command==='archive'){setMobileSheet(false);navigate('archive');return;}
   if(command==='machine'){setMobileSheet(false);navigate('machine');return;}
@@ -225,14 +226,14 @@ function renderArtifactHome(){
 }
 
 function applyWorkspace(next){
-  detail=next||window.anomancerWorkspaces?.getDetail?.()||detail;
+  detail=next||runtime.service('workspaces')?.getDetail?.()||detail;
   renderLocalNavigation();renderArtifactHome();renderBlankWorkspace();renderMobileSheet();
   if(route==='workspace')showWorkspace();else if(route==='materials')showCoreView('materials');else renderMobileNavigation();
 }
 
-async function restoreNavigationFromUrl({replace=false}={}){const state=readNavigationState();restoringHistory=true;try{if(state.workspaceId&&window.anomancerWorkspaces?.currentId?.()!==state.workspaceId){const changed=await window.anomancerWorkspaces?.switchTo?.(state.workspaceId);if(!changed&&window.anomancerWorkspaces?.currentId?.()!==state.workspaceId){writeNavigationState('replace');return false;}detail=window.anomancerWorkspaces?.getDetail?.()||detail;}navigate(state.view||route,{history:'none'});const rendererPending=route==='workspace'&&state.section&&((isMancer()&&!window.anomancerMancer?.selectSection)||(isNarrative()&&!window.anomancerNarramancer?.selectSection));if(route==='workspace'&&state.section&&!rendererPending)openLocalSection(state.section,{history:'none'});if(replace&&!rendererPending)writeNavigationState('replace');return !rendererPending;}finally{restoringHistory=false;}}
+async function restoreNavigationFromUrl({replace=false}={}){const state=readNavigationState();restoringHistory=true;try{if(state.workspaceId&&runtime.service('workspaces')?.currentId?.()!==state.workspaceId){const changed=await runtime.service('workspaces')?.switchTo?.(state.workspaceId);if(!changed&&runtime.service('workspaces')?.currentId?.()!==state.workspaceId){writeNavigationState('replace');return false;}detail=runtime.service('workspaces')?.getDetail?.()||detail;}navigate(state.view||route,{history:'none'});const rendererPending=route==='workspace'&&state.section&&((isMancer()&&!runtime.service('mancer')?.selectSection)||(isNarrative()&&!runtime.service('narramancer')?.selectSection));if(route==='workspace'&&state.section&&!rendererPending)openLocalSection(state.section,{history:'none'});if(replace&&!rendererPending)writeNavigationState('replace');return !rendererPending;}finally{restoringHistory=false;}}
 
-window.anomancerOverlays?.register?.('workspace-sheet',{kind:'dialog',element:'#workspaceMobileSheet',bodyClass:'workspace-sheet-open',focusSelector:'#workspaceMobileSheetClose'});
+runtime.service('overlays')?.register?.('workspace-sheet',{kind:'dialog',element:'#workspaceMobileSheet',bodyClass:'workspace-sheet-open',focusSelector:'#workspaceMobileSheetClose'});
 
 q('#workspaceLocalNav')?.addEventListener('click',event=>{const button=event.target.closest?.('[data-local-section]');if(button)openLocalSection(button.dataset.localSection);});
 q('#coreShell')?.addEventListener('click',event=>{const target=event.target.closest?.('[data-shell-route]');if(!target)return;event.preventDefault();navigate(target.dataset.shellRoute);});
@@ -240,7 +241,7 @@ q('#coreSettingsButton')?.addEventListener('click',()=>settings?.showModal());
 q('#coreSettingsClose')?.addEventListener('click',()=>settings?.close());
 settings?.addEventListener('click',event=>{if(event.target===settings)settings.close();});
 q('#blankWorkspace')?.addEventListener('click',event=>{const action=event.target.closest?.('[data-blank-action]')?.dataset.blankAction;if(action)navigate(action);});
-q('#artifactHomeActions')?.addEventListener('click',event=>{const action=event.target.closest?.('[data-artifact-action]')?.dataset.artifactAction;if(action==='export'){navigate('workspace');window.anomancerNarramancer?.selectSection?.('export');}if(action==='workspace'||action==='machine'||action==='archive')navigate(action);if(action==='dispatches'){navigate('workspace');window.anomancerAdminBridge?.selectEditorView?.('write');window.anomancerAdminBridge?.openDispatchLibrary?.();editorialView='dispatches';renderLocalNavigation();}});
+q('#artifactHomeActions')?.addEventListener('click',event=>{const action=event.target.closest?.('[data-artifact-action]')?.dataset.artifactAction;if(action==='export'){navigate('workspace');runtime.service('narramancer')?.selectSection?.('export');}if(action==='workspace'||action==='machine'||action==='archive')navigate(action);if(action==='dispatches'){navigate('workspace');runtime.service('admin')?.selectEditorView?.('write');runtime.service('admin')?.openDispatchLibrary?.();editorialView='dispatches';renderLocalNavigation();}});
 mobileDock?.addEventListener('click',event=>{
   const local=event.target.closest?.('[data-mobile-local]');if(local){setMobileSheet(false);openLocalSection(local.dataset.mobileLocal);window.scrollTo({top:0,behavior:'smooth'});return;}
   const command=event.target.closest?.('[data-mobile-command]');if(command)runMobileCommand(command.dataset.mobileCommand,command);
@@ -251,21 +252,28 @@ q('#workspaceMobileSheetClose')?.addEventListener('click',()=>setMobileSheet(fal
 q('#mobileWorkspaceSelect')?.addEventListener('change',async event=>{
   const id=event.target.value,before=workspace()?.id||'';
   if(id===before){setMobileSheet(false);navigate('workspace');return;}
-  const changed=await window.anomancerWorkspaces?.switchTo?.(id);
+  const changed=await runtime.service('workspaces')?.switchTo?.(id);
   if(changed){setMobileSheet(false);navigate('workspace');}else renderMobileSheet();
 });
-window.addEventListener('anomancer:overlay-open',event=>{if(event.detail?.name==='workspace-sheet')q('#mobileMoreBtn')?.setAttribute('aria-expanded','true');});
-window.addEventListener('anomancer:overlay-close',event=>{if(event.detail?.name==='workspace-sheet')q('#mobileMoreBtn')?.setAttribute('aria-expanded','false');});
-window.addEventListener('anomancer:workspace-ready',async event=>{applyWorkspace(event.detail);if(!navigationBootstrapped){navigationBootstrapped=true;await restoreNavigationFromUrl({replace:true});}});
-window.addEventListener('anomancer:workspace-change',event=>applyWorkspace(event.detail));
-window.addEventListener('anomancer:narramancer-section-change',()=>{renderLocalNavigation();renderMobileNavigation();if(!sectionNavigation&&!restoringHistory)writeNavigationState('replace');});
-window.addEventListener('anomancer:mancer-section-change',()=>{renderLocalNavigation();renderMobileNavigation();if(!sectionNavigation&&!restoringHistory)writeNavigationState('replace');});
-window.addEventListener('anomancer:editor-view-change',event=>{editorialView=event.detail?.view||editorialView;renderLocalNavigation();renderMobileNavigation();if(!sectionNavigation&&!restoringHistory)writeNavigationState('replace');});
-window.addEventListener('anomancer:shell-route',event=>navigate(event.detail?.route));
+runtime.events.on('overlay-open',event=>{if(event.detail?.name==='workspace-sheet')q('#mobileMoreBtn')?.setAttribute('aria-expanded','true');});
+runtime.events.on('overlay-close',event=>{if(event.detail?.name==='workspace-sheet')q('#mobileMoreBtn')?.setAttribute('aria-expanded','false');});
+runtime.events.on('workspace-ready',async event=>{applyWorkspace(event.detail);if(!navigationBootstrapped){navigationBootstrapped=true;await restoreNavigationFromUrl({replace:true});}});
+runtime.events.on('workspace-change',event=>applyWorkspace(event.detail));
+runtime.events.on('narramancer-section-change',()=>{renderLocalNavigation();renderMobileNavigation();if(!sectionNavigation&&!restoringHistory)writeNavigationState('replace');});
+runtime.events.on('mancer-section-change',()=>{renderLocalNavigation();renderMobileNavigation();if(!sectionNavigation&&!restoringHistory)writeNavigationState('replace');});
+runtime.events.on('editor-view-change',event=>{editorialView=event.detail?.view||editorialView;renderLocalNavigation();renderMobileNavigation();if(!sectionNavigation&&!restoringHistory)writeNavigationState('replace');});
+runtime.events.on('shell-route',event=>navigate(event.detail?.route));
 window.addEventListener('popstate',()=>restoreNavigationFromUrl());
-window.addEventListener('anomancer:admin-ready',()=>{detail=window.anomancerWorkspaces?.getDetail?.()||detail;if(detail){applyWorkspace(detail);navigate(route,{history:'none'});}});
+runtime.events.on('admin-ready',()=>{detail=runtime.service('workspaces')?.getDetail?.()||detail;if(detail){applyWorkspace(detail);navigate(route,{history:'none'});}});
 
-window.anomancerShell={navigate,openLocalSection,restoreNavigationFromUrl,writeNavigationState,renderLocalNavigation,renderMobileNavigation,setMobileSheet,currentRoute:()=>route,renderArtifactHome,renderBlankWorkspace};
+runtime.events.on('runtime-service-ready',async event=>{
+  const name=event.detail?.name;if(name!=='mancer'&&name!=='narramancer')return;
+  const nav=readNavigationState();if(route!=='workspace'||!nav.section)return;
+  if((name==='mancer'&&!isMancer())||(name==='narramancer'&&!isNarrative()))return;
+  await restoreNavigationFromUrl({replace:true});
+});
+
+runtime.provide('shell',{navigate,openLocalSection,restoreNavigationFromUrl,writeNavigationState,renderLocalNavigation,renderMobileNavigation,setMobileSheet,currentRoute:()=>route,renderArtifactHome,renderBlankWorkspace});
 
 setRouteButtons();
-if(window.anomancerWorkspaces?.current?.()){detail=window.anomancerWorkspaces.getDetail?.();applyWorkspace(detail);navigate(route,{history:'none'});}
+if(runtime.service('workspaces')?.current?.()){detail=runtime.service('workspaces').getDetail?.();applyWorkspace(detail);navigate(route,{history:'none'});}

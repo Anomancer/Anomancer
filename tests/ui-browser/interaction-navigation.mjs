@@ -26,7 +26,8 @@ test('pitkien työpintojen palaute nousee yhteiseen saavutettavaan status center
   assert.match(html,/id="systemFeedbackCenter"[^>]+role="status"[^>]+aria-live="polite"/);
   assert.match(html,/admin-feedback\.js/);
   assert.match(feedback,/window\.anomancerFeedback/);
-  for(const file of ['admin.js','admin-mancer.js','admin-narramancer.js','admin-archive.js','admin-nanomancer.js'])assert.match(read(file),/anomancerFeedback\?\.report/);
+  assert.match(read('admin.js'),/runtime\.service\('feedback'\)\?\.report/);
+  for(const file of ['admin-mancer.js','admin-narramancer.js','admin-archive.js','admin-nanomancer.js'])assert.match(read(file),/anomancerFeedback\?\.report/);
 });
 
 test('Arkiston puhelinpolku on master → inspector → takaisin',()=>{

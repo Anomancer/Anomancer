@@ -85,7 +85,7 @@ await test('Selaintilan avaimet siirtyvät 16.8:aan jatkuvuusmigraatiolla',()=>{
 await test('Dokumentti-identiteetti erottaa Core-työpöydän työtiloista',()=>{
   assert.match(html,/<title>Anomancer Core · Työpöytä<\/title>/);
   assert.match(shell,/:'Lähetyskone'/);
-  assert.match(shell,/if\(isNarrative\(\)\)\{window\.anomancerNarramancer\?\.refreshDocumentTitle/);
+  assert.match(shell,/if\(isNarrative\(\)\)\{runtime\.service\('narramancer'\)\?\.refreshDocumentTitle/);
   assert.match(shell,/document\.title=`Anomancer Core · \$\{name\}`/);
   assert.match(html,/ANOMANCER CORE · YKSITYINEN/);
 });
