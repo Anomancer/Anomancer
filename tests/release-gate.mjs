@@ -86,6 +86,9 @@ const STEPS = [
     "tests/content-editorial/public-ui.mjs"
   ],
   [
+    "tests/ui-browser/brand-system.mjs"
+  ],
+  [
     "tests/public-api-boundary/public-core.mjs"
   ],
   [

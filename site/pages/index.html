@@ -94,7 +94,7 @@
 
 
 
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/media/brand/anomancer-mark.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -103,7 +103,7 @@
 <body>
   <a class="skip-link" href="#home">Siirry sisältöön</a>
   <header class="site-header">
-    <a class="brand" href="#home">Anomancer</a>
+    <a class="brand brand-image-link" href="#home" aria-label="Anomancer"><img class="brand-wordmark brand-wordmark-anomancer" src="/media/brand/anomancer-wordmark.png" width="1200" height="142" alt="" decoding="async" /></a>
     <button class="menu-toggle" type="button" aria-label="Avaa valikko" aria-controls="header-menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <div class="header-right" id="header-menu">
       <nav class="main-nav" aria-label="Päänavigaatio">
@@ -119,7 +119,9 @@
     <section class="hero" aria-labelledby="site-title">
       <div class="hero-inner">
         <p class="eyebrow">Aatu Isopahkala</p>
-        <h1 id="site-title">Anomancer</h1>
+        <img class="hero-brand-wordmark" src="/media/brand/anomancer-wordmark.png" width="1200" height="142" alt="" aria-hidden="true" decoding="async" />
+        <h1 id="site-title" class="visually-hidden">Anomancer</h1>
+        <img class="hero-signal-mark" src="/media/brand/transmission-pulse.png" width="960" height="347" alt="" aria-hidden="true" decoding="async" />
         <p class="tagline">Puran tekoälyä, agentteja, ohjelmistoja, kieltä ja muita monimutkaisia järjestelmiä osiin ja käännän niitä selkeälle suomen kielelle.</p>
         <p class="intro">Rakennan samalla omia järjestelmiä ja kokeiluja, joiden avulla yritän erottaa väitteen, tulkinnan, epävarmuuden ja oikean käyttöarvon toisistaan.</p>
         <a class="scroll-cue" href="#about">Kuka minä olen? ↓</a>
@@ -242,7 +244,7 @@
   </main>
 
   <footer class="footer">
-    <span>Anomancer · Tampere, Finland</span>
+    <span class="footer-brand"><img src="/media/brand/anomancer-wordmark.png" width="1200" height="142" alt="" aria-hidden="true" loading="lazy" decoding="async" /><small>Anomancer · Tampere, Finland</small></span>
     <div class="footer-links">
       <a href="mailto:alakhapositu@proton.me">alakhapositu@proton.me</a>
       <a href="https://www.instagram.com/kaikkeudenkasvot/" target="_blank" rel="me noopener noreferrer" aria-label="Instagram @kaikkeudenkasvot">Instagram · @kaikkeudenkasvot</a>

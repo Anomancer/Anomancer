@@ -1,5 +1,13 @@
 # Changelog
 
+## Phase 7 · Brand Integration
+
+- Added one canonical public brand asset boundary under `media/brand/` and preserved `public/` as generated output.
+- Wired Anomancer FI/EN, Core FI/EN, generated Dispatches/articles and private Core favicon surfaces to the new visual identity.
+- Regenerated the stable PWA icon paths from the new Anomancer application mark without changing the manifest route contract.
+- Added accessible wordmark/mark presentation rules and responsive brand sizing.
+- Added a brand-system regression gate; full release gate is now 73 steps.
+
 ## Phase 6 · Governance / PR CI
 
 - Added a read-only pull-request CI workflow with the stable required check context `Release Gate`.
