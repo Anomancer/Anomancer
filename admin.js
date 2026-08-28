@@ -82,7 +82,7 @@ function hasAnyUnsavedChanges(){return getDirtySources().length>0;}
 window.anomancerDirty={register:registerDirtySource,sources:getDirtySources,hasAny:hasAnyUnsavedChanges};
 registerDirtySource('dispatches','Lähetyskone',()=>state.dirty);
 let postsRequestId=0,postsController=null;
-function setStatus(text,type=''){els.status.textContent=text;els.status.className=`status ${type}`;}
+function setStatus(text,type=''){els.status.textContent=text;els.status.className=`status ${type}`;window.anomancerFeedback?.report?.(text,type,'Lähetyskone');}
 function formatEditorialIssues(error){const message=error?.message||'Tuntematon virhe.';const issues=Array.isArray(error?.data?.issues)?error.data.issues.filter(issue=>issue?.severity==='error'):[];if(error?.data?.error!=='EDITORIAL_QUALITY'||!issues.length)return message;const details=issues.map(issue=>`${issue.code||'EDITORIAL_QUALITY'}${issue.excerpt?` · osuma: “${String(issue.excerpt).slice(0,120)}”`:''}`).join('\n');return `${message}\n${details}`;}
 function formatEditorialWarnings(items=[]){const warnings=Array.isArray(items)?items.filter(issue=>issue?.severity==='warning'):[];if(!warnings.length)return '';return warnings.map(issue=>`⚠ ${issue.code||'EDITORIAL_WARNING'}${issue.excerpt?` · osuma: “${String(issue.excerpt).slice(0,120)}”`:''}`).join('\n');}
 function neutralizeSourceWorkflowLabels(text=''){return String(text).replace(/\b(?:lähde-ehdokas|kandidaattilähde)\b/giu,m=>/^[A-ZÅÄÖ]/u.test(m)?'Lähde':'lähde').replace(/\b(?:source candidate|candidate source)\b/giu,m=>/^[A-Z]/.test(m)?'Source':'source');}

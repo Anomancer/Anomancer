@@ -1,84 +1,253 @@
 /* Single responsive owner for private Core surfaces */
 /* admin.css · Base shell and legacy editor primitives */
-@media(max-width:1100px){.editor-grid{grid-template-columns:1fr}.preview-panel{position:relative;top:auto;max-height:none;border-left:0;border-top:1px solid var(--line)}.preview{max-height:70vh}.app{grid-template-columns:280px 1fr}}
+
 
 /* admin.css · Base shell and legacy editor primitives */
-@media(max-width:760px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto;max-height:340px;border-right:0;border-bottom:1px solid var(--line)}.topbar{top:0}.meta-grid{grid-template-columns:1fr}.meta-grid .wide{grid-column:auto}.form-panel{padding:16px}.topbar{padding:12px 16px}.editor-grid{min-height:auto}.preview-panel{max-height:none}.preview{max-height:70vh}}
+
 
 /* admin.css · Base shell and legacy editor primitives */
-@media(max-width:760px){.public-url-box{align-items:stretch;flex-direction:column}.public-open{text-align:center}.public-url-copy code{white-space:normal;overflow-wrap:anywhere}}
+
 
 /* admin.css · Media and cover controls */
-@media(max-width:760px){.cover-field-head{align-items:flex-start;flex-direction:column}.media-toolbar{align-items:stretch}.media-toolbar button{width:100%}}
+
 
 /* admin.css · Agent execution panel */
-@media(max-width:760px){.agent-desk-head{flex-direction:column}.agent-model-status{text-align:left}.agent-controls{grid-template-columns:1fr}.agent-actions button{flex:1 1 auto}}
+
 
 /* admin.css · Orchestrator recovery and checkpoints */
-@media(max-width:980px){.orchestra-stages{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
 
 /* admin.css · Orchestrator recovery and checkpoints */
-@media(max-width:760px){.orchestra-head{flex-direction:column}.orchestra-stages{grid-template-columns:repeat(2,minmax(0,1fr))}.orchestra-actions button{flex:1 1 auto}.orchestra-terminal{height:170px}}
+
 
 /* admin.css · Editorial views, source review and safety gates */
-@media(max-width:760px){.sidebar-toggle,.sidebar-close{display:inline-flex}.sidebar{position:fixed;z-index:30;inset:0 auto 0 0;width:min(88vw,340px);height:100vh;max-height:none;transform:translateX(-105%);transition:transform .2s ease;box-shadow:20px 0 70px #000}.sidebar.is-open{transform:translateX(0)}.actions{margin:20px -16px -16px;padding:12px 16px}.publish-summary dl div{grid-template-columns:1fr;gap:3px}.dialog-actions{flex-direction:column-reverse}.dialog-actions button{width:100%}}
+
 
 /* admin.css · Core foundation */
-@media(max-width:1100px){.core-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.core-stage-line{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
 
 /* admin.css · Core foundation */
-@media(max-width:760px){.core-hero,.core-section-head{flex-direction:column;align-items:flex-start}.core-section-head>span{text-align:left}.core-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.core-agent-grid{grid-template-columns:1fr}.core-stage-line{grid-template-columns:repeat(2,minmax(0,1fr))}.core-run-row{grid-template-columns:1fr}.core-run-row>div:last-child{flex-wrap:wrap}}
+
 
 /* admin.css · Agent runtime controls */
-@media(max-width:760px){.core-runtime-controls,.core-agent-contract-grid{grid-template-columns:1fr}.core-contract-hash{grid-column:auto}.core-agent-dialog-actions{align-items:stretch;flex-direction:column}.core-agent-dialog-actions>div{display:grid;grid-template-columns:1fr 1fr}.core-agent-dialog-actions button{width:100%}}
+
 
 /* admin.css · Tool broker and policy controls */
-@media(max-width:980px){.core-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
 
 /* admin.css · Tool broker and policy controls */
-@media(max-width:760px){.core-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.core-tool-policy-grid{grid-template-columns:1fr}.core-policy-log-head{align-items:flex-start;flex-direction:column}.core-policy-log article{grid-template-columns:1fr}.core-policy-log article>div:last-child{flex-wrap:wrap}}
+
 
 /* admin.css · Custom orchestra builder */
-@media(max-width:760px){.orchestra-select-row,.core-section-actions{align-items:stretch;flex-direction:column}.orchestra-select-row label{min-width:0}.orchestra-step{grid-template-columns:30px 64px 1fr}.core-orchestra-custom-card{grid-template-columns:1fr}.core-orchestra-custom-card>div:last-child{justify-content:flex-start}.core-orchestra-form-meta{grid-template-columns:1fr}.core-builder-agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 
 /* admin.css · Run explorer and usage metering */
-@media(max-width:900px){.core-usage-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.core-run-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.core-run-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.core-run-stage{grid-template-columns:36px 1fr}.core-run-stage-meta,.core-run-stage-flags{grid-column:2}.core-run-stage-flags{justify-content:flex-start}}
+
 
 /* admin.css · Run explorer and usage metering */
-@media(max-width:560px){.core-run-filters,.core-run-detail-grid{grid-template-columns:1fr}.core-usage-strip{grid-template-columns:1fr 1fr}.core-run-stage{grid-template-columns:32px 1fr}}
+
 
 /* admin.css · Workspace controls */
-@media(max-width:760px){.workspace-switcher{min-width:0;width:100%}.top-actions{flex-wrap:wrap}.core-workspace-card{grid-template-columns:1fr}.core-workspace-card>div:last-child{justify-content:flex-start}}
+
 
 /* admin.css · Editor semantics */
-@media(max-width:760px){.editor-tabs{top:66px}.top-actions{flex-wrap:wrap;justify-content:flex-end}.topbar{align-items:flex-start}.form-panel{padding:16px}.editor-tabs{margin-top:16px}}
+
 
 /* admin.css · Viewport containment */
+
+
+/* admin.css · Surgical UX pass: focus, drawers and adjustable panes */
+
+
+/* admin.css · Surgical UX pass: focus, drawers and adjustable panes */
+
+
+/* admin.css · Mobile command surface Phone UI is a purpose-built workspace, not a squeezed desktop shell. */
+
+
+/* admin.css · Mobile command surface Phone UI is a purpose-built workspace, not a squeezed desktop shell. */
+
+
+/* admin.css · LAHETYSKONE APP SPLIT */
+
+
+/* admin.css · LAHETYSKONE APP SPLIT */
+
+
+/* admin.css · Narramancer Vertical Slice */
+
+
+/* admin.css · Navigation Shell / Information Architecture Rebuild */
+
+
+/* admin.css · Navigation Shell / Information Architecture Rebuild */
+
+
+/* admin.css · Navigation Shell / Information Architecture Rebuild */
+
+
+/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
+
+
+/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
+
+
+/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
+
+
+/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
+
+
+/* admin.css · Core shell semantics and isolated workspace home */
+
+
+/* admin.css · Narramancer Authoring Maturity */
+
+
+/* admin.css · Narramancer Authoring Maturity */
+
+
+/* admin.css · Evidence Interaction */
+
+
+/* admin-control-plane.css · responsive orchestra flow */
+
+
+/* admin-control-plane.css · responsive orchestra flow */
+
+
+/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
+
+
+/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
+
+
+/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
+
+
+/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
+
+
+/* admin-control-plane.css · MOBILE CONTROL PLANE REFLOW */
+
+
+/* admin-control-plane.css · MOBILE CONTROL PLANE REFLOW */
+
+
+/* Interaction floors: release-wide pointer and keyboard target contract. */
+.app button,.login-shell button{min-width:var(--tap-target);min-height:var(--tap-target)}
+.app select,.login-shell input{min-height:var(--tap-target)}
+
+/* Compact mobile chrome: keep persistent top layers within the audited 100–112px target. */
+
+
+/* Archive Core 1.17.1 responsive contract */
+
+
+
+
+/* Nanomancer capability workbench responsive contract */
+
+
+
+
+
+
+/* 1.18.0 generic Mancer package workbench responsive ownership */
+
+
+
+/* 1.18.2 semantic workbench hardening */
+
+/* P2 Interaction & Navigation Hardening · canonical responsive cascade */
+
+/* consolidated from 1 block */
+@media(max-width:1220px){
+:root{--workspace-nav-width:210px}
+  .core-shell{grid-template-columns:minmax(200px,auto) minmax(0,1fr) auto;gap:12px;padding-inline:16px}
+  .core-shell-nav button{padding-inline:10px}
+  .workspace-context-bar{padding-inline:16px}
+  .workspace-switcher{min-width:170px}.workspace-switcher.orchestra-switcher{min-width:210px}
+  #coreMachineHost .core-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+/* consolidated from 3 blocks */
+@media(max-width:1100px){
+.editor-grid{grid-template-columns:1fr}.preview-panel{position:relative;top:auto;max-height:none;border-left:0;border-top:1px solid var(--line)}.preview{max-height:70vh}.app{grid-template-columns:280px 1fr}
+.core-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.core-stage-line{grid-template-columns:repeat(4,minmax(0,1fr))}
+.editor-grid{grid-template-columns:1fr}.editor-resizer{display:none}.preview-panel{display:flex}.editor-grid.preview-hidden .preview-panel{display:none}
+}
+
+/* consolidated from 5 blocks */
+@media(max-width:980px){
+.orchestra-stages{grid-template-columns:repeat(4,minmax(0,1fr))}
+.core-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
+:root{--workspace-nav-width:190px}.core-shell{grid-template-columns:minmax(180px,.7fr) minmax(340px,1.3fr) auto;gap:8px;padding-inline:12px}.core-shell-nav button{padding-inline:8px}.core-shell-status .connection-state{display:none}.workspace-context-actions .orchestra-switcher{display:none}
+:root{--workspace-nav-width:190px}
+  .core-shell{grid-template-columns:auto minmax(0,1fr) auto}
+  .core-shell-brand small{display:none}
+  .core-shell-nav{justify-self:stretch;overflow-x:auto;scrollbar-width:none}
+  .core-shell-nav::-webkit-scrollbar{display:none}
+  .core-shell-nav button{flex:0 0 auto}
+  .core-shell-status .connection-state{display:none}
+  .workspace-context-bar{grid-template-columns:minmax(240px,1fr) auto}
+  .workspace-context-actions .orchestra-switcher{display:none}
+  #coreMachineHost .core-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+.orchestra-stages[data-step-count="8"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(1){grid-column:1;grid-row:1}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(2){grid-column:2;grid-row:1}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(3){grid-column:2;grid-row:2}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(4){grid-column:1;grid-row:2}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(5){grid-column:1;grid-row:3}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(6){grid-column:2;grid-row:3}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(7){grid-column:2;grid-row:4}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(8){grid-column:1;grid-row:4}
+  .orchestra-stages[data-step-count="8"] .orchestra-step::after{content:"→";right:-20px;left:auto;top:50%;bottom:auto;transform:translateY(-50%)}
+  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(2)::after,.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(6)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}
+  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(3)::after,.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(7)::after{content:"←";right:auto;left:-20px;top:50%;bottom:auto;transform:translateY(-50%)}
+  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(4)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}
+  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(8)::after{display:none}
+}
+
+/* consolidated from 3 blocks */
+@media(max-width:900px){
+.core-usage-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.core-run-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.core-run-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.core-run-stage{grid-template-columns:36px 1fr}.core-run-stage-meta,.core-run-stage-flags{grid-column:2}.core-run-stage-flags{justify-content:flex-start}
+.archive-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.archive-toolbar{grid-template-columns:1fr 1fr}.archive-toolbar label:first-child{grid-column:1/-1}.archive-layout{grid-template-columns:minmax(250px,.82fr) minmax(0,1.18fr)}.archive-object-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.archive-object-meta>div:nth-child(n+3){border-top:1px solid var(--line)}.archive-object-meta>div:not(:nth-child(3n+1)){border-left:0}.archive-object-meta>div:nth-child(even){border-left:1px solid var(--line)}
+.archive-curator-controls{grid-template-columns:1fr 1fr}.archive-curator-controls label,.archive-curator-controls #archiveCuratorStatus{grid-column:1/-1}.archive-curator-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* consolidated from 1 block */
+@media(max-width:850px){
+body[data-workspace-template="narrative-authoring"] .topbar { grid-template-columns:1fr; }
+  body[data-workspace-template="narrative-authoring"] .top-actions { width:100%; flex-wrap:wrap; }
+  .narramancer-workspace { padding:10px; }
+  .narramancer-commandbar { align-items:flex-start; flex-direction:column; }
+  .narramancer-split { grid-template-columns:1fr; }
+  .narramancer-list { border-right:0; border-bottom:1px solid var(--line); padding:0 0 12px; max-height:240px; overflow:auto; }
+  .narramancer-form-grid,.narramancer-inline-fields,.narramancer-export { grid-template-columns:1fr; }
+  .narramancer-form-grid .narramancer-field:has(input) { grid-column:1/-1; }
+}
+
+/* consolidated from 29 blocks */
 @media(max-width:760px){
-  .topbar{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:10px}
+.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto;max-height:340px;border-right:0;border-bottom:1px solid var(--line)}.topbar{top:0}.meta-grid{grid-template-columns:1fr}.meta-grid .wide{grid-column:auto}.form-panel{padding:16px}.topbar{padding:12px 16px}.editor-grid{min-height:auto}.preview-panel{max-height:none}.preview{max-height:70vh}
+.public-url-box{align-items:stretch;flex-direction:column}.public-open{text-align:center}.public-url-copy code{white-space:normal;overflow-wrap:anywhere}
+.cover-field-head{align-items:flex-start;flex-direction:column}.media-toolbar{align-items:stretch}.media-toolbar button{width:100%}
+.agent-desk-head{flex-direction:column}.agent-model-status{text-align:left}.agent-controls{grid-template-columns:1fr}.agent-actions button{flex:1 1 auto}
+.orchestra-head{flex-direction:column}.orchestra-stages{grid-template-columns:repeat(2,minmax(0,1fr))}.orchestra-actions button{flex:1 1 auto}.orchestra-terminal{height:170px}
+.sidebar-toggle,.sidebar-close{display:inline-flex}.sidebar{position:fixed;z-index:30;inset:0 auto 0 0;width:min(88vw,340px);height:100vh;max-height:none;transform:translateX(-105%);transition:transform .2s ease;box-shadow:20px 0 70px #000}.sidebar.is-open{transform:translateX(0)}.actions{margin:20px -16px -16px;padding:12px 16px}.publish-summary dl div{grid-template-columns:1fr;gap:3px}.dialog-actions{flex-direction:column-reverse}.dialog-actions button{width:100%}
+.core-hero,.core-section-head{flex-direction:column;align-items:flex-start}.core-section-head>span{text-align:left}.core-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.core-agent-grid{grid-template-columns:1fr}.core-stage-line{grid-template-columns:repeat(2,minmax(0,1fr))}.core-run-row{grid-template-columns:1fr}.core-run-row>div:last-child{flex-wrap:wrap}
+.core-runtime-controls,.core-agent-contract-grid{grid-template-columns:1fr}.core-contract-hash{grid-column:auto}.core-agent-dialog-actions{align-items:stretch;flex-direction:column}.core-agent-dialog-actions>div{display:grid;grid-template-columns:1fr 1fr}.core-agent-dialog-actions button{width:100%}
+.core-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.core-tool-policy-grid{grid-template-columns:1fr}.core-policy-log-head{align-items:flex-start;flex-direction:column}.core-policy-log article{grid-template-columns:1fr}.core-policy-log article>div:last-child{flex-wrap:wrap}
+.orchestra-select-row,.core-section-actions{align-items:stretch;flex-direction:column}.orchestra-select-row label{min-width:0}.orchestra-step{grid-template-columns:30px 64px 1fr}.core-orchestra-custom-card{grid-template-columns:1fr}.core-orchestra-custom-card>div:last-child{justify-content:flex-start}.core-orchestra-form-meta{grid-template-columns:1fr}.core-builder-agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.workspace-switcher{min-width:0;width:100%}.top-actions{flex-wrap:wrap}.core-workspace-card{grid-template-columns:1fr}.core-workspace-card>div:last-child{justify-content:flex-start}
+.editor-tabs{top:66px}.top-actions{flex-wrap:wrap;justify-content:flex-end}.topbar{align-items:flex-start}.form-panel{padding:16px}.editor-tabs{margin-top:16px}
+.topbar{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:10px}
   .editor-title{min-width:0}
   .top-actions{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end;justify-content:stretch}
   .workspace-switcher{grid-column:1/-1;min-width:0;width:100%}
   .top-actions>a{align-self:center;overflow-wrap:anywhere}
   .top-actions>button{white-space:nowrap}
-}
-
-/* admin.css · Surgical UX pass: focus, drawers and adjustable panes */
-@media(max-width:1100px){.editor-grid{grid-template-columns:1fr}.editor-resizer{display:none}.preview-panel{display:flex}.editor-grid.preview-hidden .preview-panel{display:none}}
-
-/* admin.css · Surgical UX pass: focus, drawers and adjustable panes */
-@media(max-width:760px){
-  :root{--library-width:340px}
+:root{--library-width:340px}
   .sidebar{width:min(90vw,var(--library-width))}
   .layout-menu{justify-self:end}
   .layout-popover{position:fixed;top:auto;right:12px;bottom:12px;left:12px;width:auto;max-height:70dvh;overflow:auto}
   .advanced-grid{grid-template-columns:1fr}.advanced-grid>*{grid-column:1}
   .editor-disclosure>summary small,.desk-disclosure>summary small,.orchestra-options>summary small{display:none}
-}
-
-/* admin.css · Mobile command surface Phone UI is a purpose-built workspace, not a squeezed desktop shell. */
-@media(max-width:760px){
-  :root{--mobile-dock-h:62px;--mobile-safe-bottom:env(safe-area-inset-bottom,0px)}
+:root{--mobile-dock-h:62px;--mobile-safe-bottom:env(safe-area-inset-bottom,0px)}
   html{scroll-padding-bottom:calc(var(--mobile-dock-h) + 18px)}
   body{overflow-x:hidden}
   .app{padding-bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom))}
@@ -195,78 +364,12 @@
   dialog{width:calc(100vw - 16px);max-width:none;max-block-size:calc(100dvh - var(--mobile-dock-h) - 22px);margin:8px auto calc(var(--mobile-dock-h) + 8px);padding:14px;border-radius:14px}
   .publish-dialog .dialog-actions{display:grid;grid-template-columns:1fr;gap:8px}
   .publish-dialog .dialog-actions button{width:100%;min-height:46px}
-}
-
-/* admin.css · Mobile command surface Phone UI is a purpose-built workspace, not a squeezed desktop shell. */
-@media(max-width:390px){
-  .mobile-dock button>small{font-size:var(--font-size-meta)}
-  .form-panel{padding-inline:10px}
-  .agent-actions,.orchestra-actions{grid-template-columns:1fr}
-  .orchestra-actions .orchestra-run{grid-column:auto}
-  .core-metrics{grid-template-columns:1fr 1fr}
-}
-
-/* admin.css · LAHETYSKONE APP SPLIT */
-@media(display-mode:standalone){
-  .topbar{padding-top:max(12px,env(safe-area-inset-top))}
-  .login-shell{padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom))}
-}
-
-/* admin.css · LAHETYSKONE APP SPLIT */
-@media(max-width:760px){
-  .connection-state{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--color-glass-soft)}
+.connection-state{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--color-glass-soft)}
   .install-app-button{width:100%}
   .install-help-dialog{padding:18px;margin:auto}
-}
-
-/* admin.css · Narramancer Vertical Slice */
-@media (max-width: 850px){
-  body[data-workspace-template="narrative-authoring"] .topbar { grid-template-columns:1fr; }
-  body[data-workspace-template="narrative-authoring"] .top-actions { width:100%; flex-wrap:wrap; }
-  .narramancer-workspace { padding:10px; }
-  .narramancer-commandbar { align-items:flex-start; flex-direction:column; }
-  .narramancer-split { grid-template-columns:1fr; }
-  .narramancer-list { border-right:0; border-bottom:1px solid var(--line); padding:0 0 12px; max-height:240px; overflow:auto; }
-  .narramancer-form-grid,.narramancer-inline-fields,.narramancer-export { grid-template-columns:1fr; }
-  .narramancer-form-grid .narramancer-field:has(input) { grid-column:1/-1; }
-}
-
-/* admin.css · Navigation Shell / Information Architecture Rebuild */
-@media(max-width:980px){:root{--workspace-nav-width:190px}.core-shell{grid-template-columns:minmax(180px,.7fr) minmax(340px,1.3fr) auto;gap:8px;padding-inline:12px}.core-shell-nav button{padding-inline:8px}.core-shell-status .connection-state{display:none}.workspace-context-actions .orchestra-switcher{display:none}}
-
-/* admin.css · Navigation Shell / Information Architecture Rebuild */
-@media(max-width:760px){:root{--core-shell-height:58px;--workspace-bar-height:56px}.app{padding-bottom:calc(var(--mobile-dock-h,62px) + var(--mobile-safe-bottom,0px))}.core-shell{grid-template-columns:auto minmax(0,1fr) auto;min-height:var(--core-shell-height);padding:7px 9px;gap:6px}.core-shell-brand small{display:none}.core-shell-brand strong{font-size:var(--font-size-meta)}.core-shell-mark{width:32px;height:32px}.core-shell-nav{justify-content:flex-start;overflow-x:auto;scrollbar-width:none}.core-shell-nav::-webkit-scrollbar{display:none}.core-shell-nav button{flex:0 0 auto;padding:8px 8px;font-size:var(--font-size-meta)}.core-shell-nav button[data-shell-route="artifacts"]{display:none}.core-settings-button{width:36px;height:36px;padding:0;overflow:hidden;font-size:0}.core-settings-button::before{content:"⚙";font-size:1rem}.workspace-context-bar{top:var(--core-shell-height);min-height:var(--workspace-bar-height);padding:7px 10px}.editor-title small{display:none}.workspace-context-actions{display:none}.workspace-stage{display:block;min-height:0}.workspace-local-sidebar{position:sticky;top:calc(var(--core-shell-height) + var(--workspace-bar-height));z-index:45;height:auto;max-height:none;overflow-x:auto;overflow-y:hidden;padding:6px 8px;border-right:0;border-bottom:1px solid var(--line);background:rgba(8,8,13,.98)}.workspace-local-context{display:none}.workspace-local-nav{display:flex;gap:12px;min-width:max-content}.workspace-local-group{display:flex;align-items:center;gap:5px}.workspace-local-group>span{padding:0 4px;font-size:var(--font-size-meta)}.workspace-local-group button{width:auto;min-height:38px;padding:7px 9px}.workspace-local-group button.active{box-shadow:inset 0 -2px 0 var(--red)}.workspace-content{grid-column:auto}.core-surface{padding:14px 12px 90px;min-height:0}.core-surface-head{display:grid;gap:14px;padding-top:6px}.core-surface-head h1{font-size:1.45rem}.workspace-home-grid{grid-template-columns:1fr}.workspace-home-grid .workspace-home-card{min-height:0;padding:14px}.artifact-grid{grid-template-columns:1fr}.artifact-hero{align-items:flex-start;flex-direction:column}.settings-layout-grid{grid-template-columns:1fr}.core-settings-actions{display:grid;grid-template-columns:1fr}.core-settings-actions>*{width:100%;justify-content:center}.core-settings-actions .danger{margin-left:0}.narramancer-workspace{padding:8px 10px 90px}.narramancer-run-progress{align-items:flex-start;flex-direction:column}}
-
-/* admin.css · Navigation Shell / Information Architecture Rebuild */
-@media(max-width:760px){body:not([data-workspace-template="narrative-authoring"]) .workspace-local-sidebar{display:none}}
-
-/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
-@media(max-width:1220px){
-  :root{--workspace-nav-width:210px}
-  .core-shell{grid-template-columns:minmax(200px,auto) minmax(0,1fr) auto;gap:12px;padding-inline:16px}
-  .core-shell-nav button{padding-inline:10px}
-  .workspace-context-bar{padding-inline:16px}
-  .workspace-switcher{min-width:170px}.workspace-switcher.orchestra-switcher{min-width:210px}
-  #coreMachineHost .core-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
-}
-
-/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
-@media(max-width:980px){
-  :root{--workspace-nav-width:190px}
-  .core-shell{grid-template-columns:auto minmax(0,1fr) auto}
-  .core-shell-brand small{display:none}
-  .core-shell-nav{justify-self:stretch;overflow-x:auto;scrollbar-width:none}
-  .core-shell-nav::-webkit-scrollbar{display:none}
-  .core-shell-nav button{flex:0 0 auto}
-  .core-shell-status .connection-state{display:none}
-  .workspace-context-bar{grid-template-columns:minmax(240px,1fr) auto}
-  .workspace-context-actions .orchestra-switcher{display:none}
-  #coreMachineHost .core-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
-
-/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
-@media(max-width:760px){
-  :root{--core-shell-height:58px;--workspace-bar-height:58px}
+:root{--core-shell-height:58px;--workspace-bar-height:56px}.app{padding-bottom:calc(var(--mobile-dock-h,62px) + var(--mobile-safe-bottom,0px))}.core-shell{grid-template-columns:auto minmax(0,1fr) auto;min-height:var(--core-shell-height);padding:7px 9px;gap:6px}.core-shell-brand small{display:none}.core-shell-brand strong{font-size:var(--font-size-meta)}.core-shell-mark{width:32px;height:32px}.core-shell-nav{justify-content:flex-start;overflow-x:auto;scrollbar-width:none}.core-shell-nav::-webkit-scrollbar{display:none}.core-shell-nav button{flex:0 0 auto;padding:8px 8px;font-size:var(--font-size-meta)}.core-shell-nav button[data-shell-route="artifacts"]{display:none}.core-settings-button{width:36px;height:36px;padding:0;overflow:hidden;font-size:0}.core-settings-button::before{content:"⚙";font-size:1rem}.workspace-context-bar{top:var(--core-shell-height);min-height:var(--workspace-bar-height);padding:7px 10px}.editor-title small{display:none}.workspace-context-actions{display:none}.workspace-stage{display:block;min-height:0}.workspace-local-sidebar{position:sticky;top:calc(var(--core-shell-height) + var(--workspace-bar-height));z-index:45;height:auto;max-height:none;overflow-x:auto;overflow-y:hidden;padding:6px 8px;border-right:0;border-bottom:1px solid var(--line);background:rgba(8,8,13,.98)}.workspace-local-context{display:none}.workspace-local-nav{display:flex;gap:12px;min-width:max-content}.workspace-local-group{display:flex;align-items:center;gap:5px}.workspace-local-group>span{padding:0 4px;font-size:var(--font-size-meta)}.workspace-local-group button{width:auto;min-height:38px;padding:7px 9px}.workspace-local-group button.active{box-shadow:inset 0 -2px 0 var(--red)}.workspace-content{grid-column:auto}.core-surface{padding:14px 12px 90px;min-height:0}.core-surface-head{display:grid;gap:14px;padding-top:6px}.core-surface-head h1{font-size:1.45rem}.workspace-home-grid{grid-template-columns:1fr}.workspace-home-grid .workspace-home-card{min-height:0;padding:14px}.artifact-grid{grid-template-columns:1fr}.artifact-hero{align-items:flex-start;flex-direction:column}.settings-layout-grid{grid-template-columns:1fr}.core-settings-actions{display:grid;grid-template-columns:1fr}.core-settings-actions>*{width:100%;justify-content:center}.core-settings-actions .danger{margin-left:0}.narramancer-workspace{padding:8px 10px 90px}.narramancer-run-progress{align-items:flex-start;flex-direction:column}
+body:not([data-workspace-template="narrative-authoring"]) .workspace-local-sidebar{display:none}
+:root{--core-shell-height:58px;--workspace-bar-height:58px}
   .app{grid-template-columns:minmax(0,1fr);padding-bottom:calc(var(--mobile-dock-h,62px) + var(--mobile-safe-bottom,0px))}
   .core-shell{grid-column:1;grid-template-columns:auto minmax(0,1fr) auto;min-height:var(--core-shell-height);gap:6px;padding:7px 9px}
   .core-shell-brand{min-height:42px;gap:7px}.core-shell-brand strong{font-size:var(--font-size-meta)}.core-shell-mark{width:32px;height:32px}
@@ -287,28 +390,13 @@
   #coreMachineHost .core-section{padding:12px}
   .workspace-home-grid .workspace-home-card{padding:15px;min-height:0}
   .narramancer-workspace{padding:9px 10px 90px}
-}
-
-/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
-@media(max-width:390px){
-  .core-shell-brand .core-shell-mark{display:none}
-  .core-shell-nav button{padding-inline:7px}
-  #coreMachineHost .core-metrics{grid-template-columns:1fr 1fr}
-}
-
-/* admin.css · Core shell semantics and isolated workspace home */
-@media(max-width:760px){
-  body[data-workspace-template="blank-private"] .app{padding-bottom:0}
+body[data-workspace-template="blank-private"] .app{padding-bottom:0}
   .blank-workspace{min-height:0;padding:16px 12px 42px}
   .blank-workspace-hero{display:grid;gap:18px;padding:20px}
   .blank-workspace-grid{grid-template-columns:1fr}
   .blank-workspace-grid article{min-height:0;padding:17px}
   .blank-workspace-actions{display:grid;grid-template-columns:1fr}
-}
-
-/* admin.css · Narramancer Authoring Maturity */
-@media(max-width:760px){
-  :root{--mobile-dock-h:66px}
+:root{--mobile-dock-h:66px}
   html{scroll-padding-bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom,0px) + 16px)}
   .app{padding-bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom,0px))}
 
@@ -366,54 +454,8 @@
   .narramancer-diff-list article{grid-template-columns:minmax(0,1fr)}
   .narramancer-diff-list article>div p{font-size:var(--font-size-ui)}
   .narramancer-undo{position:sticky;bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom,0px));z-index:65}
-}
-
-/* admin.css · Narramancer Authoring Maturity */
-@media(max-width:390px){
-  .core-shell-nav button{padding-inline:6px}
-  .mobile-dock button>small{font-size:var(--font-size-meta)}
-  .narramancer-detail-actions{grid-template-columns:1fr 1fr}
-  .narramancer-detail-actions .danger{grid-column:1/-1}
-}
-
-/* admin.css · Evidence Interaction */
-@media(max-width:760px){.evidence-readiness{grid-template-columns:1fr}.evidence-section-head{align-items:flex-start}.evidence-section-head button{min-height:42px}.source-composer{grid-template-columns:1fr}.source-composer .wide{grid-column:auto}.source-composer button{width:100%;min-height:44px}.claim-card-head{align-items:flex-start;flex-direction:column}.claim-card-head select{width:100%;min-height:44px}.claim-source-option{min-height:44px}.evidence-workbench{padding:11px}}
-
-/* admin-control-plane.css · responsive orchestra flow */
-@media(max-width:980px){
-  .orchestra-stages[data-step-count="8"]{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(1){grid-column:1;grid-row:1}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(2){grid-column:2;grid-row:1}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(3){grid-column:2;grid-row:2}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(4){grid-column:1;grid-row:2}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(5){grid-column:1;grid-row:3}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(6){grid-column:2;grid-row:3}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(7){grid-column:2;grid-row:4}.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(8){grid-column:1;grid-row:4}
-  .orchestra-stages[data-step-count="8"] .orchestra-step::after{content:"→";right:-20px;left:auto;top:50%;bottom:auto;transform:translateY(-50%)}
-  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(2)::after,.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(6)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}
-  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(3)::after,.orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(7)::after{content:"←";right:auto;left:-20px;top:50%;bottom:auto;transform:translateY(-50%)}
-  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(4)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}
-  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(8)::after{display:none}
-}
-
-/* admin-control-plane.css · responsive orchestra flow */
-@media(max-width:600px){
-  .orchestra-stages,.orchestra-stages[data-step-count="8"]{position:relative;grid-template-columns:1fr;gap:12px;padding-left:28px}
-  .orchestra-stages[data-step-count="8"]::before{content:"";position:absolute;left:9px;top:18px;bottom:18px;width:1px;background:linear-gradient(180deg,rgba(113,125,240,.18),rgba(113,125,240,.62),rgba(113,125,240,.18));pointer-events:none}
-  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(n){grid-column:1;grid-row:auto}
-  .orchestra-stages[data-step-count="8"] .orchestra-step::before{content:"";position:absolute;left:-23px;top:18px;width:8px;height:8px;border:2px solid #06060b;border-radius:50%;background:#9aa5ff;box-shadow:0 0 0 1px rgba(113,125,240,.34)}
-  .orchestra-stages[data-step-count="8"] .orchestra-step::after{display:none}
-}
-
-/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
-@media(max-width:720px){.machine-room-head{display:grid}.machine-room-modes{justify-content:flex-start}.machine-room-stage{grid-template-columns:66px minmax(0,1fr);gap:9px}.machine-room-character{font-size:1.72rem}.machine-room-message strong{font-size:var(--font-size-meta)}.machine-room-log li{grid-template-columns:56px minmax(0,1fr)}}
-
-/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
-@media(max-width:460px){.machine-room-modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.machine-room-modes button{padding-inline:5px}.machine-room-stage{grid-template-columns:54px minmax(0,1fr);padding:9px}.machine-room-character{font-size:1.48rem}.machine-room-rule{font-size:var(--font-size-meta)}}
-
-/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
-@media(prefers-reduced-motion:reduce){.machine-room *{animation:none!important;transition:none!important}}
-
-/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
-@media(prefers-reduced-motion:reduce){html[data-machine-mode] #orchestraStages [data-stage][data-state="running"]::before{animation:none!important}}
-
-/* admin-control-plane.css · MOBILE CONTROL PLANE REFLOW */
-@media(max-width:760px){
-  /* The control-plane stylesheet is loaded after admin.css, so its mobile
+.evidence-readiness{grid-template-columns:1fr}.evidence-section-head{align-items:flex-start}.evidence-section-head button{min-height:42px}.source-composer{grid-template-columns:1fr}.source-composer .wide{grid-column:auto}.source-composer button{width:100%;min-height:44px}.claim-card-head{align-items:flex-start;flex-direction:column}.claim-card-head select{width:100%;min-height:44px}.claim-source-option{min-height:44px}.evidence-workbench{padding:11px}
+/* The control-plane stylesheet is loaded after admin.css, so its mobile
      rules must live here after the desktop component declarations. */
   html,body{max-width:100%;overflow-x:clip}
   body{width:100%;max-width:100dvw}
@@ -503,41 +545,21 @@
   .core-run-stage{grid-template-columns:32px minmax(0,1fr);gap:8px}
   .core-run-stage-meta,.core-run-stage-flags{grid-column:2}
   .core-run-stage-flags{justify-content:flex-start}
-}
-
-/* admin-control-plane.css · MOBILE CONTROL PLANE REFLOW */
-@media(max-width:420px){
-  .core-metrics span,.core-usage-strip span{letter-spacing:.045em}
-  .core-agent-dialog-actions>div{grid-template-columns:minmax(0,1fr)}
-  .core-builder-agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-
-/* Interaction floors: release-wide pointer and keyboard target contract. */
-.app button,.login-shell button{min-width:var(--tap-target);min-height:var(--tap-target)}
-.app select,.login-shell input{min-height:var(--tap-target)}
-
-/* Compact mobile chrome: keep persistent top layers within the audited 100–112px target. */
-@media(max-width:760px){
-  :root{--core-shell-height:56px;--workspace-bar-height:54px}
+:root{--core-shell-height:56px;--workspace-bar-height:54px}
   .core-shell{padding:5px 9px}
   .workspace-context-bar{padding:5px 10px}
-}
-
-/* Archive Core 1.17.1 responsive contract */
-@media(max-width:900px){.archive-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.archive-toolbar{grid-template-columns:1fr 1fr}.archive-toolbar label:first-child{grid-column:1/-1}.archive-layout{grid-template-columns:minmax(250px,.82fr) minmax(0,1.18fr)}.archive-object-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.archive-object-meta>div:nth-child(n+3){border-top:1px solid var(--line)}.archive-object-meta>div:not(:nth-child(3n+1)){border-left:0}.archive-object-meta>div:nth-child(even){border-left:1px solid var(--line)}}
-@media(max-width:760px){.archive-boundary-banner{align-items:flex-start;flex-direction:column;gap:5px}.archive-layout{grid-template-columns:1fr;min-height:0}.archive-browser{max-height:none}.archive-object-list{max-height:420px}.archive-inspector{padding:16px}.archive-inspector-head{flex-direction:column}.archive-object-meta{grid-template-columns:1fr}.archive-object-meta.archive-object-meta>div{border-left:0}.archive-object-meta>div+div{border-top:1px solid var(--line)}.archive-provenance-grid{grid-template-columns:1fr}.archive-grant-form{grid-template-columns:1fr}.archive-store-meta{align-items:flex-start;flex-direction:column;gap:4px}.archive-object-form{grid-template-columns:1fr;padding:14px}.archive-object-form .wide{grid-column:auto}.archive-provenance-fields{grid-template-columns:1fr}.archive-toolbar{grid-template-columns:1fr}.archive-toolbar label:first-child{grid-column:auto}}
-@media(max-width:420px){.archive-metrics{grid-template-columns:1fr 1fr;gap:7px}.archive-metrics article{min-height:74px;padding:11px}.archive-view .core-surface-head{gap:14px}.archive-head-actions{width:100%}.archive-head-actions>*{flex:1 1 140px}.archive-object-card{min-height:132px;padding:13px}.archive-inspector{padding:13px}.archive-content-text,.archive-content-json{font-size:12px}.archive-object-dialog{width:calc(100vw - 12px)}}
-
-/* Nanomancer capability workbench responsive contract */
-@media(max-width:760px){.nanomancer-lab{padding:14px;border-radius:14px}.nanomancer-head{display:grid}.nanomancer-source-grid{grid-template-columns:1fr}.nanomancer-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.nanomancer-actions{align-items:stretch}.nanomancer-actions button{min-height:44px}.nanomancer-change-table{display:block;overflow-x:auto;max-width:100%}}
-
-@media(max-width:900px){.archive-curator-controls{grid-template-columns:1fr 1fr}.archive-curator-controls label,.archive-curator-controls #archiveCuratorStatus{grid-column:1/-1}.archive-curator-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){.archive-curator-head{display:grid}.archive-curator-readonly{justify-self:start}.archive-curator-controls{grid-template-columns:1fr}.archive-curator-controls label,.archive-curator-controls #archiveCuratorStatus{grid-column:auto}.archive-curator-summary{grid-template-columns:1fr}.archive-health-score{min-height:96px}.archive-curator-proposal{grid-template-columns:1fr}.archive-curator-proposal p,.archive-curator-proposal small{grid-column:1}}
-@media(max-width:420px){.archive-curator{padding:13px}.archive-curator-metrics{grid-template-columns:1fr 1fr}.archive-curator-controls button{width:100%}}
-
-/* 1.18.0 generic Mancer package workbench responsive ownership */
-@media(max-width:760px){
-  .mancer-workspace{padding:10px 10px 88px}
+.archive-boundary-banner{align-items:flex-start;flex-direction:column;gap:5px}.archive-layout{grid-template-columns:1fr;min-height:0}.archive-browser{max-height:none}.archive-object-list{max-height:420px}.archive-inspector{padding:16px}.archive-inspector-head{flex-direction:column}.archive-object-meta{grid-template-columns:1fr}.archive-object-meta.archive-object-meta>div{border-left:0}.archive-object-meta>div+div{border-top:1px solid var(--line)}.archive-provenance-grid{grid-template-columns:1fr}.archive-grant-form{grid-template-columns:1fr}.archive-store-meta{align-items:flex-start;flex-direction:column;gap:4px}.archive-object-form{grid-template-columns:1fr;padding:14px}.archive-object-form .wide{grid-column:auto}.archive-provenance-fields{grid-template-columns:1fr}.archive-toolbar{grid-template-columns:1fr}.archive-toolbar label:first-child{grid-column:auto}
+.archive-layout{display:block;min-height:0}
+  .archive-layout[data-mobile-view="browser"] .archive-inspector{display:none}
+  .archive-layout[data-mobile-view="inspector"] .archive-browser{display:none}
+  .archive-layout[data-mobile-view="inspector"] .archive-inspector{display:block;min-height:0}
+  .archive-object-list{max-height:none;overflow:visible}
+  .archive-mobile-back{display:inline-flex;align-items:center;min-height:44px;margin:0 0 12px}
+  .archive-inspector{padding:14px;scroll-margin-top:128px}
+.system-feedback-center{top:auto;right:10px;bottom:calc(var(--mobile-dock-h,66px) + var(--mobile-safe-bottom,0px) + 10px);left:10px;width:auto}
+.nanomancer-lab{padding:14px;border-radius:14px}.nanomancer-head{display:grid}.nanomancer-source-grid{grid-template-columns:1fr}.nanomancer-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.nanomancer-actions{align-items:stretch}.nanomancer-actions button{min-height:44px}.nanomancer-change-table{display:block;overflow-x:auto;max-width:100%}
+.archive-curator-head{display:grid}.archive-curator-readonly{justify-self:start}.archive-curator-controls{grid-template-columns:1fr}.archive-curator-controls label,.archive-curator-controls #archiveCuratorStatus{grid-column:auto}.archive-curator-summary{grid-template-columns:1fr}.archive-health-score{min-height:96px}.archive-curator-proposal{grid-template-columns:1fr}.archive-curator-proposal p,.archive-curator-proposal small{grid-column:1}
+.mancer-workspace{padding:10px 10px 88px}
   .mancer-commandbar{min-height:56px;align-items:center;flex-direction:row;gap:10px;margin-bottom:10px;padding:9px 11px}
   .mancer-commandbar>div:first-child{min-width:0}
   .mancer-commandbar .kicker,.mancer-commandbar small,.mancer-command-actions>span{display:none}
@@ -559,10 +581,73 @@
   .mancer-runs{grid-template-columns:1fr}
   .mancer-collection-head,.mancer-run-toolbar{align-items:stretch;flex-direction:column}
   .mancer-collection-head button,.mancer-run-toolbar button{width:100%}
+.mancer-undo{align-items:stretch;flex-direction:column}.mancer-undo button{width:100%}.workspace-tech-details summary{min-height:44px;display:flex;align-items:center}
 }
-@media(max-width:390px){.mancer-contract-strip{grid-template-columns:1fr}}
 
-/* 1.18.2 semantic workbench hardening */
-@media(max-width:760px){.mancer-undo{align-items:stretch;flex-direction:column}.mancer-undo button{width:100%}.workspace-tech-details summary{min-height:44px;display:flex;align-items:center}}
-@media(max-width:420px){.core-shell{grid-template-columns:minmax(0,1fr) auto}.core-shell-brand{display:none}.core-shell-nav{min-width:0}.core-shell-nav button{padding-inline:7px}.mancer-section-kind{align-self:flex-start}}
-@media(max-width:520px){.core-system-dialog{width:calc(100vw - 16px);max-height:calc(100dvh - 16px)}.core-system-dialog-head,.core-system-dialog-body{padding-left:15px;padding-right:15px}.core-system-dialog-actions{padding:12px 15px 15px}.core-system-dialog-actions button{min-height:44px;flex:1}}
+/* consolidated from 1 block */
+@media(max-width:720px){
+.machine-room-head{display:grid}.machine-room-modes{justify-content:flex-start}.machine-room-stage{grid-template-columns:66px minmax(0,1fr);gap:9px}.machine-room-character{font-size:1.72rem}.machine-room-message strong{font-size:var(--font-size-meta)}.machine-room-log li{grid-template-columns:56px minmax(0,1fr)}
+}
+
+/* consolidated from 1 block */
+@media(max-width:600px){
+.orchestra-stages,.orchestra-stages[data-step-count="8"]{position:relative;grid-template-columns:1fr;gap:12px;padding-left:28px}
+  .orchestra-stages[data-step-count="8"]::before{content:"";position:absolute;left:9px;top:18px;bottom:18px;width:1px;background:linear-gradient(180deg,rgba(113,125,240,.18),rgba(113,125,240,.62),rgba(113,125,240,.18));pointer-events:none}
+  .orchestra-stages[data-step-count="8"] .orchestra-step:nth-child(n){grid-column:1;grid-row:auto}
+  .orchestra-stages[data-step-count="8"] .orchestra-step::before{content:"";position:absolute;left:-23px;top:18px;width:8px;height:8px;border:2px solid #06060b;border-radius:50%;background:#9aa5ff;box-shadow:0 0 0 1px rgba(113,125,240,.34)}
+  .orchestra-stages[data-step-count="8"] .orchestra-step::after{display:none}
+}
+
+/* consolidated from 1 block */
+@media(max-width:560px){
+.core-run-filters,.core-run-detail-grid{grid-template-columns:1fr}.core-usage-strip{grid-template-columns:1fr 1fr}.core-run-stage{grid-template-columns:32px 1fr}
+}
+
+/* consolidated from 1 block */
+@media(max-width:520px){
+.core-system-dialog{width:calc(100vw - 16px);max-height:calc(100dvh - 16px)}.core-system-dialog-head,.core-system-dialog-body{padding-left:15px;padding-right:15px}.core-system-dialog-actions{padding:12px 15px 15px}.core-system-dialog-actions button{min-height:44px;flex:1}
+}
+
+/* consolidated from 1 block */
+@media(max-width:460px){
+.machine-room-modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.machine-room-modes button{padding-inline:5px}.machine-room-stage{grid-template-columns:54px minmax(0,1fr);padding:9px}.machine-room-character{font-size:1.48rem}.machine-room-rule{font-size:var(--font-size-meta)}
+}
+
+/* consolidated from 4 blocks */
+@media(max-width:420px){
+.core-metrics span,.core-usage-strip span{letter-spacing:.045em}
+  .core-agent-dialog-actions>div{grid-template-columns:minmax(0,1fr)}
+  .core-builder-agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.archive-metrics{grid-template-columns:1fr 1fr;gap:7px}.archive-metrics article{min-height:74px;padding:11px}.archive-view .core-surface-head{gap:14px}.archive-head-actions{width:100%}.archive-head-actions>*{flex:1 1 140px}.archive-object-card{min-height:132px;padding:13px}.archive-inspector{padding:13px}.archive-content-text,.archive-content-json{font-size:12px}.archive-object-dialog{width:calc(100vw - 12px)}
+.archive-curator{padding:13px}.archive-curator-metrics{grid-template-columns:1fr 1fr}.archive-curator-controls button{width:100%}
+.core-shell{grid-template-columns:minmax(0,1fr) auto}.core-shell-brand{display:none}.core-shell-nav{min-width:0}.core-shell-nav button{padding-inline:7px}.mancer-section-kind{align-self:flex-start}
+}
+
+/* consolidated from 4 blocks */
+@media(max-width:390px){
+.mobile-dock button>small{font-size:var(--font-size-meta)}
+  .form-panel{padding-inline:10px}
+  .agent-actions,.orchestra-actions{grid-template-columns:1fr}
+  .orchestra-actions .orchestra-run{grid-column:auto}
+  .core-metrics{grid-template-columns:1fr 1fr}
+.core-shell-brand .core-shell-mark{display:none}
+  .core-shell-nav button{padding-inline:7px}
+  #coreMachineHost .core-metrics{grid-template-columns:1fr 1fr}
+.core-shell-nav button{padding-inline:6px}
+  .mobile-dock button>small{font-size:var(--font-size-meta)}
+  .narramancer-detail-actions{grid-template-columns:1fr 1fr}
+  .narramancer-detail-actions .danger{grid-column:1/-1}
+.mancer-contract-strip{grid-template-columns:1fr}
+}
+
+/* consolidated from 1 block */
+@media(display-mode:standalone){
+.topbar{padding-top:max(12px,env(safe-area-inset-top))}
+  .login-shell{padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom))}
+}
+
+/* consolidated from 2 blocks */
+@media(prefers-reduced-motion:reduce){
+.machine-room *{animation:none!important;transition:none!important}
+html[data-machine-mode] #orchestraStages [data-stage][data-state="running"]::before{animation:none!important}
+}

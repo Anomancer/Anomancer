@@ -18,7 +18,7 @@ function section(){return sections().find(x=>x.id===active)||sections()[0]||null
 function getPath(obj,path=''){return String(path).split('.').filter(Boolean).reduce((v,k)=>v&&typeof v==='object'?v[k]:undefined,obj);}
 function setPath(obj,path='',value){const parts=String(path).split('.').filter(Boolean);if(!parts.length)return;let cur=obj;for(const k of parts.slice(0,-1)){if(!cur[k]||typeof cur[k]!=='object'||Array.isArray(cur[k]))cur[k]={};cur=cur[k];}cur[parts.at(-1)]=value;}
 function uid(prefix='item'){return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,7)}`;}
-function status(text,tone=''){const el=q('#mancerStatus');if(el){el.textContent=text;el.dataset.tone=tone;}}
+function status(text,tone=''){const el=q('#mancerStatus');if(el){el.textContent=text;el.dataset.tone=tone;}window.anomancerFeedback?.report?.(text,tone,'Mancer');}
 function dirty(){return project!==null&&JSON.stringify(project)!==baseline;}
 function renderSaveState(){const changed=dirty(),btn=q('#mancerSave'),dirtyEl=q('#mancerDirty'),globalSave=q('#workspaceSaveIndicator');if(btn){btn.textContent=changed?'Tallenna':'Tallennettu';btn.disabled=!changed||loading;}if(dirtyEl){dirtyEl.textContent=changed?'TALLENTAMATON':'TALLENNETTU';dirtyEl.dataset.dirty=changed?'true':'false';}if(globalSave&&isMancer()){globalSave.textContent=loading?'LADATAAN':changed?'TALLENTAMATON':'TALLENNETTU';globalSave.dataset.dirty=changed?'true':'false';}refreshDocumentTitle();}
 function fieldInput(field,value,path,index=null){const attrs=`data-mancer-path="${esc(path)}"${index!==null?` data-mancer-index="${index}"`:''}`;const mono=field.monospace?' mancer-monospace':'';if(field.type==='textarea')return`<textarea ${attrs} class="${mono.trim()}" rows="${Number(field.rows)||6}" maxlength="${Number(field.maxLength)||200000}">${esc(value||'')}</textarea>`;if(field.type==='select')return`<select ${attrs}>${(field.options||[]).map(o=>`<option value="${esc(o.value)}"${String(value??'')===String(o.value)?' selected':''}>${esc(o.label||o.value)}</option>`).join('')}</select>`;return`<input ${attrs} class="${mono.trim()}" type="text" value="${esc(value||'')}" maxlength="${Number(field.maxLength)||200000}">`;}
@@ -53,3 +53,4 @@ window.addEventListener('anomancer:workspace-change',e=>applyWorkspace(e.detail)
 window.addEventListener('anomancer:admin-ready',()=>applyWorkspace());
 window.anomancerDirty?.register?.('mancer','Mancer-työtila',dirty);
 window.anomancerMancer={isActive:isMancer,selectSection,activeSection:()=>active,save,hasUnsavedChanges:dirty,refreshDocumentTitle,load:loadArtifact,getData:()=>project?JSON.parse(JSON.stringify(project)):null};
+if(window.anomancerWorkspaces?.current?.())applyWorkspace(window.anomancerWorkspaces.getDetail?.());

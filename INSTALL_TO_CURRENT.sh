@@ -56,7 +56,7 @@ content_fingerprint() {
 CONTENT_BEFORE="$(content_fingerprint "$TARGET_DIR")"
 CONTENT_COUNT_BEFORE="$(find "$TARGET_DIR/content" -type f -name '*.md' 2>/dev/null | wc -l | tr -d ' ')"
 
-echo "ANOMANCER 1.18.2 · NATIVE DIALOG CONSOLIDATION · CONTENT-SAFE INSTALL"
+echo "ANOMANCER 1.18.2 · P2 INTERACTION & NAVIGATION HARDENING · CONTENT-SAFE INSTALL"
 echo "Lähde: $SOURCE_DIR"
 echo "Kohde: $TARGET_DIR"
 echo "Varmuuskopio: $TARGET_DIR/$BACKUP_REL"
@@ -87,6 +87,31 @@ rsync -a --itemize-changes --backup --backup-dir="$BACKUP_REL" "${DELETE_ARGS[@]
   --exclude='llms.txt' \
   "$SOURCE_DIR/" "$TARGET_DIR/"
 
+# public/ sisältää sekä generoituja sisältöartefakteja että sovelluksen staattisia
+# runtime-tiedostoja. Sisältöpuoli jätetään koskematta, mutta P2:n muuttuneet
+# admin/PWA-runtime-peilit synkronoidaan eksplisiittisellä allowlistillä.
+PUBLIC_RUNTIME_ASSETS=(
+  admin.html
+  admin.js
+  admin-shell.js
+  admin-shell.css
+  admin-workspaces.js
+  admin-mancer.js
+  admin-narramancer.js
+  admin-archive.js
+  admin-archive.css
+  admin-nanomancer.js
+  admin-responsive.css
+  admin-feedback.js
+  lahetyskone-sw.js
+)
+mkdir -p "$TARGET_DIR/public"
+for asset in "${PUBLIC_RUNTIME_ASSETS[@]}"; do
+  if [[ -f "$SOURCE_DIR/public/$asset" ]]; then
+    rsync -a --backup --backup-dir="$BACKUP_REL" "$SOURCE_DIR/public/$asset" "$TARGET_DIR/public/$asset"
+  fi
+done
+
 cd "$TARGET_DIR"
 npm run check
 
@@ -97,7 +122,7 @@ if [[ "$CONTENT_BEFORE" != "$CONTENT_AFTER" || "$CONTENT_COUNT_BEFORE" != "$CONT
   exit 1
 fi
 
-echo "✓ Anomancer 1.18.2 Native Dialog Consolidation asennettu ja tarkistettu."
+echo "✓ Anomancer 1.18.2 P2 Interaction & Navigation Hardening asennettu ja tarkistettu."
 echo "✓ content/ säilyi identtisenä: $CONTENT_COUNT_AFTER Markdown-tiedostoa."
 echo "✓ Korvatut tiedostot ovat palautettavissa: $TARGET_DIR/$BACKUP_REL"
 if [[ -d .git ]]; then

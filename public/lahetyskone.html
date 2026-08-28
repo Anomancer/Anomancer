@@ -3,7 +3,7 @@
 <html lang="fi">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="noindex,nofollow,noarchive" name="robots"/>
 <meta content="#09090f" name="theme-color"/>
 <meta content="Anomancer Core" name="application-name"/>
@@ -40,6 +40,7 @@
   </nav>
   <div class="core-shell-status"><span class="connection-state" data-connection-state>Yhteyttä tarkistetaan…</span><button class="ghost core-settings-button" id="coreSettingsButton" type="button" aria-haspopup="dialog">Asetukset</button></div>
 </header>
+<div class="system-feedback-center" id="systemFeedbackCenter" role="status" aria-live="polite" aria-atomic="true" hidden></div>
 <aside class="sidebar" id="sidebar">
 <div class="side-head">
 <div><p class="kicker">Lähetyskone</p><h2>Lähetykset</h2></div>
@@ -455,6 +456,7 @@
 </dialog>
 <script src="/lahetyskone-pwa.js" type="module"></script>
 <script src="/admin-overlays.js" type="module"></script>
+<script src="/admin-feedback.js" type="module"></script>
 <script src="/admin.js" type="module"></script>
 <script src="/admin-workspaces.js" type="module"></script>
 <script src="/admin-archive.js" type="module"></script>

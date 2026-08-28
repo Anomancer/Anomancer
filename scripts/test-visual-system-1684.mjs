@@ -47,7 +47,7 @@ const responsive=fs.readFileSync('admin-responsive.css','utf8');
 const componentFiles=ADMIN_STYLE_FILES.filter(f=>f!=='ui-tokens.css'&&f!=='admin-responsive.css');
 const componentCss=componentFiles.map(f=>fs.readFileSync(f,'utf8')).join('\n');
 assert.equal((componentCss.match(/@media/g)||[]).length,0,'Komponenttien media queryt kuuluvat responsive-omistajalle');
-assert.ok((responsive.match(/@media/g)||[]).length>=20,'Responsive-kerroksen breakpointit puuttuvat');
+assert.ok((responsive.match(/@media/g)||[]).length>=12,'Responsive-kerroksen kanoniset breakpointit puuttuvat');
 assert.equal([...css.matchAll(/font-size\s*:\s*(\.?\d+(?:\.\d+)?)(rem|px)/g)].filter(m=>(m[2]==='rem'?Number(m[1])*16:Number(m[1]))<12).length,0,'Alle 12px suora font-size löytyi');
 assert.equal([...css.matchAll(/font\s*:[^;{}]*?(\.?\d+(?:\.\d+)?)(rem|px)\//g)].filter(m=>(m[2]==='rem'?Number(m[1])*16:Number(m[1]))<12).length,0,'Alle 12px font-shorthand löytyi');
 assert.ok((componentCss.match(/!important/g)||[]).length<=1,'Komponenttikerroksessa on liikaa !important-sääntöjä');

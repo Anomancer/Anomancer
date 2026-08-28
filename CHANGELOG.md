@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.18.2 · P2 Interaction & Navigation Hardening · 2026-08-28
+
+- lisätty adminin URL-state: `workspace`, `view` ja `section` voidaan palauttaa osoitteesta ja selaimen back/forward toimii työtilan sisällä
+- lisätty aktiiviselle globaalille ja paikalliselle navigaatiolle semanttinen `aria-current`
+- lisätty yhteinen saavutettava feedback center pitkien editorien tallennus-, virhe- ja tilapalautteelle
+- muutettu Arkiston puhelinpolku oikeaksi master/detail-virraksi: lista → inspector → takaisin listaan
+- konsolidoitu `admin-responsive.css`: 58 media query -blokista 15 kanoniseen ehtoon ja 29 päällekkäisestä `max-width:760px`-blokista yhteen
+- lisätty `viewport-fit=cover` safe-area/PWA-käyttöä varten
+- kovetettu Mancerin lifecycle niin, että myöhään rekisteröityvä moduuli ottaa nykyisen workspace-kontekstin kiinni eikä jää odottamaan jo tapahtunutta ready-eventtiä
+- lisätty `admin-feedback.js` build- ja PWA-runtimeen sekä content-safe installeriin eksplisiittinen public runtime -allowlist
+- lisätty `scripts/test-p2-interaction-navigation-1182.mjs` ja oikeaa admin-DOMia käyttävä `scripts/test-admin-story-1182.mjs` pääregressioketjuun
+- siirretty P2:n feedback- ja Archive-master/detail-mediaregressiot komponentti-CSS:stä yhteiseen `admin-responsive.css`-omistajakerrokseen; komponenttikerroksissa 0 media querya
+- päivitetty kolme legacy-regressioassertiota hyväksymään konsolidoidun media query -rakenteen käyttäytyminen ilman riippuvuutta selectorien historiallisesta järjestyksestä
+- koko `npm run check` läpäisee P0/P1/P2-, full-app E2E-, Visual System-, dialogi-, navigaatio-, Evidence-, Mancer-, agentti- ja SEO-portit
+- säilytetty versio 1.18.2; 1.18.3 pysyy varattuna varsinaiselle Codemancer Workbench -kerrokselle
+
 ## 1.18.2 · P1 Codemancer Visual Surgery · 2026-08-28
 
 - korvattu viisi määrittelemätöntä CSS-muuttujaa yhteisen Visual Systemin kanonisilla design-tokeneilla
@@ -499,6 +515,19 @@
 - `/core` lisätään sitemap- ja llms-discoveryyn.
 
 # Changelog
+
+## 1.18.2 · P2 Interaction & Navigation Hardening · 2026-08-28
+
+- lisätty adminin URL-state: `workspace`, `view` ja `section` voidaan palauttaa osoitteesta ja selaimen back/forward toimii työtilan sisällä
+- lisätty aktiiviselle globaalille ja paikalliselle navigaatiolle semanttinen `aria-current`
+- lisätty yhteinen saavutettava feedback center pitkien editorien tallennus-, virhe- ja tilapalautteelle
+- muutettu Arkiston puhelinpolku oikeaksi master/detail-virraksi: lista → inspector → takaisin listaan
+- konsolidoitu `admin-responsive.css`: 58 media query -blokista 15 kanoniseen ehtoon ja 29 päällekkäisestä `max-width:760px`-blokista yhteen
+- lisätty `viewport-fit=cover` safe-area/PWA-käyttöä varten
+- kovetettu Mancerin lifecycle niin, että myöhään rekisteröityvä moduuli ottaa nykyisen workspace-kontekstin kiinni eikä jää odottamaan jo tapahtunutta ready-eventtiä
+- lisätty `admin-feedback.js` build- ja PWA-runtimeen sekä content-safe installeriin eksplisiittinen public runtime -allowlist
+- lisätty `scripts/test-p2-interaction-navigation-1182.mjs` ja oikeaa admin-DOMia käyttävä `scripts/test-admin-story-1182.mjs` pääregressioketjuun
+- säilytetty versio 1.18.2; 1.18.3 pysyy varattuna varsinaiselle Codemancer Workbench -kerrokselle
 
 ## 15.0.0 · 2026-08-26
 

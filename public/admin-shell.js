@@ -3,11 +3,15 @@ const qa=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 const ROUTE_KEY='anomancer.core.shell.route.v16.8';
+const VALID_ROUTES=new Set(['workspace','workspaces','archive','materials','machine']);
+function readNavigationState(){try{const url=new URL(location.href),view=url.searchParams.get('view'),section=url.searchParams.get('section'),workspaceId=url.searchParams.get('workspace');return{view:VALID_ROUTES.has(view)?view:'',section:section||'',workspaceId:workspaceId||''};}catch{return{view:'',section:'',workspaceId:''};}}
 const LEGACY_ROUTE=localStorage.getItem('anomancer.core.shell.route.v16.7');
-const storedRoute=localStorage.getItem(ROUTE_KEY)||LEGACY_ROUTE||'workspace';
+const URL_ROUTE=readNavigationState().view;
+const storedRoute=URL_ROUTE||localStorage.getItem(ROUTE_KEY)||LEGACY_ROUTE||'workspace';
 let route=storedRoute==='artifacts'?'materials':storedRoute==='dispatches'?'workspace':storedRoute;
 let detail=null;
 let editorialView='write';
+let restoringHistory=false,navigationBootstrapped=false,sectionNavigation=false;
 
 const coreSurface=q('#coreSurface');
 const localSidebar=q('#workspaceLocalSidebar');
@@ -44,7 +48,7 @@ function setRouteButtons(){
     const r=el.dataset.shellRoute;
     const active=(route==='workspace'&&r==='workspace')||r===route;
     el.classList.toggle('active',active);
-    if(el.tagName==='BUTTON')el.setAttribute('aria-pressed',String(active));
+    if(el.tagName==='BUTTON')el.setAttribute('aria-pressed',String(active));if(active)el.setAttribute('aria-current','page');else el.removeAttribute('aria-current');
   });
 }
 
@@ -94,11 +98,14 @@ function showCoreView(name){
   renderMobileNavigation();
 }
 
-function navigate(next='workspace'){
+function navigationUrl(){const url=new URL(location.href),workspaceId=window.anomancerWorkspaces?.currentId?.()||workspace()?.id||'';if(workspaceId)url.searchParams.set('workspace',workspaceId);else url.searchParams.delete('workspace');url.searchParams.set('view',route);if(route==='workspace'){const section=activeLocalSection();if(section)url.searchParams.set('section',section);else url.searchParams.delete('section');}else url.searchParams.delete('section');return url;}
+function writeNavigationState(mode='push'){if(restoringHistory&&mode!=='replace')return false;const url=navigationUrl(),next=url.href,current=location.href;if(next===current)return false;history[mode==='replace'?'replaceState':'pushState']({workspace:url.searchParams.get('workspace'),view:route,section:url.searchParams.get('section')},'',next);return true;}
+function navigate(next='workspace',{history:historyMode='push'}={}){
   window.anomancerOverlays?.close?.('workspace-sheet',{restore:false});
-  route=['workspace','workspaces','archive','materials','machine'].includes(next)?next:'workspace';
+  route=VALID_ROUTES.has(next)?next:'workspace';
   localStorage.setItem(ROUTE_KEY,route);setRouteButtons();
   if(route==='workspace')showWorkspace();else showCoreView(route);
+  if(historyMode!=='none')writeNavigationState(historyMode);
   return true;
 }
 
@@ -115,29 +122,33 @@ function activeLocalSection(){return route==='materials'?'materials':isNarrative
 function renderLocalNavigation(){
   const nav=q('#workspaceLocalNav');if(!nav)return;
   const groups=localSections(),active=activeLocalSection();
-  nav.innerHTML=groups.map(group=>`<section class="workspace-local-group"><span>${esc(group.label||'Työkalut')}</span>${group.sections.map(section=>`<button type="button" data-local-section="${esc(section.id)}" class="${section.id===active?'active':''}"><strong>${esc(section.label||section.id)}</strong>${section.id==='publish'?'<small>Ihmisen portti</small>':''}</button>`).join('')}</section>`).join('');
+  nav.innerHTML=groups.map(group=>`<section class="workspace-local-group"><span>${esc(group.label||'Työkalut')}</span>${group.sections.map(section=>`<button type="button" data-local-section="${esc(section.id)}" class="${section.id===active?'active':''}" ${section.id===active?'aria-current="page"':''}><strong>${esc(section.label||section.id)}</strong>${section.id==='publish'?'<small>Ihmisen portti</small>':''}</button>`).join('')}</section>`).join('');
   renderMobileNavigation();
 }
 
-function openLocalSection(id){
-  if(isMancer()){
-    navigate('workspace');
-    window.anomancerMancer?.selectSection?.(id);
-  }else if(isNarrative()){
-    navigate('workspace');
-    window.anomancerNarramancer?.selectSection?.(id);
-  }else if(id==='dispatches'){
-    navigate('workspace');window.anomancerAdminBridge?.selectEditorView?.('write');window.anomancerAdminBridge?.openDispatchLibrary?.();editorialView='dispatches';
-  }else if(id==='orchestra'){
-    navigate('workspace');window.anomancerAdminBridge?.openOrchestraRun?.();editorialView='orchestra';
-  }else if(id==='publish'){
-    navigate('workspace');window.anomancerAdminBridge?.openPublicationSettings?.();editorialView='publish';
-  }else if(id==='materials'){
-    navigate('materials');
-  }else{
-    navigate('workspace');editorialView=id;window.anomancerAdminBridge?.selectEditorView?.(id);
-  }
-  renderLocalNavigation();
+function openLocalSection(id,{history:historyMode='push'}={}){
+  sectionNavigation=true;
+  try{
+    if(isMancer()){
+      navigate('workspace',{history:'none'});
+      window.anomancerMancer?.selectSection?.(id);
+    }else if(isNarrative()){
+      navigate('workspace',{history:'none'});
+      window.anomancerNarramancer?.selectSection?.(id);
+    }else if(id==='dispatches'){
+      navigate('workspace',{history:'none'});window.anomancerAdminBridge?.selectEditorView?.('write');window.anomancerAdminBridge?.openDispatchLibrary?.();editorialView='dispatches';
+    }else if(id==='orchestra'){
+      navigate('workspace',{history:'none'});window.anomancerAdminBridge?.openOrchestraRun?.();editorialView='orchestra';
+    }else if(id==='publish'){
+      navigate('workspace',{history:'none'});window.anomancerAdminBridge?.openPublicationSettings?.();editorialView='publish';
+    }else if(id==='materials'){
+      navigate('materials',{history:'none'});
+    }else{
+      navigate('workspace',{history:'none'});editorialView=id;window.anomancerAdminBridge?.selectEditorView?.(id);
+    }
+    renderLocalNavigation();
+    if(historyMode!=='none')writeNavigationState(historyMode);
+  }finally{sectionNavigation=false;}
 }
 
 function mobilePrimary(){
@@ -219,6 +230,8 @@ function applyWorkspace(next){
   if(route==='workspace')showWorkspace();else if(route==='materials')showCoreView('materials');else renderMobileNavigation();
 }
 
+async function restoreNavigationFromUrl({replace=false}={}){const state=readNavigationState();restoringHistory=true;try{if(state.workspaceId&&window.anomancerWorkspaces?.currentId?.()!==state.workspaceId){const changed=await window.anomancerWorkspaces?.switchTo?.(state.workspaceId);if(!changed&&window.anomancerWorkspaces?.currentId?.()!==state.workspaceId){writeNavigationState('replace');return false;}detail=window.anomancerWorkspaces?.getDetail?.()||detail;}navigate(state.view||route,{history:'none'});if(route==='workspace'&&state.section)openLocalSection(state.section,{history:'none'});if(replace)writeNavigationState('replace');return true;}finally{restoringHistory=false;}}
+
 window.anomancerOverlays?.register?.('workspace-sheet',{kind:'dialog',element:'#workspaceMobileSheet',bodyClass:'workspace-sheet-open',focusSelector:'#workspaceMobileSheetClose'});
 
 q('#workspaceLocalNav')?.addEventListener('click',event=>{const button=event.target.closest?.('[data-local-section]');if(button)openLocalSection(button.dataset.localSection);});
@@ -243,15 +256,16 @@ q('#mobileWorkspaceSelect')?.addEventListener('change',async event=>{
 });
 window.addEventListener('anomancer:overlay-open',event=>{if(event.detail?.name==='workspace-sheet')q('#mobileMoreBtn')?.setAttribute('aria-expanded','true');});
 window.addEventListener('anomancer:overlay-close',event=>{if(event.detail?.name==='workspace-sheet')q('#mobileMoreBtn')?.setAttribute('aria-expanded','false');});
-window.addEventListener('anomancer:workspace-ready',event=>applyWorkspace(event.detail));
+window.addEventListener('anomancer:workspace-ready',async event=>{applyWorkspace(event.detail);if(!navigationBootstrapped){navigationBootstrapped=true;await restoreNavigationFromUrl({replace:true});}});
 window.addEventListener('anomancer:workspace-change',event=>applyWorkspace(event.detail));
-window.addEventListener('anomancer:narramancer-section-change',()=>{renderLocalNavigation();renderMobileNavigation();});
-window.addEventListener('anomancer:mancer-section-change',()=>{renderLocalNavigation();renderMobileNavigation();});
-window.addEventListener('anomancer:editor-view-change',event=>{editorialView=event.detail?.view||editorialView;renderLocalNavigation();renderMobileNavigation();});
+window.addEventListener('anomancer:narramancer-section-change',()=>{renderLocalNavigation();renderMobileNavigation();if(!sectionNavigation&&!restoringHistory)writeNavigationState('replace');});
+window.addEventListener('anomancer:mancer-section-change',()=>{renderLocalNavigation();renderMobileNavigation();if(!sectionNavigation&&!restoringHistory)writeNavigationState('replace');});
+window.addEventListener('anomancer:editor-view-change',event=>{editorialView=event.detail?.view||editorialView;renderLocalNavigation();renderMobileNavigation();if(!sectionNavigation&&!restoringHistory)writeNavigationState('replace');});
 window.addEventListener('anomancer:shell-route',event=>navigate(event.detail?.route));
-window.addEventListener('anomancer:admin-ready',()=>{detail=window.anomancerWorkspaces?.getDetail?.()||detail;applyWorkspace(detail);navigate(route);});
+window.addEventListener('popstate',()=>restoreNavigationFromUrl());
+window.addEventListener('anomancer:admin-ready',()=>{detail=window.anomancerWorkspaces?.getDetail?.()||detail;if(detail){applyWorkspace(detail);navigate(route,{history:'none'});}});
 
-window.anomancerShell={navigate,renderLocalNavigation,renderMobileNavigation,setMobileSheet,currentRoute:()=>route,renderArtifactHome,renderBlankWorkspace};
+window.anomancerShell={navigate,openLocalSection,restoreNavigationFromUrl,writeNavigationState,renderLocalNavigation,renderMobileNavigation,setMobileSheet,currentRoute:()=>route,renderArtifactHome,renderBlankWorkspace};
 
 setRouteButtons();
-if(window.anomancerWorkspaces?.current?.()){detail=window.anomancerWorkspaces.getDetail?.();applyWorkspace(detail);navigate(route);}
+if(window.anomancerWorkspaces?.current?.()){detail=window.anomancerWorkspaces.getDetail?.();applyWorkspace(detail);navigate(route,{history:'none'});}

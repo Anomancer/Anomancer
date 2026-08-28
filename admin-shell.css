@@ -280,3 +280,18 @@ body[data-workspace-template="blank-private"] .workspace-save-indicator{display:
 .core-system-dialog-actions{display:flex;justify-content:flex-end;gap:9px;padding:14px 20px 18px;border-top:1px solid var(--line)}
 .core-system-dialog[data-destructive=true]{border-color:rgba(255,90,111,.46)}
 .core-system-dialog[data-destructive=true] .core-system-dialog-head{background:linear-gradient(180deg,rgba(255,40,70,.06),transparent)}
+
+/* P2 Interaction & Navigation Hardening · shared feedback center */
+.system-feedback-center{position:fixed;z-index:320;top:calc(var(--core-shell-height,64px) + 10px);right:14px;display:flex;align-items:flex-start;gap:10px;width:min(460px,calc(100vw - 28px));padding:11px 12px;border:1px solid var(--color-border);border-radius:12px;background:rgba(10,10,16,.96);box-shadow:0 16px 42px rgba(0,0,0,.35);backdrop-filter:blur(14px)}
+.system-feedback-center[hidden]{display:none}
+.system-feedback-center[data-tone="ok"]{border-color:rgba(136,213,160,.34)}
+.system-feedback-center[data-tone="warning"]{border-color:rgba(229,194,122,.38)}
+.system-feedback-center[data-tone="error"]{border-color:rgba(255,92,116,.42)}
+.system-feedback-body{display:grid;gap:3px;min-width:0;flex:1}
+.system-feedback-source{color:var(--dim);font-size:var(--font-size-meta);font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.system-feedback-body strong{font-size:var(--font-size-ui);font-weight:720;line-height:1.35;overflow-wrap:anywhere}
+.system-feedback-center[data-tone="ok"] .system-feedback-body strong{color:var(--color-success)}
+.system-feedback-center[data-tone="warning"] .system-feedback-body strong{color:#e5c27a}
+.system-feedback-center[data-tone="error"] .system-feedback-body strong{color:var(--color-danger)}
+.system-feedback-close{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;min-height:32px;padding:0;border-color:transparent;background:transparent;color:var(--muted);font-size:1.15rem}
+.system-feedback-close:hover{color:var(--text);background:rgba(255,255,255,.05)}

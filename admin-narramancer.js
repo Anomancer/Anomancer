@@ -17,7 +17,7 @@ function artifactContext(){artifactController?.abort();artifactController=new Ab
 function artifactCurrent(ctx){return Boolean(ctx)&&ctx.epoch===workspaceEpoch&&ctx.requestId===artifactRequestId&&workspace?.id===ctx.workspaceId;}
 function stable(){return JSON.stringify(project||{});}
 function dirty(){return isNarrative()&&Boolean(project)&&stable()!==baseline;}
-function status(message,kind=''){const el=q('#narramancerStatus');if(el){el.textContent=message;el.dataset.kind=kind;}}
+function status(message,kind=''){const el=q('#narramancerStatus');if(el){el.textContent=message;el.dataset.kind=kind;}window.anomancerFeedback?.report?.(message,kind,'Romancer');}
 function getPath(path){return String(path).split('.').reduce((v,k)=>v?.[k],project);}
 function setPath(path,value){const parts=String(path).split('.');let target=project;for(let i=0;i<parts.length-1;i++){target[parts[i]]??={};target=target[parts[i]];}target[parts.at(-1)]=value;markDirty();}
 function markDirty(){renderSaveState();}

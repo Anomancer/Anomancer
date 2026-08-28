@@ -42,7 +42,7 @@ ok('kuvan alt ja caption ovat yhdessä lomakedialogissa',()=>{
 ok('dialogi on semanttisesti admin HTML:ssa ja mobiilityyli kuuluu CSS-ketjuun',()=>{
   const html=read('admin.html'),css=readAdminCss();
   assert.match(html,/id="coreSystemDialog"/);assert.match(html,/aria-labelledby="coreSystemDialogTitle"/);assert.match(html,/aria-describedby="coreSystemDialogMessage"/);
-  assert.match(css,/\.core-system-dialog\{/);assert.match(css,/@media\(max-width:520px\)\{\.core-system-dialog/);
+  assert.match(css,/\.core-system-dialog\{/);assert.match(css,/@media\(max-width:520px\)\{[\s\S]*?\.core-system-dialog/);
 });
 
 const CHROMIUM=[process.env.CHROMIUM_BIN,'/usr/bin/chromium','/usr/bin/chromium-browser','/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/brave-browser','/snap/bin/chromium'].filter(Boolean).find(p=>fs.existsSync(p));

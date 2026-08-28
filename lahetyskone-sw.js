@@ -20,6 +20,7 @@ const SHELL_URLS = [
   '/admin-mancer.js',
   '/admin-shell.js',
   '/admin-overlays.js',
+  '/admin-feedback.js',
   '/admin-core.js',
   '/admin-agents.js',
   '/admin-orchestras.js',

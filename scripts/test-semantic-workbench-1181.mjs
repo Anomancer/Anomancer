@@ -31,6 +31,6 @@ test('Työtilakortit eivät näytä id:tä ja hashia ensisijaisena sisältönä'
 
 test('Mancer-komponenttityyli kuuluu sekä tuotannon CSS-manifestiin että browser-porttiin',()=>{assert.match(cssManifest,/admin-mancer\.css/);assert.match(cssReader,/admin-mancer\.css/);});
 
-test('Kapealla puhelimella Core-brand väistyy päänavigaation tieltä',()=>{assert.match(responsive,/@media\(max-width:420px\)\{\.core-shell\{grid-template-columns:minmax\(0,1fr\) auto\}\.core-shell-brand\{display:none\}/);});
+test('Kapealla puhelimella Core-brand väistyy päänavigaation tieltä myös konsolidoidussa media-blokissa',()=>{assert.match(responsive,/@media\(max-width:420px\)\{[\s\S]*?\.core-shell\{grid-template-columns:minmax\(0,1fr\) auto\}[\s\S]*?\.core-shell-brand\{display:none\}/);});
 
 console.log(`\n${passed}/${passed} SEMANTIC WORKBENCH 1.18.2 checks passed.`);
