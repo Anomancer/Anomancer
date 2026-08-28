@@ -9,7 +9,23 @@ const CHROMIUM=[process.env.CHROMIUM_BIN,'/usr/bin/chromium','/usr/bin/chromium-
 assert.ok(CHROMIUM,'Mancer UI tarvitsee Chromiumin.');
 const outDir=path.resolve('.visual-regression/1.18.4');fs.mkdirSync(outDir,{recursive:true});
 const profile=fs.mkdtempSync(path.join(os.tmpdir(),'anomancer-mancer-ui-'));
-const chrome=spawn(CHROMIUM,['--headless=new','--no-sandbox','--disable-gpu','--hide-scrollbars','--allow-file-access-from-files','--remote-debugging-port=0',`--user-data-dir=${profile}`,'about:blank'],{stdio:['ignore','ignore','pipe']});
+const chrome=spawn(CHROMIUM,[
+  '--headless=new',
+  '--no-sandbox',
+  '--disable-gpu',
+  '--disable-breakpad',
+  '--disable-crash-reporter',
+  '--no-first-run',
+  '--no-default-browser-check',
+  '--hide-scrollbars',
+  '--allow-file-access-from-files',
+  '--remote-debugging-port=0',
+  `--user-data-dir=${profile}`,
+  'about:blank'
+],{
+  stdio:['ignore','ignore','pipe'],
+  detached:process.platform!=='win32'
+});
 let wsUrl='';
 await new Promise((resolve,reject)=>{let b='';const t=setTimeout(()=>reject(new Error('Chromium timeout')),8000);chrome.stderr.on('data',d=>{b+=d;const m=String(b).match(/DevTools listening on (ws:\/\/[^\s]+)/);if(m){wsUrl=m[1];clearTimeout(t);resolve();}});});
 const ws=new WebSocket(wsUrl);await new Promise((r,j)=>{ws.onopen=r;ws.onerror=j});
@@ -49,5 +65,54 @@ for(const [name,width,height] of [['desktop',1440,900],['phone-360',360,800]]){
   fs.writeFileSync(path.join(outDir,`mancer-${name}.png`),Buffer.from(shot.data,'base64'));
   passed++;console.log(`✓ Mancer UI ${name} · ${width}×${height}`);
 }
-await send('Target.closeTarget',{targetId});ws.close();chrome.kill('SIGTERM');await new Promise(r=>setTimeout(r,300));fs.rmSync(profile,{recursive:true,force:true});
+await send('Target.closeTarget',{targetId});
+ws.close();
+
+async function waitForExit(proc,timeoutMs){
+  if(proc.exitCode!==null||proc.signalCode!==null)return true;
+  return new Promise(resolve=>{
+    const onExit=()=>{clearTimeout(timer);resolve(true);};
+    const timer=setTimeout(()=>{
+      proc.off('exit',onExit);
+      resolve(false);
+    },timeoutMs);
+    proc.once('exit',onExit);
+  });
+}
+
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+function signalChrome(signal){
+  try{
+    if(process.platform!=='win32'&&chrome.pid){
+      process.kill(-chrome.pid,signal);
+    }else{
+      chrome.kill(signal);
+    }
+  }catch(error){
+    if(error?.code!=='ESRCH')throw error;
+  }
+}
+
+signalChrome('SIGTERM');
+if(!(await waitForExit(chrome,3000))){
+  signalChrome('SIGKILL');
+  await waitForExit(chrome,2000);
+}
+
+let profileCleaned=false;
+for(let attempt=1;attempt<=30;attempt++){
+  try{
+    fs.rmSync(profile,{recursive:true,force:true});
+    profileCleaned=true;
+    break;
+  }catch(error){
+    if(!['ENOTEMPTY','EBUSY','EPERM'].includes(error?.code))throw error;
+    await sleep(100);
+  }
+}
+
+if(!profileCleaned&&fs.existsSync(profile)){
+  console.warn(`⚠ Chromium temp profile jäi siivoamatta: ${profile}`);
+}
 console.log(`\n${passed}/${passed} MANCER UI 1.18.4 browser-porttia läpi`);

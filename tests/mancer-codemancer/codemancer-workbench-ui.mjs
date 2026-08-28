@@ -56,8 +56,70 @@ const exportUrl=`data:text/javascript;base64,${Buffer.from(fs.readFileSync('narr
 source=source.replace(/<script src="\/([^\"]+)" type="module"><\/script>/g,(_,file)=>{let js=fs.readFileSync(file,'utf8');js=js.replace(/^import \{runtime\} from '\.\/admin-runtime\.js';\n/,"const runtime=globalThis.__anomancerRuntime;\n");if(file==='admin-narramancer.js')js=js.replace('./narramancer-export.js',exportUrl);return `<script type="module">\n${js.replace(/<\/script/gi,'<\\/script')}\n</script>`;});
 
 const candidates=[process.env.CHROMIUM_BIN,'/usr/bin/chromium','/usr/bin/chromium-browser','/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/brave-browser','/snap/bin/chromium'].filter(Boolean),CHROMIUM=candidates.find(p=>fs.existsSync(p));assert.ok(CHROMIUM,'1.18.4 workbench UI tarvitsee Chromiumin.');
-const profile=fs.mkdtempSync(`${os.tmpdir()}/anomancer-wb-`),chrome=spawn(CHROMIUM,['--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--remote-debugging-port=0',`--user-data-dir=${profile}`,'about:blank'],{stdio:['ignore','ignore','pipe']});
-let wsUrl='';await new Promise((resolve,reject)=>{let buf='';const timer=setTimeout(()=>reject(new Error('Chromium timeout')),8000);chrome.stderr.on('data',d=>{buf+=d;const m=String(buf).match(/DevTools listening on (ws:\/\/[^\s]+)/);if(m){wsUrl=m[1];clearTimeout(timer);resolve();}});});
+const profile=fs.mkdtempSync(`${os.tmpdir()}/anomancer-wb-`),chrome=spawn(CHROMIUM,[
+  '--headless=new',
+  '--no-sandbox',
+  '--disable-gpu',
+  '--disable-dev-shm-usage',
+  '--disable-breakpad',
+  '--disable-crash-reporter',
+  '--no-first-run',
+  '--no-default-browser-check',
+  '--remote-debugging-port=0',
+  `--user-data-dir=${profile}`,
+  'about:blank'
+],{
+  stdio:['ignore','ignore','pipe'],
+  detached:process.platform!=='win32'
+});
+
+const signalChrome=signal=>{
+  try{
+    if(process.platform!=='win32'&&chrome.pid){
+      process.kill(-chrome.pid,signal);
+    }else{
+      chrome.kill(signal);
+    }
+  }catch(error){
+    if(error?.code!=='ESRCH')throw error;
+  }
+};
+let wsUrl='';
+await new Promise((resolve,reject)=>{
+  let buf='',done=false;
+
+  const finish=error=>{
+    if(done)return;
+    done=true;
+    clearTimeout(timer);
+    chrome.stderr.off('data',onData);
+    chrome.off('exit',onExit);
+    error?reject(error):resolve();
+  };
+
+  const onData=d=>{
+    buf+=d;
+    const m=String(buf).match(/DevTools listening on (ws:\/\/[^\s]+)/);
+    if(m){
+      wsUrl=m[1];
+      finish();
+    }
+  };
+
+  const onExit=(code,signal)=>{
+    finish(new Error(
+      `Chromium exited before DevTools · code=${code} signal=${signal} · ${buf.slice(-1200)}`
+    ));
+  };
+
+  const timer=setTimeout(()=>{
+    signalChrome('SIGKILL');
+    finish(new Error(`Chromium timeout after 20000ms · ${buf.slice(-1200)}`));
+  },20000);
+
+  chrome.stderr.on('data',onData);
+  chrome.once('exit',onExit);
+});
 const ws=new WebSocket(wsUrl);await new Promise((r,j)=>{ws.onopen=r;ws.onerror=j});let seq=0;const pending=new Map();ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id&&pending.has(m.id)){const p=pending.get(m.id);pending.delete(m.id);m.error?p.reject(new Error(m.error.message)):p.resolve(m.result);}};const send=(method,params={},sessionId)=>new Promise((resolve,reject)=>{const id=++seq;pending.set(id,{resolve,reject});ws.send(JSON.stringify({id,method,params,...(sessionId?{sessionId}:{})}));});
 const {targetId}=await send('Target.createTarget',{url:'about:blank'}),{sessionId}=await send('Target.attachToTarget',{targetId,flatten:true});await send('Runtime.enable',{},sessionId);await send('Page.enable',{},sessionId);const frameId=(await send('Page.getFrameTree',{},sessionId)).frameTree.frame.id;
 const bootstrap=`(()=>{const data=new Map();Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>data.has(String(k))?data.get(String(k)):null,setItem:(k,v)=>data.set(String(k),String(v)),removeItem:k=>data.delete(String(k)),clear:()=>data.clear(),key:i=>[...data.keys()][i]??null,get length(){return data.size}}});history.replaceState({},'',${JSON.stringify(`about:blank?workspace=${encodeURIComponent(workspaceId)}&view=workspace&section=code`)});return location.href;})()`;

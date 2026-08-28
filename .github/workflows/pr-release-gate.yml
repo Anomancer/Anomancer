@@ -1,0 +1,46 @@
+name: PR Release Gate
+
+on:
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-release-gate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  CI: 'true'
+
+jobs:
+  release-gate:
+    name: Release Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout pull request merge candidate
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Resolve Chromium gate
+        shell: bash
+        run: |
+          browser="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$browser"
+          echo "CHROMIUM_BIN=$browser" >> "$GITHUB_ENV"
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Run full release gate
+        run: npm run check
