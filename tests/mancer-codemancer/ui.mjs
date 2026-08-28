@@ -9,7 +9,23 @@ const CHROMIUM=[process.env.CHROMIUM_BIN,'/usr/bin/chromium','/usr/bin/chromium-
 assert.ok(CHROMIUM,'Mancer UI tarvitsee Chromiumin.');
 const outDir=path.resolve('.visual-regression/1.18.4');fs.mkdirSync(outDir,{recursive:true});
 const profile=fs.mkdtempSync(path.join(os.tmpdir(),'anomancer-mancer-ui-'));
-const chrome=spawn(CHROMIUM,['--headless=new','--no-sandbox','--disable-gpu','--hide-scrollbars','--allow-file-access-from-files','--remote-debugging-port=0',`--user-data-dir=${profile}`,'about:blank'],{stdio:['ignore','ignore','pipe']});
+const chrome=spawn(CHROMIUM,[
+  '--headless=new',
+  '--no-sandbox',
+  '--disable-gpu',
+  '--disable-breakpad',
+  '--disable-crash-reporter',
+  '--no-first-run',
+  '--no-default-browser-check',
+  '--hide-scrollbars',
+  '--allow-file-access-from-files',
+  '--remote-debugging-port=0',
+  `--user-data-dir=${profile}`,
+  'about:blank'
+],{
+  stdio:['ignore','ignore','pipe'],
+  detached:process.platform!=='win32'
+});
 let wsUrl='';
 await new Promise((resolve,reject)=>{let b='';const t=setTimeout(()=>reject(new Error('Chromium timeout')),8000);chrome.stderr.on('data',d=>{b+=d;const m=String(b).match(/DevTools listening on (ws:\/\/[^\s]+)/);if(m){wsUrl=m[1];clearTimeout(t);resolve();}});});
 const ws=new WebSocket(wsUrl);await new Promise((r,j)=>{ws.onopen=r;ws.onerror=j});
@@ -64,16 +80,39 @@ async function waitForExit(proc,timeoutMs){
   });
 }
 
-chrome.kill('SIGTERM');
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+function signalChrome(signal){
+  try{
+    if(process.platform!=='win32'&&chrome.pid){
+      process.kill(-chrome.pid,signal);
+    }else{
+      chrome.kill(signal);
+    }
+  }catch(error){
+    if(error?.code!=='ESRCH')throw error;
+  }
+}
+
+signalChrome('SIGTERM');
 if(!(await waitForExit(chrome,3000))){
-  chrome.kill('SIGKILL');
+  signalChrome('SIGKILL');
   await waitForExit(chrome,2000);
 }
 
-fs.rmSync(profile,{
-  recursive:true,
-  force:true,
-  maxRetries:10,
-  retryDelay:100
-});
+let profileCleaned=false;
+for(let attempt=1;attempt<=30;attempt++){
+  try{
+    fs.rmSync(profile,{recursive:true,force:true});
+    profileCleaned=true;
+    break;
+  }catch(error){
+    if(!['ENOTEMPTY','EBUSY','EPERM'].includes(error?.code))throw error;
+    await sleep(100);
+  }
+}
+
+if(!profileCleaned&&fs.existsSync(profile)){
+  console.warn(`⚠ Chromium temp profile jäi siivoamatta: ${profile}`);
+}
 console.log(`\n${passed}/${passed} MANCER UI 1.18.4 browser-porttia läpi`);
