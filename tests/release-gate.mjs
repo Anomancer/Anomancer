@@ -8,6 +8,9 @@ const STEPS = [
     "tests/integrity-security/build-source-boundary.mjs"
   ],
   [
+    "tests/integrity-security/pr-governance.mjs"
+  ],
+  [
     "tests/operations-release/live-path-verification.mjs"
   ],
   [

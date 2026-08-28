@@ -1,5 +1,14 @@
 # Changelog
 
+## Phase 6 · Governance / PR CI
+
+- Added a read-only pull-request CI workflow with the stable required check context `Release Gate`.
+- PR CI runs the same locked `npm ci → npm run check` contract used locally, including Chromium-backed gates.
+- Kept deploy/rollback capability workflows separate from PR validation and denied deployment secrets to PR CI.
+- Added explicit master-protection enable/verify tooling with PR-only flow, strict required checks, admin enforcement and force/delete guards.
+- Added a governance regression gate; full release gate is now 72 steps.
+
+
 ## Phase 5 · Build / Source Boundary
 
 - Moved canonical static page sources under `site/pages/` with root compatibility symlinks.
