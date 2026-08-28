@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { readAdminCss } from '../../scripts/read-admin-css.mjs';
+let ok=0; const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`)};
+const js=fs.readFileSync('admin-orchestrator.js','utf8');
+const css=readAdminCss();
+const tokens=fs.readFileSync('ui-tokens.css','utf8');
+test('custom-orkesteri saa dynaamisen snake-layoutin',()=>{assert.match(js,/layoutOrchestraFlow/);assert.match(js,/dataset\.flowDirection/);assert.match(js,/position===columns-1\?'down':\(reversed\?'left':'right'\)/)});
+test('flow ei sisällä 8-vaiheista erikoispoikkeusta',()=>assert.doesNotMatch(css,/orchestra-stages\[data-step-count="8"\]/));
+test('desktop-flow tuntee oikean, vasemman ja alas-käännöksen',()=>{for(const dir of ['right','left','down','end'])assert.match(css,new RegExp(`data-flow-direction="${dir}"`))});
+test('mobiilitimeline koskee kaikkia orkestereita',()=>{assert.match(css,/@media\(max-width:600px\)[\s\S]*orchestra-stages::before/);assert.match(css,/orchestra-stages \.orchestra-step::before/)});
+test('focus border on korotettu kontrastiturvalliseen sävyyn',()=>assert.match(tokens,/--color-focus-border:#b4425e/));
+test('root ja public runtime-peilit ovat identtiset',()=>{for(const name of ['admin-orchestrator.js','admin-control-plane.css','admin-responsive.css','ui-tokens.css'])assert.equal(fs.readFileSync(name,'utf8'),fs.readFileSync(`public/${name}`,'utf8'),name)});
+console.log(`\n${ok}/${ok} UI flow repair 1.18.5 tests passed`);

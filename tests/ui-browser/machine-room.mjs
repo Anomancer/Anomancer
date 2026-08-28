@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {safeDetail,factualLine,copyFor,LIVING_COPY,OE_COPY,SAFE_DETAIL_KEYS} from '../../admin-machine-room.js';
+import { readAdminCss } from '../../scripts/read-admin-css.mjs';
+
+const html=fs.readFileSync('admin.html','utf8');
+const css=readAdminCss();
+const orch=fs.readFileSync('admin-orchestrator.js','utf8');
+const build=fs.readFileSync('scripts/build-blog.mjs','utf8');
+let n=0;const test=(name,fn)=>{fn();n++;console.log(`✓ 16.3 ${name}`)};
+
+test('kolme esitystilaa ovat Työrauha, Elävä konehuone ja OE-tila',()=>{assert.match(html,/data-machine-mode="quiet"[\s\S]*Työrauha/);assert.match(html,/data-machine-mode="living"[\s\S]*Elävä konehuone/);assert.match(html,/data-machine-mode="oe"[\s\S]*OE-tila/);});
+test('esitystila kertoo suoraan ettei se muuta päätöslogiikkaa',()=>assert.match(html,/ei muuta promptteja, malleja, agenttien valtaa, evidenssikynnystä eikä julkaisupäätöstä/i));
+test('konehuonemoduuli ladataan ennen orkestroijaa',()=>assert.ok(html.indexOf('/admin-machine-room.js')<html.indexOf('/admin-orchestrator.js')));
+test('telemetrian allowlist ei sisällä raakaa sisältöä tai päättelykenttiä',()=>{for(const forbidden of ['prompt','instruction','post','body','output','outputs','result','reasoning','chainOfThought','raw'])assert.equal(SAFE_DETAIL_KEYS.has(forbidden),false);});
+test('safeDetail pudottaa kielletyt kentät',()=>assert.deepEqual(safeDetail({stage:'source',count:3,prompt:'salainen',post:{body:'x'},result:'raw',instruction:'hidden'}),{stage:'source',count:3}));
+test('safeDetail katkaisee pitkän käyttöliittymätekstin',()=>assert.equal(safeDetail({label:'x'.repeat(500)}).label.length,120));
+test('tilaprotokollassa on riittävä vakioitu event-sanasto',()=>assert.ok(Object.keys(LIVING_COPY).length>=16));
+test('OE-copy käyttää samaa event-sanastoa eikä omaa runtimea',()=>{for(const key of Object.keys(LIVING_COPY))assert.equal(typeof OE_COPY[key],'string');});
+test('SOURCE_FOUND näyttää vain ehdokasmäärän ja ihmisen varmennusrajan',()=>assert.match(factualLine('SOURCE_FOUND',{stage:'source',count:3}),/3 lähde-ehdokasta · ihmisen varmennus vaaditaan/));
+test('PACKAGE_READY ei väitä julkaisua tehdyksi',()=>assert.match(factualLine('PACKAGE_READY',{stage:'package',placements:2}),/ei julkaistu/));
+test('HUMAN_APPLIED erottaa editoriin siirron julkaisusta',()=>assert.match(factualLine('HUMAN_APPLIED',{}),/ei tallennettu eikä julkaistu/));
+test('OE-tilan ontologinen riita on vain presentation copy',()=>assert.equal(copyFor('AGENT_DISAGREEMENT','oe'),'ONTOLOGINEN RIITA.'));
+test('aktiivisen lähdeagentin OE-copy on vaihekohtainen eikä reasoning-teksti',()=>assert.match(copyFor('STAGE_STARTED','oe',{stage:'source'}),/löytyykö tälle väitteelle/));
+test('aktiivinen Vaiheet-solmu saa prosessikursorin vain elävässä ja OE-tilassa',()=>{assert.match(css,/html\[data-machine-mode=\"living\"\] #orchestraStages \[data-stage\]\[data-state=\"running\"\]/);assert.doesNotMatch(css,/data-machine-mode=\"quiet\"[^}]*data-state=\"running\"/);});
+test('orkestroija lähettää vakioituja turvallisia tilatapahtumia',()=>{for(const code of ['RUN_STARTED','STAGE_STARTED','STAGE_COMPLETED','CRITIC_FLAGS','CLAIMS_CHECKED','PACKAGE_READY','MODEL_RETRY','API_ERROR','RUN_COMPLETED','HUMAN_APPLIED'])assert.match(orch,new RegExp(`emitTelemetry\\('${code}'`));assert.match(orch,/SOURCE_FOUND':'SOURCE_EMPTY/);});
+test('orkestroijan emitTelemetry rakentaa oman detail-allowlistin',()=>{assert.match(orch,/const allowed=\['stage','label','step','stepCount','count','supported','open','warnings','issues','placements','elapsedMs','httpStatus','parallelCount'\]/);assert.doesNotMatch(orch,/emitTelemetry\([^\n]+\{[^\n]*(?:post|outputs|result|instruction|prompt):/);});
+test('OE-tila ei tee yhtään API-kutsua eikä mutatoi agenttiasetuksia',()=>{const ui=fs.readFileSync('admin-machine-room.js','utf8');assert.doesNotMatch(ui,/\bfetch\s*\(/);assert.doesNotMatch(ui,/\/api\//);assert.doesNotMatch(ui,/maxOutputTokens|modelTarget|runtimeProfile|citationMode/);});
+test('Työrauha piilottaa hahmon ja kommentin mutta jättää faktan',()=>{assert.match(css,/\[data-mode="quiet"\] \.machine-room-character,\.machine-room\[data-mode="quiet"\] \.machine-room-message strong\{display:none\}/);assert.match(css,/\[data-mode="quiet"\] \.machine-room-stage\{grid-template-columns:1fr/);});
+test('reduced motion sammuttaa konehuoneanimaatiot myös konsolidoidussa media-blokissa',()=>assert.match(css,/@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?\.machine-room \*\{animation:none!important;transition:none!important\}/));
+test('API_ERRORille on seinäreaktio ja disagreementille kaksi hahmoa',()=>{assert.match(html,/machineRoomRaccoonPeer/);assert.match(html,/machineRoomWall/);assert.match(css,/data-event="API_ERROR"/);assert.match(css,/data-event="AGENT_DISAGREEMENT"/);});
+test('build stageaa konehuonemoduulin public-outputiin',()=>assert.match(build,/admin-machine-room\.js/));
+console.log(`16.3 living machine room: ${n}/${n}`);
