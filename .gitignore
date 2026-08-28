@@ -14,18 +14,5 @@ IP_PRIVATE/
 .visual-regression/
 
 # Generated deployment/publication output (npm run build)
+# Phase 5: buildin ainoa output-raja on public/.
 /public/
-/lahetykset/
-/dispatches/
-/lahetykset.html
-/dispatches.html
-/rss.xml
-/rss-en.xml
-/sitemap.xml
-/robots.txt
-/content-manifest.json
-/evidence-manifest.json
-/discovery-manifest.json
-/core-public.json
-/release-provenance.json
-/llms.txt

@@ -3,15 +3,17 @@ import path from 'node:path';
 
 const ROOT=process.cwd();
 const read=(p)=>fs.readFileSync(path.join(ROOT,p),'utf8');
+const readPublic=(p)=>fs.readFileSync(path.join(ROOT,'public',p),'utf8');
 const json=(p)=>JSON.parse(read(p));
+const publicJson=(p)=>JSON.parse(readPublic(p));
 let passed=0;
 function ok(cond,msg){ if(!cond) throw new Error(`✗ ${msg}`); passed++; console.log(`✓ ${msg}`); }
 
 const policy=json('discovery-policy.json');
-const robots=read('robots.txt');
-const llms=read('llms.txt');
-const manifest=json('discovery-manifest.json');
-const content=json('content-manifest.json');
+const robots=readPublic('robots.txt');
+const llms=readPublic('llms.txt');
+const manifest=publicJson('discovery-manifest.json');
+const content=publicJson('content-manifest.json');
 
 ok(policy.version==='anomancer.discovery/v1','policy version');
 ok(/User-agent: OAI-SearchBot[\s\S]*?Allow: \/[\s\S]*?Disallow: \/admin[\s\S]*?Disallow: \/api\/admin\//.test(robots),'OAI-SearchBot saa julkisen sisällön mutta ei adminia');
@@ -23,6 +25,6 @@ ok(llms.includes('https://anomancer.com/evidence-manifest.json')&&llms.includes(
 ok(content.published.every(p=>llms.includes(p.url)),'llms sisältää kaikki julkaistut canonical URL:t');
 ok(manifest.site==='https://anomancer.com'&&manifest.publishedArticles===content.published.length,'discovery manifest canonical + article count');
 ok(manifest.search?.openai?.userAgent==='OAI-SearchBot'&&manifest.training?.openai?.userAgent==='GPTBot','discovery manifest erottaa haun ja koulutuksen');
-ok(read('public/llms.txt')===llms&&read('public/robots.txt')===robots,'Vercel public-output sisältää discovery-tiedostot');
+ok(!fs.existsSync(path.join(ROOT,'llms.txt'))&&!fs.existsSync(path.join(ROOT,'robots.txt')),'discovery-output ei vuoda projektin rootiin');
 
 console.log(`\n${passed}/11 DISCOVERY LAYER`);

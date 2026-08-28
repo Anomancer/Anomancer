@@ -1,5 +1,13 @@
 # Changelog
 
+## Phase 5 · Build / Source Boundary
+
+- Moved canonical static page sources under `site/pages/` with root compatibility symlinks.
+- Reworked home/Core transforms into pure render functions.
+- Build now writes publication and deployment artifacts only under `public/`.
+- Removed legacy root generated-output ignores so boundary regressions become visible.
+- Added a tracked-source immutability regression gate; full release gate is now 71 steps.
+
 ## Phase 4 · Frontend Runtime Boundaries
 
 - Added a single frontend service registry and named event bus.

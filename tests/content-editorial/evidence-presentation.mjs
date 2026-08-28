@@ -38,7 +38,7 @@ ok('end-to-end build renders grounded inline link and deterministic SVG',()=>{
   fs.mkdirSync(path.join(root,'content','en'),{recursive:true});
   const fixture={...base,slug:'v162-presentation-fixture',translationKey:'v162-presentation-fixture',title:'V16.2 Presentation Fixture',date:'2099-12-30',description:'V16.2 julkaisuputken inline-linkki- ja visualisointitesti.',citationMode:'inline',citationPlacements:[{claimText:claims[0].text,evidenceUrl:url,quote:'Tutkimuksessa kasvu oli 27 prosenttia vuonna 2025.',anchorText:'27 prosenttia'}],visualizations:[chart]};
   const file=path.join(root,'content','fi','9997-v162-presentation-fixture.md');
-  const out=path.join(root,'lahetykset','v162-presentation-fixture.html');
+  const out=path.join(root,'public','lahetykset','v162-presentation-fixture.html');
   const build=()=>{const r=spawnSync(process.execPath,['scripts/build-blog.mjs'],{cwd:root,encoding:'utf8'});if(r.status!==0)throw new Error(`${r.stdout}\n${r.stderr}`);};
   try{
     fs.mkdirSync(path.dirname(file),{recursive:true});
