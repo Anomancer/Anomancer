@@ -50,9 +50,10 @@ window.fetch=(input,init={})=>{const raw=typeof input==='string'?input:input?.ur
  return __wbJson({ok:false,error:'UNMOCKED',message:'Unmocked '+url.pathname},404);};
 </script>`;
 let source=fs.readFileSync('admin.html','utf8').replace(/<link[^>]+href="\/admin\.css"[^>]*>/,`<style>${readAdminCss()}</style>`);
-source=source.replace('</head>',`<base href="https://anomancer.local/">${mockApi}</head>`);
+const adminRuntimeHarness=fs.readFileSync('admin-runtime.js','utf8').replace('export const runtime=','globalThis.__anomancerRuntime=').replace(/<\/script/gi,'<\\/script');
+source=source.replace('</head>',`<base href="https://anomancer.local/"><script>${adminRuntimeHarness}</script>${mockApi}</head>`);
 const exportUrl=`data:text/javascript;base64,${Buffer.from(fs.readFileSync('narramancer-export.js','utf8')).toString('base64')}`;
-source=source.replace(/<script src="\/([^\"]+)" type="module"><\/script>/g,(_,file)=>{let js=fs.readFileSync(file,'utf8');if(file==='admin-narramancer.js')js=js.replace('./narramancer-export.js',exportUrl);return `<script type="module">\n${js.replace(/<\/script/gi,'<\\/script')}\n</script>`;});
+source=source.replace(/<script src="\/([^\"]+)" type="module"><\/script>/g,(_,file)=>{let js=fs.readFileSync(file,'utf8');js=js.replace(/^import \{runtime\} from '\.\/admin-runtime\.js';\n/,"const runtime=globalThis.__anomancerRuntime;\n");if(file==='admin-narramancer.js')js=js.replace('./narramancer-export.js',exportUrl);return `<script type="module">\n${js.replace(/<\/script/gi,'<\\/script')}\n</script>`;});
 
 const candidates=[process.env.CHROMIUM_BIN,'/usr/bin/chromium','/usr/bin/chromium-browser','/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/brave-browser','/snap/bin/chromium'].filter(Boolean),CHROMIUM=candidates.find(p=>fs.existsSync(p));assert.ok(CHROMIUM,'1.18.4 workbench UI tarvitsee Chromiumin.');
 const profile=fs.mkdtempSync(`${os.tmpdir()}/anomancer-wb-`),chrome=spawn(CHROMIUM,['--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--remote-debugging-port=0',`--user-data-dir=${profile}`,'about:blank'],{stdio:['ignore','ignore','pipe']});

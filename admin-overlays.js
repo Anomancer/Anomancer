@@ -1,3 +1,4 @@
+import {runtime} from './admin-runtime.js';
 const q=s=>document.querySelector(s);
 const registry=new Map();
 let activeName='',lastTrigger=null,inerted=[];
@@ -50,7 +51,7 @@ function open(name,trigger=document.activeElement){
     const preferred=entry.focusSelector?root.querySelector(entry.focusSelector):null;
     (preferred||getFocusable(root)[0]||root).focus?.({preventScroll:true});
   });
-  window.dispatchEvent(new CustomEvent('anomancer:overlay-open',{detail:{name}}));
+  runtime.events.emit('overlay-open',{name});
   return true;
 }
 function finishClose(name,{restore=true}={}){
@@ -61,7 +62,7 @@ function finishClose(name,{restore=true}={}){
   activeName='';
   const trigger=lastTrigger;lastTrigger=null;
   if(restore&&trigger?.isConnected)queueMicrotask(()=>trigger.focus?.({preventScroll:true}));
-  window.dispatchEvent(new CustomEvent('anomancer:overlay-close',{detail:{name}}));
+  runtime.events.emit('overlay-close',{name});
 }
 function close(name=activeName,{restore=true}={}){
   if(!name)return false;const entry=registry.get(name),root=resolve(entry?.element);if(!entry||!root)return false;
@@ -165,5 +166,5 @@ document.addEventListener('keydown',event=>{
   else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
 });
 
-window.anomancerOverlays={register,open,close,toggle,closeAll,active:()=>activeName};
-window.anomancerDialogs={confirm:confirmDialog,prompt:promptDialog,form:formDialog,notice};
+runtime.provide('overlays',{register,open,close,toggle,closeAll,active:()=>activeName});
+runtime.provide('dialogs',{confirm:confirmDialog,prompt:promptDialog,form:formDialog,notice});

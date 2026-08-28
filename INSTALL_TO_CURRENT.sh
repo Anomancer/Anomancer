@@ -92,6 +92,7 @@ rsync -a --itemize-changes --backup --backup-dir="$BACKUP_REL" "${DELETE_ARGS[@]
 # admin/PWA-runtime-peilit synkronoidaan eksplisiittisellä allowlistillä.
 PUBLIC_RUNTIME_ASSETS=(
   admin.html
+  admin-runtime.js
   admin.js
   admin-shell.js
   admin-shell.css

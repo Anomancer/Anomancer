@@ -6,6 +6,8 @@ import {spawn} from 'node:child_process';
 import {readAdminCss} from '../../scripts/read-admin-css.mjs';
 
 const read=file=>fs.readFileSync(file,'utf8');
+const runtimeEval=()=>read('admin-runtime.js').replace('export const runtime=','globalThis.__anomancerRuntime=');
+const moduleEval=file=>read(file).replace(/^import \{runtime\} from '\.\/admin-runtime\.js';\n/,"const runtime=globalThis.__anomancerRuntime;\n");
 const sources=['admin.js','admin-workspaces.js','admin-archive.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-orchestrator.js'];
 const native=/(?<![.\w])(alert|confirm|prompt)\s*\(/g;
 let passed=0;
@@ -13,7 +15,7 @@ function ok(name,fn){fn();passed++;console.log(`✓ ${name}`);}
 
 ok('yhteinen async dialog API on olemassa',()=>{
   const js=read('admin-overlays.js');
-  assert.match(js,/window\.anomancerDialogs=\{confirm:confirmDialog,prompt:promptDialog,form:formDialog,notice\}/);
+  assert.match(js,/runtime\.provide\('dialogs',\{confirm:confirmDialog,prompt:promptDialog,form:formDialog,notice\}\)/);
   assert.match(js,/inertSelectors:\['#appView','#loginView','\.mobile-command-portal'\]/);
   assert.match(js,/lastTrigger/);
 });
@@ -29,12 +31,12 @@ ok('native alert confirm prompt poistettu admin-poluilta',()=>{
 ok('ihmisen toimivaltarajat käyttävät async vahvistusta',()=>{
   const joined=sources.map(read).join('\n');
   for(const marker of ['Poista lähetys','Vahvista lähteen tarkistus','Arkistoi työtila','Poista arkisto-objekti','Poista orkesteri','Sovella orkesterin ehdotus'])assert.match(joined,new RegExp(marker));
-  assert.match(joined,/await window\.anomancerDialogs\.confirm/);
+  assert.match(joined,/await runtime\.service\('dialogs'\)\.confirm/);
 });
 
 ok('kuvan alt ja caption ovat yhdessä lomakedialogissa',()=>{
   const js=read('admin.js');
-  assert.match(js,/anomancerDialogs\.form\(\{title:'Kuvan tiedot'/);
+  assert.match(js,/runtime\.service\('dialogs'\)\.form\(\{title:'Kuvan tiedot'/);
   assert.match(js,/name:'alt'/);assert.match(js,/name:'caption'/);
   assert.doesNotMatch(js,/(?<![.\w])prompt\s*\(/);
 });
@@ -62,7 +64,8 @@ for(const [name,width,height] of [['desktop',1440,900],['phone',360,800]]){
   const frameId=(await send('Page.getFrameTree',{},sessionId)).frameTree.frame.id;
   await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<=760},sessionId);
   await send('Page.setDocumentContent',{frameId,html},sessionId);
-  await send('Runtime.evaluate',{expression:read('admin-overlays.js')},sessionId);
+  await send('Runtime.evaluate',{expression:runtimeEval()},sessionId);
+  await send('Runtime.evaluate',{expression:moduleEval('admin-overlays.js')},sessionId);
   await send('Runtime.evaluate',{expression:`window.__result='pending';document.querySelector('#trigger').focus();window.anomancerDialogs.confirm('Poistetaanko objekti?',{title:'Poista objekti',details:'Tombstone säilyy.',confirmLabel:'Poista',destructive:true}).then(v=>window.__result=v);`},sessionId);
   await send('Runtime.evaluate',{expression:'new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))',awaitPromise:true},sessionId);
   const state=(await send('Runtime.evaluate',{returnByValue:true,expression:`(()=>{const d=document.querySelector('#coreSystemDialog'),r=d.getBoundingClientRect();return{open:d.open,inert:document.querySelector('#appView').hasAttribute('inert'),focus:document.activeElement.id,width:r.width,scrollWidth:document.documentElement.scrollWidth,innerWidth}})()`},sessionId)).result.value;

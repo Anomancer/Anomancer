@@ -77,7 +77,7 @@ await test('Työtilakortti on ensisijainen kotipesä ja dropdown vain pikavaihta
 await test('Globaali navigointi ei vaihda työtilaa sivuvaikutuksena',()=>{
   assert.doesNotMatch(shell,/switchTo\?\.\('default'\)/);
   assert.doesNotMatch(shell,/next==='dispatches'/);
-  assert.match(workspaces,/if\(changed\)window\.anomancerShell\?\.navigate/);
+  assert.match(workspaces,/if\(changed\)runtime\.service\('shell'\)\?\.navigate/);
 });
 
 await test('Narramancer-orkesteri näyttää vaiheet ja säilyttää session checkpointin jatkamista varten',()=>{

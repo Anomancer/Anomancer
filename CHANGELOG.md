@@ -1,5 +1,14 @@
 # Changelog
 
+## Phase 4 · Frontend Runtime Boundaries
+
+- Added a single frontend service registry and named event bus.
+- Migrated Shell, Workspaces, Admin, Core, Orchestrator and Overlay/Dialog integration away from direct cross-module globals.
+- Preserved legacy aliases as compatibility adapters for unmigrated leaf modules.
+- Added the runtime module to build, installer and offline app-shell boundaries.
+- Added a runtime-boundary regression gate; full release gate is now 70 steps.
+
+
 Git history is the detailed historical archive. This file keeps the current release line and major architectural milestones rather than every patch report as a separate root document.
 
 ## 1.18.5 — Live Path Verification & Canary Gate
