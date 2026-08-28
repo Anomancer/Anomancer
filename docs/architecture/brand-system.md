@@ -29,3 +29,7 @@ The existing stable PWA paths under `icons/lahetyskone-*.png` are retained, but 
 ## Regression boundary
 
 `tests/ui-browser/brand-system.mjs` verifies source assets, PWA icon dimensions, FI/EN wiring, generated build output and the source/output boundary.
+
+## Phase 7.1 visual consolidation
+
+The pulse artwork is reserved for Lähetykset / Dispatches transmission identity. Public Home and Core hero surfaces use wordmarks without the pulse. Home, Core and generated publication headers share one size and spacing contract. Core keeps the standalone Core mark as favicon/PWA-adjacent artwork, not as the public hero identity.

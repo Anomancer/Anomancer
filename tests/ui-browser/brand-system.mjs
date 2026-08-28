@@ -41,21 +41,25 @@ for(const [name,html] of [['FI home',fi],['EN home',en]]){
   assert.match(html,/\/media\/brand\/anomancer-mark\.png/);
   assert.match(html,/brand-wordmark-anomancer/);
   assert.match(html,/hero-brand-wordmark/);
-  assert.match(html,/hero-signal-mark/);
-  assert.match(html,/footer-brand/);
+  assert.doesNotMatch(html,/hero-signal-mark/);
+  assert.doesNotMatch(html,/transmission-pulse\.png/);
+  assert.match(html,/footer-polished/);
   assert.match(html,/aria-label="Anomancer"/);
 }
-console.log('✓ BRAND SYSTEM · Anomancer FI/EN käyttää samaa logo-, hero-, footer- ja favicon-sopimusta');
+console.log('✓ BRAND SYSTEM · Anomancer FI/EN käyttää pulssitonta hero-identiteettiä ja yhtenäistä footeria');
 
 const coreFi=read('site/pages/core.html'), coreEn=read('site/pages/core-en.html');
 for(const [name,html] of [['FI Core',coreFi],['EN Core',coreEn]]){
   assert.match(html,/\/media\/brand\/core-mark\.png/);
   assert.match(html,/brand-wordmark-core/);
-  assert.match(html,/core-brand-mark/);
-  assert.match(html,/core-brand-signal/);
-  assert.match(html,/footer-brand/);
+  assert.match(html,/core-hero-wordmark/);
+  assert.match(html,/anomancer-core-wordmark\.png/);
+  assert.doesNotMatch(html,/core-brand-mark/);
+  assert.doesNotMatch(html,/core-brand-signal/);
+  assert.doesNotMatch(html,/transmission-pulse\.png/);
+  assert.match(html,/footer-polished/);
 }
-console.log('✓ BRAND SYSTEM · Core FI/EN käyttää omaa markkia ja Anomancer Core -wordmarkia');
+console.log('✓ BRAND SYSTEM · Core FI/EN käyttää Anomancer Core -wordmarkia ilman hero-pulssia');
 
 const build=read('scripts/build-blog.mjs');
 assert.match(build,/\/media\/brand\/anomancer-mark\.png/);
@@ -84,8 +88,11 @@ for(const file of assets){
   assert.deepEqual(pngSize(out),pngSize(file),`${out}: build-output ei vastaa source-assettia`);
 }
 assert.match(read('public/index.html'),/hero-brand-wordmark/);
-assert.match(read('public/core.html'),/core-brand-mark/);
-assert.match(read('public/en/core.html'),/core-brand-mark/);
+assert.doesNotMatch(read('public/index.html'),/hero-signal-mark/);
+assert.match(read('public/core.html'),/core-hero-wordmark/);
+assert.doesNotMatch(read('public/core.html'),/core-brand-signal/);
+assert.match(read('public/en/core.html'),/core-hero-wordmark/);
+assert.doesNotMatch(read('public/en/core.html'),/core-brand-signal/);
 console.log('✓ BRAND SYSTEM · build stageaa brand-assettien ja FI/EN-sivujen public-outputin');
 
 console.log('\n7/7 PHASE 7 BRAND SYSTEM -porttia läpi');
