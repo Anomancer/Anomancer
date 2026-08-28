@@ -12,6 +12,7 @@ function json(res, status, body) {
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Cache-Control', 'no-store, max-age=0');
   res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
   res.end(JSON.stringify(body));
 }
 
@@ -30,15 +31,16 @@ function clientIp(req) {
 }
 
 function sameOrigin(req) {
-  const origin = req.headers.origin;
-  if (!origin) return true;
+  const origin=String(req.headers.origin||'').trim();
+  const host=String(req.headers['x-forwarded-host']||req.headers.host||'').trim().toLowerCase();
+  const proto=String(req.headers['x-forwarded-proto']||'https').split(',')[0].trim().toLowerCase();
+  if(!origin||!host||/[\s\x00-\x1f]/.test(host)||!['http','https'].includes(proto))return false;
   try {
-    const host = String(req.headers.host || '').toLowerCase();
-    return new URL(origin).host.toLowerCase() === host;
-  } catch {
-    return false;
-  }
+    const parsed=new URL(origin);
+    return (parsed.protocol==='http:'||parsed.protocol==='https:')&&parsed.origin===`${proto}://${host}`;
+  } catch { return false; }
 }
+
 
 function rateAllowed(ip, now) {
   const entries = (rateStore.get(ip) || []).filter(ts => now - ts < RATE_WINDOW_MS);
@@ -93,6 +95,9 @@ export default async function handler(req, res) {
   }
 
   const body = req.body && typeof req.body === 'object' ? req.body : {};
+  let encodedBody='';
+  try{encodedBody=JSON.stringify(body);}catch{return json(res,400,{ok:false,error:'BODY_INVALID'});}
+  if(Buffer.byteLength(encodedBody)>MAX_BODY_BYTES)return json(res,413,{ok:false,error:'MESSAGE_TOO_LARGE'});
 
   // Honeypot. Botille näytetään onnistuminen, mutta mitään ei lähetetä.
   if (normalize(body.company, 120)) {

@@ -59,13 +59,13 @@
 
 .core-public-page h1,.core-public-page h2,.core-public-page h3{text-wrap:balance}.core-public-page p{text-wrap:pretty}.core-section-nav a[aria-current="location"]{color:#fff;border-color:var(--color-accent);background:var(--color-accent-soft)}
 
-/* 16.0.1 Core navigation rhythm */
+/* Core navigation rhythm */
 .core-product-nav a{min-height:58px;padding-inline:16px;font-size:.84rem}
 .core-product-nav a span{font-size:.66rem}
 @media(max-width:680px){.core-product-nav a{min-height:52px;padding-inline:12px;font-size:.76rem}}
 
 
-/* 16.0.2 public flow breathing room */
+/* Public flow breathing room */
 .core-public-stage-line[data-step-count="8"]{grid-template-columns:repeat(4,minmax(0,1fr));gap:22px 24px;overflow:visible;padding:0;margin-top:30px}
 .core-public-stage-line[data-step-count="8"] .core-public-stage{min-height:118px;padding:18px;overflow:visible}
 .core-public-stage-line[data-step-count="8"] .core-public-stage::after{content:"→";position:absolute;z-index:3;right:-24px;top:50%;width:24px;height:24px;display:grid;place-items:center;transform:translateY(-50%);border:1px solid rgba(255,22,61,.2);border-radius:999px;background:#050509;color:var(--red);font:800 .8rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;pointer-events:none}
@@ -141,7 +141,7 @@
   .core-public-stage-line[data-step-count="9"]{grid-template-columns:repeat(9,150px)}
 }
 
-/* 16.9.0: nine-stage public orchestra collapses to a vertical timeline on narrow phones. */
+/* Nine-stage public orchestra collapses to a vertical timeline on narrow phones. */
 @media(max-width:600px){
   .core-public-stage-line[data-step-count="9"]{position:relative;grid-template-columns:1fr;gap:14px;padding-left:30px;margin-top:24px;overflow:visible}
   .core-public-stage-line[data-step-count="9"]::before{content:"";position:absolute;left:10px;top:18px;bottom:18px;width:1px;background:linear-gradient(180deg,rgba(255,22,61,.18),rgba(255,22,61,.58),rgba(255,22,61,.18));pointer-events:none}
@@ -149,3 +149,68 @@
   .core-public-stage-line[data-step-count="9"] .core-public-stage::before{content:"";position:absolute;left:-25px;top:21px;width:9px;height:9px;border:2px solid #050509;border-radius:50%;background:var(--red);box-shadow:0 0 0 1px rgba(255,22,61,.35),0 0 14px rgba(255,22,61,.18)}
   .core-public-stage-line[data-step-count="9"] .core-public-stage::after{display:none!important}
 }
+
+/* Current architecture and progressive roadmap disclosure */
+.core-platform-block{margin-top:16px;padding:24px;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:linear-gradient(145deg,rgba(255,22,61,.035),rgba(104,77,164,.028),rgba(255,255,255,.012))}
+.core-platform-head{display:grid;grid-template-columns:minmax(0,.85fr) minmax(280px,.7fr);gap:28px;align-items:end;margin-bottom:18px}
+.core-platform-head h4{margin:8px 0 0;font-family:Orbitron,Rajdhani,sans-serif;font-size:clamp(1.3rem,2.6vw,2rem);line-height:1.15}
+.core-platform-head p{margin:0;color:var(--muted);line-height:1.55}
+.core-platform-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.core-platform-grid article{min-height:150px;padding:17px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(5,5,10,.54)}
+.core-platform-grid article>span{display:block;margin-bottom:12px;color:var(--red);font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.core-platform-grid article>strong{display:block;color:#fff;font-family:Orbitron,Rajdhani,sans-serif;font-size:1rem;line-height:1.35}
+.core-platform-grid article>p{margin:10px 0 0;color:var(--muted);font-size:.9rem;line-height:1.5}
+
+.core-roadmap-wrap{width:min(1220px,calc(100% - 44px));margin:74px auto 0;padding-bottom:88px}
+.core-roadmap-details{border:1px solid rgba(255,255,255,.1);border-radius:16px;background:linear-gradient(145deg,rgba(7,7,13,.96),rgba(11,8,18,.94));box-shadow:0 30px 100px rgba(0,0,0,.22);overflow:clip}
+.core-roadmap-details>summary{min-height:92px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 24px;cursor:pointer;list-style:none;user-select:none}
+.core-roadmap-details>summary::-webkit-details-marker{display:none}
+.core-roadmap-details>summary>span:first-child{display:grid;gap:6px}
+.core-roadmap-details>summary small{color:var(--red);font-weight:800;letter-spacing:.12em}
+.core-roadmap-details>summary strong{font-family:Orbitron,Rajdhani,sans-serif;font-size:clamp(1.05rem,2vw,1.35rem)}
+.core-roadmap-details>summary:hover{background:rgba(255,255,255,.025)}
+.core-roadmap-details>summary:focus-visible{outline:3px solid var(--red);outline-offset:-3px}
+.core-roadmap-toggle{width:42px;height:42px;display:grid;place-items:center;flex:0 0 auto;border:1px solid rgba(255,22,61,.35);border-radius:50%;color:var(--red);font:700 1.45rem/1 Orbitron,Rajdhani,sans-serif;transition:transform .18s ease,background .18s ease}
+.core-roadmap-details[open] .core-roadmap-toggle{transform:rotate(45deg);background:rgba(255,22,61,.08)}
+.core-roadmap-body{padding:0 24px 28px;border-top:1px solid rgba(255,255,255,.08)}
+.core-roadmap-intro{padding:54px 0 30px;max-width:900px}
+.core-roadmap-intro h2{margin:10px 0 14px;font-family:Orbitron,Rajdhani,sans-serif;font-size:clamp(2rem,4.5vw,4rem);line-height:1.04}
+.core-roadmap-intro>p:last-child{max-width:780px;margin:0;color:var(--muted);font-size:1.06rem;line-height:1.65}
+.core-roadmap-principle{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:44px}
+.core-roadmap-principle span{display:grid;gap:6px;min-height:78px;padding:13px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.018);color:var(--red);font-size:.72rem;font-weight:800;letter-spacing:.08em}
+.core-roadmap-principle b{color:#fff;font-family:Rajdhani,sans-serif;font-size:.95rem;letter-spacing:0;text-transform:none}
+.core-roadmap-phase{padding:34px 0;border-top:1px solid rgba(255,255,255,.08)}
+.core-roadmap-phase>header{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;align-items:start;margin-bottom:20px}
+.core-roadmap-phase>header>span{width:40px;height:40px;display:grid;place-items:center;border:1px solid rgba(255,22,61,.34);border-radius:50%;color:var(--red);font:700 .7rem Orbitron,Rajdhani,sans-serif}
+.core-roadmap-phase header small{color:var(--dim);font-weight:800;letter-spacing:.1em}
+.core-roadmap-phase h3{margin:5px 0 0;font-family:Orbitron,Rajdhani,sans-serif;font-size:clamp(1.35rem,2.6vw,2.15rem);line-height:1.15}
+.core-roadmap-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.core-roadmap-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.core-roadmap-grid article{min-height:190px;padding:18px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.018)}
+.core-roadmap-grid article>b{display:block;color:var(--red);font:800 .74rem Orbitron,Rajdhani,sans-serif;letter-spacing:.08em}
+.core-roadmap-grid h4{margin:10px 0 8px;font-family:Orbitron,Rajdhani,sans-serif;font-size:1.05rem;line-height:1.25}
+.core-roadmap-grid p{margin:0;color:var(--muted);line-height:1.52}
+.core-roadmap-phase.final{border-bottom:1px solid rgba(255,255,255,.08)}
+.core-roadmap-order{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;padding-top:28px;color:var(--dim);font-size:.78rem;font-weight:800}
+.core-roadmap-order span{padding:8px 10px;border:1px solid rgba(255,255,255,.08);border-radius:999px;background:rgba(255,255,255,.018)}
+.core-roadmap-order b{color:var(--red)}
+
+@media(max-width:980px){
+  .core-platform-head{grid-template-columns:1fr}
+  .core-platform-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .core-roadmap-grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .core-roadmap-principle{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  .core-platform-block{padding:18px}
+  .core-platform-grid,.core-roadmap-grid,.core-roadmap-grid.three,.core-roadmap-principle{grid-template-columns:1fr}
+  .core-platform-grid article,.core-roadmap-grid article{min-height:auto}
+  .core-roadmap-wrap{width:calc(100% - 28px);margin-top:52px;padding-bottom:64px}
+  .core-roadmap-details>summary{min-height:82px;padding:16px 18px;gap:14px}
+  .core-roadmap-toggle{width:38px;height:38px}
+  .core-roadmap-body{padding:0 18px 20px}
+  .core-roadmap-intro{padding-top:42px}
+  .core-roadmap-phase>header{grid-template-columns:38px minmax(0,1fr);gap:12px}
+  .core-roadmap-phase>header>span{width:36px;height:36px}
+}
+@media(prefers-reduced-motion:reduce){.core-roadmap-toggle{transition:none}}

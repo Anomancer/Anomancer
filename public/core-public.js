@@ -9,6 +9,7 @@ function apply(core){
   const view=renderPublicCore(core,lang);
   if(q('#corePublicVersion'))q('#corePublicVersion').textContent=`CORE ${view.version}`;
   if(q('#corePublicAgentCount'))q('#corePublicAgentCount').textContent=String(view.agentCount);
+  if(q('#corePublicPlatform'))q('#corePublicPlatform').innerHTML=view.platformHtml;
   if(q('#corePublicOrchestraCount'))q('#corePublicOrchestraCount').textContent=String(view.orchestraCount);
   if(q('#corePublicAgents'))q('#corePublicAgents').innerHTML=view.agentsHtml;
   if(q('#corePublicOrchestra'))q('#corePublicOrchestra').innerHTML=view.orchestrasHtml;

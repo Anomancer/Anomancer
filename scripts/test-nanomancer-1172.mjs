@@ -47,9 +47,16 @@ await assert.rejects(()=>runNanomancer({operation:'cross-run',workspaceId:'defau
 
 let req=reqMock(),res=resMock();await capabilitiesHandler(req,res);assert.equal(res.statusCode,401);ok('Capability API is private by default');
 const token=signSession(process.env.ADMIN_SESSION_SECRET,{nonce:'nano-api'}),session=verifySession(process.env.ADMIN_SESSION_SECRET,token),csrf=csrfForSession(process.env.ADMIN_SESSION_SECRET,session);
-req=reqMock({method:'POST',headers:{cookie:`anomancer_admin=${encodeURIComponent(token)}`,'x-csrf-token':csrf,'x-anomancer-workspace':'default'},body:{pluginId:'nanomancer',operation:'compare',inputs:[{kind:'inline',value:{x:1}},{kind:'inline',value:{x:2}}]}});res=resMock();await capabilitiesHandler(req,res);assert.equal(res.statusCode,200);const api=JSON.parse(res.body);assert.equal(api.ok,true);assert.equal(api.analysis.plugin.id,'nanomancer');assert.equal(api.humanApprovalRequiredForPersistence,true);ok('Capability API requires admin + CSRF and returns structured read-only result');
+req=reqMock({method:'POST',headers:{cookie:`anomancer_admin=${encodeURIComponent(token)}`,origin:'https://anomancer.com',host:'anomancer.com','x-forwarded-proto':'https','x-csrf-token':csrf,'x-anomancer-workspace':'default'},body:{pluginId:'nanomancer',operation:'compare',inputs:[{kind:'inline',value:{x:1}},{kind:'inline',value:{x:2}}]}});res=resMock();await capabilitiesHandler(req,res);assert.equal(res.statusCode,200);const api=JSON.parse(res.body);assert.equal(api.ok,true);assert.equal(api.analysis.plugin.id,'nanomancer');assert.equal(api.humanApprovalRequiredForPersistence,true);ok('Capability API requires admin + CSRF and returns structured read-only result');
 
 const fsm=await import('node:fs');const html=fsm.readFileSync('admin.html','utf8'),build=fsm.readFileSync('scripts/build-blog.mjs','utf8');assert.match(html,/KYVYKKYYSPLUGIN \/ NANOMANCER/);assert.match(html,/admin-nanomancer\.js/);assert.match(build,/admin-nanomancer\.js/);assert.match(build,/admin-nanomancer\.css/);ok('Nanomancer Workbench and production build assets are wired into the private Core');
-const publicCoreSource=fsm.readFileSync('server/public-core.js','utf8');assert.doesNotMatch(publicCoreSource,/capability-registry|nanomancer/i);ok('internal Capability Registry is not silently added to the public Core allowlist');
+const publicCoreSource=fsm.readFileSync('server/public-core.js','utf8');
+assert.match(publicCoreSource,/listCapabilityPlugins/);
+assert.match(publicCoreSource,/capabilityRegistry/);
+assert.doesNotMatch(publicCoreSource,/permissions\s*:/);
+assert.doesNotMatch(publicCoreSource,/operations\s*:/);
+assert.doesNotMatch(publicCoreSource,/handler\s*:/);
+assert.doesNotMatch(publicCoreSource,/execute\s*:/);
+ok('public Core exposes only allowlisted Capability metadata, not private execution contracts');
 
 console.log(`\nNanomancer 1.17.2: ${passed}/13 checks passed.`);

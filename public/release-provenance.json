@@ -2,9 +2,9 @@
   "format": "anomancer-release-provenance/v1",
   "release": "1.18.2",
   "coreVersion": "1.18.2",
-  "builtAt": "2026-08-27T23:43:44.573Z",
-  "sourceRevision": "ba3dd8424912739f0699bf044e12ea73d3f1b6a7",
-  "publicSchemaHash": "3c3787fd6d95fdda57cd20d157afdd62b5f8d1e669f353d7ea591d77754ca25e",
+  "builtAt": "2026-08-28T00:13:01.914Z",
+  "sourceRevision": "f81b9bcac557793e740fc5c370cd0d9f72258005",
+  "publicSchemaHash": "bac3e4b3fed57dedeef25d18d6cd61e93e8a0357f41612e7635123429023b0a6",
   "registryHashes": {
     "agents": "d2cc30b49cc2c792184f9e8c8072eb4df02eb72526c90db12b0ad6a6698c56f3",
     "orchestras": "72da80bcddbadd5cda2bca2ec981d258159ee3c7655e8914787af63aacf32434",

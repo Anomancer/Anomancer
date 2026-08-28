@@ -8,6 +8,52 @@
     "privateByDefault": true
   },
   "humanFinalAuthority": true,
+  "platform": {
+    "workspaceRuntime": {
+      "format": "anomancer-workspace/v2",
+      "installed": true
+    },
+    "mancerRuntime": {
+      "format": "anomancer-mancer-package/v1",
+      "installedPackages": [
+        {
+          "id": "codemancer",
+          "name": "Codemancer",
+          "version": "1.0.0",
+          "kind": "development",
+          "health": "ok"
+        }
+      ]
+    },
+    "capabilityRegistry": [
+      {
+        "id": "nanomancer",
+        "name": "Nanomancer",
+        "version": "1.0.0",
+        "type": "analysis-capability",
+        "deterministic": true,
+        "sideEffects": false,
+        "modelAccess": "none"
+      }
+    ],
+    "archive": {
+      "store": "workspace-scoped",
+      "curator": "Arkistonhoitaja",
+      "automaticModelMemory": false
+    },
+    "boundaries": [
+      "artifact-boundary",
+      "constitution-runtime",
+      "human-approval",
+      "model-router",
+      "tool-broker"
+    ],
+    "interfaceSystem": [
+      "visual-system",
+      "dialog-system",
+      "responsive-workspace-navigation"
+    ]
+  },
   "privacy": {
     "containsRawPrompt": false,
     "containsRawOutput": false,
@@ -482,7 +528,6 @@
     "constitutionFormat": "anomancer-constitution/v1",
     "artifactBoundaryFormat": "anomancer-artifact-boundary/v1",
     "defaultWorkspace": "default",
-    "defaultWorkspaceName": "Anomancer",
     "shared": [
       "agent-contracts",
       "tool-registry",

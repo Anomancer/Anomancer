@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.18.2 · Senior Core / UI / Security Hardening · 2026-08-28
+
+- päivitetty julkinen CORE vastaamaan 1.18.x-rakennetta: Workspace Runtime, Mancer Package Runtime, Codemancer, Capability Registry / Nanomancer, Archive / Arkistonhoitaja, Artifact Boundary, Constitution Runtime, Human Approval, Model Router, Tool Broker sekä yhteinen interface system
+- lisätty CORE-sivulle 1.18.2 → 2.0 -roadmap natiivina `details`/`summary`-disclosure-pintana; se on oletuksena suljettu, näppäimistöllä käytettävä ja responsiivinen
+- eroteltu FI/EN-roadmapit ja siivottu julkiselta CORE-sivulta vanhentunutta runtime-/snapshot-/fallback-jargonia
+- muutettu julkinen Capability- ja Archive-esitys eksplisiittiseksi allowlistiksi: olemassaolo ja turvallinen metadata voivat näkyä ilman yksityisiä oikeus-, suoritus- tai governance-sopimuksia
+- kovetettu JSON-body-raja myös valmiiksi parsituille request-bodyille
+- muutettu mutatoivien pyyntöjen Origin-tarkistus fail-closed-malliin
+- rajattu scrypt-parametrit ennen kallista derivointia resurssinkulutushyökkäysten pienentämiseksi
+- lisätty `nosniff`, CORP, COOP sekä julkisen COREn tiukka CSP; kovetettu `target=_blank`-linkit `noopener noreferrer` -rajalla
+- lisätty `scripts/test-senior-hardening-1182.mjs` ja oikeassa Chromiumissa ajettava `scripts/test-core-roadmap-ui-1182.mjs` osaksi pääregressioketjua
+- päivitetty vanhat Nanomancer- ja Arkistonhoitaja-testisopimukset vastaamaan uutta turvallista julkisuusrajaa ilman private runtime -vuotoa
+- säilytetty versiona 1.18.2, koska 1.18.3 on roadmapissa varattu Codemancer Workbenchille
+
 ## 1.18.2 · Native Dialog Consolidation
 
 - Korvaa adminin natiivit `alert()`, `confirm()` ja `prompt()` -työpolut yhteisellä async-dialogi-API:lla.

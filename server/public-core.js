@@ -6,6 +6,8 @@ import {
   MODEL_ROUTE_REGISTRY,
   digest,
 } from './core-registry.js';
+import { listInstalledMancerPackages } from './mancer-registry.js';
+import { listCapabilityPlugins } from './capability-registry.js';
 
 export const PUBLIC_CORE_FORMAT='anomancer-core-public/v2';
 export const PUBLIC_BOUNDARY_VERSION='1.0';
@@ -13,6 +15,8 @@ export const PUBLIC_BOUNDARY_VERSION='1.0';
 const clone=value=>JSON.parse(JSON.stringify(value));
 
 export function createPublicCoreView(){
+  const mancerPackages=listInstalledMancerPackages();
+  const capabilities=listCapabilityPlugins();
   return {
     format:PUBLIC_CORE_FORMAT,
     version:CORE_VERSION,
@@ -23,6 +27,21 @@ export function createPublicCoreView(){
       privateByDefault:true,
     },
     humanFinalAuthority:true,
+    platform:{
+      workspaceRuntime:{format:'anomancer-workspace/v2',installed:true},
+      mancerRuntime:{
+        format:'anomancer-mancer-package/v1',
+        installedPackages:mancerPackages.map(pkg=>({
+          id:pkg.manifest.id,name:pkg.manifest.name,version:pkg.manifest.version,kind:pkg.manifest.kind,health:pkg.health,
+        })),
+      },
+      capabilityRegistry:capabilities.map(plugin=>({
+        id:plugin.id,name:plugin.name,version:plugin.version,type:plugin.type,deterministic:Boolean(plugin.deterministic),sideEffects:Boolean(plugin.sideEffects),modelAccess:plugin.permissions?.modelAccess==='none'?'none':'bounded',
+      })),
+      archive:{store:'workspace-scoped',curator:'Arkistonhoitaja',automaticModelMemory:false},
+      boundaries:['artifact-boundary','constitution-runtime','human-approval','model-router','tool-broker'],
+      interfaceSystem:['visual-system','dialog-system','responsive-workspace-navigation'],
+    },
     privacy:{
       containsRawPrompt:false,
       containsRawOutput:false,
@@ -108,7 +127,6 @@ export function createPublicCoreView(){
       constitutionFormat:'anomancer-constitution/v1',
       artifactBoundaryFormat:'anomancer-artifact-boundary/v1',
       defaultWorkspace:'default',
-      defaultWorkspaceName:'Anomancer',
       shared:['agent-contracts','tool-registry','model-router'],
       scoped:['runtime-profiles','custom-orchestras','runs','usage','artifact-store','content-adapter','output-adapter'],
       contentScope:'workspace-artifact-adapter',

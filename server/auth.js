@@ -25,11 +25,15 @@ export function hashPassword(password, { salt = crypto.randomBytes(16).toString(
 export function verifyPassword(password, encoded) {
   try {
     const [kind, n, r, p, salt, hex] = String(encoded || '').split('$');
-    if (kind !== 'scrypt' || !salt || !hex) return false;
-    const actual = crypto.scryptSync(String(password || ''), salt, Buffer.from(hex, 'hex').length, {
-      N: Number(n), r: Number(r), p: Number(p), maxmem: 64 * 1024 * 1024,
-    });
+    if (kind !== 'scrypt' || !salt || !hex || !/^[a-f0-9]+$/i.test(hex) || hex.length % 2) return false;
+    const N=Number(n),block=Number(r),parallel=Number(p);
+    if(!Number.isInteger(N)||N<16384||N>262144||(N&(N-1))!==0) return false;
+    if(!Number.isInteger(block)||block<1||block>32||!Number.isInteger(parallel)||parallel<1||parallel>8) return false;
     const expected = Buffer.from(hex, 'hex');
+    if(expected.length<32||expected.length>128)return false;
+    const actual = crypto.scryptSync(String(password || ''), salt, expected.length, {
+      N, r:block, p:parallel, maxmem: 128 * 1024 * 1024,
+    });
     return actual.length === expected.length && crypto.timingSafeEqual(actual, expected);
   } catch {
     return false;
