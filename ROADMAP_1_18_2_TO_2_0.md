@@ -200,6 +200,27 @@ Package Spec ei ole valmis.
 
 ---
 
+
+# 1.18.5 — LIVE PATH VERIFICATION · TOTEUTETTU KOVENNUS
+
+P3-capabilityt viedään staattisesta ja E2E-varmennuksesta hallittuun live-canaryyn.
+
+```text
+Operation Console
+→ plan
+→ written approval
+→ operation branch
+→ exact commit tests
+→ PR + preview
+→ evidence refresh
+→ production gate
+→ rollback
+```
+
+Lisäksi repository allowlist, default-haaran before/after-evidenssi, workflow-runin täsmäsidonta ja previewn `--skip-domain`-suoja.
+
+---
+
 # 1.19.0 — AUDITOMANCER
 
 Seuraava oikea Mancer.

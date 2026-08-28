@@ -6,7 +6,7 @@ const test=(name,fn)=>{fn();console.log(`${String(++n).padStart(2,'0')} ✓ ${na
 const read=x=>fs.readFileSync(x,'utf8');
 const admin=read('admin-orchestrator.js'), adminCss=readAdminCss(), coreJs=read('core-public.js'), coreRenderer=read('public-core-render.js'), coreCss=read('core.css'), fi=read('core.html'), en=read('core-en.html'), build=read('scripts/build-blog.mjs'), site=read('site.js'), css=read('styles.css'), domain=read('scripts/domain-migration-check.mjs');
 test('adminin vaihevirta tuntee askelmäärän',()=>assert.match(admin,/dataset\.stepCount=String\(STEPS\.length\)/));
-test('adminin 8 vaihetta taittuvat 4 sarakkeeseen',()=>assert.match(adminCss,/data-step-count="8"\]\{grid-template-columns:repeat\(4/));
+test('adminin vaihevirta taittuu dynaamisesti enintään neljään sarakkeeseen',()=>{assert.match(admin,/function orchestraFlowColumnCount/);assert.match(admin,/Math\.min\(4,stepCount\)/);assert.match(adminCss,/--orchestra-flow-columns,4/);assert.doesNotMatch(adminCss,/data-step-count="8"/)});
 test('adminin mobiilivirta putoaa yhteen sarakkeeseen',()=>assert.match(adminCss,/@media\(max-width:600px\)[\s\S]*grid-template-columns:1fr/));
 test('julkinen Core välittää vaiheiden määrän DOMiin yhteisen rendererin kautta',()=>{assert.match(coreJs,/renderPublicCore/);assert.match(coreRenderer,/data-step-count="\$\{steps\.length\}"/)});
 test('Coren nuolet saavat oman gap-tilan',()=>{assert.match(coreCss,/gap:22px 24px/);assert.match(coreCss,/right:-24px/)});

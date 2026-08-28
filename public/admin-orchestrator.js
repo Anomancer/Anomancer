@@ -16,6 +16,28 @@ if(desk){
   function checkpointKey(){return `${CHECKPOINT_PREFIX}.${workspaceId()}`;}
   let running=false,stopRequested=false,controllers=new Set(),csrf='',finalRun=null,checkpoint=null,currentStageIndex=-1;
 
+  let orchestraFlowResizeFrame=0;
+  function orchestraFlowColumnCount(stepCount=STEPS.length){
+    if(stepCount<=1)return 1;
+    if(window.matchMedia('(max-width:600px)').matches)return 1;
+    if(window.matchMedia('(max-width:980px)').matches)return Math.min(2,stepCount);
+    return Math.min(4,stepCount);
+  }
+  function layoutOrchestraFlow(){
+    const el=q('#orchestraStages');if(!el)return;
+    const nodes=[...el.querySelectorAll('.orchestra-step')],columns=orchestraFlowColumnCount(nodes.length);
+    el.dataset.flowColumns=String(columns);el.style.setProperty('--orchestra-flow-columns',String(columns));
+    nodes.forEach((row,index)=>{
+      const line=Math.floor(index/columns),position=index%columns,reversed=line%2===1,last=index===nodes.length-1;
+      row.style.gridColumn=String(reversed?columns-position:position+1);row.style.gridRow=String(line+1);
+      row.dataset.flowDirection=last?'end':(position===columns-1?'down':(reversed?'left':'right'));
+    });
+  }
+  function scheduleOrchestraFlowLayout(){
+    if(orchestraFlowResizeFrame)return;
+    orchestraFlowResizeFrame=requestAnimationFrame(()=>{orchestraFlowResizeFrame=0;layoutOrchestraFlow();});
+  }
+
   function now(){return new Date().toLocaleTimeString('fi-FI',{hour12:false});}
   function log(message,mark='·'){
     if(terminal.textContent.startsWith('$ valmis'))terminal.textContent='';
@@ -44,7 +66,7 @@ if(desk){
   function renderPlan(){
     const el=q('#orchestraStages');if(!el)return;el.dataset.stepCount=String(STEPS.length);
     const nodes=STEPS.map((step,index)=>{const row=document.createElement('div'),number=document.createElement('b'),mode=document.createElement('span'),agents=document.createElement('div');row.className=`orchestra-step${step.mode==='parallel'?' parallel':''}`;row.dataset.step=String(index);number.textContent=String(index+1).padStart(2,'0');mode.className='orchestra-step-mode';mode.textContent=step.mode==='parallel'?'RINNAKKAIN':'PERÄKKÄIN';for(const id of step.agents){const stage=document.createElement('span');stage.dataset.stage=id;stage.textContent=agentMeta(id).label;agents.append(stage);}row.append(number,mode,agents);return row;});
-    el.replaceChildren(...nodes);const summary=q('#orchestraAdvancedSummary');if(summary)summary.textContent=`${STEPS.length} vaihetta · ${PIPELINE.length} agenttia · lisäohje valinnainen`;
+    el.replaceChildren(...nodes);layoutOrchestraFlow();const summary=q('#orchestraAdvancedSummary');if(summary)summary.textContent=`${STEPS.length} vaihetta · ${PIPELINE.length} agenttia · lisäohje valinnainen`;
   }
   function cleanString(v,max=10000){return String(v??'').slice(0,max);}
   function stableSourceId(url=''){let hash=2166136261;for(const char of String(url)){hash^=char.charCodeAt(0);hash=Math.imul(hash,16777619);}return `src-${(hash>>>0).toString(36)}`;}
@@ -274,6 +296,7 @@ Mitään ei julkaista tällä toiminnolla.`,confirmLabel:'Siirrä editoriin',des
   window.addEventListener('anomancer:orchestras-ready',event=>{const list=event.detail?.orchestras||[];ORCHESTRAS=list;const frozen=checkpoint?.orchestra;if(frozen&&list.some(item=>item.id===frozen.id)){compileOrchestra(frozen);runBtn.disabled=false;if(orchestraSelect)orchestraSelect.value=frozen.id;log(`Tarkistuspiste pitää orkesterin jäädytettynä · ${frozen.name||frozen.id}`,'◈');}else selectOrchestra(orchestraSelect?.value||'editorial');});
   window.addEventListener('anomancer:workspace-change',event=>{if(running)return;finalRun=null;checkpoint=null;resultBox.hidden=true;applyBtn.hidden=true;copyBtn.hidden=true;ORCHESTRAS=[];compileOrchestra(EMPTY_ORCHESTRA);runBtn.disabled=true;restoreCheckpoint();log(`Työtila vaihdettu · ${event.detail?.workspace?.name||workspaceId()} · orkesterit ja ajoprofiilit ladataan tästä työtilasta`,'◇');});
   orchestraSelect?.addEventListener('change',()=>{if(running){orchestraSelect.value=ORCHESTRA.id;return;}clearCheckpoint();selectOrchestra(orchestraSelect.value);});
+  window.addEventListener('resize',scheduleOrchestraFlowLayout,{passive:true});
   runBtn.addEventListener('click',runPipeline);
   stopBtn.addEventListener('click',()=>{if(!running)return;stopRequested=true;stopBtn.disabled=true;setRunState('PYSÄYTETÄÄN');log('Pysäytys pyydetty…','■');for(const controller of controllers)controller.abort();});
   retryBtn.addEventListener('click',retryFailedStage);resumeBtn.addEventListener('click',resumePipeline);applyBtn.addEventListener('click',applyFinal);

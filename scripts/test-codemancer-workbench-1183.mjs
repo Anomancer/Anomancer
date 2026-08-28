@@ -14,7 +14,7 @@ let passed=0;
 const test=(name,fn)=>{fn();passed++;console.log(`✓ ${name}`)};
 
 test('Codemancer Package Spec ilmoittaa kahdeksan workbench-renderer-capabilitya',()=>{
-  assert.equal(manifest.version,'1.2.0');
+  assert.equal(manifest.version,'1.3.0');
   assert.deepEqual(ui.rendererCapabilities,['file-tree','code-editor','diff-view','task-board','test-run-list','approval-review','release-gate','document-preview']);
   assert.deepEqual(ui.rendererCapabilities,MANCER_RENDERER_CAPABILITIES);
 });
@@ -67,7 +67,7 @@ test('review ja release sitovat diff-, testi- ja ihmispäätöksen näkyväksi p
 test('desktop-komponenttityyli ei ota responsive-omistajuutta takaisin',()=>{
   assert.doesNotMatch(css,/@media\s*\(/);
   for(const selector of ['.mancer-workbench{','.mancer-task-board{','.mancer-test-summary{','.mancer-review-grid{','.mancer-release-gates{','.mancer-document-preview{'])assert.ok(css.includes(selector),`${selector} puuttuu`);
-  assert.match(responsive,/@media\(max-width:760px\)\{[\s\S]*?1\.18\.4 capability workbench mobile drilldown[\s\S]*?\.mancer-workbench\{grid-template-columns:minmax\(0,1fr\)/);
+  assert.match(responsive,/@media\(max-width:760px\)\{[\s\S]*?1\.18\.5 capability workbench mobile drilldown[\s\S]*?\.mancer-workbench\{grid-template-columns:minmax\(0,1fr\)/);
 });
 
 test('root/public peili säilyy build-sopimuksen mukaisena',()=>{

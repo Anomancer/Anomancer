@@ -1,10 +1,17 @@
 const API = 'https://api.github.com';
 
-function config() {
+function operationPolicy(repo='') {
+  const allowlist=String(process.env.ANOMANCER_OPERATION_REPO_ALLOWLIST||'').split(',').map(item=>item.trim()).filter(Boolean);
+  const required=String(process.env.ANOMANCER_OPERATION_REQUIRE_ALLOWLIST||'')==='1';
+  const allowed=!required||(allowlist.length>0&&allowlist.includes(String(repo||'')));
+  return{required,allowlistConfigured:allowlist.length>0,allowed,allowlist};
+}
+function config({operation=false}={}) {
   const token = process.env.GITHUB_CONTENT_TOKEN;
   const repo = process.env.GITHUB_REPO;
   const branch = process.env.GITHUB_BRANCH || 'main';
   if (!token || !repo || !repo.includes('/')) throw Object.assign(new Error('GitHub-sisältöyhteys ei ole konfiguroitu.'), { code:'GITHUB_CONFIG', statusCode:503 });
+  if(operation){const policy=operationPolicy(repo);if(!policy.allowed)throw Object.assign(new Error('Operation-repository ei kuulu eksplisiittiseen live-allowlistiin.'),{code:'GITHUB_OPERATION_REPO_NOT_ALLOWED',statusCode:409,repo,allowlistConfigured:policy.allowlistConfigured});}
   return { token, repo, branch };
 }
 
@@ -113,26 +120,27 @@ function safeWorkflowMode(value){const mode=String(value||'');if(!['tests','prev
 function safeOperationFile(item){const path=String(item?.path||'').replace(/\\/g,'/'),content=String(item?.content??''),bytes=Buffer.byteLength(content,'utf8');if(!path||path.length>500||path.startsWith('/')||path.split('/').some(part=>!part||part==='.'||part==='..')||!/^[A-Za-z0-9._@+\/-]+$/.test(path)||/(^|\/)(?:\.git|\.vercel|node_modules)(?:\/|$)|(^|\/)\.env(?:\.|$)/i.test(path))throw Object.assign(new Error('Operation-tiedoston polku ei ole sallittu.'),{statusCode:400,code:'GITHUB_OPERATION_FILE_PATH'});if(bytes>300_000)throw Object.assign(new Error('Operation-tiedosto ylittää kokorajan.'),{statusCode:413,code:'GITHUB_OPERATION_FILE_SIZE'});return{path,content,bytes};}
 export function validateDeploymentRollbackTarget(value){const target=String(value||'').trim();if(!/^(?:https:\/\/(?:[a-z0-9-]+\.)*vercel\.app\/?|https:\/\/vercel\.com\/[A-Za-z0-9._\/-]{1,250}|dpl_[A-Za-z0-9]{8,200})$/i.test(target))throw Object.assign(new Error('Rollback-kohteen pitää olla Vercel deployment -URL tai dpl_-id.'),{statusCode:400,code:'GITHUB_WORKFLOW_ROLLBACK_TARGET'});return target;}
 
-export function githubOperationStatus(){const status=githubConfigStatus();return{...status,adapter:'github-git-data/v1',defaultBranchOnly:false,operationBranches:'anomancer/op-*',directDefaultBranchWrite:false,workflowFile:process.env.ANOMANCER_CAPABILITY_WORKFLOW||'anomancer-capability-gate.yml'};}
+export function githubOperationStatus(){const status=githubConfigStatus(),guard=operationPolicy(status.repo);return{...status,adapter:'github-git-data/v1',defaultBranchOnly:false,operationBranches:'anomancer/op-*',directDefaultBranchWrite:false,workflowFile:process.env.ANOMANCER_CAPABILITY_WORKFLOW||'anomancer-capability-gate.yml',repoGuard:{required:guard.required,allowlistConfigured:guard.allowlistConfigured,allowed:guard.allowed}};}
 
 export async function getRepositoryHead() {
-  const { repo, branch } = config();
+  const { repo, branch } = config({operation:true});
   const data=await gh(`/repos/${repo}/git/ref/heads/${encodeURIComponent(branch)}`);
   return{repo,branch,sha:safeSha(data?.object?.sha),htmlUrl:`https://github.com/${repo}/tree/${encodeURIComponent(branch)}`};
 }
 
 export async function getOperationBranch(branchName){
-  const {repo}=config(),branch=safeOperationBranch(branchName);
+  const {repo}=config({operation:true}),branch=safeOperationBranch(branchName);
   const data=await gh(`/repos/${repo}/git/ref/heads/${encodeURIComponent(branch)}`);
   return{branch,sha:safeSha(data?.object?.sha)};
 }
 export async function findOperationBranch(branchName){try{return await getOperationBranch(branchName);}catch(error){if(error.statusCode===404)return null;throw error;}}
 
 export async function createOperationCommit({branchName,baseSha,files,message}){
-  const {repo,branch:baseBranch}=config(),branch=safeOperationBranch(branchName),parent=safeSha(baseSha),items=(Array.isArray(files)?files:[]).map(safeOperationFile);
+  const {repo,branch:baseBranch}=config({operation:true}),branch=safeOperationBranch(branchName),parent=safeSha(baseSha),items=(Array.isArray(files)?files:[]).map(safeOperationFile);
   if(!items.length||items.length>20)throw Object.assign(new Error('Repository-operaatio tarvitsee 1–20 tiedostoa.'),{statusCode:400,code:'GITHUB_OPERATION_FILES'});
   if(items.reduce((sum,item)=>sum+item.bytes,0)>1_000_000)throw Object.assign(new Error('Operation-tiedostot ylittävät kokonaiskokorajan.'),{statusCode:413,code:'GITHUB_OPERATION_TOTAL_SIZE'});
   const current=await getRepositoryHead();if(current.sha!==parent)throw Object.assign(new Error('Repositoryn pohjahaara muuttui suunnitelman jälkeen.'),{statusCode:409,code:'GITHUB_OPERATION_STALE_BASE',currentSha:current.sha,plannedSha:parent});
+  const defaultBranchShaBefore=current.sha;
   const parentCommit=await gh(`/repos/${repo}/git/commits/${parent}`),treeEntries=[];
   for(const item of items){
     const blob=await gh(`/repos/${repo}/git/blobs`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:String(item.content??''),encoding:'utf-8'})});
@@ -140,45 +148,46 @@ export async function createOperationCommit({branchName,baseSha,files,message}){
   }
   const tree=await gh(`/repos/${repo}/git/trees`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({base_tree:parentCommit?.tree?.sha,tree:treeEntries})}),commit=await gh(`/repos/${repo}/git/commits`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:String(message||'codemancer: approved repository operation').slice(0,240),tree:tree.sha,parents:[parent]})});
   await gh(`/repos/${repo}/git/refs`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ref:`refs/heads/${branch}`,sha:commit.sha})});
-  return{repo,baseBranch,baseSha:parent,branch,commitSha:safeSha(commit.sha),treeSha:safeSha(tree.sha),compareUrl:`https://github.com/${repo}/compare/${encodeURIComponent(baseBranch)}...${encodeURIComponent(branch)}`,branchUrl:`https://github.com/${repo}/tree/${encodeURIComponent(branch)}`};
+  const defaultBranchShaAfter=(await getRepositoryHead()).sha,defaultBranchUnchanged=defaultBranchShaBefore===defaultBranchShaAfter;
+  return{repo,baseBranch,baseSha:parent,defaultBranchShaBefore,defaultBranchShaAfter,defaultBranchUnchanged,branch,commitSha:safeSha(commit.sha),treeSha:safeSha(tree.sha),compareUrl:`https://github.com/${repo}/compare/${encodeURIComponent(baseBranch)}...${encodeURIComponent(branch)}`,branchUrl:`https://github.com/${repo}/tree/${encodeURIComponent(branch)}`};
 }
 
 export async function deleteOperationBranch({branchName,expectedHeadSha}){
-  const {repo}=config(),branch=safeOperationBranch(branchName),expected=safeSha(expectedHeadSha),current=await getOperationBranch(branch);
+  const {repo}=config({operation:true}),branch=safeOperationBranch(branchName),expected=safeSha(expectedHeadSha),current=await getOperationBranch(branch);
   if(current.sha!==expected)throw Object.assign(new Error('Operation-haara on muuttunut soveltamisen jälkeen; automaattinen palautus estettiin.'),{statusCode:409,code:'GITHUB_ROLLBACK_BRANCH_MOVED',currentSha:current.sha,expectedSha:expected});
   await gh(`/repos/${repo}/git/refs/heads/${encodeURIComponent(branch)}`,{method:'DELETE'});
   return{repo,branch,deleted:true,restoredTo:'unpublished-operation-branch-removed'};
 }
 
 export async function createOperationPullRequest({branchName,title,body}){
-  const {repo,branch:base}=config(),head=safeOperationBranch(branchName),existing=await findOperationPullRequest(head);if(existing)return existing;
+  const {repo,branch:base}=config({operation:true}),head=safeOperationBranch(branchName),existing=await findOperationPullRequest(head);if(existing)return existing;
   const data=await gh(`/repos/${repo}/pulls`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:String(title||'Codemancer operation').slice(0,240),head,base,body:String(body||'').slice(0,20_000),draft:false})});
   return{repo,number:Number(data.number),state:String(data.state||'open'),merged:Boolean(data.merged),head,base,url:String(data.html_url||'')};
 }
 
 export async function findOperationPullRequest(branchName){
-  const {repo,branch:base}=config(),head=safeOperationBranch(branchName),owner=repo.split('/')[0],data=await gh(`/repos/${repo}/pulls?state=all&head=${encodeURIComponent(`${owner}:${head}`)}&base=${encodeURIComponent(base)}&per_page=10`),item=Array.isArray(data)?data[0]:null;
+  const {repo,branch:base}=config({operation:true}),head=safeOperationBranch(branchName),owner=repo.split('/')[0],data=await gh(`/repos/${repo}/pulls?state=all&head=${encodeURIComponent(`${owner}:${head}`)}&base=${encodeURIComponent(base)}&per_page=10`),item=Array.isArray(data)?data[0]:null;
   if(!item)return null;
   return{repo,number:Number(item.number),state:String(item.state||''),merged:Boolean(item.merged||item.merged_at),mergeable:item.mergeable===null?null:Boolean(item.mergeable),head,base,headSha:String(item.head?.sha||''),baseSha:String(item.base?.sha||''),mergeCommitSha:String(item.merge_commit_sha||''),url:String(item.html_url||''),mergedAt:String(item.merged_at||'')};
 }
 
 export async function getOperationPullRequest(number){
-  const {repo}=config(),id=Number(number);if(!Number.isInteger(id)||id<1)throw Object.assign(new Error('Pull request -numero puuttuu.'),{statusCode:400,code:'GITHUB_PR_NUMBER'});
+  const {repo}=config({operation:true}),id=Number(number);if(!Number.isInteger(id)||id<1)throw Object.assign(new Error('Pull request -numero puuttuu.'),{statusCode:400,code:'GITHUB_PR_NUMBER'});
   const data=await gh(`/repos/${repo}/pulls/${id}`);
   return{repo,number:id,state:String(data.state||''),merged:Boolean(data.merged),mergeable:data.mergeable===null?null:Boolean(data.mergeable),headSha:String(data.head?.sha||''),baseSha:String(data.base?.sha||''),mergeCommitSha:String(data.merge_commit_sha||''),url:String(data.html_url||''),mergedAt:String(data.merged_at||'')};
 }
 
 export async function dispatchCapabilityWorkflow({operationId,mode,sourceRef='',rollbackTarget=''}){
-  const {repo,branch}=config(),workflow=process.env.ANOMANCER_CAPABILITY_WORKFLOW||'anomancer-capability-gate.yml',selected=safeWorkflowMode(mode),id=String(operationId||'');
+  const {repo,branch}=config({operation:true}),workflow=process.env.ANOMANCER_CAPABILITY_WORKFLOW||'anomancer-capability-gate.yml',selected=safeWorkflowMode(mode),id=String(operationId||'');
   if(!/^op-[a-z0-9-]{8,100}$/.test(id))throw Object.assign(new Error('Operation id ei kelpaa workflow-ajoon.'),{statusCode:400,code:'GITHUB_WORKFLOW_OPERATION'});
-  const ref=selected==='production'?safeSha(sourceRef):(selected==='rollback'?branch:safeOperationBranch(sourceRef)),target=selected==='rollback'?validateDeploymentRollbackTarget(rollbackTarget):'';
+  const ref=selected==='production'?safeSha(sourceRef):(selected==='rollback'?branch:(/^[a-f0-9]{40}$/i.test(String(sourceRef||''))?safeSha(sourceRef):safeOperationBranch(sourceRef))),target=selected==='rollback'?validateDeploymentRollbackTarget(rollbackTarget):'';
   await gh(`/repos/${repo}/actions/workflows/${encodeURIComponent(workflow)}/dispatches`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ref:branch,inputs:{operation_id:id,mode:selected,source_ref:ref,rollback_target:selected==='rollback'?target:''}})});
   return{repo,workflow,mode:selected,sourceRef:ref,dispatched:true,actionsUrl:`https://github.com/${repo}/actions/workflows/${encodeURIComponent(workflow)}`};
 }
 
-export async function findCapabilityWorkflowRun(operationId){
-  const {repo}=config(),workflow=process.env.ANOMANCER_CAPABILITY_WORKFLOW||'anomancer-capability-gate.yml',id=String(operationId||'');
-  const data=await gh(`/repos/${repo}/actions/workflows/${encodeURIComponent(workflow)}/runs?event=workflow_dispatch&per_page=50`),run=(data?.workflow_runs||[]).find(item=>String(item.display_title||item.name||'').includes(id));
+export async function findCapabilityWorkflowRun(operationId,{mode='',startedAt=''}={}){
+  const {repo}=config({operation:true}),workflow=process.env.ANOMANCER_CAPABILITY_WORKFLOW||'anomancer-capability-gate.yml',id=String(operationId||''),selected=safeWorkflowMode(mode),expectedTitle=`Anomancer ${id} · ${selected}`,started=Date.parse(String(startedAt||''))||0;
+  const data=await gh(`/repos/${repo}/actions/workflows/${encodeURIComponent(workflow)}/runs?event=workflow_dispatch&per_page=50`),run=(data?.workflow_runs||[]).find(item=>String(item.display_title||'')===expectedTitle&&(!started||Date.parse(String(item.created_at||''))>=started-10_000));
   if(!run)return null;
-  return{runId:Number(run.id),status:String(run.status||''),conclusion:String(run.conclusion||''),headSha:String(run.head_sha||''),createdAt:String(run.created_at||''),updatedAt:String(run.updated_at||''),url:String(run.html_url||'')};
+  return{runId:Number(run.id),status:String(run.status||''),conclusion:String(run.conclusion||''),headSha:String(run.head_sha||''),createdAt:String(run.created_at||''),updatedAt:String(run.updated_at||''),url:String(run.html_url||''),evidenceMatched:true,expectedTitle};
 }

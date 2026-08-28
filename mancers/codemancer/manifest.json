@@ -3,7 +3,7 @@
   "id": "codemancer",
   "templateId": "codemancer/development-workbench/1.0.0",
   "name": "Codemancer",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "kind": "development",
   "instancePolicy": "multiple",
   "description": "Yksityinen ohjelmistokehityksen capability-workbench arkkitehtuurille, koodille, tehtäville, testeille, katselmukselle ja julkaisulle.",

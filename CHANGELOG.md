@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.18.5 — Live Path Verification & Canary Gate
+
+- lisätty pakotettava `ANOMANCER_OPERATION_REPO_ALLOWLIST` + `ANOMANCER_OPERATION_REQUIRE_ALLOWLIST=1` ensimmäisen live-canaryn testirepo-lukoksi
+- sidottu `tests.run` ja `deploy.preview` operation-haaran sijaan täsmälliseen hyväksyttyyn commit SHA:han
+- lisätty repository-writeen default-haaran SHA ennen/jälkeen sekä `defaultBranchUnchanged` evidenssiksi
+- lisätty `drifted` fail-closed -tila, joka estää testipolun jos default-haara muuttuu operationin aikana
+- tiukennettu GitHub Actions -evidenssi täsmälliseen `operation id + mode` run-nameen
+- kovetettu preview `--target=preview --skip-domain` -malliin providerin ensimmäisen deploymentin production-luokituspoikkeuksen varalta
+- lisätty Operation Consoleen live-repo-lukko, live-polun porttinäkymä ja execution-evidenssi
+- lisätty `npm run live:preflight` sekä 1.18.5 live-path backend/UI-regressioportit
+
 ## 1.18.4 — P3 Capability Wiring & Operational Safety
 
 - lisätty Codemancerin Operations-pinta sekä autentikoitu ja CSRF-suojattu `operations`-resurssi
@@ -570,6 +581,17 @@
 - `/core` lisätään sitemap- ja llms-discoveryyn.
 
 # Changelog
+
+## 1.18.5 — Live Path Verification & Canary Gate
+
+- lisätty pakotettava `ANOMANCER_OPERATION_REPO_ALLOWLIST` + `ANOMANCER_OPERATION_REQUIRE_ALLOWLIST=1` ensimmäisen live-canaryn testirepo-lukoksi
+- sidottu `tests.run` ja `deploy.preview` operation-haaran sijaan täsmälliseen hyväksyttyyn commit SHA:han
+- lisätty repository-writeen default-haaran SHA ennen/jälkeen sekä `defaultBranchUnchanged` evidenssiksi
+- lisätty `drifted` fail-closed -tila, joka estää testipolun jos default-haara muuttuu operationin aikana
+- tiukennettu GitHub Actions -evidenssi täsmälliseen `operation id + mode` run-nameen
+- kovetettu preview `--target=preview --skip-domain` -malliin providerin ensimmäisen deploymentin production-luokituspoikkeuksen varalta
+- lisätty Operation Consoleen live-repo-lukko, live-polun porttinäkymä ja execution-evidenssi
+- lisätty `npm run live:preflight` sekä 1.18.5 live-path backend/UI-regressioportit
 
 ## 1.18.2 · P2 Interaction & Navigation Hardening · 2026-08-28
 
