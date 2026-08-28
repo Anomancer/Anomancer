@@ -13,6 +13,7 @@ const publicBoundary=fs.readFileSync('server/public-core.js','utf8');
 test('/core on julkinen staattinen sivu eikä admin-rewrite',()=>{
   assert.match(html,/class="core-public-page core-product-page"/);
   assert.match(html,/class="core-hero-wordmark"/);
+  assert.match(html,/core-hero-label">CORE</);
   assert.doesNotMatch(html,/JULKINEN RAKENNENÄKYMÄ/);
   assert.ok(!(vercel.rewrites||[]).some(r=>r.source==='/core'));
   assert.ok(!vercel.headers.some(h=>h.source==='/core'&&JSON.stringify(h).includes('noindex')));
