@@ -117,6 +117,12 @@ for asset in "${PUBLIC_RUNTIME_ASSETS[@]}"; do
 done
 
 cd "$TARGET_DIR"
+# Phase 5: vanha build saattoi jättää generoituja artefakteja projektin rootiin.
+# Ne eivät ole sourcea, ja uusi build kirjoittaa vain public/-hakemistoon.
+rm -rf lahetykset dispatches
+rm -f lahetykset.html dispatches.html rss.xml rss-en.xml sitemap.xml robots.txt \
+  content-manifest.json evidence-manifest.json discovery-manifest.json core-public.json \
+  release-provenance.json llms.txt
 # Installerin release-portti on tarkoituksella tässä järjestyksessä:
 # riippuvuudet -> public-peilien build/synkronointi -> regressiot.
 # Näin root/public strictEqual -vartijat eivät koskaan näe vanhaa deploy-peiliä.

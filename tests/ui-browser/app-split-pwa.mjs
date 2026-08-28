@@ -10,7 +10,7 @@ const worker=read('lahetyskone-sw.js');
 const pwa=read('lahetyskone-pwa.js');
 const vercel=JSON.parse(read('vercel.json'));
 const build=read('scripts/build-blog.mjs');
-const robots=read('robots.txt');
+const robots=read('public/robots.txt');
 const discovery=JSON.parse(read('discovery-policy.json'));
 
 await test('manifesti käynnistyy rajatussa Lähetyskone-scope:ssa',()=>{

@@ -9,7 +9,7 @@ const PERSON_ID=`${SITE}/#person`;
 const WEBSITE_ID=`${SITE}/#website`;
 const AUTHOR_URL=`${SITE}${cfg.person.authorPath||'/#about'}`;
 
-function read(rel){ return fs.readFileSync(path.join(ROOT,rel),'utf8'); }
+function read(rel){ return fs.readFileSync(path.join(ROOT,'public',rel),'utf8'); }
 function jsonLd(html){
   const m=html.match(/<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/i);
   assert.ok(m,'JSON-LD puuttuu');

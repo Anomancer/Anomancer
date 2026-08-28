@@ -11,7 +11,7 @@ fs.cpSync(SOURCE,ROOT,{recursive:true,filter:src=>!src.includes(`${path.sep}node
 fs.mkdirSync(path.join(ROOT,'content','fi'),{recursive:true});
 fs.mkdirSync(path.join(ROOT,'content','en'),{recursive:true});
 const FIX=path.join(ROOT,'content','fi','9999-v1318-evidence-fixture.md');
-const OUT=path.join(ROOT,'lahetykset','v1318-evidence-fixture.html');
+const OUT=path.join(ROOT,'public','lahetykset','v1318-evidence-fixture.html');
 const SITE='https://anomancer.com';
 let ok=0;
 const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`)};
@@ -44,8 +44,8 @@ try{
   fs.writeFileSync(FIX,serializePost(fixture));
   build();
   const html=fs.readFileSync(OUT,'utf8');
-  const contentManifest=JSON.parse(fs.readFileSync(path.join(ROOT,'content-manifest.json'),'utf8'));
-  const evidenceManifest=JSON.parse(fs.readFileSync(path.join(ROOT,'evidence-manifest.json'),'utf8'));
+  const contentManifest=JSON.parse(fs.readFileSync(path.join(ROOT,'public','content-manifest.json'),'utf8'));
+  const evidenceManifest=JSON.parse(fs.readFileSync(path.join(ROOT,'public','evidence-manifest.json'),'utf8'));
 
   test('julkinen artikkeli näyttää ydinvastauksen',()=>{assert.match(html,/class="article-answer"/);assert.match(html,/Suora vastaus erotetaan/);});
   test('julkinen artikkeli näyttää väitteet statuksineen',()=>{assert.match(html,/data-status="supported"/);assert.match(html,/Tuettu väite/);assert.match(html,/Tulkinta/);assert.match(html,/Avoin/);});

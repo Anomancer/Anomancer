@@ -5,6 +5,9 @@ const STEPS = [
     "tests/integrity-security/frontend-runtime-boundary.mjs"
   ],
   [
+    "tests/integrity-security/build-source-boundary.mjs"
+  ],
+  [
     "tests/operations-release/live-path-verification.mjs"
   ],
   [
