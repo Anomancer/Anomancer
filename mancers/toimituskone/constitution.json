@@ -1,0 +1,30 @@
+{
+  "format": "anomancer-constitution/v1",
+  "id": "toimituskone/editorial-constitution/1.0.0",
+  "name": "Toimituskoneen toimitusperustuslaki",
+  "version": "1.0.0",
+  "purpose": "Toimituksellinen työ, jossa kirjoittajan ääni, väitteiden evidenssitila, lähdejälki ja ihmisen lopullinen julkaisupäätös säilyvät.",
+  "protectedProperties": [
+    "author-voice",
+    "claim-status",
+    "evidence-status",
+    "source-provenance",
+    "human-publication-authority"
+  ],
+  "forbiddenTransformations": [
+    "candidate-to-verified",
+    "silent-claim-strengthening",
+    "invented-source",
+    "agent-publish",
+    "automatic-publication"
+  ],
+  "truthPolicy": "Lähde-ehdokas ei ole varmennettu evidenssi. Väite saa vahvemman statuksen vain todellisen tarkistuksen perusteella.",
+  "continuityPolicy": "Luonnos, väitteet, evidenssi ja tarkistukset pysyvät saman workspace-id:n alla.",
+  "requiredGates": [
+    "claims.review",
+    "evidence.review",
+    "editorial.review",
+    "human.publish"
+  ],
+  "completionDefinition": "Julkaisupaketti on tarkistettu ja ihminen tekee erillisen julkaisupäätöksen."
+}

@@ -1,0 +1,23 @@
+{
+  "format": "anomancer-mancer-artifact-boundary/v1",
+  "id": "toimituskone/artifact-boundary/1.0.0",
+  "workspaceIsolation": true,
+  "store": "mancer/package-artifact-store/v1",
+  "read": [
+    "workspace-editorial-artifact",
+    "workspace-runs",
+    "granted-archive-context"
+  ],
+  "write": [
+    "workspace-editorial-artifact"
+  ],
+  "forbidden": [
+    "other-workspace-artifact",
+    "automatic-publication",
+    "silent-evidence-promotion"
+  ],
+  "humanApprovalRequired": [
+    "publish",
+    "external-output"
+  ]
+}

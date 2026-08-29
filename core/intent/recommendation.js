@@ -15,6 +15,8 @@ function workspaceFor(problem={}){
   if(problem.domain==='software'&&['debug','audit','plan'].includes(problem.taskType)){
     return {id:'codemancer',label:'Ohjelmistotyötila'};
   }
+  if(problem.domain==='editorial')return {id:'toimituskone',label:'Toimituskone'};
+  if(problem.domain==='narrative')return {id:'romancer',label:'Romancer'};
   return null;
 }
 

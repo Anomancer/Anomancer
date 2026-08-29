@@ -70,11 +70,6 @@
           <img class="brand-mark-footer" src="/media/brand/anomancer-mark.png" alt="">
         </div>
 
-        <details id="recentWorkDetails" class="recent-work" hidden>
-          <summary>Aiemmat työt</summary>
-          <div id="recentWorkList" class="recent-work-list"></div>
-        </details>
-
         <div id="doorProgress" class="progress-zone" hidden>
           <p id="status" class="status" role="status" aria-live="polite"></p>
           <p id="doorRaccoon" class="raccoon-line" aria-hidden="true"></p>
@@ -86,7 +81,36 @@
         </div>
       </form>
     </section>
+
   </main>
+
+<script id="lighthouseBootstrap" type="application/json">__LIGHTHOUSE_BOOTSTRAP__</script>
+    <nav id="doorDock" class="door-dock" aria-label="Lighthouse-valikko">
+      <button id="doorNew" type="button" class="door-dock-button" aria-current="page">Uusi</button>
+      <button id="kyvytOpen" type="button" class="door-dock-button" aria-controls="kyvytDialog">Kyvyt</button>
+      <button id="workOpen" type="button" class="door-dock-button" aria-controls="recentWorkDetails">Työt</button>
+      <button id="infoOpen" type="button" class="door-dock-button" aria-controls="infoDialog">Info</button>
+    </nav>
+    <dialog id="kyvytDialog" class="door-sheet" aria-labelledby="kyvytTitle">
+      <header class="door-sheet-header"><div><p class="door-sheet-kicker">KONEEN TYÖKALUPAKKI</p><h2 id="kyvytTitle">Kyvyt</h2><p>Kyvykkyydet valitaan automaattisesti tehtävän mukaan.</p></div><button type="button" class="door-sheet-close" data-close-dialog aria-label="Sulje">×</button></header>
+      <div class="door-sheet-body"><section><h3>Core</h3><div id="kykyCatalog" class="capability-catalog"></div></section><section><h3>Mancerit</h3><div id="mancerCatalog" class="mancer-catalog"></div></section></div>
+    </dialog>
+    <dialog id="recentWorkDetails" class="door-sheet" aria-labelledby="recentWorkTitle">
+      <header class="door-sheet-header"><div><p class="door-sheet-kicker">PAIKALLINEN TYÖHISTORIA</p><h2 id="recentWorkTitle">Työt</h2><p>Työt säilyvät tämän selaimen paikallisessa tallennustilassa.</p></div><button type="button" class="door-sheet-close" data-close-dialog aria-label="Sulje">×</button></header>
+      <div class="door-sheet-body"><div id="recentWorkList" class="recent-work-list"></div></div>
+    </dialog>
+    <dialog id="infoDialog" class="door-sheet" aria-labelledby="infoTitle">
+      <header class="door-sheet-header"><div><p class="door-sheet-kicker">PIKAOHJE</p><h2 id="infoTitle">Mikä Lighthouse on?</h2></div><button type="button" class="door-sheet-close" data-close-dialog aria-label="Sulje">×</button></header>
+      <div class="door-sheet-body info-body">
+        <p>Kerro tavoite tavallisella kielellä. Lighthouse jäsentää ongelman, valitsee kyvyt ja tarvittaessa sopivan Mancerin sekä työmenetelmän.</p>
+        <p>Kone saa analysoida ja ehdottaa. Ulkoiset sivuvaikutukset pysyvät erillisten ihmisen hyväksyntäporttien takana.</p>
+        <ol><li>Kerro mitä haluat saada aikaan.</li><li>Tarkista miten Lighthouse ymmärsi työn.</li><li>Käynnistä työ ja avaa tarvittaessa D2–D6-tasot.</li><li>Hyväksy ulkoinen toiminto vain, jos rajat ja kohde ovat oikein.</li></ol>
+        <dl class="info-version-grid"><div><dt>Core</dt><dd id="infoCoreVersion">—</dd></div><div><dt>Lighthouse</dt><dd id="infoLighthouseVersion">—</dd></div><div><dt>Milestone</dt><dd id="infoMilestone">—</dd></div><div><dt>Tila</dt><dd>Construction Mode</dd></div></dl>
+        <p class="info-principle">Kone voi ehdottaa. Ihminen päättää mitä todella tapahtuu.</p>
+      </div>
+    </dialog>
+
+
 
   <main id="work" class="work" hidden>
     <nav class="work-nav">

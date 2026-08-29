@@ -20,7 +20,29 @@ function receipt(id,run,workspaceId='default'){return{format:'anomancer-run-rece
 process.env.ANOMANCER_WORKSPACE_STORE='memory';process.env.ANOMANCER_RUNTIME_STORE='memory';process.env.ANOMANCER_ORCHESTRA_STORE='memory';process.env.ANOMANCER_RUN_STORE='memory';process.env.ADMIN_SESSION_SECRET='w'.repeat(64);__resetWorkspaceStoreForTests();__resetRuntimeStoreForTests();__resetOrchestraStoreForTests();__resetRunStoreForTests();
 
 await test('legacy default näkyy Anomancerina, käyttää Registry v2:ta ja säilyttää tag-refit',async()=>{const data=await listWorkspaces(),workspace=data.all[0];assert.equal(workspace.id,'default');assert.equal(workspace.name,'Anomancer');assert.equal(workspace.source,'built-in');assert.equal(workspace.format,'anomancer-workspace/v2');assert.equal(workspace.templateId,ANOMANCER_TEMPLATE_ID);assert.match(workspace.templateHash,/^[a-f0-9]{64}$/);assert.match(workspace.constitutionHash,/^[a-f0-9]{64}$/);assert.equal(workspaceStorageScope('default',{baseTag:'anomancer-runtime-state',basePath:'.anomancer/runtime-profiles.json'}).tag,'anomancer-runtime-state');assert.equal(runtimeStoreStatus('default').workspaceId,'default');});
-await test('Template Registry ja Constitution Registry ovat server-authoritative ja hashattuja',()=>{assert.equal(WORKSPACE_TEMPLATE_REGISTRY.length,4);assert.equal(CONSTITUTION_REGISTRY.length,4);for(const template of WORKSPACE_TEMPLATE_REGISTRY)assert.match(template.templateHash,/^[a-f0-9]{64}$/);for(const constitution of CONSTITUTION_REGISTRY){assert.match(constitution.constitutionHash,/^[a-f0-9]{64}$/);assert.equal(constitution.humanFinalAuthority,true);}});
+await test('Template Registry ja Constitution Registry ovat server-authoritative ja hashattuja',()=>{const templateIds=new Set(WORKSPACE_TEMPLATE_REGISTRY.map(item=>item.id));
+const constitutionIds=new Set(CONSTITUTION_REGISTRY.map(item=>item.id));
+
+for(const id of [
+  'anomancer/editorial-platform/1.0.0',
+  'core/blank-private/1.0.0',
+  'narramancer/story-studio/1.0.0',
+  'codemancer/development-workbench/1.0.0',
+  'toimituskone/editorial-workbench/1.0.0',
+  'romancer/story-studio/1.0.0'
+])assert.ok(templateIds.has(id),`missing workspace template ${id}`);
+
+for(const id of [
+  'anomancer/editorial-constitution/1.0.0',
+  'narramancer/story-constitution/1.0.0',
+  'core/blank-private-constitution/1.0.0',
+  'codemancer/development-constitution/1.0.0',
+  'toimituskone/editorial-constitution/1.0.0',
+  'romancer/story-constitution/1.0.0'
+])assert.ok(constitutionIds.has(id),`missing constitution ${id}`);
+
+assert.equal(WORKSPACE_TEMPLATE_REGISTRY.length,6);
+assert.equal(CONSTITUTION_REGISTRY.length,6);for(const template of WORKSPACE_TEMPLATE_REGISTRY)assert.match(template.templateHash,/^[a-f0-9]{64}$/);for(const constitution of CONSTITUTION_REGISTRY){assert.match(constitution.constitutionHash,/^[a-f0-9]{64}$/);assert.equal(constitution.humanFinalAuthority,true);}});
 await test('custom workspace syntyy tyhjästä eristetystä templatesta, voidaan nimetä ja arkistoida',async()=>{let result=await upsertWorkspace({name:'Tutkimusprojekti',description:'eristetty koe'});assert.match(result.workspace.id,/^ws-tutkimusprojekti-/);assert.equal(result.workspace.templateId,BLANK_PRIVATE_TEMPLATE_ID);assert.equal(result.workspace.defaultOrchestraId,'');const id=result.workspace.id;assert.equal((await getWorkspace(id)).name,'Tutkimusprojekti');result=await upsertWorkspace({id,name:'Tutkimus 2',description:'uusi nimi'},{expectedRevision:1});assert.equal(result.workspace.name,'Tutkimus 2');const archived=await archiveWorkspace(id,{expectedRevision:2});assert.equal(archived.workspace.status,'archived');await archiveWorkspace(id,{expectedRevision:3,archived:false});assert.equal((await getWorkspace(id)).status,'active');});
 await test('asiakas ei voi luoda toista Anomanceria, syöttää tuntematonta templatea tai vaihtaa tyyppiä',async()=>{await assert.rejects(()=>upsertWorkspace({name:'Huijaus',templateId:ANOMANCER_TEMPLATE_ID}),error=>error.code==='WORKSPACE_TEMPLATE_SINGLETON');await assert.rejects(()=>upsertWorkspace({name:'Huijaus',templateId:'evil/template/1'}),error=>error.code==='WORKSPACE_TEMPLATE_UNKNOWN');const ws=(await listWorkspaces()).custom[0];await assert.rejects(()=>upsertWorkspace({id:ws.id,name:ws.name,templateId:ANOMANCER_TEMPLATE_ID}),error=>error.code==='WORKSPACE_TEMPLATE_SINGLETON'||error.code==='WORKSPACE_TEMPLATE_IMMUTABLE');});
 await test('Runtime Profiles eristyvät workspace-kohtaisesti',async()=>{const ws=(await listWorkspaces()).custom[0].id;await updateRuntimeProfile('writer',{active:false,maxOutputTokens:42000},{workspaceId:ws});assert.equal((await loadRuntimeState({workspaceId:ws})).profiles.writer.active,false);assert.equal((await loadRuntimeState({workspaceId:'default'})).profiles.writer.active,true);});

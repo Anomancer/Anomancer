@@ -20,6 +20,12 @@ const door=$('#door');
 const work=$('#work');
 const resultCard=$('#resultCard');
 
+function readLighthouseBootstrap(){
+  try{return JSON.parse($('#lighthouseBootstrap')?.textContent||'{}');}
+  catch{return {capabilities:[],mancers:[]};}
+}
+const lighthouseBootstrap=readLighthouseBootstrap();
+
 const q=$('#q');
 const go=$('#go');
 const voiceInput=$('#voiceInput');
@@ -892,9 +898,12 @@ function renderRecentWorkspaces(){
   const details=$('#recentWorkDetails');
   const list=$('#recentWorkList');
 
-  details.hidden=!items.length;
+  details.hidden=false;
   if(!items.length){
-    list.replaceChildren();
+    const empty=document.createElement('p');
+    empty.className='door-sheet-empty';
+    empty.textContent='Ei aiempia töitä tässä selaimessa.';
+    list.replaceChildren(empty);
     return;
   }
 
@@ -1845,3 +1854,54 @@ for(const button of mobileDepthNav?.querySelectorAll('[data-depth-target]')||[])
 }
 
 /* LIGHTHOUSE RESPONSIVE QA END */
+
+/* LIGHTHOUSE D0 DOCK / CAPABILITY CATALOG START */
+function capabilityState(item={}){
+  if(item.requiresApproval===true)return {label:'Hyväksyntä',state:'approval'};
+  if(item.available===true)return {label:'Valmis',state:'ready'};
+  if(item.runtimeAvailable===true)return {label:'Yhteydestä',state:'runtime'};
+  return {label:'Tulossa',state:'locked'};
+}
+function renderCapabilityCatalog(){
+  const target=$('#kykyCatalog'); if(!target)return;
+  const rank={ready:0,approval:1,runtime:2,locked:3};
+  const capabilities=[...(Array.isArray(lighthouseBootstrap.capabilities)?lighthouseBootstrap.capabilities:[])]
+    .sort((a,b)=>rank[capabilityState(a).state]-rank[capabilityState(b).state]||String(a.id||'').localeCompare(String(b.id||'')));
+  target.replaceChildren(...capabilities.map(item=>{
+    const card=document.createElement('article'); card.className='capability-card';
+    const top=document.createElement('div'); top.className='capability-card-top';
+    const title=document.createElement('strong'); title.textContent=item.label||item.id||'Kyky';
+    const state=capabilityState(item),badge=document.createElement('span'); badge.className='capability-state'; badge.dataset.state=state.state; badge.textContent=state.label;
+    top.append(title,badge);
+    const id=document.createElement('code'); id.textContent=item.id||'';
+    const purpose=document.createElement('p'); purpose.textContent=item.purpose||item.mode||'';
+    card.append(top,id,purpose); return card;
+  }));
+}
+function renderMancerCatalog(){
+  const target=$('#mancerCatalog'); if(!target)return;
+  const mancers=Array.isArray(lighthouseBootstrap.mancers)?lighthouseBootstrap.mancers:[];
+  target.replaceChildren(...mancers.map(item=>{
+    const card=document.createElement('article'); card.className='mancer-card';
+    const title=document.createElement('strong'); title.textContent=`${item.name||item.id} ${item.version?`v${item.version}`:''}`.trim();
+    const purpose=document.createElement('p'); purpose.textContent=item.purpose||'';
+    const caps=document.createElement('div'); caps.className='mancer-capabilities';
+    for(const cap of item.capabilities||[]){const code=document.createElement('code');code.textContent=cap;caps.append(code);}
+    const orch=document.createElement('p'); orch.className='mancer-orchestras'; orch.textContent=(item.orchestras||[]).length?`Orkesterit: ${item.orchestras.map(x=>x.name||x.id).join(' · ')}`:'';
+    card.append(title,purpose,caps,orch); return card;
+  }));
+}
+function closeDoorDialogs(except=null){for(const d of document.querySelectorAll('.door-sheet[open]'))if(d!==except)d.close();}
+function openDoorDialog(dialog){if(!dialog||typeof dialog.showModal!=='function')return;closeDoorDialogs(dialog);if(!dialog.open)dialog.showModal();}
+$('#doorNew')?.addEventListener('click',()=>{closeDoorDialogs();q?.focus();});
+$('#kyvytOpen')?.addEventListener('click',()=>{renderCapabilityCatalog();renderMancerCatalog();openDoorDialog($('#kyvytDialog'));});
+$('#workOpen')?.addEventListener('click',()=>{renderRecentWorkspaces();openDoorDialog($('#recentWorkDetails'));});
+$('#infoOpen')?.addEventListener('click',()=>openDoorDialog($('#infoDialog')));
+for(const b of document.querySelectorAll('[data-close-dialog]'))b.addEventListener('click',()=>b.closest('dialog')?.close());
+for(const d of document.querySelectorAll('.door-sheet'))d.addEventListener('click',e=>{if(e.target===d)d.close();});
+$('#recentWorkList')?.addEventListener('click',()=>setTimeout(()=>{const d=$('#recentWorkDetails');if(d?.open)d.close();},0));
+$('#infoCoreVersion').textContent=String(lighthouseBootstrap.coreVersion||'—');
+$('#infoLighthouseVersion').textContent=String(lighthouseBootstrap.lighthouseVersion||'—');
+$('#infoMilestone').textContent=String(lighthouseBootstrap.milestone||'—');
+renderCapabilityCatalog(); renderMancerCatalog();
+/* LIGHTHOUSE D0 DOCK / CAPABILITY CATALOG END */

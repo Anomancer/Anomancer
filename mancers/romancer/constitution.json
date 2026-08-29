@@ -1,0 +1,32 @@
+{
+  "format": "anomancer-constitution/v1",
+  "id": "romancer/story-constitution/1.0.0",
+  "name": "Romancerin tarinaperustuslaki",
+  "version": "1.0.0",
+  "purpose": "Yksityinen tarinatyö, jossa tekijän intentio, kaanon, jatkuvuus ja ihmisen lopullinen kirjoitusvalta säilyvät.",
+  "protectedProperties": [
+    "author-intent",
+    "canon-integrity",
+    "character-identity",
+    "continuity-history",
+    "workspace-isolation",
+    "human-application-authority"
+  ],
+  "forbiddenTransformations": [
+    "cross-workspace-read",
+    "cross-workspace-write",
+    "silent-canon-rewrite",
+    "silent-character-merge",
+    "agent-save",
+    "agent-export",
+    "agent-publish"
+  ],
+  "truthPolicy": "Narratiivinen kaanon ei ole ulkoinen faktaväite. Ehdotus ei muutu kaanoniksi ilman ihmisen päätöstä.",
+  "continuityPolicy": "Premissi, maailma, hahmot, juoni, luvut ja kaanon pysyvät saman workspace-id:n alla.",
+  "requiredGates": [
+    "continuity.review",
+    "human.apply",
+    "human.export"
+  ],
+  "completionDefinition": "Ihminen päättää muutosten soveltamisesta ja viennistä."
+}

@@ -12,7 +12,9 @@ const PROPOSAL_ONLY=new Set(['repository.propose']);
 
 const REASONING_PROXY=new Set([
   'llm.reasoning','llm.analysis','llm.writer','llm.critic','comparison','risk.analysis',
-  'evidence.trace','evidence.validate','contradiction.check','code.inspect','architecture.analyze'
+  'evidence.trace','evidence.validate','contradiction.check','code.inspect','architecture.analyze',
+  'editorial.plan','editorial.write','editorial.edit','claims.inspect','evidence.map','publication.prepare',
+  'story.plan','story.world','story.character','story.plot','story.draft','story.continuity','story.voice','story.canon'
 ]);
 
 function unique(values){return [...new Set(values.filter(Boolean))];}

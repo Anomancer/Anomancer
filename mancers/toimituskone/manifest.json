@@ -1,0 +1,30 @@
+{
+  "format": "anomancer-mancer-package/v1",
+  "id": "toimituskone",
+  "templateId": "toimituskone/editorial-workbench/1.0.0",
+  "name": "Toimituskone",
+  "version": "1.0.0",
+  "kind": "editorial",
+  "instancePolicy": "multiple",
+  "description": "Toimituksellinen työtila luonnoksille, väitteille, evidenssille ja julkaisurajalle.",
+  "purpose": "Suunnittele, kirjoita, tarkista ja valmistele Anomancerin julkaisuja ilman automaattista julkaisuoikeutta.",
+  "constitutionId": "toimituskone/editorial-constitution/1.0.0",
+  "artifactStoreId": "mancer/package-artifact-store/v1",
+  "contentAdapterId": "toimituskone/editorial-project-json/v1",
+  "outputAdapterId": "toimituskone/human-approved-publication/v1",
+  "uiProfileId": "mancer/schema-workbench-ui/v1",
+  "capabilities": [
+    "editorial.plan",
+    "editorial.write",
+    "editorial.edit",
+    "claims.inspect",
+    "evidence.map",
+    "evidence.validate",
+    "contradiction.check",
+    "publication.prepare",
+    "publication.publish",
+    "runtime.manage",
+    "orchestra.custom",
+    "runs.read"
+  ]
+}

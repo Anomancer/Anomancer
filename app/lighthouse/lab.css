@@ -3097,3 +3097,28 @@ body.depth-menu-open{
 .mutation-approval{display:grid;gap:.65rem;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,96,96,.25)}.mutation-approval p{margin:0}.mutation-approval code{font-weight:800}.mutation-approval input{width:100%;box-sizing:border-box}.mutation-execute{justify-self:start}.mutation-message:empty{display:none}
 .mutation-receipt{margin-top:1rem;padding:.85rem;border:1px solid rgba(107,224,145,.35);border-radius:14px;background:rgba(34,118,68,.12)}.mutation-receipt strong{display:block;margin-bottom:.35rem}.mutation-receipt a{overflow-wrap:anywhere}
 @media(max-width:720px){.mutation-heading{display:grid}.mutation-execute{width:100%}.mutation-diff{max-height:20rem}}
+
+/* LIGHTHOUSE D0 DOCK / MOBILE WIDTH GUARD START */
+.door{padding-bottom:max(112px,calc(env(safe-area-inset-bottom) + 96px))}
+.door-dock{position:fixed;z-index:45;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;width:min(520px,calc(100vw - 24px));max-width:calc(100vw - 24px);padding:5px;border:1px solid #2d3835;border-radius:18px;background:rgba(13,18,17,.94);box-shadow:0 18px 52px rgba(0,0,0,.38);backdrop-filter:blur(16px)}
+.door-dock-button{min-width:0;min-height:44px;padding:8px 6px;border:0;border-radius:13px;background:transparent;color:#98a6a1;font-size:.78rem;font-weight:650}
+.door-dock-button:hover,.door-dock-button:focus-visible,.door-dock-button[aria-current="page"]{background:#1a2320;color:#e8eeeb;outline:none}
+.door-sheet{width:min(640px,calc(100vw - 24px));max-width:calc(100vw - 24px);max-height:min(78dvh,760px);margin:auto;padding:0;overflow:hidden;border:1px solid #34413d;border-radius:20px;background:#0f1413;color:#eef2f0;box-shadow:0 28px 100px rgba(0,0,0,.58)}
+.door-sheet::backdrop{background:rgba(3,5,5,.72);backdrop-filter:blur(5px)}
+.door-sheet-header{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;min-width:0;padding:20px;border-bottom:1px solid #27312e}
+.door-sheet-header>div{min-width:0}.door-sheet-header h2{margin:3px 0 5px}.door-sheet-header p{margin:0;color:#87958f;font-size:.82rem;line-height:1.5;overflow-wrap:anywhere}
+.door-sheet-kicker{color:#62716b!important;font-size:.67rem!important;font-weight:750;letter-spacing:.14em}
+.door-sheet-close{flex:none;width:40px;height:40px;border:1px solid #34413d;border-radius:999px;background:#111817;color:#bbc6c2;font-size:1.25rem}
+.door-sheet-body{min-width:0;max-width:100%;max-height:calc(min(78dvh,760px) - 100px);overflow:auto;overflow-x:hidden;padding:18px 20px 22px}
+.door-sheet-body section+section{margin-top:26px}.door-sheet-body h3{color:#aebbb6;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em}
+.capability-catalog,.mancer-catalog,.recent-work-list{display:grid;min-width:0;max-width:100%;gap:8px}
+.capability-card,.mancer-card{min-width:0;max-width:100%;overflow:hidden;padding:13px 14px;border:1px solid #28332f;border-radius:14px;background:#111716;text-align:left}
+.capability-card-top{display:flex;align-items:center;justify-content:space-between;min-width:0;gap:12px}.capability-card strong,.mancer-card strong{overflow-wrap:anywhere}
+.capability-card code{display:block;margin-top:5px;color:#73827c;font-size:.68rem;overflow-wrap:anywhere}.capability-card p,.mancer-card p{margin:7px 0 0;color:#82908b;font-size:.78rem;line-height:1.5;overflow-wrap:anywhere}
+.capability-state{flex:none;padding:4px 7px;border:1px solid #35423e;border-radius:999px;color:#9fada8;font-size:.62rem}.capability-state[data-state="ready"]{border-color:#355044;color:#a9c8bb}.capability-state[data-state="approval"]{border-color:#5a4e34;color:#d3c291}.capability-state[data-state="runtime"]{border-color:#354b5a;color:#a9c7d5}
+.mancer-capabilities{display:flex;flex-wrap:wrap;min-width:0;gap:5px;margin-top:10px}.mancer-capabilities code{max-width:100%;padding:4px 7px;border:1px solid #2b3733;border-radius:999px;color:#91a09b;font-size:.64rem;overflow-wrap:anywhere}.mancer-orchestras{color:#66756f!important}
+.recent-work{display:none!important}.recent-work-item{min-width:0!important;max-width:100%!important;overflow:hidden}.recent-work-item strong,.recent-work-item span{max-width:100%;overflow-wrap:anywhere;word-break:break-word}.door-sheet-empty{color:#75847e;font-size:.84rem}
+.info-body>p,.info-body li{color:#aab5b1;line-height:1.65}.info-version-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:20px 0}.info-version-grid div{min-width:0;padding:12px;border:1px solid #29342f;border-radius:12px;background:#111716}.info-version-grid dt{color:#687771;font-size:.66rem;text-transform:uppercase}.info-version-grid dd{margin:4px 0 0;color:#d5ddda;font-size:.82rem;overflow-wrap:anywhere}.info-principle{padding-top:16px;border-top:1px solid #28322f;color:#d8dfdc!important;font-weight:650}
+@media(max-width:520px){html,body{max-width:100%;overflow-x:hidden}.door{width:100%;max-width:100vw;overflow-x:clip;padding-left:14px;padding-right:14px;padding-bottom:max(104px,calc(env(safe-area-inset-bottom) + 92px))}.door-panel,.door-form{min-width:0;max-width:100%}.door-dock,.door-sheet{width:calc(100vw - 20px);max-width:calc(100vw - 20px)}.door-dock{bottom:max(8px,env(safe-area-inset-bottom))}.door-sheet{max-height:82dvh;border-radius:17px}.door-sheet-header{padding:17px 16px 14px}.door-sheet-body{width:100%;min-width:0;max-width:100%;padding:15px 16px 18px;overflow-x:hidden}.info-version-grid{grid-template-columns:1fr}.recent-work-item{width:100%!important;min-width:0!important;max-width:100%!important}}
+@supports not (overflow:clip){@media(max-width:520px){.door{overflow-x:hidden}}}
+/* LIGHTHOUSE D0 DOCK / MOBILE WIDTH GUARD END */

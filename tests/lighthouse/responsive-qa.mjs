@@ -1,8 +1,24 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
+const html=fs.readFileSync('app/lighthouse/lab.html','utf8');
 const js=fs.readFileSync('app/lighthouse/lab.js','utf8');
 const css=fs.readFileSync('app/lighthouse/lab.css','utf8');
+const build=fs.readFileSync('scripts/build-lighthouse.mjs','utf8');
+
+for(const id of ['doorNew','kyvytOpen','workOpen','infoOpen'])assert.match(html,new RegExp(`id="${id}"`),id);
+assert.match(html,/id="kyvytDialog"[^>]*class="door-sheet"/);
+assert.match(html,/id="recentWorkDetails"[^>]*class="door-sheet"/);
+assert.match(html,/id="infoDialog"[^>]*class="door-sheet"/);
+assert.doesNotMatch(html,/<details id="recentWorkDetails"/);
+assert.match(html,/__LIGHTHOUSE_BOOTSTRAP__/);
+assert.match(build,/listCapabilities/);
+assert.match(build,/listInstalledMancerPackages/);
+assert.match(build,/CORE_VERSION/);
+assert.match(js,/LIGHTHOUSE D0 DOCK \/ CAPABILITY CATALOG START/);
+assert.match(css,/LIGHTHOUSE D0 DOCK \/ MOBILE WIDTH GUARD START/);
+assert.match(css,/width:calc\(100vw - 20px\)/);
+assert.match(css,/overflow-x:hidden/);
 
 assert.match(
   js,

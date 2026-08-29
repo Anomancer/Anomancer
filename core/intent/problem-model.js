@@ -4,6 +4,8 @@ export const PROBLEM_MODEL_FORMAT='anomancer-problem-model/v1';
 
 const DOMAIN_RULES=[
   ['software',/(?:\bkoodi\w*|\bcode\b|repo\w*|github|vercel|css\b|javascript|typescript|node\b|api\b|bugi\w*|debug|testi\w*|arkkitehtuur\w*|(?:^|[\s`'"(])[A-Za-z0-9._@+-]+(?:\/[A-Za-z0-9._@+-]+)+\.(?:js|mjs|cjs|ts|tsx|jsx|json|css|html|sh)\b)/i],
+  ['narrative',/(?:\bromancer\w*|\bnarramancer\w*|romaani\w*|novelli\w*|tarina\w*|käsikirjoitu\w*|hahmo\w*|juoni\w*|kaanon\w*|kohtau\w*|luku\w*|jatkuvu\w*|maailmanrakenn\w*)/i],
+  ['editorial',/(?:toimituskone\w*|lähetyskone\w*|toimituks\w*|anomancer(?:in)?\s+lähety\w*|artikkeli\w*|blogi\w*|postaus\w*|väite\w*|evidens\w*)/i],
   ['document',/(?:asiakirj\w*|kirje\w*|pdf\b|sopimu\w*|tarjou\w*|dokument\w*)/i],
   ['research',/(?:tutki\w*|selvitä\w*|lähte\w*|research|tutkim\w*|uusin\w*|latest\b)/i],
   ['writing',/(?:kirjoita\w*|luonnos\w*|teksti\w*|postaus\w*|artikkeli\w*|rewrite|muotoile\w*)/i],
@@ -28,6 +30,20 @@ function needsFor({taskType,domain,hasMaterials,text,externalActionRequested=fal
   if(/https:\/\//i.test(String(text||'')))needs.push('web.fetch');
   if(domain==='software'&&['debug','audit','plan'].includes(taskType))needs.push('repository.read');
   if(domain==='software'&&externalActionRequested)needs.push('repository.read','repository.propose','repository.write');
+
+  if(domain==='editorial'){
+    if(taskType==='plan')needs.push('editorial.plan','claims.inspect','evidence.map','publication.prepare');
+    else if(taskType==='audit')needs.push('editorial.edit','claims.inspect','evidence.map','evidence.validate');
+    else needs.push('editorial.write','editorial.edit','claims.inspect','evidence.map','publication.prepare');
+    if(externalActionRequested)needs.push('publication.publish');
+  }
+  if(domain==='narrative'){
+    if(taskType==='plan')needs.push('story.plan','story.world','story.character','story.plot','story.canon');
+    else if(taskType==='audit')needs.push('story.continuity','story.canon','story.voice','contradiction.check');
+    else if(taskType==='write'||taskType==='transform')needs.push('story.draft','story.voice','story.continuity','story.canon');
+    else needs.push('story.plan','story.character','story.plot','story.continuity');
+    if(externalActionRequested)needs.push('story.export');
+  }
 
   switch(taskType){
     case 'debug':
@@ -90,7 +106,7 @@ export function buildProblemModel(intent={},profile=profileIntent(intent)){
     text,
     externalActionRequested:profile.externalActionRequested===true
   });
-  if(profile.externalActionRequested===true&&domain!=='software')needs.push('external.execute');
+  if(profile.externalActionRequested===true&&!['software','editorial','narrative'].includes(domain))needs.push('external.execute');
 
   return {
     format:PROBLEM_MODEL_FORMAT,

@@ -143,7 +143,11 @@ async function braveSearch(query){
 function selectMancerOrchestra(pkg,problem={}){
   const orchestras=Array.isArray(pkg?.orchestraRegistry?.orchestras)?pkg.orchestraRegistry.orchestras:[];
   if(!orchestras.length)return null;
-  const preferred=problem.taskType==='audit'||problem.taskType==='debug'?'code-review':problem.taskType==='plan'?'release-readiness':'';
+  const mancerId=String(pkg?.manifest?.id||'');
+  let preferred='';
+  if(mancerId==='codemancer')preferred=problem.taskType==='audit'||problem.taskType==='debug'?'code-review':problem.taskType==='plan'?'release-readiness':'';
+  else if(mancerId==='toimituskone')preferred=problem.constraints?.externalSideEffectsRequested?'publication-readiness':problem.taskType==='audit'?'editorial-review':'editorial-workflow';
+  else if(mancerId==='romancer')preferred=problem.taskType==='audit'?'continuity-review':problem.taskType==='write'||problem.taskType==='transform'?'chapter-draft':'story-development';
   const selected=orchestras.find(item=>item.id===preferred)||orchestras[0];
   return selected?{
     id:selected.id,

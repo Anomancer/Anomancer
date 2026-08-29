@@ -77,6 +77,18 @@ assert.equal(realMancerHands.mancers[0]?.humanFinalAuthority,true);
 assert.equal(realMancerHands.mancers[0]?.orchestra?.executable,false);
 assert.ok(realMancerHands.events.some(event=>event.id==='mancer.activate'&&event.status==='completed'));
 
+const editorialPreview=previewIntent({text:'Kirjoita Anomanceriin artikkeli ja tarkista väitteet.'});
+const editorialHands=await executeLighthouseHands({intent:{text:'Kirjoita artikkeli',workspace:{materials:[]}},route:{problem:editorialPreview.problem,recommendation:editorialPreview.recommendation},capabilityRoute:{readOnly:['mancer.activate']}});
+assert.equal(editorialHands.mancers[0]?.id,'toimituskone');
+assert.equal(editorialHands.mancers[0]?.orchestra?.id,'editorial-workflow');
+assert.equal(editorialHands.mancers[0]?.humanFinalAuthority,true);
+
+const romancerPreview=previewIntent({text:'Kirjoita Romanceriin seuraava luku.'});
+const romancerHands=await executeLighthouseHands({intent:{text:'Kirjoita luku',workspace:{materials:[]}},route:{problem:romancerPreview.problem,recommendation:romancerPreview.recommendation},capabilityRoute:{readOnly:['mancer.activate']}});
+assert.equal(romancerHands.mancers[0]?.id,'romancer');
+assert.equal(romancerHands.mancers[0]?.orchestra?.id,'chapter-draft');
+assert.equal(romancerHands.mancers[0]?.humanFinalAuthority,true);
+
 const privateFetch=await executeLighthouseHands({
   intent:{text:'Lue https://127.0.0.1/private',workspace:{materials:[]}},
   route:{problem:{domain:'research'},recommendation:{}},
