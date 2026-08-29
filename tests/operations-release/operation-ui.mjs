@@ -44,9 +44,9 @@ test('mobiilityyli pysyy yhdessä kanonisessa breakpointissa',()=>{
   assert.match(responsive,/operation-console-head/);assert.match(responsive,/operation-runtime/);assert.match(responsive,/operation-actions/);
 });
 
-test('1.18.6 Package Spec ilmoittaa vain hyväksyntäportilliset sivuvaikutuskyvykkyydet',()=>{
+test('1.18.7 Package Spec ilmoittaa vain hyväksyntäportilliset sivuvaikutuskyvykkyydet',()=>{
   const pkg=JSON.parse(read('package.json')),manifest=JSON.parse(read('mancers/codemancer/manifest.json')),boundary=JSON.parse(read('mancers/codemancer/artifact-boundary.json'));
-  assert.equal(pkg.version,'1.18.6');assert.equal(manifest.version,'1.3.0');
+  assert.equal(pkg.version,'1.18.7');assert.equal(manifest.version,'1.3.0');
   for(const capability of ['repository.write.approved','tests.run.approved','git.pull-request.approved','deploy.production.approved','repository.rollback.approved','deploy.rollback.approved'])assert.ok(manifest.capabilities.includes(capability));
   for(const forbidden of ['direct-default-branch-write','automatic-pr-merge','arbitrary-command-execution','secret-exposure'])assert.ok(boundary.forbidden.includes(forbidden));
 });

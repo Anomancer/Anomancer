@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.18.7 — Public UI/UX Polish
+
+- Moved article claims and evidence into an accessible disclosure that is closed by default.
+- Replaced yellow candidate-source highlighting with a neutral, status-labelled source surface.
+- Reduced public Core display typography and updated the visible roadmap through 1.18.7.
+- Added a clear Admin action to the Home and Core footers in both languages.
+- Rebalanced the Dispatch index hierarchy, density, spacing and card typography.
+- Made workspace open actions resilient deep links and added a click-through Codemancer browser gate.
+
+Current release evidence: `docs/releases/1.18.7/`.
+
 ## 1.18.6 — Audit Closure
 
 - Replaced status-only source verification with traceable verification receipts and semantic contradiction checks.
@@ -11,7 +22,7 @@
 - Split current roadmap from archived history, added global public CSP and created allowlist-based source/deploy exports.
 - Replaced production process-memory contact throttling with a shared atomic rate-limit contract that fails closed.
 
-Current release evidence: `docs/releases/1.18.6/`.
+Release evidence: `docs/releases/1.18.6/`.
 
 ## Phase 7.3 · Core hero and transmission tuning
 

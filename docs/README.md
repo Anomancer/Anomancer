@@ -20,4 +20,4 @@ This directory describes the current Anomancer architecture. Historical release 
 - `ui/interface-system.md` — navigation, visual ownership and responsive system
 - `development/repository-layout.md` — source vs generated repository boundary
 - `roadmap.md` — current roadmap
-- `releases/1.18.6/` — current audit-closure release evidence
+- `releases/1.18.7/` — current public UI/UX-polish release evidence

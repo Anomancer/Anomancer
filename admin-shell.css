@@ -299,3 +299,5 @@ body[data-workspace-template="blank-private"] .workspace-save-indicator{display:
 /* Audit closure · explicit boot error and retry state. */
 .admin-boot-status{color:var(--muted);line-height:1.5}
 .admin-boot-card button{min-height:44px;margin-top:12px}
+/* Workspace cards use resilient deep links; JS enhances them without removing the fallback. */
+.workspace-open-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border:1px solid var(--color-border-control);border-radius:8px;color:var(--color-text-strong);font-weight:800;text-decoration:none}.workspace-open-link:hover{border-color:#666673}.workspace-open-link.ghost{background:transparent}

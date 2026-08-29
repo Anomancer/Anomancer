@@ -1,7 +1,7 @@
 {
   "format": "anomancer-export/v1",
   "mode": "source",
-  "version": "1.18.6",
+  "version": "1.18.7",
   "createdAt": "2026-08-29T08:10:00.489Z",
   "allowlist": {
     "rootFiles": [
@@ -403,11 +403,11 @@
       "sha256": "631859e4be57b94730b0197548b0e230abad531a0bce7a174e30266c7b5bf6b3"
     },
     {
-      "path": "docs/releases/1.18.6/release.md",
+      "path": "docs/releases/1.18.7/release.md",
       "sha256": "68d6dc4bf3611f477912444ee041c07c117ac20014b7621f97a0dc4069a2a985"
     },
     {
-      "path": "docs/releases/1.18.6/validation.md",
+      "path": "docs/releases/1.18.7/validation.md",
       "sha256": "69987042ef2b14a25c1d09045ffc3b9869ca3e03d5129146e8eb823cc2df4f83"
     },
     {

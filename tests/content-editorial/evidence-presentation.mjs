@@ -12,7 +12,7 @@ const body='Tutkimuksessa kasvu oli 27 prosenttia vuonna 2025. Vertailussa kasvu
 const sources=[{id:'s1',title:'Study',url,verification:'verified',origin:'human',verifiedBy:'human:test',verifiedAt:'2026-08-27T12:00:00.000Z',verificationMethod:'direct-open',verificationEvidence:url,verificationNotes:'Testilähde avattiin ja luvut tarkistettiin.'}];
 const claims=[{status:'supported',text:'Kasvu oli 27 prosenttia vuonna 2025.',evidence:[url],note:''},{status:'supported',text:'Kasvu oli 18 prosenttia vuonna 2024.',evidence:[url],note:''}];
 const base={lang:'fi',title:'Testi',date:'2026-08-27',category:'info-media',audience:['all'],audienceDepth:'general',description:'Testi',slug:'testi',translationKey:'testi',aliases:[],coverImage:'',coverAlt:'',answer:'',sources,claims,pinned:false,draft:false,body};
-ok('Core version',()=>assert.equal(CORE_VERSION,'1.18.6'));
+ok('Core version',()=>assert.equal(CORE_VERSION,'1.18.7'));
 ok('package can propose citation placements but cannot write body',()=>{const c=getAgentContract('package');assert(c.authority.write.includes('citationPlacements'));assert(c.authority.deny.includes('body.write'));});
 ok('visualization agent is optional and fail-closed',()=>{const c=getAgentContract('visualization');assert(c);assert(c.authority.deny.includes('claims.write'));assert(!getOrchestra('editorial').stages.includes('visualization'));});
 ok('valid placement survives',()=>assert.equal(normalizeCitationPlacements([{claimText:claims[0].text,evidenceUrl:url,quote:'Tutkimuksessa kasvu oli 27 prosenttia vuonna 2025.',anchorText:'27 prosenttia'}],{sources,claims,body}).length,1));
@@ -30,7 +30,7 @@ ok('frontmatter preserves presentation state',()=>{const placement={claimText:cl
 ok('admin exposes three presentation modes',()=>{const h=fs.readFileSync(new URL('../../admin.html',import.meta.url),'utf8');for(const mode of ['inline','sources','both'])assert(h.includes(`value="${mode}"`));});
 ok('admin exposes visualization watcher',()=>assert(fs.readFileSync(new URL('../../admin.html',import.meta.url),'utf8').includes('Visualisointivahti')));
 ok('build has deterministic SVG renderer',()=>{const b=fs.readFileSync(new URL('../../scripts/build-blog.mjs',import.meta.url),'utf8');assert(b.includes('function chartSvg'));assert(b.includes('function applyCitationPlacements'));});
-ok('public renderer supports compact source strip',()=>assert(fs.readFileSync(new URL('../../styles.css',import.meta.url),'utf8').includes('.article-source-strip')));
+ok('public renderer supports compact disclosure and neutral candidate sources',()=>{const css=fs.readFileSync(new URL('../../styles.css',import.meta.url),'utf8');assert(css.includes('.article-source-strip'));assert(css.includes('.article-evidence>summary'));assert.doesNotMatch(css,/article-source\[data-verification="candidate"\]\{[^}]*#7b6632/);});
 ok('end-to-end build renders grounded inline link and deterministic SVG',()=>{
   const source=process.cwd(),root=fs.mkdtempSync(path.join(os.tmpdir(),'anomancer-v162-'));
   fs.cpSync(source,root,{recursive:true,filter:src=>!src.includes(`${path.sep}node_modules${path.sep}`)});
