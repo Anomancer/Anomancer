@@ -1,4 +1,8 @@
 import {normalizeIntent,normalizeWorkResult} from './contracts.js';
+import {buildProblemModel} from './problem-model.js';
+import {recommendWork} from './recommendation.js';
+import {matchCapabilities} from '../capabilities/matcher.js';
+import {authorityForIntent} from '../authority/approval-service.js';
 import {
   profileIntent,
   normalizeReasoningPlan,
@@ -104,6 +108,39 @@ Palauta JSON:
   }
 }
 Jos luonnos on jo hyvä, verdict on accept ja result saa säilyttää sen sisällön. Jos korjaat, verdict on revise ja result sisältää valmiin korjatun version.`;
+
+function routeForIntent(intent){
+  const profile=profileIntent(intent);
+  const problem=buildProblemModel(intent,profile);
+  const capabilities=matchCapabilities(problem);
+  const recommendation=recommendWork({problem,profile,capabilities});
+  const authority=authorityForIntent({profile,capabilities});
+
+  return {
+    profile,
+    problem,
+    capabilities,
+    recommendation,
+    authority
+  };
+}
+
+export function previewIntent(input){
+  const intent=normalizeIntent(input);
+  const route=routeForIntent(intent);
+
+  return {
+    intent:{
+      format:intent.format,
+      locale:intent.locale
+    },
+    problem:route.problem,
+    capabilities:route.capabilities,
+    recommendation:route.recommendation,
+    authority:route.authority,
+    intelligence:route.profile
+  };
+}
 
 function historyText(history=[]){
   if(!history.length)return '';
@@ -266,8 +303,9 @@ export async function runIntent(input,{reasoner}={}){
   ].filter(Boolean).join('\n\n');
 
   const startedAt=Date.now();
-  const intelligence=profileIntent(intent);
-  const orchestration=createOrchestrationPlan(intent,intelligence);
+  const route=routeForIntent(intent);
+  const intelligence=route.profile;
+  const orchestration=createOrchestrationPlan(intent,intelligence,route);
   const passes=[];
   const intelligenceRun={
     planFailed:false,
@@ -372,6 +410,12 @@ export async function runIntent(input,{reasoner}={}){
       model:String(responseMeta.model||''),
       durationMs,
       searchedWeb:responseMeta.searchedWeb===true,
+      route:{
+        problem:route.problem,
+        capabilities:route.capabilities,
+        recommendation:route.recommendation,
+        authority:route.authority
+      },
       intelligence:{
         profile:intelligence,
         plan,

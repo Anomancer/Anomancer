@@ -6,7 +6,7 @@ function stage(id,label,status='pending',detail=''){
   return {id,label,status,detail};
 }
 
-export function createOrchestrationPlan(intent={},intelligence=profileIntent(intent)){
+export function createOrchestrationPlan(intent={},intelligence=profileIntent(intent),route={}){
   const hasWorkspace=Boolean(intent?.workspace?.id);
   const hasMaterials=Boolean(intent?.workspace?.materials?.length);
   const hasHistory=Boolean(intent?.history?.length);
@@ -33,15 +33,36 @@ export function createOrchestrationPlan(intent={},intelligence=profileIntent(int
       materials:hasMaterials,
       history:hasHistory
     },
-    capabilities:[
-      {
-        id:'llm.reasoning',
-        label:'Päättely',
-        purpose:'Suunnittelee, ratkaisee ja tarvittaessa tarkistaa työn saman rajatun reasoning-kyvykkyyden sisällä.'
-      }
-    ],
-    mancers:[],
-    mancerNote:'Erillisiä Mancer-paketteja ei käynnistetty tässä ajossa. Älykkyyspolku toimii Core-orkestroinnin sisällä.',
+    problem:route.problem||null,
+    recommendation:route.recommendation||null,
+    authority:route.authority||null,
+    capabilities:Array.isArray(route.capabilities?.matched)&&route.capabilities.matched.length
+      ?route.capabilities.matched.map(capability=>({
+          id:capability.id,
+          label:capability.id,
+          purpose:capability.mode==='local-context'
+            ?'Käyttää käyttäjän antamaa työtilakontekstia.'
+            :capability.mode==='runtime-trace'
+              ?'Tallentaa työn perusteluihin jäljitettävän runtime-jäljen.'
+              :'Toteutetaan nykyisessä rakennusvaiheessa rajatun reasoning-kyvykkyyden kautta.'
+        }))
+      :[{
+          id:'llm.reasoning',
+          label:'Päättely',
+          purpose:'Ratkaisee työn rajatun reasoning-kyvykkyyden sisällä.'
+        }],
+    unresolvedCapabilities:Array.isArray(route.capabilities?.unresolved)
+      ?route.capabilities.unresolved
+      :[],
+    mancers:route.recommendation?.workspace
+      ?[{
+          id:route.recommendation.workspace.id,
+          label:route.recommendation.workspace.label
+        }]
+      :[],
+    mancerNote:route.recommendation?.workspace
+      ?'Työ tunnistettiin alueeksi, jolle on olemassa sopiva workspace-Mancer. D0 ei vaadi käyttäjää valitsemaan sitä käsin.'
+      :'Erillistä workspace-Manceria ei tarvittu tähän ajoon.',
     stages:[
       stage(
         'intent',
@@ -63,7 +84,11 @@ export function createOrchestrationPlan(intent={},intelligence=profileIntent(int
         'route',
         'Älyprofiili valittiin',
         'completed',
-        `${String(intelligence?.taskType||'general')} · ${String(intelligence?.complexity||'low')} · ${String(intelligence?.strategy||'direct')}`
+        [
+          `${String(intelligence?.taskType||'general')} · ${String(intelligence?.complexity||'low')} · ${String(intelligence?.strategy||'direct')}`,
+          route.problem?.domain?`domain=${route.problem.domain}`:'',
+          route.recommendation?.workspace?.id?`workspace=${route.recommendation.workspace.id}`:''
+        ].filter(Boolean).join(' · ')
       ),
       stage(
         'plan',

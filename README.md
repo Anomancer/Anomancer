@@ -4,7 +4,7 @@ Anomancer is a private, workspace-based orchestration platform with a separate p
 
 Current release: **1.18.7 — Public UI/UX Polish**.
 
-Active construction branch: **1.19.0-lighthouse.2 — Lighthouse Architecture**.
+Active construction branch: **1.20.0-lighthouse-shell.1 — Lighthouse UX Architecture v2**.
 The public Core stays at 1.18.7 while the local-first D0–D6 Lab and adaptive reasoning path are validated.
 
 ## Architecture at a glance
@@ -70,4 +70,4 @@ The public Core is an explicit allowlist projection. Private prompts, outputs, w
 See [`docs/releases/1.18.7/`](docs/releases/1.18.7/) for the UI/UX-polish release and validation contract. The senior audit closure remains under `docs/releases/1.18.6/`.
 
 Lighthouse prerelease evidence lives under
-[`docs/releases/1.19.0-lighthouse.2/`](docs/releases/1.19.0-lighthouse.2/).
+[`docs/releases/1.20.0-lighthouse-shell.1/`](docs/releases/1.20.0-lighthouse-shell.1/).

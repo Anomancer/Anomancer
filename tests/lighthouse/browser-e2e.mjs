@@ -59,6 +59,28 @@ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const address=server.address();
 const base=`http://127.0.0.1:${address.port}/lab.html`;
 
+
+const previewPayload={
+  ok:true,
+  recommendation:{
+    format:'anomancer-work-recommendation/v1',
+    title:'Suora työ',
+    summary:'Ratkaistaan nykyinen tavoite mahdollisimman suoraviivaisesti.',
+    estimatedStages:3,
+    workspace:null,
+    requiresApproval:false,
+    limitations:[],
+    startLabel:'Käynnistä'
+  },
+  authority:{
+    format:'anomancer-authority-decision/v1',
+    finalAuthority:'human',
+    startRequiresHuman:true,
+    externalActionRequested:false,
+    externalEffectsAllowed:false
+  }
+};
+
 const payload={
   ok:true,
   result:{
@@ -138,6 +160,11 @@ async function prepare(page){
     contentType:'application/json',
     body:JSON.stringify({ok:true,authenticated:false})
   }));
+  await page.route('**/api/lab/preview',route=>route.fulfill({
+    status:200,
+    contentType:'application/json',
+    body:JSON.stringify(previewPayload)
+  }));
   await page.route('**/api/lab/intent',route=>route.fulfill({
     status:200,
     contentType:'application/json',
@@ -151,6 +178,9 @@ async function prepare(page){
 async function submit(page){
   await page.locator('#q').fill('Testaa Lighthouse-polku selaimessa.');
   await page.locator('#go').click();
+  await page.locator('#intentPreview').waitFor({state:'visible'});
+  assert.equal(await page.locator('#work').isVisible(),false);
+  await page.locator('#previewStart').click();
   await page.locator('#work').waitFor({state:'visible'});
 }
 
@@ -217,6 +247,13 @@ try{
     await phone.evaluate(()=>document.activeElement?.dataset?.depthTarget||''),
     'trustDetails'
   );
+
+  await phone.locator('#moreDepthButton').click();
+  assert.equal(await phone.locator('#moreDepthMenu').isVisible(),true);
+  await phone.locator('#moreDepthMenu [data-depth-target="machineDetails"]').click();
+  assert.equal(await phone.locator('#depthInspector').isVisible(),true);
+  assert.match(await phone.locator('#depthInspectorTitle').textContent(),/Konehuone/);
+  await phone.locator('#depthBack').click();
 
   const controlHeights=await phone.evaluate(()=>[...document.querySelectorAll('button,input,textarea,select')]
     .filter(node=>{

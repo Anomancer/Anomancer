@@ -33,6 +33,9 @@ await test('Lighthouse-arkkitehtuuri kuuluu sekä lähde- että runtime-vientiin
     'app/lighthouse/lab.html',
     'catalog/capabilities.json',
     'core/intent/intent-service.js',
+    'core/intent/problem-model.js',
+    'core/capabilities/matcher.js',
+    'core/authority/approval-service.js',
     'core/intelligence/lighthouse-intelligence.js',
     'providers/deepseek/adapter.js',
     'tests/lighthouse/browser-e2e.mjs'
@@ -40,8 +43,12 @@ await test('Lighthouse-arkkitehtuuri kuuluu sekä lähde- että runtime-vientiin
 
   for(const file of [
     'api/lab/intent.js',
+    'api/lab/preview.js',
     'catalog/capabilities.json',
     'core/intent/intent-service.js',
+    'core/intent/problem-model.js',
+    'core/capabilities/matcher.js',
+    'core/authority/approval-service.js',
     'core/intelligence/lighthouse-intelligence.js',
     'providers/deepseek/adapter.js'
   ])assert.equal(deployFiles.has(file),true,`deploy bundle missing ${file}`);

@@ -22,6 +22,17 @@ const resultCard=$('#resultCard');
 
 const q=$('#q');
 const go=$('#go');
+const voiceInput=$('#voiceInput');
+const attachmentInput=$('#attachmentInput');
+const attachmentSummary=$('#attachmentSummary');
+const intentPreview=$('#intentPreview');
+const previewTitle=$('#previewTitle');
+const previewSummary=$('#previewSummary');
+const previewEstimate=$('#previewEstimate');
+const previewLimitations=$('#previewLimitations');
+const previewAuthority=$('#previewAuthority');
+const previewEdit=$('#previewEdit');
+const previewStart=$('#previewStart');
 
 const continueForm=$('#continueForm');
 const continueInput=$('#continueInput');
@@ -50,6 +61,8 @@ let running=false;
 let activeWorkspace=getActiveWorkspace();
 let labCsrf='';
 let labSessionChecked=false;
+let pendingPreview=null;
+let pendingText='';
 
 const RACCOON_LINES=[
   '🦝 Pesukarhu järjestää johtolankoja.',
@@ -83,6 +96,10 @@ function setBusy(source,busy){
 
   go.disabled=busy;
   q.disabled=busy;
+  if(voiceInput)voiceInput.disabled=busy;
+  if(attachmentInput)attachmentInput.disabled=busy;
+  if(previewStart)previewStart.disabled=busy;
+  if(previewEdit)previewEdit.disabled=busy;
   continueButton.disabled=busy;
   continueInput.disabled=busy;
   $('#back').disabled=busy;
@@ -916,6 +933,170 @@ async function labRequestHeaders(){
   };
 }
 
+function hideIntentPreview(){
+  pendingPreview=null;
+  pendingText='';
+  intentPreview.hidden=true;
+  previewTitle.textContent='';
+  previewSummary.textContent='';
+  previewEstimate.textContent='';
+  previewAuthority.textContent='';
+  previewLimitations.replaceChildren();
+  previewLimitations.hidden=true;
+}
+
+function renderIntentPreview(payload,text){
+  const recommendation=payload?.recommendation||{};
+  const authority=payload?.authority||{};
+  const limitations=Array.isArray(recommendation.limitations)
+    ?recommendation.limitations
+    :[];
+
+  pendingPreview=payload;
+  pendingText=text;
+  previewTitle.textContent=recommendation.title||'Työ on valmis käynnistettäväksi';
+  previewSummary.textContent=recommendation.summary||'Käyn tavoitteen läpi ja kokoan käyttökelpoisen vastauksen.';
+  previewEstimate.textContent=recommendation.estimatedStages
+    ?`Työ etenee noin ${recommendation.estimatedStages} vaiheessa.`
+    :'';
+  makeList(previewLimitations,limitations);
+  previewLimitations.hidden=!limitations.length;
+  previewAuthority.textContent=authority.externalActionRequested
+    ?'Voin valmistella tämän työn, mutta ulkoiset muutokset vaativat erillisen päätöksesi eikä niitä suoriteta automaattisesti.'
+    :'Käynnistä vasta kun tämä työskentelytapa näyttää oikealta.';
+  previewStart.textContent=recommendation.startLabel||'Käynnistä';
+  intentPreview.hidden=false;
+  go.hidden=true;
+
+  requestAnimationFrame(()=>previewStart.focus({preventScroll:true}));
+}
+
+async function preview(text,{retry=false}={}){
+  if(running)return false;
+  const clean=text.trim();
+  if(!clean)return false;
+
+  clearError('door');
+  if(!retry){
+    lastAttempt={source:'preview',text:clean,history:[]};
+  }
+
+  const timer=startRaccoon(doorRaccoon);
+  setBusy('door',true);
+  status.textContent='Jäsennetään tehtävää…';
+  go.textContent='Jäsennetään…';
+
+  try{
+    const headers=await labRequestHeaders();
+    const response=await fetch('/api/lab/preview',{
+      method:'POST',
+      credentials:'same-origin',
+      headers,
+      body:JSON.stringify({
+        text:clean,
+        locale:'fi',
+        history:[],
+        workspace:workspaceForIntent(activeWorkspace)
+      })
+    });
+    const payload=await response.json().catch(()=>({}));
+
+    if(!response.ok||!payload.ok){
+      if(response.status===401||response.status===403){
+        labCsrf='';
+        labSessionChecked=false;
+      }
+      throw new Error(payload.message||payload.error||'Tehtävän jäsentäminen epäonnistui.');
+    }
+
+    renderIntentPreview(payload,clean);
+    return true;
+  }catch(error){
+    showError('door',String(error?.message||'Tehtävän jäsentäminen epäonnistui.'));
+    return false;
+  }finally{
+    stopRaccoon(timer,doorRaccoon);
+    setBusy('door',false);
+    if(intentPreview.hidden){
+      go.hidden=false;
+      go.textContent='Jatka';
+    }
+  }
+}
+
+function syncAttachmentSummary(){
+  const materials=activeWorkspace?.materials||[];
+  attachmentSummary.hidden=!materials.length;
+  attachmentSummary.textContent=materials.length
+    ?`${materials.length} aineisto${materials.length===1?'':'a'} lisätty tähän työhön.`
+    :'';
+}
+
+async function addSelectedFiles(files=[]){
+  if(!files.length)return;
+  if(!activeWorkspace){
+    activeWorkspace=createWorkspace(q.value.trim()||'Uusi työ',{persist:false});
+  }
+
+  const accepted=[...files].slice(0,6);
+  for(const file of accepted){
+    const type=String(file.type||'');
+    const name=String(file.name||'Aineisto');
+    const textLike=type.startsWith('text/')||type==='application/json'||/\.(?:txt|md|json|csv)$/i.test(name);
+    if(!textLike){
+      showError('door',`Tiedostoa ${name} ei voida vielä lukea tässä rakennusvaiheessa. Lisää teksti-, Markdown-, JSON- tai CSV-tiedosto.`);
+      continue;
+    }
+    if(Number(file.size)>512_000){
+      showError('door',`Tiedosto ${name} on liian suuri. Yhden aineiston raja on 512 kt.`);
+      continue;
+    }
+    const content=(await file.text()).slice(0,8000);
+    activeWorkspace=addMaterial(activeWorkspace,{title:name,content});
+  }
+
+  hideIntentPreview();
+  go.hidden=false;
+  syncAttachmentSummary();
+  renderWorkspace();
+}
+
+function setupVoiceInput(){
+  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SpeechRecognition||!voiceInput)return;
+
+  voiceInput.hidden=false;
+  voiceInput.addEventListener('click',()=>{
+    if(running)return;
+    const recognition=new SpeechRecognition();
+    recognition.lang='fi-FI';
+    recognition.interimResults=false;
+    recognition.maxAlternatives=1;
+    voiceInput.disabled=true;
+    voiceInput.setAttribute('aria-pressed','true');
+    voiceInput.textContent='Kuuntelen…';
+
+    recognition.addEventListener('result',event=>{
+      const transcript=String(event.results?.[0]?.[0]?.transcript||'').trim();
+      if(transcript){
+        q.value=[q.value.trim(),transcript].filter(Boolean).join(q.value.trim()?' ':'');
+        hideIntentPreview();
+        go.hidden=false;
+      }
+    });
+    recognition.addEventListener('end',()=>{
+      voiceInput.disabled=false;
+      voiceInput.removeAttribute('aria-pressed');
+      voiceInput.textContent='🎙 Puhu';
+      q.focus({preventScroll:true});
+    });
+    recognition.addEventListener('error',()=>{
+      showError('door','Puheentunnistus ei onnistunut. Voit jatkaa kirjoittamalla.');
+    });
+    recognition.start();
+  });
+}
+
 async function run(text,{source='door',retry=false}={}){
   if(running)return false;
 
@@ -998,6 +1179,10 @@ function resetWork(){
 
   continueInput.value='';
   q.value='';
+  hideIntentPreview();
+  go.hidden=false;
+  attachmentInput.value='';
+  syncAttachmentSummary();
 
   clearError('door');
   clearError('work');
@@ -1028,11 +1213,43 @@ $('#f').addEventListener('submit',async event=>{
   history=[];
   turns=[];
   lastAttempt=null;
-  activeWorkspace=createWorkspace(text,{persist:false});
+  if(!activeWorkspace||activeWorkspace.latestPayload){
+    activeWorkspace=createWorkspace(text,{persist:false});
+  }else{
+    activeWorkspace={...activeWorkspace,title:text.slice(0,64)||activeWorkspace.title};
+  }
   renderWorkspace();
+  syncAttachmentSummary();
 
+  await preview(text);
+});
+
+previewStart.addEventListener('click',async()=>{
+  if(!pendingText||running)return;
+  const text=pendingText;
+  intentPreview.hidden=true;
+  go.hidden=true;
   await run(text,{source:'door'});
 });
+
+previewEdit.addEventListener('click',()=>{
+  hideIntentPreview();
+  go.hidden=false;
+  q.focus({preventScroll:true});
+});
+
+q.addEventListener('input',()=>{
+  if(intentPreview.hidden)return;
+  hideIntentPreview();
+  go.hidden=false;
+});
+
+attachmentInput.addEventListener('change',async event=>{
+  await addSelectedFiles(event.target.files);
+  event.target.value='';
+});
+
+setupVoiceInput();
 
 continueForm.addEventListener('submit',async event=>{
   event.preventDefault();
@@ -1046,8 +1263,14 @@ continueForm.addEventListener('submit',async event=>{
 });
 
 doorRetry.addEventListener('click',async()=>{
-  if(!lastAttempt||lastAttempt.source!=='door')return;
-  await run(lastAttempt.text,{source:'door',retry:true});
+  if(!lastAttempt)return;
+  if(lastAttempt.source==='preview'){
+    await preview(lastAttempt.text,{retry:true});
+    return;
+  }
+  if(lastAttempt.source==='door'){
+    await run(lastAttempt.text,{source:'door',retry:true});
+  }
 });
 
 workRetry.addEventListener('click',async()=>{
@@ -1117,6 +1340,7 @@ $('#recentWorkList').addEventListener('click',event=>{
 });
 
 renderRecentWorkspaces();
+syncAttachmentSummary();
 
 if(activeWorkspace?.latestPayload?.result){
   resumeWorkspace(activeWorkspace);
@@ -1163,22 +1387,22 @@ const RESPONSIVE_DEPTHS=[
   {
     id:'trustDetails',
     short:'D2',
-    label:'Luottamus'
+    label:'Lähteet ja perustelut'
   },
   {
     id:'workspaceDetails',
     short:'D3',
-    label:'Työtila'
+    label:'Aineisto ja työtila'
   },
   {
     id:'orchestraDetails',
     short:'D4',
-    label:'Orkestra'
+    label:'Miten tämä tehtiin'
   },
   {
     id:'machineDetails',
     short:'D5',
-    label:'Kone'
+    label:'Konehuone'
   },
   {
     id:'coreDetails',
@@ -1201,6 +1425,9 @@ const depthInspectorTitle=document.getElementById('depthInspectorTitle');
 const depthBack=document.getElementById('depthBack');
 const mobileDepthNav=document.getElementById('mobileDepthNav');
 const desktopDepthTabs=document.getElementById('desktopDepthTabs');
+const moreDepthButton=document.getElementById('moreDepthButton');
+const moreDepthMenu=document.getElementById('moreDepthMenu');
+const moreDepthClose=document.getElementById('moreDepthClose');
 
 let selectedResponsiveDepth=null;
 let lastResponsiveDepthLauncher=null;
@@ -1304,7 +1531,7 @@ function closeResponsiveDepth({focusLauncher=false}={}){
   hideResponsiveDepthPanels();
 
   depthInspectorEmpty.hidden=false;
-  depthInspectorTitle.textContent='Valitse kerros';
+  depthInspectorTitle.textContent='Valitse lisätieto';
   setDepthButtonState(null);
 
   work.classList.remove('depth-screen-open');
@@ -1371,12 +1598,54 @@ function depthTargetFromEvent(event){
   return responsiveDepthIds.has(id)?id:null;
 }
 
+function openMoreDepthMenu(){
+  if(!moreDepthMenu||!moreDepthButton)return;
+  moreDepthMenu.hidden=false;
+  moreDepthButton.setAttribute('aria-expanded','true');
+  document.body.classList.add('depth-menu-open');
+  requestAnimationFrame(()=>{
+    moreDepthMenu.querySelector('[data-depth-target]')?.focus({preventScroll:true});
+  });
+}
+
+function closeMoreDepthMenu({focus=false}={}){
+  if(!moreDepthMenu||!moreDepthButton)return;
+  moreDepthMenu.hidden=true;
+  moreDepthButton.setAttribute('aria-expanded','false');
+  document.body.classList.remove('depth-menu-open');
+  if(focus){
+    requestAnimationFrame(()=>moreDepthButton.focus({preventScroll:true}));
+  }
+}
+
 mobileDepthNav?.addEventListener('click',event=>{
   const button=event.target.closest('[data-depth-target]');
   const id=depthTargetFromEvent(event);
   if(!id||!button)return;
 
   lastResponsiveDepthLauncher=button;
+  showResponsiveDepth(id,{focus:true});
+});
+
+moreDepthButton?.addEventListener('click',()=>{
+  if(moreDepthMenu?.hidden)openMoreDepthMenu();
+  else closeMoreDepthMenu({focus:true});
+});
+
+moreDepthClose?.addEventListener('click',()=>{
+  closeMoreDepthMenu({focus:true});
+});
+
+moreDepthMenu?.addEventListener('click',event=>{
+  if(event.target===moreDepthMenu){
+    closeMoreDepthMenu({focus:true});
+    return;
+  }
+  const button=event.target.closest('[data-depth-target]');
+  const id=button?.dataset.depthTarget;
+  if(!id||!responsiveDepthIds.has(id))return;
+  lastResponsiveDepthLauncher=moreDepthButton;
+  closeMoreDepthMenu();
   showResponsiveDepth(id,{focus:true});
 });
 
@@ -1428,6 +1697,11 @@ responsiveShellObserver.observe(work,{
 
 document.addEventListener('keydown',event=>{
   if(event.key!=='Escape')return;
+  if(!moreDepthMenu?.hidden){
+    event.preventDefault();
+    closeMoreDepthMenu({focus:true});
+    return;
+  }
   if(desktopShellQuery.matches)return;
   if(!work.classList.contains('depth-screen-open'))return;
 

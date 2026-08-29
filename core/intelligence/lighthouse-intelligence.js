@@ -3,7 +3,7 @@ export const PLAN_FORMAT='anomancer-reasoning-plan/v1';
 export const REVIEW_FORMAT='anomancer-reasoning-review/v1';
 
 const TYPE_RULES=[
-  ['debug',/(?:\bdebug\b|\bbugi\w*|\bvirhe\w*|\berror\b|\bexception\b|\bstack\b|\btrace\b|ei\s+toimi|rikki|korjaa\w*|fix\w*)/i],
+  ['debug',/(?:\bdebug\b|\bbugi\w*|\bvirhe\w*|\berror\b|\bexception\b|\bstack\b|\btrace\b|ei\s+toimi|jumitta\w*|rikki|korjaa\w*|fix\w*)/i],
   ['audit',/(?:audit\w*|katselmus|tarkasta\w*|tarkistus|review\w*|qa\b|laadunvarmist)/i],
   ['compare',/(?:vertaa\w*|vertail\w*|\bvs\.?\b|compare\w*|difference\w*|ero(?:t|ja)?\b)/i],
   ['plan',/(?:suunnitel\w*|suunnittele\w*|roadmap|arkkitehtuur\w*|architecture|strateg\w*|vaiheista\w*)/i],

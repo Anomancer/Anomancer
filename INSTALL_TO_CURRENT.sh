@@ -56,7 +56,7 @@ content_fingerprint() {
 CONTENT_BEFORE="$(content_fingerprint "$TARGET_DIR")"
 CONTENT_COUNT_BEFORE="$(find "$TARGET_DIR/content" -type f -name '*.md' 2>/dev/null | wc -l | tr -d ' ')"
 
-echo "ANOMANCER 1.18.5 · LIVE PATH VERIFICATION · CONTENT-SAFE INSTALL"
+echo "ANOMANCER 1.20.0 · LIGHTHOUSE SHELL · CONTENT-SAFE INSTALL"
 echo "Lähde: $SOURCE_DIR"
 echo "Kohde: $TARGET_DIR"
 echo "Varmuuskopio: $TARGET_DIR/$BACKUP_REL"
@@ -87,9 +87,6 @@ rsync -a --itemize-changes --backup --backup-dir="$BACKUP_REL" "${DELETE_ARGS[@]
   --exclude='llms.txt' \
   "$SOURCE_DIR/" "$TARGET_DIR/"
 
-# public/ sisältää sekä generoituja sisältöartefakteja että sovelluksen staattisia
-# runtime-tiedostoja. Sisältöpuoli jätetään koskematta, mutta 1.18.5:n muuttuneet
-# admin/PWA-runtime-peilit synkronoidaan eksplisiittisellä allowlistillä.
 PUBLIC_RUNTIME_ASSETS=(
   admin.html
   admin-runtime.js
@@ -117,15 +114,10 @@ for asset in "${PUBLIC_RUNTIME_ASSETS[@]}"; do
 done
 
 cd "$TARGET_DIR"
-# Phase 5: vanha build saattoi jättää generoituja artefakteja projektin rootiin.
-# Ne eivät ole sourcea, ja uusi build kirjoittaa vain public/-hakemistoon.
 rm -rf lahetykset dispatches
 rm -f lahetykset.html dispatches.html rss.xml rss-en.xml sitemap.xml robots.txt \
   content-manifest.json evidence-manifest.json discovery-manifest.json core-public.json \
   release-provenance.json llms.txt
-# Installerin release-portti on tarkoituksella tässä järjestyksessä:
-# riippuvuudet -> public-peilien build/synkronointi -> regressiot.
-# Näin root/public strictEqual -vartijat eivät koskaan näe vanhaa deploy-peiliä.
 npm install
 npm run build
 npm run check
@@ -137,7 +129,7 @@ if [[ "$CONTENT_BEFORE" != "$CONTENT_AFTER" || "$CONTENT_COUNT_BEFORE" != "$CONT
   exit 1
 fi
 
-echo "✓ Anomancer 1.18.5 Live Path Verification asennettu, rakennettu ja tarkistettu."
+echo "✓ Anomancer 1.20.0 Lighthouse Shell asennettu, rakennettu ja tarkistettu."
 echo "✓ content/ säilyi identtisenä: $CONTENT_COUNT_AFTER Markdown-tiedostoa."
 echo "✓ Korvatut tiedostot ovat palautettavissa: $TARGET_DIR/$BACKUP_REL"
 if [[ -d .git ]]; then

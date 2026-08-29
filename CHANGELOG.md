@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.20.0-lighthouse-shell.1 — Lighthouse UX Architecture v2
+
+- Added a local ProblemModel and semantic capability-resolution layer before provider execution.
+- Added a D0 work preview and explicit human Start gate before external reasoning.
+- Added honest unavailable-capability reporting instead of implying unwired search or execution tools.
+- Added Door speech input when supported and bounded local text-material attachments.
+- Replaced the mobile five-depth control strip with a one-room `Miksi? / Aineisto / Lisää` disclosure model.
+- Added provider-neutral capability catalog entries while keeping DeepSeek behind `providers/deepseek/adapter.js`.
+- Added authority, recommendation and routing provenance to D4/D6 runtime snapshots.
+- Added Lighthouse UX architecture and intent-routing regression gates.
+
 ## 1.19.0-lighthouse.2 — Adaptive Intelligence
 
 - Added deterministic intent profiling for task type, complexity, planning need, review need and side-effect intent.

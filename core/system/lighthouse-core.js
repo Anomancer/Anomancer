@@ -3,6 +3,11 @@ import {
   RESULT_FORMAT
 } from '../intent/contracts.js';
 
+import {PROBLEM_MODEL_FORMAT} from '../intent/problem-model.js';
+import {RECOMMENDATION_FORMAT} from '../intent/recommendation.js';
+import {CAPABILITY_RESOLUTION_FORMAT} from '../capabilities/matcher.js';
+import {AUTHORITY_DECISION_FORMAT} from '../authority/approval-service.js';
+
 import {
   WORKSPACE_CONTEXT_FORMAT
 } from '../workspace/contracts.js';
@@ -92,6 +97,26 @@ export function createCoreSnapshot({
         format:INTENT_FORMAT
       },
       {
+        layer:'Core',
+        name:'Problem model',
+        format:PROBLEM_MODEL_FORMAT
+      },
+      {
+        layer:'Core',
+        name:'Capability resolution',
+        format:CAPABILITY_RESOLUTION_FORMAT
+      },
+      {
+        layer:'Human authority rail',
+        name:'Authority decision',
+        format:AUTHORITY_DECISION_FORMAT
+      },
+      {
+        layer:'D0',
+        name:'Work recommendation',
+        format:RECOMMENDATION_FORMAT
+      },
+      {
         layer:'D1/D2',
         name:'Work result',
         format:RESULT_FORMAT
@@ -135,6 +160,9 @@ export function createCoreSnapshot({
     provenance:{
       resultState:String(result.state||'completed'),
       trustRecorded:Boolean(result.trust),
+      problemModelRecorded:Boolean(orchestration?.problem?.format),
+      recommendationRecorded:Boolean(orchestration?.recommendation?.format),
+      authorityRecorded:Boolean(orchestration?.authority?.format),
       intelligenceRecorded:Boolean(orchestration?.intelligence?.format),
       orchestrationRecorded:Boolean(orchestration?.format),
       machineRuntimeRecorded:Boolean(machine?.format),
@@ -142,6 +170,8 @@ export function createCoreSnapshot({
       traceCompleteness:{
         trust:Boolean(result.trust),
         workspace:Boolean(workspace.id),
+        problem:Boolean(orchestration?.problem?.format),
+        authority:Boolean(orchestration?.authority?.format),
         intelligence:Boolean(orchestration?.intelligence?.format),
         orchestration:Boolean(orchestration?.format),
         machine:Boolean(machine?.format)

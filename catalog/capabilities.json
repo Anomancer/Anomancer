@@ -1,1 +1,21 @@
-{"format":"anomancer-capability-catalog/v1","capabilities":[{"id":"llm.reasoning","providerClass":"llm"}]}
+{
+  "format": "anomancer-capability-catalog/v2",
+  "architecture": "single-provider implementation, multi-provider architecture",
+  "capabilities": [
+    {"id":"llm.reasoning","providerClass":"llm","available":true,"mode":"native"},
+    {"id":"llm.analysis","providerClass":"llm","available":true,"mode":"reasoning-proxy"},
+    {"id":"llm.writer","providerClass":"llm","available":true,"mode":"reasoning-proxy"},
+    {"id":"llm.critic","providerClass":"llm","available":true,"mode":"reasoning-proxy"},
+    {"id":"document.read","providerClass":"context","available":true,"mode":"local-context"},
+    {"id":"comparison","providerClass":"reasoning","available":true,"mode":"reasoning-proxy"},
+    {"id":"risk.analysis","providerClass":"reasoning","available":true,"mode":"reasoning-proxy"},
+    {"id":"evidence.trace","providerClass":"trust","available":true,"mode":"runtime-trace"},
+    {"id":"evidence.validate","providerClass":"reasoning","available":true,"mode":"reasoning-proxy"},
+    {"id":"contradiction.check","providerClass":"reasoning","available":true,"mode":"reasoning-proxy"},
+    {"id":"code.inspect","providerClass":"reasoning","available":true,"mode":"reasoning-proxy"},
+    {"id":"architecture.analyze","providerClass":"reasoning","available":true,"mode":"reasoning-proxy"},
+    {"id":"research.search","providerClass":"tool","available":false,"mode":"not-wired"},
+    {"id":"tests.run","providerClass":"tool","available":false,"mode":"not-wired"},
+    {"id":"external.execute","providerClass":"tool","available":false,"mode":"human-gated"}
+  ]
+}

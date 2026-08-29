@@ -1,0 +1,7 @@
+{
+  "format": "anomancer-recommendation-catalog/v1",
+  "rules": [
+    {"when":{"domain":"software","taskTypes":["debug","audit","plan"]},"workspace":"codemancer"},
+    {"when":{"taskTypes":["research"]},"note":"external search capability may be required"}
+  ]
+}
