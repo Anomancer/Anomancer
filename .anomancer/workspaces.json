@@ -1,21 +1,21 @@
 {
   "format": "anomancer-workspace-store/v2",
-  "coreVersion": "16.6.0",
-  "revision": 1,
-  "updatedAt": "2026-08-27T17:49:36.297Z",
+  "coreVersion": "1.18.7",
+  "revision": 2,
+  "updatedAt": "2026-08-29T10:17:41.358Z",
   "workspaces": [
     {
       "format": "anomancer-workspace/v2",
-      "coreVersion": "16.6.0",
+      "coreVersion": "1.18.7",
       "id": "ws-romaani-6301c8",
       "name": "Romaani",
       "description": "Saapa nähdä",
       "status": "active",
       "source": "custom",
       "templateId": "narramancer/story-studio/1.0.0",
-      "templateHash": "f95910cc9ac5584bf8e0fa18a68745293d5cfb53041d5a4db646a65ab8856c81",
+      "templateHash": "af650140ed84240fc9ab7a97f5f8881e7a98b405d3a06b6c7a031b8eb7b11499",
       "constitutionId": "narramancer/story-constitution/1.0.0",
-      "constitutionHash": "2061c704d1a42fe28a12cc0a3170cf8dbc127079e617eb7f1e5c91ac6dfc27a7",
+      "constitutionHash": "e97dfd26ff682fdef7121211096a3b81704abf3e75a423b0f2d3224851e87230",
       "enabledOrchestraIds": [
         "narramancer"
       ],
@@ -26,7 +26,29 @@
       "uiProfileId": "narramancer/story-editor-ui/v1",
       "createdAt": "2026-08-27T17:49:35.945Z",
       "updatedAt": "2026-08-27T17:49:35.945Z",
-      "workspaceHash": "15859f5a96835879a9fc431ce365a6ad1bfcdc80397777ea3242c68c7dbda916"
+      "workspaceHash": "32ddd8696dc20ae8fef21610dd9feb8964d012290a1eb5f735b4fe4fad894615"
+    },
+    {
+      "format": "anomancer-workspace/v2",
+      "coreVersion": "1.18.7",
+      "id": "ws-tutkimusprojekti-123d0e",
+      "name": "Tutkimusprojekti",
+      "description": "",
+      "status": "active",
+      "source": "custom",
+      "templateId": "codemancer/development-workbench/1.0.0",
+      "templateHash": "67d93151f0066d3378a6aba4cf237aa173e3b48a8126a3ddc6e290d5fe6f72c3",
+      "constitutionId": "codemancer/development-constitution/1.0.0",
+      "constitutionHash": "2ca91c0834886a609d8450b9a2c72ffeadec99f5bae68cee6c8c437e94fa2318",
+      "enabledOrchestraIds": [],
+      "defaultOrchestraId": "",
+      "artifactStoreId": "mancer/package-artifact-store/v1",
+      "contentAdapterId": "codemancer/project-json/v1",
+      "outputAdapterId": "codemancer/human-approved-release/v1",
+      "uiProfileId": "mancer/schema-workbench-ui/v1",
+      "createdAt": "2026-08-29T10:17:41.117Z",
+      "updatedAt": "2026-08-29T10:17:41.117Z",
+      "workspaceHash": "9afecabf0d38d032fa277b1cecf41042d300482d07b5398500b26f086bffd8ef"
     }
   ]
 }
