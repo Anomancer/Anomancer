@@ -19,6 +19,7 @@ const $=selector=>document.querySelector(selector);
 const door=$('#door');
 const work=$('#work');
 const resultCard=$('#resultCard');
+const doorDock=$('#doorDock');
 
 function readLighthouseBootstrap(){
   try{return JSON.parse($('#lighthouseBootstrap')?.textContent||'{}');}
@@ -1909,6 +1910,38 @@ for(const button of mobileDepthNav?.querySelectorAll('[data-depth-target]')||[])
 }
 
 /* LIGHTHOUSE RESPONSIVE QA END */
+
+/* LIGHTHOUSE HOME-ONLY D0 DOCK VISIBILITY START */
+
+function syncDoorDockVisibility(){
+  if(!doorDock)return;
+
+  const dialogOpen=Boolean(
+    document.querySelector('.door-sheet[open]')
+  );
+
+  doorDock.hidden=door.hidden||dialogOpen;
+}
+
+const doorDockVisibilityObserver=new MutationObserver(
+  syncDoorDockVisibility
+);
+
+doorDockVisibilityObserver.observe(door,{
+  attributes:true,
+  attributeFilter:['hidden']
+});
+
+for(const dialog of document.querySelectorAll('.door-sheet')){
+  doorDockVisibilityObserver.observe(dialog,{
+    attributes:true,
+    attributeFilter:['open']
+  });
+}
+
+syncDoorDockVisibility();
+
+/* LIGHTHOUSE HOME-ONLY D0 DOCK VISIBILITY END */
 
 /* LIGHTHOUSE D0 DOCK / CAPABILITY CATALOG START */
 function capabilityState(item={}){

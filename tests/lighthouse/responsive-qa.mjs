@@ -8,6 +8,13 @@ const build=fs.readFileSync('scripts/build-lighthouse.mjs','utf8');
 const admin=fs.readFileSync('admin.js','utf8');
 
 for(const id of ['doorNew','kyvytOpen','workOpen','infoOpen'])assert.match(html,new RegExp(`id="${id}"`),id);
+
+assert.match(js,/LIGHTHOUSE HOME-ONLY D0 DOCK VISIBILITY START/);
+assert.match(js,/const doorDock=\$\('#doorDock'\)/);
+assert.match(js,/doorDock\.hidden=door\.hidden\|\|dialogOpen/);
+assert.match(js,/document\.querySelector\('\.door-sheet\[open\]'\)/);
+assert.match(js,/attributeFilter:\['hidden'\]/);
+assert.match(js,/attributeFilter:\['open'\]/);
 assert.match(html,/id="kyvytDialog"[^>]*class="door-sheet"/);
 assert.match(html,/id="recentWorkDetails"[^>]*class="door-sheet"/);
 assert.match(html,/id="infoDialog"[^>]*class="door-sheet"/);
