@@ -40,6 +40,11 @@
           <img class="brand-mark-footer" src="/media/brand/anomancer-mark.png" alt="">
         </div>
 
+        <details id="recentWorkDetails" class="recent-work" hidden>
+          <summary>Aiemmat työt</summary>
+          <div id="recentWorkList" class="recent-work-list"></div>
+        </details>
+
         <div id="doorProgress" class="progress-zone" hidden>
           <p id="status" class="status" role="status" aria-live="polite"></p>
           <p id="doorRaccoon" class="raccoon-line" aria-hidden="true"></p>
@@ -159,6 +164,82 @@
             </div>
             <p id="trustConfidenceReason"></p>
           </section>
+        </div>
+      </details>
+
+      <details id="workspaceDetails" class="workspace-surface">
+        <summary>
+          <span>Työtila</span>
+          <span class="workspace-depth">D3 · TYÖTILA</span>
+        </summary>
+
+        <div class="workspace-content">
+          <section class="workspace-identity">
+            <div>
+              <label for="workspaceTitle">Työn nimi</label>
+              <input id="workspaceTitle" type="text" maxlength="180">
+            </div>
+            <p id="workspaceStorageStatus" class="workspace-storage-status"></p>
+          </section>
+
+          <section class="workspace-section">
+            <div class="workspace-section-heading">
+              <div>
+                <h3>Aineistot</h3>
+                <p>Lisätty aineisto otetaan mukaan seuraavaan ajoon.</p>
+              </div>
+              <span id="materialCount" class="workspace-count"></span>
+            </div>
+
+            <form id="materialForm" class="material-form">
+              <label for="materialTitle" class="sr-only">Aineiston nimi</label>
+              <input id="materialTitle" type="text" maxlength="160"
+                placeholder="Aineiston nimi, valinnainen">
+
+              <label for="materialContent" class="sr-only">Aineiston sisältö</label>
+              <textarea id="materialContent" rows="4" maxlength="8000"
+                placeholder="Liitä tähän teksti, muistiinpano tai muu taustatieto."></textarea>
+
+              <div class="workspace-actions">
+                <button type="submit" class="secondary-action">Lisää aineisto</button>
+              </div>
+            </form>
+
+            <ul id="materialList" class="material-list"></ul>
+            <p id="materialEmpty" class="workspace-empty">Ei lisättyä aineistoa.</p>
+          </section>
+
+          <section class="workspace-section">
+            <div class="workspace-section-heading">
+              <div>
+                <h3>Versiot</h3>
+                <p>Tallenna työn tämänhetkinen tulos tarkistuspisteeksi.</p>
+              </div>
+              <span id="versionCount" class="workspace-count"></span>
+            </div>
+
+            <div class="version-create">
+              <label for="versionLabel" class="sr-only">Version nimi</label>
+              <input id="versionLabel" type="text" maxlength="120"
+                placeholder="Version nimi, valinnainen">
+              <button id="saveVersion" type="button" class="secondary-action">
+                Tallenna versio
+              </button>
+            </div>
+
+            <ol id="versionList" class="version-list"></ol>
+            <p id="versionEmpty" class="workspace-empty">Ei tallennettuja versioita.</p>
+          </section>
+
+          <footer class="workspace-footer">
+            <p>
+              Tämä Construction Mode -työtila tallentuu vain tämän selaimen
+              paikalliseen tallennustilaan.
+            </p>
+            <button id="leaveWorkspace" type="button" class="text-action">
+              Sulje työtila
+            </button>
+          </footer>
         </div>
       </details>
 

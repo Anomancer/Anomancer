@@ -52,6 +52,28 @@ function historyText(history=[]){
     .join('\n\n');
 }
 
+function workspaceText(workspace={}){
+  const materials=Array.isArray(workspace.materials)?workspace.materials:[];
+  if(!workspace.title&&!materials.length)return '';
+
+  const parts=[];
+
+  if(workspace.title){
+    parts.push(`TYÖTILA: ${workspace.title}`);
+  }
+
+  if(materials.length){
+    const rendered=materials.map((material,index)=>{
+      const title=material.title||`Aineisto ${index+1}`;
+      return `[${index+1}] ${title}\n${material.content||''}`;
+    }).join('\n\n');
+
+    parts.push(`TYÖTILAN AINEISTO:\n${rendered}`);
+  }
+
+  return parts.join('\n\n');
+}
+
 function runtimeGroundTrust(result,{intent,responseMeta}={}){
   const trust=result.trust||{
     basis:[],
@@ -107,7 +129,9 @@ export async function runIntent(input,{reasoner}={}){
   }
 
   const previous=historyText(intent.history);
+  const workspace=workspaceText(intent.workspace);
   const user=[
+    workspace,
     previous?`AIEMPI TYÖKONTEKSTI:\n${previous}`:'',
     `NYKYINEN KÄYTTÄJÄN VIESTI:\n${intent.text}`
   ].filter(Boolean).join('\n\n');

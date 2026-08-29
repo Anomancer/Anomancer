@@ -1,3 +1,18 @@
+import {
+  createWorkspace,
+  getActiveWorkspace,
+  listWorkspaces,
+  setActiveWorkspace,
+  clearActiveWorkspace,
+  renameWorkspace,
+  addMaterial,
+  removeMaterial,
+  addVersion,
+  workspaceForIntent,
+  persistRun,
+  hasLocalWorkspaceStorage
+} from '/lighthouse/workspace-store.js';
+
 const $=selector=>document.querySelector(selector);
 
 const door=$('#door');
@@ -31,6 +46,7 @@ let history=[];
 let turns=[];
 let lastAttempt=null;
 let running=false;
+let activeWorkspace=getActiveWorkspace();
 
 const RACCOON_LINES=[
   '🦝 Pesukarhu järjestää johtolankoja.',
@@ -285,6 +301,136 @@ function updateTurnCount(){
   $('#turnCount').textContent=count>1?`${count}. kierros`:'';
 }
 
+function localTime(value){
+  try{
+    return new Intl.DateTimeFormat('fi-FI',{
+      dateStyle:'short',
+      timeStyle:'short'
+    }).format(new Date(value));
+  }catch{
+    return '';
+  }
+}
+
+function renderRecentWorkspaces(){
+  const items=listWorkspaces();
+  const details=$('#recentWorkDetails');
+  const list=$('#recentWorkList');
+
+  details.hidden=!items.length;
+  if(!items.length){
+    list.replaceChildren();
+    return;
+  }
+
+  list.replaceChildren(...items.slice(0,6).map(workspace=>{
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='recent-work-item';
+    button.dataset.workspaceId=workspace.id;
+
+    const title=document.createElement('strong');
+    title.textContent=workspace.title;
+
+    const meta=document.createElement('span');
+    meta.textContent=[
+      localTime(workspace.updatedAt),
+      `${workspace.materials?.length||0} aineistoa`,
+      `${workspace.versions?.length||0} versiota`
+    ].filter(Boolean).join(' · ');
+
+    button.append(title,meta);
+    return button;
+  }));
+}
+
+function renderWorkspace(){
+  const details=$('#workspaceDetails');
+
+  if(!activeWorkspace){
+    details.hidden=true;
+    return;
+  }
+
+  details.hidden=false;
+  $('#workspaceTitle').value=activeWorkspace.title||'';
+  $('#workspaceStorageStatus').textContent=hasLocalWorkspaceStorage()
+    ?'Tallennettu automaattisesti tähän selaimeen.'
+    :'Paikallinen tallennus ei ole käytettävissä.';
+
+  const materials=activeWorkspace.materials||[];
+  $('#materialCount').textContent=String(materials.length);
+  $('#materialEmpty').hidden=Boolean(materials.length);
+
+  $('#materialList').replaceChildren(...materials.map(material=>{
+    const li=document.createElement('li');
+    li.className='material-item';
+
+    const body=document.createElement('div');
+    const title=document.createElement('strong');
+    title.textContent=material.title||'Aineisto';
+
+    const content=document.createElement('p');
+    content.textContent=compact(material.content,260);
+    body.append(title,content);
+
+    const remove=document.createElement('button');
+    remove.type='button';
+    remove.className='text-action';
+    remove.dataset.removeMaterial=material.id;
+    remove.textContent='Poista';
+
+    li.append(body,remove);
+    return li;
+  }));
+
+  const versions=activeWorkspace.versions||[];
+  $('#versionCount').textContent=String(versions.length);
+  $('#versionEmpty').hidden=Boolean(versions.length);
+
+  $('#versionList').replaceChildren(...[...versions].reverse().map(version=>{
+    const li=document.createElement('li');
+    li.className='version-item';
+
+    const title=document.createElement('strong');
+    title.textContent=version.label;
+
+    const meta=document.createElement('span');
+    meta.textContent=[
+      localTime(version.createdAt),
+      version.turnCount?`${version.turnCount}. kierros`:''
+    ].filter(Boolean).join(' · ');
+
+    const result=document.createElement('p');
+    result.textContent=compact(
+      [version.result?.title,version.result?.answer].filter(Boolean).join(' · '),
+      220
+    );
+
+    li.append(title,meta,result);
+    return li;
+  }));
+
+  renderRecentWorkspaces();
+}
+
+function resumeWorkspace(workspace){
+  if(!workspace)return false;
+
+  activeWorkspace=workspace;
+  history=Array.isArray(workspace.history)?[...workspace.history]:[];
+  turns=Array.isArray(workspace.turns)?[...workspace.turns]:[];
+  lastAttempt=null;
+
+  if(workspace.latestPayload?.result){
+    renderResult(workspace.latestPayload,{initial:true});
+    renderWorkspace();
+    return true;
+  }
+
+  return false;
+}
+
 function addHistory(userText,payload){
   history.push({role:'user',content:userText});
 
@@ -338,7 +484,8 @@ async function run(text,{source='door',retry=false}={}){
       body:JSON.stringify({
         text:clean,
         locale:'fi',
-        history
+        history,
+        workspace:workspaceForIntent(activeWorkspace)
       })
     });
 
@@ -349,7 +496,17 @@ async function run(text,{source='door',retry=false}={}){
     }
 
     addHistory(clean,payload);
+
+    if(activeWorkspace){
+      activeWorkspace=persistRun(activeWorkspace,{
+        history,
+        turns,
+        payload
+      });
+    }
+
     renderResult(payload,{initial:source==='door'});
+    renderWorkspace();
     return true;
   }catch(error){
     const message=String(error?.message||'Ajo epäonnistui.');
@@ -365,6 +522,8 @@ function resetWork(){
   history=[];
   turns=[];
   lastAttempt=null;
+  clearActiveWorkspace();
+  activeWorkspace=null;
 
   work.hidden=true;
   door.hidden=false;
@@ -401,6 +560,8 @@ $('#f').addEventListener('submit',async event=>{
   history=[];
   turns=[];
   lastAttempt=null;
+  activeWorkspace=createWorkspace(text);
+  renderWorkspace();
 
   await run(text,{source:'door'});
 });
@@ -430,3 +591,68 @@ $('#back').addEventListener('click',resetWork);
 
 bindShortcut(q,$('#f'));
 bindShortcut(continueInput,continueForm);
+
+$('#workspaceTitle').addEventListener('change',event=>{
+  if(!activeWorkspace)return;
+  activeWorkspace=renameWorkspace(activeWorkspace,event.target.value);
+  renderWorkspace();
+});
+
+$('#materialForm').addEventListener('submit',event=>{
+  event.preventDefault();
+  if(!activeWorkspace)return;
+
+  const title=$('#materialTitle').value.trim();
+  const content=$('#materialContent').value.trim();
+  if(!title&&!content)return;
+
+  activeWorkspace=addMaterial(activeWorkspace,{title,content});
+  $('#materialTitle').value='';
+  $('#materialContent').value='';
+  renderWorkspace();
+});
+
+$('#materialList').addEventListener('click',event=>{
+  const button=event.target.closest('[data-remove-material]');
+  if(!button||!activeWorkspace)return;
+
+  activeWorkspace=removeMaterial(activeWorkspace,button.dataset.removeMaterial);
+  renderWorkspace();
+});
+
+$('#saveVersion').addEventListener('click',()=>{
+  if(!activeWorkspace?.latestPayload?.result)return;
+
+  activeWorkspace=addVersion(activeWorkspace,{
+    label:$('#versionLabel').value.trim(),
+    result:activeWorkspace.latestPayload.result,
+    turnCount:turns.length
+  });
+
+  $('#versionLabel').value='';
+  renderWorkspace();
+});
+
+$('#leaveWorkspace').addEventListener('click',()=>{
+  resetWork();
+  renderRecentWorkspaces();
+});
+
+$('#recentWorkList').addEventListener('click',event=>{
+  const button=event.target.closest('[data-workspace-id]');
+  if(!button)return;
+
+  const workspace=setActiveWorkspace(button.dataset.workspaceId);
+  if(!workspace)return;
+
+  resumeWorkspace(workspace);
+});
+
+renderRecentWorkspaces();
+
+if(activeWorkspace?.latestPayload?.result){
+  resumeWorkspace(activeWorkspace);
+}else{
+  renderWorkspace();
+}
+

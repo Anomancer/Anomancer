@@ -1,3 +1,5 @@
+import {normalizeWorkspaceContext} from '../workspace/contracts.js';
+
 export const INTENT_FORMAT='anomancer-intent/v1';
 export const RESULT_FORMAT='anomancer-work-result/v1';
 
@@ -46,7 +48,8 @@ export function normalizeIntent(v={}){
     format:INTENT_FORMAT,
     text,
     locale:String(v.locale||'fi').slice(0,16),
-    history
+    history,
+    workspace:normalizeWorkspaceContext(v.workspace||{})
   };
 }
 

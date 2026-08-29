@@ -19,7 +19,7 @@ if(production&&!explicitlyEnabled){
 
 fs.mkdirSync(TARGET,{recursive:true});
 
-for(const name of ['lab.js','lab.css']){
+for(const name of ['lab.js','lab.css','workspace-store.js']){
   fs.copyFileSync(path.join(SOURCE,name),path.join(TARGET,name));
 }
 fs.copyFileSync(path.join(SOURCE,'lab.html'),LAB_HTML);
