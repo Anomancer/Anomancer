@@ -426,6 +426,65 @@
         <pre id="runtime"></pre>
       </details>
     </article>
+
+    <nav id="mobileDepthNav" class="mobile-depth-nav" aria-label="Tarkastelukerrokset">
+      <button type="button" data-depth-target="trustDetails">
+        <span>D2</span>
+        <strong>Luottamus</strong>
+      </button>
+      <button type="button" data-depth-target="workspaceDetails">
+        <span>D3</span>
+        <strong>Työtila</strong>
+      </button>
+      <button type="button" data-depth-target="orchestraDetails">
+        <span>D4</span>
+        <strong>Orkestra</strong>
+      </button>
+      <button type="button" data-depth-target="machineDetails">
+        <span>D5</span>
+        <strong>Kone</strong>
+      </button>
+      <button type="button" data-depth-target="coreDetails">
+        <span>D6</span>
+        <strong>Core</strong>
+      </button>
+    </nav>
+
+    <aside id="depthInspector" class="depth-inspector" aria-label="Tarkastelukerros">
+      <header class="depth-inspector-header">
+        <button id="depthBack" type="button" class="depth-back">← Työhön</button>
+
+        <div>
+          <p class="depth-inspector-kicker">TARKASTELUKERROS</p>
+          <strong id="depthInspectorTitle">Valitse kerros</strong>
+        </div>
+      </header>
+
+      <nav id="desktopDepthTabs" class="desktop-depth-tabs" aria-label="Syvyyskerrokset">
+        <button type="button" data-depth-target="trustDetails">
+          <span>D2</span> Luottamus
+        </button>
+        <button type="button" data-depth-target="workspaceDetails">
+          <span>D3</span> Työtila
+        </button>
+        <button type="button" data-depth-target="orchestraDetails">
+          <span>D4</span> Orkestra
+        </button>
+        <button type="button" data-depth-target="machineDetails">
+          <span>D5</span> Kone
+        </button>
+        <button type="button" data-depth-target="coreDetails">
+          <span>D6</span> Core
+        </button>
+      </nav>
+
+      <div id="depthInspectorEmpty" class="depth-inspector-empty">
+        <p>Valitse kerros nähdäksesi työn taustan.</p>
+        <span>D1 pysyy desktopilla näkyvissä koko ajan.</span>
+      </div>
+
+      <div id="depthInspectorBody" class="depth-inspector-body"></div>
+    </aside>
   </main>
 
   <script type="module" src="/lighthouse/lab.js"></script>

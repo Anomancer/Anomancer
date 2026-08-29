@@ -1077,3 +1077,254 @@ for(const panel of depthPanels){
 }
 
 /* LIGHTHOUSE 1.24.1 DEPTH ACCORDION END */
+
+/* LIGHTHOUSE 1.25.0 RESPONSIVE SHELL START */
+
+const RESPONSIVE_DEPTHS=[
+  {
+    id:'trustDetails',
+    short:'D2',
+    label:'Luottamus'
+  },
+  {
+    id:'workspaceDetails',
+    short:'D3',
+    label:'Työtila'
+  },
+  {
+    id:'orchestraDetails',
+    short:'D4',
+    label:'Orkestra'
+  },
+  {
+    id:'machineDetails',
+    short:'D5',
+    label:'Kone'
+  },
+  {
+    id:'coreDetails',
+    short:'D6',
+    label:'Core'
+  }
+];
+
+const responsiveDepthIds=new Set(
+  RESPONSIVE_DEPTHS.map(item=>item.id)
+);
+
+const desktopShellQuery=window.matchMedia('(min-width:1100px)');
+const mobileShellQuery=window.matchMedia('(max-width:719px)');
+
+const depthInspector=document.getElementById('depthInspector');
+const depthInspectorBody=document.getElementById('depthInspectorBody');
+const depthInspectorEmpty=document.getElementById('depthInspectorEmpty');
+const depthInspectorTitle=document.getElementById('depthInspectorTitle');
+const depthBack=document.getElementById('depthBack');
+const mobileDepthNav=document.getElementById('mobileDepthNav');
+const desktopDepthTabs=document.getElementById('desktopDepthTabs');
+
+let selectedResponsiveDepth=null;
+
+function responsiveDepthMeta(id){
+  return RESPONSIVE_DEPTHS.find(item=>item.id===id)||null;
+}
+
+function responsiveDepthPanel(id){
+  return document.getElementById(id);
+}
+
+function moveDepthPanelsIntoInspector(){
+  for(const item of RESPONSIVE_DEPTHS){
+    const panel=responsiveDepthPanel(item.id);
+    if(panel && panel.parentElement!==depthInspectorBody){
+      depthInspectorBody.append(panel);
+    }
+  }
+
+  const raw=document.getElementById('rawRuntimeDetails');
+  if(raw && raw.parentElement!==depthInspectorBody){
+    depthInspectorBody.append(raw);
+  }
+}
+
+function setDepthButtonState(id){
+  document
+    .querySelectorAll('[data-depth-target]')
+    .forEach(button=>{
+      const active=button.dataset.depthTarget===id;
+      button.classList.toggle('is-active',active);
+
+      if(active){
+        button.setAttribute('aria-current','true');
+      }else{
+        button.removeAttribute('aria-current');
+      }
+    });
+}
+
+function hideResponsiveDepthPanels(){
+  for(const item of RESPONSIVE_DEPTHS){
+    const panel=responsiveDepthPanel(item.id);
+    if(panel){
+      panel.hidden=true;
+      panel.open=false;
+    }
+  }
+
+  const raw=document.getElementById('rawRuntimeDetails');
+  if(raw){
+    raw.hidden=true;
+    raw.open=false;
+  }
+}
+
+function showResponsiveDepth(id,{focus=false}={}){
+  const meta=responsiveDepthMeta(id);
+  const panel=responsiveDepthPanel(id);
+
+  if(!meta||!panel)return;
+
+  selectedResponsiveDepth=id;
+
+  hideResponsiveDepthPanels();
+
+  panel.hidden=false;
+  panel.open=true;
+
+  if(id==='coreDetails'){
+    const raw=document.getElementById('rawRuntimeDetails');
+    if(raw){
+      raw.hidden=false;
+    }
+  }
+
+  depthInspectorEmpty.hidden=true;
+  depthInspectorTitle.textContent=`${meta.short} · ${meta.label}`;
+  setDepthButtonState(id);
+
+  if(!desktopShellQuery.matches){
+    work.classList.add('depth-screen-open');
+    depthInspector.setAttribute('aria-modal','false');
+
+    requestAnimationFrame(()=>{
+      window.scrollTo({top:0,behavior:'instant'});
+      if(focus){
+        depthBack.focus({preventScroll:true});
+      }
+    });
+  }else{
+    work.classList.remove('depth-screen-open');
+  }
+}
+
+function closeResponsiveDepth({focusLauncher=false}={}){
+  selectedResponsiveDepth=null;
+  hideResponsiveDepthPanels();
+
+  depthInspectorEmpty.hidden=false;
+  depthInspectorTitle.textContent='Valitse kerros';
+  setDepthButtonState(null);
+
+  work.classList.remove('depth-screen-open');
+
+  if(focusLauncher && !desktopShellQuery.matches){
+    requestAnimationFrame(()=>{
+      mobileDepthNav
+        ?.querySelector('button')
+        ?.focus({preventScroll:true});
+    });
+  }
+}
+
+function syncResponsiveShell(){
+  moveDepthPanelsIntoInspector();
+
+  const desktop=desktopShellQuery.matches;
+  const mobile=mobileShellQuery.matches;
+
+  work.dataset.layout=desktop
+    ?'desktop'
+    :mobile
+      ?'mobile'
+      :'compact';
+
+  depthBack.hidden=desktop;
+
+  if(desktop){
+    work.classList.remove('depth-screen-open');
+
+    if(selectedResponsiveDepth){
+      showResponsiveDepth(selectedResponsiveDepth);
+    }else{
+      hideResponsiveDepthPanels();
+      depthInspectorEmpty.hidden=false;
+    }
+
+    return;
+  }
+
+  if(selectedResponsiveDepth){
+    showResponsiveDepth(selectedResponsiveDepth);
+  }else{
+    work.classList.remove('depth-screen-open');
+    hideResponsiveDepthPanels();
+    depthInspectorEmpty.hidden=false;
+  }
+}
+
+function depthTargetFromEvent(event){
+  const button=event.target.closest('[data-depth-target]');
+  if(!button)return null;
+
+  const id=button.dataset.depthTarget;
+  return responsiveDepthIds.has(id)?id:null;
+}
+
+mobileDepthNav?.addEventListener('click',event=>{
+  const id=depthTargetFromEvent(event);
+  if(id)showResponsiveDepth(id,{focus:true});
+});
+
+desktopDepthTabs?.addEventListener('click',event=>{
+  const id=depthTargetFromEvent(event);
+  if(!id)return;
+
+  if(selectedResponsiveDepth===id){
+    closeResponsiveDepth();
+  }else{
+    showResponsiveDepth(id);
+  }
+});
+
+depthBack?.addEventListener('click',()=>{
+  closeResponsiveDepth({focusLauncher:true});
+});
+
+$('#back')?.addEventListener('click',()=>{
+  closeResponsiveDepth();
+});
+
+desktopShellQuery.addEventListener?.('change',syncResponsiveShell);
+mobileShellQuery.addEventListener?.('change',syncResponsiveShell);
+
+moveDepthPanelsIntoInspector();
+syncResponsiveShell();
+
+/* Keep the shell correct after a restored/new result changes panel visibility. */
+const responsiveShellObserver=new MutationObserver(()=>{
+  if(work.hidden)return;
+  if(selectedResponsiveDepth){
+    const selected=responsiveDepthPanel(selectedResponsiveDepth);
+    if(selected?.hidden && selectedResponsiveDepth!=='workspaceDetails'){
+      closeResponsiveDepth();
+    }
+  }
+});
+
+responsiveShellObserver.observe(work,{
+  attributes:true,
+  attributeFilter:['hidden'],
+  subtree:false
+});
+
+/* LIGHTHOUSE 1.25.0 RESPONSIVE SHELL END */

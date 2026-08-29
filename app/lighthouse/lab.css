@@ -2015,3 +2015,483 @@ summary:focus-visible{
 }
 
 /* LIGHTHOUSE 1.24.1 DEPTH ACCORDION END */
+
+/* LIGHTHOUSE 1.25.0 RESPONSIVE SHELL START */
+
+.mobile-depth-nav,
+.depth-inspector{
+  display:none;
+}
+
+.depth-inspector-header,
+.desktop-depth-tabs,
+.depth-inspector-empty,
+.depth-inspector-body{
+  min-width:0;
+}
+
+/* ---------- DESKTOP: D1 + INSPECTOR ---------- */
+
+@media (min-width:1100px){
+  .work{
+    width:min(100%,1440px);
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(330px,430px);
+    grid-template-rows:auto minmax(0,1fr);
+    gap:0 18px;
+    align-items:start;
+    padding-left:22px;
+    padding-right:22px;
+  }
+
+  .work-nav{
+    grid-column:1/-1;
+    grid-row:1;
+    width:100%;
+    margin-bottom:12px;
+  }
+
+  #resultCard{
+    grid-column:1;
+    grid-row:2;
+    min-width:0;
+  }
+
+  .mobile-depth-nav{
+    display:none!important;
+  }
+
+  .depth-inspector{
+    display:block;
+    grid-column:2;
+    grid-row:2;
+    min-width:0;
+    border:1px solid #26302d;
+    border-radius:18px;
+    background:rgba(13,18,17,.92);
+    overflow:hidden;
+  }
+
+  .depth-inspector-header{
+    display:flex;
+    align-items:center;
+    min-height:66px;
+    padding:16px 18px 13px;
+    border-bottom:1px solid #222b28;
+  }
+
+  .depth-back{
+    display:none!important;
+  }
+
+  .depth-inspector-kicker{
+    margin:0 0 4px;
+    color:#586862;
+    font-size:.62rem;
+    letter-spacing:.14em;
+    font-weight:700;
+  }
+
+  #depthInspectorTitle{
+    color:#c4ceca;
+    font-size:.9rem;
+    font-weight:600;
+  }
+
+  .desktop-depth-tabs{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    border-bottom:1px solid #222b28;
+  }
+
+  .desktop-depth-tabs button{
+    min-width:0;
+    border:0;
+    border-right:1px solid #202825;
+    background:transparent;
+    color:#687872;
+    padding:11px 5px 10px;
+    font:inherit;
+    font-size:.66rem;
+    cursor:pointer;
+  }
+
+  .desktop-depth-tabs button:last-child{
+    border-right:0;
+  }
+
+  .desktop-depth-tabs button span{
+    display:block;
+    margin-bottom:3px;
+    color:#50605a;
+    font-size:.58rem;
+    letter-spacing:.08em;
+  }
+
+  .desktop-depth-tabs button.is-active{
+    background:#111716;
+    color:#d2dad7;
+  }
+
+  .desktop-depth-tabs button.is-active span{
+    color:#899b94;
+  }
+
+  .depth-inspector-empty{
+    display:grid;
+    place-items:center;
+    min-height:240px;
+    padding:34px;
+    text-align:center;
+  }
+
+  .depth-inspector-empty[hidden]{
+    display:none;
+  }
+
+  .depth-inspector-empty p{
+    margin:0;
+    color:#8a9994;
+    font-size:.86rem;
+  }
+
+  .depth-inspector-empty span{
+    display:block;
+    margin-top:6px;
+    color:#566660;
+    font-size:.7rem;
+  }
+
+  .depth-inspector-body{
+    padding:0 18px 18px;
+  }
+
+  /*
+   * Inspector owns the depth navigation chrome.
+   * Individual <details> summaries are redundant on desktop.
+   */
+  .depth-inspector-body>
+  #trustDetails>summary,
+  .depth-inspector-body>
+  #workspaceDetails>summary,
+  .depth-inspector-body>
+  #orchestraDetails>summary,
+  .depth-inspector-body>
+  #machineDetails>summary,
+  .depth-inspector-body>
+  #coreDetails>summary{
+    display:none;
+  }
+
+  .depth-inspector-body>
+  #trustDetails,
+  .depth-inspector-body>
+  #workspaceDetails,
+  .depth-inspector-body>
+  #orchestraDetails,
+  .depth-inspector-body>
+  #machineDetails,
+  .depth-inspector-body>
+  #coreDetails{
+    margin-top:0;
+    padding-top:0;
+    border-top:0;
+  }
+
+  .depth-inspector-body>
+  #trustDetails>.trust-content,
+  .depth-inspector-body>
+  #workspaceDetails>.workspace-content,
+  .depth-inspector-body>
+  #orchestraDetails>.orchestra-content,
+  .depth-inspector-body>
+  #machineDetails>.machine-content,
+  .depth-inspector-body>
+  #coreDetails>.core-content{
+    margin-top:0;
+    padding-top:18px;
+    border-top:0;
+  }
+
+  /*
+   * D3 needs more horizontal room than the other inspection layers.
+   * When D3 is selected, the split becomes approximately 55/45.
+   */
+  .work:has(#workspaceDetails:not([hidden])) {
+    grid-template-columns:minmax(0,1.2fr) minmax(430px,.95fr);
+  }
+
+  .depth-inspector-body .workspace-identity{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .depth-inspector-body .workspace-storage-status{
+    white-space:normal;
+  }
+
+  .depth-inspector-body .trust-content,
+  .depth-inspector-body .orchestra-grid,
+  .depth-inspector-body .machine-grid,
+  .depth-inspector-body .core-grid{
+    grid-template-columns:1fr;
+  }
+
+  .depth-inspector-body .orchestra-grid-section+
+  .orchestra-grid-section,
+  .depth-inspector-body .machine-grid .machine-section+
+  .machine-section,
+  .depth-inspector-body .core-grid .core-section+
+  .core-section{
+    border-top:1px solid #222b28;
+  }
+
+  .depth-inspector-body .machine-overview{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .depth-inspector-body #rawRuntimeDetails{
+    margin-top:18px;
+  }
+
+  @media (hover:hover) and (pointer:fine){
+    .desktop-depth-tabs button:hover{
+      background:#101514;
+      color:#b9c4c0;
+    }
+  }
+}
+
+/* ---------- COMPACT + MOBILE: PUSH NAVIGATION ---------- */
+
+@media (max-width:1099px){
+  .work{
+    display:block;
+    width:min(100%,900px);
+  }
+
+  .mobile-depth-nav{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:6px;
+    margin:12px 0 0;
+  }
+
+  .mobile-depth-nav button{
+    min-width:0;
+    min-height:52px;
+    border:1px solid #28332f;
+    border-radius:11px;
+    background:#0e1312;
+    color:#71807b;
+    padding:8px 5px;
+    font:inherit;
+    cursor:pointer;
+  }
+
+  .mobile-depth-nav span{
+    display:block;
+    color:#53625d;
+    font-size:.59rem;
+    letter-spacing:.07em;
+  }
+
+  .mobile-depth-nav strong{
+    display:block;
+    margin-top:3px;
+    overflow:hidden;
+    color:#aeb9b5;
+    font-size:.66rem;
+    font-weight:560;
+    text-overflow:ellipsis;
+  }
+
+  .mobile-depth-nav button.is-active{
+    border-color:#44534e;
+    background:#111716;
+  }
+
+  .depth-inspector{
+    display:none;
+    width:100%;
+  }
+
+  .work.depth-screen-open #resultCard,
+  .work.depth-screen-open .mobile-depth-nav{
+    display:none;
+  }
+
+  .work.depth-screen-open .depth-inspector{
+    display:block;
+  }
+
+  .work.depth-screen-open .work-nav{
+    display:none;
+  }
+
+  .depth-inspector-header{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    margin-bottom:14px;
+  }
+
+  .depth-back{
+    flex:none;
+    min-height:44px;
+    border:1px solid #2c3834;
+    border-radius:999px;
+    background:transparent;
+    color:#b8c2be;
+    padding:9px 13px;
+    font:inherit;
+    font-size:.78rem;
+  }
+
+  .depth-inspector-kicker{
+    margin:0 0 3px;
+    color:#566660;
+    font-size:.61rem;
+    letter-spacing:.13em;
+    font-weight:700;
+  }
+
+  #depthInspectorTitle{
+    color:#d0d7d4;
+    font-size:.91rem;
+    font-weight:620;
+  }
+
+  .desktop-depth-tabs{
+    display:none;
+  }
+
+  .depth-inspector-empty{
+    display:none!important;
+  }
+
+  .depth-inspector-body>
+  #trustDetails>summary,
+  .depth-inspector-body>
+  #workspaceDetails>summary,
+  .depth-inspector-body>
+  #orchestraDetails>summary,
+  .depth-inspector-body>
+  #machineDetails>summary,
+  .depth-inspector-body>
+  #coreDetails>summary{
+    display:none;
+  }
+
+  .depth-inspector-body>
+  #trustDetails,
+  .depth-inspector-body>
+  #workspaceDetails,
+  .depth-inspector-body>
+  #orchestraDetails,
+  .depth-inspector-body>
+  #machineDetails,
+  .depth-inspector-body>
+  #coreDetails{
+    margin-top:0;
+    padding-top:0;
+    border-top:0;
+  }
+
+  .depth-inspector-body>
+  #trustDetails>.trust-content,
+  .depth-inspector-body>
+  #workspaceDetails>.workspace-content,
+  .depth-inspector-body>
+  #orchestraDetails>.orchestra-content,
+  .depth-inspector-body>
+  #machineDetails>.machine-content,
+  .depth-inspector-body>
+  #coreDetails>.core-content{
+    margin-top:0;
+    padding-top:14px;
+    border-top:1px solid #222b28;
+  }
+
+  .depth-inspector-body #rawRuntimeDetails{
+    margin-top:20px;
+  }
+}
+
+/* ---------- PHONE ---------- */
+
+@media (max-width:719px){
+  .work{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .mobile-depth-nav{
+    position:relative;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:4px;
+    margin-top:10px;
+  }
+
+  .mobile-depth-nav button{
+    min-height:48px;
+    padding:7px 3px;
+  }
+
+  .mobile-depth-nav strong{
+    font-size:.61rem;
+  }
+
+  .depth-inspector-header{
+    min-height:48px;
+  }
+
+  .depth-inspector-body{
+    min-width:0;
+  }
+
+  /*
+   * Keep the D1 composer compact on a phone.
+   * It remains part of D1 and disappears when a depth screen is pushed.
+   */
+  .continuation textarea{
+    min-height:104px;
+    max-height:190px;
+  }
+
+  .composer-row{
+    gap:9px;
+  }
+
+  .composer-row .primary{
+    min-height:44px;
+  }
+
+  .depth-inspector-body .workspace-section-heading,
+  .depth-inspector-body .machine-permissions li>div,
+  .depth-inspector-body .core-status-list li>div{
+    align-items:flex-start;
+  }
+}
+
+/* ---------- TABLET / COMPACT ---------- */
+
+@media (min-width:720px) and (max-width:1099px){
+  .work{
+    padding-left:22px;
+    padding-right:22px;
+  }
+
+  .mobile-depth-nav{
+    width:min(100%,720px);
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .depth-inspector{
+    width:min(100%,820px);
+    margin:0 auto;
+  }
+}
+
+/* LIGHTHOUSE 1.25.0 RESPONSIVE SHELL END */
