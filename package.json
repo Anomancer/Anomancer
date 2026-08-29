@@ -7,7 +7,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "node scripts/build-blog.mjs",
+    "build": "node scripts/build-blog.mjs && node scripts/build-lighthouse.mjs",
     "new:post": "node scripts/new-post.mjs",
     "write": "node scripts/editor.mjs",
     "seo:check": "node seo-check.mjs",
@@ -85,7 +85,7 @@
     "export:deploy": "node scripts/export-bundle.mjs deploy",
     "lab:build": "node scripts/build-lighthouse.mjs",
     "test:lighthouse": "node tests/lighthouse/construction-mode.mjs",
-    "lab": "npm run lab:build && vercel dev --port 3000"
+    "lab": "vercel dev --port 3000"
   },
   "devDependencies": {
     "axe-core": "4.10.3",
