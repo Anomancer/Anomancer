@@ -87,7 +87,8 @@
     "test:lighthouse": "node tests/lighthouse/construction-mode.mjs",
     "lab": "vercel dev --listen 3000",
     "test:lighthouse:work": "node tests/lighthouse/work-surface.mjs",
-    "test:lighthouse:visual": "node tests/lighthouse/visual-polish.mjs"
+    "test:lighthouse:visual": "node tests/lighthouse/visual-polish.mjs",
+    "test:lighthouse:trust": "node tests/lighthouse/trust-surface.mjs"
   },
   "devDependencies": {
     "axe-core": "4.10.3",

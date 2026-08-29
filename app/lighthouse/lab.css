@@ -692,3 +692,149 @@ summary:focus-visible{
   }
 }
 /* LIGHTHOUSE 1.19.3 D1 VISUAL POLISH END */
+
+/* LIGHTHOUSE 1.20.0 D2 TRUST SURFACE START */
+
+.trust-surface{
+  border-top:1px solid #26302d;
+  margin-top:26px;
+  padding-top:18px;
+  color:#93a19c;
+}
+
+.trust-surface>summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  cursor:pointer;
+  color:#9fada8;
+  font-size:.84rem;
+}
+
+.trust-depth{
+  color:#5f706a;
+  font-size:.67rem;
+  letter-spacing:.13em;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.trust-content{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 28px;
+  margin-top:20px;
+  padding:20px 0 4px;
+  border-top:1px solid #222b28;
+}
+
+.trust-block{
+  min-width:0;
+  padding:0 0 18px;
+}
+
+.trust-block h3,
+.trust-confidence h3{
+  margin:0 0 9px;
+  color:#899893;
+  font-size:.72rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.trust-block ul{
+  margin:0;
+  padding-left:1.05rem;
+  color:#c2ccc8;
+  font-size:.88rem;
+  line-height:1.55;
+}
+
+.trust-block li+li{
+  margin-top:5px;
+}
+
+.trust-empty{
+  margin:0;
+  color:#6f7e79;
+  font-size:.86rem;
+  line-height:1.5;
+}
+
+.trust-confidence{
+  grid-column:1/-1;
+  padding-top:17px;
+  border-top:1px solid #222b28;
+}
+
+.trust-confidence-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+
+.trust-confidence-heading h3{
+  margin-bottom:0;
+}
+
+.confidence-pill{
+  border:1px solid #35413d;
+  border-radius:999px;
+  padding:5px 9px;
+  color:#a9b5b1;
+  background:#101514;
+  font-size:.69rem;
+}
+
+.confidence-pill[data-level="high"]{
+  border-color:#365044;
+  color:#b7d0c3;
+}
+
+.confidence-pill[data-level="low"]{
+  border-color:#54403d;
+  color:#d2b8b3;
+}
+
+#trustConfidenceReason{
+  max-width:68ch;
+  margin:10px 0 0;
+  color:#84938e;
+  font-size:.86rem;
+  line-height:1.55;
+}
+
+.trust-surface+.runtime{
+  margin-top:20px;
+  color:#687771;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .trust-surface>summary:hover{
+    color:#bdc7c3;
+  }
+}
+
+@media (max-width:520px){
+  .trust-surface{
+    margin-top:24px;
+  }
+
+  .trust-surface>summary{
+    align-items:flex-start;
+  }
+
+  .trust-content{
+    grid-template-columns:1fr;
+    gap:0;
+    padding-top:17px;
+  }
+
+  .trust-confidence{
+    grid-column:auto;
+  }
+}
+
+/* LIGHTHOUSE 1.20.0 D2 TRUST SURFACE END */

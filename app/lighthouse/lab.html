@@ -124,6 +124,44 @@
         <ol id="chainList"></ol>
       </details>
 
+      <details id="trustDetails" class="trust-surface">
+        <summary>
+          <span>Miksi tämä vastaus?</span>
+          <span class="trust-depth">D2 · LUOTTAMUS</span>
+        </summary>
+
+        <div class="trust-content">
+          <section class="trust-block">
+            <h3>Perustuu</h3>
+            <ul id="trustBasis"></ul>
+          </section>
+
+          <section class="trust-block">
+            <h3>Lähteet</h3>
+            <ul id="trustSources"></ul>
+            <p id="trustNoSources" class="trust-empty" hidden>
+              Ei ulkoisia lähteitä tässä ajossa.
+            </p>
+          </section>
+
+          <section class="trust-block">
+            <h3>Oletukset</h3>
+            <ul id="trustAssumptions"></ul>
+            <p id="trustNoAssumptions" class="trust-empty" hidden>
+              Ei olennaisia oletuksia ilmoitettu.
+            </p>
+          </section>
+
+          <section class="trust-confidence">
+            <div class="trust-confidence-heading">
+              <h3>Luottamustaso</h3>
+              <span id="trustConfidenceLevel" class="confidence-pill"></span>
+            </div>
+            <p id="trustConfidenceReason"></p>
+          </section>
+        </div>
+      </details>
+
       <details class="runtime">
         <summary>Miten tämä tehtiin?</summary>
         <pre id="runtime"></pre>

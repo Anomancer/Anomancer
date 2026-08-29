@@ -142,6 +142,43 @@ function statePresentation(state){
   }
 }
 
+function confidenceLabel(level){
+  switch(level){
+    case 'high': return 'Korkea';
+    case 'low': return 'Matala';
+    default: return 'Keskitaso';
+  }
+}
+
+function renderTrust(trust={}){
+  const basis=Array.isArray(trust.basis)?trust.basis:[];
+  makeList($('#trustBasis'),basis);
+
+  const sources=Array.isArray(trust.sources)?trust.sources:[];
+  makeList($('#trustSources'),sources);
+  $('#trustSources').hidden=!sources.length;
+  $('#trustNoSources').hidden=Boolean(sources.length);
+
+  const assumptions=Array.isArray(trust.assumptions)?trust.assumptions:[];
+  makeList($('#trustAssumptions'),assumptions);
+  $('#trustAssumptions').hidden=!assumptions.length;
+  $('#trustNoAssumptions').hidden=Boolean(assumptions.length);
+
+  const confidence=trust.confidence||{};
+  const level=['low','medium','high'].includes(confidence.level)
+    ?confidence.level
+    :'medium';
+
+  const pill=$('#trustConfidenceLevel');
+  pill.textContent=confidenceLabel(level);
+  pill.dataset.level=level;
+
+  $('#trustConfidenceReason').textContent=
+    String(confidence.reason||'Luottamustasolle ei annettu erillistä perustelua.');
+
+  $('#trustDetails').open=false;
+}
+
 function renderResult(payload,{initial=false}={}){
   const result=payload.result||{};
   const runtime=payload.runtime||{};
@@ -170,6 +207,8 @@ function renderResult(payload,{initial=false}={}){
 
   $('#continueTitle').textContent=presentation.continuation;
   continueInput.placeholder=presentation.placeholder;
+
+  renderTrust(result.trust||{});
 
   $('#runtime').textContent=[
     `capability: ${runtime.capability||''}`,
