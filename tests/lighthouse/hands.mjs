@@ -3,9 +3,21 @@ import fs from 'node:fs';
 
 import {previewIntent,runIntent} from '../../core/intent/intent-service.js';
 import {executeLighthouseHands} from '../../server/lighthouse-hands.js';
+import {lighthouseRepositoryRef} from '../../server/github.js';
 
 const html=fs.readFileSync('app/lighthouse/lab.html','utf8');
 const js=fs.readFileSync('app/lighthouse/lab.js','utf8');
+
+assert.equal(lighthouseRepositoryRef({
+  ANOMANCER_LIGHTHOUSE_REPO_REF:'architecture/lighthouse-v1',
+  VERCEL_GIT_COMMIT_REF:'preview/other',
+  GITHUB_BRANCH:'main'
+}),'architecture/lighthouse-v1');
+assert.equal(lighthouseRepositoryRef({
+  VERCEL_GIT_COMMIT_REF:'architecture/lighthouse-v1',
+  GITHUB_BRANCH:'main'
+}),'architecture/lighthouse-v1');
+assert.equal(lighthouseRepositoryRef({GITHUB_BRANCH:'main'}),'main');
 
 for(const id of ['machineHands','machineHandsCount','machineNoHands']){
   assert.match(html,new RegExp(`id="${id}"`),id);
@@ -96,7 +108,7 @@ const fakeHands=async()=>({
   sources:[{type:'repository-file',title:'core/intent/intent-service.js',url:'https://example.test/repo-file'}],
   tools:[{id:'repository.read',label:'repository.read',status:'used'}],
   mancers:[{id:'codemancer',name:'Codemancer',version:'1.3.0',orchestra:{id:'code-review',name:'Koodikatselmus'}}],
-  failures:[],searchedWeb:false,webFetchUsed:false,repositoryReadUsed:true,externalReadUsed:true,durationMs:2
+  failures:[],searchedWeb:false,webFetchUsed:false,repositoryReadUsed:true,repositoryRef:'architecture/lighthouse-v1',repositoryRefSource:'explicit',externalReadUsed:true,durationMs:2
 });
 
 const run=await runIntent({
@@ -113,6 +125,7 @@ assert.ok(prompts.some(prompt=>prompt.includes('export const proof=true')));
 assert.ok(run.result.trust.sources.includes('core/intent/intent-service.js'));
 assert.ok(run.runtime.hands.sources.some(source=>source.url==='https://example.test/repo-file'));
 assert.equal(run.runtime.machine.connections.repositoryReadUsed,true);
+assert.equal(run.runtime.hands.repositoryRef,'architecture/lighthouse-v1');
 assert.equal(run.runtime.machine.connections.mancerActivated,true);
 assert.equal(run.runtime.machine.capabilityRuntime.events[0].id,'repository.read');
 assert.equal(run.runtime.core.boundaries.repositoryReadUsed,true);

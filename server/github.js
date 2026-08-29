@@ -15,6 +15,36 @@ function config({operation=false}={}) {
   return { token, repo, branch };
 }
 
+function safeRepositoryRef(value){
+  const ref=String(value||'').trim();
+  if(!ref||ref.length>240||ref.startsWith('/')||ref.endsWith('/')||ref.includes('..')||ref.includes('@{')||/[\x00-\x20~^:?*\[\\]/.test(ref))
+    throw Object.assign(new Error('Repository-ref ei ole sallittu.'),{code:'GITHUB_REPOSITORY_REF',statusCode:400});
+  return ref;
+}
+
+export function lighthouseRepositoryRef(env=process.env){
+  return safeRepositoryRef(
+    env.ANOMANCER_LIGHTHOUSE_REPO_REF ||
+    env.VERCEL_GIT_COMMIT_REF ||
+    env.GITHUB_BRANCH ||
+    'main'
+  );
+}
+
+export function lighthouseGithubStatus(env=process.env){
+  const ref=lighthouseRepositoryRef(env);
+  const source=env.ANOMANCER_LIGHTHOUSE_REPO_REF?'explicit':
+    env.VERCEL_GIT_COMMIT_REF?'vercel':
+    env.GITHUB_BRANCH?'legacy':'default';
+  return{
+    repo:env.GITHUB_REPO||'',
+    ref,
+    branch:ref,
+    refSource:source,
+    configured:Boolean(env.GITHUB_CONTENT_TOKEN&&env.GITHUB_REPO)
+  };
+}
+
 async function gh(path, options={}) {
   const { token } = config();
   const r = await fetch(`${API}${path}`, {
@@ -54,15 +84,26 @@ export async function listDir(dir) {
   return Array.isArray(data) ? data.filter(x=>x.type==='file' && x.name.endsWith('.md')) : [];
 }
 
-export async function getFile(filePath) {
-  const { repo, branch } = config();
-  const data = await gh(`/repos/${repo}/contents/${encodeURI(filePath)}?ref=${encodeURIComponent(branch)}`);
-  return {
-    path: data.path,
-    sha: data.sha,
-    content: Buffer.from(String(data.content || '').replace(/\n/g,''), 'base64').toString('utf8'),
-    htmlUrl: data.html_url || '',
+export async function getFileAtRef(filePath,ref) {
+  const {repo}=config();
+  const selected=safeRepositoryRef(ref);
+  const data=await gh(`/repos/${repo}/contents/${encodeURI(filePath)}?ref=${encodeURIComponent(selected)}`);
+  return{
+    path:data.path,
+    sha:data.sha,
+    content:Buffer.from(String(data.content||'').replace(/\n/g,''),'base64').toString('utf8'),
+    htmlUrl:data.html_url||'',
+    ref:selected
   };
+}
+
+export async function getFile(filePath) {
+  const {branch}=config();
+  return getFileAtRef(filePath,branch);
+}
+
+export async function getLighthouseFile(filePath){
+  return getFileAtRef(filePath,lighthouseRepositoryRef());
 }
 
 export async function listPosts() {
@@ -122,10 +163,19 @@ export function validateDeploymentRollbackTarget(value){const target=String(valu
 
 export function githubOperationStatus(){const status=githubConfigStatus(),guard=operationPolicy(status.repo);return{...status,adapter:'github-git-data/v1',defaultBranchOnly:false,operationBranches:'anomancer/op-*',directDefaultBranchWrite:false,workflowFile:process.env.ANOMANCER_CAPABILITY_WORKFLOW||'anomancer-capability-gate.yml',repoGuard:{required:guard.required,allowlistConfigured:guard.allowlistConfigured,allowed:guard.allowed}};}
 
+export async function getRepositoryHeadAtRef(ref) {
+  const {repo}=config({operation:true}),selected=safeRepositoryRef(ref);
+  const data=await gh(`/repos/${repo}/git/ref/heads/${encodeURIComponent(selected)}`);
+  return{repo,branch:selected,ref:selected,sha:safeSha(data?.object?.sha),htmlUrl:`https://github.com/${repo}/tree/${encodeURIComponent(selected)}`};
+}
+
 export async function getRepositoryHead() {
-  const { repo, branch } = config({operation:true});
-  const data=await gh(`/repos/${repo}/git/ref/heads/${encodeURIComponent(branch)}`);
-  return{repo,branch,sha:safeSha(data?.object?.sha),htmlUrl:`https://github.com/${repo}/tree/${encodeURIComponent(branch)}`};
+  const {branch}=config({operation:true});
+  return getRepositoryHeadAtRef(branch);
+}
+
+export async function getLighthouseRepositoryHead(){
+  return getRepositoryHeadAtRef(lighthouseRepositoryRef());
 }
 
 export async function getOperationBranch(branchName){
@@ -135,12 +185,12 @@ export async function getOperationBranch(branchName){
 }
 export async function findOperationBranch(branchName){try{return await getOperationBranch(branchName);}catch(error){if(error.statusCode===404)return null;throw error;}}
 
-export async function createOperationCommit({branchName,baseSha,files,message}){
-  const {repo,branch:baseBranch}=config({operation:true}),branch=safeOperationBranch(branchName),parent=safeSha(baseSha),items=(Array.isArray(files)?files:[]).map(safeOperationFile);
+export async function createOperationCommit({branchName,baseSha,baseRef='',files,message}){
+  const {repo,branch:protectedBranch}=config({operation:true}),branch=safeOperationBranch(branchName),parent=safeSha(baseSha),selectedBaseRef=baseRef?safeRepositoryRef(baseRef):protectedBranch,items=(Array.isArray(files)?files:[]).map(safeOperationFile);
   if(!items.length||items.length>20)throw Object.assign(new Error('Repository-operaatio tarvitsee 1–20 tiedostoa.'),{statusCode:400,code:'GITHUB_OPERATION_FILES'});
   if(items.reduce((sum,item)=>sum+item.bytes,0)>1_000_000)throw Object.assign(new Error('Operation-tiedostot ylittävät kokonaiskokorajan.'),{statusCode:413,code:'GITHUB_OPERATION_TOTAL_SIZE'});
-  const current=await getRepositoryHead();if(current.sha!==parent)throw Object.assign(new Error('Repositoryn pohjahaara muuttui suunnitelman jälkeen.'),{statusCode:409,code:'GITHUB_OPERATION_STALE_BASE',currentSha:current.sha,plannedSha:parent});
-  const defaultBranchShaBefore=current.sha;
+  const current=await getRepositoryHeadAtRef(selectedBaseRef);if(current.sha!==parent)throw Object.assign(new Error('Repositoryn pohjahaara muuttui suunnitelman jälkeen.'),{statusCode:409,code:'GITHUB_OPERATION_STALE_BASE',currentSha:current.sha,plannedSha:parent,baseRef:selectedBaseRef});
+  const sourceBranchShaBefore=current.sha,defaultBranchShaBefore=(await getRepositoryHead()).sha;
   const parentCommit=await gh(`/repos/${repo}/git/commits/${parent}`),treeEntries=[];
   for(const item of items){
     const blob=await gh(`/repos/${repo}/git/blobs`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:String(item.content??''),encoding:'utf-8'})});
@@ -148,8 +198,16 @@ export async function createOperationCommit({branchName,baseSha,files,message}){
   }
   const tree=await gh(`/repos/${repo}/git/trees`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({base_tree:parentCommit?.tree?.sha,tree:treeEntries})}),commit=await gh(`/repos/${repo}/git/commits`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:String(message||'codemancer: approved repository operation').slice(0,240),tree:tree.sha,parents:[parent]})});
   await gh(`/repos/${repo}/git/refs`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ref:`refs/heads/${branch}`,sha:commit.sha})});
-  const defaultBranchShaAfter=(await getRepositoryHead()).sha,defaultBranchUnchanged=defaultBranchShaBefore===defaultBranchShaAfter;
-  return{repo,baseBranch,baseSha:parent,defaultBranchShaBefore,defaultBranchShaAfter,defaultBranchUnchanged,branch,commitSha:safeSha(commit.sha),treeSha:safeSha(tree.sha),compareUrl:`https://github.com/${repo}/compare/${encodeURIComponent(baseBranch)}...${encodeURIComponent(branch)}`,branchUrl:`https://github.com/${repo}/tree/${encodeURIComponent(branch)}`};
+  const sourceBranchShaAfter=(await getRepositoryHeadAtRef(selectedBaseRef)).sha,defaultBranchShaAfter=(await getRepositoryHead()).sha;
+  const sourceBranchUnchanged=sourceBranchShaBefore===sourceBranchShaAfter,defaultBranchUnchanged=defaultBranchShaBefore===defaultBranchShaAfter;
+  if(!sourceBranchUnchanged)throw Object.assign(new Error('Lighthouse-lähdehaara muuttui operaation aikana.'),{statusCode:409,code:'GITHUB_OPERATION_SOURCE_REF_MOVED',baseRef:selectedBaseRef});
+  return{repo,baseBranch:selectedBaseRef,baseRef:selectedBaseRef,baseSha:parent,sourceBranchShaBefore,sourceBranchShaAfter,sourceBranchUnchanged,defaultBranchShaBefore,defaultBranchShaAfter,defaultBranchUnchanged,branch,commitSha:safeSha(commit.sha),treeSha:safeSha(tree.sha),compareUrl:`https://github.com/${repo}/compare/${encodeURIComponent(selectedBaseRef)}...${encodeURIComponent(branch)}`,branchUrl:`https://github.com/${repo}/tree/${encodeURIComponent(branch)}`};
+}
+
+export async function createLighthouseOperationCommit(input={}){
+  const expected=lighthouseRepositoryRef(),requested=input.baseRef?safeRepositoryRef(input.baseRef):expected;
+  if(requested!==expected)throw Object.assign(new Error('Mutation base-ref ei vastaa Lighthouse-runtimea.'),{statusCode:409,code:'GITHUB_LIGHTHOUSE_REF_MISMATCH',expectedRef:expected,requestedRef:requested});
+  return createOperationCommit({...input,baseRef:expected});
 }
 
 export async function deleteOperationBranch({branchName,expectedHeadSha}){

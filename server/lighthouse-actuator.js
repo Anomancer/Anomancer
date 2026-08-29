@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import {createOperationCommit,findOperationBranch,getFile,getRepositoryHead,githubOperationStatus} from './github.js';
+import {createLighthouseOperationCommit,findOperationBranch,getLighthouseFile,getLighthouseRepositoryHead,githubOperationStatus,lighthouseGithubStatus} from './github.js';
 import {safeEqual} from './auth.js';
 import {MUTATION_PROPOSAL_FORMAT} from '../core/mutation/proposal.js';
 
@@ -71,17 +71,17 @@ function approvalId(){return`mut-${Date.now().toString(36)}-${crypto.randomBytes
 function confirmationFor(id){return`HYVÄKSYN ${id.slice(-12).toUpperCase()}`;}
 
 export function mutationRuntimeStatus(){
-  const repository=githubOperationStatus();
-  return {format:'anomancer-mutation-runtime-status/v1',available:repository.configured&&repository.repoGuard?.allowed!==false&&String(process.env.ADMIN_SESSION_SECRET||'').length>=32,repository,defaultBranchWrite:false,operationBranchOnly:true,allowedBranchPattern:'anomancer/op-*'};
+  const repository=githubOperationStatus(),lighthouse=lighthouseGithubStatus();
+  return {format:'anomancer-mutation-runtime-status/v1',available:repository.configured&&repository.repoGuard?.allowed!==false&&String(process.env.ADMIN_SESSION_SECRET||'').length>=32,repository:{...repository,lighthouseRef:lighthouse.ref,lighthouseRefSource:lighthouse.refSource},defaultBranchWrite:false,operationBranchOnly:true,allowedBranchPattern:'anomancer/op-*'};
 }
 
 export async function sealLighthouseMutation(proposal,{session,adapters={}}={}){
   if(proposal?.format!==MUTATION_PROPOSAL_FORMAT)fail('Mutation proposal -formaatti ei kelpaa.','LIGHTHOUSE_MUTATION_FORMAT');
   const files=normalizeFiles(proposal.files);const sh=sessionHash(session);
-  const head=await (adapters.getRepositoryHead||getRepositoryHead)();
+  const head=await (adapters.getRepositoryHead||getLighthouseRepositoryHead)();
   const bound=[];
   for(const file of files){
-    const current=await (adapters.getFile||getFile)(file.path);
+    const current=await (adapters.getFile||getLighthouseFile)(file.path);
     if(!current?.sha)fail(`Tiedoston ${file.path} lähde-SHA puuttuu.`,'LIGHTHOUSE_MUTATION_SOURCE_SHA',409);
     const diff=diffPreview(current.content,file.content,file.path);
     if(!diff.additions&&!diff.deletions)continue;
@@ -89,33 +89,34 @@ export async function sealLighthouseMutation(proposal,{session,adapters={}}={}){
   }
   if(!bound.length)fail('Ehdotus ei muuta yhtään sallittua tiedostoa.','LIGHTHOUSE_MUTATION_NOOP',409);
   const id=approvalId(),branchName=`anomancer/op-lighthouse-${id.slice(-12).toLowerCase()}`;
-  const normalized={format:MUTATION_PROPOSAL_FORMAT,summary:clean(proposal.summary,2400),risk:proposal.risk||'high',verification:Array.isArray(proposal.verification)?proposal.verification.slice(0,6):[],files:bound,totalBytes:bound.reduce((sum,item)=>sum+item.bytes,0),base:{repo:head.repo,branch:head.branch,sha:head.sha},branchName};
+  const normalized={format:MUTATION_PROPOSAL_FORMAT,summary:clean(proposal.summary,2400),risk:proposal.risk||'high',verification:Array.isArray(proposal.verification)?proposal.verification.slice(0,6):[],files:bound,totalBytes:bound.reduce((sum,item)=>sum+item.bytes,0),base:{repo:head.repo,branch:head.branch,ref:head.ref||head.branch,sha:head.sha},branchName};
   const proposalHash=sha(normalized),expiresAt=new Date(Date.now()+TTL_MS).toISOString();
-  const payload={v:1,id,proposalHash,baseSha:head.sha,branchName,sessionHash:sh,exp:Date.now()+TTL_MS};
+  const payload={v:2,id,proposalHash,baseSha:head.sha,baseRef:normalized.base.ref,branchName,sessionHash:sh,exp:Date.now()+TTL_MS};
   return {proposal:normalized,approval:{format:MUTATION_APPROVAL_FORMAT,id,proposalHash,confirmationPhrase:confirmationFor(id),expiresAt,token:sign(payload),humanApprovalRequired:true,defaultBranchWrite:false,executionTarget:'isolated-operation-branch'}};
 }
 
 export async function executeLighthouseMutation({proposal,approval,confirmation,session,adapters={}}={}){
   const token=verify(approval?.token);const sh=sessionHash(session);
-  if(token.v!==1||token.sessionHash!==sh)fail('Hyväksyntä kuuluu eri istunnolle.','LIGHTHOUSE_MUTATION_SESSION',403);
+  if(token.v!==2)fail('Mutation approval on vanhaa ref-mallia. Tee uusi ehdotus.','LIGHTHOUSE_MUTATION_TOKEN_VERSION',409);
+  if(token.sessionHash!==sh)fail('Hyväksyntä kuuluu eri istunnolle.','LIGHTHOUSE_MUTATION_SESSION',403);
   if(Number(token.exp)<=Date.now())fail('Mutation approval on vanhentunut. Tee uusi ehdotus.','LIGHTHOUSE_MUTATION_EXPIRED',409);
   if(clean(confirmation,200)!==clean(approval?.confirmationPhrase,200)||clean(confirmation,200)!==confirmationFor(token.id))fail('Kirjoitettu vahvistus ei vastaa mutation-ehdotusta.','LIGHTHOUSE_MUTATION_CONFIRMATION',409);
   const proposalHash=sha(proposal);
   if(proposalHash!==token.proposalHash||proposalHash!==approval?.proposalHash)fail('Mutation proposal muuttui hyväksynnän jälkeen.','LIGHTHOUSE_MUTATION_HASH_MISMATCH',409);
   const sourceByPath=new Map((Array.isArray(proposal?.files)?proposal.files:[]).map(item=>[String(item?.path||''),item]));
   const files=normalizeFiles(proposal?.files).map(file=>({...file,sourceSha:String(sourceByPath.get(file.path)?.sourceSha||'')}));
-  if(token.baseSha!==proposal?.base?.sha||token.branchName!==proposal?.branchName)fail('Mutation target muuttui hyväksynnän jälkeen.','LIGHTHOUSE_MUTATION_TARGET_MISMATCH',409);
-  const head=await (adapters.getRepositoryHead||getRepositoryHead)();
+  if(token.baseSha!==proposal?.base?.sha||token.baseRef!==proposal?.base?.ref||token.branchName!==proposal?.branchName)fail('Mutation target muuttui hyväksynnän jälkeen.','LIGHTHOUSE_MUTATION_TARGET_MISMATCH',409);
+  const head=await (adapters.getRepositoryHead||getLighthouseRepositoryHead)();
   if(head.sha!==proposal.base.sha)fail('Repositoryn pohjahaara muuttui ehdotuksen jälkeen. Tee uusi ehdotus.','LIGHTHOUSE_MUTATION_STALE_BASE',409,{currentSha:head.sha,plannedSha:proposal.base.sha});
   const existingBranch=await (adapters.findOperationBranch||findOperationBranch)(proposal.branchName);
   if(existingBranch)fail('Tämä hyväksyntä on jo käytetty tai operation-haara on jo olemassa.','LIGHTHOUSE_MUTATION_REPLAY',409);
   for(const file of files){
-    const current=await (adapters.getFile||getFile)(file.path);
+    const current=await (adapters.getFile||getLighthouseFile)(file.path);
     if(String(current?.sha||'')!==String(file.sourceSha||''))fail(`Tiedosto ${file.path} muuttui ehdotuksen jälkeen.`,'LIGHTHOUSE_MUTATION_SOURCE_CHANGED',409,{path:file.path});
   }
   const executedAt=new Date().toISOString();
-  const execution=await (adapters.createOperationCommit||createOperationCommit)({branchName:proposal.branchName,baseSha:proposal.base.sha,files:files.map(({path,content})=>({path,content})),message:`lighthouse: approved mutation ${token.id} ${proposalHash.slice(0,12)}`});
-  if(execution.defaultBranchUnchanged!==true)fail('Default branch -invariantti ei varmistunut.','LIGHTHOUSE_MUTATION_DEFAULT_BRANCH_INVARIANT',500);
-  const receipt={format:MUTATION_RECEIPT_FORMAT,id:token.id,proposalHash,approvedBy:sh.slice(0,16),executedAt,confirmationMatched:true,defaultBranchUnchanged:true,externalSideEffect:'operation-branch-created',execution:{repo:execution.repo,baseBranch:execution.baseBranch,baseSha:execution.baseSha,branch:execution.branch,commitSha:execution.commitSha,compareUrl:execution.compareUrl,branchUrl:execution.branchUrl}};
+  const execution=await (adapters.createOperationCommit||createLighthouseOperationCommit)({branchName:proposal.branchName,baseSha:proposal.base.sha,baseRef:proposal.base.ref,files:files.map(({path,content})=>({path,content})),message:`lighthouse: approved mutation ${token.id} ${proposalHash.slice(0,12)}`});
+  if(execution.defaultBranchUnchanged!==true||execution.sourceBranchUnchanged===false)fail('Repository-ref invariantti ei varmistunut.','LIGHTHOUSE_MUTATION_DEFAULT_BRANCH_INVARIANT',500);
+  const receipt={format:MUTATION_RECEIPT_FORMAT,id:token.id,proposalHash,approvedBy:sh.slice(0,16),executedAt,confirmationMatched:true,defaultBranchUnchanged:true,externalSideEffect:'operation-branch-created',execution:{repo:execution.repo,baseBranch:execution.baseBranch,baseRef:execution.baseRef||proposal.base.ref,baseSha:execution.baseSha,branch:execution.branch,commitSha:execution.commitSha,compareUrl:execution.compareUrl,branchUrl:execution.branchUrl}};
   return {...receipt,receiptHash:sha(receipt)};
 }

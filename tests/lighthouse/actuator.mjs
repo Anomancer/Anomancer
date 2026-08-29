@@ -26,16 +26,17 @@ const baseProposal={
 
 let commitCalls=0;
 const adapters={
-  getRepositoryHead:async()=>({repo:'Anomancer/Anomancer',branch:'architecture/lighthouse-v1',sha:BASE}),
+  getRepositoryHead:async()=>({repo:'Anomancer/Anomancer',branch:'architecture/lighthouse-v1',ref:'architecture/lighthouse-v1',sha:BASE}),
   getFile:async path=>({path,sha:SOURCE,content:'export const fixed=false;\n'}),
   findOperationBranch:async()=>null,
-  createOperationCommit:async({branchName,baseSha,files,message})=>{
+  createOperationCommit:async({branchName,baseSha,baseRef,files,message})=>{
     commitCalls++;
     assert.match(branchName,/^anomancer\/op-lighthouse-/);
     assert.equal(baseSha,BASE);
+    assert.equal(baseRef,'architecture/lighthouse-v1');
     assert.equal(files.length,1);
     assert.match(message,/^lighthouse: approved mutation mut-[a-z0-9-]+ [a-f0-9]{12}$/);
-    return {repo:'Anomancer/Anomancer',baseBranch:'architecture/lighthouse-v1',baseSha:BASE,defaultBranchShaBefore:BASE,defaultBranchShaAfter:BASE,defaultBranchUnchanged:true,branch:branchName,commitSha:'c'.repeat(40),treeSha:'d'.repeat(40),compareUrl:'https://github.com/example/compare',branchUrl:'https://github.com/example/tree'};
+    return {repo:'Anomancer/Anomancer',baseBranch:'architecture/lighthouse-v1',baseRef:'architecture/lighthouse-v1',baseSha:BASE,sourceBranchShaBefore:BASE,sourceBranchShaAfter:BASE,sourceBranchUnchanged:true,defaultBranchShaBefore:BASE,defaultBranchShaAfter:BASE,defaultBranchUnchanged:true,branch:branchName,commitSha:'c'.repeat(40),treeSha:'d'.repeat(40),compareUrl:'https://github.com/example/compare',branchUrl:'https://github.com/example/tree'};
   }
 };
 
@@ -45,6 +46,7 @@ try{
   assert.equal(sealed.proposal.files.length,1);
   assert.match(sealed.proposal.files[0].diff,/--- a\/core\/intent\/contracts\.js/);
   assert.equal(sealed.proposal.files[0].sourceSha,SOURCE);
+  assert.equal(sealed.proposal.base.ref,'architecture/lighthouse-v1');
   assert.equal(sealed.approval.humanApprovalRequired,true);
   assert.equal(sealed.approval.defaultBranchWrite,false);
   assert.match(sealed.approval.confirmationPhrase,/^HYVÄKSYN /);
@@ -76,6 +78,7 @@ try{
   assert.equal(receipt.externalSideEffect,'operation-branch-created');
   assert.match(receipt.execution.branch,/^anomancer\/op-lighthouse-/);
   assert.equal(receipt.execution.commitSha,'c'.repeat(40));
+  assert.equal(receipt.execution.baseRef,'architecture/lighthouse-v1');
   assert.match(receipt.receiptHash,/^[a-f0-9]{64}$/);
 
   await assert.rejects(

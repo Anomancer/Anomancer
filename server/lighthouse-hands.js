@@ -1,7 +1,7 @@
 import dns from 'node:dns/promises';
 import net from 'node:net';
 import https from 'node:https';
-import {getFile,githubConfigStatus,githubOperationStatus} from './github.js';
+import {getLighthouseFile,lighthouseGithubStatus,githubOperationStatus} from './github.js';
 import {getMancerPackage} from './mancer-registry.js';
 
 export const HANDS_EXECUTION_FORMAT='anomancer-hands-execution/v1';
@@ -159,7 +159,7 @@ function contextBlock(kind,label,content,meta={}){
 }
 
 export function capabilityAvailability(env=process.env){
-  const github=githubConfigStatus();
+  const github=lighthouseGithubStatus(env);
   const operation=githubOperationStatus();
   const mutationReady=operation.configured&&operation.repoGuard?.allowed!==false;
   return {
@@ -175,6 +175,7 @@ export function capabilityAvailability(env=process.env){
 
 export async function executeLighthouseHands({intent={},route={},capabilityRoute={}}={}){
   const startedAt=Date.now();
+  const repository=lighthouseGithubStatus();
   const events=[];
   const context=[];
   const sources=[];
@@ -240,9 +241,9 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
     if(paths.length){
       await run('repository.read',async()=>{
         for(const path of paths){
-          const file=await getFile(path);
-          sources.push({type:'repository-file',title:file.path,url:file.htmlUrl||'',path:file.path,sha:file.sha});
-          context.push(contextBlock('repository',file.path,file.content,{path:file.path,url:file.htmlUrl||'',sha:file.sha,untrusted:true}));
+          const file=await getLighthouseFile(path);
+          sources.push({type:'repository-file',title:file.path,url:file.htmlUrl||'',path:file.path,sha:file.sha,ref:file.ref||repository.ref});
+          context.push(contextBlock('repository',file.path,file.content,{path:file.path,url:file.htmlUrl||'',sha:file.sha,ref:file.ref||repository.ref,untrusted:true}));
         }
         repositoryReadUsed=true;
       },{adapter:'github-content-read/v1',external:true});
@@ -284,6 +285,8 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
     searchQuerySent,
     webFetchUsed,
     repositoryReadUsed,
+    repositoryRef:repository.ref,
+    repositoryRefSource:repository.refSource,
     externalReadUsed:events.some(event=>event.external&&event.status==='completed'),
     durationMs:Date.now()-startedAt
   };
