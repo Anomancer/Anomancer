@@ -82,7 +82,10 @@
     "test:live-path": "node tests/operations-release/live-path-verification.mjs && node tests/operations-release/live-path-ui.mjs",
     "live:preflight": "node scripts/live-path-preflight-1185.mjs",
     "export:source": "node scripts/export-bundle.mjs source",
-    "export:deploy": "node scripts/export-bundle.mjs deploy"
+    "export:deploy": "node scripts/export-bundle.mjs deploy",
+    "lab:build": "node scripts/build-lighthouse.mjs",
+    "test:lighthouse": "node tests/lighthouse/construction-mode.mjs",
+    "lab": "npm run lab:build && vercel dev --port 3000"
   },
   "devDependencies": {
     "axe-core": "4.10.3",

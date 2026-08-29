@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';
+import {runIntent} from '../../core/intent/intent-service.js';
+import {lighthouseLabAllowed} from '../../core/authority/lab-policy.js';
+const reasoner=async()=>({result:{title:'Testi',answer:'Toimii.',nextSteps:['Jatka'],uncertainty:''},meta:{provider:'fake',model:'test'}});
+const x=await runIntent({text:'Testaa'},{reasoner});
+assert.equal(x.result.answer,'Toimii.');assert.equal(x.runtime.provider,'fake');
+assert.equal(lighthouseLabAllowed({VERCEL_ENV:'production'}),false);
+assert.equal(lighthouseLabAllowed({VERCEL_ENV:'production',ANOMANCER_LIGHTHOUSE_LAB:'1'}),true);
+for(const f of ['app/lighthouse/lab.html','api/lab/intent.js','providers/deepseek/adapter.js'])assert.ok(fs.existsSync(f),f);
+console.log('✓ Lighthouse Construction Mode D0→D1');
