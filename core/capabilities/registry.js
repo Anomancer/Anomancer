@@ -1,4 +1,6 @@
-const definitions=[
+import {GENERATED_CAPABILITY_DEFINITIONS} from './packages.generated.js';
+
+const builtinDefinitions=[
   {id:'llm.reasoning',providerClass:'llm',mode:'native',available:true,executionCapability:'llm.reasoning'},
   {id:'llm.analysis',providerClass:'llm',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
   {id:'llm.writer',providerClass:'llm',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
@@ -10,7 +12,6 @@ const definitions=[
   {id:'repository.propose',providerClass:'tool',mode:'bounded-mutation-proposal',available:false,runtimeAvailable:true,executionCapability:null,proposalOnly:true},
   {id:'repository.write',providerClass:'tool',mode:'human-approved-operation-branch',available:false,runtimeAvailable:true,executionCapability:null,requiresApproval:true},
   {id:'mancer.activate',providerClass:'mancer',mode:'package-context',available:true,executionCapability:null,readOnly:true},
-  {id:'comparison',providerClass:'reasoning',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
   {id:'risk.analysis',providerClass:'reasoning',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
   {id:'evidence.trace',providerClass:'trust',mode:'runtime-trace',available:true,executionCapability:'llm.reasoning'},
   {id:'evidence.validate',providerClass:'reasoning',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
@@ -39,6 +40,13 @@ const definitions=[
   {id:'tests.run',providerClass:'tool',mode:'not-wired',available:false,executionCapability:null,requiresApproval:true},
   {id:'external.execute',providerClass:'tool',mode:'human-gated',available:false,executionCapability:null,requiresApproval:true}
 ];
+
+const definitions=[...builtinDefinitions,...GENERATED_CAPABILITY_DEFINITIONS];
+const seenCapabilityIds=new Set();
+for(const item of definitions){
+  if(seenCapabilityIds.has(item.id))throw new Error(`Duplicate capability id: ${item.id}`);
+  seenCapabilityIds.add(item.id);
+}
 
 const C=Object.freeze(Object.fromEntries(definitions.map(item=>[
   item.id,

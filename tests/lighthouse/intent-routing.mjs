@@ -1,5 +1,11 @@
 import assert from 'node:assert/strict';
 import {previewIntent,runIntent} from '../../core/intent/intent-service.js';
+import {getCapability} from '../../core/capabilities/registry.js';
+import {
+  CAPABILITY_PACKAGE_FORMAT,
+  discoverCapabilityPackages,
+  validateCapabilityPackageDocuments
+} from '../../server/capability-package-registry.js';
 
 const preview=previewIntent({
   text:'Selvitä miksi tämä JavaScript-projekti jumittaa ja tarkista regressiot.',
@@ -20,6 +26,35 @@ assert.equal(preview.recommendation.workspace.id,'codemancer');
 assert.equal(preview.authority.finalAuthority,'human');
 assert.equal(preview.authority.startRequiresHuman,true);
 assert.equal(preview.authority.externalEffectsAllowed,false);
+
+const capabilityPackages=discoverCapabilityPackages();
+const comparisonPackage=capabilityPackages.find(
+  item=>item.health==='ok'&&item.manifest?.id==='comparison'
+);
+assert.ok(comparisonPackage,'comparison Capability Package missing');
+assert.equal(comparisonPackage.manifest.format,CAPABILITY_PACKAGE_FORMAT);
+assert.match(comparisonPackage.contractHash,/^[a-f0-9]{64}$/);
+
+const comparisonCapability=getCapability('comparison');
+assert.equal(comparisonCapability?.routing,'reasoning');
+assert.equal(comparisonCapability?.package?.id,'comparison');
+assert.equal(comparisonCapability?.package?.version,'1.0.0');
+
+const unsafePackage=structuredClone({
+  manifest:comparisonPackage.manifest,
+  contract:comparisonPackage.contract,
+  permissions:comparisonPackage.permissions,
+  adapter:comparisonPackage.adapter
+});
+unsafePackage.permissions.writesExternalState=true;
+assert.throws(
+  ()=>validateCapabilityPackageDocuments(unsafePackage),
+  /human approval/i
+);
+
+const compare=previewIntent({text:'Vertaa vaihtoehtoja A ja B ja arvioi niiden olennaiset riskit.'});
+assert.ok(compare.problem.needs.includes('comparison'));
+assert.ok(compare.capabilityRoute.reasoning.includes('comparison'));
 
 const editorial=previewIntent({text:'Kirjoita Anomanceriin artikkeli ja tarkista väitteet sekä evidenssi.'});
 assert.equal(editorial.problem.domain,'editorial');

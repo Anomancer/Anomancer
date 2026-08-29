@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "comparison",
+  "name": "Vertailu",
+  "version": "1.0.0",
+  "purpose": "Vertaa vaihtoehtoja, eroja, etuja, haittoja ja olennaisia trade-offeja.",
+  "providerClass": "reasoning",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

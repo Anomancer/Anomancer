@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {lighthouseLabAllowed} from '../core/authority/lab-policy.js';
-import {listCapabilities} from '../core/capabilities/registry.js';
+import {syncCapabilityPackageRegistry} from '../server/capability-package-registry.js';
 import {listInstalledMancerPackages} from '../server/mancer-registry.js';
 import {CORE_VERSION} from '../server/core-registry.js';
 
@@ -10,6 +10,9 @@ const SOURCE=path.join(ROOT,'app','lighthouse');
 const PUBLIC=path.join(ROOT,'public');
 const TARGET=path.join(PUBLIC,'lighthouse');
 const LAB_HTML=path.join(PUBLIC,'lab.html');
+
+syncCapabilityPackageRegistry();
+const {listCapabilities}=await import('../core/capabilities/registry.js');
 
 if(!lighthouseLabAllowed(process.env)){
   fs.rmSync(LAB_HTML,{force:true});

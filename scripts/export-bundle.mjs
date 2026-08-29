@@ -10,7 +10,7 @@ const dryRun=process.argv.includes('--dry-run');
 if(!['source','deploy'].includes(mode))throw new Error('Käyttö: node scripts/export-bundle.mjs source|deploy [--dry-run]');
 
 const pkg=JSON.parse(fs.readFileSync(path.join(ROOT,'package.json'),'utf8'));
-const sourcePrefixes=['.github/','api/','app/','catalog/','content/','core/','docs/','mancers/','providers/','scripts/','server/','site/','tests/','visual-fixtures/'];
+const sourcePrefixes=['.github/','api/','app/','capabilities/','catalog/','content/','core/','docs/','mancers/','providers/','scripts/','server/','site/','tests/','visual-fixtures/'];
 const sourceRoots=new Set([
   '.gitignore','INSTALL_TO_CURRENT.sh','index.html','en.html','core.html','core-en.html','CHANGELOG.md','CONTRIBUTING.md','LICENSE','README.md','SECURITY.md',
   'CONSTRUCTION_MODE_1.19.0.md',
@@ -19,7 +19,7 @@ const sourceRoots=new Set([
   'core.css','core-public.js','public-core-render.js','site.js','styles.css','ui-tokens.css','narramancer-export.js','lahetyskone-pwa.js','lahetyskone-sw.js','seo-check.mjs',
   'entity-core.json','discovery-policy.json','favicon.svg','manifest.webmanifest','package.json','package-lock.json','vercel.json'
 ]);
-const deployPrefixes=['api/','catalog/','core/','mancers/','providers/','server/'];
+const deployPrefixes=['api/','capabilities/','catalog/','core/','mancers/','providers/','server/'];
 const deployRoots=new Set(['package.json','package-lock.json','vercel.json','entity-core.json','discovery-policy.json']);
 const deniedCommon=/(^|\/)(?:\.git|\.vercel|node_modules|dist|\.anomancer-backups|ANOMANCER_IP_PRIVATE|IP_PRIVATE|\.private-ip)(\/|$)|(?:^|\/)(?:\.env[^/]*|.*(?:backup|secret|private-key).*)$/i;
 const denied=rel=>deniedCommon.test(rel)||(mode==='source'&&/(^|\/)public(\/|$)/.test(rel));

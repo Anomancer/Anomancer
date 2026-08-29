@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "node scripts/build-blog.mjs && node scripts/build-lighthouse.mjs",
+    "capabilities:sync": "node scripts/sync-capability-packages.mjs",
     "new:post": "node scripts/new-post.mjs",
     "write": "node scripts/editor.mjs",
     "seo:check": "node seo-check.mjs",
