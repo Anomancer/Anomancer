@@ -61,21 +61,26 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Resolve Chromium gate
-        shell: bash
-        run: |
-          browser="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
-          test -n "$browser"
-          echo "CHROMIUM_BIN=$browser" >> "$GITHUB_ENV"
-
       - name: Install locked dependencies
         run: npm ci
+
+      - name: Install pinned Playwright Chromium
+        run: npx playwright install --with-deps chromium
 
       - name: Build exact source
         run: npm run build
 
       - name: Run full release gate
         run: npm run check
+
+      - name: Upload release-gate failure evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capability-gate-evidence-${{ github.run_id }}
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 14
 
   deploy_preview:
     if: inputs.mode == 'preview'

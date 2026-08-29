@@ -59,9 +59,9 @@ test('review ja release sitovat diff-, testi- ja ihmispäätöksen näkyväksi p
   assert.match(mancer,/function renderReleaseGate/);
   assert.match(mancer,/Testievidenssi/);
   assert.match(mancer,/Diffin tarkistus/);
-  assert.match(mancer,/Ihmisen release-päätös/);
+  assert.match(mancer,/Ihmisen julkaisupäätös/);
   assert.match(mancer,/Hyväksyntädata ei itsessään tee sivuvaikutusta/);
-  assert.match(mancer,/erillisen planin, kirjoitetun hyväksynnän ja execute-vaiheen/);
+  assert.match(mancer,/erillisen suunnitelman, kirjoitetun hyväksynnän ja suoritusvaiheen/);
 });
 
 test('desktop-komponenttityyli ei ota responsive-omistajuutta takaisin',()=>{

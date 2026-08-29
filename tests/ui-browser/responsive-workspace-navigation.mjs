@@ -15,8 +15,8 @@ const css=readAdminCss();
 const worker=read('lahetyskone-sw.js');
 
 await test('16.8.1 kyvykkyydet toimitetaan 16.8.4 full releasessa',()=>{
-  assert.equal(pkg.version,'1.18.5');
-  assert.match(worker,/anomancer-lahetyskone-v1\.18\.5/);
+  assert.equal(pkg.version,'1.18.6');
+  assert.match(worker,/anomancer-lahetyskone-v1\.18\.6/);
   assert.match(worker,/admin-overlays\.js/);
   assert.match(read('scripts/build-blog.mjs'),/'admin-overlays\.js'/);
 });

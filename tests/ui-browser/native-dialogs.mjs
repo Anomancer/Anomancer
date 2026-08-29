@@ -30,7 +30,7 @@ ok('native alert confirm prompt poistettu admin-poluilta',()=>{
 
 ok('ihmisen toimivaltarajat käyttävät async vahvistusta',()=>{
   const joined=sources.map(read).join('\n');
-  for(const marker of ['Poista lähetys','Vahvista lähteen tarkistus','Arkistoi työtila','Poista arkisto-objekti','Poista orkesteri','Sovella orkesterin ehdotus'])assert.match(joined,new RegExp(marker));
+  for(const marker of ['Poista lähetys','Varmenna lähde jäljitettävästi','Arkistoi työtila','Poista arkisto-objekti','Poista orkesteri','Sovella orkesterin ehdotus'])assert.match(joined,new RegExp(marker));
   assert.match(joined,/await runtime\.service\('dialogs'\)\.confirm/);
 });
 

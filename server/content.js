@@ -7,6 +7,7 @@ export const AUDIENCE_DEPTHS = ['plain','general','professional','technical'];
 export const CLAIM_STATUSES = ['supported','interpretation','open'];
 export const SOURCE_VERIFICATIONS = ['candidate','verified','rejected'];
 export const SOURCE_ORIGINS = ['human','source-agent','import'];
+export const SOURCE_VERIFICATION_METHODS = ['direct-open','cached-copy','publisher-metadata','secondary-confirmation'];
 export const CITATION_MODES = ['inline','sources','both'];
 export const CHART_TYPES = ['bar','line'];
 
@@ -39,9 +40,9 @@ export function normalizeSources(value) {
     if (!title || !url || seen.has(url)) continue;
     seen.add(url);
     const origin=SOURCE_ORIGINS.includes(src.origin)?src.origin:'human';
-    // Legacy/manual sources were already accepted by a human. Agent candidates must
-    // always be explicitly promoted before they can be published.
-    const fallbackVerification=origin==='source-agent'?'candidate':'verified';
+    // A source is a candidate until a human creates a traceable verification record.
+    // Origin alone must never silently promote a source to verified.
+    const fallbackVerification='candidate';
     const verification=SOURCE_VERIFICATIONS.includes(src.verification)?src.verification:fallbackVerification;
     out.push({
       id:String(src.id||stableSourceId(url)).trim().slice(0,80),title,url,publisher,date,origin,verification,
@@ -49,9 +50,32 @@ export function normalizeSources(value) {
       why:String(src.why||'').trim().slice(0,500),
       supports:String(src.supports||'').trim().slice(0,800),
       challenges:String(src.challenges||'').trim().slice(0,800),
+      verifiedBy:String(src.verifiedBy||'').trim().slice(0,120),
+      verifiedAt:String(src.verifiedAt||'').trim().slice(0,40),
+      verificationMethod:SOURCE_VERIFICATION_METHODS.includes(src.verificationMethod)?src.verificationMethod:'',
+      verificationEvidence:String(src.verificationEvidence||'').trim().slice(0,800),
+      verificationNotes:String(src.verificationNotes||'').trim().slice(0,800),
     });
   }
   return out;
+}
+
+const DIRECT_ACCESS_CONFLICT=/(?:\b403\b|\b404\b|access denied|forbidden|could not (?:open|access|retrieve)|unable to (?:open|access|retrieve)|ei (?:saatu|onnistuttu|pystytty) (?:avaamaan|hakemaan|tarkistamaan)|tarkistus suositellaan|maksumuuri|paywall)/iu;
+
+export function sourceVerificationIssues(source={}) {
+  if(source.verification!=='verified') return [];
+  const issues=[];
+  if(!SOURCE_VERIFICATION_METHODS.includes(source.verificationMethod)) issues.push('varmennusmenetelmä puuttuu');
+  if(!String(source.verifiedBy||'').trim()) issues.push('varmentaja puuttuu');
+  if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,3})?)?Z$/.test(String(source.verifiedAt||''))) issues.push('varmennusaika puuttuu tai ei ole UTC ISO -muodossa');
+  if(!String(source.verificationEvidence||'').trim()) issues.push('varmennusevidenssi puuttuu');
+  if(!String(source.verificationNotes||'').trim()) issues.push('varmennusmuistiinpano puuttuu');
+  if(source.verificationMethod==='direct-open'&&DIRECT_ACCESS_CONFLICT.test(String(source.challenges||''))) issues.push('suora avaus on ristiriidassa lähteen haastekuvauksen kanssa');
+  return issues;
+}
+
+export function isSourceVerified(source={}) {
+  return source.verification==='verified'&&sourceVerificationIssues(source).length===0;
 }
 
 export function normalizeClaims(value, sources=[]) {
@@ -79,7 +103,7 @@ function occurrences(haystack,needle){
 }
 
 export function approvedEvidenceUrls(sources=[],claims=[]) {
-  const verified=new Set(sources.filter(src=>src.verification==='verified').map(src=>src.url));
+  const verified=new Set(sources.filter(isSourceVerified).map(src=>src.url));
   const approved=new Set();
   for(const claim of claims){if(claim.status!=='supported')continue;for(const link of claim.evidence||[])if(verified.has(link))approved.add(link);}
   return approved;
@@ -244,7 +268,9 @@ export function validatePost(input,{forPublish=!Boolean(input?.draft)}={}) {
     if (src.title.length > 220) throw Object.assign(new Error('Lähteen nimi on liian pitkä (max 220 merkkiä).'), { statusCode:400 });
     if (src.publisher.length > 160) throw Object.assign(new Error('Lähteen julkaisija on liian pitkä (max 160 merkkiä).'), { statusCode:400 });
     if (src.date && !/^\d{4}(?:-\d{2}(?:-\d{2})?)?$/.test(src.date)) throw Object.assign(new Error('Lähteen päivämäärä pitää olla YYYY, YYYY-MM tai YYYY-MM-DD.'), { statusCode:400 });
-    if (forPublish && src.verification !== 'verified') throw Object.assign(new Error(`Lähde odottaa ihmisen tarkistusta: ${src.title}`), { statusCode:400, code:'SOURCE_NOT_VERIFIED' });
+    const verificationIssues=sourceVerificationIssues(src);
+    if (verificationIssues.length) throw Object.assign(new Error(`Lähteen varmennusjälki on puutteellinen (${src.title}): ${verificationIssues.join(', ')}`), { statusCode:400, code:'SOURCE_VERIFICATION_INVALID' });
+    if (forPublish && src.verification === 'rejected') throw Object.assign(new Error(`Hylättyä lähdettä ei voi julkaista: ${src.title}`), { statusCode:400, code:'SOURCE_REJECTED' });
   }
   if (claims.length > 40) throw Object.assign(new Error('Väitteitä voi olla enintään 40.'), { statusCode:400 });
   for (const claim of claims) {
@@ -253,8 +279,8 @@ export function validatePost(input,{forPublish=!Boolean(input?.draft)}={}) {
     if (claim.evidence.length > 12) throw Object.assign(new Error('Yhdellä väitteellä voi olla enintään 12 evidenssilinkkiä.'), { statusCode:400 });
     if (claim.status === 'supported' && claim.evidence.length === 0) throw Object.assign(new Error('Tuetulla väitteellä pitää olla vähintään yksi lähde.'), { statusCode:400 });
     if (forPublish && claim.status === 'supported') {
-      const verified=new Set(sources.filter(src=>src.verification==='verified').map(src=>src.url));
-      if (!claim.evidence.some(url=>verified.has(url))) throw Object.assign(new Error('Tuetulla väitteellä pitää olla vähintään yksi ihmisen tarkistama lähde.'), { statusCode:400, code:'CLAIM_SOURCE_NOT_VERIFIED' });
+      const verified=new Set(sources.filter(isSourceVerified).map(src=>src.url));
+      if (!claim.evidence.some(url=>verified.has(url))) throw Object.assign(new Error('Tuetulla väitteellä pitää olla vähintään yksi jäljitettävästi varmennettu lähde.'), { statusCode:400, code:'CLAIM_SOURCE_NOT_VERIFIED' });
     }
   }
   if (coverImage && !validMediaPath(coverImage)) throw Object.assign(new Error('Kansikuvan polku on virheellinen.'), { statusCode:400 });

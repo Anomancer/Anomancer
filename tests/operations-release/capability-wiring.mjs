@@ -42,7 +42,7 @@ const {default:operationsHandler}=await import('../../server/admin-routes/operat
 
 __resetWorkspaceStoreForTests();__resetMancerArtifactStoreForTests();__resetOperationStoreForTests();
 const {workspace}=await upsertWorkspace({name:'P3 Capability Test',templateId:'codemancer/development-workbench/1.0.0'}),session={nonce:'p3-human-session'};
-const baseArtifact={project:{name:'Capability gate'},code:[{path:'src/p3.js',language:'javascript',content:'export const capabilityGate = true;\n',notes:'P3 bounded operation'}],review:{decision:'approved'},release:{version:'1.18.5',check:'passing',humanApproval:'approved',notes:'P3 test'},architecture:[],tasks:[],tests:[],runs:[],documentation:[]};
+const baseArtifact={project:{name:'Capability gate'},code:[{path:'src/p3.js',language:'javascript',content:'export const capabilityGate = true;\n',notes:'P3 bounded operation'}],review:{decision:'approved'},release:{version:'1.18.6',check:'passing',humanApproval:'approved',notes:'P3 test'},architecture:[],tasks:[],tests:[],runs:[],documentation:[]};
 await saveMancerArtifact(baseArtifact,{workspace});
 
 let passed=0;

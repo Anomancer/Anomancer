@@ -9,10 +9,10 @@ import { getAgentContract, getOrchestra, CORE_VERSION } from '../../server/core-
 let n=0;const ok=(name,fn)=>{fn();n++;console.log(`✓ 16.2 ${name}`)};
 const url='https://example.com/study';
 const body='Tutkimuksessa kasvu oli 27 prosenttia vuonna 2025. Vertailussa kasvu oli 18 prosenttia vuonna 2024.';
-const sources=[{id:'s1',title:'Study',url,verification:'verified',origin:'human'}];
+const sources=[{id:'s1',title:'Study',url,verification:'verified',origin:'human',verifiedBy:'human:test',verifiedAt:'2026-08-27T12:00:00.000Z',verificationMethod:'direct-open',verificationEvidence:url,verificationNotes:'Testilähde avattiin ja luvut tarkistettiin.'}];
 const claims=[{status:'supported',text:'Kasvu oli 27 prosenttia vuonna 2025.',evidence:[url],note:''},{status:'supported',text:'Kasvu oli 18 prosenttia vuonna 2024.',evidence:[url],note:''}];
 const base={lang:'fi',title:'Testi',date:'2026-08-27',category:'info-media',audience:['all'],audienceDepth:'general',description:'Testi',slug:'testi',translationKey:'testi',aliases:[],coverImage:'',coverAlt:'',answer:'',sources,claims,pinned:false,draft:false,body};
-ok('Core version',()=>assert.equal(CORE_VERSION,'1.18.5'));
+ok('Core version',()=>assert.equal(CORE_VERSION,'1.18.6'));
 ok('package can propose citation placements but cannot write body',()=>{const c=getAgentContract('package');assert(c.authority.write.includes('citationPlacements'));assert(c.authority.deny.includes('body.write'));});
 ok('visualization agent is optional and fail-closed',()=>{const c=getAgentContract('visualization');assert(c);assert(c.authority.deny.includes('claims.write'));assert(!getOrchestra('editorial').stages.includes('visualization'));});
 ok('valid placement survives',()=>assert.equal(normalizeCitationPlacements([{claimText:claims[0].text,evidenceUrl:url,quote:'Tutkimuksessa kasvu oli 27 prosenttia vuonna 2025.',anchorText:'27 prosenttia'}],{sources,claims,body}).length,1));

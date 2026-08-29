@@ -4,7 +4,7 @@ import { promptFor } from '../../server/agent-prompts.js';
 
 let ok=0;
 const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`);};
-const verified={title:'Verified',url:'https://example.com/verified',publisher:'Example',date:'2026',origin:'human',verification:'verified'};
+const verified={title:'Verified',url:'https://example.com/verified',publisher:'Example',date:'2026',origin:'human',verification:'verified',verifiedBy:'human:test',verifiedAt:'2026-08-27T12:00:00.000Z',verificationMethod:'direct-open',verificationEvidence:'https://example.com/verified',verificationNotes:'Lähde avattiin ja tarkistettiin testissä.'};
 const candidate={title:'Candidate',url:'https://example.com/candidate',publisher:'Example',date:'2026',origin:'source-agent',verification:'candidate'};
 const post={lang:'fi',title:'Testi',category:'info-media',audience:['all'],audienceDepth:'general',sources:[verified,candidate],claims:[],body:'Teksti'};
 

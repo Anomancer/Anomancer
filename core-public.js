@@ -32,6 +32,15 @@ function initSectionNav(){
   sections.forEach(section=>observer.observe(section));
 }
 
+function initAgentSearch(){
+  document.addEventListener('input',event=>{
+    const input=event.target.closest?.('[data-core-agent-search]');if(!input)return;
+    const details=input.closest('.core-registry-details'),term=String(input.value||'').trim().toLocaleLowerCase(lang==='fi'?'fi':'en');let visible=0;
+    for(const card of details?.querySelectorAll('[data-agent-search]')||[]){const match=!term||String(card.dataset.agentSearch||'').includes(term);card.hidden=!match;if(match)visible++;}
+    const empty=details?.querySelector('[data-core-agent-search-empty]');if(empty){empty.hidden=visible!==0;empty.textContent=`${visible} ${lang==='fi'?'agenttia':'agents'}`;}
+  });
+}
+
 async function load(){
   try{const response=await fetch('/core-public.json',{credentials:'omit'});if(!response.ok)throw new Error('snapshot');apply(await response.json());}
   catch{
@@ -42,4 +51,4 @@ async function load(){
   }
 }
 
-initSectionNav();load();
+initSectionNav();initAgentSearch();load();

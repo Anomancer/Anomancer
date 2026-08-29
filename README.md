@@ -2,7 +2,7 @@
 
 Anomancer is a private, workspace-based orchestration platform with a separate public publishing surface. It separates agent contracts, orchestras, model routing, tools, artifacts, memory/archive and side-effectful operations behind explicit policy and human-approval boundaries.
 
-Current release: **1.18.5 — Live Path Verification & Canary Gate**.
+Current release: **1.18.6 — Audit Closure**.
 
 ## Architecture at a glance
 
@@ -39,12 +39,12 @@ See [`docs/README.md`](docs/README.md) and [`docs/development/repository-layout.
 
 ## Build and validation
 
-Requirements: Node.js 20+ and a Chromium-compatible browser for the browser release gates.
+Requirement: Node.js 20+. The release gate installs the exact Playwright Chromium build on first use when it is missing.
 
 ```bash
 npm ci
 npm run build
-CHROMIUM_BIN=/usr/bin/chromium npm run check
+npm run check
 ```
 
 `npm run check` also bootstraps the build, so generated deployment output does not need to be committed.
@@ -57,4 +57,4 @@ The public Core is an explicit allowlist projection. Private prompts, outputs, w
 
 ## Current release evidence
 
-See [`docs/releases/1.18.5/`](docs/releases/1.18.5/) for release, validation, live-path and canary material. The live GitHub/Vercel canary is a separate environment-specific gate from the local release validation.
+See [`docs/releases/1.18.6/`](docs/releases/1.18.6/) for the audit-closure release and validation contract. Historical live-path material remains under `docs/releases/1.18.5/`.

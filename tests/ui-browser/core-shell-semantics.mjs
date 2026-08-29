@@ -16,9 +16,9 @@ const workspaces=read('admin-workspaces.js');
 const worker=read('lahetyskone-sw.js');
 
 await test('Julkaisu ja Core ovat 16.8.4',()=>{
-  assert.equal(pkg.version,'1.18.5');
-  assert.equal(CORE_VERSION,'1.18.5');
-  assert.match(worker,/anomancer-lahetyskone-v1\.18\.5/);
+  assert.equal(pkg.version,'1.18.6');
+  assert.equal(CORE_VERSION,'1.18.6');
+  assert.match(worker,/anomancer-lahetyskone-v1\.18\.6/);
 });
 
 await test('Globaali Core Shell sisältää vain globaalit kohteet',()=>{
@@ -70,7 +70,7 @@ await test('Aineisto ja ulostulo pysyvät valitun työtilan paikallisena pintana
 await test('Julkaisunumero on siirretty työpinnasta järjestelmätietoihin',()=>{
   for(const legacy of ['16.2 ·','16.3 ·','16.7 ·','navigation shell'])assert.doesNotMatch(html,new RegExp(legacy.replace('.','\\.'),'i'));
   assert.match(html,/Järjestelmätiedot/);
-  assert.match(html,/id="systemCoreVersion">1\.18\.5/);
+  assert.match(html,/id="systemCoreVersion">1\.18\.6/);
   assert.match(html,/Työtilamalli \+ perustuslaki/);
   assert.match(html,/Yksityinen työpöytä/);
 });

@@ -19,7 +19,7 @@ export function manuscriptMarkdown(project={}){
 
 export function projectMarkdownFiles(project={}){
   const p=project.project||{},world=project.world||{},plot=project.plot||{},files=[];
-  files.push({name:'README.md',content:`# ${safe(p.title)||'Narramancer-projekti'}\n\nYksityisestä Narramancer-työtilasta viety Markdown-projektikansio. Vienti ei julkaise sisältöä verkkoon.\n`});
+  files.push({name:'README.md',content:`# ${safe(p.title)||'Romancer-projekti'}\n\nYksityisestä Romancer-työtilasta viety Markdown-projektikansio. Vienti ei julkaise sisältöä verkkoon.\n`});
   files.push({name:'project.md',content:`# Projekti\n\n**Kieli:** ${languageLabel(p.language)}\n\n${section('Premissi',p.premise)}${section('Genre / muoto',p.genre)}${section('Näkökulma',p.pointOfView)}${section('Sävy ja rytmi',p.tone)}${section('Muistiinpanot',p.notes)}`});
   files.push({name:'world.md',content:`# Maailma\n\n${section('Yleiskuva',world.summary)}${section('Säännöt',world.rules)}${section('Paikat',world.locations)}${section('Muistiinpanot',world.notes)}`});
   files.push({name:'plot.md',content:`# Juoni\n\n${section('Juonen ydin',plot.summary)}${section('Beatit / käännekohdat',plot.beats)}${section('Loppu / ratkaisu',plot.ending)}${section('Muistiinpanot',plot.notes)}`});

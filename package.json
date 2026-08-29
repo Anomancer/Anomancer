@@ -1,6 +1,6 @@
 {
   "name": "anomancer-lahetyskone",
-  "version": "1.18.5",
+  "version": "1.18.6",
   "private": true,
   "type": "module",
   "engines": {
@@ -11,7 +11,11 @@
     "new:post": "node scripts/new-post.mjs",
     "write": "node scripts/editor.mjs",
     "seo:check": "node seo-check.mjs",
-    "check": "node scripts/build-blog.mjs && node tests/release-gate.mjs",
+    "check": "node scripts/build-blog.mjs && node tests/release-gate.mjs --group=all",
+    "check:static": "node scripts/build-blog.mjs && node tests/release-gate.mjs --group=static",
+    "check:browser": "node scripts/build-blog.mjs && node tests/release-gate.mjs --group=browser",
+    "check:content": "node scripts/build-blog.mjs && node tests/release-gate.mjs --group=content",
+    "check:syntax": "node scripts/check-source.mjs",
     "admin:hash": "node scripts/hash-admin-password.mjs",
     "admin:secret": "node scripts/generate-session-secret.mjs",
     "test:admin": "node tests/content-editorial/admin.mjs",
@@ -76,6 +80,12 @@
     "test:p3-capabilities": "node tests/operations-release/capability-wiring.mjs",
     "test:p3-operations-ui": "node tests/operations-release/operation-ui.mjs",
     "test:live-path": "node tests/operations-release/live-path-verification.mjs && node tests/operations-release/live-path-ui.mjs",
-    "live:preflight": "node scripts/live-path-preflight-1185.mjs"
+    "live:preflight": "node scripts/live-path-preflight-1185.mjs",
+    "export:source": "node scripts/export-bundle.mjs source",
+    "export:deploy": "node scripts/export-bundle.mjs deploy"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.3",
+    "playwright": "1.55.0"
   }
 }

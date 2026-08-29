@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.18.6 — Audit Closure
+
+- Replaced status-only source verification with traceable verification receipts and semantic contradiction checks.
+- Migrated all 57 published sources to honest candidate state and linked them to 57 structured open claims.
+- Added reproducible static, content and browser release gates with pinned Playwright Chromium and axe coverage.
+- Raised public target and metadata sizing, added a private boot state and fixed machine-room ARIA state ownership.
+- Added URL-backed dispatch filters, sparse-language states, contextual language switching and progressive Core registries.
+- Unified visible Romancer terminology, localized technical UI labels and clarified workspace type versus instance.
+- Split current roadmap from archived history, added global public CSP and created allowlist-based source/deploy exports.
+- Replaced production process-memory contact throttling with a shared atomic rate-limit contract that fails closed.
+
+Current release evidence: `docs/releases/1.18.6/`.
+
 ## Phase 7.3 · Core hero and transmission tuning
 
 - Core hero now reuses the Home Anomancer wordmark with a compact CORE label below it.

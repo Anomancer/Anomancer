@@ -27,7 +27,7 @@ async function resolveInputs(inputs=[],workspaceId='default',context={}){
   for(const [index,raw] of inputs.entries()){
     const kind=String(raw?.kind||'inline');
     if(kind==='archive'){
-      const id=safeId(raw.id),object=archiveById.get(id);if(!object)throw Object.assign(new Error('Archive Objectia ei löytynyt Nanomancerille.'),{statusCode:404,code:'NANOMANCER_ARCHIVE_NOT_FOUND'});
+      const id=safeId(raw.id),object=archiveById.get(id);if(!object)throw Object.assign(new Error('arkisto-objektia ei löytynyt Nanomancerille.'),{statusCode:404,code:'NANOMANCER_ARCHIVE_NOT_FOUND'});
       resolved.push({descriptor:{kind:'archive-object',id:object.id,label:object.title,type:object.type,workspaceId:object.workspaceId,hash:object.integrity?.objectHash||digest(object)},value:archiveComparable(object)});continue;
     }
     if(kind==='run'){
@@ -42,7 +42,7 @@ function pairFindings(pair,labels=[]){const findings=[];if(pair.changedPaths||pa
 export async function runNanomancer({operation='compare',inputs=[],workspaceId='default',orchestraRunId='',stageId='',maxChanges=240}={}){
   const checked=validateCapabilityInvocation({pluginId:'nanomancer',operation,inputCount:inputs.length});if(!checked.ok)throw Object.assign(new Error(checked.message),{statusCode:400,code:checked.error});const plugin=checked.plugin,limit=Math.max(1,Math.min(plugin.maxChanges,Number(maxChanges)||plugin.maxChanges));
   const {resolved,contextReceipt}=await resolveInputs(inputs,workspaceId,{orchestraRunId,operation});
-  if(operation==='cross-run'&&resolved.some(x=>x.descriptor.kind!=='run-record'))throw Object.assign(new Error('Cross-run analyysi hyväksyy vain ajotietueita.'),{statusCode:400,code:'NANOMANCER_CROSS_RUN_INPUT'});
+  if(operation==='cross-run'&&resolved.some(x=>x.descriptor.kind!=='run-record'))throw Object.assign(new Error('Ajojen vertailu hyväksyy vain ajotietueita.'),{statusCode:400,code:'NANOMANCER_CROSS_RUN_INPUT'});
   const base=resolved[0],comparisons=[];for(let i=1;i<resolved.length;i++){const pair=comparePair(base.value,resolved[i].value,{maxChanges:limit,numericOnly:operation==='deviation'});comparisons.push({leftId:base.descriptor.id,rightId:resolved[i].descriptor.id,...pair});}
   const totals=comparisons.reduce((a,x)=>{for(const key of ['comparedPaths','equalPaths','changedPaths','addedPaths','removedPaths','numericChanges'])a[key]+=Number(x[key])||0;return a;},{comparedPaths:0,equalPaths:0,changedPaths:0,addedPaths:0,removedPaths:0,numericChanges:0});
   const findings=comparisons.flatMap((x,i)=>pairFindings(x,[resolved[0].descriptor.label,resolved[i+1].descriptor.label]));

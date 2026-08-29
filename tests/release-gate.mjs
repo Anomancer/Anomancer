@@ -1,4 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+
+const BROWSER_FILES=new Set([
+  'tests/full-app-e2e/admin-workspace-story.mjs','tests/ui-browser/core-roadmap.mjs','tests/archive-capabilities/nanomancer-ui.mjs','tests/mancer-codemancer/ui.mjs','tests/archive-capabilities/archive-ui.mjs','tests/mancer-codemancer/codemancer-workbench-ui.mjs','tests/archive-capabilities/archive-curator-ui.mjs','tests/ui-browser/visual-system.mjs','tests/ui-browser/native-dialogs.mjs','tests/ui-browser/accessibility-matrix.mjs'
+]);
+const CONTENT_FILES=new Set([
+  'tests/content-editorial/editorial-quality.mjs','tests/content-editorial/editorial-gate-calibration.mjs','tests/content-editorial/evidence-boundary-hygiene.mjs','tests/content-editorial/evidence-presentation.mjs','tests/content-editorial/public-ui.mjs','tests/content-editorial/public-clarity.mjs','tests/content-editorial/language-boundaries.mjs','tests/content-editorial/entity-core.mjs','tests/content-editorial/evidence-layer.mjs','tests/content-editorial/evidence-integrity.mjs','tests/content-editorial/discovery-layer.mjs','scripts/build-blog.mjs','scripts/domain-migration-check.mjs','seo-check.mjs'
+]);
 
 const STEPS = [
   [
@@ -123,6 +132,9 @@ const STEPS = [
     "tests/content-editorial/evidence-layer.mjs"
   ],
   [
+    "tests/content-editorial/evidence-integrity.mjs"
+  ],
+  [
     "tests/content-editorial/discovery-layer.mjs"
   ],
   [
@@ -174,6 +186,9 @@ const STEPS = [
     "tests/integrity-security/platform-hardening.mjs"
   ],
   [
+    "tests/integrity-security/export-allowlist.mjs"
+  ],
+  [
     "tests/ui-browser/core-roadmap.mjs"
   ],
   [
@@ -220,17 +235,37 @@ const STEPS = [
   ],
   [
     "seo-check.mjs"
+  ],
+  [
+    "scripts/check-source.mjs"
+  ],
+  [
+    "tests/ui-browser/accessibility-matrix.mjs"
   ]
 ];
 
-for (const [index,args] of STEPS.entries()) {
+const requested=(process.argv.find(arg=>arg.startsWith('--group='))||'--group=all').slice('--group='.length);
+if(!['all','static','browser','content'].includes(requested))throw new Error(`Tuntematon release gate -ryhmä: ${requested}`);
+const selected=STEPS.filter(args=>requested==='all'||requested==='browser'&&BROWSER_FILES.has(args[0])||requested==='static'&&!BROWSER_FILES.has(args[0])||requested==='content'&&CONTENT_FILES.has(args[0]));
+let browserEvidence=null;
+if(selected.some(args=>BROWSER_FILES.has(args[0]))){
+  const {chromium}=await import('playwright');let executable=chromium.executablePath();
+  if(!fs.existsSync(executable)){const install=spawnSync(process.execPath,[path.resolve('node_modules/playwright/cli.js'),'install','chromium'],{stdio:'inherit'});if(install.status!==0)process.exit(install.status||1);}
+  executable=chromium.executablePath();if(!fs.existsSync(executable))throw new Error(`Lukittua Chromiumia ei löytynyt: ${executable}`);
+  const headlessShell=executable.replace(/chromium-(\d+)[\\/]chrome-linux[\\/]chrome$/,process.platform==='win32'?'chromium_headless_shell-$1\\chrome-win\\headless_shell.exe':'chromium_headless_shell-$1/chrome-linux/headless_shell');
+  const browserExecutable=fs.existsSync(headlessShell)?headlessShell:executable;
+  process.env.CHROMIUM_BIN=browserExecutable;const version=spawnSync(browserExecutable,['--version'],{encoding:'utf8'}).stdout.trim(),playwrightVersion=JSON.parse(fs.readFileSync(path.resolve('node_modules/playwright/package.json'),'utf8')).version;browserEvidence={provider:'playwright',playwrightVersion,executable:browserExecutable,version};console.log(`\nBrowser gate: Playwright ${browserEvidence.playwrightVersion} · ${version} · ${browserExecutable}`);
+}
+
+for (const [index,args] of selected.entries()) {
   const label=args.join(' ');
-  console.log(`\n[${String(index+1).padStart(2,'0')}/${STEPS.length}] ${label}`);
+  console.log(`\n[${String(index+1).padStart(2,'0')}/${selected.length}] ${label}`);
   const result=spawnSync(process.execPath,args,{stdio:'inherit',env:process.env});
   if(result.error) throw result.error;
   if(result.status!==0){
+    fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync('test-results/release-gate-failure.json',`${JSON.stringify({failedAt:new Date().toISOString(),group:requested,step:index+1,total:selected.length,label,status:result.status,browser:browserEvidence},null,2)}\n`);
     console.error(`\nRelease gate failed: ${label}`);
     process.exit(result.status||1);
   }
 }
-console.log(`\n✓ Release gate complete: ${STEPS.length}/${STEPS.length} steps passed`);
+console.log(`\n✓ Release gate complete: ${selected.length}/${selected.length} ${requested} steps passed`);

@@ -89,7 +89,7 @@ function settleSystem(value){
 function renderSystemFields(fields=[]){
   const host=q('#coreSystemFields');if(!host)return;
   host.innerHTML=fields.map((field,index)=>{
-    const id=`coreSystemField-${index}`,type=field.type==='textarea'?'textarea':'input';
+    const id=`coreSystemField-${index}`,type=field.type==='textarea'?'textarea':field.type==='select'?'select':'input';
     const attrs=[`id="${id}"`,`data-system-field="${esc(field.name||String(index))}"`];
     if(type==='input')attrs.push(`type="${esc(field.type||'text')}"`);
     if(field.required)attrs.push('required');
@@ -97,7 +97,9 @@ function renderSystemFields(fields=[]){
     if(field.placeholder)attrs.push(`placeholder="${esc(field.placeholder)}"`);
     const control=type==='textarea'
       ?`<textarea ${attrs.join(' ')} rows="${Number(field.rows||3)}">${esc(field.value||'')}</textarea>`
-      :`<input ${attrs.join(' ')} value="${esc(field.value||'')}">`;
+      :type==='select'
+        ?`<select ${attrs.join(' ')}>${(field.options||[]).map(option=>{const value=typeof option==='string'?option:option.value,label=typeof option==='string'?option:option.label;return `<option value="${esc(value)}"${value===field.value?' selected':''}>${esc(label)}</option>`;}).join('')}</select>`
+        :`<input ${attrs.join(' ')} value="${esc(field.value||'')}">`;
     return `<label><span>${esc(field.label||field.name||'Arvo')}</span>${control}${field.hint?`<small>${esc(field.hint)}</small>`:''}</label>`;
   }).join('');
 }
@@ -117,7 +119,7 @@ function showSystem({kind='confirm',title='Vahvista toiminto',message='',details
   root.dataset.kind=kind;root.dataset.destructive=destructive?'true':'false';
   const promise=new Promise(resolve=>{systemPending={resolve,kind,fields};});
   open('system-dialog',document.activeElement);
-  const firstField=q('#coreSystemFields input,#coreSystemFields textarea');
+  const firstField=q('#coreSystemFields input,#coreSystemFields textarea,#coreSystemFields select');
   if(firstField)queueMicrotask(()=>firstField.focus({preventScroll:true}));
   return promise;
 }
@@ -141,7 +143,7 @@ register('system-dialog',{kind:'dialog',element:'#coreSystemDialog',inertSelecto
 q('#coreSystemConfirm')?.addEventListener('click',()=>{
   const root=systemRoot();if(!root)return;
   if(root.dataset.kind==='form'){
-    const invalid=[...root.querySelectorAll('#coreSystemFields input,#coreSystemFields textarea')].find(input=>!input.checkValidity());
+    const invalid=[...root.querySelectorAll('#coreSystemFields input,#coreSystemFields textarea,#coreSystemFields select')].find(input=>!input.checkValidity());
     if(invalid){invalid.reportValidity();invalid.focus();return;}
     settleSystem(collectSystemForm());
   }else settleSystem(true);

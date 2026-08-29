@@ -33,7 +33,7 @@ artifact.data.tests=[
  {id:'test-b',name:'Browser workbench gate',status:'passed',command:'node tests/mancer-codemancer/codemancer-workbench-ui.mjs',evidence:'Browser PASS'}
 ];
 artifact.data.review={summary:'Renderer-capabilityt korvaavat geneerisen CRUD-pinnan.',diff:'diff --git a/admin-mancer.js b/admin-mancer.js\n@@ renderer @@\n-old renderer\n+capability renderer',testState:'passing',decision:'approved'};
-artifact.data.release={version:'1.18.5',check:'passing',notes:'Codemancer Workbench vertical slice',humanApproval:'approved'};
+artifact.data.release={version:'1.18.6',check:'passing',notes:'Codemancer Workbench vertical slice',humanApproval:'approved'};
 artifact.data.documentation=[{id:'doc-a',title:'README',kind:'readme',body:'# Workbench\n\nCapability renderer vertical slice.\n- Human approval remains final.'}];
 
 const safe=value=>JSON.stringify(value).replace(/<\/script/gi,'<\\/script');
