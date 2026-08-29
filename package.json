@@ -95,7 +95,8 @@
     "test:lighthouse:core": "node tests/lighthouse/core.mjs",
     "test:lighthouse:depth": "node tests/lighthouse/depth-accordion.mjs",
     "test:lighthouse:responsive": "node tests/lighthouse/responsive-shell.mjs",
-    "test:lighthouse:inspector": "node tests/lighthouse/fixed-inspector.mjs"
+    "test:lighthouse:inspector": "node tests/lighthouse/fixed-inspector.mjs",
+    "test:lighthouse:responsive-qa": "node tests/lighthouse/responsive-qa.mjs"
   },
   "devDependencies": {
     "axe-core": "4.10.3",

@@ -2556,3 +2556,198 @@ summary:focus-visible{
 }
 
 /* LIGHTHOUSE 1.25.1 FIXED DESKTOP INSPECTOR END */
+
+/* LIGHTHOUSE 1.25.2 RESPONSIVE QA / MOBILE SURGERY START */
+
+/* Structural overflow hardening. */
+.work,
+#resultCard,
+.depth-inspector,
+.depth-inspector-body,
+.trust-surface,
+.workspace-surface,
+.orchestra-surface,
+.machine-surface,
+.core-surface{
+  min-width:0;
+  max-width:100%;
+}
+
+.result-card,
+.result-card *,
+.depth-inspector-body,
+.depth-inspector-body *,
+.work-chain,
+.work-chain *{
+  overflow-wrap:anywhere;
+}
+
+pre,
+code{
+  max-width:100%;
+}
+
+pre{
+  overflow:auto;
+}
+
+/* All interactive controls keep a visible keyboard focus. */
+.mobile-depth-nav button:focus-visible,
+.desktop-depth-tabs button:focus-visible,
+.depth-back:focus-visible,
+.secondary-action:focus-visible,
+.text-action:focus-visible{
+  outline:2px solid currentColor;
+  outline-offset:3px;
+}
+
+/* Compact + mobile push surfaces own their scroll naturally. */
+@media (max-width:1099px){
+  .depth-inspector,
+  .depth-inspector-body{
+    width:100%;
+    max-width:100%;
+  }
+
+  .depth-inspector-body{
+    overflow-x:hidden;
+  }
+
+  .mobile-depth-nav button{
+    min-height:52px;
+    touch-action:manipulation;
+  }
+
+  .depth-back{
+    min-width:44px;
+    min-height:44px;
+    touch-action:manipulation;
+  }
+}
+
+/* Phone ergonomics. */
+@media (max-width:719px){
+  /*
+   * Prevent mobile browser auto-zoom on form focus.
+   * Applies only to actual editable controls.
+   */
+  input,
+  textarea,
+  select{
+    font-size:16px;
+  }
+
+  button,
+  input[type="button"],
+  input[type="submit"]{
+    min-height:44px;
+  }
+
+  .mobile-depth-nav button{
+    min-height:56px;
+  }
+
+  .depth-inspector-body .machine-list,
+  .depth-inspector-body .core-list{
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:8px 12px;
+  }
+
+  .depth-inspector-body .machine-list dd,
+  .depth-inspector-body .core-list dd{
+    max-width:48vw;
+    overflow-wrap:anywhere;
+  }
+
+  .depth-inspector-body .orchestra-stage{
+    grid-template-columns:24px minmax(0,1fr);
+    gap:9px;
+  }
+
+  .depth-inspector-body .workspace-footer{
+    gap:12px;
+  }
+
+  .raw-runtime pre{
+    max-height:320px;
+  }
+}
+
+/* Very narrow phones: stop D2-D6 nav from becoming five tiny slivers. */
+@media (max-width:420px){
+  .mobile-depth-nav{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .mobile-depth-nav button{
+    min-height:58px;
+  }
+
+  .mobile-depth-nav strong{
+    font-size:.67rem;
+  }
+
+  .work{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .depth-inspector-header{
+    gap:10px;
+  }
+
+  .depth-back{
+    padding-left:11px;
+    padding-right:11px;
+  }
+
+  .depth-inspector-body .machine-overview{
+    grid-template-columns:1fr;
+  }
+
+  .depth-inspector-body .machine-list,
+  .depth-inspector-body .core-list{
+    grid-template-columns:1fr;
+    gap:3px;
+  }
+
+  .depth-inspector-body .machine-list dd,
+  .depth-inspector-body .core-list dd{
+    max-width:none;
+    margin-bottom:8px;
+    text-align:left;
+  }
+
+  .depth-inspector-body .core-trace li,
+  .depth-inspector-body .machine-tools li{
+    align-items:flex-start;
+  }
+}
+
+/* Desktop inspector remains physically stable under long content. */
+@media (min-width:1100px){
+  .depth-inspector-body{
+    overflow-x:hidden;
+  }
+
+  .depth-inspector-body .core-contracts code,
+  .depth-inspector-body .machine-fact strong,
+  .depth-inspector-body .orchestra-capabilities code{
+    overflow-wrap:anywhere;
+    white-space:normal;
+  }
+}
+
+/* Respect users who request less motion. */
+@media (prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    transition-duration:.01ms!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+  }
+}
+
+/* LIGHTHOUSE 1.25.2 RESPONSIVE QA / MOBILE SURGERY END */

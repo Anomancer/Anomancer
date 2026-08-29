@@ -630,7 +630,7 @@ function renderResult(payload,{initial=false}={}){
 
   if(initial){
     requestAnimationFrame(()=>{
-      window.scrollTo({top:0,behavior:'instant'});
+      window.scrollTo({top:0,behavior:'auto'});
       if(result.state==='needs_input')continueInput.focus({preventScroll:true});
     });
   }else if(result.state==='needs_input'){
@@ -927,7 +927,7 @@ function resetWork(){
   $('#chainList').replaceChildren();
 
   requestAnimationFrame(()=>{
-    window.scrollTo({top:0,behavior:'instant'});
+    window.scrollTo({top:0,behavior:'auto'});
     q.focus({preventScroll:true});
   });
 }
@@ -1124,6 +1124,7 @@ const mobileDepthNav=document.getElementById('mobileDepthNav');
 const desktopDepthTabs=document.getElementById('desktopDepthTabs');
 
 let selectedResponsiveDepth=null;
+let lastResponsiveDepthLauncher=null;
 
 function responsiveDepthMeta(id){
   return RESPONSIVE_DEPTHS.find(item=>item.id===id)||null;
@@ -1153,6 +1154,8 @@ function setDepthButtonState(id){
     .forEach(button=>{
       const active=button.dataset.depthTarget===id;
       button.classList.toggle('is-active',active);
+
+      button.setAttribute('aria-pressed',active?'true':'false');
 
       if(active){
         button.setAttribute('aria-current','true');
@@ -1207,7 +1210,7 @@ function showResponsiveDepth(id,{focus=false}={}){
     depthInspector.setAttribute('aria-modal','false');
 
     requestAnimationFrame(()=>{
-      window.scrollTo({top:0,behavior:'instant'});
+      window.scrollTo({top:0,behavior:'auto'});
       if(focus){
         depthBack.focus({preventScroll:true});
       }
@@ -1218,6 +1221,7 @@ function showResponsiveDepth(id,{focus=false}={}){
 }
 
 function closeResponsiveDepth({focusLauncher=false}={}){
+  const closingDepth=selectedResponsiveDepth;
   selectedResponsiveDepth=null;
   hideResponsiveDepthPanels();
 
@@ -1229,9 +1233,18 @@ function closeResponsiveDepth({focusLauncher=false}={}){
 
   if(focusLauncher && !desktopShellQuery.matches){
     requestAnimationFrame(()=>{
-      mobileDepthNav
-        ?.querySelector('button')
-        ?.focus({preventScroll:true});
+      const fallback=closingDepth
+        ?mobileDepthNav?.querySelector(
+          `[data-depth-target="${closingDepth}"]`
+        )
+        :null;
+
+      const target=
+        lastResponsiveDepthLauncher?.isConnected
+          ?lastResponsiveDepthLauncher
+          :fallback||mobileDepthNav?.querySelector('button');
+
+      target?.focus({preventScroll:true});
     });
   }
 }
@@ -1281,8 +1294,12 @@ function depthTargetFromEvent(event){
 }
 
 mobileDepthNav?.addEventListener('click',event=>{
+  const button=event.target.closest('[data-depth-target]');
   const id=depthTargetFromEvent(event);
-  if(id)showResponsiveDepth(id,{focus:true});
+  if(!id||!button)return;
+
+  lastResponsiveDepthLauncher=button;
+  showResponsiveDepth(id,{focus:true});
 });
 
 desktopDepthTabs?.addEventListener('click',event=>{
@@ -1328,3 +1345,27 @@ responsiveShellObserver.observe(work,{
 });
 
 /* LIGHTHOUSE 1.25.0 RESPONSIVE SHELL END */
+
+/* LIGHTHOUSE 1.25.2 RESPONSIVE QA START */
+
+document.addEventListener('keydown',event=>{
+  if(event.key!=='Escape')return;
+  if(desktopShellQuery.matches)return;
+  if(!work.classList.contains('depth-screen-open'))return;
+
+  event.preventDefault();
+  closeResponsiveDepth({focusLauncher:true});
+});
+
+/*
+ * If a depth launcher receives keyboard activation, remember it so focus
+ * returns to the exact control after leaving the pushed inspection screen.
+ */
+for(const button of mobileDepthNav?.querySelectorAll('[data-depth-target]')||[]){
+  button.addEventListener('focus',()=>{
+    lastResponsiveDepthLauncher=button;
+  });
+}
+
+/* LIGHTHOUSE 1.25.2 RESPONSIVE QA END */
+
