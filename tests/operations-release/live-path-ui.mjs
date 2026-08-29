@@ -25,4 +25,4 @@ test('live-polku reflowaa puhelimella yhteisen breakpointin sisällä',()=>{
   assert.match(component,/operation-live-path/);assert.match(component,/operation-evidence/);assert.match(responsive,/operation-live-path\{grid-template-columns:repeat\(2/);assert.match(responsive,/operation-evidence dl\{grid-template-columns:1fr/);
 });
 
-console.log(`\n${passed}/${passed} LIVE PATH UI 1.18.6 checks passed.`);
+console.log(`\n${passed}/${passed} LIVE PATH UI 1.18.7 checks passed.`);

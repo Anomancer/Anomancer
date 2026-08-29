@@ -4,11 +4,12 @@ Tämä tiedosto on päätöspinta, ei julkaisu- tai muutoshistoria. Toteutettu h
 
 ## Nyt
 
-- 1.18.6 — auditin sulkeminen
-  - jäljitettävä lähdevarmennus ja väite–lähde-kytkentä
-  - julkisen ja yksityisen käyttöliittymän saavutettavuus
-  - yhdellä komennolla ajettava, selaimen version lukitseva julkaisuportti
-  - lähde- ja julkaisupakettien sallittujen tiedostojen listat
+- 1.18.6 — senior-auditin sulkeminen
+  - jäljitettävä lähdevarmennus, saavutettavuusmatriisi ja lukittu julkaisuportti
+- 1.18.7 — julkisen UI/UX:n viimeistely
+  - evidenssi oletuksena kiinni ja lähdestatukset neutraalissa pinnassa
+  - hillitympi Core-typografia ja ajantasainen roadmap
+  - tiiviimpi Lähetykset-hakemisto, Admin-footer-linkit ja varmennettu Codemancer-avaus
 - Nykyinen periaate: ihmisen hyväksyntä, artefaktiraja ja työkalutoimivalta pysyvät erillisinä.
 
 ## Seuraavaksi

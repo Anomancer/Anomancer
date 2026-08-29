@@ -2,7 +2,7 @@
 
 Anomancer is a private, workspace-based orchestration platform with a separate public publishing surface. It separates agent contracts, orchestras, model routing, tools, artifacts, memory/archive and side-effectful operations behind explicit policy and human-approval boundaries.
 
-Current release: **1.18.6 — Audit Closure**.
+Current release: **1.18.7 — Public UI/UX Polish**.
 
 ## Architecture at a glance
 
@@ -57,4 +57,4 @@ The public Core is an explicit allowlist projection. Private prompts, outputs, w
 
 ## Current release evidence
 
-See [`docs/releases/1.18.6/`](docs/releases/1.18.6/) for the audit-closure release and validation contract. Historical live-path material remains under `docs/releases/1.18.5/`.
+See [`docs/releases/1.18.7/`](docs/releases/1.18.7/) for the UI/UX-polish release and validation contract. The senior audit closure remains under `docs/releases/1.18.6/`.

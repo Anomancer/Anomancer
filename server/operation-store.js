@@ -42,7 +42,7 @@ function normalizeState(raw={},workspaceId){
   return{format:OPERATION_STORE_FORMAT,coreVersion:CORE_VERSION,workspaceId:id,revision:Math.max(0,Number(raw.revision)||0),updatedAt:clean(raw.updatedAt),chainHead:clean(raw.chainHead)||'GENESIS',operations};
 }
 async function gh(workspaceId,path,options={}){
-  const{token}=cfg(workspaceId),response=await fetch(`https://api.github.com${path}`,{...options,headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${token}`,'X-GitHub-Api-Version':'2022-11-28','User-Agent':'anomancer-operation-store-v1.18.6',...(options.headers||{})}}),text=await response.text();
+  const{token}=cfg(workspaceId),response=await fetch(`https://api.github.com${path}`,{...options,headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${token}`,'X-GitHub-Api-Version':'2022-11-28','User-Agent':'anomancer-operation-store-v1.18.7',...(options.headers||{})}}),text=await response.text();
   let data=null;try{data=text?JSON.parse(text):null;}catch{data={message:text};}
   if(!response.ok)throw Object.assign(new Error(data?.message||`GitHub ${response.status}`),{statusCode:response.status===404?404:(response.status===409||response.status===422?409:502),code:`OPERATION_STORE_GITHUB_${response.status}`,githubStatus:response.status});
   return data;

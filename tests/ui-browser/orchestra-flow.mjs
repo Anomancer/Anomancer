@@ -11,4 +11,4 @@ test('desktop-flow tuntee oikean, vasemman ja alas-käännöksen',()=>{for(const
 test('mobiilitimeline koskee kaikkia orkestereita',()=>{assert.match(css,/@media\(max-width:600px\)[\s\S]*orchestra-stages::before/);assert.match(css,/orchestra-stages \.orchestra-step::before/)});
 test('focus border on korotettu kontrastiturvalliseen sävyyn',()=>assert.match(tokens,/--color-focus-border:#b4425e/));
 test('root ja public runtime-peilit ovat identtiset',()=>{for(const name of ['admin-orchestrator.js','admin-control-plane.css','admin-responsive.css','ui-tokens.css'])assert.equal(fs.readFileSync(name,'utf8'),fs.readFileSync(`public/${name}`,'utf8'),name)});
-console.log(`\n${ok}/${ok} UI flow repair 1.18.6 tests passed`);
+console.log(`\n${ok}/${ok} UI flow repair 1.18.7 tests passed`);

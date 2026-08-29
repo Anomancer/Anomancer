@@ -49,7 +49,7 @@ try{
   const evidenceManifest=JSON.parse(fs.readFileSync(path.join(ROOT,'public','evidence-manifest.json'),'utf8'));
 
   test('julkinen artikkeli näyttää ydinvastauksen',()=>{assert.match(html,/class="article-answer"/);assert.match(html,/Suora vastaus erotetaan/);});
-  test('julkinen artikkeli näyttää väitteet statuksineen',()=>{assert.match(html,/data-status="supported"/);assert.match(html,/Tuettu väite/);assert.match(html,/Tulkinta/);assert.match(html,/Avoin/);});
+  test('julkinen artikkeli pitää väitteet ja lähteet oletuksena suljetussa disclosure-elementissä',()=>{assert.match(html,/<details class="article-evidence">/);assert.doesNotMatch(html,/<details class="article-evidence"[^>]*\sopen(?:\s|=|>)/i);assert.match(html,/Näytä väitteet ja lähteet/);assert.match(html,/3 väitettä · 2 lähdettä/);assert.match(html,/data-status="supported"/);assert.match(html,/Tuettu väite/);assert.match(html,/Tulkinta/);assert.match(html,/Avoin/);});
   test('inline-oletus vie väitteen evidenssiviitteen suoraan lähteeseen',()=>{assert.match(html,/href="https:\/\/example\.org\/research"/);assert.doesNotMatch(html,/href="#source-1"/);});
   test('sources-esitystapa tuottaa pysyvän source-ankkurin ja lähderivin',()=>{
     fs.writeFileSync(FIX,serializePost({...fixture,citationMode:'sources'}));
