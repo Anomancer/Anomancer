@@ -195,6 +195,113 @@ function renderTrust(trust={}){
   $('#trustDetails').open=false;
 }
 
+function orchestrationStatusLabel(status){
+  switch(status){
+    case 'completed': return 'Valmis';
+    case 'skipped': return 'Ohitettu';
+    case 'running': return 'Käynnissä';
+    case 'failed': return 'Epäonnistui';
+    default: return 'Odottaa';
+  }
+}
+
+function renderOrchestration(orchestration={}){
+  const details=$('#orchestraDetails');
+
+  if(!orchestration||!orchestration.format){
+    details.hidden=true;
+    return;
+  }
+
+  details.hidden=false;
+  details.open=false;
+
+  $('#orchestraName').textContent=orchestration.name||'Työpolku';
+  $('#orchestraSummary').textContent=orchestration.summary||'';
+  $('#orchestraMode').textContent=
+    orchestration.mode==='direct'?'Suora':String(orchestration.mode||'Automaattinen');
+
+  const stages=Array.isArray(orchestration.stages)?orchestration.stages:[];
+  $('#orchestraStageCount').textContent=String(stages.length);
+
+  $('#orchestraStages').replaceChildren(...stages.map((stage,index)=>{
+    const li=document.createElement('li');
+    li.className='orchestra-stage';
+    li.dataset.status=stage.status||'pending';
+
+    const indexNode=document.createElement('span');
+    indexNode.className='orchestra-stage-index';
+    indexNode.textContent=String(index+1).padStart(2,'0');
+
+    const body=document.createElement('div');
+    body.className='orchestra-stage-body';
+
+    const top=document.createElement('div');
+    top.className='orchestra-stage-top';
+
+    const title=document.createElement('strong');
+    title.textContent=stage.label||stage.id||'Vaihe';
+
+    const status=document.createElement('span');
+    status.className='orchestra-stage-status';
+    status.textContent=orchestrationStatusLabel(stage.status);
+
+    top.append(title,status);
+
+    const detail=document.createElement('p');
+    detail.textContent=stage.detail||'';
+
+    body.append(top,detail);
+    li.append(indexNode,body);
+    return li;
+  }));
+
+  const capabilities=Array.isArray(orchestration.capabilities)
+    ?orchestration.capabilities
+    :[];
+
+  $('#orchestraCapabilities').replaceChildren(...capabilities.map(capability=>{
+    const li=document.createElement('li');
+
+    const id=document.createElement('code');
+    id.textContent=capability.id||'capability';
+
+    const purpose=document.createElement('p');
+    purpose.textContent=capability.purpose||capability.label||'';
+
+    li.append(id,purpose);
+    return li;
+  }));
+
+  const mancers=Array.isArray(orchestration.mancers)
+    ?orchestration.mancers
+    :[];
+
+  $('#orchestraMancers').replaceChildren(...mancers.map(mancer=>{
+    const li=document.createElement('li');
+    li.textContent=typeof mancer==='string'
+      ?mancer
+      :String(mancer?.label||mancer?.id||'Mancer');
+    return li;
+  }));
+
+  $('#orchestraMancers').hidden=!mancers.length;
+  $('#orchestraNoMancers').hidden=Boolean(mancers.length);
+  $('#orchestraNoMancers').textContent=
+    orchestration.mancerNote||
+    'Erillisiä Mancer-paketteja ei käynnistetty tässä ajossa.';
+
+  const router=orchestration.router||{};
+  $('#orchestraRouterMode').textContent=
+    router.mode==='fixed'?'Kiinteä reitti':String(router.mode||'');
+  $('#orchestraRouterReason').textContent=router.reason||'';
+
+  if(!router.reason){
+    $('#orchestraRouterReason').textContent=
+      'Reitityspäätökselle ei tallentunut erillistä perustelua.';
+  }
+}
+
 function renderResult(payload,{initial=false}={}){
   const result=payload.result||{};
   const runtime=payload.runtime||{};
@@ -225,6 +332,7 @@ function renderResult(payload,{initial=false}={}){
   continueInput.placeholder=presentation.placeholder;
 
   renderTrust(result.trust||{});
+  renderOrchestration(runtime.orchestration||{});
 
   $('#runtime').textContent=[
     `capability: ${runtime.capability||''}`,

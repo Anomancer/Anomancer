@@ -1,4 +1,8 @@
 import {normalizeIntent,normalizeWorkResult} from './contracts.js';
+import {
+  createOrchestrationPlan,
+  completeOrchestrationPlan
+} from '../orchestration/lighthouse-plan.js';
 
 const SYSTEM=`Olet Anomancer Lighthouse D0→D1 -työmoottori.
 
@@ -137,6 +141,7 @@ export async function runIntent(input,{reasoner}={}){
   ].filter(Boolean).join('\n\n');
 
   const startedAt=Date.now();
+  const orchestration=createOrchestrationPlan(intent);
 
   const response=await reasoner({
     system:SYSTEM,
@@ -150,6 +155,13 @@ export async function runIntent(input,{reasoner}={}){
     responseMeta:response?.meta||{}
   });
 
+  const durationMs=Date.now()-startedAt;
+  const completedOrchestration=completeOrchestrationPlan(orchestration,{
+    result,
+    responseMeta:response?.meta||{},
+    durationMs
+  });
+
   return {
     intent,
     result,
@@ -157,8 +169,9 @@ export async function runIntent(input,{reasoner}={}){
       capability:'llm.reasoning',
       provider:String(response?.meta?.provider||'unknown'),
       model:String(response?.meta?.model||''),
-      durationMs:Date.now()-startedAt,
-      searchedWeb:response?.meta?.searchedWeb===true
+      durationMs,
+      searchedWeb:response?.meta?.searchedWeb===true,
+      orchestration:completedOrchestration
     }
   };
 }

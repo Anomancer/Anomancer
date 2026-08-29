@@ -1155,3 +1155,270 @@ summary:focus-visible{
 }
 
 /* LIGHTHOUSE 1.21.0 D3 WORKSPACE END */
+
+/* LIGHTHOUSE 1.22.0 D4 ORCHESTRA START */
+
+.orchestra-surface{
+  border-top:1px solid #26302d;
+  margin-top:22px;
+  padding-top:18px;
+  color:#93a19c;
+}
+
+.orchestra-surface>summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  cursor:pointer;
+  color:#9fada8;
+  font-size:.84rem;
+}
+
+.orchestra-depth{
+  color:#5f706a;
+  font-size:.67rem;
+  letter-spacing:.13em;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.orchestra-content{
+  margin-top:20px;
+  padding-top:20px;
+  border-top:1px solid #222b28;
+}
+
+.orchestra-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:22px;
+  padding-bottom:20px;
+}
+
+.orchestra-kicker{
+  margin:0 0 6px;
+  color:#65756f;
+  font-size:.67rem;
+  letter-spacing:.12em;
+  font-weight:700;
+}
+
+.orchestra-header h3{
+  margin:0;
+  color:#d0d8d5;
+  font-size:1rem;
+  font-weight:650;
+}
+
+#orchestraSummary{
+  max-width:62ch;
+  margin:7px 0 0;
+  color:#778681;
+  font-size:.83rem;
+  line-height:1.5;
+}
+
+.orchestra-mode{
+  flex:none;
+  border:1px solid #34403c;
+  border-radius:999px;
+  background:#101514;
+  color:#9fada8;
+  padding:5px 9px;
+  font-size:.68rem;
+}
+
+.orchestra-section,
+.orchestra-decision{
+  padding:20px 0;
+  border-top:1px solid #222b28;
+}
+
+.orchestra-section-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:12px;
+}
+
+.orchestra-section-heading h3{
+  margin:0;
+  color:#899893;
+  font-size:.72rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.orchestra-count{
+  min-width:26px;
+  border:1px solid #303b38;
+  border-radius:999px;
+  padding:4px 8px;
+  text-align:center;
+  color:#83928d;
+  font-size:.68rem;
+}
+
+.orchestra-stages{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.orchestra-stage{
+  display:grid;
+  grid-template-columns:28px minmax(0,1fr);
+  gap:12px;
+  padding:13px 0;
+  border-top:1px solid #202825;
+}
+
+.orchestra-stage:first-child{
+  border-top:0;
+}
+
+.orchestra-stage-index{
+  padding-top:2px;
+  color:#53625c;
+  font-size:.67rem;
+}
+
+.orchestra-stage-top{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.orchestra-stage-top strong{
+  color:#c3ccc9;
+  font-size:.85rem;
+  font-weight:570;
+}
+
+.orchestra-stage-status{
+  flex:none;
+  color:#697973;
+  font-size:.68rem;
+}
+
+.orchestra-stage[data-status="completed"] .orchestra-stage-status{
+  color:#8fa89c;
+}
+
+.orchestra-stage[data-status="skipped"]{
+  opacity:.67;
+}
+
+.orchestra-stage-body p{
+  max-width:64ch;
+  margin:4px 0 0;
+  color:#6f7f79;
+  font-size:.79rem;
+  line-height:1.48;
+}
+
+.orchestra-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 28px;
+  border-top:1px solid #222b28;
+}
+
+.orchestra-grid-section{
+  border-top:0;
+}
+
+.orchestra-capabilities,
+.orchestra-mancers{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.orchestra-capabilities li{
+  padding:10px 0;
+  border-top:1px solid #202825;
+}
+
+.orchestra-capabilities li:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.orchestra-capabilities code{
+  color:#b7c4bf;
+  font:inherit;
+  font-size:.8rem;
+}
+
+.orchestra-capabilities p{
+  margin:4px 0 0;
+  color:#6d7c77;
+  font-size:.78rem;
+  line-height:1.45;
+}
+
+.orchestra-mancers li{
+  color:#b7c4bf;
+  font-size:.82rem;
+}
+
+.orchestra-empty{
+  margin:0;
+  color:#687771;
+  font-size:.79rem;
+  line-height:1.5;
+}
+
+.orchestra-decision{
+  padding-bottom:4px;
+}
+
+.orchestra-router-mode{
+  color:#62716c;
+  font-size:.68rem;
+}
+
+#orchestraRouterReason{
+  max-width:68ch;
+  margin:0;
+  color:#788782;
+  font-size:.82rem;
+  line-height:1.52;
+}
+
+.orchestra-surface+.runtime{
+  margin-top:20px;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .orchestra-surface>summary:hover{
+    color:#bdc7c3;
+  }
+}
+
+@media (max-width:520px){
+  .orchestra-surface>summary,
+  .orchestra-header{
+    align-items:flex-start;
+  }
+
+  .orchestra-grid{
+    grid-template-columns:1fr;
+    gap:0;
+  }
+
+  .orchestra-grid-section+.orchestra-grid-section{
+    border-top:1px solid #222b28;
+  }
+
+  .orchestra-stage-top{
+    align-items:flex-start;
+  }
+}
+
+/* LIGHTHOUSE 1.22.0 D4 ORCHESTRA END */
