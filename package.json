@@ -85,7 +85,7 @@
     "export:deploy": "node scripts/export-bundle.mjs deploy",
     "lab:build": "node scripts/build-lighthouse.mjs",
     "test:lighthouse": "node tests/lighthouse/construction-mode.mjs",
-    "lab": "vercel dev --port 3000"
+    "lab": "vercel dev --listen 3000"
   },
   "devDependencies": {
     "axe-core": "4.10.3",

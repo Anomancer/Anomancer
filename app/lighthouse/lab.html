@@ -37,20 +37,30 @@
         </div>
 
         <p id="status" class="status" role="status" aria-live="polite"></p>
+        <p id="doorRaccoon" class="raccoon-line" aria-hidden="true"></p>
       </form>
     </section>
   </main>
 
   <main id="work" class="work" hidden>
     <nav class="work-nav">
-      <button id="back" type="button" class="quiet">← Takaisin</button>
-      <span>D1 · TYÖ</span>
+      <button id="back" type="button" class="quiet">← Uusi työ</button>
+      <span id="workDepth">D1 · TYÖ</span>
     </nav>
 
     <article class="result-card">
-      <p class="eyebrow">TÄSSÄ ON OLENNAISIN</p>
+      <div class="result-heading">
+        <p class="eyebrow" id="resultEyebrow">TÄSSÄ ON OLENNAISIN</p>
+        <span class="state-pill" id="statePill" hidden></span>
+      </div>
+
       <h2 id="title"></h2>
       <div id="answer" class="answer"></div>
+
+      <section id="questions" class="questions" hidden>
+        <h3>Tarvitsen vielä</h3>
+        <ul id="questionList"></ul>
+      </section>
 
       <section id="next" hidden>
         <h3>Seuraavaksi</h3>
@@ -60,6 +70,25 @@
       <section id="unc" class="uncertainty" hidden>
         <h3>Epävarmuus</h3>
         <p id="uncText"></p>
+      </section>
+
+      <section class="continuation">
+        <h3 id="continueTitle">Jatka tästä</h3>
+        <form id="continueForm">
+          <label for="continueInput" class="sr-only">Jatka nykyistä työtä</label>
+          <textarea
+            id="continueInput"
+            rows="4"
+            maxlength="12000"
+            placeholder="Kirjoita jatko, tarkennus tai puuttuva tieto."></textarea>
+
+          <div class="continue-actions">
+            <button id="continueButton" type="submit" class="primary">Jatka</button>
+          </div>
+
+          <p id="workStatus" class="status" role="status" aria-live="polite"></p>
+          <p id="workRaccoon" class="raccoon-line" aria-hidden="true"></p>
+        </form>
       </section>
 
       <details class="runtime">
