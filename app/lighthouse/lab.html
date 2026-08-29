@@ -294,8 +294,77 @@
         </div>
       </details>
 
-      <details class="runtime">
-        <summary>Miten tämä tehtiin?</summary>
+      <details id="machineDetails" class="machine-surface">
+        <summary>
+          <span>Konehuone</span>
+          <span class="machine-depth">D5 · KONE</span>
+        </summary>
+
+        <div class="machine-content">
+          <section class="machine-overview">
+            <div class="machine-fact">
+              <span>Provider</span>
+              <strong id="machineProvider"></strong>
+            </div>
+
+            <div class="machine-fact">
+              <span>Malli</span>
+              <strong id="machineModel"></strong>
+            </div>
+
+            <div class="machine-fact">
+              <span>Kyvykkyys</span>
+              <strong id="machineCapability"></strong>
+            </div>
+
+            <div class="machine-fact">
+              <span>Viive</span>
+              <strong id="machineLatency"></strong>
+            </div>
+          </section>
+
+          <div class="machine-grid">
+            <section class="machine-section">
+              <h3>Tokenit</h3>
+              <dl id="machineUsage" class="machine-list"></dl>
+              <p id="machineUsageEmpty" class="machine-empty" hidden>
+                Provider ei palauttanut usage-dataa tästä ajosta.
+              </p>
+            </section>
+
+            <section class="machine-section">
+              <h3>Kustannus</h3>
+              <p id="machineCost" class="machine-value"></p>
+            </section>
+          </div>
+
+          <section class="machine-section">
+            <div class="machine-section-heading">
+              <h3>Yhteydet ja data</h3>
+            </div>
+            <ul id="machinePermissions" class="machine-permissions"></ul>
+          </section>
+
+          <section class="machine-section">
+            <div class="machine-section-heading">
+              <h3>Datavirta</h3>
+            </div>
+            <dl id="machineDataFlow" class="machine-list"></dl>
+          </section>
+
+          <section class="machine-section">
+            <div class="machine-section-heading">
+              <h3>Työkalut</h3>
+              <span id="machineToolCount" class="machine-count"></span>
+            </div>
+            <ul id="machineTools" class="machine-tools"></ul>
+            <p id="machineNoTools" class="machine-empty"></p>
+          </section>
+        </div>
+      </details>
+
+      <details class="runtime raw-runtime">
+        <summary>Raaka runtime</summary>
         <pre id="runtime"></pre>
       </details>
     </article>

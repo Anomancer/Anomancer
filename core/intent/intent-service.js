@@ -3,6 +3,7 @@ import {
   createOrchestrationPlan,
   completeOrchestrationPlan
 } from '../orchestration/lighthouse-plan.js';
+import {createMachineSnapshot} from '../runtime/lighthouse-machine.js';
 
 const SYSTEM=`Olet Anomancer Lighthouse D0→D1 -työmoottori.
 
@@ -162,6 +163,16 @@ export async function runIntent(input,{reasoner}={}){
     durationMs
   });
 
+  const machine=createMachineSnapshot({
+    intent,
+    responseMeta:{
+      ...(response?.meta||{}),
+      capability:'llm.reasoning'
+    },
+    durationMs,
+    orchestration:completedOrchestration
+  });
+
   return {
     intent,
     result,
@@ -171,7 +182,8 @@ export async function runIntent(input,{reasoner}={}){
       model:String(response?.meta?.model||''),
       durationMs,
       searchedWeb:response?.meta?.searchedWeb===true,
-      orchestration:completedOrchestration
+      orchestration:completedOrchestration,
+      machine
     }
   };
 }

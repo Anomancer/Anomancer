@@ -22,7 +22,13 @@ export async function deepseekReasoner({
       searchedWeb:response?.meta?.searchedWeb===true,
       sources:Array.isArray(response?.meta?.sources)
         ?response.meta.sources
-        :[]
+        :[],
+      tools:Array.isArray(response?.meta?.tools)
+        ?response.meta.tools
+        :[],
+      cost:response?.meta?.cost||null,
+      externalProvider:true,
+      transport:'api'
     }
   };
 }

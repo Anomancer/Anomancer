@@ -302,6 +302,132 @@ function renderOrchestration(orchestration={}){
   }
 }
 
+function machineStatusLabel(status){
+  return status==='used'?'Käytössä':'Ei käytetty';
+}
+
+function formatLatency(milliseconds){
+  const ms=Number(milliseconds)||0;
+  if(ms<1000)return `${Math.round(ms)} ms`;
+  return `${(ms/1000).toFixed(ms>=10000?1:2)} s`;
+}
+
+function renderMachine(machine={}){
+  const details=$('#machineDetails');
+
+  if(!machine||!machine.format){
+    details.hidden=true;
+    return;
+  }
+
+  details.hidden=false;
+  details.open=false;
+
+  const execution=machine.execution||{};
+  $('#machineProvider').textContent=execution.provider||'unknown';
+  $('#machineModel').textContent=execution.model||'Ei ilmoitettu';
+  $('#machineCapability').textContent=execution.capability||'Ei ilmoitettu';
+  $('#machineLatency').textContent=formatLatency(execution.latencyMs);
+
+  const usage=machine.usage||{};
+  const usageRows=[];
+
+  if(usage.inputTokens!==null&&usage.inputTokens!==undefined){
+    usageRows.push(['Syöte',String(usage.inputTokens)]);
+  }
+
+  if(usage.outputTokens!==null&&usage.outputTokens!==undefined){
+    usageRows.push(['Vastaus',String(usage.outputTokens)]);
+  }
+
+  if(usage.totalTokens!==null&&usage.totalTokens!==undefined){
+    usageRows.push(['Yhteensä',String(usage.totalTokens)]);
+  }
+
+  $('#machineUsage').replaceChildren(...usageRows.flatMap(([label,value])=>{
+    const dt=document.createElement('dt');
+    dt.textContent=label;
+
+    const dd=document.createElement('dd');
+    dd.textContent=value;
+
+    return [dt,dd];
+  }));
+
+  $('#machineUsage').hidden=!usageRows.length;
+  $('#machineUsageEmpty').hidden=Boolean(usageRows.length);
+
+  const cost=machine.cost||{};
+  $('#machineCost').textContent=cost.available
+    ?`${cost.amount} ${cost.currency}`
+    :String(cost.note||'Kustannusta ei laskettu tästä ajosta.');
+
+  const permissions=Array.isArray(machine.permissions)
+    ?machine.permissions
+    :[];
+
+  $('#machinePermissions').replaceChildren(...permissions.map(permission=>{
+    const li=document.createElement('li');
+    li.dataset.status=permission.status||'not-used';
+
+    const top=document.createElement('div');
+
+    const label=document.createElement('strong');
+    label.textContent=permission.label||permission.id||'Yhteys';
+
+    const status=document.createElement('span');
+    status.textContent=machineStatusLabel(permission.status);
+
+    top.append(label,status);
+
+    const detail=document.createElement('p');
+    detail.textContent=permission.detail||'';
+
+    li.append(top,detail);
+    return li;
+  }));
+
+  const flow=machine.dataFlow||{};
+  const flowRows=[
+    ['Työtila lähetettiin',flow.workspaceContextSent?'Kyllä':'Ei'],
+    ['Aineistoja lähetettiin',String(flow.materialsSent||0)],
+    ['Historiaviestejä lähetettiin',String(flow.historyTurnsSent||0)],
+    ['Kohde',String(flow.destination||'runtime')]
+  ];
+
+  $('#machineDataFlow').replaceChildren(...flowRows.flatMap(([label,value])=>{
+    const dt=document.createElement('dt');
+    dt.textContent=label;
+
+    const dd=document.createElement('dd');
+    dd.textContent=value;
+
+    return [dt,dd];
+  }));
+
+  const tools=Array.isArray(machine.tools)?machine.tools:[];
+  $('#machineToolCount').textContent=String(tools.length);
+
+  $('#machineTools').replaceChildren(...tools.map(tool=>{
+    const li=document.createElement('li');
+
+    const code=document.createElement('code');
+    code.textContent=tool.id||tool.label||'tool';
+
+    const status=document.createElement('span');
+    status.textContent=machineStatusLabel(tool.status);
+
+    li.append(code,status);
+    return li;
+  }));
+
+  $('#machineTools').hidden=!tools.length;
+  $('#machineNoTools').hidden=Boolean(tools.length);
+  $('#machineNoTools').textContent=
+    machine.toolSummary||
+    'Erillisiä työkaluja ei kutsuttu tässä ajossa.';
+}
+
 function renderResult(payload,{initial=false}={}){
   const result=payload.result||{};
   const runtime=payload.runtime||{};
@@ -333,6 +459,7 @@ function renderResult(payload,{initial=false}={}){
 
   renderTrust(result.trust||{});
   renderOrchestration(runtime.orchestration||{});
+  renderMachine(runtime.machine||{});
 
   $('#runtime').textContent=[
     `capability: ${runtime.capability||''}`,

@@ -90,7 +90,8 @@
     "test:lighthouse:visual": "node tests/lighthouse/visual-polish.mjs",
     "test:lighthouse:trust": "node tests/lighthouse/trust-surface.mjs",
     "test:lighthouse:workspace": "node tests/lighthouse/workspace.mjs",
-    "test:lighthouse:orchestra": "node tests/lighthouse/orchestra.mjs"
+    "test:lighthouse:orchestra": "node tests/lighthouse/orchestra.mjs",
+    "test:lighthouse:machine": "node tests/lighthouse/machine-room.mjs"
   },
   "devDependencies": {
     "axe-core": "4.10.3",
