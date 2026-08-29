@@ -28,6 +28,10 @@
           required
           placeholder="Kirjoita ongelma, tavoite tai asia jonka haluat selvittää."></textarea>
 
+        <div class="composer-meta">
+          <span>Ctrl/⌘ + Enter jatkaa</span>
+        </div>
+
         <div class="door-actions">
           <button id="go" type="submit" class="primary">Jatka</button>
         </div>
@@ -36,8 +40,15 @@
           <img class="brand-mark-footer" src="/media/brand/anomancer-mark.png" alt="">
         </div>
 
-        <p id="status" class="status" role="status" aria-live="polite"></p>
-        <p id="doorRaccoon" class="raccoon-line" aria-hidden="true"></p>
+        <div id="doorProgress" class="progress-zone" hidden>
+          <p id="status" class="status" role="status" aria-live="polite"></p>
+          <p id="doorRaccoon" class="raccoon-line" aria-hidden="true"></p>
+        </div>
+
+        <div id="doorError" class="error-box" role="alert" hidden>
+          <p id="doorErrorText"></p>
+          <button id="doorRetry" type="button" class="retry">Yritä uudelleen</button>
+        </div>
       </form>
     </section>
   </main>
@@ -45,16 +56,18 @@
   <main id="work" class="work" hidden>
     <nav class="work-nav">
       <button id="back" type="button" class="quiet">← Uusi työ</button>
-      <span id="workDepth">D1 · TYÖ</span>
+      <span>D1 · TYÖ</span>
     </nav>
 
-    <article class="result-card">
-      <div class="result-heading">
-        <p class="eyebrow" id="resultEyebrow">TÄSSÄ ON OLENNAISIN</p>
+    <article id="resultCard" class="result-card" aria-live="polite">
+      <header class="result-heading">
+        <div>
+          <p class="eyebrow" id="resultEyebrow">TÄSSÄ ON OLENNAISIN</p>
+          <h2 id="title"></h2>
+        </div>
         <span class="state-pill" id="statePill" hidden></span>
-      </div>
+      </header>
 
-      <h2 id="title"></h2>
       <div id="answer" class="answer"></div>
 
       <section id="questions" class="questions" hidden>
@@ -62,7 +75,7 @@
         <ul id="questionList"></ul>
       </section>
 
-      <section id="next" hidden>
+      <section id="next" class="result-section" hidden>
         <h3>Seuraavaksi</h3>
         <ul id="steps"></ul>
       </section>
@@ -72,24 +85,44 @@
         <p id="uncText"></p>
       </section>
 
-      <section class="continuation">
-        <h3 id="continueTitle">Jatka tästä</h3>
+      <section class="continuation" aria-labelledby="continueTitle">
+        <div class="continuation-heading">
+          <h3 id="continueTitle">Jatka tästä</h3>
+          <span id="turnCount" class="turn-count"></span>
+        </div>
+
         <form id="continueForm">
           <label for="continueInput" class="sr-only">Jatka nykyistä työtä</label>
           <textarea
             id="continueInput"
             rows="4"
             maxlength="12000"
-            placeholder="Kirjoita jatko, tarkennus tai puuttuva tieto."></textarea>
+            placeholder="Kirjoita jatko, tarkennus tai uusi kysymys tästä työstä."></textarea>
 
-          <div class="continue-actions">
+          <div class="composer-row">
+            <span class="composer-meta">Ctrl/⌘ + Enter lähettää</span>
             <button id="continueButton" type="submit" class="primary">Jatka</button>
           </div>
 
-          <p id="workStatus" class="status" role="status" aria-live="polite"></p>
-          <p id="workRaccoon" class="raccoon-line" aria-hidden="true"></p>
+          <div id="workProgress" class="progress-zone" hidden>
+            <p id="workStatus" class="status" role="status" aria-live="polite"></p>
+            <p id="workRaccoon" class="raccoon-line" aria-hidden="true"></p>
+          </div>
+
+          <div id="workError" class="error-box" role="alert" hidden>
+            <p id="workErrorText"></p>
+            <button id="workRetry" type="button" class="retry">Yritä uudelleen</button>
+          </div>
         </form>
       </section>
+
+      <details id="chainDetails" class="work-chain" hidden>
+        <summary>
+          <span>Työketju</span>
+          <span id="chainSummary" class="chain-summary"></span>
+        </summary>
+        <ol id="chainList"></ol>
+      </details>
 
       <details class="runtime">
         <summary>Miten tämä tehtiin?</summary>
