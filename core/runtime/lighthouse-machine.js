@@ -121,6 +121,16 @@ export function createMachineSnapshot({
   const tools=normalizeTools(responseMeta.tools);
   const searchedWeb=responseMeta.searchedWeb===true;
   const externalProvider=responseMeta.externalProvider===true;
+  const reasoningPasses=(Array.isArray(responseMeta.reasoningPasses)?responseMeta.reasoningPasses:[])
+    .map(pass=>({
+      phase:String(pass?.phase||'work').slice(0,40),
+      status:String(pass?.status||'completed').slice(0,40),
+      durationMs:numberOrNull(pass?.durationMs)||0,
+      provider:String(pass?.provider||'').slice(0,80),
+      model:String(pass?.model||'').slice(0,120),
+      error:String(pass?.error||'').slice(0,180)
+    }))
+    .slice(0,6);
 
   return {
     format:MACHINE_RUNTIME_FORMAT,
@@ -139,6 +149,16 @@ export function createMachineSnapshot({
 
     usage:normalizeUsage(responseMeta.usage||{}),
     cost:normalizeCost(responseMeta.cost),
+
+    reasoning:{
+      strategy:String(orchestration?.intelligence?.strategy||'direct'),
+      complexity:String(orchestration?.intelligence?.complexity||'low'),
+      taskType:String(orchestration?.intelligence?.taskType||'general'),
+      planned:orchestration?.intelligence?.planning===true,
+      reviewed:orchestration?.intelligence?.review===true,
+      passCount:reasoningPasses.length||1,
+      passes:reasoningPasses
+    },
 
     tools,
     toolSummary:tools.length

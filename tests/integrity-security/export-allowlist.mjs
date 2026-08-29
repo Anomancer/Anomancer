@@ -33,6 +33,7 @@ await test('Lighthouse-arkkitehtuuri kuuluu sekä lähde- että runtime-vientiin
     'app/lighthouse/lab.html',
     'catalog/capabilities.json',
     'core/intent/intent-service.js',
+    'core/intelligence/lighthouse-intelligence.js',
     'providers/deepseek/adapter.js',
     'tests/lighthouse/browser-e2e.mjs'
   ])assert.equal(sourceFiles.has(file),true,`source bundle missing ${file}`);
@@ -41,6 +42,7 @@ await test('Lighthouse-arkkitehtuuri kuuluu sekä lähde- että runtime-vientiin
     'api/lab/intent.js',
     'catalog/capabilities.json',
     'core/intent/intent-service.js',
+    'core/intelligence/lighthouse-intelligence.js',
     'providers/deepseek/adapter.js'
   ])assert.equal(deployFiles.has(file),true,`deploy bundle missing ${file}`);
 });

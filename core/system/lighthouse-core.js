@@ -12,6 +12,10 @@ import {
 } from '../orchestration/lighthouse-plan.js';
 
 import {
+  INTELLIGENCE_FORMAT
+} from '../intelligence/lighthouse-intelligence.js';
+
+import {
   MACHINE_RUNTIME_FORMAT
 } from '../runtime/lighthouse-machine.js';
 
@@ -99,6 +103,11 @@ export function createCoreSnapshot({
       },
       {
         layer:'D4',
+        name:'Adaptive intelligence',
+        format:INTELLIGENCE_FORMAT
+      },
+      {
+        layer:'D4',
         name:'Orchestration',
         format:ORCHESTRATION_FORMAT
       },
@@ -126,12 +135,14 @@ export function createCoreSnapshot({
     provenance:{
       resultState:String(result.state||'completed'),
       trustRecorded:Boolean(result.trust),
+      intelligenceRecorded:Boolean(orchestration?.intelligence?.format),
       orchestrationRecorded:Boolean(orchestration?.format),
       machineRuntimeRecorded:Boolean(machine?.format),
       workspaceId:String(workspace.id||''),
       traceCompleteness:{
         trust:Boolean(result.trust),
         workspace:Boolean(workspace.id),
+        intelligence:Boolean(orchestration?.intelligence?.format),
         orchestration:Boolean(orchestration?.format),
         machine:Boolean(machine?.format)
       }

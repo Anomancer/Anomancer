@@ -15,6 +15,7 @@ const LIGHTHOUSE_FILES=new Set([
   'tests/lighthouse/trust-surface.mjs',
   'tests/lighthouse/workspace.mjs',
   'tests/lighthouse/orchestra.mjs',
+  'tests/lighthouse/intelligence.mjs',
   'tests/lighthouse/machine-room.mjs',
   'tests/lighthouse/core.mjs',
   'tests/lighthouse/depth-accordion.mjs',
@@ -275,6 +276,9 @@ const STEPS = [
   ],
   [
     "tests/lighthouse/orchestra.mjs"
+  ],
+  [
+    "tests/lighthouse/intelligence.mjs"
   ],
   [
     "tests/lighthouse/machine-room.mjs"

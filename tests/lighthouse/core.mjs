@@ -94,6 +94,11 @@ assert.ok(
     contract=>contract.format==='anomancer-core-snapshot/v1'
   )
 );
+assert.ok(
+  locked.contracts.some(
+    contract=>contract.format==='anomancer-lighthouse-intelligence/v1'
+  )
+);
 
 assert.equal(locked.boundaries.externalProviderUsed,true);
 assert.equal(locked.boundaries.webSearchUsed,false);

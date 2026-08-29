@@ -16,7 +16,7 @@ const workspaces=read('admin-workspaces.js');
 const worker=read('lahetyskone-sw.js');
 
 await test('Julkaisu ja Core ovat 16.8.4',()=>{
-  assert.equal(pkg.version,'1.19.0-lighthouse.1');
+  assert.equal(pkg.version,'1.19.0-lighthouse.2');
   assert.equal(CORE_VERSION,'1.18.7');
   assert.match(worker,/anomancer-lahetyskone-v1\.18\.7/);
 });

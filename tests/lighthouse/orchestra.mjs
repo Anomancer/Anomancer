@@ -37,7 +37,7 @@ const plan=createOrchestrationPlan({
 });
 
 assert.equal(plan.mode,'direct');
-assert.equal(plan.router.mode,'fixed');
+assert.equal(plan.router.mode,'adaptive');
 assert.equal(plan.capabilities[0].id,'llm.reasoning');
 assert.equal(plan.mancers.length,0);
 assert.equal(
@@ -91,6 +91,8 @@ const run=await runIntent({
 
 assert.equal(run.runtime.orchestration.format,'anomancer-orchestration/v1');
 assert.equal(run.runtime.orchestration.mode,'direct');
+assert.equal(run.runtime.orchestration.router.mode,'adaptive');
+assert.equal(run.runtime.orchestration.intelligence.strategy,'direct');
 assert.equal(run.runtime.orchestration.mancers.length,0);
 assert.equal(
   run.runtime.orchestration.stages

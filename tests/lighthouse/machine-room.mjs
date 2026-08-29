@@ -18,6 +18,9 @@ for(const id of [
   'machineCost',
   'machinePermissions',
   'machineDataFlow',
+  'machineReasoning',
+  'machineReasoningCount',
+  'machineReasoningPasses',
   'machineTools'
 ]){
   assert.match(html,new RegExp(`id="${id}"`),id);
@@ -67,6 +70,8 @@ assert.equal(snapshot.execution.provider,'deepseek');
 assert.equal(snapshot.execution.model,'deepseek-v4-flash');
 assert.equal(snapshot.execution.capability,'llm.reasoning');
 assert.equal(snapshot.execution.latencyMs,2345);
+assert.equal(snapshot.reasoning.strategy,'direct');
+assert.equal(snapshot.reasoning.passCount,1);
 
 assert.equal(snapshot.usage.available,true);
 assert.equal(snapshot.usage.inputTokens,100);

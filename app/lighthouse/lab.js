@@ -224,6 +224,18 @@ function renderOrchestration(orchestration={}){
   $('#orchestraMode').textContent=
     orchestration.mode==='direct'?'Suora':String(orchestration.mode||'Automaattinen');
 
+  const intelligence=orchestration.intelligence||{};
+  const taskLabels={
+    general:'Yleinen',debug:'Debug',audit:'Auditointi',compare:'Vertailu',
+    plan:'Suunnittelu',research:'Tutkimus',write:'Kirjoitus',transform:'Muunnos'
+  };
+  const complexityLabels={low:'Kevyt',medium:'Keskitaso',high:'Vaativa'};
+  const strategyLabels={direct:'Suora',planned:'Suunniteltu',reviewed:'Tarkistettu'};
+  $('#orchestraTaskType').textContent=taskLabels[intelligence.taskType]||String(intelligence.taskType||'Yleinen');
+  $('#orchestraComplexity').textContent=complexityLabels[intelligence.complexity]||String(intelligence.complexity||'Kevyt');
+  $('#orchestraStrategy').textContent=strategyLabels[intelligence.strategy]||String(intelligence.strategy||'Suora');
+  $('#orchestraPasses').textContent=`${Number(intelligence.passes)||1} kierrosta`;
+
   const stages=Array.isArray(orchestration.stages)?orchestration.stages:[];
   $('#orchestraStageCount').textContent=String(stages.length);
 
@@ -296,7 +308,7 @@ function renderOrchestration(orchestration={}){
 
   const router=orchestration.router||{};
   $('#orchestraRouterMode').textContent=
-    router.mode==='fixed'?'Kiinteä reitti':String(router.mode||'');
+    router.mode==='adaptive'?'Adaptiivinen reitti':router.mode==='fixed'?'Kiinteä reitti':String(router.mode||'');
   $('#orchestraRouterReason').textContent=router.reason||'';
 
   if(!router.reason){
@@ -331,6 +343,39 @@ function renderMachine(machine={}){
   $('#machineModel').textContent=execution.model||'Ei ilmoitettu';
   $('#machineCapability').textContent=execution.capability||'Ei ilmoitettu';
   $('#machineLatency').textContent=formatLatency(execution.latencyMs);
+
+  const reasoning=machine.reasoning||{};
+  const reasoningRows=[
+    ['Tehtävä',String(reasoning.taskType||'general')],
+    ['Vaativuus',String(reasoning.complexity||'low')],
+    ['Strategia',String(reasoning.strategy||'direct')]
+  ];
+  $('#machineReasoning').replaceChildren(...reasoningRows.flatMap(([label,value])=>{
+    const dt=document.createElement('dt');
+    dt.textContent=label;
+    const dd=document.createElement('dd');
+    dd.textContent=value;
+    return [dt,dd];
+  }));
+  const reasoningPasses=Array.isArray(reasoning.passes)?reasoning.passes:[];
+  $('#machineReasoningCount').textContent=String(reasoning.passCount||reasoningPasses.length||1);
+  $('#machineReasoningPasses').replaceChildren(...reasoningPasses.map((pass,index)=>{
+    const li=document.createElement('li');
+    li.dataset.status=pass.status||'completed';
+    const top=document.createElement('div');
+    const name=document.createElement('strong');
+    const labels={plan:'Suunnittelu',work:'Päättely',review:'Tarkistus'};
+    name.textContent=`${String(index+1).padStart(2,'0')} · ${labels[pass.phase]||pass.phase||'Päättely'}`;
+    const time=document.createElement('span');
+    time.textContent=formatLatency(pass.durationMs);
+    top.append(name,time);
+    const meta=document.createElement('p');
+    meta.textContent=pass.status==='failed'
+      ?`Epäonnistui: ${pass.error||'tuntematon virhe'}`
+      :[pass.provider,pass.model].filter(Boolean).join(' · ')||'Runtime';
+    li.append(top,meta);
+    return li;
+  }));
 
   const usage=machine.usage||{};
   const usageRows=[];

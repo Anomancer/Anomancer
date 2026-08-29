@@ -4,8 +4,8 @@ Anomancer is a private, workspace-based orchestration platform with a separate p
 
 Current release: **1.18.7 — Public UI/UX Polish**.
 
-Active construction branch: **1.19.0-lighthouse.1 — Lighthouse Architecture**.
-The public Core stays at 1.18.7 while the local-first D0–D6 Lab is validated.
+Active construction branch: **1.19.0-lighthouse.2 — Lighthouse Architecture**.
+The public Core stays at 1.18.7 while the local-first D0–D6 Lab and adaptive reasoning path are validated.
 
 ## Architecture at a glance
 
@@ -31,7 +31,7 @@ Codemancer is the current reference Mancer package. It proves that a domain work
 - `server/` — server-authoritative Core, stores, registries and domain services
 - `api/` — thin Vercel HTTP entry adapters
 - `app/lighthouse/` — local-first D0–D6 Lighthouse UI
-- `core/` — Lighthouse intent, orchestration, runtime and policy contracts
+- `core/` — Lighthouse intent, adaptive intelligence, orchestration, runtime and policy contracts
 - `catalog/` — capability declarations
 - `providers/` — provider adapters behind capability boundaries
 - `mancers/` — package-defined domain workbenches
@@ -70,4 +70,4 @@ The public Core is an explicit allowlist projection. Private prompts, outputs, w
 See [`docs/releases/1.18.7/`](docs/releases/1.18.7/) for the UI/UX-polish release and validation contract. The senior audit closure remains under `docs/releases/1.18.6/`.
 
 Lighthouse prerelease evidence lives under
-[`docs/releases/1.19.0-lighthouse.1/`](docs/releases/1.19.0-lighthouse.1/).
+[`docs/releases/1.19.0-lighthouse.2/`](docs/releases/1.19.0-lighthouse.2/).

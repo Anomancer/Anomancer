@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.19.0-lighthouse.2 — Adaptive Intelligence
+
+- Added deterministic intent profiling for task type, complexity, planning need, review need and side-effect intent.
+- Replaced the fixed single-pass Lighthouse route with adaptive direct, planned and reviewed reasoning strategies.
+- Added a bounded planning pass for non-trivial work and a second-pass result review for high-complexity, debug, audit and comparison tasks.
+- Made planning and review fail soft: a failed auxiliary pass is recorded in provenance while the usable work result can still continue.
+- Aggregated token usage and per-pass runtime metadata across the reasoning path and exposed the path in D4 Orchestra and D5 Machine Room.
+- Added the adaptive-intelligence contract to Core provenance without changing human-final-authority or external side-effect boundaries.
+- Added Lighthouse intelligence regression coverage for 1-pass, 3-pass and degraded fallback behavior.
+
 ## 1.19.0-lighthouse.1 — Lighthouse Construction Mode
 
 - Added the D0–D6 Lighthouse Lab flow: Door, Work, Trust, Workspace, Orchestra, Machine and Core.

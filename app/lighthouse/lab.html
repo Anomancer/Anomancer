@@ -259,6 +259,18 @@
             <span id="orchestraMode" class="orchestra-mode">Suora</span>
           </header>
 
+          <section class="orchestra-intelligence" aria-labelledby="orchestraIntelligenceTitle">
+            <div class="orchestra-section-heading">
+              <h2 id="orchestraIntelligenceTitle">Älyprofiili</h2>
+              <span id="orchestraPasses" class="orchestra-count"></span>
+            </div>
+            <dl class="orchestra-intelligence-grid">
+              <div><dt>Tehtävä</dt><dd id="orchestraTaskType"></dd></div>
+              <div><dt>Vaativuus</dt><dd id="orchestraComplexity"></dd></div>
+              <div><dt>Strategia</dt><dd id="orchestraStrategy"></dd></div>
+            </dl>
+          </section>
+
           <section class="orchestra-section">
             <div class="orchestra-section-heading">
               <h2>Vaiheet</h2>
@@ -321,6 +333,15 @@
               <span>Viive</span>
               <strong id="machineLatency"></strong>
             </div>
+          </section>
+
+          <section class="machine-section machine-reasoning-section">
+            <div class="machine-section-heading">
+              <h2>Päättelypolku</h2>
+              <span id="machineReasoningCount" class="machine-count"></span>
+            </div>
+            <dl id="machineReasoning" class="machine-list"></dl>
+            <ol id="machineReasoningPasses" class="machine-reasoning-passes"></ol>
           </section>
 
           <div class="machine-grid">
