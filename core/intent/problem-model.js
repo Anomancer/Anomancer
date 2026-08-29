@@ -4,6 +4,9 @@ export const PROBLEM_MODEL_FORMAT='anomancer-problem-model/v1';
 
 const DOMAIN_RULES=[
   ['software',/(?:\bkoodi\w*|\bcode\b|repo\w*|github|vercel|css\b|javascript|typescript|node\b|api\b|bugi\w*|debug|testi\w*|arkkitehtuur\w*|(?:^|[\s`'"(])[A-Za-z0-9._@+-]+(?:\/[A-Za-z0-9._@+-]+)+\.(?:js|mjs|cjs|ts|tsx|jsx|json|css|html|sh)\b)/i],
+
+  ['market',/(?:markkina\w*|osake\w*|sijoitu\w*|pörssi\w*|krypto\w*|bitcoin|ethereum|volatil\w*|likvidit\w*|sentiment\w*|fundament\w*|treida\w*|trading\b)/i],
+  ['data',/(?:\bdata\w*|\bcsv\b|\bdataset\w*|tauluk\w*|tilasto\w*|korrelaatio\w*|regressio\w*|aikasarj\w*|visualis\w*|kuvaaj\w*|diagram\w*|poikkeama\w*|anomal\w*)/i],
   ['narrative',/(?:\bromancer\w*|\bnarramancer\w*|romaani\w*|novelli\w*|tarina\w*|käsikirjoitu\w*|hahmo\w*|juoni\w*|kaanon\w*|kohtau\w*|luku\w*|jatkuvu\w*|maailmanrakenn\w*)/i],
   ['editorial',/(?:toimituskone\w*|lähetyskone\w*|toimituks\w*|anomancer(?:in)?\s+lähety\w*|artikkeli\w*|blogi\w*|postaus\w*|väite\w*|evidens\w*)/i],
   ['document',/(?:asiakirj\w*|kirje\w*|pdf\b|sopimu\w*|tarjou\w*|dokument\w*)/i],
@@ -25,11 +28,53 @@ function unique(values){
 
 function needsFor({taskType,domain,hasMaterials,text,externalActionRequested=false}){
   const needs=['llm.reasoning'];
+  const rawText=String(text||'');
+  const wantsAcademic=/(?:tutkimuspaper\w*|paper\w*|akateemi\w*|vertaisarvio\w*|peer[- ]?review|doi\b|arxiv|pubmed|menetelm\w*)/i.test(rawText);
+  const wantsNews=/(?:uutis\w*|ajankoht\w*|tuore\w*|uusin\w*|latest\b|today\b|tänään|viime päiv\w*|viime viik\w*)/i.test(rawText);
+  const wantsBiasCheck=/(?:vinouma\w*|bias\b|puolueell\w*|agenda\w*|intress\w*)/i.test(rawText);
+  const wantsVisualization=/(?:visualis\w*|kuvaaj\w*|diagram\w*|chart\b|plot\b|graafi\w*)/i.test(rawText);
+  const wantsAnomalies=/(?:poikkeama\w*|anomali\w*|outlier\w*)/i.test(rawText);
+  const wantsTimeseries=/(?:aikasarj\w*|trend\w*|kausivaiht\w*|seasonal\w*|time[- ]?series)/i.test(rawText);
+  const wantsEnsemble=/(?:monimalli\w*|useita\s+(?:eri\s+)?(?:kieli)?malleja|mallikonsensus\w*|mallien\s+erimielis\w*|kielimallien\s+vertail\w*|(?:kahd|kolm|nelj|viid|kuud|seitsem|kahdeks|yhdeks)\w*\s+(?:eri\s+)?kielimall\w*|\b[2-9]\s+(?:eri\s+)?kielimall\w*|eri\s+kielimall\w*)/i.test(rawText);
 
   if(hasMaterials)needs.push('document.read');
   if(/https:\/\//i.test(String(text||'')))needs.push('web.fetch');
   if(domain==='software'&&['debug','audit','plan'].includes(taskType))needs.push('repository.read');
   if(domain==='software'&&externalActionRequested)needs.push('repository.read','repository.propose','repository.write');
+
+
+  if(domain==='research'){
+    needs.push(
+      'source.search','source.rank','source.crosscheck','source.primary.find',
+      'source.recency.check','research.synthesize','research.gap.detect'
+    );
+    if(wantsAcademic)needs.push('academic.search','research.method.inspect');
+    if(wantsNews)needs.push('news.search');
+    if(wantsBiasCheck)needs.push('source.bias.inspect');
+  }
+
+  if(domain==='data'){
+    needs.push('data.profile','data.analyze','statistics.describe','statistics.uncertainty');
+    if(taskType==='compare')needs.push('data.compare');
+    if(wantsVisualization)needs.push('data.visualize');
+    if(wantsAnomalies)needs.push('data.anomaly.detect');
+    if(wantsTimeseries)needs.push('timeseries.analyze');
+  }
+
+  if(domain==='market'){
+    needs.push(
+      'source.search','news.search','source.rank','source.crosscheck','source.recency.check',
+      'market.snapshot','market.sentiment','market.volatility','market.liquidity',
+      'market.risk','market.scenario','statistics.uncertainty','evidence.trace'
+    );
+    if(wantsAcademic)needs.push('academic.search');
+    if(wantsBiasCheck)needs.push('source.bias.inspect');
+    if(taskType==='compare')needs.push('comparison');
+  }
+
+  if(wantsEnsemble){
+    needs.push('model.compare','model.disagreement','model.merge','uncertainty.calibrate');
+  }
 
   if(domain==='editorial'){
     if(taskType==='plan')needs.push('editorial.plan','claims.inspect','evidence.map','publication.prepare');
@@ -57,7 +102,13 @@ function needsFor({taskType,domain,hasMaterials,text,externalActionRequested=fal
       needs.push('comparison','risk.analysis','evidence.trace');
       break;
     case 'research':
-      needs.push('research.search','evidence.validate','contradiction.check','evidence.trace');
+      needs.push(
+        'source.search','source.rank','source.crosscheck',
+        'research.synthesize','research.gap.detect',
+        'evidence.validate','contradiction.check','evidence.trace'
+      );
+      if(wantsAcademic)needs.push('academic.search','research.method.inspect');
+      if(wantsNews)needs.push('news.search');
       break;
     case 'write':
       needs.push('llm.writer');

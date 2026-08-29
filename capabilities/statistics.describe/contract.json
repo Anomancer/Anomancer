@@ -1,0 +1,18 @@
+{
+  "format": "anomancer-capability-contract/v1",
+  "capabilityId": "statistics.describe",
+  "summary": "Tulkitsee aineiston keskeisiä jakaumia ja tunnuslukuja käytettävissä olevasta datasta.",
+  "inputs": [
+    "user_text",
+    "workspace_materials",
+    "work_history"
+  ],
+  "outputs": [
+    "descriptive_statistics"
+  ],
+  "guarantees": [
+    "Ei väitä käyttäneensä lähteitä tai dataa joita runtime ei toimittanut.",
+    "Ei suorita ulkoisia sivuvaikutuksia.",
+    "Pitää olennaisen epävarmuuden näkyvänä."
+  ]
+}

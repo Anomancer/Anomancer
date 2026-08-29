@@ -103,7 +103,8 @@
     "test:lighthouse:routing": "node tests/lighthouse/intent-routing.mjs",
     "test:lighthouse:ux": "node tests/lighthouse/ux-architecture-v2.mjs",
     "test:lighthouse:hands": "node tests/lighthouse/hands.mjs",
-    "test:lighthouse:actuator": "node tests/lighthouse/actuator.mjs"
+    "test:lighthouse:actuator": "node tests/lighthouse/actuator.mjs",
+    "test:lighthouse:compute": "node scripts/sync-capability-packages.mjs && node tests/lighthouse/compute-task-graph.mjs"
   },
   "devDependencies": {
     "axe-core": "4.10.3",

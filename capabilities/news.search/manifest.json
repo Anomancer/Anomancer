@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "news.search",
+  "name": "Ajankohtaislähteiden haku",
+  "version": "1.0.0",
+  "purpose": "Etsii tuoreita uutis- ja ajankohtaislähteitä.",
+  "providerClass": "source",
+  "mode": "runtime-tool",
+  "routing": "read-only",
+  "availability": "runtime"
+}

@@ -18,6 +18,7 @@ const LIGHTHOUSE_FILES=new Set([
   'tests/lighthouse/intelligence.mjs',
   'tests/lighthouse/ux-architecture-v2.mjs',
   'tests/lighthouse/intent-routing.mjs',
+  'tests/lighthouse/compute-task-graph.mjs',
   'tests/lighthouse/hands.mjs',
   'tests/lighthouse/actuator.mjs',
   'tests/lighthouse/machine-room.mjs',
@@ -286,6 +287,9 @@ const STEPS = [
   ],
   [
     "tests/lighthouse/intent-routing.mjs"
+  ],
+  [
+    "tests/lighthouse/compute-task-graph.mjs"
   ],
   [
     "tests/lighthouse/ux-architecture-v2.mjs"

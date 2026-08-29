@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "research.synthesize",
+  "name": "Tutkimussynteesi",
+  "version": "1.0.0",
+  "purpose": "Yhdistää useiden lähteiden olennaiset havainnot ilman että erimielisyydet katoavat.",
+  "providerClass": "research",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

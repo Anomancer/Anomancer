@@ -11,6 +11,14 @@ const LABELS={
   general:['Suora työ','Ratkaistaan nykyinen tavoite mahdollisimman suoraviivaisesti.']
 };
 
+const SEARCH_CAPABILITIES=new Set([
+  'research.search','source.search','academic.search','news.search'
+]);
+const ENSEMBLE_CAPABILITIES=new Set([
+  'model.compare','model.disagreement','model.merge','uncertainty.calibrate'
+]);
+
+
 function workspaceFor(problem={}){
   if(problem.domain==='software'&&['debug','audit','plan'].includes(problem.taskType)){
     return {id:'codemancer',label:'Ohjelmistotyötila'};
@@ -23,13 +31,14 @@ function workspaceFor(problem={}){
 export function recommendWork({problem={},profile={},capabilities={}}={}){
   const [title,summary]=LABELS[problem.taskType]||LABELS.general;
   const unresolved=Array.isArray(capabilities.unresolved)?capabilities.unresolved:[];
-  const hasSearchGap=unresolved.some(item=>item.id==='research.search');
+  const hasSearchGap=unresolved.some(item=>SEARCH_CAPABILITIES.has(item.id));
+  const hasEnsembleGap=unresolved.some(item=>ENSEMBLE_CAPABILITIES.has(item.id));
   const hasRepoGap=unresolved.some(item=>item.id==='repository.read');
   const hasWriteGap=unresolved.some(item=>item.id==='repository.propose'||item.id==='repository.write');
   const matched=Array.isArray(capabilities.matched)?capabilities.matched:[];
   const matchedIds=new Set(matched.map(item=>item.id));
   const dataNotice=[
-    matchedIds.has('research.search')?'Hakukysely lähetetään hakupalvelulle ja hakutulokset välitetään mallikontekstiin.':'',
+    [...SEARCH_CAPABILITIES].some(id=>matchedIds.has(id))?'Hakukysely voidaan lähettää hakupalvelulle ja hakutulokset välitetään mallikontekstiin.':'',
     matchedIds.has('web.fetch')?'Nimeämäsi julkinen verkkosivu luetaan ja sen tekstisisältö välitetään mallikontekstiin.':'',
     matchedIds.has('repository.read')?'Nimeämäsi repository-tiedostot voidaan lukea GitHub-yhteydellä ja välittää mallikontekstiin.':''
   ].filter(Boolean).join(' ');
@@ -43,7 +52,8 @@ export function recommendWork({problem={},profile={},capabilities={}}={}){
     workspace:workspaceFor(problem),
     requiresApproval:profile.externalActionRequested===true,
     limitations:[
-      ...(hasSearchGap?['Verkkohaku ei ole käytettävissä tässä ympäristössä.']:[]),
+      ...(hasSearchGap?['Yksi tai useampi pyydetty lähdehaku ei ole käytettävissä tässä ympäristössä.']:[]),
+      ...(hasEnsembleGap?['Monimalliajo on määritelty kyvykkyydeksi, mutta ensemble-runtime ei ole vielä käytettävissä.']:[]),
       ...(hasRepoGap?['Repository-yhteys ei ole käytettävissä tässä ympäristössä, joten kooditiedostoja ei voida lukea automaattisesti.']:[]),
       ...(problem.constraints?.externalSideEffectsRequested&&hasWriteGap?['Kirjoittava repository-portti ei ole käytettävissä tässä ympäristössä. Ehdotus voidaan silti analysoida ilman muutosta.']:[])
     ],

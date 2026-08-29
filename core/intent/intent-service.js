@@ -15,6 +15,7 @@ import {
 } from '../orchestration/lighthouse-plan.js';
 import {createMachineSnapshot} from '../runtime/lighthouse-machine.js';
 import {buildCapabilityRoute} from '../runtime/capability-router.js';
+import {buildTaskGraph} from '../runtime/task-graph.js';
 import {MUTATION_PROPOSAL_SYSTEM,MUTATION_RUNTIME_FORMAT,normalizeMutationProposal} from '../mutation/proposal.js';
 import {
   createCoreSnapshot,
@@ -118,6 +119,7 @@ function routeForIntent(intent,{availability={}}={}){
   const recommendation=recommendWork({problem,profile,capabilities});
   const authority=authorityForIntent({profile,capabilities});
   const capabilityRoute=buildCapabilityRoute({problem,resolution:capabilities,recommendation});
+  const taskGraph=buildTaskGraph({problem,capabilityRoute});
 
   return {
     profile,
@@ -125,7 +127,8 @@ function routeForIntent(intent,{availability={}}={}){
     capabilities,
     recommendation,
     authority,
-    capabilityRoute
+    capabilityRoute,
+    taskGraph
   };
 }
 
@@ -143,6 +146,7 @@ export function previewIntent(input,{availability={}}={}){
     recommendation:route.recommendation,
     authority:route.authority,
     capabilityRoute:route.capabilityRoute,
+    taskGraph:route.taskGraph,
     intelligence:route.profile
   };
 }
@@ -268,6 +272,8 @@ function aggregateMeta(passes=[],hands={}){
     externalReadUsed:hands.externalReadUsed===true,
     webFetchUsed:hands.webFetchUsed===true,
     repositoryReadUsed:hands.repositoryReadUsed===true,
+    computeUsed:hands.computeUsed===true,
+    computeArtifacts:Array.isArray(hands.computeArtifacts)?hands.computeArtifacts.length:0,
     capabilityEvents:Array.isArray(hands.events)?hands.events:[],
     mancers:Array.isArray(hands.mancers)?hands.mancers:[],
     capabilityFailures:Array.isArray(hands.failures)?hands.failures:[],
@@ -344,9 +350,10 @@ export async function runIntent(input,{reasoner,availability={},capabilityExecut
   const startedAt=Date.now();
   const route=routeForIntent(intent,{availability});
   const capabilityRoute=route.capabilityRoute;
-  let hands={format:'anomancer-hands-execution/v1',events:[],context:[],sources:[],tools:[],mancers:[],failures:[],searchedWeb:false,searchQuerySent:false,webFetchUsed:false,repositoryReadUsed:false,externalReadUsed:false,durationMs:0};
+  const taskGraph=route.taskGraph;
+  let hands={format:'anomancer-hands-execution/v1',events:[],context:[],sources:[],tools:[],mancers:[],failures:[],searchedWeb:false,searchQuerySent:false,webFetchUsed:false,repositoryReadUsed:false,computeUsed:false,computeArtifacts:[],taskGraph,externalReadUsed:false,durationMs:0};
   if(typeof capabilityExecutor==='function'){
-    hands=await capabilityExecutor({intent,route,capabilityRoute});
+    hands=await capabilityExecutor({intent,route,capabilityRoute,taskGraph});
   }
   const runtimeContext=handsText(hands);
   const intelligence=route.profile;
@@ -484,6 +491,7 @@ UUSINTAYRITYS: Palauta vain pyydetty JSON-rakenne. Pidä vastaus tiiviinä ja v�
   const responseMeta=aggregateMeta(passes,hands);
   responseMeta.mutationProposed=Boolean(mutationProposal);
   responseMeta.mutationProposalFiles=mutationProposal?.files?.length||0;
+  responseMeta.taskGraph=taskGraph.summary;
   const result=runtimeGroundTrust(normalized,{intent,responseMeta});
   const durationMs=Date.now()-startedAt;
   const completedOrchestration=completeOrchestrationPlan(orchestration,{
@@ -525,7 +533,8 @@ UUSINTAYRITYS: Palauta vain pyydetty JSON-rakenne. Pidä vastaus tiiviinä ja v�
         capabilities:route.capabilities,
         recommendation:route.recommendation,
         authority:route.authority,
-        capabilityRoute
+        capabilityRoute,
+        taskGraph
       },
       hands,
       mutation:{

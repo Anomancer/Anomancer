@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 import {previewIntent,runIntent} from '../../core/intent/intent-service.js';
-import {executeLighthouseHands} from '../../server/lighthouse-hands.js';
+import {capabilityAvailability,executeLighthouseHands} from '../../server/lighthouse-hands.js';
 import {lighthouseRepositoryRef} from '../../server/github.js';
 
 const html=fs.readFileSync('app/lighthouse/lab.html','utf8');
@@ -34,15 +34,59 @@ assert.ok(urlPreview.capabilityRoute.readOnly.includes('web.fetch'));
 
 const researchLocked=previewIntent({
   text:'Tutki uusimmat muutokset aiheesta ja varmista lähteistä.'
-},{availability:{'research.search':false}});
-assert.ok(researchLocked.capabilities.unresolved.some(item=>item.id==='research.search'));
-assert.match(researchLocked.recommendation.limitations.join(' '),/verkkohaku/i);
+},{availability:{'source.search':false}});
+assert.ok(researchLocked.capabilities.unresolved.some(item=>item.id==='source.search'));
+assert.match(researchLocked.recommendation.limitations.join(' '),/(?:lähdehaku|verkkohaku)/i);
 
 const researchReady=previewIntent({
   text:'Tutki uusimmat muutokset aiheesta ja varmista lähteistä.'
-},{availability:{'research.search':true}});
-assert.ok(researchReady.capabilities.matched.some(item=>item.id==='research.search'));
-assert.ok(researchReady.capabilityRoute.readOnly.includes('research.search'));
+},{availability:{'source.search':true}});
+assert.ok(researchReady.capabilities.matched.some(item=>item.id==='source.search'));
+assert.ok(researchReady.capabilityRoute.readOnly.includes('source.search'));
+
+
+const packageAvailability=capabilityAvailability({BRAVE_SEARCH_API_KEY:'test-key'});
+assert.equal(packageAvailability['source.search'],true);
+assert.equal(packageAvailability['academic.search'],true);
+assert.equal(packageAvailability['news.search'],true);
+assert.notEqual(packageAvailability['model.compare'],true);
+
+const originalFetch=globalThis.fetch;
+const originalBraveKey=process.env.BRAVE_SEARCH_API_KEY;
+process.env.BRAVE_SEARCH_API_KEY='test-key';
+globalThis.fetch=async(url,options={})=>{
+  if(String(url).startsWith('https://api.search.brave.com/res/v1/web/search')){
+    return new Response(JSON.stringify({
+      web:{results:[
+        {url:'https://example.test/source-a',title:'Source A',description:'Relevant evidence A'},
+        {url:'https://example.test/source-b',title:'Source B',description:'Relevant evidence B'}
+      ]}
+    }),{
+      status:200,
+      headers:{'Content-Type':'application/json'}
+    });
+  }
+  return originalFetch(url,options);
+};
+
+try{
+  const packageSearchHands=await executeLighthouseHands({
+    intent:{text:'Etsi lähteet tästä ilmiöstä',workspace:{materials:[]}},
+    route:{problem:{domain:'research'},recommendation:{}},
+    capabilityRoute:{readOnly:['source.search']}
+  });
+  assert.equal(packageSearchHands.searchedWeb,true);
+  assert.ok(packageSearchHands.events.some(
+    event=>event.id==='source.search'&&event.status==='completed'&&event.adapter==='search.web'
+  ));
+  assert.ok(packageSearchHands.sources.some(
+    source=>source.capabilityId==='source.search'&&source.url==='https://example.test/source-a'
+  ));
+}finally{
+  globalThis.fetch=originalFetch;
+  if(originalBraveKey===undefined)delete process.env.BRAVE_SEARCH_API_KEY;
+  else process.env.BRAVE_SEARCH_API_KEY=originalBraveKey;
+}
 
 const software=previewIntent({
   text:'Auditoi core/intent/intent-service.js ja tarkista arkkitehtuurirajat.'

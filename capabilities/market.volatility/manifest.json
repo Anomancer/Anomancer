@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "market.volatility",
+  "name": "Volatiliteettitarkistus",
+  "version": "1.0.0",
+  "purpose": "Arvioi aineistossa näkyvää vaihtelua, epävakautta ja volatiliteettiriskiä.",
+  "providerClass": "market",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

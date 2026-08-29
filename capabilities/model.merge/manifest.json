@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "model.merge",
+  "name": "Mallivastausten yhdistäminen",
+  "version": "1.0.0",
+  "purpose": "Yhdistää useiden mallien tarkistetut havainnot yhdeksi vastaukseksi säilyttäen ristiriidat. Odottaa ensemble-runtimea.",
+  "providerClass": "model",
+  "mode": "runtime-tool",
+  "routing": "read-only",
+  "availability": "disabled"
+}

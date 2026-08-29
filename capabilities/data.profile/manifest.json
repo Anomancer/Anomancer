@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "data.profile",
+  "name": "Datan profilointi",
+  "version": "1.0.0",
+  "purpose": "Jäsentää aineiston rakenteen, kentät, tyypit, puutteet ja perusjakaumat.",
+  "providerClass": "data",
+  "mode": "compute",
+  "routing": "compute",
+  "availability": "ready"
+}

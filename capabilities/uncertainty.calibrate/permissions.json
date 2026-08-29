@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-permissions/v1",
+  "capabilityId": "uncertainty.calibrate",
+  "writesExternalState": false,
+  "requiresHumanApproval": false,
+  "dataEgress": "configured-provider",
+  "allowedScopes": [
+    "model_outputs",
+    "source_assessments"
+  ]
+}

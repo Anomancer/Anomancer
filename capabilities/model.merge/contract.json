@@ -1,0 +1,16 @@
+{
+  "format": "anomancer-capability-contract/v1",
+  "capabilityId": "model.merge",
+  "summary": "Yhdistää useiden mallien tarkistetut havainnot yhdeksi vastaukseksi säilyttäen ristiriidat. Odottaa ensemble-runtimea.",
+  "inputs": [
+    "model_outputs"
+  ],
+  "outputs": [
+    "merged_model_result"
+  ],
+  "guarantees": [
+    "Ei väitä käyttäneensä lähteitä tai dataa joita runtime ei toimittanut.",
+    "Ei suorita ulkoisia sivuvaikutuksia.",
+    "Pitää olennaisen epävarmuuden näkyvänä."
+  ]
+}

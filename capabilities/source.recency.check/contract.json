@@ -1,0 +1,18 @@
+{
+  "format": "anomancer-capability-contract/v1",
+  "capabilityId": "source.recency.check",
+  "summary": "Arvioi lähteiden ajantasaisuutta suhteessa tehtävään.",
+  "inputs": [
+    "user_text",
+    "workspace_materials",
+    "work_history"
+  ],
+  "outputs": [
+    "recency_assessment"
+  ],
+  "guarantees": [
+    "Ei väitä käyttäneensä lähteitä tai dataa joita runtime ei toimittanut.",
+    "Ei suorita ulkoisia sivuvaikutuksia.",
+    "Pitää olennaisen epävarmuuden näkyvänä."
+  ]
+}

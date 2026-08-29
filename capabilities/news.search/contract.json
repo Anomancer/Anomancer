@@ -1,0 +1,16 @@
+{
+  "format": "anomancer-capability-contract/v1",
+  "capabilityId": "news.search",
+  "summary": "Etsii tuoreita uutis- ja ajankohtaislähteitä.",
+  "inputs": [
+    "user_text"
+  ],
+  "outputs": [
+    "recent_source_candidates"
+  ],
+  "guarantees": [
+    "Ei väitä käyttäneensä lähteitä tai dataa joita runtime ei toimittanut.",
+    "Ei suorita ulkoisia sivuvaikutuksia.",
+    "Pitää olennaisen epävarmuuden näkyvänä."
+  ]
+}

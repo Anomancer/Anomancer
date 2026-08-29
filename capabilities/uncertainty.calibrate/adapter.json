@@ -1,0 +1,7 @@
+{
+  "format": "anomancer-capability-adapter/v1",
+  "capabilityId": "uncertainty.calibrate",
+  "kind": "runtime-tool",
+  "executionCapability": null,
+  "runtimeAdapter": "model.ensemble.calibrate"
+}

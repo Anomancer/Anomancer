@@ -56,6 +56,65 @@ const compare=previewIntent({text:'Vertaa vaihtoehtoja A ja B ja arvioi niiden o
 assert.ok(compare.problem.needs.includes('comparison'));
 assert.ok(compare.capabilityRoute.reasoning.includes('comparison'));
 
+for(const id of [
+  'source.search','academic.search','news.search','source.rank','source.crosscheck',
+  'research.synthesize','research.gap.detect','data.profile','data.analyze',
+  'data.visualize','statistics.describe','market.snapshot','market.risk',
+  'model.compare','model.disagreement','model.merge','uncertainty.calibrate'
+]){
+  assert.ok(getCapability(id),`Capability Expansion Pack missing ${id}`);
+}
+
+const researchExpansion=previewIntent({
+  text:'Etsi tutkimuspapereita tästä ilmiöstä, ristiintarkista lähteet ja tee synteesi.'
+},{
+  availability:{'source.search':true,'academic.search':true}
+});
+assert.equal(researchExpansion.problem.domain,'research');
+assert.ok(researchExpansion.problem.needs.includes('source.search'));
+assert.ok(researchExpansion.problem.needs.includes('academic.search'));
+assert.ok(researchExpansion.problem.needs.includes('source.crosscheck'));
+assert.ok(researchExpansion.problem.needs.includes('research.synthesize'));
+assert.ok(researchExpansion.capabilityRoute.readOnly.includes('source.search'));
+assert.ok(researchExpansion.capabilityRoute.readOnly.includes('academic.search'));
+assert.ok(researchExpansion.capabilityRoute.reasoning.includes('source.crosscheck'));
+assert.ok(researchExpansion.capabilityRoute.reasoning.includes('research.synthesize'));
+
+const dataExpansion=previewIntent({
+  text:'Analysoi tämä CSV-data, etsi poikkeamat ja suunnittele kuvaaja.',
+  workspace:{id:'ws_data',title:'Data',materials:[{title:'data.csv',content:'a,b\n1,2\n2,9'}]}
+});
+assert.equal(dataExpansion.problem.domain,'data');
+assert.ok(dataExpansion.problem.needs.includes('data.profile'));
+assert.ok(dataExpansion.problem.needs.includes('data.analyze'));
+assert.ok(dataExpansion.problem.needs.includes('data.anomaly.detect'));
+assert.ok(dataExpansion.problem.needs.includes('data.visualize'));
+assert.ok(dataExpansion.capabilityRoute.compute.includes('data.analyze'));
+
+const marketExpansion=previewIntent({
+  text:'Analysoi osakemarkkinan sentimentti, volatiliteetti, likviditeetti ja riskiskenaariot tuoreista uutisista.'
+},{
+  availability:{'source.search':true,'news.search':true}
+});
+assert.equal(marketExpansion.problem.domain,'market');
+assert.ok(marketExpansion.problem.needs.includes('market.snapshot'));
+assert.ok(marketExpansion.problem.needs.includes('market.sentiment'));
+assert.ok(marketExpansion.problem.needs.includes('market.volatility'));
+assert.ok(marketExpansion.problem.needs.includes('market.liquidity'));
+assert.ok(marketExpansion.problem.needs.includes('market.risk'));
+assert.ok(marketExpansion.problem.needs.includes('market.scenario'));
+assert.ok(marketExpansion.capabilityRoute.readOnly.includes('news.search'));
+assert.ok(marketExpansion.capabilityRoute.reasoning.includes('market.risk'));
+
+const ensembleExpansion=previewIntent({
+  text:'Kysy tätä viideltä eri kielimallilta, vertaa erimielisyydet ja muodosta konsensus.'
+});
+for(const id of ['model.compare','model.disagreement','model.merge','uncertainty.calibrate']){
+  assert.ok(ensembleExpansion.problem.needs.includes(id));
+  assert.ok(ensembleExpansion.capabilities.unresolved.some(item=>item.id===id));
+}
+assert.match(ensembleExpansion.recommendation.limitations.join(' '),/ensemble|monimalli/i);
+
 const editorial=previewIntent({text:'Kirjoita Anomanceriin artikkeli ja tarkista väitteet sekä evidenssi.'});
 assert.equal(editorial.problem.domain,'editorial');
 assert.equal(editorial.recommendation.workspace?.id,'toimituskone');
@@ -79,8 +138,8 @@ assert.ok(narrative.capabilityRoute.reasoning.includes('story.draft'));
 assert.ok(narrative.capabilityRoute.readOnly.includes('mancer.activate'));
 
 const research=previewIntent({text:'Selvitä uusimmat lähteet tästä ilmiöstä.'});
-assert.ok(research.capabilities.unresolved.some(item=>item.id==='research.search'));
-assert.match(research.recommendation.limitations.join(' '),/Verkkohaku/);
+assert.ok(research.capabilities.unresolved.some(item=>item.id==='source.search'));
+assert.match(research.recommendation.limitations.join(' '),/(?:lähdehaku|verkkohaku)/i);
 
 const external=previewIntent({text:'Deployaa tämä tuotantoon ja puske GitHubiin.'});
 assert.equal(external.authority.externalActionRequested,true);

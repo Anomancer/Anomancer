@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "source.recency.check",
+  "name": "Ajantasaisuuden tarkistus",
+  "version": "1.0.0",
+  "purpose": "Arvioi lähteiden ajantasaisuutta suhteessa tehtävään.",
+  "providerClass": "source",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

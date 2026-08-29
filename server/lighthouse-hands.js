@@ -3,6 +3,8 @@ import net from 'node:net';
 import https from 'node:https';
 import {getLighthouseFile,lighthouseGithubStatus,githubOperationStatus} from './github.js';
 import {getMancerPackage} from './mancer-registry.js';
+import {getCapability,listCapabilities} from '../core/capabilities/registry.js';
+import {createComputeSession,executeComputeCapability} from './compute-runtime.js';
 
 export const HANDS_EXECUTION_FORMAT='anomancer-hands-execution/v1';
 
@@ -123,13 +125,14 @@ async function fetchPublicText(raw){
   throw Object.assign(new Error('Liian monta uudelleenohjausta.'),{code:'LIGHTHOUSE_FETCH_REDIRECT_LIMIT'});
 }
 
-async function braveSearch(query){
+async function braveSearch(query,{freshness=''}={}){
   const key=String(process.env.BRAVE_SEARCH_API_KEY||'').trim();
   if(!key)throw Object.assign(new Error('Hakupalvelua ei ole konfiguroitu.'),{code:'LIGHTHOUSE_SEARCH_CONFIG',statusCode:503});
   const url=new URL('https://api.search.brave.com/res/v1/web/search');
   url.searchParams.set('q',compact(query,500));
   url.searchParams.set('count','5');
   url.searchParams.set('safesearch','moderate');
+  if(freshness)url.searchParams.set('freshness',freshness);
   const response=await fetch(url,{headers:{'Accept':'application/json','X-Subscription-Token':key,'User-Agent':'Anomancer-Lighthouse/1.21'}});
   if(!response.ok)throw Object.assign(new Error(`Hakupalvelu vastasi HTTP ${response.status}.`),{code:'LIGHTHOUSE_SEARCH_HTTP'});
   const data=await response.json();
@@ -138,6 +141,34 @@ async function braveSearch(query){
     title:compact(item.title,180),
     text:compact(item.description,1200)
   })).filter(item=>item.url&&item.title);
+}
+
+const PACKAGE_SEARCH_ADAPTERS=new Set([
+  'search.web','search.academic','search.news'
+]);
+
+function runtimeAdapterAvailable(adapter,env=process.env){
+  if(PACKAGE_SEARCH_ADAPTERS.has(String(adapter||''))){
+    return Boolean(String(env.BRAVE_SEARCH_API_KEY||'').trim());
+  }
+  return false;
+}
+
+function runtimeSearchRequest(adapter,text){
+  const cleanText=compact(text,500);
+  if(adapter==='search.academic'){
+    return {
+      query:`${cleanText} (research paper OR study) (site:arxiv.org OR site:doi.org OR site:pubmed.ncbi.nlm.nih.gov OR site:semanticscholar.org)`,
+      freshness:''
+    };
+  }
+  if(adapter==='search.news'){
+    return {query:cleanText,freshness:'pw'};
+  }
+  if(adapter==='search.web'){
+    return {query:cleanText,freshness:''};
+  }
+  return null;
 }
 
 function selectMancerOrchestra(pkg,problem={}){
@@ -166,7 +197,7 @@ export function capabilityAvailability(env=process.env){
   const github=lighthouseGithubStatus(env);
   const operation=githubOperationStatus();
   const mutationReady=operation.configured&&operation.repoGuard?.allowed!==false;
-  return {
+  const availability={
     'research.search':Boolean(env.BRAVE_SEARCH_API_KEY),
     'repository.read':github.configured,
     'repository.propose':mutationReady,
@@ -175,9 +206,17 @@ export function capabilityAvailability(env=process.env){
     'mancer.activate':true,
     'document.read':true
   };
+
+  for(const capability of listCapabilities()){
+    if(!capability?.runtimeAvailable||!capability?.runtimeAdapter)continue;
+    if(Object.prototype.hasOwnProperty.call(availability,capability.id))continue;
+    availability[capability.id]=runtimeAdapterAvailable(capability.runtimeAdapter,env);
+  }
+
+  return availability;
 }
 
-export async function executeLighthouseHands({intent={},route={},capabilityRoute={}}={}){
+export async function executeLighthouseHands({intent={},route={},capabilityRoute={},taskGraph=null}={}){
   const startedAt=Date.now();
   const repository=lighthouseGithubStatus();
   const events=[];
@@ -190,6 +229,8 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
   let searchQuerySent=false;
   let webFetchUsed=false;
   let repositoryReadUsed=false;
+  let computeUsed=false;
+  const computeArtifacts=[];
 
   async function run(id,fn,{adapter=id,external=false}={}){
     const start=Date.now();
@@ -205,6 +246,7 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
   }
 
   const requested=new Set(capabilityRoute.readOnly||[]);
+  const computeRequested=[...new Set(capabilityRoute.compute||[])];
 
   if(requested.has('document.read')&&intent.workspace?.materials?.length){
     await run('document.read',async()=>{
@@ -212,6 +254,21 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
       // This event records the read capability without duplicating the material into the prompt.
       return intent.workspace.materials.length;
     },{adapter:'workspace-context',external:false});
+  }
+
+  if(computeRequested.length){
+    let session=null,error=null;
+    try{session=createComputeSession(intent.workspace?.materials||[]);}catch(cause){error=cause;}
+    for(const id of computeRequested){
+      await run(id,async()=>{
+        if(error)throw error;
+        const artifact=executeComputeCapability(id,session);
+        computeArtifacts.push({capabilityId:artifact.capabilityId,adapter:artifact.adapter,deterministic:true,datasetCount:artifact.datasetCount});
+        context.push(contextBlock('compute',`Compute · ${id}`,JSON.stringify(artifact),{capabilityId:id,adapter:artifact.adapter,computed:true,untrusted:true}));
+        computeUsed=true;
+        return artifact;
+      },{adapter:'compute.tabular.v1',external:false});
+    }
   }
 
   if(requested.has('web.fetch')){
@@ -238,6 +295,35 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
         context.push(contextBlock('search',item.title,item.text,{url:item.url,untrusted:true}));
       }
     },{adapter:'brave-search/v1',external:true});
+  }
+
+  for(const id of requested){
+    const capability=getCapability(id);
+    const adapter=String(capability?.runtimeAdapter||'');
+    if(!PACKAGE_SEARCH_ADAPTERS.has(adapter))continue;
+
+    const searchRequest=runtimeSearchRequest(adapter,intent.text);
+    if(!searchRequest)continue;
+
+    searchQuerySent=true;
+    await run(id,async()=>{
+      const results=await braveSearch(searchRequest.query,{freshness:searchRequest.freshness});
+      searchedWeb=true;
+      for(const item of results){
+        sources.push({
+          type:'search-result',
+          capabilityId:id,
+          title:item.title,
+          url:item.url
+        });
+        context.push(contextBlock(
+          'search',
+          item.title,
+          item.text,
+          {url:item.url,capabilityId:id,untrusted:true}
+        ));
+      }
+    },{adapter,external:true});
   }
 
   if(requested.has('repository.read')){
@@ -289,6 +375,9 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
     searchQuerySent,
     webFetchUsed,
     repositoryReadUsed,
+    computeUsed,
+    computeArtifacts,
+    taskGraph,
     repositoryRef:repository.ref,
     repositoryRefSource:repository.refSource,
     externalReadUsed:events.some(event=>event.external&&event.status==='completed'),

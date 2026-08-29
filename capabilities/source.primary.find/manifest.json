@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "source.primary.find",
+  "name": "Alkuperäislähteen etsintä",
+  "version": "1.0.0",
+  "purpose": "Tunnistaa aineistosta mahdollisen alkuperäis- tai ensisijaisen lähteen.",
+  "providerClass": "source",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

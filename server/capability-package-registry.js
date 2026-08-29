@@ -9,9 +9,9 @@ export const CAPABILITY_PERMISSIONS_FORMAT='anomancer-capability-permissions/v1'
 export const CAPABILITY_ADAPTER_FORMAT='anomancer-capability-adapter/v1';
 
 const REQUIRED_FILES=['manifest.json','contract.json','permissions.json','adapter.json'];
-const ROUTINGS=new Set(['read-only','reasoning','proposal','approval']);
+const ROUTINGS=new Set(['read-only','compute','reasoning','proposal','approval']);
 const AVAILABILITY=new Set(['ready','runtime','disabled']);
-const ADAPTER_KINDS=new Set(['reasoning-proxy','context','runtime-tool','proposal','human-gated']);
+const ADAPTER_KINDS=new Set(['reasoning-proxy','context','runtime-tool','compute','proposal','human-gated']);
 const DATA_EGRESS=new Set(['none','reasoner','public-network','configured-provider']);
 const clone=value=>JSON.parse(JSON.stringify(value));
 const clean=value=>String(value??'').trim();
@@ -74,8 +74,16 @@ export function validateCapabilityPackageDocuments(pkg={}){
     assert(clean(adapter.executionCapability),'Reasoning proxy requires executionCapability.');
     assert(manifest.routing==='reasoning','Reasoning proxy must use reasoning routing.');
   }
+  if(adapter.kind==='compute'){
+    assert(manifest.routing==='compute','Compute adapter must use compute routing.');
+    assert(clean(adapter.runtimeAdapter),'Compute adapter requires runtimeAdapter.');
+    assert(permissions.dataEgress==='none','Compute v1 adapter cannot declare data egress.');
+  }
   if(manifest.routing==='read-only'){
     assert(permissions.writesExternalState===false,'Read-only capability cannot write external state.');
+  }
+  if(manifest.routing==='compute'){
+    assert(permissions.writesExternalState===false,'Compute capability cannot write external state.');
   }
   if(manifest.routing==='proposal'){
     assert(permissions.writesExternalState===false,'Proposal capability cannot write external state.');

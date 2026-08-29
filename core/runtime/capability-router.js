@@ -21,7 +21,7 @@ function unique(values){return [...new Set(values.filter(Boolean))];}
 
 function routingFor(capability,id){
   const declared=String(capability?.routing||'');
-  if(['read-only','reasoning','proposal','approval'].includes(declared))return declared;
+  if(['read-only','compute','reasoning','proposal','approval'].includes(declared))return declared;
   if(READ_ONLY.has(id))return 'read-only';
   if(PROPOSAL_ONLY.has(id))return 'proposal';
   if(REASONING_PROXY.has(id))return 'reasoning';
@@ -32,6 +32,7 @@ function routingFor(capability,id){
 export function buildCapabilityRoute({problem={},resolution={},recommendation={}}={}){
   const matched=Array.isArray(resolution.matched)?resolution.matched:[];
   const readOnly=[];
+  const compute=[];
   const reasoning=[];
   const blocked=[];
   const proposals=[];
@@ -40,6 +41,7 @@ export function buildCapabilityRoute({problem={},resolution={},recommendation={}
     const id=String(capability?.id||'');
     const routing=routingFor(capability,id);
     if(routing==='read-only')readOnly.push(id);
+    else if(routing==='compute')compute.push(id);
     else if(routing==='proposal')proposals.push(id);
     else if(routing==='reasoning')reasoning.push(id);
     else if(routing==='approval')blocked.push(id);
@@ -55,6 +57,7 @@ export function buildCapabilityRoute({problem={},resolution={},recommendation={}
     format:CAPABILITY_ROUTE_FORMAT,
     mode:'read-before-reason',
     readOnly:unique(readOnly),
+    compute:unique(compute),
     reasoning:unique(reasoning.length?reasoning:['llm.reasoning']),
     proposals:unique(proposals),
     blocked:unique(blocked),
