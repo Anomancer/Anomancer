@@ -317,6 +317,12 @@ async function callPass(reasoner,{phase,system,user}){
   }
 }
 
+function retryableWorkError(error){
+  const code=String(error?.code||'');
+  if(error?.retryable===true)return true;
+  return ['DEEPSEEK_JSON','DEEPSEEK_EMPTY','DEEPSEEK_LENGTH'].includes(code);
+}
+
 export async function runIntent(input,{reasoner,availability={},capabilityExecutor}={}){
   const intent=normalizeIntent(input);
 
@@ -378,14 +384,35 @@ export async function runIntent(input,{reasoner,availability={},capabilityExecut
     plan?`TYÖSUUNNITELMA:\n${planForPrompt(plan)}`:''
   ].filter(Boolean).join('\n\n');
 
-  const workPass=await callPass(reasoner,{
+  let workPass=await callPass(reasoner,{
     phase:'work',
     system:SYSTEM,
     user:workUser
   });
   passes.push(workPass);
   intelligenceRun.workDurationMs=workPass.durationMs;
-  if(workPass.error)throw workPass.error;
+  intelligenceRun.workRetried=false;
+  intelligenceRun.workFirstError='';
+
+  if(workPass.error&&retryableWorkError(workPass.error)){
+    intelligenceRun.workRetried=true;
+    intelligenceRun.workFirstError=String(workPass.error.code||workPass.error.message||'work failed').slice(0,180);
+    const retryPass=await callPass(reasoner,{
+      phase:'work-retry',
+      system:`${SYSTEM}
+
+UUSINTAYRITYS: Palauta vain pyydetty JSON-rakenne. Pidä vastaus tiiviinä ja vältä tarpeetonta päättelyn paisuttamista.`,
+      user:workUser
+    });
+    passes.push(retryPass);
+    intelligenceRun.workRetryDurationMs=retryPass.durationMs;
+    workPass=retryPass;
+  }
+
+  if(workPass.error){
+    if(!workPass.error.lighthousePhase)workPass.error.lighthousePhase=workPass.phase||'work';
+    throw workPass.error;
+  }
 
   let normalized=normalizeWorkResult(workPass.response?.result||workPass.response);
   let review=null;
@@ -517,7 +544,7 @@ export async function runIntent(input,{reasoner,availability={},capabilityExecut
           issues:review.issues,
           improvements:review.improvements
         }:null,
-        degraded:Boolean(intelligenceRun.planFailed||intelligenceRun.reviewFailed||intelligenceRun.proposalFailed||hands.failures?.length)
+        degraded:Boolean(intelligenceRun.planFailed||intelligenceRun.workRetried||intelligenceRun.reviewFailed||intelligenceRun.proposalFailed||hands.failures?.length)
       },
       orchestration:completedOrchestration,
       machine,

@@ -6,6 +6,8 @@ function phaseSettings(phase){
       return {maxTokens:2200,thinking:false,model:process.env.DEEPSEEK_MODEL};
     case 'review':
       return {maxTokens:5200,thinking:true,model:process.env.DEEPSEEK_CRITIC_MODEL||process.env.DEEPSEEK_MODEL};
+    case 'work-retry':
+      return {maxTokens:5200,thinking:false,model:process.env.DEEPSEEK_MODEL};
     default:
       return {maxTokens:6000,thinking:true,model:process.env.DEEPSEEK_MODEL};
   }

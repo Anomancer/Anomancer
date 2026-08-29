@@ -105,6 +105,13 @@ export default async function handler(req,res){
     return send(res,200,{ok:true,...run});
   }catch(e){
     const status=Number(e.statusCode)||500;
+    if(status>=500)console.warn('[lighthouse-intent]',JSON.stringify({
+      code:String(e.code||'LIGHTHOUSE_ERROR'),
+      status,
+      upstreamStatus:Number(e.upstreamStatus)||null,
+      retryable:Boolean(e.retryable),
+      phase:String(e.lighthousePhase||'')
+    }));
     return send(res,status,{
       ok:false,
       code:String(e.code||'LIGHTHOUSE_ERROR'),

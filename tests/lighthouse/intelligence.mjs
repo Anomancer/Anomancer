@@ -137,4 +137,22 @@ assert.equal(fallback.runtime.intelligence.degraded,true);
 assert.equal(fallback.result.title,'Roadmap');
 assert.equal(fallback.runtime.orchestration.stages.find(stage=>stage.id==='plan').status,'failed');
 
-console.log('✓ Lighthouse Adaptive Intelligence · profile → plan → work → review + graceful fallback');
+
+const retryPhases=[];
+const retryRun=await runIntent({text:'Tarkista tämä rajattu ohjelmistokysymys ja anna vastaus.'},{reasoner:async({phase})=>{
+  retryPhases.push(phase);
+  if(phase==='work')throw Object.assign(new Error('bad json'),{code:'DEEPSEEK_JSON',retryable:false});
+  assert.equal(phase,'work-retry');
+  return {
+    result:{state:'completed',title:'Uusintayritys onnistui',answer:'Rajattu vastaus.',trust:{confidence:{level:'medium',reason:'Fallback.'}}},
+    meta:{provider:'fake',model:'worker-retry',usage:{input_tokens:4,output_tokens:3},externalProvider:true,transport:'api'}
+  };
+}});
+assert.deepEqual(retryPhases,['work','work-retry']);
+assert.equal(retryRun.result.title,'Uusintayritys onnistui');
+assert.equal(retryRun.runtime.intelligence.degraded,true);
+assert.equal(retryRun.runtime.machine.reasoning.passCount,2);
+assert.equal(retryRun.runtime.machine.reasoning.passes[0].status,'failed');
+assert.equal(retryRun.runtime.machine.reasoning.passes[1].phase,'work-retry');
+
+console.log('✓ Lighthouse Adaptive Intelligence · profile → plan → work → review + bounded work retry + graceful fallback');
