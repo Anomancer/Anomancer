@@ -24,6 +24,26 @@ await test('deploy bundle syntyy erillisestä allowlistista',()=>{
   assert.ok(deploy.allowlist.rootFiles.length);
   assert.ok(deploy.allowlist.prefixes.length);
 });
+await test('Lighthouse-arkkitehtuuri kuuluu sekä lähde- että runtime-vientiin',()=>{
+  const sourceFiles=new Set(source.files.map(item=>item.path));
+  const deployFiles=new Set(deploy.files.map(item=>item.path));
+
+  for(const file of [
+    'CONSTRUCTION_MODE_1.19.0.md',
+    'app/lighthouse/lab.html',
+    'catalog/capabilities.json',
+    'core/intent/intent-service.js',
+    'providers/deepseek/adapter.js',
+    'tests/lighthouse/browser-e2e.mjs'
+  ])assert.equal(sourceFiles.has(file),true,`source bundle missing ${file}`);
+
+  for(const file of [
+    'api/lab/intent.js',
+    'catalog/capabilities.json',
+    'core/intent/intent-service.js',
+    'providers/deepseek/adapter.js'
+  ])assert.equal(deployFiles.has(file),true,`deploy bundle missing ${file}`);
+});
 await test('jakelut eivät sisällä historiaa, salaisuuksia tai paikallista metadataa',()=>{
   for(const manifest of [source,deploy])for(const item of manifest.files){
     assert.doesNotMatch(item.path,/(?:^|\/)\.git(?:\/|$)|(?:^|\/)\.vercel(?:\/|$)|(?:^|\/)\.anomancer-backups(?:\/|$)|(?:^|\/)\.env(?:\.|$)|(?:^|\/)node_modules(?:\/|$)/);

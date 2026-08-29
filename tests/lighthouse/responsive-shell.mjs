@@ -40,7 +40,7 @@ assert.match(js,/closeResponsiveDepth/);
 assert.match(js,/syncResponsiveShell/);
 assert.match(js,/depth-screen-open/);
 
-assert.match(css,/LIGHTHOUSE 1\.25\.0 RESPONSIVE SHELL START/);
+assert.match(css,/LIGHTHOUSE RESPONSIVE SHELL START/);
 assert.match(css,/@media \(min-width:1100px\)/);
 assert.match(css,/@media \(max-width:1099px\)/);
 assert.match(css,/@media \(max-width:719px\)/);
@@ -52,4 +52,4 @@ assert.match(css,/\.work\.depth-screen-open #resultCard/);
  * D0-D6 content contracts remain untouched by this shell test.
  * Responsive Shell only changes where existing surfaces live.
  */
-console.log('✓ Lighthouse 1.25.0 Responsive Shell');
+console.log('✓ Lighthouse Responsive Shell');

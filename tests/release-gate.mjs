@@ -3,10 +3,26 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 const BROWSER_FILES=new Set([
-  'tests/full-app-e2e/admin-workspace-story.mjs','tests/ui-browser/core-roadmap.mjs','tests/archive-capabilities/nanomancer-ui.mjs','tests/mancer-codemancer/ui.mjs','tests/archive-capabilities/archive-ui.mjs','tests/mancer-codemancer/codemancer-workbench-ui.mjs','tests/archive-capabilities/archive-curator-ui.mjs','tests/ui-browser/visual-system.mjs','tests/ui-browser/native-dialogs.mjs','tests/ui-browser/accessibility-matrix.mjs'
+  'tests/full-app-e2e/admin-workspace-story.mjs','tests/ui-browser/core-roadmap.mjs','tests/archive-capabilities/nanomancer-ui.mjs','tests/mancer-codemancer/ui.mjs','tests/archive-capabilities/archive-ui.mjs','tests/mancer-codemancer/codemancer-workbench-ui.mjs','tests/archive-capabilities/archive-curator-ui.mjs','tests/ui-browser/visual-system.mjs','tests/ui-browser/native-dialogs.mjs','tests/ui-browser/accessibility-matrix.mjs','tests/lighthouse/browser-e2e.mjs'
 ]);
 const CONTENT_FILES=new Set([
   'tests/content-editorial/editorial-quality.mjs','tests/content-editorial/editorial-gate-calibration.mjs','tests/content-editorial/evidence-boundary-hygiene.mjs','tests/content-editorial/evidence-presentation.mjs','tests/content-editorial/public-ui.mjs','tests/content-editorial/public-clarity.mjs','tests/content-editorial/language-boundaries.mjs','tests/content-editorial/entity-core.mjs','tests/content-editorial/evidence-layer.mjs','tests/content-editorial/evidence-integrity.mjs','tests/content-editorial/discovery-layer.mjs','scripts/build-blog.mjs','scripts/domain-migration-check.mjs','seo-check.mjs'
+]);
+const LIGHTHOUSE_FILES=new Set([
+  'tests/lighthouse/construction-mode.mjs',
+  'tests/lighthouse/work-surface.mjs',
+  'tests/lighthouse/visual-polish.mjs',
+  'tests/lighthouse/trust-surface.mjs',
+  'tests/lighthouse/workspace.mjs',
+  'tests/lighthouse/orchestra.mjs',
+  'tests/lighthouse/machine-room.mjs',
+  'tests/lighthouse/core.mjs',
+  'tests/lighthouse/depth-accordion.mjs',
+  'tests/lighthouse/responsive-shell.mjs',
+  'tests/lighthouse/fixed-inspector.mjs',
+  'tests/lighthouse/responsive-qa.mjs',
+  'tests/lighthouse/api-boundary.mjs',
+  'tests/lighthouse/browser-e2e.mjs'
 ]);
 
 const STEPS = [
@@ -241,12 +257,54 @@ const STEPS = [
   ],
   [
     "tests/ui-browser/accessibility-matrix.mjs"
+  ],
+  [
+    "tests/lighthouse/construction-mode.mjs"
+  ],
+  [
+    "tests/lighthouse/work-surface.mjs"
+  ],
+  [
+    "tests/lighthouse/visual-polish.mjs"
+  ],
+  [
+    "tests/lighthouse/trust-surface.mjs"
+  ],
+  [
+    "tests/lighthouse/workspace.mjs"
+  ],
+  [
+    "tests/lighthouse/orchestra.mjs"
+  ],
+  [
+    "tests/lighthouse/machine-room.mjs"
+  ],
+  [
+    "tests/lighthouse/core.mjs"
+  ],
+  [
+    "tests/lighthouse/depth-accordion.mjs"
+  ],
+  [
+    "tests/lighthouse/responsive-shell.mjs"
+  ],
+  [
+    "tests/lighthouse/fixed-inspector.mjs"
+  ],
+  [
+    "tests/lighthouse/responsive-qa.mjs"
+  ],
+  [
+    "tests/lighthouse/api-boundary.mjs"
+  ],
+  [
+    "tests/lighthouse/browser-e2e.mjs"
   ]
 ];
 
 const requested=(process.argv.find(arg=>arg.startsWith('--group='))||'--group=all').slice('--group='.length);
-if(!['all','static','browser','content'].includes(requested))throw new Error(`Tuntematon release gate -ryhmä: ${requested}`);
-const selected=STEPS.filter(args=>requested==='all'||requested==='browser'&&BROWSER_FILES.has(args[0])||requested==='static'&&!BROWSER_FILES.has(args[0])||requested==='content'&&CONTENT_FILES.has(args[0]));
+if(!['all','static','browser','content','lighthouse'].includes(requested))throw new Error(`Tuntematon release gate -ryhmä: ${requested}`);
+const selected=STEPS.filter(args=>requested==='all'||requested==='browser'&&BROWSER_FILES.has(args[0])||requested==='static'&&!BROWSER_FILES.has(args[0])||requested==='content'&&CONTENT_FILES.has(args[0])||requested==='lighthouse'&&LIGHTHOUSE_FILES.has(args[0]));
 let browserEvidence=null;
 if(selected.some(args=>BROWSER_FILES.has(args[0]))){
   const {chromium}=await import('playwright');let executable=chromium.executablePath();

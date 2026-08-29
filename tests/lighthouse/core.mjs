@@ -27,7 +27,7 @@ for(const id of [
 
 assert.match(js,/renderCore/);
 assert.match(js,/JSON\.stringify\(runtime,null,2\)/);
-assert.match(css,/LIGHTHOUSE 1\.24\.0 D6 CORE START/);
+assert.match(css,/LIGHTHOUSE D6 CORE START/);
 
 const locked=createCoreSnapshot({
   environment:{
@@ -166,4 +166,4 @@ assert.equal(
   true
 );
 
-console.log('✓ Lighthouse 1.24.0 D6 Core');
+console.log('✓ Lighthouse D6 Core');

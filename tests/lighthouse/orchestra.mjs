@@ -25,7 +25,7 @@ for(const id of [
 
 assert.match(js,/renderOrchestration/);
 assert.match(js,/orchestrationStatusLabel/);
-assert.match(css,/LIGHTHOUSE 1\.22\.0 D4 ORCHESTRA START/);
+assert.match(css,/LIGHTHOUSE D4 ORCHESTRA START/);
 
 const plan=createOrchestrationPlan({
   history:[{role:'user',content:'aiempi'}],
@@ -99,4 +99,4 @@ assert.equal(
   'completed'
 );
 
-console.log('✓ Lighthouse 1.22.0 D4 Orchestra');
+console.log('✓ Lighthouse D4 Orchestra');

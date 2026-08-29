@@ -5,7 +5,7 @@ const css=fs.readFileSync('app/lighthouse/lab.css','utf8');
 
 assert.match(
   css,
-  /LIGHTHOUSE 1\.25\.1 FIXED DESKTOP INSPECTOR START/
+  /LIGHTHOUSE FIXED DESKTOP INSPECTOR START/
 );
 
 assert.match(
@@ -28,4 +28,4 @@ assert.match(
   /scrollbar-gutter:stable/
 );
 
-console.log('✓ Lighthouse 1.25.1 Fixed Desktop Inspector');
+console.log('✓ Lighthouse Fixed Desktop Inspector');

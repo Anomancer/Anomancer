@@ -3,6 +3,7 @@ const FORMAT='anomancer-lighthouse-workspaces/v1';
 const MAX_WORKSPACES=12;
 const MAX_MATERIALS=12;
 const MAX_VERSIONS=20;
+let lastWriteSucceeded=true;
 
 function now(){
   return new Date().toISOString();
@@ -59,7 +60,10 @@ function loadRaw(){
 }
 
 function saveRaw(store){
-  if(!storageAvailable())return false;
+  if(!storageAvailable()){
+    lastWriteSucceeded=false;
+    return false;
+  }
 
   try{
     localStorage.setItem(STORAGE_KEY,JSON.stringify({
@@ -67,8 +71,10 @@ function saveRaw(store){
       activeId:store.activeId||null,
       items:(Array.isArray(store.items)?store.items:[]).slice(0,MAX_WORKSPACES)
     }));
+    lastWriteSucceeded=true;
     return true;
   }catch{
+    lastWriteSucceeded=false;
     return false;
   }
 }
@@ -87,7 +93,7 @@ function sanitizeWorkspace(workspace={}){
   };
 }
 
-export function createWorkspace(firstPrompt=''){
+export function createWorkspace(firstPrompt='',{persist=true}={}){
   const store=loadRaw();
   const workspace=sanitizeWorkspace({
     id:id('ws'),
@@ -101,10 +107,12 @@ export function createWorkspace(firstPrompt=''){
     latestPayload:null
   });
 
-  store.items=[workspace,...store.items.filter(item=>item.id!==workspace.id)]
-    .slice(0,MAX_WORKSPACES);
-  store.activeId=workspace.id;
-  saveRaw(store);
+  if(persist){
+    store.items=[workspace,...store.items.filter(item=>item.id!==workspace.id)]
+      .slice(0,MAX_WORKSPACES);
+    store.activeId=workspace.id;
+    saveRaw(store);
+  }
   return clone(workspace);
 }
 
@@ -217,4 +225,8 @@ export function persistRun(workspace,{history=[],turns=[],payload=null}={}){
 
 export function hasLocalWorkspaceStorage(){
   return storageAvailable();
+}
+
+export function lastWorkspaceWriteSucceeded(){
+  return lastWriteSucceeded;
 }

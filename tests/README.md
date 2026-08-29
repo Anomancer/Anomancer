@@ -12,5 +12,8 @@ The release-gate tests are grouped by the invariant they protect, not by the rel
 - `integrity-security/` — integrity and security hardening invariants
 - `operations-release/` — repository/test/PR/deploy capability gates
 - `full-app-e2e/` — whole-admin user stories
+- `lighthouse/` — D0–D6 contracts, remote API boundary and real desktop/mobile browser flow
 
 `release-gate.mjs` preserves the validated execution order. `npm run check` builds generated output first and then invokes the runner.
+
+Run only the Lighthouse slice with `npm run check:lighthouse`.

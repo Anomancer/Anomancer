@@ -10,7 +10,8 @@ import {
   addVersion,
   workspaceForIntent,
   persistRun,
-  hasLocalWorkspaceStorage
+  hasLocalWorkspaceStorage,
+  lastWorkspaceWriteSucceeded
 } from '/lighthouse/workspace-store.js';
 
 const $=selector=>document.querySelector(selector);
@@ -47,6 +48,8 @@ let turns=[];
 let lastAttempt=null;
 let running=false;
 let activeWorkspace=getActiveWorkspace();
+let labCsrf='';
+let labSessionChecked=false;
 
 const RACCOON_LINES=[
   '🦝 Pesukarhu järjestää johtolankoja.',
@@ -743,9 +746,15 @@ function renderWorkspace(){
 
   details.hidden=false;
   $('#workspaceTitle').value=activeWorkspace.title||'';
-  $('#workspaceStorageStatus').textContent=hasLocalWorkspaceStorage()
-    ?'Tallennettu automaattisesti tähän selaimeen.'
-    :'Paikallinen tallennus ei ole käytettävissä.';
+  const storageAvailable=hasLocalWorkspaceStorage();
+  const storageHealthy=lastWorkspaceWriteSucceeded();
+  $('#workspaceStorageStatus').textContent=!storageAvailable
+    ?'Paikallinen tallennus ei ole käytettävissä.'
+    :storageHealthy
+      ?'Tallennettu automaattisesti tähän selaimeen.'
+      :'Tallennus epäonnistui. Selainkohtainen tila voi olla täynnä.';
+  $('#workspaceStorageStatus').dataset.state=
+    storageAvailable&&storageHealthy?'saved':'error';
 
   const materials=activeWorkspace.materials||[];
   $('#materialCount').textContent=String(materials.length);
@@ -838,9 +847,28 @@ function addHistory(userText,payload){
   history=history.slice(-8);
   turns.push({
     user:userText,
-    result,
-    runtime:payload?.runtime||{}
+    result
   });
+}
+
+async function labRequestHeaders(){
+  if(!labSessionChecked){
+    labSessionChecked=true;
+    try{
+      const response=await fetch('/api/admin/auth?resource=session',{
+        credentials:'same-origin'
+      });
+      const session=await response.json().catch(()=>({}));
+      labCsrf=session?.authenticated?String(session.csrf||''):'';
+    }catch{
+      labCsrf='';
+    }
+  }
+
+  return {
+    'Content-Type':'application/json',
+    ...(labCsrf?{'X-CSRF-Token':labCsrf}:{})
+  };
 }
 
 async function run(text,{source='door',retry=false}={}){
@@ -867,9 +895,11 @@ async function run(text,{source='door',retry=false}={}){
   setBusy(source,true);
 
   try{
+    const headers=await labRequestHeaders();
     const response=await fetch('/api/lab/intent',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      credentials:'same-origin',
+      headers,
       body:JSON.stringify({
         text:clean,
         locale:'fi',
@@ -881,7 +911,11 @@ async function run(text,{source='door',retry=false}={}){
     const payload=await response.json().catch(()=>({}));
 
     if(!response.ok||!payload.ok){
-      throw new Error(payload.error||'Ajo epäonnistui.');
+      if(response.status===401||response.status===403){
+        labCsrf='';
+        labSessionChecked=false;
+      }
+      throw new Error(payload.message||payload.error||'Ajo epäonnistui.');
     }
 
     addHistory(clean,payload);
@@ -949,7 +983,7 @@ $('#f').addEventListener('submit',async event=>{
   history=[];
   turns=[];
   lastAttempt=null;
-  activeWorkspace=createWorkspace(text);
+  activeWorkspace=createWorkspace(text,{persist:false});
   renderWorkspace();
 
   await run(text,{source:'door'});
@@ -1046,7 +1080,7 @@ if(activeWorkspace?.latestPayload?.result){
 }
 
 
-/* LIGHTHOUSE 1.24.1 DEPTH ACCORDION START */
+/* LIGHTHOUSE DEPTH ACCORDION START */
 
 const DEPTH_PANEL_IDS=[
   'trustDetails',
@@ -1076,9 +1110,9 @@ for(const panel of depthPanels){
   });
 }
 
-/* LIGHTHOUSE 1.24.1 DEPTH ACCORDION END */
+/* LIGHTHOUSE DEPTH ACCORDION END */
 
-/* LIGHTHOUSE 1.25.0 RESPONSIVE SHELL START */
+/* LIGHTHOUSE RESPONSIVE SHELL START */
 
 const RESPONSIVE_DEPTHS=[
   {
@@ -1207,7 +1241,6 @@ function showResponsiveDepth(id,{focus=false}={}){
 
   if(!desktopShellQuery.matches){
     work.classList.add('depth-screen-open');
-    depthInspector.setAttribute('aria-modal','false');
 
     requestAnimationFrame(()=>{
       window.scrollTo({top:0,behavior:'auto'});
@@ -1344,9 +1377,9 @@ responsiveShellObserver.observe(work,{
   subtree:false
 });
 
-/* LIGHTHOUSE 1.25.0 RESPONSIVE SHELL END */
+/* LIGHTHOUSE RESPONSIVE SHELL END */
 
-/* LIGHTHOUSE 1.25.2 RESPONSIVE QA START */
+/* LIGHTHOUSE RESPONSIVE QA START */
 
 document.addEventListener('keydown',event=>{
   if(event.key!=='Escape')return;
@@ -1367,5 +1400,4 @@ for(const button of mobileDepthNav?.querySelectorAll('[data-depth-target]')||[])
   });
 }
 
-/* LIGHTHOUSE 1.25.2 RESPONSIVE QA END */
-
+/* LIGHTHOUSE RESPONSIVE QA END */

@@ -10,15 +10,16 @@ const dryRun=process.argv.includes('--dry-run');
 if(!['source','deploy'].includes(mode))throw new Error('Käyttö: node scripts/export-bundle.mjs source|deploy [--dry-run]');
 
 const pkg=JSON.parse(fs.readFileSync(path.join(ROOT,'package.json'),'utf8'));
-const sourcePrefixes=['.github/','api/','content/','docs/','mancers/','scripts/','server/','site/','tests/','visual-fixtures/'];
+const sourcePrefixes=['.github/','api/','app/','catalog/','content/','core/','docs/','mancers/','providers/','scripts/','server/','site/','tests/','visual-fixtures/'];
 const sourceRoots=new Set([
   '.gitignore','CHANGELOG.md','CONTRIBUTING.md','LICENSE','README.md','SECURITY.md',
+  'CONSTRUCTION_MODE_1.19.0.md',
   'admin.html','admin.css','admin-shell.css','admin-workspace.css','admin-editorial.css','admin-narrative.css','admin-control-plane.css','admin-archive.css','admin-nanomancer.css','admin-mancer.css','admin-responsive.css',
   'admin.js','admin-runtime.js','admin-workspaces.js','admin-archive.js','admin-nanomancer.js','admin-mancer.js','admin-operations.js','admin-shell.js','admin-overlays.js','admin-feedback.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-machine-room.js','admin-orchestrator.js','admin-narramancer.js',
   'core.css','core-public.js','public-core-render.js','site.js','styles.css','ui-tokens.css','narramancer-export.js','lahetyskone-pwa.js','lahetyskone-sw.js','seo-check.mjs',
   'entity-core.json','discovery-policy.json','favicon.svg','manifest.webmanifest','package.json','package-lock.json','vercel.json'
 ]);
-const deployPrefixes=['api/','server/','mancers/'];
+const deployPrefixes=['api/','catalog/','core/','mancers/','providers/','server/'];
 const deployRoots=new Set(['package.json','package-lock.json','vercel.json','entity-core.json','discovery-policy.json']);
 const deniedCommon=/(^|\/)(?:\.git|\.vercel|node_modules|dist|\.anomancer-backups|ANOMANCER_IP_PRIVATE|IP_PRIVATE|\.private-ip)(\/|$)|(?:^|\/)(?:\.env[^/]*|.*(?:backup|secret|private-key).*)$/i;
 const denied=rel=>deniedCommon.test(rel)||(mode==='source'&&/(^|\/)public(\/|$)/.test(rel));
@@ -29,7 +30,19 @@ function digest(file){return crypto.createHash('sha256').update(fs.readFileSync(
 function copy(rel,stage){const from=path.resolve(ROOT,rel),to=path.resolve(stage,rel),prefix=`${stage}${path.sep}`;if(!to.startsWith(prefix))throw new Error(`Turvaton vientipolku: ${rel}`);fs.mkdirSync(path.dirname(to),{recursive:true});fs.copyFileSync(from,to);}
 function publicFiles(){const base=path.join(ROOT,'public'),out=[];const walk=dir=>{for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const absolute=path.join(dir,entry.name);if(entry.isDirectory())walk(absolute);else if(entry.isFile())out.push(path.relative(ROOT,absolute).split(path.sep).join('/'));}};walk(base);return out.sort();}
 
-if(mode==='deploy'&&!dryRun)execFileSync(process.execPath,['scripts/build-blog.mjs'],{cwd:ROOT,stdio:'inherit'});
+if(mode==='deploy'&&!dryRun){
+  execFileSync(process.execPath,['scripts/build-blog.mjs'],{cwd:ROOT,stdio:'inherit'});
+  execFileSync(process.execPath,['scripts/build-lighthouse.mjs'],{
+    cwd:ROOT,
+    stdio:'inherit',
+    env:{
+      ...process.env,
+      VERCEL_ENV:process.env.VERCEL_ENV||(
+        process.env.ANOMANCER_LIGHTHOUSE_LAB==='1'?'preview':'production'
+      )
+    }
+  });
+}
 const selected=(mode==='source'
   ?tracked().filter(rel=>allowed(rel,sourcePrefixes,sourceRoots))
   :[...tracked().filter(rel=>allowed(rel,deployPrefixes,deployRoots)),...(fs.existsSync(path.join(ROOT,'public'))?publicFiles():[])]

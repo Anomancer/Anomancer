@@ -21,3 +21,4 @@ This directory describes the current Anomancer architecture. Historical release 
 - `development/repository-layout.md` — source vs generated repository boundary
 - `roadmap.md` — current roadmap
 - `releases/1.18.7/` — current public UI/UX-polish release evidence
+- `releases/1.19.0-lighthouse.1/` — local-first Lighthouse construction evidence

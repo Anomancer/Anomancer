@@ -28,7 +28,7 @@ assert.match(js,/panel\.open=false/);
 
 assert.match(
   css,
-  /LIGHTHOUSE 1\.24\.1 DEPTH ACCORDION START/
+  /LIGHTHOUSE DEPTH ACCORDION START/
 );
 
-console.log('✓ Lighthouse 1.24.1 Depth Accordion');
+console.log('✓ Lighthouse Depth Accordion');

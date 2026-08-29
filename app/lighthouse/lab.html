@@ -68,7 +68,7 @@
       <header class="result-heading">
         <div>
           <p class="eyebrow" id="resultEyebrow">TÄSSÄ ON OLENNAISIN</p>
-          <h2 id="title"></h2>
+          <h1 id="title"></h1>
         </div>
         <span class="state-pill" id="statePill" hidden></span>
       </header>
@@ -76,23 +76,23 @@
       <div id="answer" class="answer"></div>
 
       <section id="questions" class="questions" hidden>
-        <h3>Tarvitsen vielä</h3>
+        <h2>Tarvitsen vielä</h2>
         <ul id="questionList"></ul>
       </section>
 
       <section id="next" class="result-section" hidden>
-        <h3>Seuraavaksi</h3>
+        <h2>Seuraavaksi</h2>
         <ul id="steps"></ul>
       </section>
 
       <section id="unc" class="uncertainty" hidden>
-        <h3>Epävarmuus</h3>
+        <h2>Epävarmuus</h2>
         <p id="uncText"></p>
       </section>
 
       <section class="continuation" aria-labelledby="continueTitle">
         <div class="continuation-heading">
-          <h3 id="continueTitle">Jatka tästä</h3>
+          <h2 id="continueTitle">Jatka tästä</h2>
           <span id="turnCount" class="turn-count"></span>
         </div>
 
@@ -137,12 +137,12 @@
 
         <div class="trust-content">
           <section class="trust-block">
-            <h3>Perustuu</h3>
+            <h2>Perustuu</h2>
             <ul id="trustBasis"></ul>
           </section>
 
           <section class="trust-block">
-            <h3>Lähteet</h3>
+            <h2>Lähteet</h2>
             <ul id="trustSources"></ul>
             <p id="trustNoSources" class="trust-empty" hidden>
               Ei ulkoisia lähteitä tässä ajossa.
@@ -150,7 +150,7 @@
           </section>
 
           <section class="trust-block">
-            <h3>Oletukset</h3>
+            <h2>Oletukset</h2>
             <ul id="trustAssumptions"></ul>
             <p id="trustNoAssumptions" class="trust-empty" hidden>
               Ei olennaisia oletuksia ilmoitettu.
@@ -159,7 +159,7 @@
 
           <section class="trust-confidence">
             <div class="trust-confidence-heading">
-              <h3>Luottamustaso</h3>
+              <h2>Luottamustaso</h2>
               <span id="trustConfidenceLevel" class="confidence-pill"></span>
             </div>
             <p id="trustConfidenceReason"></p>
@@ -185,7 +185,7 @@
           <section class="workspace-section">
             <div class="workspace-section-heading">
               <div>
-                <h3>Aineistot</h3>
+                <h2>Aineistot</h2>
                 <p>Lisätty aineisto otetaan mukaan seuraavaan ajoon.</p>
               </div>
               <span id="materialCount" class="workspace-count"></span>
@@ -212,7 +212,7 @@
           <section class="workspace-section">
             <div class="workspace-section-heading">
               <div>
-                <h3>Versiot</h3>
+                <h2>Versiot</h2>
                 <p>Tallenna työn tämänhetkinen tulos tarkistuspisteeksi.</p>
               </div>
               <span id="versionCount" class="workspace-count"></span>
@@ -253,7 +253,7 @@
           <header class="orchestra-header">
             <div>
               <p class="orchestra-kicker">TYÖTAPA</p>
-              <h3 id="orchestraName">Suora työpolku</h3>
+              <h2 id="orchestraName">Suora työpolku</h2>
               <p id="orchestraSummary"></p>
             </div>
             <span id="orchestraMode" class="orchestra-mode">Suora</span>
@@ -261,7 +261,7 @@
 
           <section class="orchestra-section">
             <div class="orchestra-section-heading">
-              <h3>Vaiheet</h3>
+              <h2>Vaiheet</h2>
               <span id="orchestraStageCount" class="orchestra-count"></span>
             </div>
             <ol id="orchestraStages" class="orchestra-stages"></ol>
@@ -270,14 +270,14 @@
           <div class="orchestra-grid">
             <section class="orchestra-section orchestra-grid-section">
               <div class="orchestra-section-heading">
-                <h3>Kyvykkyydet</h3>
+                <h2>Kyvykkyydet</h2>
               </div>
               <ul id="orchestraCapabilities" class="orchestra-capabilities"></ul>
             </section>
 
             <section class="orchestra-section orchestra-grid-section">
               <div class="orchestra-section-heading">
-                <h3>Mancerit</h3>
+                <h2>Mancerit</h2>
               </div>
               <ul id="orchestraMancers" class="orchestra-mancers"></ul>
               <p id="orchestraNoMancers" class="orchestra-empty"></p>
@@ -286,7 +286,7 @@
 
           <section class="orchestra-decision">
             <div class="orchestra-section-heading">
-              <h3>Reitityspäätös</h3>
+              <h2>Reitityspäätös</h2>
               <span id="orchestraRouterMode" class="orchestra-router-mode"></span>
             </div>
             <p id="orchestraRouterReason"></p>
@@ -325,7 +325,7 @@
 
           <div class="machine-grid">
             <section class="machine-section">
-              <h3>Tokenit</h3>
+              <h2>Tokenit</h2>
               <dl id="machineUsage" class="machine-list"></dl>
               <p id="machineUsageEmpty" class="machine-empty" hidden>
                 Provider ei palauttanut usage-dataa tästä ajosta.
@@ -333,28 +333,28 @@
             </section>
 
             <section class="machine-section">
-              <h3>Kustannus</h3>
+              <h2>Kustannus</h2>
               <p id="machineCost" class="machine-value"></p>
             </section>
           </div>
 
           <section class="machine-section">
             <div class="machine-section-heading">
-              <h3>Yhteydet ja data</h3>
+              <h2>Yhteydet ja data</h2>
             </div>
             <ul id="machinePermissions" class="machine-permissions"></ul>
           </section>
 
           <section class="machine-section">
             <div class="machine-section-heading">
-              <h3>Datavirta</h3>
+              <h2>Datavirta</h2>
             </div>
             <dl id="machineDataFlow" class="machine-list"></dl>
           </section>
 
           <section class="machine-section">
             <div class="machine-section-heading">
-              <h3>Työkalut</h3>
+              <h2>Työkalut</h2>
               <span id="machineToolCount" class="machine-count"></span>
             </div>
             <ul id="machineTools" class="machine-tools"></ul>
@@ -382,7 +382,7 @@
           <div class="core-grid">
             <section class="core-section">
               <div class="core-section-heading">
-                <h3>Politiikka</h3>
+                <h2>Politiikka</h2>
                 <span id="coreEnvironment" class="core-badge"></span>
               </div>
               <ul id="corePolicy" class="core-status-list"></ul>
@@ -390,7 +390,7 @@
 
             <section class="core-section">
               <div class="core-section-heading">
-                <h3>Tallennus</h3>
+                <h2>Tallennus</h2>
               </div>
               <dl id="coreStorage" class="core-list"></dl>
               <p id="coreStorageNote" class="core-note"></p>
@@ -399,7 +399,7 @@
 
           <section class="core-section">
             <div class="core-section-heading">
-              <h3>Sopimukset</h3>
+              <h2>Sopimukset</h2>
               <span id="coreContractCount" class="core-count"></span>
             </div>
             <ul id="coreContracts" class="core-contracts"></ul>
@@ -407,14 +407,14 @@
 
           <section class="core-section">
             <div class="core-section-heading">
-              <h3>Rajat</h3>
+              <h2>Rajat</h2>
             </div>
             <dl id="coreBoundaries" class="core-list"></dl>
           </section>
 
           <section class="core-section">
             <div class="core-section-heading">
-              <h3>Provenienssi</h3>
+              <h2>Provenienssi</h2>
             </div>
             <ul id="coreProvenance" class="core-trace"></ul>
           </section>
@@ -456,7 +456,7 @@
 
         <div>
           <p class="depth-inspector-kicker">TARKASTELUKERROS</p>
-          <strong id="depthInspectorTitle">Valitse kerros</strong>
+          <h1 id="depthInspectorTitle">Valitse kerros</h1>
         </div>
       </header>
 

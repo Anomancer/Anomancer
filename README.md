@@ -4,6 +4,9 @@ Anomancer is a private, workspace-based orchestration platform with a separate p
 
 Current release: **1.18.7 — Public UI/UX Polish**.
 
+Active construction branch: **1.19.0-lighthouse.1 — Lighthouse Architecture**.
+The public Core stays at 1.18.7 while the local-first D0–D6 Lab is validated.
+
 ## Architecture at a glance
 
 ```text
@@ -27,6 +30,10 @@ Codemancer is the current reference Mancer package. It proves that a domain work
 
 - `server/` — server-authoritative Core, stores, registries and domain services
 - `api/` — thin Vercel HTTP entry adapters
+- `app/lighthouse/` — local-first D0–D6 Lighthouse UI
+- `core/` — Lighthouse intent, orchestration, runtime and policy contracts
+- `catalog/` — capability declarations
+- `providers/` — provider adapters behind capability boundaries
 - `mancers/` — package-defined domain workbenches
 - `content/` — editorial Markdown source
 - `media/` — source media
@@ -49,6 +56,9 @@ npm run check
 
 `npm run check` also bootstraps the build, so generated deployment output does not need to be committed.
 
+For the Lighthouse construction workflow and remote-enable requirements, see
+[`CONSTRUCTION_MODE_1.19.0.md`](CONSTRUCTION_MODE_1.19.0.md).
+
 ## Safety model
 
 The platform deliberately keeps consequential effects separate from model output. Repository writes, tests, pull requests, preview/production deployment and rollback use bounded server-side capabilities with explicit planning, exact written approval and external evidence refresh. Direct default-branch writes and automerge are outside the Codemancer operation contract.
@@ -58,3 +68,6 @@ The public Core is an explicit allowlist projection. Private prompts, outputs, w
 ## Current release evidence
 
 See [`docs/releases/1.18.7/`](docs/releases/1.18.7/) for the UI/UX-polish release and validation contract. The senior audit closure remains under `docs/releases/1.18.6/`.
+
+Lighthouse prerelease evidence lives under
+[`docs/releases/1.19.0-lighthouse.1/`](docs/releases/1.19.0-lighthouse.1/).

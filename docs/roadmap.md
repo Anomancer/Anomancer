@@ -14,7 +14,8 @@ Tämä tiedosto on päätöspinta, ei julkaisu- tai muutoshistoria. Toteutettu h
 
 ## Seuraavaksi
 
-- 1.19 — Auditomancer: auditit rakenteisiksi löydöksiksi ja ihmisen hyväksymiksi tehtäviksi.
+- 1.19 — Lighthouse: D0–D6-progressive disclosure, local-first Lab ja lukitut provider/API-rajat.
+- Auditomancer — ensimmäinen Lighthouseen sovitettava auditointityötila: löydökset rakenteisiksi ja ihmisen hyväksymiksi tehtäviksi.
 - 1.20 — Datamancer: rajattu aineiston tuonti, profiilit, laatutarkistus ja alkuperäketju.
 - 1.21 — Stylemancer: hyväksyttyjen tyylipolitiikkojen tarkistus ilman kirjoittajan äänen automaattista korvaamista.
 - 1.22 — Teachmancer: oppimistavoite, taso, harjoitus ja arviointiraja samassa työmaailmassa.

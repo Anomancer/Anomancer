@@ -16,19 +16,23 @@ import {
 } from '../runtime/lighthouse-machine.js';
 
 import {
-  lighthouseLabAllowed
+  lighthouseEnvironment,
+  lighthouseLabAllowed,
+  lighthouseLabRequiresAuth
 } from '../authority/lab-policy.js';
 
 export const CORE_SNAPSHOT_FORMAT='anomancer-core-snapshot/v1';
 
 function environmentSnapshot(environment={}){
-  const vercelEnv=String(environment.VERCEL_ENV||'development');
+  const vercelEnv=lighthouseEnvironment(environment);
   const explicitLab=String(environment.ANOMANCER_LIGHTHOUSE_LAB||'')==='1';
 
   return {
     name:vercelEnv,
     labAllowed:lighthouseLabAllowed(environment),
+    authRequired:lighthouseLabRequiresAuth(environment),
     explicitLabOverride:explicitLab,
+    remoteDefaultLocked:['preview','production'].includes(vercelEnv)&&!explicitLab,
     productionDefaultLocked:vercelEnv==='production'&&!explicitLab
   };
 }

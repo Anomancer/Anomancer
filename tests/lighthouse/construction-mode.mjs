@@ -43,6 +43,8 @@ const fallback=normalizeWorkResult({state:'totally-unknown',answer:'x'});
 assert.equal(fallback.state,'completed');
 
 assert.equal(lighthouseLabAllowed({VERCEL_ENV:'production'}),false);
+assert.equal(lighthouseLabAllowed({VERCEL_ENV:'preview'}),false);
+assert.equal(lighthouseLabAllowed({VERCEL_ENV:'development'}),true);
 assert.equal(
   lighthouseLabAllowed({VERCEL_ENV:'production',ANOMANCER_LIGHTHOUSE_LAB:'1'}),
   true

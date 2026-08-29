@@ -25,7 +25,7 @@ for(const id of [
 
 assert.match(js,/renderMachine/);
 assert.match(js,/formatLatency/);
-assert.match(css,/LIGHTHOUSE 1\.23\.0 D5 MACHINE ROOM START/);
+assert.match(css,/LIGHTHOUSE D5 MACHINE ROOM START/);
 
 const snapshot=createMachineSnapshot({
   intent:{
@@ -130,4 +130,4 @@ assert.equal(
   'not-used'
 );
 
-console.log('✓ Lighthouse 1.23.0 D5 Machine Room');
+console.log('✓ Lighthouse D5 Machine Room');

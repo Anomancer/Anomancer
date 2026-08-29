@@ -22,7 +22,7 @@ for(const id of [
 
 assert.match(js,/renderTrust/);
 assert.match(js,/confidenceLabel/);
-assert.match(css,/LIGHTHOUSE 1\.20\.0 D2 TRUST SURFACE START/);
+assert.match(css,/LIGHTHOUSE D2 TRUST SURFACE START/);
 
 const normalized=normalizeTrust({
   basis:['Käyttäjän tieto'],
@@ -83,4 +83,4 @@ const webReasoner=async()=>({
 const withWeb=await runIntent({text:'Testaa lähde'},{reasoner:webReasoner});
 assert.deepEqual(withWeb.result.trust.sources,['Todellinen runtime-lähde']);
 
-console.log('✓ Lighthouse 1.20.0 D2 Trust Surface');
+console.log('✓ Lighthouse D2 Trust Surface');

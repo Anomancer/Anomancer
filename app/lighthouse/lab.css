@@ -5,6 +5,7 @@
   color:#f3f5f4;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{min-height:100%}
 body{
   margin:0;
@@ -214,7 +215,7 @@ textarea::placeholder{color:#7f8b87}
 .state-pill[data-state="blocked"]{border-color:#594141;color:#d9bcbc}
 .state-pill[data-state="needs_approval"]{border-color:#5a503c;color:#d9cba9}
 
-.result-card h2{
+.result-card h1{
   font-size:clamp(1.65rem,5vw,2.7rem);
   line-height:1.08;
   margin:12px 0 24px;
@@ -225,6 +226,7 @@ textarea::placeholder{color:#7f8b87}
   color:#e4e9e7;
   font-size:1.04rem;
 }
+.result-card h2,
 .result-card h3{
   font-size:.9rem;
   margin:30px 0 10px;
@@ -243,7 +245,7 @@ textarea::placeholder{color:#7f8b87}
   border-radius:16px;
   background:#111716;
 }
-.questions h3{margin-top:0}
+.questions h2{margin-top:0}
 .result-section{
   margin-top:28px;
 }
@@ -389,7 +391,7 @@ textarea::placeholder{color:#7f8b87}
   }
 }
 
-/* LIGHTHOUSE 1.19.3 D1 VISUAL POLISH START */
+/* LIGHTHOUSE D1 VISUAL POLISH START */
 
 /* Työpinnan kokonaisrytmi */
 .work{
@@ -442,7 +444,7 @@ textarea::placeholder{color:#7f8b87}
   color:#8f9d98;
 }
 
-.result-card h2{
+.result-card h1{
   max-width:18ch;
   margin-top:10px;
   margin-bottom:20px;
@@ -489,7 +491,7 @@ textarea::placeholder{color:#7f8b87}
   background:#101514;
 }
 
-.questions h3{
+.questions h2{
   margin-bottom:8px;
 }
 
@@ -504,7 +506,7 @@ textarea::placeholder{color:#7f8b87}
   margin-bottom:10px;
 }
 
-.continuation-heading h3{
+.continuation-heading h2{
   margin:0;
   color:#d5ddda;
   font-size:.84rem;
@@ -658,7 +660,7 @@ summary:focus-visible{
     padding:24px 17px 25px;
   }
 
-  .result-card h2{
+  .result-card h1{
     max-width:none;
     font-size:clamp(1.55rem,8vw,2.15rem);
   }
@@ -691,9 +693,9 @@ summary:focus-visible{
     transition:none;
   }
 }
-/* LIGHTHOUSE 1.19.3 D1 VISUAL POLISH END */
+/* LIGHTHOUSE D1 VISUAL POLISH END */
 
-/* LIGHTHOUSE 1.20.0 D2 TRUST SURFACE START */
+/* LIGHTHOUSE D2 TRUST SURFACE START */
 
 .trust-surface{
   border-top:1px solid #26302d;
@@ -734,8 +736,8 @@ summary:focus-visible{
   padding:0 0 18px;
 }
 
-.trust-block h3,
-.trust-confidence h3{
+.trust-block h2,
+.trust-confidence h2{
   margin:0 0 9px;
   color:#899893;
   font-size:.72rem;
@@ -775,7 +777,7 @@ summary:focus-visible{
   gap:16px;
 }
 
-.trust-confidence-heading h3{
+.trust-confidence-heading h2{
   margin-bottom:0;
 }
 
@@ -837,9 +839,9 @@ summary:focus-visible{
   }
 }
 
-/* LIGHTHOUSE 1.20.0 D2 TRUST SURFACE END */
+/* LIGHTHOUSE D2 TRUST SURFACE END */
 
-/* LIGHTHOUSE 1.21.0 D3 WORKSPACE START */
+/* LIGHTHOUSE D3 WORKSPACE START */
 
 .workspace-surface{
   border-top:1px solid #26302d;
@@ -881,7 +883,7 @@ summary:focus-visible{
 }
 
 .workspace-identity label,
-.workspace-section h3{
+.workspace-section h2{
   display:block;
   margin:0 0 8px;
   color:#899893;
@@ -917,6 +919,9 @@ summary:focus-visible{
   font-size:.72rem;
   white-space:nowrap;
 }
+.workspace-storage-status[data-state="error"]{
+  color:#d7aaa5;
+}
 
 .workspace-section{
   padding:22px 0;
@@ -931,7 +936,7 @@ summary:focus-visible{
   margin-bottom:14px;
 }
 
-.workspace-section-heading h3{
+.workspace-section-heading h2{
   margin-bottom:5px;
 }
 
@@ -1154,9 +1159,9 @@ summary:focus-visible{
   }
 }
 
-/* LIGHTHOUSE 1.21.0 D3 WORKSPACE END */
+/* LIGHTHOUSE D3 WORKSPACE END */
 
-/* LIGHTHOUSE 1.22.0 D4 ORCHESTRA START */
+/* LIGHTHOUSE D4 ORCHESTRA START */
 
 .orchestra-surface{
   border-top:1px solid #26302d;
@@ -1205,7 +1210,7 @@ summary:focus-visible{
   font-weight:700;
 }
 
-.orchestra-header h3{
+.orchestra-header h2{
   margin:0;
   color:#d0d8d5;
   font-size:1rem;
@@ -1244,7 +1249,7 @@ summary:focus-visible{
   margin-bottom:12px;
 }
 
-.orchestra-section-heading h3{
+.orchestra-section-heading h2{
   margin:0;
   color:#899893;
   font-size:.72rem;
@@ -1421,9 +1426,9 @@ summary:focus-visible{
   }
 }
 
-/* LIGHTHOUSE 1.22.0 D4 ORCHESTRA END */
+/* LIGHTHOUSE D4 ORCHESTRA END */
 
-/* LIGHTHOUSE 1.23.0 D5 MACHINE ROOM START */
+/* LIGHTHOUSE D5 MACHINE ROOM START */
 
 .machine-surface{
   border-top:1px solid #26302d;
@@ -1506,7 +1511,7 @@ summary:focus-visible{
   border-top:0;
 }
 
-.machine-section h3{
+.machine-section h2{
   margin:0 0 11px;
   color:#899893;
   font-size:.72rem;
@@ -1521,7 +1526,7 @@ summary:focus-visible{
   gap:16px;
 }
 
-.machine-section-heading h3{
+.machine-section-heading h2{
   margin-bottom:0;
 }
 
@@ -1687,9 +1692,9 @@ summary:focus-visible{
   }
 }
 
-/* LIGHTHOUSE 1.23.0 D5 MACHINE ROOM END */
+/* LIGHTHOUSE D5 MACHINE ROOM END */
 
-/* LIGHTHOUSE 1.24.0 D6 CORE START */
+/* LIGHTHOUSE D6 CORE START */
 
 .core-surface{
   border-top:1px solid #26302d;
@@ -1789,7 +1794,7 @@ summary:focus-visible{
   margin-bottom:12px;
 }
 
-.core-section-heading h3{
+.core-section-heading h2{
   margin:0;
   color:#899893;
   font-size:.72rem;
@@ -1988,9 +1993,9 @@ summary:focus-visible{
   }
 }
 
-/* LIGHTHOUSE 1.24.0 D6 CORE END */
+/* LIGHTHOUSE D6 CORE END */
 
-/* LIGHTHOUSE 1.24.1 DEPTH ACCORDION START */
+/* LIGHTHOUSE DEPTH ACCORDION START */
 
 /*
   D2-D6 + raw runtime behave as one vertical depth navigator.
@@ -2014,9 +2019,9 @@ summary:focus-visible{
   color:#c1cbc7;
 }
 
-/* LIGHTHOUSE 1.24.1 DEPTH ACCORDION END */
+/* LIGHTHOUSE DEPTH ACCORDION END */
 
-/* LIGHTHOUSE 1.25.0 RESPONSIVE SHELL START */
+/* LIGHTHOUSE RESPONSIVE SHELL START */
 
 .mobile-depth-nav,
 .depth-inspector{
@@ -2093,6 +2098,7 @@ summary:focus-visible{
   }
 
   #depthInspectorTitle{
+    margin:0;
     color:#c4ceca;
     font-size:.9rem;
     font-weight:600;
@@ -2291,7 +2297,7 @@ summary:focus-visible{
 
   .mobile-depth-nav span{
     display:block;
-    color:#53625d;
+    color:#82928c;
     font-size:.59rem;
     letter-spacing:.07em;
   }
@@ -2357,6 +2363,7 @@ summary:focus-visible{
   }
 
   #depthInspectorTitle{
+    margin:0;
     color:#d0d7d4;
     font-size:.91rem;
     font-weight:620;
@@ -2494,9 +2501,9 @@ summary:focus-visible{
   }
 }
 
-/* LIGHTHOUSE 1.25.0 RESPONSIVE SHELL END */
+/* LIGHTHOUSE RESPONSIVE SHELL END */
 
-/* LIGHTHOUSE 1.25.1 FIXED DESKTOP INSPECTOR START */
+/* LIGHTHOUSE FIXED DESKTOP INSPECTOR START */
 
 @media (min-width:1100px){
 
@@ -2555,9 +2562,9 @@ summary:focus-visible{
   }
 }
 
-/* LIGHTHOUSE 1.25.1 FIXED DESKTOP INSPECTOR END */
+/* LIGHTHOUSE FIXED DESKTOP INSPECTOR END */
 
-/* LIGHTHOUSE 1.25.2 RESPONSIVE QA / MOBILE SURGERY START */
+/* LIGHTHOUSE RESPONSIVE QA / MOBILE SURGERY START */
 
 /* Structural overflow hardening. */
 .work,
@@ -2750,4 +2757,4 @@ pre{
   }
 }
 
-/* LIGHTHOUSE 1.25.2 RESPONSIVE QA / MOBILE SURGERY END */
+/* LIGHTHOUSE RESPONSIVE QA / MOBILE SURGERY END */

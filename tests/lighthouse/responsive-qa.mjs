@@ -6,7 +6,7 @@ const css=fs.readFileSync('app/lighthouse/lab.css','utf8');
 
 assert.match(
   js,
-  /LIGHTHOUSE 1\.25\.2 RESPONSIVE QA START/
+  /LIGHTHOUSE RESPONSIVE QA START/
 );
 
 assert.match(
@@ -36,7 +36,7 @@ assert.doesNotMatch(
 
 assert.match(
   css,
-  /LIGHTHOUSE 1\.25\.2 RESPONSIVE QA \/ MOBILE SURGERY START/
+  /LIGHTHOUSE RESPONSIVE QA \/ MOBILE SURGERY START/
 );
 
 assert.match(
@@ -69,4 +69,4 @@ assert.match(
   /prefers-reduced-motion:reduce/
 );
 
-console.log('✓ Lighthouse 1.25.2 Responsive QA / Mobile Surgery');
+console.log('✓ Lighthouse Responsive QA / Mobile Surgery');

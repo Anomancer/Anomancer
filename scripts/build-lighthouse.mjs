@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import {lighthouseLabAllowed} from '../core/authority/lab-policy.js';
 
 const ROOT=process.cwd();
 const SOURCE=path.join(ROOT,'app','lighthouse');
@@ -7,13 +8,10 @@ const PUBLIC=path.join(ROOT,'public');
 const TARGET=path.join(PUBLIC,'lighthouse');
 const LAB_HTML=path.join(PUBLIC,'lab.html');
 
-const production=String(process.env.VERCEL_ENV||'')==='production';
-const explicitlyEnabled=String(process.env.ANOMANCER_LIGHTHOUSE_LAB||'')==='1';
-
-if(production&&!explicitlyEnabled){
+if(!lighthouseLabAllowed(process.env)){
   fs.rmSync(LAB_HTML,{force:true});
   fs.rmSync(TARGET,{recursive:true,force:true});
-  console.log('✓ Lighthouse Lab omitted from production build');
+  console.log('✓ Lighthouse Lab omitted from locked remote build');
   process.exit(0);
 }
 

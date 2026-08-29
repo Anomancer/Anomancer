@@ -4,7 +4,7 @@ import fs from 'node:fs';
 const css=fs.readFileSync('app/lighthouse/lab.css','utf8');
 
 for(const token of [
-  'LIGHTHOUSE 1.19.3 D1 VISUAL POLISH START',
+  'LIGHTHOUSE D1 VISUAL POLISH START',
   '.result-card',
   '.continuation textarea',
   '.work-chain',
@@ -18,8 +18,8 @@ for(const token of [
 }
 
 assert.ok(
-  css.indexOf('LIGHTHOUSE 1.19.3 D1 VISUAL POLISH START') <
-  css.indexOf('LIGHTHOUSE 1.19.3 D1 VISUAL POLISH END')
+  css.indexOf('LIGHTHOUSE D1 VISUAL POLISH START') <
+  css.indexOf('LIGHTHOUSE D1 VISUAL POLISH END')
 );
 
-console.log('✓ Lighthouse 1.19.3 D1 Visual Polish');
+console.log('✓ Lighthouse D1 Visual Polish');

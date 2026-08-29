@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.19.0-lighthouse.1 — Lighthouse Construction Mode
+
+- Added the D0–D6 Lighthouse Lab flow: Door, Work, Trust, Workspace, Orchestra, Machine and Core.
+- Kept the Lab local by default; preview and production require an explicit flag plus an authenticated admin session and CSRF token.
+- Added same-origin, JSON content-type, 64 KiB body and rate-limit boundaries to the Lab API.
+- Made initial workspaces ephemeral until the first successful result and exposed local-storage failures in the UI.
+- Added prompt-injection boundaries for workspace material and previous work context.
+- Fixed mobile depth navigation, heading hierarchy, control sizing, horizontal overflow and desktop inspector stability.
+- Added real Playwright + axe coverage for D0 → D1 → D2/D3 on desktop and mobile.
+- Added Lighthouse source/runtime files to the allowlisted export bundles and disabled automatic Vercel deployments from the construction branch.
+
 ## 1.18.7.2 — Visible Workspace Dialog Hotfix
 
 - Portaled the workspace creation dialog out of the hidden editorial editor grid before `showModal()`.
