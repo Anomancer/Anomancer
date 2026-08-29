@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.18.7.1 — Codemancer Workspace Creation Hotfix
+
+- Restored the missing `workspaceDialogStatus()` helper that made workspace creation and management buttons fail with a browser `ReferenceError`.
+- Added a full-app browser regression that clicks `+ Luo Codemancer-työtila` and verifies the creation dialog and Codemancer template selection.
+- Hardened workspace deep-link handling so a valid anchor URL remains available when the shell navigation service is unavailable.
+- Bumped the Lähetyskone service-worker cache generation to `v1.18.7-p2` so repaired admin runtime assets replace the previous cached generation.
+- Core/package compatibility remains `1.18.7`; `1.18.7.1` is a surgical hotfix label rather than a four-part npm semantic version.
+
 ## 1.18.7 — Public UI/UX Polish
 
 - Moved article claims and evidence into an accessible disclosure that is closed by default.
