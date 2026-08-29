@@ -1989,3 +1989,29 @@ summary:focus-visible{
 }
 
 /* LIGHTHOUSE 1.24.0 D6 CORE END */
+
+/* LIGHTHOUSE 1.24.1 DEPTH ACCORDION START */
+
+/*
+  D2-D6 + raw runtime behave as one vertical depth navigator.
+  Only one deep inspection surface is open at a time.
+*/
+#trustDetails,
+#workspaceDetails,
+#orchestraDetails,
+#machineDetails,
+#coreDetails,
+#rawRuntimeDetails{
+  scroll-margin-top:18px;
+}
+
+#trustDetails[open]>summary,
+#workspaceDetails[open]>summary,
+#orchestraDetails[open]>summary,
+#machineDetails[open]>summary,
+#coreDetails[open]>summary,
+#rawRuntimeDetails[open]>summary{
+  color:#c1cbc7;
+}
+
+/* LIGHTHOUSE 1.24.1 DEPTH ACCORDION END */

@@ -1045,3 +1045,35 @@ if(activeWorkspace?.latestPayload?.result){
   renderWorkspace();
 }
 
+
+/* LIGHTHOUSE 1.24.1 DEPTH ACCORDION START */
+
+const DEPTH_PANEL_IDS=[
+  'trustDetails',
+  'workspaceDetails',
+  'orchestraDetails',
+  'machineDetails',
+  'coreDetails',
+  'rawRuntimeDetails'
+];
+
+const depthPanels=DEPTH_PANEL_IDS
+  .map(id=>document.getElementById(id))
+  .filter(Boolean);
+
+function closeOtherDepthPanels(activePanel){
+  for(const panel of depthPanels){
+    if(panel!==activePanel && panel.open){
+      panel.open=false;
+    }
+  }
+}
+
+for(const panel of depthPanels){
+  panel.addEventListener('toggle',()=>{
+    if(!panel.open)return;
+    closeOtherDepthPanels(panel);
+  });
+}
+
+/* LIGHTHOUSE 1.24.1 DEPTH ACCORDION END */
