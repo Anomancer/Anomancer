@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.22.0-lighthouse-actuator.1 — Human-approved Actuator
+
+- Added a separate mutation rail after read-only Hands: proposal → diff → signed approval → bounded execute → receipt.
+- Mutation proposals may target only repository files successfully read in the same Lighthouse run.
+- Bound approvals to the authenticated admin session, proposal hash, base branch SHA, source file SHAs, operation branch and short expiry window.
+- Added explicit written confirmation and replay protection before any repository side effect.
+- Added the first Lighthouse write adapter: create an isolated `anomancer/op-*` branch and commit while proving the default branch remained unchanged.
+- Denied high-authority paths such as workflows, deploy/package manifests, auth/GitHub adapters, governance scripts and the mutation guard itself.
+- Added D1 mutation approval UI with file diffs, D5 proposal telemetry and D6 mutation provenance.
+- Kept tests, pull requests, deploys, merges, deletes and production operations outside the automatic Lighthouse path.
+
+
 ## 1.21.0-lighthouse-hands.1 — Lighthouse Hands
 
 - Added a provider-neutral capability route between ProblemModel resolution and reasoning.

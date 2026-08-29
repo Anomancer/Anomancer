@@ -1,8 +1,8 @@
 {
   "format": "anomancer-export/v1",
   "mode": "source",
-  "version": "1.21.0-lighthouse-hands.1",
-  "createdAt": "2026-08-29T18:02:39.675Z",
+  "version": "1.22.0-lighthouse-actuator.1",
+  "createdAt": "2026-08-29T18:21:57.828Z",
   "allowlist": {
     "rootFiles": [
       ".gitignore",
@@ -94,19 +94,19 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "7a699d2f37175aed3a605e32520f667633561e6ca8deaee4ef5697b47c5f7359"
+      "sha256": "2a2aab744d7df811e4b1c7745d0d6f17687a807438c7a4d6f8e0e575e56f331d"
     },
     {
       "path": "CONSTRUCTION_MODE_1.19.0.md",
-      "sha256": "f6420802c7d60910895d96b95712aecf891f0195ece1d147eb45e864f48115bf"
+      "sha256": "aab55e874f271c0979429847b634b9038f1f7f5f1da20ed9bdcfb06565523aa3"
     },
     {
       "path": "INSTALL_TO_CURRENT.sh",
-      "sha256": "93d4b6732a3edf3e6196693d55cdfd0626db57c6e4c41e01a520c6eceac380bc"
+      "sha256": "fd675e20a5791cdae453c59d4fdd1bb00b9ecb521af991e82b730baadce47905"
     },
     {
       "path": "README.md",
-      "sha256": "22bb57d0999ddabe412baf19771b08d848ece2e47bd22637a2ca6bea3c59e279"
+      "sha256": "eead2953cefdb4e3fe04a1f90ea0f42933e8b35f8e516a45e526b65b29023105"
     },
     {
       "path": "admin-agents.js",
@@ -234,7 +234,11 @@
     },
     {
       "path": "api/lab/intent.js",
-      "sha256": "8b7c451d833ce8889841e38a4d93acb3a4ad4c89b522294c4639e06f4288d3c0"
+      "sha256": "a99be9fba46d46e03e1c5e4e83f4786c687ffcd92be0375eceaa7d512d711ae8"
+    },
+    {
+      "path": "api/lab/mutation.js",
+      "sha256": "c98762a0fda9d86a6fecafd01ddf26a848afe8ea475952409f4665744fbcfb66"
     },
     {
       "path": "api/lab/preview.js",
@@ -242,15 +246,15 @@
     },
     {
       "path": "app/lighthouse/lab.css",
-      "sha256": "ed1e8fb1010439f02f56887956c4cfbee43fa2ec6cc586ff975dcf2292fbc2f8"
+      "sha256": "a1aef95391f19d6601855eeedc50b397e06b07261d43678e89dcd6cfaf698475"
     },
     {
       "path": "app/lighthouse/lab.html",
-      "sha256": "30c00ca8a8b0e44a723664e0a1e813f9a1474aa2165d82dcacb5fac579f4a53d"
+      "sha256": "7528c2286eaf6e8ff41fb08251c12d8c5d8de0fa523c88223003140b2db8d22d"
     },
     {
       "path": "app/lighthouse/lab.js",
-      "sha256": "c3a6abad4c1e2f4e47dedac2dceb0c1836c6a81dedfedbaca5498adb83ca7504"
+      "sha256": "69bebf70583a54ab88179a72dcbaf86a9f1c357305e07c4057ca7cb5ba9c1789"
     },
     {
       "path": "app/lighthouse/workspace-store.js",
@@ -258,7 +262,7 @@
     },
     {
       "path": "catalog/capabilities.json",
-      "sha256": "d89adbb4311cb9c6152b0732c3e01eb1615c57b15f8e7b40e057e738f66aec52"
+      "sha256": "1687f1c1621d968d2cf5b647269443bb12b954eec966382c356832668b4f833f"
     },
     {
       "path": "catalog/mancers.json",
@@ -382,11 +386,11 @@
     },
     {
       "path": "core/capabilities/registry.js",
-      "sha256": "de4d834317476b7c2cdcafa0a3cde138b9d495b93e8bd4a93ac6660c3219d3db"
+      "sha256": "66a4269d482d9ad0be88fd2ae055c2184ce99b3b53017a9ccce9ee78567d7a35"
     },
     {
       "path": "core/intelligence/lighthouse-intelligence.js",
-      "sha256": "64ce8c4164bb552a3924a78dcdfd72c0e3377eb12d70cc0221c8c4c11a72b66e"
+      "sha256": "fcb6304944dcb5fa032724e057d4b7ef0a0b94cf7d8433c34f10782e1ac76807"
     },
     {
       "path": "core/intent/contracts.js",
@@ -394,31 +398,35 @@
     },
     {
       "path": "core/intent/intent-service.js",
-      "sha256": "1e6acf19a912d0bee6beec8d9d6d9c6aa69d269a468aef373d5398d12e4edf22"
+      "sha256": "ed66629daaa204b2d8f855ce3a59893da18d90d3ab60343b1200d694530d1501"
     },
     {
       "path": "core/intent/problem-model.js",
-      "sha256": "254317d532658d345c63a0ead049f03896b750d8fc2e3e410972c9ccee1e5eba"
+      "sha256": "840cf01bf26c020ff8b1f3c97eec283770fa1f634b03c80b1eb721c7a891dcbf"
     },
     {
       "path": "core/intent/recommendation.js",
-      "sha256": "14b24a7278018c5322cdbb5f6e28c83166404cdc16192f01f807e3533f0a116a"
+      "sha256": "04c9b6401f4dba67aeba4242f0b94dbbce7b21b90de1d5f0c92d0c0684eaffad"
+    },
+    {
+      "path": "core/mutation/proposal.js",
+      "sha256": "b139af3702cbe7fa3dd8e4522aa6e6a625c166dca031aab3b9add4bf5359433f"
     },
     {
       "path": "core/orchestration/lighthouse-plan.js",
-      "sha256": "139cc543e8663916240e63375a8fa516a66638d392ba7599ea4ba24f7a851805"
+      "sha256": "992d4ebf0e51fb7354343ab0dccaed5deca17735a0e5d481090078ad5716fea1"
     },
     {
       "path": "core/runtime/capability-router.js",
-      "sha256": "eec4d47245ab3d75654c4ba68a98dc903af92c6814424c2e3e64970285c76924"
+      "sha256": "d83f1c20b6eccea77689e2bd5c81e8a0ff6db013e3bab527c08e7c8475eea4dc"
     },
     {
       "path": "core/runtime/lighthouse-machine.js",
-      "sha256": "dbc5b90c8d4f7f6a4b1469febd6ba3cd905d56c906168ad1e0937c1398a21387"
+      "sha256": "09cf8745d57aeba70b3b56cefcc2ea168ca9e071df810f4803dab994fa363625"
     },
     {
       "path": "core/system/lighthouse-core.js",
-      "sha256": "b76eddba110a9c97f12a166709483de20da50251f2f98ae07858086ac1d42dea"
+      "sha256": "20f8e599f65151d9e3e08787fad15bafc17ca4e27e86795267cef722d77a9ba5"
     },
     {
       "path": "core/workspace/contracts.js",
@@ -430,7 +438,7 @@
     },
     {
       "path": "docs/README.md",
-      "sha256": "79df748d3cadf31e883a85d55aa4a4dc284125793a66ad5b29527148399f8312"
+      "sha256": "620941f45076bfd834d5691314d46173678665dfe4d757752cd5f5ea4bd50e4c"
     },
     {
       "path": "docs/architecture/agents.md",
@@ -471,6 +479,10 @@
     {
       "path": "docs/architecture/lighthouse-hands.md",
       "sha256": "2eaa9c79afd7edbfa0cd5e67a628b1ac9c655a9c92f8ac68b1866ae474b5888d"
+    },
+    {
+      "path": "docs/architecture/lighthouse-mutation-rail.md",
+      "sha256": "fb02355300abec959fd4b0404d1031662318f7efff4e38b4dc9997d31355f7a2"
     },
     {
       "path": "docs/architecture/lighthouse-ux-v2.md",
@@ -581,6 +593,14 @@
       "sha256": "8adc02f090ff336b1435db4c062d64237ba5d9e662ab858697b7ac2e71c4ae18"
     },
     {
+      "path": "docs/releases/1.22.0-lighthouse-actuator.1/release.md",
+      "sha256": "ef01b35579a8a03a7123a85e9bb8214b5355294cddb8eaebc4b7d13f4229545d"
+    },
+    {
+      "path": "docs/releases/1.22.0-lighthouse-actuator.1/validation.md",
+      "sha256": "773313a520fa82b39fbddf5d4620e770e44e207b5ab38ca6927924d7e289034b"
+    },
+    {
       "path": "docs/roadmap.md",
       "sha256": "8b398ae40dbc0cac660983ddcdc345fc92236bdf4037386e38a1e3c46a56c9d1"
     },
@@ -658,11 +678,11 @@
     },
     {
       "path": "package-lock.json",
-      "sha256": "752a1416602fa683db24b96e548041d821a50362c60cf2bec36ef24b7491f496"
+      "sha256": "a03f18372b55a339be814ce0a8baec66f7be11af15aa0289e52a46bfa58417d7"
     },
     {
       "path": "package.json",
-      "sha256": "89a0b7aada88b65cac608f1fbf4942d390dbcca20743e615cd5887ef5d025483"
+      "sha256": "203c836e7ad8a56e776236b895ad0fac054bc418590d3d145b873ce70057bb42"
     },
     {
       "path": "providers/deepseek/adapter.js",
@@ -849,8 +869,12 @@
       "sha256": "63f7f731b9f46abc9036f07ef95e033452f4d73d0183045eaaaff0d389b7e077"
     },
     {
+      "path": "server/lighthouse-actuator.js",
+      "sha256": "f80c60b440e783b05a23ad7ba86dd4741e14bccf0e7de89875445e03f2d96829"
+    },
+    {
       "path": "server/lighthouse-hands.js",
-      "sha256": "faa785f2e297bf4583fff59ad6c7e787a1ef12ebac4f10838f26d538b8968660"
+      "sha256": "7f3fc431af5d8f04d36504d2f13dae798a3ebce79e125f033c43c2c2009fff0f"
     },
     {
       "path": "server/mancer-artifact-store.js",
@@ -1082,7 +1106,7 @@
     },
     {
       "path": "tests/integrity-security/export-allowlist.mjs",
-      "sha256": "77e4d2912b72449466c054efd1d09043e8c74c8473e71a94b90ff7dab5d65b3a"
+      "sha256": "8793a5ae7b73d5259a66b6a5736987a67cc5facd78aa74cdcc80335d943a692a"
     },
     {
       "path": "tests/integrity-security/frontend-runtime-boundary.mjs",
@@ -1103,6 +1127,10 @@
     {
       "path": "tests/integrity-security/workspace-integrity.mjs",
       "sha256": "c0fed01200fdd8d6fd439051b5e4ba7a9f5f99b3d580cbcd68ffc07ce8c8d0d2"
+    },
+    {
+      "path": "tests/lighthouse/actuator.mjs",
+      "sha256": "202c52f4eb358f1f0dfc5272a6b96082649e5cce27a44122a3563275418a4f67"
     },
     {
       "path": "tests/lighthouse/api-boundary.mjs",
@@ -1130,7 +1158,7 @@
     },
     {
       "path": "tests/lighthouse/hands.mjs",
-      "sha256": "7a135575d8dfc36f2e8271a232b6c8c17968208e5a6f653dad0ab09f4535bb13"
+      "sha256": "0002db0148abce431a83eb4359918090d24a85ab71c43c3710ed6c3297a35775"
     },
     {
       "path": "tests/lighthouse/intelligence.mjs",
@@ -1226,7 +1254,7 @@
     },
     {
       "path": "tests/public-api-boundary/api-surface.mjs",
-      "sha256": "f295c347fceeeebbef99816e6f5e5e40a3373c083b7fbc706d518b09e509a06b"
+      "sha256": "f1a5e38d73bb42ce6491b98f969ee545ec692e8a6f20bdc57d124de859114696"
     },
     {
       "path": "tests/public-api-boundary/public-boundary.mjs",
@@ -1238,7 +1266,7 @@
     },
     {
       "path": "tests/release-gate.mjs",
-      "sha256": "f6282d08ea5ea8bc443ec4d91129bc372f8f8c5ea601e8a09ad467e563b7f630"
+      "sha256": "5d48d9a543c7b9c8323850a0d9a19de0bad541583184b795c45a0458490c93bd"
     },
     {
       "path": "tests/ui-browser/accessibility-matrix.mjs",

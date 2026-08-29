@@ -55,7 +55,11 @@ export function createOrchestrationPlan(intent={},intelligence=profileIntent(int
                     ?'Lukee nimettyjä repository-tiedostoja read-only GitHub-yhteydellä.'
                     :capability.mode==='package-context'
                       ?'Aktivoi sopivan Mancer-paketin menetelmäkontekstiksi ilman write-valtuuksia.'
-                      :'Toteutetaan reasoning-kyvykkyyden kautta.'
+                      :capability.mode==='bounded-mutation-proposal'
+                        ?'Valmistelee rajatun repository-muutosehdotuksen ilman sivuvaikutusta.'
+                        :capability.mode==='human-approved-operation-branch'
+                          ?'Sallii vain erillisen ihmishyväksytyn operation-haaran luonnin.'
+                          :'Toteutetaan reasoning-kyvykkyyden kautta.'
         }))
       :[{
           id:'llm.reasoning',
@@ -135,6 +139,14 @@ export function createOrchestrationPlan(intent={},intelligence=profileIntent(int
         reviewed?'Toinen reasoning-kierros tarkistaa luonnoksen olennaiset virheet ja puutteet.':'Erillistä tarkistuskierrosta ei arvioitu tarpeelliseksi.'
       ),
       stage(
+        'proposal',
+        'Muutos ehdotettiin',
+        intelligence?.externalActionRequested===true?'pending':'skipped',
+        intelligence?.externalActionRequested===true
+          ?'Mahdollinen repository-muutos muodostetaan tarkistettavaksi ilman sivuvaikutusta.'
+          :'Repository-muutosta ei pyydetty.'
+      ),
+      stage(
         'trust',
         'Luottamuskerros muodostettiin',
         'pending',
@@ -209,6 +221,16 @@ export function completeOrchestrationPlan(
       };
     }
 
+    if(item.id==='proposal'&&item.status!=='skipped'){
+      if(intelligenceRun.proposalFailed){
+        return {...item,status:'failed',detail:'Muutosluonnoksen muodostus epäonnistui. Repositoryyn ei tehty mitään.',durationMs:Number(intelligenceRun.proposalDurationMs)||0};
+      }
+      if(responseMeta?.mutationProposed===true){
+        return {...item,status:'completed',detail:`Rajattu muutosluonnos muodostettiin ${Number(responseMeta.mutationProposalFiles)||0} tiedostolle. Suoritus odottaa erillistä ihmishyväksyntää.`,durationMs:Number(intelligenceRun.proposalDurationMs)||0};
+      }
+      return {...item,status:'skipped',detail:'Turvallista täsmällistä repository-muutosta ei muodostunut. Sivuvaikutusta ei tehty.',durationMs:Number(intelligenceRun.proposalDurationMs)||0};
+    }
+
     if(item.id==='trust'){
       return {
         ...item,
@@ -231,7 +253,7 @@ export function completeOrchestrationPlan(
       externalReadUsed:responseMeta?.externalReadUsed===true,
       handsUsed:Array.isArray(responseMeta?.capabilityEvents)?responseMeta.capabilityEvents.filter(event=>event.status==='completed').length:0,
       passes:Number(responseMeta?.reasoningPasses?.length)||1,
-      degraded:Boolean(intelligenceRun.planFailed||intelligenceRun.reviewFailed||responseMeta?.capabilityFailures?.length)
+      degraded:Boolean(intelligenceRun.planFailed||intelligenceRun.reviewFailed||intelligenceRun.proposalFailed||responseMeta?.capabilityFailures?.length)
     }
   };
 }

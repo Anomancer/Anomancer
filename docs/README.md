@@ -10,6 +10,7 @@ This directory describes the current Anomancer architecture. Historical release 
 - `architecture/agents.md` — agent contracts and authority
 - `architecture/orchestration.md` — orchestra execution model
 - `architecture/runtime-routing-tools.md` — runtime profiles, Model Router, Tool Broker
+- `architecture/lighthouse-mutation-rail.md` — signed proposal, human approval and operation-branch actuator
 - `architecture/archive-memory.md` — Archive, Nanomancer and Archive Curator
 - `architecture/runs-receipts.md` — run records, receipts and usage
 - `architecture/operations-capabilities.md` — side-effectful repository/test/deploy operations
@@ -25,3 +26,4 @@ This directory describes the current Anomancer architecture. Historical release 
 - `releases/1.19.0-lighthouse.2/` — adaptive Lighthouse construction evidence
 
 - `releases/1.21.0-lighthouse-hands.1/` — read-only capability router, Mancer activation and Machine/Core hand-trace evidence
+- `releases/1.22.0-lighthouse-actuator.1/` — signed mutation proposal, explicit approval and operation-branch execution evidence

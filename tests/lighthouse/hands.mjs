@@ -43,11 +43,17 @@ assert.ok(software.capabilityRoute.readOnly.includes('mancer.activate'));
 assert.match(software.recommendation.dataNotice,/repository/i);
 assert.equal(software.capabilityRoute.externalSideEffectsAllowed,false);
 
-const writeIntent=previewIntent({text:'Deployaa tämä productioniin ja push GitHubiin.'});
+const textCorrection=previewIntent({text:'Korjaa tämän tekstin kirjoitusvirheet.'});
+assert.equal(textCorrection.authority.externalActionRequested,false);
+assert.equal(textCorrection.problem.needs.includes('repository.write'),false);
+
+const writeIntent=previewIntent({text:'Korjaa core/intent/intent-service.js ja push GitHubiin.'},{availability:{'repository.read':true,'repository.propose':true,'repository.write':true}});
 assert.equal(writeIntent.authority.externalActionRequested,true);
 assert.equal(writeIntent.authority.externalEffectsAllowed,false);
-assert.ok(writeIntent.problem.needs.includes('external.execute'));
-assert.ok(writeIntent.capabilityRoute.blocked.includes('external.execute'));
+assert.ok(writeIntent.problem.needs.includes('repository.propose'));
+assert.ok(writeIntent.problem.needs.includes('repository.write'));
+assert.ok(writeIntent.capabilityRoute.proposals.includes('repository.propose'));
+assert.ok(writeIntent.capabilityRoute.blocked.includes('repository.write'));
 
 const realMancerHands=await executeLighthouseHands({
   intent:{text:'Auditoi koodi',workspace:{materials:[]}},

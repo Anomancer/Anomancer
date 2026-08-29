@@ -15,6 +15,7 @@ import {
 } from '../orchestration/lighthouse-plan.js';
 import {createMachineSnapshot} from '../runtime/lighthouse-machine.js';
 import {buildCapabilityRoute} from '../runtime/capability-router.js';
+import {MUTATION_PROPOSAL_SYSTEM,MUTATION_RUNTIME_FORMAT,normalizeMutationProposal} from '../mutation/proposal.js';
 import {
   createCoreSnapshot,
   runtimeEnvironment
@@ -416,7 +417,46 @@ export async function runIntent(input,{reasoner,availability={},capabilityExecut
     intelligenceRun.reviewSkipped=true;
   }
 
+  let mutationProposal=null;
+  const proposalRequested=route.problem?.domain==='software'
+    && route.profile?.externalActionRequested===true
+    && Array.isArray(capabilityRoute.proposals)
+    && capabilityRoute.proposals.includes('repository.propose')
+    && hands.repositoryReadUsed===true;
+
+  if(proposalRequested){
+    const allowedPaths=(Array.isArray(hands.sources)?hands.sources:[])
+      .filter(source=>source?.type==='repository-file')
+      .map(source=>String(source.path||source.title||''))
+      .filter(Boolean);
+    const proposalUser=[
+      effectiveUser,
+      `SALLITUT MUUTOSPOLUT:\n${allowedPaths.map(path=>`- ${path}`).join('\n')}`,
+      `NYKYINEN TARKISTETTU TULOS:\n${JSON.stringify(normalized)}`
+    ].filter(Boolean).join('\n\n');
+    const proposalPass=await callPass(reasoner,{phase:'proposal',system:MUTATION_PROPOSAL_SYSTEM,user:proposalUser});
+    passes.push(proposalPass);
+    intelligenceRun.proposalDurationMs=proposalPass.durationMs;
+    intelligenceRun.proposalFailed=Boolean(proposalPass.error);
+    if(!proposalPass.error){
+      const candidate=normalizeMutationProposal(proposalPass.response?.result||proposalPass.response,{allowedPaths});
+      if(candidate.files.length){
+        mutationProposal=candidate;
+        normalized={
+          ...normalized,
+          state:'needs_approval',
+          nextSteps:[
+            'Tarkista ehdotettu diff ja riskit ennen hyväksyntää.',
+            ...normalized.nextSteps
+          ].slice(0,5)
+        };
+      }
+    }
+  }
+
   const responseMeta=aggregateMeta(passes,hands);
+  responseMeta.mutationProposed=Boolean(mutationProposal);
+  responseMeta.mutationProposalFiles=mutationProposal?.files?.length||0;
   const result=runtimeGroundTrust(normalized,{intent,responseMeta});
   const durationMs=Date.now()-startedAt;
   const completedOrchestration=completeOrchestrationPlan(orchestration,{
@@ -461,6 +501,13 @@ export async function runIntent(input,{reasoner,availability={},capabilityExecut
         capabilityRoute
       },
       hands,
+      mutation:{
+        format:MUTATION_RUNTIME_FORMAT,
+        proposed:Boolean(mutationProposal),
+        proposal:mutationProposal,
+        approval:null,
+        receipt:null
+      },
       intelligence:{
         profile:intelligence,
         plan,
@@ -470,7 +517,7 @@ export async function runIntent(input,{reasoner,availability={},capabilityExecut
           issues:review.issues,
           improvements:review.improvements
         }:null,
-        degraded:Boolean(intelligenceRun.planFailed||intelligenceRun.reviewFailed||hands.failures?.length)
+        degraded:Boolean(intelligenceRun.planFailed||intelligenceRun.reviewFailed||intelligenceRun.proposalFailed||hands.failures?.length)
       },
       orchestration:completedOrchestration,
       machine,

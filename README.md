@@ -4,8 +4,8 @@ Anomancer is a private, workspace-based orchestration platform with a separate p
 
 Current release: **1.18.7 — Public UI/UX Polish**.
 
-Active construction branch: **1.21.0-lighthouse-hands.1 — Lighthouse Hands**.
-The public Core stays at 1.18.7 while the D0–D6 Lab, adaptive reasoning and bounded read-only capability runtime are validated.
+Active construction branch: **1.22.0-lighthouse-actuator.1 — Human-approved Actuator**.
+The public Core stays at 1.18.7 while the D0–D6 Lab, adaptive reasoning, bounded read-only Hands and the first human-approved operation-branch actuator are validated.
 
 ## Architecture at a glance
 
@@ -61,7 +61,7 @@ For the Lighthouse construction workflow and remote-enable requirements, see
 
 ## Safety model
 
-The platform deliberately keeps consequential effects separate from model output. Repository writes, tests, pull requests, preview/production deployment and rollback use bounded server-side capabilities with explicit planning, exact written approval and external evidence refresh. Direct default-branch writes and automerge are outside the Codemancer operation contract.
+The platform deliberately keeps consequential effects separate from model output. Lighthouse may now prepare a repository diff, but the first actuator can execute only after an exact written approval and only by creating an isolated `anomancer/op-*` branch. Repository tests, pull requests, preview/production deployment and rollback remain separate bounded server-side capabilities. Direct default-branch writes and automerge stay outside the contract.
 
 The public Core is an explicit allowlist projection. Private prompts, outputs, workspace state, runtime profiles, provider configuration and operational history remain outside the public architecture snapshot.
 
@@ -70,4 +70,4 @@ The public Core is an explicit allowlist projection. Private prompts, outputs, w
 See [`docs/releases/1.18.7/`](docs/releases/1.18.7/) for the UI/UX-polish release and validation contract. The senior audit closure remains under `docs/releases/1.18.6/`.
 
 Lighthouse prerelease evidence lives under
-[`docs/releases/1.21.0-lighthouse-hands.1/`](docs/releases/1.21.0-lighthouse-hands.1/).
+[`docs/releases/1.22.0-lighthouse-actuator.1/`](docs/releases/1.22.0-lighthouse-actuator.1/).

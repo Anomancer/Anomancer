@@ -3085,3 +3085,15 @@ body.depth-menu-open{
   }
 }
 /* LIGHTHOUSE UX ARCHITECTURE V2 END */
+
+/* Lighthouse 1.22 · human-approved mutation rail */
+.mutation-panel{margin:1.25rem 0;padding:1rem;border:1px solid rgba(255,96,96,.4);border-radius:18px;background:linear-gradient(180deg,rgba(118,18,18,.16),rgba(18,18,22,.72));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.mutation-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}.mutation-heading h2{margin:.2rem 0 0;font-size:1.08rem}.mutation-kicker{margin:0;font-size:.7rem;letter-spacing:.13em;font-weight:800;color:var(--muted)}
+.mutation-risk{flex:0 0 auto;padding:.3rem .55rem;border:1px solid currentColor;border-radius:999px;font-size:.72rem;font-weight:800;text-transform:uppercase}.mutation-risk[data-risk="high"]{color:#ff9b9b}.mutation-risk[data-risk="medium"]{color:#ffd27b}.mutation-risk[data-risk="low"]{color:#9de7b2}
+.mutation-summary,.mutation-boundary,.mutation-message{color:var(--muted);line-height:1.55}.mutation-files{display:grid;gap:.75rem;margin-top:1rem}.mutation-file{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:rgba(0,0,0,.16)}
+.mutation-file header{display:flex;justify-content:space-between;gap:1rem;padding:.7rem .8rem;border-bottom:1px solid var(--line)}.mutation-file strong{overflow-wrap:anywhere}.mutation-file .mutation-delta{color:var(--muted);font-size:.76rem;white-space:nowrap}.mutation-file p{margin:.65rem .8rem;color:var(--muted);font-size:.86rem}
+.mutation-diff{margin:0;padding:.8rem;max-height:28rem;overflow:auto;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;background:rgba(0,0,0,.28);border:0;color:inherit}
+.mutation-verification{margin-top:1rem}.mutation-verification h3{font-size:.9rem;margin:0 0 .45rem}.mutation-verification ul{margin:.35rem 0 0;padding-left:1.2rem}
+.mutation-approval{display:grid;gap:.65rem;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,96,96,.25)}.mutation-approval p{margin:0}.mutation-approval code{font-weight:800}.mutation-approval input{width:100%;box-sizing:border-box}.mutation-execute{justify-self:start}.mutation-message:empty{display:none}
+.mutation-receipt{margin-top:1rem;padding:.85rem;border:1px solid rgba(107,224,145,.35);border-radius:14px;background:rgba(34,118,68,.12)}.mutation-receipt strong{display:block;margin-bottom:.35rem}.mutation-receipt a{overflow-wrap:anywhere}
+@media(max-width:720px){.mutation-heading{display:grid}.mutation-execute{width:100%}.mutation-diff{max-height:20rem}}

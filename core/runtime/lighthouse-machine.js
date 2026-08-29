@@ -125,6 +125,7 @@ export function createMachineSnapshot({
   const searchQuerySent=responseMeta.searchQuerySent===true;
   const webFetchUsed=responseMeta.webFetchUsed===true;
   const repositoryReadUsed=responseMeta.repositoryReadUsed===true;
+  const mutationProposed=responseMeta.mutationProposed===true;
   const externalReadUsed=responseMeta.externalReadUsed===true;
   const mancers=Array.isArray(responseMeta.mancers)?responseMeta.mancers:[];
   const capabilityEvents=(Array.isArray(responseMeta.capabilityEvents)?responseMeta.capabilityEvents:[]).map(event=>({
@@ -186,7 +187,9 @@ export function createMachineSnapshot({
       webFetchUsed,
       repositoryReadUsed,
       externalReadUsed,
-      mancerActivated:mancers.length>0
+      mancerActivated:mancers.length>0,
+      mutationProposed,
+      externalWriteUsed:false
     },
 
     dataFlow:{
@@ -241,6 +244,14 @@ export function createMachineSnapshot({
         detail:repositoryReadUsed
           ?'Ajossa luettiin käyttäjän nimeämiä repository-tiedostoja read-only GitHub-yhteydellä.'
           :'Repository-tiedostoja ei luettu tässä ajossa.'
+      },
+      {
+        id:'repository-mutation',
+        label:'Repository-muutos',
+        status:mutationProposed?'proposal-only':'not-used',
+        detail:mutationProposed
+          ?'Ajossa muodostettiin tarkistettava muutosluonnos. Repositoryyn ei vielä kirjoitettu mitään.'
+          :'Repository-muutosta ei valmisteltu tässä ajossa.'
       },
       {
         id:'mancer-context',

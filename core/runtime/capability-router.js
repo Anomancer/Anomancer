@@ -8,6 +8,8 @@ const READ_ONLY=new Set([
   'mancer.activate'
 ]);
 
+const PROPOSAL_ONLY=new Set(['repository.propose']);
+
 const REASONING_PROXY=new Set([
   'llm.reasoning','llm.analysis','llm.writer','llm.critic','comparison','risk.analysis',
   'evidence.trace','evidence.validate','contradiction.check','code.inspect','architecture.analyze'
@@ -20,10 +22,12 @@ export function buildCapabilityRoute({problem={},resolution={},recommendation={}
   const readOnly=[];
   const reasoning=[];
   const blocked=[];
+  const proposals=[];
 
   for(const capability of matched){
     const id=String(capability?.id||'');
     if(READ_ONLY.has(id))readOnly.push(id);
+    else if(PROPOSAL_ONLY.has(id))proposals.push(id);
     else if(REASONING_PROXY.has(id))reasoning.push(id);
     else if(capability?.requiresApproval===true||id==='external.execute')blocked.push(id);
   }
@@ -39,6 +43,7 @@ export function buildCapabilityRoute({problem={},resolution={},recommendation={}
     mode:'read-before-reason',
     readOnly:unique(readOnly),
     reasoning:unique(reasoning.length?reasoning:['llm.reasoning']),
+    proposals:unique(proposals),
     blocked:unique(blocked),
     externalSideEffectsAllowed:false,
     humanApprovalRequiredForWrites:true,

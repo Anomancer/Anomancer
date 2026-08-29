@@ -8,6 +8,7 @@ import {RECOMMENDATION_FORMAT} from '../intent/recommendation.js';
 import {CAPABILITY_RESOLUTION_FORMAT} from '../capabilities/matcher.js';
 import {CAPABILITY_ROUTE_FORMAT} from '../runtime/capability-router.js';
 import {AUTHORITY_DECISION_FORMAT} from '../authority/approval-service.js';
+import {MUTATION_PROPOSAL_FORMAT} from '../mutation/proposal.js';
 
 import {
   WORKSPACE_CONTEXT_FORMAT
@@ -124,6 +125,11 @@ export function createCoreSnapshot({
         format:AUTHORITY_DECISION_FORMAT
       },
       {
+        layer:'Human authority rail',
+        name:'Mutation proposal',
+        format:MUTATION_PROPOSAL_FORMAT
+      },
+      {
         layer:'D0',
         name:'Work recommendation',
         format:RECOMMENDATION_FORMAT
@@ -166,6 +172,8 @@ export function createCoreSnapshot({
       webFetchUsed:machine?.connections?.webFetchUsed===true,
       repositoryReadUsed:machine?.connections?.repositoryReadUsed===true,
       mancerActivated:machine?.connections?.mancerActivated===true,
+      mutationProposed:machine?.connections?.mutationProposed===true,
+      externalWriteUsed:machine?.connections?.externalWriteUsed===true,
       workspaceContextSent:machine?.dataFlow?.workspaceContextSent===true,
       materialsSent:Number(machine?.dataFlow?.materialsSent)||0,
       destination:String(machine?.dataFlow?.destination||'runtime'),
@@ -182,6 +190,8 @@ export function createCoreSnapshot({
       orchestrationRecorded:Boolean(orchestration?.format),
       machineRuntimeRecorded:Boolean(machine?.format),
       capabilityRuntimeRecorded:Boolean(machine?.capabilityRuntime?.format),
+      mutationProposed:machine?.connections?.mutationProposed===true,
+      mutationExecuted:false,
       workspaceId:String(workspace.id||''),
       traceCompleteness:{
         trust:Boolean(result.trust),

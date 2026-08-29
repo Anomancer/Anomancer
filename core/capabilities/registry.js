@@ -7,6 +7,8 @@ const definitions=[
   {id:'web.fetch',providerClass:'tool',mode:'public-web-read',available:true,executionCapability:null,readOnly:true},
   {id:'research.search',providerClass:'tool',mode:'runtime-search',available:false,runtimeAvailable:true,executionCapability:null,readOnly:true},
   {id:'repository.read',providerClass:'tool',mode:'github-content-read',available:false,runtimeAvailable:true,executionCapability:null,readOnly:true},
+  {id:'repository.propose',providerClass:'tool',mode:'bounded-mutation-proposal',available:false,runtimeAvailable:true,executionCapability:null,proposalOnly:true},
+  {id:'repository.write',providerClass:'tool',mode:'human-approved-operation-branch',available:false,runtimeAvailable:true,executionCapability:null,requiresApproval:true},
   {id:'mancer.activate',providerClass:'mancer',mode:'package-context',available:true,executionCapability:null,readOnly:true},
   {id:'comparison',providerClass:'reasoning',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
   {id:'risk.analysis',providerClass:'reasoning',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},

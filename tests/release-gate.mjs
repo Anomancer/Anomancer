@@ -19,6 +19,7 @@ const LIGHTHOUSE_FILES=new Set([
   'tests/lighthouse/ux-architecture-v2.mjs',
   'tests/lighthouse/intent-routing.mjs',
   'tests/lighthouse/hands.mjs',
+  'tests/lighthouse/actuator.mjs',
   'tests/lighthouse/machine-room.mjs',
   'tests/lighthouse/core.mjs',
   'tests/lighthouse/depth-accordion.mjs',
@@ -291,6 +292,9 @@ const STEPS = [
   ],
   [
     "tests/lighthouse/hands.mjs"
+  ],
+  [
+    "tests/lighthouse/actuator.mjs"
   ],
   [
     "tests/lighthouse/machine-room.mjs"

@@ -1,6 +1,7 @@
 import {runIntent} from '../../core/intent/intent-service.js';
 import {deepseekReasoner} from '../../providers/deepseek/adapter.js';
 import {capabilityAvailability,executeLighthouseHands} from '../../server/lighthouse-hands.js';
+import {sealLighthouseMutation,mutationRuntimeStatus} from '../../server/lighthouse-actuator.js';
 import {
   lighthouseLabAllowed,
   lighthouseLabRequiresAuth
@@ -83,11 +84,25 @@ export default async function handler(req,res){
 
   try{
     const body=await readJson(req,MAX_BODY_BYTES);
-    return send(res,200,{ok:true,...await runIntent(body,{
+    const run=await runIntent(body,{
       reasoner:deepseekReasoner,
       availability:capabilityAvailability(process.env),
       capabilityExecutor:executeLighthouseHands
-    })});
+    });
+    if(run?.runtime?.mutation?.proposal){
+      const mutationStatus=mutationRuntimeStatus();
+      if(session&&mutationStatus.available){
+        try{
+          const sealed=await sealLighthouseMutation(run.runtime.mutation.proposal,{session});
+          run.runtime.mutation={...run.runtime.mutation,...sealed,available:true,status:mutationStatus};
+        }catch(error){
+          run.runtime.mutation={...run.runtime.mutation,available:false,status:mutationStatus,error:String(error.code||error.message||'mutation sealing failed')};
+        }
+      }else{
+        run.runtime.mutation={...run.runtime.mutation,available:false,status:mutationStatus,error:session?'mutation-runtime-unavailable':'admin-session-required'};
+      }
+    }
+    return send(res,200,{ok:true,...run});
   }catch(e){
     const status=Number(e.statusCode)||500;
     return send(res,status,{

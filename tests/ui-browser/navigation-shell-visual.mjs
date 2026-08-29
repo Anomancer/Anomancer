@@ -13,7 +13,7 @@ const worker=read('lahetyskone-sw.js');
 const installer=read('INSTALL_TO_CURRENT.sh');
 
 await test('Core ja paketti ovat 16.8.4 ja säilyttävät 16.7.1 Visual Hardeningin',()=>{
-  assert.equal(pkg.version,'1.21.0-lighthouse-hands.1');
+  assert.equal(pkg.version,'1.22.0-lighthouse-actuator.1');
   assert.equal(CORE_VERSION,'1.18.7');
   assert.match(html,/Yksityinen työpöytä/);
 });

@@ -120,6 +120,31 @@
         <p id="uncText"></p>
       </section>
 
+      <section id="mutationPanel" class="mutation-panel" aria-labelledby="mutationTitle" hidden>
+        <header class="mutation-heading">
+          <div>
+            <p class="mutation-kicker">RAJATTU MUUTOSEHDOTUS</p>
+            <h2 id="mutationTitle">Tarkista ennen kuin mikään muuttuu</h2>
+          </div>
+          <span id="mutationRisk" class="mutation-risk"></span>
+        </header>
+        <p id="mutationSummary" class="mutation-summary"></p>
+        <div id="mutationFiles" class="mutation-files"></div>
+        <section id="mutationVerificationBlock" class="mutation-verification" hidden>
+          <h3>Tarkistus suunnitelman jälkeen</h3>
+          <ul id="mutationVerification"></ul>
+        </section>
+        <div id="mutationApproval" class="mutation-approval" hidden>
+          <p id="mutationBoundary" class="mutation-boundary"></p>
+          <p>Kirjoita täsmälleen <code id="mutationPhrase"></code></p>
+          <label for="mutationConfirmation" class="sr-only">Mutation hyväksyntälause</label>
+          <input id="mutationConfirmation" type="text" autocomplete="off" spellcheck="false" maxlength="160">
+          <button id="mutationExecute" type="button" class="primary mutation-execute">Hyväksy ja luo operation-haara</button>
+        </div>
+        <div id="mutationMessage" class="mutation-message" role="status" aria-live="polite"></div>
+        <div id="mutationReceipt" class="mutation-receipt" hidden></div>
+      </section>
+
       <section class="continuation" aria-labelledby="continueTitle">
         <div class="continuation-heading">
           <h2 id="continueTitle">Jatka tästä</h2>

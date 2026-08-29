@@ -1,6 +1,6 @@
 # Anomancer 1.19.0 Lighthouse Construction Mode
 
-Package: `1.21.0-lighthouse-hands.1`
+Package: `1.22.0-lighthouse-actuator.1`
 
 Branch: `architecture/lighthouse-v1`
 
@@ -69,6 +69,10 @@ git push -u origin architecture/lighthouse-v1
 ```
 
 
-## Lighthouse Hands
+## Lighthouse Hands + Actuator
 
-The current construction slice adds a bounded read-only capability runtime before reasoning. It may read browser-provided materials, explicit public HTTPS URLs, configured search results, explicitly named GitHub repository files and an installed Mancer package as method context. Repository writes, tests, pull requests, deployments, deletion and other external side effects remain outside this route and require separate human-approved operation capabilities.
+The current construction slice keeps bounded read-only Hands before reasoning and adds one separately gated write-capability after reasoning. It may read browser-provided materials, explicit public HTTPS URLs, configured search results, explicitly named GitHub repository files and an installed Mancer package as method context.
+
+When a software request explicitly asks for a repository change, Lighthouse may propose replacements only for files it read in that same run. The proposal is re-read, diffed, SHA-bound and session-signed by the server. Execution requires the exact visible confirmation phrase and creates only an isolated `anomancer/op-*` branch. Default-branch writes, tests, pull requests, deployments, merges, deletion and rollback remain outside this actuator and require their own operation gates.
+
+See `docs/architecture/lighthouse-mutation-rail.md`.

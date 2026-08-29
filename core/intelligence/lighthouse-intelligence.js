@@ -29,7 +29,7 @@ function classifyTask(text){
 }
 
 function sideEffectIntent(text){
-  return /(?:julkaise\w*|deploy\w*|push\w*|lähetä\w*|poista\w*|delete\w*|muuta\s+(?:repoa|tiedostoa|asetusta)|kirjoita\s+(?:githubiin|verceliin)|execute\w*|suorita\w*)/i.test(text);
+  return /(?:julkaise\w*|deploy\w*|push\w*|lähetä\w*|poista\w*|delete\w*|(?:korjaa|päivitä)\w*\s+(?:(?:repo|koodi|tiedosto|github)\w*|[^\n]{0,120}\.(?:js|mjs|cjs|ts|tsx|jsx|json|css|html|sh)\b)|muuta\s+(?:repoa|tiedostoa|asetusta|koodia)|kirjoita\s+(?:githubiin|verceliin|repoon|tiedostoon)|apply\s+patch|execute\w*|suorita\s+(?:muutos|patch|deploy|operaatio)\w*)/i.test(text);
 }
 
 function multiPartIntent(text){

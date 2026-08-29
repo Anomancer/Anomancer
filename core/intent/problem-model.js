@@ -21,12 +21,13 @@ function unique(values){
   return [...new Set(values.filter(Boolean))];
 }
 
-function needsFor({taskType,domain,hasMaterials,text}){
+function needsFor({taskType,domain,hasMaterials,text,externalActionRequested=false}){
   const needs=['llm.reasoning'];
 
   if(hasMaterials)needs.push('document.read');
   if(/https:\/\//i.test(String(text||'')))needs.push('web.fetch');
   if(domain==='software'&&['debug','audit','plan'].includes(taskType))needs.push('repository.read');
+  if(domain==='software'&&externalActionRequested)needs.push('repository.read','repository.propose','repository.write');
 
   switch(taskType){
     case 'debug':
@@ -86,9 +87,10 @@ export function buildProblemModel(intent={},profile=profileIntent(intent)){
     taskType:profile.taskType,
     domain,
     hasMaterials:materials.length>0,
-    text
+    text,
+    externalActionRequested:profile.externalActionRequested===true
   });
-  if(profile.externalActionRequested===true)needs.push('external.execute');
+  if(profile.externalActionRequested===true&&domain!=='software')needs.push('external.execute');
 
   return {
     format:PROBLEM_MODEL_FORMAT,

@@ -15,7 +15,7 @@ const ui=JSON.parse(fs.readFileSync('mancers/codemancer/ui-schema.json','utf8'))
 let passed=0;
 const test=(name,fn)=>{fn();passed++;console.log(`✓ ${name}`);};
 
-test('Lighthouse-rakennushaara säilyttää vakaan Coren',()=>{assert.equal(pkg.version,'1.21.0-lighthouse-hands.1');assert.equal(CORE_VERSION,'1.18.7');assert.match(html,/<dd>1\.18\.7<\/dd>/);assert.doesNotMatch(html,/MANCER REGISTRY \/ 1\.18\.0|ARKISTONHOITAJA 1\.17\.3|NANOMANCER 1\.17\.2|ARCHIVE CORE 1\.17\.1/);});
+test('Lighthouse-rakennushaara säilyttää vakaan Coren',()=>{assert.equal(pkg.version,'1.22.0-lighthouse-actuator.1');assert.equal(CORE_VERSION,'1.18.7');assert.match(html,/<dd>1\.18\.7<\/dd>/);assert.doesNotMatch(html,/MANCER REGISTRY \/ 1\.18\.0|ARKISTONHOITAJA 1\.17\.3|NANOMANCER 1\.17\.2|ARCHIVE CORE 1\.17\.1/);});
 
 test('Romancer on näkyvä nimi, legacy Narramancer-id säilyy',()=>{const template=getWorkspaceTemplate('narramancer/story-studio/1.0.0');assert.equal(template.name,'Romancer');assert.match(html,/ROMANCER \/ YKSITYINEN TARINASTUDIO/);assert.doesNotMatch(html,/>Narramancer</);assert.match(coreFi,/Romancer/);});
 

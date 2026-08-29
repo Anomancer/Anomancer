@@ -63,6 +63,7 @@ let labCsrf='';
 let labSessionChecked=false;
 let pendingPreview=null;
 let pendingText='';
+let currentMutation=null;
 
 const RACCOON_LINES=[
   '🦝 Pesukarhu järjestää johtolankoja.',
@@ -677,6 +678,99 @@ function renderCore(core={}){
   }));
 }
 
+function renderMutation(mutation={}){
+  const panel=$('#mutationPanel');
+  const proposal=mutation?.proposal||null;
+  currentMutation=proposal?mutation:null;
+  if(!proposal||!Array.isArray(proposal.files)||!proposal.files.length){
+    panel.hidden=true;
+    $('#mutationFiles').replaceChildren();
+    return;
+  }
+
+  panel.hidden=false;
+  $('#mutationSummary').textContent=proposal.summary||'Rajattu repository-muutos odottaa tarkistusta.';
+  const risk=$('#mutationRisk');
+  risk.textContent=proposal.risk||'high';
+  risk.dataset.risk=proposal.risk||'high';
+
+  $('#mutationFiles').replaceChildren(...proposal.files.map(file=>{
+    const article=document.createElement('article');
+    article.className='mutation-file';
+    const header=document.createElement('header');
+    const path=document.createElement('strong');
+    path.textContent=file.path||'tiedosto';
+    const delta=document.createElement('span');
+    delta.className='mutation-delta';
+    delta.textContent=`+${Number(file.additions)||0} / −${Number(file.deletions)||0}`;
+    header.append(path,delta);
+    const why=document.createElement('p');
+    why.textContent=file.rationale||'Muutos kuuluu hyväksyttävään ehdotukseen.';
+    const diff=document.createElement('pre');
+    diff.className='mutation-diff';
+    diff.textContent=file.diff||'Diff-esikatselua ei ollut saatavilla.';
+    article.append(header,why,diff);
+    return article;
+  }));
+
+  const verification=Array.isArray(proposal.verification)?proposal.verification:[];
+  makeList($('#mutationVerification'),verification);
+  $('#mutationVerificationBlock').hidden=!verification.length;
+
+  const approval=mutation?.approval||null;
+  const approvalBox=$('#mutationApproval');
+  const message=$('#mutationMessage');
+  const receipt=$('#mutationReceipt');
+  receipt.hidden=true;
+  receipt.replaceChildren();
+  $('#mutationConfirmation').value='';
+
+  if(mutation.available===true&&approval?.token&&approval?.confirmationPhrase){
+    approvalBox.hidden=false;
+    $('#mutationPhrase').textContent=approval.confirmationPhrase;
+    $('#mutationBoundary').textContent=`Kohde: ${proposal.base?.repo||'repository'} · ${proposal.base?.branch||'base'} @ ${String(proposal.base?.sha||'').slice(0,12)}. Hyväksyntä luo vain erillisen ${proposal.branchName||'operation'}-haaran. Default branchiin ei kirjoiteta.`;
+    $('#mutationExecute').disabled=false;
+    message.textContent='Mitään repositoryssa ei ole vielä muuttunut.';
+  }else{
+    approvalBox.hidden=true;
+    message.textContent=mutation?.error==='admin-session-required'
+      ?'Muutosluonnos syntyi, mutta suoritus vaatii kirjautuneen admin-istunnon.'
+      :'Muutosluonnos syntyi, mutta kirjoittava operation-portti ei ole tässä ympäristössä käytettävissä.';
+  }
+}
+
+async function executeCurrentMutation(){
+  if(!currentMutation?.proposal||!currentMutation?.approval||running)return;
+  const confirmation=$('#mutationConfirmation').value.trim();
+  const button=$('#mutationExecute');
+  const message=$('#mutationMessage');
+  const receiptBox=$('#mutationReceipt');
+  if(!confirmation){message.textContent='Kirjoita näkyvä hyväksyntälause ennen suoritusta.';return;}
+  button.disabled=true;
+  message.textContent='Varmistetaan hash, base-SHA ja lähdetiedostot…';
+  try{
+    const headers=await labRequestHeaders();
+    const response=await fetch('/api/lab/mutation',{
+      method:'POST',credentials:'same-origin',headers,
+      body:JSON.stringify({proposal:currentMutation.proposal,approval:currentMutation.approval,confirmation})
+    });
+    const payload=await response.json().catch(()=>({}));
+    if(!response.ok||!payload.ok)throw new Error(payload.message||payload.error||'Mutation suoritus epäonnistui.');
+    currentMutation={...currentMutation,receipt:payload.receipt};
+    message.textContent='Operation-haara luotiin. Default branch pysyi muuttumattomana.';
+    $('#mutationConfirmation').disabled=true;
+    const receipt=payload.receipt||{};
+    const title=document.createElement('strong');title.textContent='Suorituskuitti';
+    const meta=document.createElement('p');meta.textContent=[`id ${receipt.id||''}`,`commit ${String(receipt.execution?.commitSha||'').slice(0,12)}`,`receipt ${String(receipt.receiptHash||'').slice(0,12)}`].filter(Boolean).join(' · ');
+    receiptBox.replaceChildren(title,meta);
+    if(receipt.execution?.compareUrl){const link=document.createElement('a');link.href=receipt.execution.compareUrl;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Avaa GitHub-vertailu';receiptBox.append(link);}
+    receiptBox.hidden=false;
+  }catch(error){
+    message.textContent=String(error?.message||'Mutation suoritus epäonnistui.');
+    button.disabled=false;
+  }
+}
+
 function renderResult(payload,{initial=false}={}){
   const result=payload.result||{};
   const runtime=payload.runtime||{};
@@ -706,6 +800,7 @@ function renderResult(payload,{initial=false}={}){
   $('#continueTitle').textContent=presentation.continuation;
   continueInput.placeholder=presentation.placeholder;
 
+  renderMutation(runtime.mutation||{});
   renderTrust(result.trust||{});
   renderOrchestration(runtime.orchestration||{});
   renderMachine(runtime.machine||{});
@@ -962,6 +1057,7 @@ async function labRequestHeaders(){
 function hideIntentPreview(){
   pendingPreview=null;
   pendingText='';
+  currentMutation=null;
   intentPreview.hidden=true;
   previewTitle.textContent='';
   previewSummary.textContent='';
@@ -1198,6 +1294,7 @@ function resetWork(){
   history=[];
   turns=[];
   lastAttempt=null;
+  currentMutation=null;
   clearActiveWorkspace();
   activeWorkspace=null;
 
@@ -1277,6 +1374,7 @@ attachmentInput.addEventListener('change',async event=>{
 });
 
 setupVoiceInput();
+$('#mutationExecute').addEventListener('click',executeCurrentMutation);
 
 continueForm.addEventListener('submit',async event=>{
   event.preventDefault();

@@ -57,6 +57,22 @@
       "requires": "GITHUB_CONTENT_TOKEN + GITHUB_REPO"
     },
     {
+      "id": "repository.propose",
+      "providerClass": "tool",
+      "available": "runtime",
+      "mode": "bounded-mutation-proposal",
+      "proposalOnly": true,
+      "requires": "GITHUB_CONTENT_TOKEN + GITHUB_REPO"
+    },
+    {
+      "id": "repository.write",
+      "providerClass": "tool",
+      "available": "runtime",
+      "mode": "human-approved-operation-branch",
+      "requiresApproval": true,
+      "requires": "GITHUB_CONTENT_TOKEN + GITHUB_REPO + ADMIN_SESSION_SECRET"
+    },
+    {
       "id": "mancer.activate",
       "providerClass": "mancer",
       "available": true,

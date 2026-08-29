@@ -1,7 +1,7 @@
 import dns from 'node:dns/promises';
 import net from 'node:net';
 import https from 'node:https';
-import {getFile,githubConfigStatus} from './github.js';
+import {getFile,githubConfigStatus,githubOperationStatus} from './github.js';
 import {getMancerPackage} from './mancer-registry.js';
 
 export const HANDS_EXECUTION_FORMAT='anomancer-hands-execution/v1';
@@ -160,9 +160,13 @@ function contextBlock(kind,label,content,meta={}){
 
 export function capabilityAvailability(env=process.env){
   const github=githubConfigStatus();
+  const operation=githubOperationStatus();
+  const mutationReady=operation.configured&&operation.repoGuard?.allowed!==false;
   return {
     'research.search':Boolean(env.BRAVE_SEARCH_API_KEY),
     'repository.read':github.configured,
+    'repository.propose':mutationReady,
+    'repository.write':mutationReady,
     'web.fetch':true,
     'mancer.activate':true,
     'document.read':true
@@ -237,8 +241,8 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
       await run('repository.read',async()=>{
         for(const path of paths){
           const file=await getFile(path);
-          sources.push({type:'repository-file',title:file.path,url:file.htmlUrl||''});
-          context.push(contextBlock('repository',file.path,file.content,{path:file.path,url:file.htmlUrl||'',untrusted:true}));
+          sources.push({type:'repository-file',title:file.path,url:file.htmlUrl||'',path:file.path,sha:file.sha});
+          context.push(contextBlock('repository',file.path,file.content,{path:file.path,url:file.htmlUrl||'',sha:file.sha,untrusted:true}));
         }
         repositoryReadUsed=true;
       },{adapter:'github-content-read/v1',external:true});

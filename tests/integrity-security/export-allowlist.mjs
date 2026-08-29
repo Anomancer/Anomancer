@@ -36,22 +36,28 @@ await test('Lighthouse-arkkitehtuuri kuuluu sekä lähde- että runtime-vientiin
     'core/intent/problem-model.js',
     'core/capabilities/matcher.js',
     'core/runtime/capability-router.js',
+    'core/mutation/proposal.js',
     'server/lighthouse-hands.js',
+    'server/lighthouse-actuator.js',
     'core/authority/approval-service.js',
     'core/intelligence/lighthouse-intelligence.js',
     'providers/deepseek/adapter.js',
+    'tests/lighthouse/actuator.mjs',
     'tests/lighthouse/browser-e2e.mjs'
   ])assert.equal(sourceFiles.has(file),true,`source bundle missing ${file}`);
 
   for(const file of [
     'api/lab/intent.js',
     'api/lab/preview.js',
+    'api/lab/mutation.js',
     'catalog/capabilities.json',
     'core/intent/intent-service.js',
     'core/intent/problem-model.js',
     'core/capabilities/matcher.js',
     'core/runtime/capability-router.js',
+    'core/mutation/proposal.js',
     'server/lighthouse-hands.js',
+    'server/lighthouse-actuator.js',
     'core/authority/approval-service.js',
     'core/intelligence/lighthouse-intelligence.js',
     'providers/deepseek/adapter.js'

@@ -1,6 +1,6 @@
 {
   "name": "anomancer-lahetyskone",
-  "version": "1.21.0-lighthouse-hands.1",
+  "version": "1.22.0-lighthouse-actuator.1",
   "private": true,
   "type": "module",
   "engines": {
@@ -101,7 +101,8 @@
     "test:lighthouse:intelligence": "node tests/lighthouse/intelligence.mjs",
     "test:lighthouse:routing": "node tests/lighthouse/intent-routing.mjs",
     "test:lighthouse:ux": "node tests/lighthouse/ux-architecture-v2.mjs",
-    "test:lighthouse:hands": "node tests/lighthouse/hands.mjs"
+    "test:lighthouse:hands": "node tests/lighthouse/hands.mjs",
+    "test:lighthouse:actuator": "node tests/lighthouse/actuator.mjs"
   },
   "devDependencies": {
     "axe-core": "4.10.3",

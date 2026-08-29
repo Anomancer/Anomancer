@@ -23,6 +23,7 @@ export function recommendWork({problem={},profile={},capabilities={}}={}){
   const unresolved=Array.isArray(capabilities.unresolved)?capabilities.unresolved:[];
   const hasSearchGap=unresolved.some(item=>item.id==='research.search');
   const hasRepoGap=unresolved.some(item=>item.id==='repository.read');
+  const hasWriteGap=unresolved.some(item=>item.id==='repository.propose'||item.id==='repository.write');
   const matched=Array.isArray(capabilities.matched)?capabilities.matched:[];
   const matchedIds=new Set(matched.map(item=>item.id));
   const dataNotice=[
@@ -41,7 +42,8 @@ export function recommendWork({problem={},profile={},capabilities={}}={}){
     requiresApproval:profile.externalActionRequested===true,
     limitations:[
       ...(hasSearchGap?['Verkkohaku ei ole käytettävissä tässä ympäristössä.']:[]),
-      ...(hasRepoGap?['Repository-yhteys ei ole käytettävissä tässä ympäristössä, joten kooditiedostoja ei voida lukea automaattisesti.']:[])
+      ...(hasRepoGap?['Repository-yhteys ei ole käytettävissä tässä ympäristössä, joten kooditiedostoja ei voida lukea automaattisesti.']:[]),
+      ...(problem.constraints?.externalSideEffectsRequested&&hasWriteGap?['Kirjoittava repository-portti ei ole käytettävissä tässä ympäristössä. Ehdotus voidaan silti analysoida ilman muutosta.']:[])
     ],
     dataNotice,
     startLabel:'Käynnistä'
