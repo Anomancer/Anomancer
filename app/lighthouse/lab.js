@@ -56,6 +56,13 @@ const doorError=$('#doorError');
 const doorErrorText=$('#doorErrorText');
 const doorRetry=$('#doorRetry');
 const doorLogin=$('#doorLogin');
+const lighthouseLoginDialog=$('#lighthouseLoginDialog');
+const lighthouseLoginForm=$('#lighthouseLoginForm');
+const lighthousePassword=$('#lighthousePassword');
+const lighthouseLoginError=$('#lighthouseLoginError');
+const lighthouseLoginClose=$('#lighthouseLoginClose');
+const lighthouseLoginCancel=$('#lighthouseLoginCancel');
+const lighthouseLoginSubmit=$('#lighthouseLoginSubmit');
 
 const workError=$('#workError');
 const workErrorText=$('#workErrorText');
@@ -1447,8 +1454,12 @@ doorRetry.addEventListener('click',async()=>{
 });
 
 doorLogin?.addEventListener('click',()=>{
-  preserveAuthReturnDraft();
-  window.location.assign('/admin.html?return=%2Flab');
+  if(!lighthouseLoginDialog)return;
+  lighthouseLoginError.hidden=true;
+  lighthouseLoginError.textContent='';
+  lighthousePassword.value='';
+  lighthouseLoginDialog.showModal();
+  requestAnimationFrame(()=>lighthousePassword.focus());
 });
 
 workRetry.addEventListener('click',async()=>{
@@ -1949,3 +1960,78 @@ $('#infoLighthouseVersion').textContent=String(lighthouseBootstrap.lighthouseVer
 $('#infoMilestone').textContent=String(lighthouseBootstrap.milestone||'—');
 renderCapabilityCatalog(); renderMancerCatalog();
 /* LIGHTHOUSE D0 DOCK / CAPABILITY CATALOG END */
+
+
+/* LIGHTHOUSE INLINE AUTH START */
+function closeLighthouseLogin(){
+  if(lighthouseLoginDialog?.open)lighthouseLoginDialog.close();
+  if(lighthousePassword)lighthousePassword.value='';
+}
+
+lighthouseLoginClose?.addEventListener('click',closeLighthouseLogin);
+lighthouseLoginCancel?.addEventListener('click',closeLighthouseLogin);
+
+lighthouseLoginDialog?.addEventListener('click',event=>{
+  if(event.target===lighthouseLoginDialog)closeLighthouseLogin();
+});
+
+lighthouseLoginForm?.addEventListener('submit',async event=>{
+  event.preventDefault();
+
+  const password=String(lighthousePassword?.value||'');
+  if(!password)return;
+
+  lighthouseLoginError.hidden=true;
+  lighthouseLoginError.textContent='';
+  lighthouseLoginSubmit.disabled=true;
+  lighthousePassword.disabled=true;
+
+  try{
+    const response=await fetch('/api/admin/auth?resource=login',{
+      method:'POST',
+      credentials:'same-origin',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({password})
+    });
+
+    const payload=await response.json().catch(()=>({}));
+
+    if(!response.ok||!payload.ok){
+      throw new Error(
+        response.status===401
+          ?'Salasana ei täsmää.'
+          :(payload.message||payload.error||'Kirjautuminen epäonnistui.')
+      );
+    }
+
+    labCsrf='';
+    labSessionChecked=false;
+
+    await labRequestHeaders();
+
+    if(!labCsrf){
+      throw new Error('Istunto syntyi, mutta CSRF-tunnistetta ei saatu.');
+    }
+
+    closeLighthouseLogin();
+    clearError('door');
+
+    if(lastAttempt?.source==='preview'){
+      await preview(lastAttempt.text,{retry:true});
+    }else if(lastAttempt?.source==='door'){
+      await run(lastAttempt.text,{source:'door',retry:true});
+    }else{
+      q.focus({preventScroll:true});
+    }
+  }catch(error){
+    lighthouseLoginError.textContent=String(
+      error?.message||'Kirjautuminen epäonnistui.'
+    );
+    lighthouseLoginError.hidden=false;
+    lighthousePassword.focus();
+  }finally{
+    lighthouseLoginSubmit.disabled=false;
+    lighthousePassword.disabled=false;
+  }
+});
+/* LIGHTHOUSE INLINE AUTH END */

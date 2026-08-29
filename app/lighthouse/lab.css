@@ -3145,3 +3145,49 @@ body.depth-menu-open{
   outline:none;
 }
 /* LIGHTHOUSE AUTH RETURN UX END */
+
+
+/* LIGHTHOUSE INLINE AUTH UX START */
+.auth-sheet{
+  width:min(440px,calc(100vw - 24px));
+}
+.auth-sheet-body{
+  display:grid;
+  gap:12px;
+}
+.auth-sheet-label{
+  color:#a9b5b0;
+  font-size:.78rem;
+  font-weight:650;
+}
+.auth-sheet-password{
+  width:100%;
+  min-width:0;
+  min-height:48px;
+  padding:11px 13px;
+  border:1px solid #34413d;
+  border-radius:12px;
+  background:#0b100f;
+  color:#edf2ef;
+  font:inherit;
+}
+.auth-sheet-password:focus{
+  outline:2px solid #82978f;
+  outline-offset:2px;
+}
+.auth-sheet-error{
+  margin:0;
+  padding:10px 12px;
+  border:1px solid #67413f;
+  border-radius:10px;
+  background:#211413;
+  color:#e9b5af;
+  font-size:.8rem;
+}
+.auth-sheet-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:4px;
+}
+/* LIGHTHOUSE INLINE AUTH UX END */

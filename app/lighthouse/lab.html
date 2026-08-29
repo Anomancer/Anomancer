@@ -87,6 +87,36 @@
 
   </main>
 
+<dialog id="lighthouseLoginDialog" class="door-sheet auth-sheet" aria-labelledby="lighthouseLoginTitle">
+  <form id="lighthouseLoginForm" method="dialog">
+    <header class="door-sheet-header">
+      <div>
+        <p class="door-sheet-kicker">YKSITYINEN ISTUNTO</p>
+        <h2 id="lighthouseLoginTitle">Kirjaudu Lähetyskoneeseen</h2>
+        <p>Kirjautuminen avaa saman suojatun admin-istunnon myös Lighthouselle.</p>
+      </div>
+      <button id="lighthouseLoginClose" type="button" class="door-sheet-close" aria-label="Sulje">×</button>
+    </header>
+
+    <div class="door-sheet-body auth-sheet-body">
+      <label class="auth-sheet-label" for="lighthousePassword">Salasana</label>
+      <input
+        id="lighthousePassword"
+        class="auth-sheet-password"
+        type="password"
+        autocomplete="current-password"
+        required>
+
+      <p id="lighthouseLoginError" class="auth-sheet-error" role="alert" hidden></p>
+
+      <div class="auth-sheet-actions">
+        <button id="lighthouseLoginCancel" type="button" class="quiet">Peruuta</button>
+        <button id="lighthouseLoginSubmit" type="submit" class="primary">Kirjaudu</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
 <script id="lighthouseBootstrap" type="application/json">__LIGHTHOUSE_BOOTSTRAP__</script>
     <nav id="doorDock" class="door-dock" aria-label="Lighthouse-valikko">
       <button id="doorNew" type="button" class="door-dock-button" aria-current="page">Uusi</button>
