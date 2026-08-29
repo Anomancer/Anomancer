@@ -3122,3 +3122,26 @@ body.depth-menu-open{
 @media(max-width:520px){html,body{max-width:100%;overflow-x:hidden}.door{width:100%;max-width:100vw;overflow-x:clip;padding-left:14px;padding-right:14px;padding-bottom:max(104px,calc(env(safe-area-inset-bottom) + 92px))}.door-panel,.door-form{min-width:0;max-width:100%}.door-dock,.door-sheet{width:calc(100vw - 20px);max-width:calc(100vw - 20px)}.door-dock{bottom:max(8px,env(safe-area-inset-bottom))}.door-sheet{max-height:82dvh;border-radius:17px}.door-sheet-header{padding:17px 16px 14px}.door-sheet-body{width:100%;min-width:0;max-width:100%;padding:15px 16px 18px;overflow-x:hidden}.info-version-grid{grid-template-columns:1fr}.recent-work-item{width:100%!important;min-width:0!important;max-width:100%!important}}
 @supports not (overflow:clip){@media(max-width:520px){.door{overflow-x:hidden}}}
 /* LIGHTHOUSE D0 DOCK / MOBILE WIDTH GUARD END */
+
+
+/* LIGHTHOUSE AUTH RETURN UX START */
+.error-actions{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.auth-login{
+  border-color:#c5d1cc;
+  background:#e5ebe8;
+  color:#101513;
+  font-weight:700;
+}
+.auth-login:hover,
+.auth-login:focus-visible{
+  background:#f0f4f2;
+  color:#0d1210;
+  outline:none;
+}
+/* LIGHTHOUSE AUTH RETURN UX END */

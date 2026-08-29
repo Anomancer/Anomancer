@@ -77,7 +77,10 @@
 
         <div id="doorError" class="error-box" role="alert" hidden>
           <p id="doorErrorText"></p>
-          <button id="doorRetry" type="button" class="retry">Yritä uudelleen</button>
+          <div class="error-actions">
+            <button id="doorLogin" type="button" class="retry auth-login" hidden>Kirjaudu</button>
+            <button id="doorRetry" type="button" class="retry">Yritä uudelleen</button>
+          </div>
         </div>
       </form>
     </section>

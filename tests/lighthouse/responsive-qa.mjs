@@ -5,6 +5,7 @@ const html=fs.readFileSync('app/lighthouse/lab.html','utf8');
 const js=fs.readFileSync('app/lighthouse/lab.js','utf8');
 const css=fs.readFileSync('app/lighthouse/lab.css','utf8');
 const build=fs.readFileSync('scripts/build-lighthouse.mjs','utf8');
+const admin=fs.readFileSync('admin.js','utf8');
 
 for(const id of ['doorNew','kyvytOpen','workOpen','infoOpen'])assert.match(html,new RegExp(`id="${id}"`),id);
 assert.match(html,/id="kyvytDialog"[^>]*class="door-sheet"/);
@@ -19,6 +20,16 @@ assert.match(js,/LIGHTHOUSE D0 DOCK \/ CAPABILITY CATALOG START/);
 assert.match(css,/LIGHTHOUSE D0 DOCK \/ MOBILE WIDTH GUARD START/);
 assert.match(css,/width:calc\(100vw - 20px\)/);
 assert.match(css,/overflow-x:hidden/);
+
+assert.match(html,/id="doorLogin"[^>]*>Kirjaudu<\/button>/);
+assert.match(js,/AUTH_RETURN_DRAFT_KEY/);
+assert.match(js,/sessionStorage\.setItem\(AUTH_RETURN_DRAFT_KEY/);
+assert.match(js,/sessionStorage\.getItem\(AUTH_RETURN_DRAFT_KEY/);
+assert.match(js,/window\.location\.assign\('\/admin\.html\?return=%2Flab'\)/);
+assert.match(admin,/ADMIN_RETURN_TARGETS=new Set\(\['\/lab'\]\)/);
+assert.match(admin,/window\.location\.replace\(target\)/);
+assert.doesNotMatch(admin,/window\.location\.replace\(new URLSearchParams/);
+assert.match(css,/LIGHTHOUSE AUTH RETURN UX START/);
 
 assert.match(
   js,

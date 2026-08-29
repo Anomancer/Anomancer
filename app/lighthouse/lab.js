@@ -55,6 +55,7 @@ const workRaccoon=$('#workRaccoon');
 const doorError=$('#doorError');
 const doorErrorText=$('#doorErrorText');
 const doorRetry=$('#doorRetry');
+const doorLogin=$('#doorLogin');
 
 const workError=$('#workError');
 const workErrorText=$('#workErrorText');
@@ -70,6 +71,36 @@ let labSessionChecked=false;
 let pendingPreview=null;
 let pendingText='';
 let currentMutation=null;
+
+const AUTH_RETURN_DRAFT_KEY='anomancer.lighthouse.auth-return-draft/v1';
+
+function restoreAuthReturnDraft(){
+  try{
+    const draft=sessionStorage.getItem(AUTH_RETURN_DRAFT_KEY);
+    if(draft&&!String(q.value||'').trim())q.value=String(draft).slice(0,12000);
+    sessionStorage.removeItem(AUTH_RETURN_DRAFT_KEY);
+  }catch{}
+}
+
+function preserveAuthReturnDraft(){
+  try{
+    const value=String(q.value||pendingText||'').slice(0,12000);
+    if(value)sessionStorage.setItem(AUTH_RETURN_DRAFT_KEY,value);
+  }catch{}
+}
+
+function isAuthRequired(error){
+  return [401,403].includes(Number(error?.status));
+}
+
+function responseError(response,payload={},fallback='Pyyntö epäonnistui.'){
+  const error=new Error(payload?.message||payload?.error||fallback);
+  error.status=Number(response?.status)||0;
+  error.code=String(payload?.code||payload?.error||'');
+  return error;
+}
+
+restoreAuthReturnDraft();
 
 const RACCOON_LINES=[
   '🦝 Pesukarhu järjestää johtolankoja.',
@@ -128,15 +159,19 @@ function clearError(source){
   if(source==='door'){
     doorError.hidden=true;
     doorErrorText.textContent='';
+    if(doorLogin)doorLogin.hidden=true;
   }else{
     workError.hidden=true;
     workErrorText.textContent='';
   }
 }
 
-function showError(source,message){
+function showError(source,message,{authRequired=false}={}){
   if(source==='door'){
-    doorErrorText.textContent=message;
+    doorErrorText.textContent=authRequired
+      ?'Kirjaudu ensin Lähetyskoneeseen. Kirjoittamasi tehtävä säilyy paluun ajan.'
+      :message;
+    if(doorLogin)doorLogin.hidden=!authRequired;
     doorError.hidden=false;
   }else{
     workErrorText.textContent=message;
@@ -1138,13 +1173,17 @@ async function preview(text,{retry=false}={}){
         labCsrf='';
         labSessionChecked=false;
       }
-      throw new Error(payload.message||payload.error||'Tehtävän jäsentäminen epäonnistui.');
+      throw responseError(response,payload,'Tehtävän jäsentäminen epäonnistui.');
     }
 
     renderIntentPreview(payload,clean);
     return true;
   }catch(error){
-    showError('door',String(error?.message||'Tehtävän jäsentäminen epäonnistui.'));
+    showError(
+      'door',
+      String(error?.message||'Tehtävän jäsentäminen epäonnistui.'),
+      {authRequired:isAuthRequired(error)}
+    );
     return false;
   }finally{
     stopRaccoon(timer,doorRaccoon);
@@ -1273,7 +1312,7 @@ async function run(text,{source='door',retry=false}={}){
         labCsrf='';
         labSessionChecked=false;
       }
-      throw new Error(payload.message||payload.error||'Ajo epäonnistui.');
+      throw responseError(response,payload,'Ajo epäonnistui.');
     }
 
     addHistory(clean,payload);
@@ -1405,6 +1444,11 @@ doorRetry.addEventListener('click',async()=>{
   if(lastAttempt.source==='door'){
     await run(lastAttempt.text,{source:'door',retry:true});
   }
+});
+
+doorLogin?.addEventListener('click',()=>{
+  preserveAuthReturnDraft();
+  window.location.assign('/admin.html?return=%2Flab');
 });
 
 workRetry.addEventListener('click',async()=>{
