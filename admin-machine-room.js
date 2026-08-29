@@ -81,7 +81,7 @@ if(root){
   let mode=storedMode(),events=[];
   function setMode(next,{announce=true}={}){
     mode=MODES.has(next)?next:'living';root.dataset.mode=mode;if(globalThis.document?.documentElement)document.documentElement.dataset.machineMode=mode;
-    qa('[data-machine-mode]').forEach(btn=>{const on=btn.dataset.machineMode===mode;btn.setAttribute('aria-pressed',String(on));btn.dataset.active=on?'true':'false';});
+    qa('button[data-machine-mode]').forEach(btn=>{const on=btn.dataset.machineMode===mode;btn.setAttribute('aria-pressed',String(on));btn.dataset.active=on?'true':'false';});
     try{localStorage.setItem(MODE_KEY,mode);}catch{}
     if(announce){comment.textContent=mode==='quiet'?'Työrauha. Vain koneen fakta näkyy.':mode==='oe'?'OE-tila. Karvainen laadunvalvonta näkyy, päätösvalta ei muutu.':'Elävä konehuone. Hillitty prosessikursori käytössä.';fact.textContent='Esitystila ei muuta agentteja, malleja, evidenssikynnystä eikä julkaisupäätöstä.';}
   }

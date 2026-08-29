@@ -5,7 +5,7 @@ const read=file=>fs.readFileSync(file,'utf8');
 let passed=0;
 const test=async(name,fn)=>{await fn();passed++;console.log(`✓ ${name}`);};
 
-await test('1.18.5 lukitsee live-operaatiot eksplisiittiseen repository-allowlistiin',async()=>{
+await test('1.18.6 lukitsee live-operaatiot eksplisiittiseen repository-allowlistiin',async()=>{
   process.env.GITHUB_CONTENT_TOKEN='live-path-test-token';
   process.env.GITHUB_REPO='example/allowed';
   process.env.GITHUB_BRANCH='master';
@@ -47,9 +47,9 @@ await test('preview-portti ei saa production-aliasia ensimmäisen deploymentin p
   assert.match(workflow,/environment: production/);
 });
 
-await test('1.18.5 paketti ja Codemancer Package Spec ovat päivittyneet',async()=>{
+await test('1.18.6 paketti ja Codemancer Package Spec ovat päivittyneet',async()=>{
   const pkg=JSON.parse(read('package.json')),manifest=JSON.parse(read('mancers/codemancer/manifest.json')),gate=read('tests/release-gate.mjs');
-  assert.equal(pkg.version,'1.18.5');assert.equal(manifest.version,'1.3.0');assert.match(pkg.scripts.check,/tests\/release-gate\.mjs/);assert.match(gate,/tests\/operations-release\/live-path-verification\.mjs/);
+  assert.equal(pkg.version,'1.18.6');assert.equal(manifest.version,'1.3.0');assert.match(pkg.scripts.check,/tests\/release-gate\.mjs/);assert.match(gate,/tests\/operations-release\/live-path-verification\.mjs/);
 });
 
-console.log(`\n${passed}/${passed} LIVE PATH VERIFICATION 1.18.5 checks passed.`);
+console.log(`\n${passed}/${passed} LIVE PATH VERIFICATION 1.18.6 checks passed.`);

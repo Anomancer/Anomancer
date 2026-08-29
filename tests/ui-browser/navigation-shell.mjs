@@ -16,8 +16,8 @@ const worker=read('lahetyskone-sw.js');
 const installer=read('INSTALL_TO_CURRENT.sh');
 
 await test('Core ja paketti rakentavat 16.8.4:n 16.7 Navigation Shell -arkkitehtuurille',()=>{
-  assert.equal(pkg.version,'1.18.5');
-  assert.equal(CORE_VERSION,'1.18.5');
+  assert.equal(pkg.version,'1.18.6');
+  assert.equal(CORE_VERSION,'1.18.6');
   assert.match(html,/ANOMANCER CORE/);
   assert.doesNotMatch(html,/navigation shell/i);
 });
@@ -93,7 +93,7 @@ await test('16.7 shell stageataan buildiin ja PWA-cacheen',()=>{
   assert.match(html,/admin-shell\.js/);
   assert.match(build,/admin-shell\.js/);
   assert.match(worker,/admin-shell\.js/);
-  assert.match(worker,/v1\.18\.5/);
+  assert.match(worker,/v1\.18\.6/);
 });
 
 await test('Content-safe asennus ei koske julkaistuihin lähteisiin tai generoituun sisältöön',()=>{

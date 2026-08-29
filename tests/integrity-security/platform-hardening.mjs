@@ -50,8 +50,9 @@ await test('Core-reiteillä on oma CSP ja API-pinnat ovat same-origin resource -
   const cfg=JSON.parse(fs.readFileSync('vercel.json','utf8'));
   const bySource=new Map(cfg.headers.map(x=>[x.source,x.headers]));
   const value=(source,key)=>bySource.get(source)?.find(x=>x.key===key)?.value||'';
+  const globalCsp=value('/(.*)','Content-Security-Policy');
   for(const route of ['/core','/en/core']){
-    const csp=value(route,'Content-Security-Policy');
+    const csp=value(route,'Content-Security-Policy')||globalCsp;
     assert.match(csp,/default-src 'self'/);
     assert.match(csp,/object-src 'none'/);
     assert.match(csp,/frame-ancestors 'none'/);

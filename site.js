@@ -48,6 +48,24 @@ export function initSiteUi(root=document){
   const closeButtons=[...root.querySelectorAll('[data-filter-close]')];
   const clearButton=root.querySelector('[data-filter-clear]');
   let category='all',audience='all';
+  const canUseUrl=typeof window!=='undefined'&&window.location&&window.history;
+  const allowedCategory=new Set(categoryButtons.map(button=>button.dataset.categoryFilter||'all'));
+  const allowedAudience=new Set(audienceButtons.map(button=>button.dataset.audienceFilter||'all'));
+
+  const readUrlState=()=>{
+    if(!canUseUrl)return;
+    const params=new URLSearchParams(window.location.search);
+    const nextCategory=params.get('category')||'all',nextAudience=params.get('audience')||'all';
+    category=allowedCategory.has(nextCategory)?nextCategory:'all';
+    audience=allowedAudience.has(nextAudience)?nextAudience:'all';
+  };
+  const writeUrlState=(mode='replace')=>{
+    if(!canUseUrl||(!categoryButtons.length&&!audienceButtons.length))return;
+    const url=new URL(window.location.href);
+    if(category==='all')url.searchParams.delete('category');else url.searchParams.set('category',category);
+    if(audience==='all')url.searchParams.delete('audience');else url.searchParams.set('audience',audience);
+    window.history[mode==='push'?'pushState':'replaceState']({category,audience},'',`${url.pathname}${url.search}${url.hash}`);
+  };
 
   const updateSummary=()=>{
     if(!summary)return;
@@ -71,14 +89,17 @@ export function initSiteUi(root=document){
     syncPressed(audienceButtons,'audienceFilter',audience);
     updateSummary();
   };
-  categoryButtons.forEach(button=>button.addEventListener('click',()=>{category=button.dataset.categoryFilter||'all';apply();}));
-  audienceButtons.forEach(button=>button.addEventListener('click',()=>{audience=button.dataset.audienceFilter||'all';apply();}));
-  clearButton?.addEventListener('click',()=>{category='all';audience='all';apply();});
+  categoryButtons.forEach(button=>button.addEventListener('click',()=>{category=button.dataset.categoryFilter||'all';apply();writeUrlState('push');}));
+  audienceButtons.forEach(button=>button.addEventListener('click',()=>{audience=button.dataset.audienceFilter||'all';apply();writeUrlState('push');}));
+  clearButton?.addEventListener('click',()=>{category='all';audience='all';apply();writeUrlState('push');});
   openButton?.addEventListener('click',()=>{if(dialog?.showModal)dialog.showModal();});
   closeButtons.forEach(button=>button.addEventListener('click',()=>dialog?.close?.()));
   dialog?.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});
+  readUrlState();
   apply();
-  return {apply,getState:()=>({category,audience}),clear:()=>{category='all';audience='all';apply();}};
+  writeUrlState('replace');
+  if(canUseUrl)window.addEventListener('popstate',()=>{readUrlState();apply();});
+  return {apply,getState:()=>({category,audience}),clear:()=>{category='all';audience='all';apply();writeUrlState('push');}};
 }
 
 if(typeof document!=='undefined'){

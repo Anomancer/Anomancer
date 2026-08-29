@@ -1,3 +1,5 @@
+import crypto from 'node:crypto';
+
 const RATE_WINDOW_MS = 15 * 60 * 1000;
 const RATE_MAX = 3;
 const MAX_BODY_BYTES = 20_000;
@@ -42,7 +44,7 @@ function sameOrigin(req) {
 }
 
 
-function rateAllowed(ip, now) {
+function memoryRateAllowed(ip, now) {
   const entries = (rateStore.get(ip) || []).filter(ts => now - ts < RATE_WINDOW_MS);
   if (entries.length >= RATE_MAX) {
     rateStore.set(ip, entries);
@@ -58,6 +60,32 @@ function rateAllowed(ip, now) {
     }
   }
   return true;
+}
+
+function sharedRateConfig(){
+  const url=String(process.env.CONTACT_RATE_LIMIT_REST_URL||process.env.UPSTASH_REDIS_REST_URL||process.env.KV_REST_API_URL||'').replace(/\/$/,'');
+  const token=String(process.env.CONTACT_RATE_LIMIT_REST_TOKEN||process.env.UPSTASH_REDIS_REST_TOKEN||process.env.KV_REST_API_TOKEN||'');
+  return url&&token?{url,token}:null;
+}
+
+async function rateAllowed(ip,now){
+  const config=sharedRateConfig();
+  const production=process.env.VERCEL_ENV==='production'||process.env.NODE_ENV==='production';
+  if(!config)return production?{allowed:false,unavailable:true}:{allowed:memoryRateAllowed(ip,now),shared:false};
+  const bucket=Math.floor(now/RATE_WINDOW_MS),salt=process.env.CONTACT_RATE_LIMIT_SALT||process.env.CONTACT_TO_EMAIL||'anomancer-contact';
+  const identity=crypto.createHash('sha256').update(`${salt}\0${ip}`).digest('hex');
+  const key=`anomancer:contact:${bucket}:${identity}`;
+  const script='local c=redis.call("INCR",KEYS[1]);if c==1 then redis.call("PEXPIRE",KEYS[1],ARGV[1]) end;return c';
+  try{
+    const response=await fetch(config.url,{method:'POST',headers:{Authorization:`Bearer ${config.token}`,'Content-Type':'application/json'},body:JSON.stringify(['EVAL',script,'1',key,String(RATE_WINDOW_MS)])});
+    if(!response.ok)throw new Error(`rate-store-${response.status}`);
+    const payload=await response.json();const count=Number(payload?.result);
+    if(!Number.isFinite(count))throw new Error('rate-store-invalid');
+    return{allowed:count<=RATE_MAX,shared:true};
+  }catch(error){
+    console.error('Anomancer contact rate store unavailable',error?.message||'Error');
+    return{allowed:false,unavailable:true};
+  }
 }
 
 function buildMessage({ name, email, subject, message, language }) {
@@ -124,7 +152,11 @@ export default async function handler(req, res) {
   }
 
   const ip = clientIp(req);
-  if (!rateAllowed(ip, now)) {
+  const rate=await rateAllowed(ip, now);
+  if(rate.unavailable){
+    return json(res,503,{ok:false,error:'RATE_LIMIT_UNAVAILABLE'});
+  }
+  if (!rate.allowed) {
     return json(res, 429, { ok: false, error: 'RATE_LIMITED' });
   }
 

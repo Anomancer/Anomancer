@@ -61,7 +61,7 @@ export function normalizeNarramancerProject(input={},workspaceId=''){
     orchestra:{instruction:text(orchestra.instruction,12_000),lastRunId:text(orchestra.lastRunId,120),lastRunAt:text(orchestra.lastRunAt,40),notes:text(orchestra.notes,30_000)}
   };
   const bytes=Buffer.byteLength(JSON.stringify(normalized),'utf8');
-  if(bytes>1_500_000)throw Object.assign(new Error('Narramancer-projekti on liian suuri yhdelle tallennukselle (max 1.5 MB).'),{statusCode:413,code:'NARRAMANCER_PROJECT_TOO_LARGE'});
+  if(bytes>1_500_000)throw Object.assign(new Error('Romancer-projekti on liian suuri yhdelle tallennukselle (max 1.5 MB).'),{statusCode:413,code:'NARRAMANCER_PROJECT_TOO_LARGE'});
   return normalized;
 }
 

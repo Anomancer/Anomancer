@@ -2,7 +2,7 @@
 
 Phase 6 separates three responsibilities that previously overlapped operationally:
 
-1. **Local/repository release gate** — `npm run check` is the deterministic 72-step quality contract.
+1. **Local/repository release gate** — `npm run check` is the deterministic quality contract. The runner derives and reports its step count from the current registry; governance does not duplicate a number that can drift.
 2. **Pull-request CI** — `.github/workflows/pr-release-gate.yml` runs the same release gate on every PR targeting `master` with read-only repository authority and no deployment secrets.
 3. **Repository governance state** — GitHub branch protection requires the successful `Release Gate` check before `master` can change.
 

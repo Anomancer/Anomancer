@@ -54,6 +54,35 @@ await run('virheellinen sähköposti torjutaan', async () => {
   assert.equal(res.statusCode, 400);
 });
 
+await run('tuotanto fail-closed ilman jaettua rate limit -tallennusta', async () => {
+  process.env.VERCEL_ENV='production';
+  delete process.env.CONTACT_RATE_LIMIT_REST_URL;
+  delete process.env.CONTACT_RATE_LIMIT_REST_TOKEN;
+  delete process.env.UPSTASH_REDIS_REST_URL;
+  delete process.env.UPSTASH_REDIS_REST_TOKEN;
+  delete process.env.KV_REST_API_URL;
+  delete process.env.KV_REST_API_TOKEN;
+  const res=mockRes();
+  await handler(mockReq(valid(),{'x-forwarded-for':`test-rate-missing-${Math.random()}`}),res);
+  assert.equal(res.statusCode,503);
+  assert.equal(JSON.parse(res.body).error,'RATE_LIMIT_UNAVAILABLE');
+  delete process.env.VERCEL_ENV;
+});
+
+await run('Upstash-rate limit käyttää hajautettua tunnistetta eikä raakaa IP-osoitetta', async () => {
+  process.env.VERCEL_ENV='production';
+  process.env.UPSTASH_REDIS_REST_URL='https://rate.example';
+  process.env.UPSTASH_REDIS_REST_TOKEN='rate_test';
+  process.env.RESEND_API_KEY='re_test';
+  const ip='203.0.113.42',requests=[];
+  globalThis.fetch=async(url,options)=>{requests.push({url,options});return url==='https://rate.example'?{ok:true,json:async()=>({result:1})}:{ok:true,status:200};};
+  const res=mockRes();await handler(mockReq(valid(),{'x-forwarded-for':ip}),res);
+  assert.equal(res.statusCode,200);
+  assert.equal(requests[0].url,'https://rate.example');
+  assert.equal(requests[0].options.body.includes(ip),false);
+  delete process.env.VERCEL_ENV;delete process.env.UPSTASH_REDIS_REST_URL;delete process.env.UPSTASH_REDIS_REST_TOKEN;
+});
+
 await run('puuttuva Resend-avain fail-closed', async () => {
   delete process.env.RESEND_API_KEY;
   const res = mockRes();
@@ -80,4 +109,4 @@ await run('kelvollinen viesti lähetetään serveriltä', async () => {
   assert.equal(payload.text.includes('Tämä on riittävän pitkä testiviesti.'), true);
 });
 
-console.log('✓ Contact Gate 5/5');
+console.log('✓ Contact Gate 7/7');

@@ -25,7 +25,8 @@ test('PR workflow token is read-only and checkout cannot persist credentials',()
 test('PR workflow runs locked install before the complete release gate',()=>{
   assert.match(workflow,/actions\/setup-node@v4/);
   assert.match(workflow,/node-version: 22/);
-  assert.match(workflow,/CHROMIUM_BIN/);
+  assert.match(workflow,/npx playwright install --with-deps chromium/);
+  assert.match(workflow,/actions\/upload-artifact@v4/);
   const install=workflow.indexOf('run: npm ci');
   const gate=workflow.indexOf('run: npm run check');
   assert.ok(install>=0&&gate>install,'npm ci pitää ajaa ennen npm run check -porttia');

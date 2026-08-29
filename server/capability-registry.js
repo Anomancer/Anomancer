@@ -6,7 +6,7 @@ const clone=value=>JSON.parse(JSON.stringify(value));
 const deepFreeze=value=>{if(!value||typeof value!=='object'||Object.isFrozen(value))return value;for(const child of Object.values(value))deepFreeze(child);return Object.freeze(value);};
 
 const RAW_CAPABILITIES=[{
-  id:'nanomancer',name:'Nanomancer',version:'1.0.0',type:'analysis-capability',description:'Read-only analyysimikroskooppi rakenteisen datan, Archive Objectien ja ajohistorian vertailuun.',
+  id:'nanomancer',name:'Nanomancer',version:'1.0.0',type:'analysis-capability',description:'Vain luku -analyysimikroskooppi rakenteisen datan, arkisto-objektien ja ajohistorian vertailuun.',
   operations:['compare','diff','consistency','deviation','cross-run'],
   inputs:['archive-object','run-record','structured-json'],outputs:['anomancer-nanomancer-analysis/v1'],supportedWorkspaces:['*'],
   permissions:{archive:'read-granted',runs:'read-own-workspace',artifactStore:'none',workspaceWrite:'none',archiveWrite:'none',modelAccess:'none',toolAccess:'none'},

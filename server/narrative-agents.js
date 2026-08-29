@@ -6,7 +6,7 @@ const text=(v,max=20_000)=>String(v??'').trim().slice(0,max);
 const strings=(v,max=30,itemMax=1200)=>list(v,max).map(x=>text(x,itemMax)).filter(Boolean);
 const severity=v=>['high','medium','low'].includes(v)?v:'medium';
 
-const common=`You are operating inside Narramancer, a private story-writing workspace. You are an assistant, never an autonomous author, saver, exporter or publisher. The human writer is final authority. Treat the project JSON as the only story context available to you. Never claim that you saved, locked, accepted canon, exported or published anything. Never silently erase existing canon, characters, chapters or timeline events. If story constraints conflict, report the conflict instead of pretending it is resolved. Preserve deliberate strangeness, humor, ambiguity and authorial intent. Do not turn prose into generic screenwriting, marketing copy or formulaic story advice. Return JSON only.`;
+const common=`You are operating inside Romancer (legacy internal id: narramancer), a private story-writing workspace. You are an assistant, never an autonomous author, saver, exporter or publisher. The human writer is final authority. Treat the project JSON as the only story context available to you. Never claim that you saved, locked, accepted canon, exported or published anything. Never silently erase existing canon, characters, chapters or timeline events. If story constraints conflict, report the conflict instead of pretending it is resolved. Preserve deliberate strangeness, humor, ambiguity and authorial intent. Do not turn prose into generic screenwriting, marketing copy or formulaic story advice. Return JSON only.`;
 const langRule=project=>project.project?.language==='en'?'Write all prose fields in English.':'Write all prose fields in Finnish.';
 const ctx=(project,custom,activeChapterId)=>`\nPROJECT JSON:\n${JSON.stringify(project)}\nACTIVE CHAPTER ID: ${JSON.stringify(activeChapterId||'')}\n${custom?`Additional human instruction: ${custom}`:''}`;
 
@@ -50,7 +50,7 @@ export function promptForNarrativeAgent(agent,rawProject,custom='',activeChapter
     system:`${prefix} You are the MANUSCRIPT PACKAGER. Prepare export metadata only. You may suggest chapter order and front matter, but you may not rewrite chapters, save the project, export files or publish.`,
     user:`Return JSON with keys manuscriptTitle, chapterOrder, frontMatter, exportNotes, warnings. chapterOrder is an array of existing chapter ids in proposed order. frontMatter and exportNotes are strings. Never invent chapter ids.${context}`
   };
-  throw Object.assign(new Error('Tuntematon Narramancer-agentti.'),{statusCode:400,code:'NARRATIVE_AGENT_UNKNOWN'});
+  throw Object.assign(new Error('Tuntematon Romancer-agentti.'),{statusCode:400,code:'NARRATIVE_AGENT_UNKNOWN'});
 }
 
 export function validateNarrativeAgentResult(agent,value,rawProject,{activeChapterId=''}={}){
@@ -67,5 +67,5 @@ export function validateNarrativeAgentResult(agent,value,rawProject,{activeChapt
   if(agent==='narrative-voice'){let id=text(raw.chapterId,80);if(activeChapterId&&chapterIds.has(activeChapterId))id=activeChapterId;else if(!chapterIds.has(id))id=project.chapters[0]?.id||'';return{chapterId:id,body:text(raw.body,180_000),changes:strings(raw.changes,40,1400),warnings:strings(raw.warnings,20,1400)};}
   if(agent==='narrative-critic')return{verdict:text(raw.verdict,5000),issues:list(raw.issues,80).map(item=>{const x=object(item);return{severity:severity(x.severity),type:text(x.type,180),location:text(x.location,300),problem:text(x.problem,2400),fix:text(x.fix,2400)};}).filter(x=>x.problem),strengths:strings(raw.strengths,40,1800),questions:strings(raw.questions,40,1800)};
   if(agent==='narrative-package'){const order=list(raw.chapterOrder,200).map(x=>text(x,80)).filter(id=>chapterIds.has(id));return{manuscriptTitle:text(raw.manuscriptTitle||project.project.title,220),chapterOrder:[...new Set(order)],frontMatter:text(raw.frontMatter,20_000),exportNotes:text(raw.exportNotes,20_000),warnings:strings(raw.warnings,20,1400)};}
-  throw Object.assign(new Error('Tuntematon Narramancer-agenttitulos.'),{statusCode:400,code:'NARRATIVE_RESULT_UNKNOWN'});
+  throw Object.assign(new Error('Tuntematon Romancer-agenttitulos.'),{statusCode:400,code:'NARRATIVE_RESULT_UNKNOWN'});
 }

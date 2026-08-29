@@ -16,3 +16,5 @@ IP_PRIVATE/
 # Generated deployment/publication output (npm run build)
 # Phase 5: buildin ainoa output-raja on public/.
 /public/
+/dist/
+/test-results/
