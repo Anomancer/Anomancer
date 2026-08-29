@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.18.7.2 — Visible Workspace Dialog Hotfix
+
+- Portaled the workspace creation dialog out of the hidden editorial editor grid before `showModal()`.
+- Fixed the Firefox/live symptom where the page became modal/inert but no dialog was visible.
+- Strengthened the full-app E2E to verify actual rendered visibility, not only `dialog.open`.
+- Rotated the Lähetyskone cache generation to `v1.18.7-p3`.
+
+
 ## 1.18.7.1 — Codemancer Workspace Creation Hotfix
 
 - Restored the missing `workspaceDialogStatus()` helper that made workspace creation and management buttons fail with a browser `ReferenceError`.

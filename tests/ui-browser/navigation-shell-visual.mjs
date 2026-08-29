@@ -56,8 +56,8 @@ await test('Mobiilissa shell palaa yhteen sarakkeeseen eikä amputoi asetuksia',
   assert.match(html,/id="mobilePublishBtn"/);
 });
 
-await test('PWA-cache bustataan 1.18.7-p2 hotfix-sukupolveen',()=>{
-  assert.match(worker,/v1\.18\.7-p2/);
+await test('PWA-cache bustataan 1.18.7-p3 hotfix-sukupolveen',()=>{
+  assert.match(worker,/v1\.18\.7-p3/);
 });
 
 await test('Content-safe installer säilyttää sisältö- ja julkaisurajat',()=>{
