@@ -1,12 +1,74 @@
-<!doctype html><html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>Anomancer Lighthouse Lab</title><link rel="stylesheet" href="/lighthouse/lab.css"></head>
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Anomancer Lighthouse Lab</title>
+  <link rel="stylesheet" href="/lighthouse/lab.css">
+</head>
 <body>
-<main id="door" class="door"><section>
-<div class="brand-lockup" aria-label="Anomancer">
-  <img class="brand-mark" src="/media/brand/anomancer-mark.png" alt="" aria-hidden="true">
-  <img class="brand-wordmark" src="/media/brand/anomancer-wordmark.png" alt="" aria-hidden="true">
-  <h1 class="sr-only">Anomancer</h1>
-</div>
-<p class="eyebrow">LIGHTHOUSE LAB · D0</p>
-<p class="lead">Mitä haluat saada aikaan?</p><form id="f"><textarea id="q" maxlength="12000" rows="7" required placeholder="Kirjoita ongelma, tavoite tai asia jonka haluat selvittää."></textarea><button id="go">Jatka</button><p id="status" role="status" aria-live="polite"></p></form></section></main>
-<main id="work" class="work" hidden><nav><button id="back" class="quiet">← Takaisin</button><span>D1 · TYÖ</span></nav><article><p class="eyebrow">TÄSSÄ ON OLENNAISIN</p><h2 id="title"></h2><div id="answer" class="answer"></div><section id="next" hidden><h3>Seuraavaksi</h3><ul id="steps"></ul></section><section id="unc" hidden><h3>Epävarmuus</h3><p id="uncText"></p></section><details><summary>Miten tämä tehtiin?</summary><pre id="runtime"></pre></details></article></main>
-<script type="module" src="/lighthouse/lab.js"></script></body></html>
+  <main id="door" class="door">
+    <section class="door-panel" aria-labelledby="doorTitle">
+      <p class="eyebrow">LIGHTHOUSE LAB · D0</p>
+
+      <div class="brand-lockup" aria-label="Anomancer">
+        <img class="brand-wordmark" src="/media/brand/anomancer-wordmark.png" alt="" aria-hidden="true">
+        <h1 id="doorTitle" class="sr-only">Anomancer</h1>
+      </div>
+
+      <p class="lead">Mitä haluat saada aikaan?</p>
+
+      <form id="f" class="door-form">
+        <label class="sr-only" for="q">Kerro mitä haluat saada aikaan</label>
+        <textarea
+          id="q"
+          maxlength="12000"
+          rows="7"
+          required
+          placeholder="Kirjoita ongelma, tavoite tai asia jonka haluat selvittää."></textarea>
+
+        <div class="door-actions">
+          <button id="go" type="submit" class="primary">Jatka</button>
+        </div>
+
+        <div class="door-mark">
+          <img class="brand-mark-footer" src="/media/brand/anomancer-mark.png" alt="" aria-hidden="true">
+        </div>
+
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <main id="work" class="work" hidden>
+    <nav class="work-nav">
+      <button id="back" type="button" class="quiet">← Takaisin</button>
+      <span>D1 · TYÖ</span>
+    </nav>
+
+    <article class="result-card">
+      <p class="eyebrow">TÄSSÄ ON OLENNAISIN</p>
+      <h2 id="title"></h2>
+      <div id="answer" class="answer"></div>
+
+      <section id="next" hidden>
+        <h3>Seuraavaksi</h3>
+        <ul id="steps"></ul>
+      </section>
+
+      <section id="unc" class="uncertainty" hidden>
+        <h3>Epävarmuus</h3>
+        <p id="uncText"></p>
+      </section>
+
+      <details class="runtime">
+        <summary>Miten tämä tehtiin?</summary>
+        <pre id="runtime"></pre>
+      </details>
+    </article>
+  </main>
+
+  <script type="module" src="/lighthouse/lab.js"></script>
+</body>
+</html>
