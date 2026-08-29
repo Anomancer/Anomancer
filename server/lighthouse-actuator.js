@@ -52,6 +52,52 @@ function normalizeFiles(files=[]){
   }
   return out;
 }
+function multisetCommon(valuesA,valuesB,normalizer=value=>value){
+  const counts=new Map();
+  for(const value of valuesA){
+    const key=normalizer(value);
+    counts.set(key,(counts.get(key)||0)+1);
+  }
+  let common=0;
+  for(const value of valuesB){
+    const key=normalizer(value),left=counts.get(key)||0;
+    if(left>0){common++;counts.set(key,left-1);}
+  }
+  return common;
+}
+function semanticLine(value){
+  return String(value??'').trim().replace(/\s+/g,' ');
+}
+function changeFootprint(before,after){
+  const a=String(before??'').split(/\r?\n/),b=String(after??'').split(/\r?\n/);
+  const exactCommon=multisetCommon(a,b);
+  const semanticCommon=multisetCommon(a,b,semanticLine);
+  const exactChanged=(a.length+b.length)-(2*exactCommon);
+  const semanticChanged=(a.length+b.length)-(2*semanticCommon);
+  const formattingOnly=Math.max(0,exactChanged-semanticChanged);
+  const baseLines=Math.max(1,a.length,b.length);
+  return{
+    exactChanged,
+    semanticChanged,
+    formattingOnly,
+    changedFraction:exactChanged/(baseLines*2)
+  };
+}
+function rejectFormattingChurn(before,after,path){
+  const footprint=changeFootprint(before,after);
+  const dominatedByFormatting=footprint.formattingOnly>=12
+    && footprint.exactChanged>=20
+    && footprint.formattingOnly>Math.max(8,footprint.semanticChanged*4);
+  if(dominatedByFormatting){
+    fail(
+      `Mutation ${path} muuttaisi suuren määrän rivejä lähinnä formatoinnin vuoksi. Tee uusi minimaalinen ehdotus.`,
+      'LIGHTHOUSE_MUTATION_FORMAT_CHURN',
+      409,
+      {path,exactChanged:footprint.exactChanged,semanticChanged:footprint.semanticChanged,formattingOnly:footprint.formattingOnly}
+    );
+  }
+  return footprint;
+}
 function diffPreview(before,after,path){
   const a=String(before??'').split(/\r?\n/),b=String(after??'').split(/\r?\n/);let prefix=0;
   while(prefix<a.length&&prefix<b.length&&a[prefix]===b[prefix])prefix++;
@@ -83,9 +129,10 @@ export async function sealLighthouseMutation(proposal,{session,adapters={}}={}){
   for(const file of files){
     const current=await (adapters.getFile||getLighthouseFile)(file.path);
     if(!current?.sha)fail(`Tiedoston ${file.path} lähde-SHA puuttuu.`,'LIGHTHOUSE_MUTATION_SOURCE_SHA',409);
+    const footprint=rejectFormattingChurn(current.content,file.content,file.path);
     const diff=diffPreview(current.content,file.content,file.path);
     if(!diff.additions&&!diff.deletions)continue;
-    bound.push({...file,sourceSha:String(current.sha),beforeHash:sha(String(current.content||'')),afterHash:sha(file.content),diff:diff.text,additions:diff.additions,deletions:diff.deletions});
+    bound.push({...file,sourceSha:String(current.sha),beforeHash:sha(String(current.content||'')),afterHash:sha(file.content),diff:diff.text,additions:diff.additions,deletions:diff.deletions,changeFootprint:footprint});
   }
   if(!bound.length)fail('Ehdotus ei muuta yhtään sallittua tiedostoa.','LIGHTHOUSE_MUTATION_NOOP',409);
   const id=approvalId(),branchName=`anomancer/op-lighthouse-${id.slice(-12).toLowerCase()}`;

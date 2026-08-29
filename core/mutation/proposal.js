@@ -24,6 +24,10 @@ Säännöt:
 - Älä poista tiedostoa tai palauta tyhjää sisältöä.
 - Älä muuta salaisuuksia, tunnuksia, workflow-tiedostoja, autentikointia, deploy-politiikkaa tai hyväksyntäportteja.
 - Älä väitä suorittaneesi muutosta. Tämä vaihe tuottaa vain tarkistettavan ehdotuksen.
+- Säilytä jokaisen tiedoston kaikki muuttamattomat rivit täsmälleen alkuperäisessä muodossa, mukaan lukien sisennys, välilyönnit, lainausmerkit ja rivinvaihdot.
+- Älä formatoi, uudelleensisennä, järjestele tai siisti ympäröivää koodia, ellei käyttäjä ole nimenomaisesti pyytänyt juuri formatointia.
+- Jos korjaus tarvitsee yhden rivin lisäyksen tai vaihdon, KOKO uusi sisältö saa erota alkuperäisestä vain siinä välttämättömässä kohdassa.
+- Jos et pysty säilyttämään muuttumatonta sisältöä tarkasti, palauta files tyhjänä mieluummin kuin laaja diff.
 - Jos turvallista täsmällistä muutosta ei voi muodostaa, palauta files tyhjänä ja kerro summaryssa miksi.`;
 
 const clean=(value,max=2000)=>String(value??'').replace(/\u0000/g,'').trim().slice(0,max);

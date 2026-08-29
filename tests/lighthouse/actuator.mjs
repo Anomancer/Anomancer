@@ -41,11 +41,43 @@ const adapters={
 };
 
 try{
+  const churnBefore=[
+    'export function example(){',
+    ...Array.from({length:24},(_,i)=>`  const value${i}=${i};`),
+    '  return true;',
+    '}',
+    ''
+  ].join('\n');
+  const churnAfter=[
+    'export function example(){',
+    ...Array.from({length:12},(_,i)=>` const value${i}=${i};`),
+    ' const inserted=true;',
+    ...Array.from({length:12},(_,i)=>` const value${i+12}=${i+12};`),
+    ' return true;',
+    '}',
+    ''
+  ].join('\n');
+  await assert.rejects(
+    ()=>sealLighthouseMutation({
+      ...baseProposal,
+      files:[{path:'core/intent/contracts.js',content:churnAfter,rationale:'Yhden rivin korjaus.'}]
+    },{
+      session,
+      adapters:{
+        ...adapters,
+        getFile:async path=>({path,sha:SOURCE,content:churnBefore})
+      }
+    }),
+    error=>error?.code==='LIGHTHOUSE_MUTATION_FORMAT_CHURN'
+  );
+  assert.equal(commitCalls,0,'format churn must be rejected before write');
+
   const sealed=await sealLighthouseMutation(baseProposal,{session,adapters});
   assert.equal(commitCalls,0,'proposal sealing must not write');
   assert.equal(sealed.proposal.files.length,1);
   assert.match(sealed.proposal.files[0].diff,/--- a\/core\/intent\/contracts\.js/);
   assert.equal(sealed.proposal.files[0].sourceSha,SOURCE);
+  assert.equal(sealed.proposal.files[0].changeFootprint.formattingOnly,0);
   assert.equal(sealed.proposal.base.ref,'architecture/lighthouse-v1');
   assert.equal(sealed.approval.humanApprovalRequired,true);
   assert.equal(sealed.approval.defaultBranchWrite,false);
