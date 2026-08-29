@@ -4,6 +4,10 @@ import {
   completeOrchestrationPlan
 } from '../orchestration/lighthouse-plan.js';
 import {createMachineSnapshot} from '../runtime/lighthouse-machine.js';
+import {
+  createCoreSnapshot,
+  runtimeEnvironment
+} from '../system/lighthouse-core.js';
 
 const SYSTEM=`Olet Anomancer Lighthouse D0→D1 -työmoottori.
 
@@ -173,6 +177,14 @@ export async function runIntent(input,{reasoner}={}){
     orchestration:completedOrchestration
   });
 
+  const core=createCoreSnapshot({
+    environment:runtimeEnvironment(),
+    intent,
+    result,
+    machine,
+    orchestration:completedOrchestration
+  });
+
   return {
     intent,
     result,
@@ -183,7 +195,8 @@ export async function runIntent(input,{reasoner}={}){
       durationMs,
       searchedWeb:response?.meta?.searchedWeb===true,
       orchestration:completedOrchestration,
-      machine
+      machine,
+      core
     }
   };
 }

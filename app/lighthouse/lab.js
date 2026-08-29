@@ -428,6 +428,164 @@ function renderMachine(machine={}){
     'Erillisiä työkaluja ei kutsuttu tässä ajossa.';
 }
 
+function yesNo(value){
+  return value?'Kyllä':'Ei';
+}
+
+function coreStatus(label,value,detail=''){
+  const li=document.createElement('li');
+  li.dataset.status=value?'on':'off';
+
+  const top=document.createElement('div');
+
+  const title=document.createElement('strong');
+  title.textContent=label;
+
+  const status=document.createElement('span');
+  status.textContent=value?'Kyllä':'Ei';
+
+  top.append(title,status);
+  li.append(top);
+
+  if(detail){
+    const p=document.createElement('p');
+    p.textContent=detail;
+    li.append(p);
+  }
+
+  return li;
+}
+
+function renderCore(core={}){
+  const details=$('#coreDetails');
+
+  if(!core||!core.format){
+    details.hidden=true;
+    return;
+  }
+
+  details.hidden=false;
+  details.open=false;
+
+  const authority=core.authority||{};
+  $('#coreAuthorityNote').textContent=authority.note||'';
+
+  const policy=core.policy||{};
+  const environment=policy.environment||{};
+
+  $('#coreEnvironment').textContent=
+    String(environment.name||'development');
+
+  $('#corePolicy').replaceChildren(
+    coreStatus(
+      'Lab sallittu tässä ympäristössä',
+      environment.labAllowed===true,
+      environment.productionDefaultLocked
+        ?'Production on oletuksena lukittu ilman erillistä Lighthouse-lippua.'
+        :'Construction Mode -lab on tämän ympäristön politiikan mukaan käytettävissä.'
+    ),
+    coreStatus(
+      'Automaattinen mallimuisti',
+      policy.automaticModelMemory===true,
+      'Lighthouse ei anna mallille automaattista pysyvää muistia.'
+    ),
+    coreStatus(
+      'Automaattinen julkaisu',
+      policy.automaticPublication===true,
+      'Tämä lab-polku ei julkaise sisältöä automaattisesti.'
+    ),
+    coreStatus(
+      'Automaattiset ulkoiset toiminnot',
+      policy.automaticExternalActions===true,
+      'Ulkoisia sivuvaikutuksia ei anneta mallin tehtäväksi tässä polussa.'
+    )
+  );
+
+  const storage=core.storage||{};
+  const limits=storage.limits||{};
+
+  const storageRows=[
+    ['Työtilat',storage.workspaceStore||'Ei ilmoitettu'],
+    ['Automaattitallennus',yesNo(storage.automaticWorkspaceSave)],
+    ['Synkronoitu',yesNo(storage.synchronized)],
+    ['Palvelinarkisto',yesNo(storage.serverArchive)],
+    ['Työtilaraja',String(limits.workspaces??'—')],
+    ['Aineistoja / työtila',String(limits.materialsPerWorkspace??'—')],
+    ['Versioita / työtila',String(limits.versionsPerWorkspace??'—')]
+  ];
+
+  $('#coreStorage').replaceChildren(...storageRows.flatMap(([label,value])=>{
+    const dt=document.createElement('dt');
+    dt.textContent=label;
+
+    const dd=document.createElement('dd');
+    dd.textContent=value;
+
+    return [dt,dd];
+  }));
+
+  $('#coreStorageNote').textContent=storage.note||'';
+
+  const contracts=Array.isArray(core.contracts)?core.contracts:[];
+  $('#coreContractCount').textContent=String(contracts.length);
+
+  $('#coreContracts').replaceChildren(...contracts.map(contract=>{
+    const li=document.createElement('li');
+
+    const meta=document.createElement('span');
+    meta.textContent=[contract.layer,contract.name].filter(Boolean).join(' · ');
+
+    const code=document.createElement('code');
+    code.textContent=contract.format||'';
+
+    li.append(meta,code);
+    return li;
+  }));
+
+  const boundaries=core.boundaries||{};
+  const boundaryRows=[
+    ['Ulkoinen provider käytössä',yesNo(boundaries.externalProviderUsed)],
+    ['Verkkohaku käytössä',yesNo(boundaries.webSearchUsed)],
+    ['Työtilakonteksti lähetettiin',yesNo(boundaries.workspaceContextSent)],
+    ['Lähetettyjä aineistoja',String(boundaries.materialsSent||0)],
+    ['Kohde',String(boundaries.destination||'runtime')]
+  ];
+
+  $('#coreBoundaries').replaceChildren(...boundaryRows.flatMap(([label,value])=>{
+    const dt=document.createElement('dt');
+    dt.textContent=label;
+
+    const dd=document.createElement('dd');
+    dd.textContent=value;
+
+    return [dt,dd];
+  }));
+
+  const provenance=core.provenance||{};
+  const completeness=provenance.traceCompleteness||{};
+
+  const traces=[
+    ['D2 · Luottamus',completeness.trust],
+    ['D3 · Työtila',completeness.workspace],
+    ['D4 · Orkestra',completeness.orchestration],
+    ['D5 · Kone',completeness.machine]
+  ];
+
+  $('#coreProvenance').replaceChildren(...traces.map(([label,present])=>{
+    const li=document.createElement('li');
+    li.dataset.present=present?'true':'false';
+
+    const name=document.createElement('span');
+    name.textContent=label;
+
+    const status=document.createElement('strong');
+    status.textContent=present?'Jälki tallessa':'Ei jälkeä';
+
+    li.append(name,status);
+    return li;
+  }));
+}
+
 function renderResult(payload,{initial=false}={}){
   const result=payload.result||{};
   const runtime=payload.runtime||{};
@@ -460,13 +618,9 @@ function renderResult(payload,{initial=false}={}){
   renderTrust(result.trust||{});
   renderOrchestration(runtime.orchestration||{});
   renderMachine(runtime.machine||{});
+  renderCore(runtime.core||{});
 
-  $('#runtime').textContent=[
-    `capability: ${runtime.capability||''}`,
-    `provider: ${runtime.provider||''}`,
-    `model: ${runtime.model||''}`,
-    `duration: ${runtime.durationMs||0} ms`
-  ].join('\n');
+  $('#runtime').textContent=JSON.stringify(runtime,null,2);
 
   door.hidden=true;
   work.hidden=false;

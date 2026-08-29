@@ -1688,3 +1688,304 @@ summary:focus-visible{
 }
 
 /* LIGHTHOUSE 1.23.0 D5 MACHINE ROOM END */
+
+/* LIGHTHOUSE 1.24.0 D6 CORE START */
+
+.core-surface{
+  border-top:1px solid #26302d;
+  margin-top:22px;
+  padding-top:18px;
+  color:#93a19c;
+}
+
+.core-surface>summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  cursor:pointer;
+  color:#9fada8;
+  font-size:.84rem;
+}
+
+.core-depth{
+  color:#5f706a;
+  font-size:.67rem;
+  letter-spacing:.13em;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.core-content{
+  margin-top:20px;
+  padding-top:20px;
+  border-top:1px solid #222b28;
+}
+
+.core-authority{
+  padding:0 0 22px;
+}
+
+.core-kicker{
+  margin:0 0 7px;
+  color:#65756f;
+  font-size:.67rem;
+  letter-spacing:.12em;
+  font-weight:700;
+}
+
+.core-authority-line{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.core-authority-line strong{
+  color:#d6ddda;
+  font-size:1.05rem;
+  font-weight:650;
+}
+
+.core-authority>p:last-child{
+  max-width:68ch;
+  margin:8px 0 0;
+  color:#778681;
+  font-size:.82rem;
+  line-height:1.52;
+}
+
+.core-badge{
+  flex:none;
+  border:1px solid #35413d;
+  border-radius:999px;
+  background:#101514;
+  color:#9fada8;
+  padding:5px 9px;
+  font-size:.67rem;
+}
+
+.core-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 28px;
+  border-top:1px solid #222b28;
+}
+
+.core-section{
+  padding:20px 0;
+  border-top:1px solid #222b28;
+}
+
+.core-grid .core-section{
+  border-top:0;
+}
+
+.core-section-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:12px;
+}
+
+.core-section-heading h3{
+  margin:0;
+  color:#899893;
+  font-size:.72rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.core-status-list,
+.core-contracts,
+.core-trace{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.core-status-list li{
+  padding:10px 0;
+  border-top:1px solid #202825;
+}
+
+.core-status-list li:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.core-status-list li>div{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.core-status-list strong{
+  color:#bdc7c3;
+  font-size:.8rem;
+  font-weight:550;
+}
+
+.core-status-list span{
+  color:#687771;
+  font-size:.68rem;
+}
+
+.core-status-list li[data-status="on"] span{
+  color:#8da59a;
+}
+
+.core-status-list p{
+  margin:4px 0 0;
+  color:#687771;
+  font-size:.75rem;
+  line-height:1.45;
+}
+
+.core-list{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:7px 18px;
+  margin:0;
+}
+
+.core-list dt{
+  color:#6f7e79;
+  font-size:.78rem;
+}
+
+.core-list dd{
+  margin:0;
+  color:#b7c2be;
+  font-size:.78rem;
+  text-align:right;
+}
+
+.core-note{
+  margin:12px 0 0;
+  color:#5f6f69;
+  font-size:.74rem;
+  line-height:1.45;
+}
+
+.core-contracts li{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:14px;
+  padding:10px 0;
+  border-top:1px solid #202825;
+}
+
+.core-contracts li:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.core-contracts span{
+  color:#76857f;
+  font-size:.77rem;
+}
+
+.core-contracts code{
+  color:#b9c4c0;
+  font:inherit;
+  font-size:.75rem;
+  overflow-wrap:anywhere;
+  text-align:right;
+}
+
+.core-count{
+  min-width:26px;
+  border:1px solid #303b38;
+  border-radius:999px;
+  padding:4px 8px;
+  text-align:center;
+  color:#83928d;
+  font-size:.68rem;
+}
+
+.core-trace li{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:9px 0;
+  border-top:1px solid #202825;
+}
+
+.core-trace li:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.core-trace span{
+  color:#76857f;
+  font-size:.8rem;
+}
+
+.core-trace strong{
+  color:#697872;
+  font-size:.69rem;
+  font-weight:500;
+}
+
+.core-trace li[data-present="true"] strong{
+  color:#8ca298;
+}
+
+.core-surface+.raw-runtime{
+  margin-top:20px;
+}
+
+.raw-runtime pre{
+  max-height:420px;
+  overflow:auto;
+  padding:13px;
+  border:1px solid #202825;
+  border-radius:10px;
+  background:#0b0f0e;
+  color:#71807b;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  font-size:.7rem;
+  line-height:1.48;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .core-surface>summary:hover{
+    color:#bdc7c3;
+  }
+}
+
+@media (max-width:520px){
+  .core-surface>summary,
+  .core-authority-line{
+    align-items:flex-start;
+  }
+
+  .core-authority-line{
+    flex-direction:column;
+    gap:9px;
+  }
+
+  .core-grid{
+    grid-template-columns:1fr;
+    gap:0;
+  }
+
+  .core-grid .core-section+.core-section{
+    border-top:1px solid #222b28;
+  }
+
+  .core-contracts li{
+    grid-template-columns:1fr;
+    gap:4px;
+  }
+
+  .core-contracts code{
+    text-align:left;
+  }
+}
+
+/* LIGHTHOUSE 1.24.0 D6 CORE END */
