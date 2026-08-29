@@ -24,7 +24,12 @@ const deployRoots=new Set(['package.json','package-lock.json','vercel.json','ent
 const deniedCommon=/(^|\/)(?:\.git|\.vercel|node_modules|dist|\.anomancer-backups|ANOMANCER_IP_PRIVATE|IP_PRIVATE|\.private-ip)(\/|$)|(?:^|\/)(?:\.env[^/]*|.*(?:backup|secret|private-key).*)$/i;
 const denied=rel=>deniedCommon.test(rel)||(mode==='source'&&/(^|\/)public(\/|$)/.test(rel));
 
-function tracked(){return execFileSync('git',['ls-files','-z'],{cwd:ROOT,encoding:'utf8'}).split('\0').filter(Boolean);}
+function tracked(){
+  const args=process.env.ANOMANCER_EXPORT_INCLUDE_UNTRACKED==='1'
+    ?['ls-files','--cached','--others','--exclude-standard','-z']
+    :['ls-files','-z'];
+  return execFileSync('git',args,{cwd:ROOT,encoding:'utf8'}).split('\0').filter(Boolean);
+}
 function allowed(rel,prefixes,roots){return !denied(rel)&&(roots.has(rel)||prefixes.some(prefix=>rel.startsWith(prefix)));}
 function digest(file){return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');}
 function copy(rel,stage){const from=path.resolve(ROOT,rel),to=path.resolve(stage,rel),prefix=`${stage}${path.sep}`;if(!to.startsWith(prefix))throw new Error(`Turvaton vientipolku: ${rel}`);fs.mkdirSync(path.dirname(to),{recursive:true});const stat=fs.lstatSync(from);if(stat.isSymbolicLink()){fs.symlinkSync(fs.readlinkSync(from),to);return;}fs.copyFileSync(from,to);}

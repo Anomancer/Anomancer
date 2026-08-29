@@ -205,6 +205,12 @@
     },
     "api/admin/content.js": {
       "includeFiles": "mancers/**"
+    },
+    "api/lab/intent.js": {
+      "includeFiles": "mancers/**"
+    },
+    "api/lab/preview.js": {
+      "includeFiles": "mancers/**"
     }
   }
 }

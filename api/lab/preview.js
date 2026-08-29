@@ -1,4 +1,5 @@
 import {previewIntent} from '../../core/intent/intent-service.js';
+import {capabilityAvailability} from '../../server/lighthouse-hands.js';
 import {
   lighthouseLabAllowed,
   lighthouseLabRequiresAuth
@@ -48,7 +49,7 @@ export default async function handler(req,res){
 
   try{
     const body=await readJson(req,MAX_BODY_BYTES);
-    return send(res,200,{ok:true,...previewIntent(body)});
+    return send(res,200,{ok:true,...previewIntent(body,{availability:capabilityAvailability(process.env)})});
   }catch(error){
     const status=Number(error.statusCode)||500;
     return send(res,status,{

@@ -6,6 +6,7 @@ import {
 import {PROBLEM_MODEL_FORMAT} from '../intent/problem-model.js';
 import {RECOMMENDATION_FORMAT} from '../intent/recommendation.js';
 import {CAPABILITY_RESOLUTION_FORMAT} from '../capabilities/matcher.js';
+import {CAPABILITY_ROUTE_FORMAT} from '../runtime/capability-router.js';
 import {AUTHORITY_DECISION_FORMAT} from '../authority/approval-service.js';
 
 import {
@@ -21,7 +22,8 @@ import {
 } from '../intelligence/lighthouse-intelligence.js';
 
 import {
-  MACHINE_RUNTIME_FORMAT
+  MACHINE_RUNTIME_FORMAT,
+  CAPABILITY_RUNTIME_FORMAT
 } from '../runtime/lighthouse-machine.js';
 
 import {
@@ -107,6 +109,16 @@ export function createCoreSnapshot({
         format:CAPABILITY_RESOLUTION_FORMAT
       },
       {
+        layer:'Core/D5',
+        name:'Capability route',
+        format:CAPABILITY_ROUTE_FORMAT
+      },
+      {
+        layer:'D5',
+        name:'Capability runtime',
+        format:CAPABILITY_RUNTIME_FORMAT
+      },
+      {
         layer:'Human authority rail',
         name:'Authority decision',
         format:AUTHORITY_DECISION_FORMAT
@@ -151,6 +163,9 @@ export function createCoreSnapshot({
     boundaries:{
       externalProviderUsed:machine?.connections?.externalProvider===true,
       webSearchUsed:machine?.connections?.webSearchUsed===true,
+      webFetchUsed:machine?.connections?.webFetchUsed===true,
+      repositoryReadUsed:machine?.connections?.repositoryReadUsed===true,
+      mancerActivated:machine?.connections?.mancerActivated===true,
       workspaceContextSent:machine?.dataFlow?.workspaceContextSent===true,
       materialsSent:Number(machine?.dataFlow?.materialsSent)||0,
       destination:String(machine?.dataFlow?.destination||'runtime'),
@@ -166,6 +181,7 @@ export function createCoreSnapshot({
       intelligenceRecorded:Boolean(orchestration?.intelligence?.format),
       orchestrationRecorded:Boolean(orchestration?.format),
       machineRuntimeRecorded:Boolean(machine?.format),
+      capabilityRuntimeRecorded:Boolean(machine?.capabilityRuntime?.format),
       workspaceId:String(workspace.id||''),
       traceCompleteness:{
         trust:Boolean(result.trust),
@@ -174,7 +190,8 @@ export function createCoreSnapshot({
         authority:Boolean(orchestration?.authority?.format),
         intelligence:Boolean(orchestration?.intelligence?.format),
         orchestration:Boolean(orchestration?.format),
-        machine:Boolean(machine?.format)
+        machine:Boolean(machine?.format),
+        capabilities:Boolean(machine?.capabilityRuntime?.format)
       }
     }
   };

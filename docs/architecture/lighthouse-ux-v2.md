@@ -45,7 +45,7 @@ The UI then asks the human to start. Only the Start action proceeds to the exter
 
 ## Capability boundary
 
-The implementation remains single-provider while the architecture remains provider-neutral. Semantic capabilities resolve to the current bounded `llm.reasoning` execution capability. Capabilities that are not wired, such as `research.search`, stay explicitly unresolved and must not be implied as available.
+The reasoning implementation remains single-provider while the architecture remains provider-neutral. Semantic reasoning capabilities resolve to the bounded `llm.reasoning` execution capability. Read-only runtime capabilities resolve separately: workspace material, explicit public HTTPS reads, configured search, configured repository reads and Mancer method activation. Runtime-unavailable capabilities stay explicitly unresolved and must not be implied as available. Write-class capabilities remain human-gated and non-executable on the Lighthouse route.
 
 ## Mobile rule
 

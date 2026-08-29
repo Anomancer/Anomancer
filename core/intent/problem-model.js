@@ -3,7 +3,7 @@ import {profileIntent} from '../intelligence/lighthouse-intelligence.js';
 export const PROBLEM_MODEL_FORMAT='anomancer-problem-model/v1';
 
 const DOMAIN_RULES=[
-  ['software',/(?:\bkoodi\w*|\bcode\b|repo\w*|github|vercel|css\b|javascript|typescript|node\b|api\b|bugi\w*|debug|testi\w*|arkkitehtuur\w*)/i],
+  ['software',/(?:\bkoodi\w*|\bcode\b|repo\w*|github|vercel|css\b|javascript|typescript|node\b|api\b|bugi\w*|debug|testi\w*|arkkitehtuur\w*|(?:^|[\s`'"(])[A-Za-z0-9._@+-]+(?:\/[A-Za-z0-9._@+-]+)+\.(?:js|mjs|cjs|ts|tsx|jsx|json|css|html|sh)\b)/i],
   ['document',/(?:asiakirj\w*|kirje\w*|pdf\b|sopimu\w*|tarjou\w*|dokument\w*)/i],
   ['research',/(?:tutki\w*|selvitä\w*|lähte\w*|research|tutkim\w*|uusin\w*|latest\b)/i],
   ['writing',/(?:kirjoita\w*|luonnos\w*|teksti\w*|postaus\w*|artikkeli\w*|rewrite|muotoile\w*)/i],
@@ -21,10 +21,12 @@ function unique(values){
   return [...new Set(values.filter(Boolean))];
 }
 
-function needsFor({taskType,domain,hasMaterials}){
+function needsFor({taskType,domain,hasMaterials,text}){
   const needs=['llm.reasoning'];
 
   if(hasMaterials)needs.push('document.read');
+  if(/https:\/\//i.test(String(text||'')))needs.push('web.fetch');
+  if(domain==='software'&&['debug','audit','plan'].includes(taskType))needs.push('repository.read');
 
   switch(taskType){
     case 'debug':
@@ -80,17 +82,21 @@ export function buildProblemModel(intent={},profile=profileIntent(intent)){
   if(materials.length)inputs.push('workspace_materials');
   if(history.length)inputs.push('work_history');
 
+  const needs=needsFor({
+    taskType:profile.taskType,
+    domain,
+    hasMaterials:materials.length>0,
+    text
+  });
+  if(profile.externalActionRequested===true)needs.push('external.execute');
+
   return {
     format:PROBLEM_MODEL_FORMAT,
     goal:goalFor(profile.taskType),
     taskType:profile.taskType,
     domain,
     inputs,
-    needs:needsFor({
-      taskType:profile.taskType,
-      domain,
-      hasMaterials:materials.length>0
-    }),
+    needs:unique(needs),
     constraints:{
       externalSideEffectsRequested:profile.externalActionRequested===true,
       materialsCount:materials.length,

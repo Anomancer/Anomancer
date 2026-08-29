@@ -1,15 +1,25 @@
 # Changelog
 
+## 1.21.0-lighthouse-hands.1 — Lighthouse Hands
+
+- Added a provider-neutral capability route between ProblemModel resolution and reasoning.
+- Added bounded read-only hands for browser/workspace material, explicit public HTTPS fetches, optional Brave Search, explicit GitHub repository file reads and Mancer package activation.
+- Added DNS-pinned HTTPS fetching with private-network denial, redirect revalidation, content-type and byte limits for public URL reads.
+- Activated Codemancer as internal method context for software debug/audit/plan work without enabling its write, test or deployment capabilities.
+- Injected runtime evidence into reasoning as explicitly untrusted read material while preserving trusted internal Mancer method metadata.
+- Added D4 capability execution stage, D5 Hands audit trail and D6 capability provenance/boundaries.
+- Kept all external side effects disabled on the Lighthouse route and human approval mandatory for write-class capabilities.
+- Fixed pre-commit installer validation so explicitly allowed untracked release files can participate in export checks without requiring manual staging first.
+
+
 ## 1.20.0-lighthouse-shell.1 — Lighthouse UX Architecture v2
 
-- Added a local ProblemModel and semantic capability-resolution layer before provider execution.
-- Added a D0 work preview and explicit human Start gate before external reasoning.
-- Added honest unavailable-capability reporting instead of implying unwired search or execution tools.
-- Added Door speech input when supported and bounded local text-material attachments.
-- Replaced the mobile five-depth control strip with a one-room `Miksi? / Aineisto / Lisää` disclosure model.
-- Added provider-neutral capability catalog entries while keeping DeepSeek behind `providers/deepseek/adapter.js`.
-- Added authority, recommendation and routing provenance to D4/D6 runtime snapshots.
-- Added Lighthouse UX architecture and intent-routing regression gates.
+- Added local D0 ProblemModel, capability resolution, work recommendation and explicit human Start gate before external reasoning.
+- Added provider-neutral capability and recommendation catalogs while keeping unavailable capabilities visible as unresolved.
+- Reworked mobile inspection into the one-room `Miksi? · Aineisto · Lisää` model and kept the same D0–D6 ontology on desktop.
+- Added plain-language authority and limitation presentation before the run starts.
+- Added canonical UX architecture and release evidence for the Lighthouse shell.
+
 
 ## 1.19.0-lighthouse.2 — Adaptive Intelligence
 

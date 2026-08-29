@@ -12,6 +12,9 @@ export function createOrchestrationPlan(intent={},intelligence=profileIntent(int
   const hasHistory=Boolean(intent?.history?.length);
   const planned=intelligence?.planning===true;
   const reviewed=intelligence?.review===true;
+  const hands=route.hands||{};
+  const handEvents=Array.isArray(hands.events)?hands.events:[];
+  const activatedMancers=Array.isArray(hands.mancers)?hands.mancers:[];
 
   return {
     format:ORCHESTRATION_FORMAT,
@@ -44,7 +47,15 @@ export function createOrchestrationPlan(intent={},intelligence=profileIntent(int
             ?'Käyttää käyttäjän antamaa työtilakontekstia.'
             :capability.mode==='runtime-trace'
               ?'Tallentaa työn perusteluihin jäljitettävän runtime-jäljen.'
-              :'Toteutetaan nykyisessä rakennusvaiheessa rajatun reasoning-kyvykkyyden kautta.'
+              :capability.mode==='public-web-read'
+                ?'Lukee käyttäjän eksplisiittisesti antaman julkisen HTTPS-lähteen.'
+                :capability.mode==='runtime-search'
+                  ?'Tekee ajantasaisen read-only verkkohakukyselyn.'
+                  :capability.mode==='github-content-read'
+                    ?'Lukee nimettyjä repository-tiedostoja read-only GitHub-yhteydellä.'
+                    :capability.mode==='package-context'
+                      ?'Aktivoi sopivan Mancer-paketin menetelmäkontekstiksi ilman write-valtuuksia.'
+                      :'Toteutetaan reasoning-kyvykkyyden kautta.'
         }))
       :[{
           id:'llm.reasoning',
@@ -54,15 +65,22 @@ export function createOrchestrationPlan(intent={},intelligence=profileIntent(int
     unresolvedCapabilities:Array.isArray(route.capabilities?.unresolved)
       ?route.capabilities.unresolved
       :[],
-    mancers:route.recommendation?.workspace
-      ?[{
-          id:route.recommendation.workspace.id,
-          label:route.recommendation.workspace.label
-        }]
-      :[],
-    mancerNote:route.recommendation?.workspace
-      ?'Työ tunnistettiin alueeksi, jolle on olemassa sopiva workspace-Mancer. D0 ei vaadi käyttäjää valitsemaan sitä käsin.'
-      :'Erillistä workspace-Manceria ei tarvittu tähän ajoon.',
+    mancers:activatedMancers.length
+      ?activatedMancers.map(mancer=>({
+          id:mancer.id,
+          label:mancer.name||mancer.id,
+          version:mancer.version||'',
+          orchestra:mancer.orchestra||null,
+          activated:true
+        }))
+      :route.recommendation?.workspace
+        ?[{id:route.recommendation.workspace.id,label:route.recommendation.workspace.label,activated:false}]
+        :[],
+    mancerNote:activatedMancers.length
+      ?'Sopiva Mancer-paketti aktivoitiin read-only menetelmäkontekstiksi. Sen kirjoitus- ja julkaisuvaltuudet pysyvät erillisten hyväksymisporttien takana.'
+      :route.recommendation?.workspace
+        ?'Työlle tunnistettiin sopiva workspace-Mancer, mutta pakettia ei aktivoitu tässä ympäristössä.'
+        :'Erillistä workspace-Manceria ei tarvittu tähän ajoon.',
     stages:[
       stage(
         'intent',
@@ -89,6 +107,14 @@ export function createOrchestrationPlan(intent={},intelligence=profileIntent(int
           route.problem?.domain?`domain=${route.problem.domain}`:'',
           route.recommendation?.workspace?.id?`workspace=${route.recommendation.workspace.id}`:''
         ].filter(Boolean).join(' · ')
+      ),
+      stage(
+        'hands',
+        'Kyvykkyydet kutsuttiin',
+        handEvents.length?'pending':'skipped',
+        handEvents.length
+          ?`${handEvents.length} read-only kyvykkyystapahtumaa valmisteltiin ennen päättelyä.`
+          :'Erillisiä read-only työkaluja ei tarvittu tähän ajoon.'
       ),
       stage(
         'plan',
@@ -128,6 +154,20 @@ export function completeOrchestrationPlan(
   }={}
 ){
   const stages=(plan?.stages||[]).map(item=>{
+    if(item.id==='hands'&&item.status!=='skipped'){
+      const events=Array.isArray(responseMeta?.capabilityEvents)?responseMeta.capabilityEvents:[];
+      const failed=events.filter(event=>event.status==='failed');
+      const completed=events.filter(event=>event.status==='completed');
+      return {
+        ...item,
+        status:failed.length&&completed.length===0?'failed':failed.length?'completed':'completed',
+        detail:failed.length
+          ?`${completed.length} kyvykkyyttä onnistui ja ${failed.length} jäi vajaaksi. Päättely jatkoi käytettävissä olevalla aineistolla.`
+          :`${completed.length} read-only kyvykkyyttä suoritettiin ennen päättelyä.`,
+        durationMs:Number(responseMeta?.handsDurationMs)||0
+      };
+    }
+
     if(item.id==='plan'&&item.status!=='skipped'){
       return {
         ...item,
@@ -173,8 +213,8 @@ export function completeOrchestrationPlan(
       return {
         ...item,
         status:'completed',
-        detail:responseMeta?.searchedWeb===true
-          ?'Luottamuskerros tarkisti ajon runtime-lähteet.'
+        detail:Array.isArray(responseMeta?.sources)&&responseMeta.sources.length
+          ?'Luottamuskerros tarkisti ajon runtime-lähteet ja liitti ne D2-jälkeen.'
           :'Luottamuskerros vahvisti, ettei ajossa käytetty ulkoisia runtime-lähteitä.'
       };
     }
@@ -188,8 +228,10 @@ export function completeOrchestrationPlan(
     outcome:{
       state:String(result.state||'completed'),
       searchedWeb:responseMeta?.searchedWeb===true,
+      externalReadUsed:responseMeta?.externalReadUsed===true,
+      handsUsed:Array.isArray(responseMeta?.capabilityEvents)?responseMeta.capabilityEvents.filter(event=>event.status==='completed').length:0,
       passes:Number(responseMeta?.reasoningPasses?.length)||1,
-      degraded:Boolean(intelligenceRun.planFailed||intelligenceRun.reviewFailed)
+      degraded:Boolean(intelligenceRun.planFailed||intelligenceRun.reviewFailed||responseMeta?.capabilityFailures?.length)
     }
   };
 }

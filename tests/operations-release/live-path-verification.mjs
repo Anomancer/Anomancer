@@ -49,7 +49,7 @@ await test('preview-portti ei saa production-aliasia ensimmäisen deploymentin p
 
 await test('Lighthouse-prerelease ja Codemancer Package Spec ovat yhtenäiset',async()=>{
   const pkg=JSON.parse(read('package.json')),manifest=JSON.parse(read('mancers/codemancer/manifest.json')),gate=read('tests/release-gate.mjs');
-  assert.equal(pkg.version,'1.20.0-lighthouse-shell.1');assert.equal(manifest.version,'1.3.0');assert.match(pkg.scripts.check,/tests\/release-gate\.mjs/);assert.match(gate,/tests\/operations-release\/live-path-verification\.mjs/);
+  assert.equal(pkg.version,'1.21.0-lighthouse-hands.1');assert.equal(manifest.version,'1.3.0');assert.match(pkg.scripts.check,/tests\/release-gate\.mjs/);assert.match(gate,/tests\/operations-release\/live-path-verification\.mjs/);
 });
 
 console.log(`\n${passed}/${passed} LIVE PATH VERIFICATION 1.18.7 checks passed.`);

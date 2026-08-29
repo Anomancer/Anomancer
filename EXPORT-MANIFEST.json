@@ -1,8 +1,8 @@
 {
   "format": "anomancer-export/v1",
   "mode": "source",
-  "version": "1.20.0-lighthouse-shell.1",
-  "createdAt": "2026-08-29T17:35:23.554Z",
+  "version": "1.21.0-lighthouse-hands.1",
+  "createdAt": "2026-08-29T18:02:39.675Z",
   "allowlist": {
     "rootFiles": [
       ".gitignore",
@@ -94,19 +94,19 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "2d9de882a4f8727dc1f37eac631e5b9849e6df433ffd7411b4aa77996301c389"
+      "sha256": "7a699d2f37175aed3a605e32520f667633561e6ca8deaee4ef5697b47c5f7359"
     },
     {
       "path": "CONSTRUCTION_MODE_1.19.0.md",
-      "sha256": "d277fa2b7d22a799470e6d05dc80bcb9fcfac67f12ba60891a75875576cf28a5"
+      "sha256": "f6420802c7d60910895d96b95712aecf891f0195ece1d147eb45e864f48115bf"
     },
     {
       "path": "INSTALL_TO_CURRENT.sh",
-      "sha256": "eff6fb1d479374ab9fc2fcab0385374e5cbc83bbb9b1b2eed34f7eec55540827"
+      "sha256": "93d4b6732a3edf3e6196693d55cdfd0626db57c6e4c41e01a520c6eceac380bc"
     },
     {
       "path": "README.md",
-      "sha256": "a2f0d0878f07c9b6f9588b4c3ab34ab66418ae2933455dfa4d91c09db8567ec6"
+      "sha256": "22bb57d0999ddabe412baf19771b08d848ece2e47bd22637a2ca6bea3c59e279"
     },
     {
       "path": "admin-agents.js",
@@ -234,11 +234,11 @@
     },
     {
       "path": "api/lab/intent.js",
-      "sha256": "a18279ba1eeda340fb58e1391196c931ae8464c6c47c4cc1cace9cf40499c90c"
+      "sha256": "8b7c451d833ce8889841e38a4d93acb3a4ad4c89b522294c4639e06f4288d3c0"
     },
     {
       "path": "api/lab/preview.js",
-      "sha256": "9209df0719e97169e1ee9427e739b3be3e80c2b594a2cfd6009b12b50bebf286"
+      "sha256": "13a0792ab4d0326f0e5dd8421a8f1aaf514dc0f412ed2ae17e6dbed16a74bef8"
     },
     {
       "path": "app/lighthouse/lab.css",
@@ -246,11 +246,11 @@
     },
     {
       "path": "app/lighthouse/lab.html",
-      "sha256": "ad4f0d9d2df5ad6fcb54b8710bd81a0ab71b829a4444f314fcae5b34aa130350"
+      "sha256": "30c00ca8a8b0e44a723664e0a1e813f9a1474aa2165d82dcacb5fac579f4a53d"
     },
     {
       "path": "app/lighthouse/lab.js",
-      "sha256": "92cf97d2a1a49e625a8a58fb55570936809083f035e46b79372484af7871c83b"
+      "sha256": "c3a6abad4c1e2f4e47dedac2dceb0c1836c6a81dedfedbaca5498adb83ca7504"
     },
     {
       "path": "app/lighthouse/workspace-store.js",
@@ -258,7 +258,7 @@
     },
     {
       "path": "catalog/capabilities.json",
-      "sha256": "8a70080bf719b0d106102d91d024be86d844abfd714e89a67f59248e3d321599"
+      "sha256": "d89adbb4311cb9c6152b0732c3e01eb1615c57b15f8e7b40e057e738f66aec52"
     },
     {
       "path": "catalog/mancers.json",
@@ -378,11 +378,11 @@
     },
     {
       "path": "core/capabilities/matcher.js",
-      "sha256": "d8744f26daac1d246dd30893c39bbd35a7fd40fcb7798563faf5d4c204c69444"
+      "sha256": "2260494f5b8fcc7a76817253e86d4ac6b1787f5fe0b9b538daa4b77815fd504f"
     },
     {
       "path": "core/capabilities/registry.js",
-      "sha256": "04934d474df17eee32f325ca994458be8e072e97632bb73a3d76af7b05130316"
+      "sha256": "de4d834317476b7c2cdcafa0a3cde138b9d495b93e8bd4a93ac6660c3219d3db"
     },
     {
       "path": "core/intelligence/lighthouse-intelligence.js",
@@ -394,27 +394,31 @@
     },
     {
       "path": "core/intent/intent-service.js",
-      "sha256": "38c517b3f3351daa26579b3abe9ef11719e690ac030ac508d7de767ebf763f3e"
+      "sha256": "1e6acf19a912d0bee6beec8d9d6d9c6aa69d269a468aef373d5398d12e4edf22"
     },
     {
       "path": "core/intent/problem-model.js",
-      "sha256": "fb95cad874570095fdc9afeb6ee76186130404f75bc8f9d0e7f2b0c4573dbfd5"
+      "sha256": "254317d532658d345c63a0ead049f03896b750d8fc2e3e410972c9ccee1e5eba"
     },
     {
       "path": "core/intent/recommendation.js",
-      "sha256": "4394938db580554084cd7d89b06e5462e7f7064d9f10615b45ffe337e2b4390b"
+      "sha256": "14b24a7278018c5322cdbb5f6e28c83166404cdc16192f01f807e3533f0a116a"
     },
     {
       "path": "core/orchestration/lighthouse-plan.js",
-      "sha256": "52b9ed7fbd86fce69736f7e1ed4e62bb7053efeb48fc658176cd34106dc8e5c1"
+      "sha256": "139cc543e8663916240e63375a8fa516a66638d392ba7599ea4ba24f7a851805"
+    },
+    {
+      "path": "core/runtime/capability-router.js",
+      "sha256": "eec4d47245ab3d75654c4ba68a98dc903af92c6814424c2e3e64970285c76924"
     },
     {
       "path": "core/runtime/lighthouse-machine.js",
-      "sha256": "1da1aad02a273b4b78544fad5dd19b692bab00652680349acaeace02a049bf53"
+      "sha256": "dbc5b90c8d4f7f6a4b1469febd6ba3cd905d56c906168ad1e0937c1398a21387"
     },
     {
       "path": "core/system/lighthouse-core.js",
-      "sha256": "1c7b460bfcdb20cbc647b13bc054c425fe204d7feb4f1302a8a056b62f3b7c93"
+      "sha256": "b76eddba110a9c97f12a166709483de20da50251f2f98ae07858086ac1d42dea"
     },
     {
       "path": "core/workspace/contracts.js",
@@ -426,7 +430,7 @@
     },
     {
       "path": "docs/README.md",
-      "sha256": "e43bd57de81529d66d3131a69168c723276912aa0786a2f12a31214dbe3d58bf"
+      "sha256": "79df748d3cadf31e883a85d55aa4a4dc284125793a66ad5b29527148399f8312"
     },
     {
       "path": "docs/architecture/agents.md",
@@ -465,8 +469,12 @@
       "sha256": "f696aab77a6c0f2f9c01cf921f3a1a06007906ce55f55236b57149d612b8e74d"
     },
     {
+      "path": "docs/architecture/lighthouse-hands.md",
+      "sha256": "2eaa9c79afd7edbfa0cd5e67a628b1ac9c655a9c92f8ac68b1866ae474b5888d"
+    },
+    {
       "path": "docs/architecture/lighthouse-ux-v2.md",
-      "sha256": "907d1fc1783144b4d3f23f8e12b90e07593a965efc36545e0f3893e79d1f3998"
+      "sha256": "9a4d9e80a351c9fd8ad1e94d7444d6c710645d299a5ab32e7ffa7b610bb5ee14"
     },
     {
       "path": "docs/architecture/mancer-runtime.md",
@@ -565,6 +573,14 @@
       "sha256": "9e45d487992476ded82f28d54e415c4a7d77ec7d77c8a9a1f2b8fcab34034d61"
     },
     {
+      "path": "docs/releases/1.21.0-lighthouse-hands.1/release.md",
+      "sha256": "43a430582ceaf5b1d6454097778aba8eb096adeb2e6896638c2da0a922cf72b3"
+    },
+    {
+      "path": "docs/releases/1.21.0-lighthouse-hands.1/validation.md",
+      "sha256": "8adc02f090ff336b1435db4c062d64237ba5d9e662ab858697b7ac2e71c4ae18"
+    },
+    {
       "path": "docs/roadmap.md",
       "sha256": "8b398ae40dbc0cac660983ddcdc345fc92236bdf4037386e38a1e3c46a56c9d1"
     },
@@ -642,11 +658,11 @@
     },
     {
       "path": "package-lock.json",
-      "sha256": "8b64eb7d2a4f5a0e8d5b20cae808287ca004aa06d5ee4b72e8511d1de08891e6"
+      "sha256": "752a1416602fa683db24b96e548041d821a50362c60cf2bec36ef24b7491f496"
     },
     {
       "path": "package.json",
-      "sha256": "28289ed2015bbb80cd1df94e436f28a924e695f419dc7fcb8f88fd6f8323dcb8"
+      "sha256": "89a0b7aada88b65cac608f1fbf4942d390dbcca20743e615cd5887ef5d025483"
     },
     {
       "path": "providers/deepseek/adapter.js",
@@ -678,7 +694,7 @@
     },
     {
       "path": "scripts/export-bundle.mjs",
-      "sha256": "12324110f671a73df523f09e8728d954024ab938b6ffb344a4530b8807b88e2b"
+      "sha256": "910c8dd17510d34135b089ee4ae46e02bcd284465f40950de54b972a621a7ac7"
     },
     {
       "path": "scripts/governance/enable-master-protection.sh",
@@ -831,6 +847,10 @@
     {
       "path": "server/http.js",
       "sha256": "63f7f731b9f46abc9036f07ef95e033452f4d73d0183045eaaaff0d389b7e077"
+    },
+    {
+      "path": "server/lighthouse-hands.js",
+      "sha256": "faa785f2e297bf4583fff59ad6c7e787a1ef12ebac4f10838f26d538b8968660"
     },
     {
       "path": "server/mancer-artifact-store.js",
@@ -986,7 +1006,7 @@
     },
     {
       "path": "tests/content-editorial/evidence-interaction.mjs",
-      "sha256": "511857cbc1deedca4fb3929807429070d6e4d0b710614361ac387ee505e74688"
+      "sha256": "5a668358dafd5b68b3d9e9765c2a18a396475cfbb8e3f7ec9815ae65c6257e69"
     },
     {
       "path": "tests/content-editorial/evidence-layer.mjs",
@@ -1002,7 +1022,7 @@
     },
     {
       "path": "tests/content-editorial/public-clarity.mjs",
-      "sha256": "f20ddd9ce635540e12624b790d9444281c0243d1474c78b09cc0b601c91b6e9e"
+      "sha256": "c762950bf2f0e94241cab27a31c8c6e19d7e99ac5dcd2ce420d041d9574285f2"
     },
     {
       "path": "tests/content-editorial/public-ui.mjs",
@@ -1062,7 +1082,7 @@
     },
     {
       "path": "tests/integrity-security/export-allowlist.mjs",
-      "sha256": "8dc68e4d6bf93e6e23a3b2003ceb16c3b3d0c6dd83c50eb8e70970265b27dc6b"
+      "sha256": "77e4d2912b72449466c054efd1d09043e8c74c8473e71a94b90ff7dab5d65b3a"
     },
     {
       "path": "tests/integrity-security/frontend-runtime-boundary.mjs",
@@ -1109,6 +1129,10 @@
       "sha256": "5a46c6114c6dbff6e8ce6b68069702c651a3879855bfe00a9ea973adf951dac2"
     },
     {
+      "path": "tests/lighthouse/hands.mjs",
+      "sha256": "7a135575d8dfc36f2e8271a232b6c8c17968208e5a6f653dad0ab09f4535bb13"
+    },
+    {
       "path": "tests/lighthouse/intelligence.mjs",
       "sha256": "8cbcbf8387ad8d12c82efd46b4bf2467bb970a71edd13fea921450928871f19c"
     },
@@ -1118,7 +1142,7 @@
     },
     {
       "path": "tests/lighthouse/machine-room.mjs",
-      "sha256": "50678d225af5e5dfb3bb336deb9ccc815c1757bcb1a92be0d34aaff229017ae7"
+      "sha256": "b8d0adf1e41396896db5fa462fc00f3d6fc9e2f82141275626c3309398c1c743"
     },
     {
       "path": "tests/lighthouse/orchestra.mjs",
@@ -1166,7 +1190,7 @@
     },
     {
       "path": "tests/mancer-codemancer/semantic-workbench.mjs",
-      "sha256": "6451fd5a4a076d377a75cda9fa6df46118cdf60978d9fe915f06ba27d7fb5e5f"
+      "sha256": "9269ebc79ddf5cd31ca95bd637df9fc464fd0f24b056a540f62d96042bf06fac"
     },
     {
       "path": "tests/mancer-codemancer/ui.mjs",
@@ -1194,11 +1218,11 @@
     },
     {
       "path": "tests/operations-release/live-path-verification.mjs",
-      "sha256": "e17fc9ef14e3013075f7ab639a04358c4783eff67df1005c3336db1810ba27c6"
+      "sha256": "21373b84b7564ca7f3e56d0e329f66f991a3c8328d5ab41a1487e13491f6fc5c"
     },
     {
       "path": "tests/operations-release/operation-ui.mjs",
-      "sha256": "65f60789a7ba428b52f6606ff396d0e4bdb110eac3d8e8ab45c58e07bdd4070a"
+      "sha256": "fdeeb14b373fd887fff531a156e5ca44d755a1b809fbc91f85bf95aeb634c82b"
     },
     {
       "path": "tests/public-api-boundary/api-surface.mjs",
@@ -1214,7 +1238,7 @@
     },
     {
       "path": "tests/release-gate.mjs",
-      "sha256": "750d949a8cb0e0a436b739a1a37f29ee2bb2ab913e3fb31576efd2cd37a2a414"
+      "sha256": "f6282d08ea5ea8bc443ec4d91129bc372f8f8c5ea601e8a09ad467e563b7f630"
     },
     {
       "path": "tests/ui-browser/accessibility-matrix.mjs",
@@ -1234,7 +1258,7 @@
     },
     {
       "path": "tests/ui-browser/core-shell-semantics.mjs",
-      "sha256": "3e641d4c7159369ca3bb02c7af0afd3aabfe3481caec89a73d67fa8b23c6e7e3"
+      "sha256": "6dd485a8120e7c54b905bad9075bd52961af13dace1b97451c027edbf64e495e"
     },
     {
       "path": "tests/ui-browser/filter-layout-invariants.mjs",
@@ -1270,11 +1294,11 @@
     },
     {
       "path": "tests/ui-browser/navigation-shell-visual.mjs",
-      "sha256": "10518803689f719d97a5849af743cf32ea136cd9967ba571d50dbcaefb22f060"
+      "sha256": "a4194e15ecb6fa998c7fa450a8c324e592743ba72c15633624d484aa106a0ecc"
     },
     {
       "path": "tests/ui-browser/navigation-shell.mjs",
-      "sha256": "729b1b6a7ea0dcd0d4bd96a40a98e002392d08798ed7d7e54359a0db6a7c80cf"
+      "sha256": "eb9ad92d1e46b7012a6c06c07dca0ebcac03174423b4f2bae03b2e96d4a0e0df"
     },
     {
       "path": "tests/ui-browser/orchestra-flow.mjs",
@@ -1282,7 +1306,7 @@
     },
     {
       "path": "tests/ui-browser/responsive-workspace-navigation.mjs",
-      "sha256": "28c10b8e0bb278daddf4a71d52643992d85c0719d4ba9235dcfb5d3e8d72363d"
+      "sha256": "6c6a3b7e679ca7f3851936e939d9c69c6e0e8d4fb6868e0d03ba59ccf18a0cd8"
     },
     {
       "path": "tests/ui-browser/ui-semantics.mjs",
@@ -1298,7 +1322,7 @@
     },
     {
       "path": "vercel.json",
-      "sha256": "76256746b6b62ba7709c101aa9ddb1b0719dc44a58eae6ac31408546ea29bfab"
+      "sha256": "9fa509cd51b21cb7bfb226320746cb91ecb55c7c58f572ce35b32f94763c8ec0"
     },
     {
       "path": "visual-fixtures/archive-core-1171.html",

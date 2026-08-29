@@ -35,6 +35,8 @@ await test('Lighthouse-arkkitehtuuri kuuluu sekä lähde- että runtime-vientiin
     'core/intent/intent-service.js',
     'core/intent/problem-model.js',
     'core/capabilities/matcher.js',
+    'core/runtime/capability-router.js',
+    'server/lighthouse-hands.js',
     'core/authority/approval-service.js',
     'core/intelligence/lighthouse-intelligence.js',
     'providers/deepseek/adapter.js',
@@ -48,6 +50,8 @@ await test('Lighthouse-arkkitehtuuri kuuluu sekä lähde- että runtime-vientiin
     'core/intent/intent-service.js',
     'core/intent/problem-model.js',
     'core/capabilities/matcher.js',
+    'core/runtime/capability-router.js',
+    'server/lighthouse-hands.js',
     'core/authority/approval-service.js',
     'core/intelligence/lighthouse-intelligence.js',
     'providers/deepseek/adapter.js'

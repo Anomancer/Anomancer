@@ -1,20 +1,16 @@
 # Anomancer 1.19.0 Lighthouse Construction Mode
 
-Package: `1.20.0-lighthouse-shell.1`
+Package: `1.21.0-lighthouse-hands.1`
 
 Branch: `architecture/lighthouse-v1`
 
 Stable public Core: `1.18.7` on `master`
 
-Lighthouse is the progressive D0–D6 shell for Anomancer. The construction slice is intentionally single-provider but keeps provider selection behind the capability boundary. The Door now performs a local intent preview and requires an explicit human Start before external reasoning:
+Lighthouse is the progressive D0–D6 shell for Anomancer. The construction slice is intentionally single-provider but keeps provider selection behind the capability boundary. Lighthouse now adapts reasoning depth without granting new authority:
 
 ```text
 D0 Door
   → IntentService
-  → ProblemModel
-  → CapabilityResolution
-  → WorkRecommendation
-  → Human Start
   → adaptive intelligence profile
       ├─ direct: work
       ├─ planned: plan → work
@@ -71,3 +67,8 @@ To publish the branch explicitly after review:
 ```bash
 git push -u origin architecture/lighthouse-v1
 ```
+
+
+## Lighthouse Hands
+
+The current construction slice adds a bounded read-only capability runtime before reasoning. It may read browser-provided materials, explicit public HTTPS URLs, configured search results, explicitly named GitHub repository files and an installed Mancer package as method context. Repository writes, tests, pull requests, deployments, deletion and other external side effects remain outside this route and require separate human-approved operation capabilities.

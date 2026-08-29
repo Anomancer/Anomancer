@@ -313,7 +313,7 @@ function renderOrchestration(orchestration={}){
     const li=document.createElement('li');
     li.textContent=typeof mancer==='string'
       ?mancer
-      :String(mancer?.label||mancer?.id||'Mancer');
+      :[mancer?.label||mancer?.id||'Mancer',mancer?.orchestra?.name].filter(Boolean).join(' · ');
     return li;
   }));
 
@@ -394,6 +394,29 @@ function renderMachine(machine={}){
     return li;
   }));
 
+  const handRuntime=machine.capabilityRuntime||{};
+  const handEvents=Array.isArray(handRuntime.events)?handRuntime.events:[];
+  $('#machineHandsCount').textContent=String(handEvents.length);
+  $('#machineHands').replaceChildren(...handEvents.map((event,index)=>{
+    const li=document.createElement('li');
+    li.dataset.status=event.status||'unknown';
+    const top=document.createElement('div');
+    const name=document.createElement('strong');
+    name.textContent=`${String(index+1).padStart(2,'0')} · ${event.id||'capability'}`;
+    const time=document.createElement('span');
+    time.textContent=formatLatency(event.durationMs);
+    top.append(name,time);
+    const meta=document.createElement('p');
+    meta.textContent=event.status==='failed'
+      ?`Epäonnistui: ${event.error||'tuntematon virhe'}`
+      :[event.adapter,event.external?'ulkoinen luku':'sisäinen'].filter(Boolean).join(' · ');
+    li.append(top,meta);
+    return li;
+  }));
+  $('#machineHands').hidden=!handEvents.length;
+  $('#machineNoHands').hidden=Boolean(handEvents.length);
+  $('#machineNoHands').textContent='Erillisiä read-only kyvykkyyksiä ei tarvittu tässä ajossa.';
+
   const usage=machine.usage||{};
   const usageRows=[];
 
@@ -457,6 +480,9 @@ function renderMachine(machine={}){
     ['Työtila lähetettiin',flow.workspaceContextSent?'Kyllä':'Ei'],
     ['Aineistoja lähetettiin',String(flow.materialsSent||0)],
     ['Historiaviestejä lähetettiin',String(flow.historyTurnsSent||0)],
+    ['Ulkoisia lähteitä luettiin',String(flow.externalSourcesRead||0)],
+    ['Hakukysely lähetettiin',flow.searchQuerySent?'Kyllä':'Ei'],
+    ['Repository-tiedostoja luettiin',String(flow.repositoryFilesRead||0)],
     ['Kohde',String(flow.destination||'runtime')]
   ];
 
@@ -961,9 +987,10 @@ function renderIntentPreview(payload,text){
     :'';
   makeList(previewLimitations,limitations);
   previewLimitations.hidden=!limitations.length;
-  previewAuthority.textContent=authority.externalActionRequested
+  const authorityText=authority.externalActionRequested
     ?'Voin valmistella tämän työn, mutta ulkoiset muutokset vaativat erillisen päätöksesi eikä niitä suoriteta automaattisesti.'
     :'Käynnistä vasta kun tämä työskentelytapa näyttää oikealta.';
+  previewAuthority.textContent=[recommendation.dataNotice,authorityText].filter(Boolean).join(' ');
   previewStart.textContent=recommendation.startLabel||'Käynnistä';
   intentPreview.hidden=false;
   go.hidden=true;

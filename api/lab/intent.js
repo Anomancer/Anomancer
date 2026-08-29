@@ -1,5 +1,6 @@
 import {runIntent} from '../../core/intent/intent-service.js';
 import {deepseekReasoner} from '../../providers/deepseek/adapter.js';
+import {capabilityAvailability,executeLighthouseHands} from '../../server/lighthouse-hands.js';
 import {
   lighthouseLabAllowed,
   lighthouseLabRequiresAuth
@@ -82,7 +83,11 @@ export default async function handler(req,res){
 
   try{
     const body=await readJson(req,MAX_BODY_BYTES);
-    return send(res,200,{ok:true,...await runIntent(body,{reasoner:deepseekReasoner})});
+    return send(res,200,{ok:true,...await runIntent(body,{
+      reasoner:deepseekReasoner,
+      availability:capabilityAvailability(process.env),
+      capabilityExecutor:executeLighthouseHands
+    })});
   }catch(e){
     const status=Number(e.statusCode)||500;
     return send(res,status,{

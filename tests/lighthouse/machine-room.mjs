@@ -21,6 +21,8 @@ for(const id of [
   'machineReasoning',
   'machineReasoningCount',
   'machineReasoningPasses',
+  'machineHands',
+  'machineHandsCount',
   'machineTools'
 ]){
   assert.match(html,new RegExp(`id="${id}"`),id);

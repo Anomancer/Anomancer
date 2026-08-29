@@ -4,6 +4,10 @@ const definitions=[
   {id:'llm.writer',providerClass:'llm',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
   {id:'llm.critic',providerClass:'llm',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
   {id:'document.read',providerClass:'context',mode:'local-context',available:true,executionCapability:'llm.reasoning'},
+  {id:'web.fetch',providerClass:'tool',mode:'public-web-read',available:true,executionCapability:null,readOnly:true},
+  {id:'research.search',providerClass:'tool',mode:'runtime-search',available:false,runtimeAvailable:true,executionCapability:null,readOnly:true},
+  {id:'repository.read',providerClass:'tool',mode:'github-content-read',available:false,runtimeAvailable:true,executionCapability:null,readOnly:true},
+  {id:'mancer.activate',providerClass:'mancer',mode:'package-context',available:true,executionCapability:null,readOnly:true},
   {id:'comparison',providerClass:'reasoning',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
   {id:'risk.analysis',providerClass:'reasoning',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
   {id:'evidence.trace',providerClass:'trust',mode:'runtime-trace',available:true,executionCapability:'llm.reasoning'},
@@ -11,8 +15,7 @@ const definitions=[
   {id:'contradiction.check',providerClass:'reasoning',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
   {id:'code.inspect',providerClass:'reasoning',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
   {id:'architecture.analyze',providerClass:'reasoning',mode:'reasoning-proxy',available:true,executionCapability:'llm.reasoning'},
-  {id:'research.search',providerClass:'tool',mode:'not-wired',available:false,executionCapability:null},
-  {id:'tests.run',providerClass:'tool',mode:'not-wired',available:false,executionCapability:null},
+  {id:'tests.run',providerClass:'tool',mode:'not-wired',available:false,executionCapability:null,requiresApproval:true},
   {id:'external.execute',providerClass:'tool',mode:'human-gated',available:false,executionCapability:null,requiresApproval:true}
 ];
 
