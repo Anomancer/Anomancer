@@ -94,7 +94,8 @@
     "test:lighthouse:machine": "node tests/lighthouse/machine-room.mjs",
     "test:lighthouse:core": "node tests/lighthouse/core.mjs",
     "test:lighthouse:depth": "node tests/lighthouse/depth-accordion.mjs",
-    "test:lighthouse:responsive": "node tests/lighthouse/responsive-shell.mjs"
+    "test:lighthouse:responsive": "node tests/lighthouse/responsive-shell.mjs",
+    "test:lighthouse:inspector": "node tests/lighthouse/fixed-inspector.mjs"
   },
   "devDependencies": {
     "axe-core": "4.10.3",

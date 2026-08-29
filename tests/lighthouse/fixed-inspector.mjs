@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+
+const css=fs.readFileSync('app/lighthouse/lab.css','utf8');
+
+assert.match(
+  css,
+  /LIGHTHOUSE 1\.25\.1 FIXED DESKTOP INSPECTOR START/
+);
+
+assert.match(
+  css,
+  /\.work,\s*\.work:has\(#workspaceDetails:not\(\[hidden\]\)\)\s*\{[\s\S]*grid-template-columns:minmax\(0,1fr\) 430px/
+);
+
+assert.match(
+  css,
+  /\.depth-inspector\s*\{[\s\S]*width:430px;[\s\S]*height:clamp\(560px,70dvh,690px\)/
+);
+
+assert.match(
+  css,
+  /\.depth-inspector-body\s*\{[\s\S]*overflow-y:auto/
+);
+
+assert.match(
+  css,
+  /scrollbar-gutter:stable/
+);
+
+console.log('✓ Lighthouse 1.25.1 Fixed Desktop Inspector');

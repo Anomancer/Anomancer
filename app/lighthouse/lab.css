@@ -2495,3 +2495,64 @@ summary:focus-visible{
 }
 
 /* LIGHTHOUSE 1.25.0 RESPONSIVE SHELL END */
+
+/* LIGHTHOUSE 1.25.1 FIXED DESKTOP INSPECTOR START */
+
+@media (min-width:1100px){
+
+  /*
+   * D2-D6 use one stable physical instrument panel.
+   * Switching semantic depth must not move the D1 work surface.
+   */
+  .work,
+  .work:has(#workspaceDetails:not([hidden])){
+    grid-template-columns:minmax(0,1fr) 430px;
+  }
+
+  .depth-inspector{
+    display:flex;
+    flex-direction:column;
+    width:430px;
+    height:clamp(560px,70dvh,690px);
+    min-height:0;
+    align-self:start;
+  }
+
+  .depth-inspector-header,
+  .desktop-depth-tabs{
+    flex:none;
+  }
+
+  .depth-inspector-empty{
+    flex:1 1 auto;
+    min-height:0;
+  }
+
+  .depth-inspector-body{
+    flex:1 1 auto;
+    min-height:0;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    scrollbar-gutter:stable;
+  }
+
+  /*
+   * All depth surfaces inherit the inspector body's geometry.
+   * Their content may grow, the inspector itself may not.
+   */
+  .depth-inspector-body>
+  #trustDetails,
+  .depth-inspector-body>
+  #workspaceDetails,
+  .depth-inspector-body>
+  #orchestraDetails,
+  .depth-inspector-body>
+  #machineDetails,
+  .depth-inspector-body>
+  #coreDetails{
+    width:100%;
+    min-width:0;
+  }
+}
+
+/* LIGHTHOUSE 1.25.1 FIXED DESKTOP INSPECTOR END */
