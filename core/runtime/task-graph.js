@@ -25,3 +25,18 @@ function makeStages(nodes){
   return out;
 }
 export function buildTaskGraph({problem={},capabilityRoute={}}={}){const raw=entries(capabilityRoute),ids=new Set(raw.map(x=>x.id)),nodes=raw.map(x=>Object.freeze({...x,dependsOn:deps(x.id,x.routing,ids)})),plan=makeStages(nodes),maxWidth=plan.reduce((m,s)=>Math.max(m,s.capabilityIds.length),0);return Object.freeze({format:TASK_GRAPH_FORMAT,mode:'dependency-graph',problemDomain:String(problem.domain||'general'),nodes,stages:plan,executionOrder:plan.flatMap(s=>s.capabilityIds),blocked:nodes.filter(n=>n.blocked).map(n=>n.id),summary:Object.freeze({nodes:nodes.length,runnable:nodes.filter(n=>!n.blocked).length,blocked:nodes.filter(n=>n.blocked).length,stages:plan.length,parallelStages:plan.filter(s=>s.parallel).length,maxWidth,concurrencyHint:Math.min(4,Math.max(1,maxWidth))})});}
+
+
+export function taskGraphPublicProfile(){
+  return Object.freeze({
+    format:TASK_GRAPH_FORMAT,
+    installed:true,
+    dependencyAware:true,
+    topologicalStages:true,
+    parallelStageHints:true,
+    schedulerMode:'bounded-hint',
+    routings:['read-only','compute','reasoning','proposal','approval'],
+    externalSideEffectsAllowed:false,
+    finalAuthority:'human'
+  });
+}

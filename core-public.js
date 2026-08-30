@@ -1,4 +1,5 @@
 import { renderPublicCore, publicCoreLang } from './public-core-render.js';
+import { renderPublicCoreV3 } from './public-core-v3-render.js';
 
 const q=s=>document.querySelector(s);
 const qa=s=>[...document.querySelectorAll(s)];
@@ -7,9 +8,12 @@ const loadCopy={fi:{orch:'Rakennekarttaa ei saatu ladattua.',agents:'Agenttireki
 
 function apply(core){
   const view=renderPublicCore(core,lang);
+  const v3=renderPublicCoreV3(core,lang);
   if(q('#corePublicVersion'))q('#corePublicVersion').textContent=`CORE ${view.version}`;
   if(q('#corePublicAgentCount'))q('#corePublicAgentCount').textContent=String(view.agentCount);
   if(q('#corePublicPlatform'))q('#corePublicPlatform').innerHTML=view.platformHtml;
+  if(q('#corePublicArchitecture'))q('#corePublicArchitecture').innerHTML=v3.architectureHtml;
+  if(q('#corePublicCapabilities'))q('#corePublicCapabilities').innerHTML=v3.capabilitiesHtml;
   if(q('#corePublicOrchestraCount'))q('#corePublicOrchestraCount').textContent=String(view.orchestraCount);
   if(q('#corePublicAgents'))q('#corePublicAgents').innerHTML=view.agentsHtml;
   if(q('#corePublicOrchestra'))q('#corePublicOrchestra').innerHTML=view.orchestrasHtml;

@@ -6,6 +6,7 @@ import { normalizeSources as normalizeContentSources, normalizeClaims as normali
 import { createPublicCoreView } from '../server/public-core.js';
 import { createReleaseProvenance } from '../server/release-provenance.js';
 import { renderPublicCore } from '../public-core-render.js';
+import { renderPublicCoreV3 } from '../public-core-v3-render.js';
 
 const ROOT = path.resolve(process.cwd());
 const SOURCE_PAGES = path.join(ROOT,'site','pages');
@@ -384,8 +385,8 @@ function ensureDir(p){ fs.mkdirSync(p,{recursive:true}); }
 function write(rel,data){ const target=outputPath(rel); ensureDir(path.dirname(target)); fs.writeFileSync(target,data); }
 function renderPublicCoreFallback(rel,lang,core){
   const file=sourcePagePath(rel);if(!fs.existsSync(file))throw new Error(`${rel}: source template puuttuu`);
-  const view=renderPublicCore(core,lang);let html=fs.readFileSync(file,'utf8');
-  const replacements={AGENT_COUNT:String(view.agentCount),ORCHESTRA_COUNT:String(view.orchestraCount),PLATFORM:view.platformHtml,AGENTS:view.agentsHtml,ORCHESTRAS:view.orchestrasHtml,MODELS:view.modelsHtml,TOOLS:view.toolsHtml,WORKSPACES:view.workspacesHtml};
+  const view=renderPublicCore(core,lang);const v3=renderPublicCoreV3(core,lang);let html=fs.readFileSync(file,'utf8');
+  const replacements={ARCHITECTURE:v3.architectureHtml,CAPABILITIES:v3.capabilitiesHtml,AGENT_COUNT:String(view.agentCount),ORCHESTRA_COUNT:String(view.orchestraCount),PLATFORM:view.platformHtml,AGENTS:view.agentsHtml,ORCHESTRAS:view.orchestrasHtml,MODELS:view.modelsHtml,TOOLS:view.toolsHtml,WORKSPACES:view.workspacesHtml};
   for(const [key,value] of Object.entries(replacements)){
     const rx=new RegExp(`(<!-- CORE_FALLBACK:${key}:START -->)[\\s\\S]*?(<!-- CORE_FALLBACK:${key}:END -->)`);
     if(!rx.test(html))throw new Error(`${rel}: fallback-marker puuttuu: ${key}`);
@@ -435,7 +436,7 @@ const staticFiles = [
   'admin.html',
   'ui-tokens.css','styles.css','core.css','admin.css','admin-shell.css','admin-workspace.css','admin-editorial.css','admin-narrative.css','admin-control-plane.css','admin-archive.css','admin-nanomancer.css','admin-mancer.css','admin-responsive.css','admin-runtime.js','admin.js','admin-workspaces.js','admin-archive.js','admin-nanomancer.js','admin-mancer.js','admin-operations.js','admin-shell.js','admin-overlays.js','admin-feedback.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-machine-room.js','admin-orchestrator.js','admin-narramancer.js','narramancer-export.js','lahetyskone-pwa.js','lahetyskone-sw.js','manifest.webmanifest','favicon.svg',
   'icons/lahetyskone.svg','icons/lahetyskone-192.png','icons/lahetyskone-512.png','icons/lahetyskone-maskable-512.png',
-  'site.js','public-core-render.js','core-public.js'
+  'site.js','public-core-render.js','public-core-v3-render.js','core-public.js'
 ];
 for (const rel of staticFiles) {
   const src=projectPath(rel);

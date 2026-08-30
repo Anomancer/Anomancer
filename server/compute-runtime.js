@@ -211,3 +211,34 @@ export function executeComputeCapability(capabilityId,session){
   if(!datasets.length)throw Object.assign(new Error('Compute-session aineisto puuttuu.'),{code:'COMPUTE_SESSION_EMPTY'});
   return Object.freeze({format:'anomancer-compute-artifact/v1',capabilityId:id,adapter:'compute.tabular.v1',deterministic:true,externalSideEffects:false,datasetCount:datasets.length,results:datasets.map(d=>calculate(id,d))});
 }
+
+
+export function computeRuntimePublicProfile(){
+  return Object.freeze({
+    format:COMPUTE_RUNTIME_FORMAT,
+    adapter:'compute.tabular.v1',
+    installed:true,
+    deterministic:true,
+    externalSideEffects:false,
+    dataEgress:'none',
+    executesUserCode:false,
+    networkAccess:false,
+    formats:['csv','tsv','tabular-json'],
+    operations:[
+      'schema-profile',
+      'descriptive-statistics',
+      'pearson-correlation',
+      'iqr-anomaly-candidates',
+      'group-comparison',
+      'time-series-summary',
+      'visualization-spec',
+      'uncertainty-summary'
+    ],
+    limits:Object.freeze({
+      datasets:MAX_DATASETS,
+      rowsPerDataset:MAX_ROWS,
+      columns:MAX_COLUMNS,
+      materialChars:MAX_CHARS
+    })
+  });
+}

@@ -123,6 +123,9 @@ const STEPS = [
     "tests/public-api-boundary/public-core.mjs"
   ],
   [
+    "tests/public-api-boundary/public-core-v3.mjs"
+  ],
+  [
     "tests/core-runtime/agent-contracts.mjs"
   ],
   [

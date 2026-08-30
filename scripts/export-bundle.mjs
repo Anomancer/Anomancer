@@ -16,7 +16,7 @@ const sourceRoots=new Set([
   'CONSTRUCTION_MODE_1.19.0.md',
   'admin.html','admin.css','admin-shell.css','admin-workspace.css','admin-editorial.css','admin-narrative.css','admin-control-plane.css','admin-archive.css','admin-nanomancer.css','admin-mancer.css','admin-responsive.css',
   'admin.js','admin-runtime.js','admin-workspaces.js','admin-archive.js','admin-nanomancer.js','admin-mancer.js','admin-operations.js','admin-shell.js','admin-overlays.js','admin-feedback.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-machine-room.js','admin-orchestrator.js','admin-narramancer.js',
-  'core.css','core-public.js','public-core-render.js','site.js','styles.css','ui-tokens.css','narramancer-export.js','lahetyskone-pwa.js','lahetyskone-sw.js','seo-check.mjs',
+  'core.css','core-public.js','public-core-render.js','public-core-v3-render.js','site.js','styles.css','ui-tokens.css','narramancer-export.js','lahetyskone-pwa.js','lahetyskone-sw.js','seo-check.mjs',
   'entity-core.json','discovery-policy.json','favicon.svg','manifest.webmanifest','package.json','package-lock.json','vercel.json'
 ]);
 const deployPrefixes=['api/','capabilities/','catalog/','core/','mancers/','providers/','server/'];
