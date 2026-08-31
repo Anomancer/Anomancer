@@ -20,7 +20,7 @@ function updateConnectionUi() {
   const online = navigator.onLine;
   document.documentElement.classList.toggle('lahetyskone-offline', !online);
   for (const label of connectionLabels) {
-    label.textContent = online ? 'Yhteys valmis' : 'Ei verkkoyhteyttä';
+    label.textContent = online ? 'Palvelu tavoitettavissa' : 'Ei verkkoyhteyttä';
     label.dataset.state = online ? 'online' : 'offline';
   }
 }

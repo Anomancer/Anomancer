@@ -23,11 +23,10 @@
     "agent-apply-without-review",
     "agent-release",
     "implicit-publication-target",
-    "direct-default-branch-write",
-    "automatic-pull-request-merge",
     "arbitrary-shell-command",
-    "unapproved-workflow-dispatch",
-    "secret-material-in-operation-record"
+    "secret-material-in-operation-record",
+    "agent-production-deploy-without-human",
+    "release-gate-bypass"
   ],
   "truthPolicy": "Testitulos, diff ja ajokuitti ovat evidenssiä toteutuksen tilasta. Agentin kuvaus ei korvaa ajettua testiä tai tarkastettua diffiä.",
   "continuityPolicy": "Projektin arkkitehtuuri, tiedostot, tehtävät, testit, ajot, reviewt, releaset ja dokumentaatio pysyvät saman workspace-id:n alla.",
@@ -38,7 +37,7 @@
     "operation.plan",
     "human.written-approval",
     "operation.execute",
-    "ci.evidence",
+    "release-gate.evidence",
     "human.apply",
     "human.release",
     "human.rollback"

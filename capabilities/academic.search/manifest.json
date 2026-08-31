@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "academic.search",
+  "name": "Tutkimuslähteiden haku",
+  "version": "1.0.0",
+  "purpose": "Etsii tutkimuspapereita ja akateemisia lähde-ehdokkaita.",
+  "providerClass": "source",
+  "mode": "runtime-tool",
+  "routing": "read-only",
+  "availability": "runtime"
+}

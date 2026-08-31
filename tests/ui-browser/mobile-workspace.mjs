@@ -9,14 +9,15 @@ const js=fs.readFileSync('admin.js','utf8');
 const shell=fs.readFileSync('admin-shell.js','utf8');
 let ok=0;const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`)};
 
-test('mobiilidokki säilyttää viisi peukalopaikkaa mutta sisältö tulee työtilametadatasta',()=>{
+test('mobiilidokki näyttää kolme paikallista työkalua sekä Mancerit- ja Lisää-portit',()=>{
   const dock=html.match(/<nav class="mobile-dock"[\s\S]*?<\/nav>/)?.[0]||'';
   const primary=getWorkspaceTemplate(ANOMANCER_TEMPLATE_ID).editorDefinition.navigation.mobilePrimary;
   assert.ok(dock);
   assert.equal((dock.match(/<button/g)||[]).length,0);
-  assert.deepEqual(primary.map(x=>x.label),['Kirjoita','Evidenssi','Orkesteri','Esikatselu']);
-  assert.match(shell,/mobilePrimary\.slice\(0,4\)/);
+  assert.deepEqual(primary.map(x=>x.label),['Kirjoita','Evidenssi','Esikatselu']);
+  assert.match(shell,/mobilePrimary\.slice\(0,3\)/);
   assert.match(shell,/data-mobile-command="more"/);
+  assert.match(shell,/data-mobile-command=\"workspaces\"/);
   assert.match(css,/grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
 });
 
@@ -47,7 +48,7 @@ test('Lisää kokoaa työtilan toissijaiset reitit ja komennot yhteen bottom she
 });
 
 test('lähetyslista on mobiilissa täyskorkea drawer eikä matala lista',()=>{
-  assert.match(css,/\.sidebar\{z-index:74;width:min\(92vw,390px\);height:100dvh/);
+  assert.match(css,/\.sidebar\{z-index:calc\(var\(--layer-overlay\) \+ 4\);width:min\(92vw,390px\);height:100dvh/);
 });
 
 test('tekstieditori käyttää mobiilissa selaimen zoomia välttävää 16px fonttia ja kunnollista työskentelykorkeutta',()=>{
@@ -55,7 +56,7 @@ test('tekstieditori käyttää mobiilissa selaimen zoomia välttävää 16px fon
 });
 
 test('safe-area huomioidaan alapalkissa',()=>{
-  assert.match(css,/--mobile-safe-bottom:env\(safe-area-inset-bottom,0px\)/);
+  assert.match(css,/--mobile-safe-bottom:var\(--safe-area-bottom\)/);
   assert.match(css,/height:calc\(var\(--mobile-dock-h\) \+ var\(--mobile-safe-bottom\)/);
 });
 

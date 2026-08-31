@@ -1,0 +1,18 @@
+{
+  "format": "anomancer-capability-contract/v1",
+  "capabilityId": "research.method.inspect",
+  "summary": "Arvioi tutkimusasetelman ja menetelmän olennaisia vahvuuksia ja rajoitteita.",
+  "inputs": [
+    "user_text",
+    "workspace_materials",
+    "work_history"
+  ],
+  "outputs": [
+    "method_assessment"
+  ],
+  "guarantees": [
+    "Ei väitä käyttäneensä lähteitä tai dataa joita runtime ei toimittanut.",
+    "Ei suorita ulkoisia sivuvaikutuksia.",
+    "Pitää olennaisen epävarmuuden näkyvänä."
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "format": "anomancer-mancer-archive-policy/v1",
+  "id": "toimituskone/archive-policy/1.0.0",
+  "defaultReadScope": "workspace-owned",
+  "crossWorkspaceRead": "explicit-human-grant",
+  "automaticModelMemory": false,
+  "archiveOnApprovalOnly": true,
+  "allowedArchiveTypes": [
+    "editorial-draft",
+    "claim-map",
+    "evidence-map",
+    "review-report",
+    "publication-package"
+  ]
+}

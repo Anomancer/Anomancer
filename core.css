@@ -365,3 +365,869 @@
     font-size:clamp(1.04rem,4.2vw,1.26rem);
   }
 }
+
+/* PUBLIC CORE V3 START */
+.core-v3-shell{
+  margin:clamp(1.5rem,4vw,3rem) 0;
+  padding:clamp(1rem,3vw,1.75rem);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:1.1rem;
+  background:rgba(255,255,255,.025);
+}
+.core-v3-head,.core-v3-library-head{
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(16rem,.8fr);
+  gap:1.25rem;
+  align-items:end;
+  margin-bottom:1.25rem;
+}
+.core-v3-head h4,.core-v3-library-head h4{
+  margin:.25rem 0 0;
+  font-size:clamp(1.25rem,3vw,2rem);
+}
+.core-v3-head p,.core-v3-library-head p{
+  margin:0;
+  max-width:52rem;
+}
+.core-v3-summary{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:.75rem;
+  margin-bottom:1rem;
+}
+.core-v3-summary article,.core-v3-runtime-grid article{
+  min-width:0;
+  padding:1rem;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:.85rem;
+  background:rgba(0,0,0,.18);
+}
+.core-v3-summary span,.core-v3-runtime-grid>article>span{
+  display:block;
+  margin-bottom:.35rem;
+  font-size:.76rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  opacity:.72;
+}
+.core-v3-summary strong{
+  display:block;
+  font-size:clamp(1.25rem,3vw,2.1rem);
+  overflow-wrap:anywhere;
+}
+.core-v3-summary small{
+  display:block;
+  margin-top:.3rem;
+  opacity:.65;
+  overflow-wrap:anywhere;
+}
+.core-v3-flow{
+  display:grid;
+  justify-items:stretch;
+  gap:.45rem;
+  max-width:62rem;
+  margin:1.25rem auto;
+}
+.core-v3-flow-node{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:.15rem .7rem;
+  align-items:center;
+  padding:.8rem 1rem;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:.8rem;
+  background:rgba(0,0,0,.22);
+}
+.core-v3-flow-node span{
+  grid-row:1/3;
+  font-family:monospace;
+  opacity:.55;
+}
+.core-v3-flow-node strong{font-size:1rem}
+.core-v3-flow-node small{
+  opacity:.68;
+  overflow-wrap:anywhere;
+}
+.core-v3-flow-node.authority{border-width:2px}
+.core-v3-flow-arrow{
+  text-align:center;
+  opacity:.45;
+}
+.core-v3-routes{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:.45rem;
+}
+.core-v3-route{
+  min-width:0;
+  padding:.7rem;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:.7rem;
+  text-align:center;
+  background:rgba(255,255,255,.025);
+}
+.core-v3-route span,.core-v3-route code{
+  display:block;
+  overflow-wrap:anywhere;
+}
+.core-v3-route span{font-weight:700}
+.core-v3-route code{
+  margin-top:.2rem;
+  font-size:.72rem;
+  opacity:.65;
+}
+.core-v3-runtime-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:.75rem;
+}
+.core-v3-runtime-grid article strong{
+  display:block;
+  font-size:1.05rem;
+  overflow-wrap:anywhere;
+}
+.core-v3-runtime-grid article p{
+  margin:.55rem 0 .8rem;
+  opacity:.78;
+}
+.core-v3-runtime-grid dl,.core-v3-capability-card dl{margin:0}
+.core-v3-runtime-grid dl div,.core-v3-capability-card dl div{
+  display:flex;
+  justify-content:space-between;
+  gap:.8rem;
+  padding:.35rem 0;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.core-v3-runtime-grid dt,.core-v3-capability-card dt{opacity:.62}
+.core-v3-runtime-grid dd,.core-v3-capability-card dd{
+  margin:0;
+  text-align:right;
+  overflow-wrap:anywhere;
+}
+.core-v3-code-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem;
+}
+.core-v3-code-list code{
+  padding:.25rem .45rem;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:.45rem;
+}
+.core-v3-library-head{margin-top:2rem}
+.core-v3-capability-family{
+  border-top:1px solid rgba(255,255,255,.1);
+}
+.core-v3-capability-family:last-child{
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.core-v3-capability-family summary{
+  display:flex;
+  justify-content:space-between;
+  gap:1rem;
+  padding:.9rem .2rem;
+  cursor:pointer;
+  font-weight:700;
+}
+.core-v3-capability-family summary strong{
+  font-family:monospace;
+  opacity:.7;
+}
+.core-v3-capability-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:.65rem;
+  padding:0 0 1rem;
+}
+.core-v3-capability-card{
+  min-width:0;
+  padding:.9rem;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:.75rem;
+  background:rgba(0,0,0,.16);
+}
+.core-v3-capability-head{
+  display:flex;
+  justify-content:space-between;
+  gap:.75rem;
+  align-items:flex-start;
+  margin-bottom:.55rem;
+}
+.core-v3-capability-head code{overflow-wrap:anywhere}
+.core-v3-capability-head span{
+  flex:0 0 auto;
+  padding:.15rem .4rem;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  font-size:.68rem;
+  letter-spacing:.06em;
+}
+.core-v3-capability-card>strong{
+  display:block;
+  overflow-wrap:anywhere;
+}
+.core-v3-capability-card>p{
+  margin:.4rem 0 .75rem;
+  opacity:.78;
+}
+@media (max-width:900px){
+  .core-v3-head,.core-v3-library-head{
+    grid-template-columns:1fr;
+    align-items:start;
+  }
+  .core-v3-summary{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .core-v3-routes{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .core-v3-runtime-grid,.core-v3-capability-grid{
+    grid-template-columns:1fr;
+  }
+}
+@media (max-width:540px){
+  .core-v3-shell{padding:.8rem}
+  .core-v3-summary{grid-template-columns:1fr}
+  .core-v3-routes{grid-template-columns:1fr}
+  .core-v3-runtime-grid dl div,.core-v3-capability-card dl div{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+  .core-v3-runtime-grid dd,.core-v3-capability-card dd{
+    text-align:left;
+  }
+}
+/* PUBLIC CORE V3 END */
+
+
+/* Mobile Core progressive disclosure: keep the public architecture readable without an information wall. */
+.core-mobile-disclosure-toggle{display:none}
+@media(max-width:760px){
+  .core-public-page .core-chapter-nav{display:none}
+  .core-public-page .core-structure-directory{margin-top:18px}
+  .core-public-page .core-product-section[data-core-section]{padding:38px 0}
+  .core-public-page .core-product-section[data-core-section] .core-product-section-meta{margin-bottom:12px}
+  .core-public-page .core-product-section[data-core-section] .core-public-section-head{display:block}
+  .core-public-page .core-product-section[data-core-section]:not(.is-mobile-open) .core-public-section-head>p{display:none}
+  .core-public-page .core-product-section[data-core-section] .core-public-section-head h3{margin-bottom:0;font-size:clamp(1.55rem,7.2vw,2.15rem)}
+  .core-mobile-disclosure-toggle{
+    width:100%;min-height:50px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+    margin-top:18px;padding:11px 14px;border:1px solid rgba(255,255,255,.11);border-radius:10px;
+    background:rgba(255,255,255,.022);color:#fff;cursor:pointer;text-align:left;
+    font:800 .84rem/1.2 Rajdhani,system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase
+  }
+  .core-mobile-disclosure-toggle b{
+    width:30px;height:30px;display:grid;place-items:center;flex:0 0 auto;border:1px solid rgba(255,22,61,.28);
+    border-radius:50%;color:var(--red);font:700 1.15rem/1 Orbitron,Rajdhani,sans-serif;transition:transform .18s ease
+  }
+  .core-product-section.is-mobile-open>.core-mobile-disclosure-toggle b{transform:rotate(45deg)}
+  .core-mobile-disclosure-toggle:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+  .core-mobile-disclosure-body{margin-top:20px}
+  .core-mobile-disclosure-body[hidden]{display:none!important}
+  .core-public-page .core-platform-block,.core-public-page .core-v3-shell{margin-top:18px}
+  .core-public-page .core-public-metrics,.core-public-page .core-platform-grid,.core-public-page .core-overview-grid,
+  .core-public-page .core-v3-summary,.core-public-page .core-v3-runtime-grid{gap:8px}
+}
+@media(prefers-reduced-motion:reduce){.core-mobile-disclosure-toggle b{transition:none}}
+
+/* Public Core · light theme companion */
+html[data-theme="light"] .core-public-page{background:radial-gradient(circle at 50% 10%,rgba(217,14,50,.07),transparent 30rem),radial-gradient(circle at 82% 58%,rgba(104,77,164,.05),transparent 30rem),linear-gradient(145deg,#faf9f6 0%,#f1eee8 52%,#faf9f6 100%)}
+html[data-theme="light"] .core-public-hero{border-bottom-color:rgba(24,24,31,.09)}
+html[data-theme="light"] .core-public-hero::after{border-color:rgba(24,24,31,.06)}
+html[data-theme="light"] .core-public-status{background:rgba(255,255,255,.74);border-color:rgba(24,24,31,.1)}
+html[data-theme="light"] .core-public-status span:nth-child(2),
+html[data-theme="light"] .core-public-lead strong,
+html[data-theme="light"] .core-principle,
+html[data-theme="light"] .core-public-button,
+html[data-theme="light"] .core-public-metrics strong,
+html[data-theme="light"] .core-public-agent-card dd,
+html[data-theme="light"] .core-receipt-demo dd,
+html[data-theme="light"] .core-admin-link,
+html[data-theme="light"] .core-chapter-nav a,
+html[data-theme="light"] .core-structure-directory summary,
+html[data-theme="light"] .core-registry-details>summary,
+html[data-theme="light"] .core-platform-grid article>strong,
+html[data-theme="light"] .core-roadmap-principle b{color:#17171b}
+html[data-theme="light"] .core-principle span,
+html[data-theme="light"] .core-public-button,
+html[data-theme="light"] .core-public-metrics,
+html[data-theme="light"] .core-public-orchestra-card,
+html[data-theme="light"] .core-public-agent-card,
+html[data-theme="light"] .core-boundary-grid article,
+html[data-theme="light"] .core-roadmap span,
+html[data-theme="light"] .core-chapter-nav a,
+html[data-theme="light"] .core-structure-directory,
+html[data-theme="light"] .core-registry-details,
+html[data-theme="light"] .core-platform-block,
+html[data-theme="light"] .core-roadmap-details{
+  border-color:rgba(24,24,31,.11);background:rgba(255,255,255,.72);box-shadow:0 20px 70px rgba(35,28,25,.045)
+}
+html[data-theme="light"] .core-public-section,
+html[data-theme="light"] .core-chapter+.core-chapter,
+html[data-theme="light"] .core-roadmap-phase,
+html[data-theme="light"] .core-roadmap-body{border-color:rgba(24,24,31,.09)}
+html[data-theme="light"] .core-public-metrics article{border-color:rgba(24,24,31,.08)}
+html[data-theme="light"] .core-public-stage,
+html[data-theme="light"] .core-receipt-demo,
+html[data-theme="light"] .core-receipt-demo dl>div,
+html[data-theme="light"] .core-structure-links a,
+html[data-theme="light"] .core-platform-grid article,
+html[data-theme="light"] .core-agent-search input{
+  background:#fff;border-color:rgba(24,24,31,.1);color:#17171b
+}
+html[data-theme="light"] .core-public-agent-card dl>div,
+html[data-theme="light"] .core-public-policy-row span,
+html[data-theme="light"] .core-workspace-explainer,
+html[data-theme="light"] .core-roadmap-grid article,
+html[data-theme="light"] .core-roadmap-principle span{background:rgba(24,24,31,.025);border-color:rgba(24,24,31,.08)}
+html[data-theme="light"] .core-receipt-demo dl,
+html[data-theme="light"] .core-structure-links{background:rgba(24,24,31,.07)}
+html[data-theme="light"] .core-structure-links a:hover,
+html[data-theme="light"] .core-structure-links a.active{color:#17171b;background:rgba(217,14,50,.065)}
+html[data-theme="light"] .core-roadmap-details{background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(246,243,238,.96))}
+html[data-theme="light"] .core-roadmap-details>summary:hover{background:rgba(24,24,31,.025)}
+html[data-theme="light"] .core-mobile-disclosure-toggle{background:rgba(255,255,255,.76);color:#17171b;border-color:rgba(24,24,31,.14)}
+html[data-theme="light"] .core-public-stage-line[data-step-count="9"] .core-public-stage::before{border-color:#f5f3ef}
+
+/* Public Core · light theme accessibility contrast */
+html[data-theme="light"] .core-receipt-state{color:#176b3a!important}
+
+/* ========================================================================== 
+   PUBLIC CORE · LIGHT THEME FULL READABILITY SURGERY R8
+   Light mode is a first-class visual system, not an inverted dark theme.
+   ========================================================================== */
+html[data-theme="light"] .core-public-page{
+  --core-light-ink:#17171b;
+  --core-light-ink-2:#343239;
+  --core-light-muted:#4d4b52;
+  --core-light-dim:#625f67;
+  --core-light-border:#d3cec5;
+  --core-light-border-soft:#e2ddd5;
+  --core-light-surface:#fff;
+  --core-light-surface-soft:#f7f4ef;
+  --core-light-surface-muted:#efebe5;
+  --core-light-accent:#c40f32;
+  --core-light-purple:#6849a9;
+  --core-light-gold:#765600;
+  --core-light-success:#176b3a;
+  color:var(--core-light-ink);
+}
+
+/* Typography hierarchy: remove opacity-based legibility loss. */
+html[data-theme="light"] .core-public-page :is(h1,h2,h3,h4,strong){color:var(--core-light-ink)}
+html[data-theme="light"] .core-public-page :is(.core-public-section-head>p,.core-chapter-head p:last-child,.core-public-orchestra-card>p,.core-public-agent-card>p,.core-boundary-grid ul,.core-overview-grid p,.core-run-boundary p,.core-coming-line p,.core-evidence-flow article p,.core-model-grid small,.core-tool-grid small,.core-usage-grid small,.core-workspace-public-grid p,.core-platform-head p,.core-platform-grid article>p,.core-roadmap-intro>p:last-child,.core-roadmap-grid p,.core-v3-head p,.core-v3-library-head p,.core-v3-runtime-grid article p,.core-v3-capability-card>p,.core-receipt-demo>p){
+  color:var(--core-light-muted);
+  opacity:1;
+}
+html[data-theme="light"] .core-public-page :is(.core-public-status,.core-public-stage small,.core-public-policy-row span,.core-public-agent-head code,.core-public-orchestra-head code,.core-receipt-top span,.core-receipt-demo dt,.core-product-section-meta>span:first-child,.core-agent-search,.core-agent-search-empty,.core-roadmap-phase header small,.core-roadmap-order,.core-v3-summary small,.core-v3-flow-node small,.core-v3-route code,.core-v3-runtime-grid dt,.core-v3-capability-card dt,.core-v3-capability-family summary strong){
+  color:var(--core-light-dim);
+  opacity:1;
+}
+html[data-theme="light"] .core-public-page :is(.core-kicker,.core-public-stage>span,.core-evidence-flow article span,.core-public-orchestra-head span,.core-public-agent-head span,.core-platform-grid article>span,.core-roadmap-details>summary small,.core-roadmap-grid article>b){
+  color:var(--core-light-accent);
+}
+html[data-theme="light"] .core-public-page :is(.core-kicker,.core-model-route,.core-tool-state,.core-public-agent-card dt,.core-receipt-demo dt,.core-public-policy-row span,.core-policy-strip span){
+  font-size:max(.72rem,12px);
+  line-height:1.35;
+}
+
+/* Core cards: warm white surfaces, clear borders, restrained shadows. */
+html[data-theme="light"] .core-public-page :is(
+  .core-overview-grid article,
+  .core-run-boundary,
+  .core-model-grid article,
+  .core-tool-grid article,
+  .core-coming-line,
+  .core-evidence-flow article,
+  .core-public-stage,
+  .core-public-orchestra-card,
+  .core-public-agent-card,
+  .core-boundary-grid article,
+  .core-workspace-public-grid article,
+  .core-platform-grid article,
+  .core-v3-summary article,
+  .core-v3-runtime-grid article,
+  .core-v3-flow-node,
+  .core-v3-route,
+  .core-v3-capability-card
+){
+  background:var(--core-light-surface);
+  border-color:var(--core-light-border);
+  color:var(--core-light-ink);
+  box-shadow:0 10px 28px rgba(35,28,25,.045);
+}
+html[data-theme="light"] .core-public-page :is(.core-public-orchestra-card,.core-platform-block,.core-v3-shell){
+  background:linear-gradient(145deg,#fff,#f8f5f0);
+  border-color:var(--core-light-border);
+}
+html[data-theme="light"] .core-public-page .core-v3-shell{box-shadow:0 16px 44px rgba(35,28,25,.05)}
+
+/* Grey-on-grey blocks become readable nested surfaces. */
+html[data-theme="light"] .core-public-page :is(
+  .core-public-agent-card dl>div,
+  .core-public-policy-row span,
+  .core-policy-strip span,
+  .core-workspace-explainer,
+  .core-roadmap-grid article,
+  .core-roadmap-principle span,
+  .core-v3-runtime-grid dl div,
+  .core-v3-capability-card dl div
+){
+  background:var(--core-light-surface-soft);
+  border-color:var(--core-light-border-soft);
+}
+html[data-theme="light"] .core-public-page .core-public-agent-card dl>div{
+  border:1px solid var(--core-light-border-soft);
+  border-radius:7px;
+}
+html[data-theme="light"] .core-public-page .core-public-agent-card dd{
+  color:var(--core-light-ink-2);
+  font-weight:650;
+}
+html[data-theme="light"] .core-public-page .core-public-agent-card dd code,
+html[data-theme="light"] .core-public-page .core-public-policy-row code{
+  color:var(--core-light-ink-2);
+  background:#ece8e1;
+  border-radius:4px;
+  padding:.08rem .28rem;
+}
+
+/* Evidence, model and tool cards use accents, not washed-out text. */
+html[data-theme="light"] .core-public-page .core-evidence-flow article{
+  border-top:3px solid rgba(196,15,50,.62);
+}
+html[data-theme="light"] .core-public-page .core-evidence-flow>b{color:var(--core-light-accent)}
+html[data-theme="light"] .core-public-page .core-model-route{color:var(--core-light-purple)}
+html[data-theme="light"] .core-public-page .core-tool-state{color:var(--core-light-gold)}
+html[data-theme="light"] .core-public-page .core-model-grid p,
+html[data-theme="light"] .core-public-page .core-tool-grid p{
+  color:var(--core-light-ink-2);
+}
+html[data-theme="light"] .core-public-page .core-deny{color:#a51632!important}
+html[data-theme="light"] .core-public-page .core-boundary-label.public{color:var(--core-light-success);border-color:#9bc8aa;background:#f1faf4}
+html[data-theme="light"] .core-public-page .core-boundary-label.private{color:#a51632;border-color:#e3a4b1;background:#fff3f5}
+
+/* Receipt is a document in light mode, not a dark terminal pasted onto paper. */
+html[data-theme="light"] .core-public-page .core-receipt-demo{
+  background:#fff;
+  border-color:var(--core-light-border);
+  color:var(--core-light-ink);
+  box-shadow:0 18px 48px rgba(35,28,25,.07);
+}
+html[data-theme="light"] .core-public-page .core-receipt-top{border-bottom-color:var(--core-light-border-soft)}
+html[data-theme="light"] .core-public-page .core-receipt-demo dl{
+  background:var(--core-light-border-soft);
+}
+html[data-theme="light"] .core-public-page .core-receipt-demo dl>div{
+  background:#fff;
+}
+html[data-theme="light"] .core-public-page .core-receipt-demo dd{color:var(--core-light-ink)}
+html[data-theme="light"] .core-public-page .core-receipt-state{color:var(--core-light-success)!important;font-weight:800}
+
+/* Registry accordions and search controls. */
+html[data-theme="light"] .core-public-page .core-registry-details{
+  background:rgba(255,255,255,.92);
+  border-color:var(--core-light-border);
+  box-shadow:0 12px 34px rgba(35,28,25,.04);
+}
+html[data-theme="light"] .core-public-page .core-registry-details>summary{
+  color:var(--core-light-ink);
+  background:#fff;
+}
+html[data-theme="light"] .core-public-page .core-registry-details>summary:hover{background:#f5f2ed}
+html[data-theme="light"] .core-public-page .core-registry-details[open]>summary{border-bottom-color:var(--core-light-border-soft)}
+html[data-theme="light"] .core-public-page .core-registry-details>summary span{
+  color:var(--core-light-ink-2);
+  background:#f5f2ed;
+  border-color:var(--core-light-border);
+}
+html[data-theme="light"] .core-public-page .core-agent-search{color:var(--core-light-muted);font-weight:650}
+html[data-theme="light"] .core-public-page .core-agent-search input{
+  background:#fff;
+  border-color:#bdb7ae;
+  color:var(--core-light-ink);
+  box-shadow:inset 0 1px 0 rgba(24,24,31,.025);
+}
+html[data-theme="light"] .core-public-page .core-agent-search input::placeholder{color:#6a666f;opacity:1}
+html[data-theme="light"] .core-public-page .core-agent-search input:focus{border-color:#a62c49;box-shadow:0 0 0 3px rgba(166,44,73,.1)}
+
+/* Orchestra stage graphs. */
+html[data-theme="light"] .core-public-page .core-public-stage strong{color:var(--core-light-ink)}
+html[data-theme="light"] .core-public-page .core-public-stage:not(:last-child)::after{
+  color:var(--core-light-accent);
+}
+html[data-theme="light"] .core-public-page .core-public-stage-line[data-step-count="8"] .core-public-stage::after{
+  background:#fff;
+  border-color:rgba(196,15,50,.34);
+  color:var(--core-light-accent);
+}
+html[data-theme="light"] .core-public-page .core-public-stage-line[data-step-count="9"] .core-public-stage::before{
+  border-color:#fff;
+  background:var(--core-light-accent);
+}
+html[data-theme="light"] .core-public-page .core-public-policy-row span{
+  color:var(--core-light-muted);
+  font-weight:700;
+}
+
+/* Workspace / platform cards. */
+html[data-theme="light"] .core-public-page .core-workspace-public-grid span{color:var(--core-light-purple)}
+html[data-theme="light"] .core-public-page .core-workspace-explainer{color:var(--core-light-muted);border-left-color:var(--core-light-accent)}
+html[data-theme="light"] .core-public-page .core-platform-grid article>strong{color:var(--core-light-ink)}
+
+/* Core V3: eliminate opacity haze and dark translucent panels. */
+html[data-theme="light"] .core-public-page .core-v3-summary span,
+html[data-theme="light"] .core-public-page .core-v3-runtime-grid>article>span{
+  color:var(--core-light-dim);
+  opacity:1;
+  font-weight:750;
+}
+html[data-theme="light"] .core-public-page .core-v3-summary small{color:var(--core-light-dim);opacity:1}
+html[data-theme="light"] .core-public-page .core-v3-flow-node span{color:var(--core-light-dim);opacity:1;font-weight:700}
+html[data-theme="light"] .core-public-page .core-v3-flow-node small{color:var(--core-light-muted);opacity:1}
+html[data-theme="light"] .core-public-page .core-v3-flow-arrow{color:var(--core-light-accent);opacity:.8;font-weight:800}
+html[data-theme="light"] .core-public-page .core-v3-route code{color:var(--core-light-dim);opacity:1}
+html[data-theme="light"] .core-public-page .core-v3-runtime-grid dt,
+html[data-theme="light"] .core-public-page .core-v3-capability-card dt{color:var(--core-light-dim);opacity:1;font-weight:700}
+html[data-theme="light"] .core-public-page .core-v3-runtime-grid dd,
+html[data-theme="light"] .core-public-page .core-v3-capability-card dd{color:var(--core-light-ink-2);font-weight:650}
+html[data-theme="light"] .core-public-page .core-v3-runtime-grid dl div,
+html[data-theme="light"] .core-public-page .core-v3-capability-card dl div{border-top-color:var(--core-light-border-soft)}
+html[data-theme="light"] .core-public-page .core-v3-code-list code,
+html[data-theme="light"] .core-public-page .core-v3-capability-head span{
+  color:var(--core-light-ink-2);
+  background:#efebe5;
+  border-color:#d2ccc3;
+}
+html[data-theme="light"] .core-public-page .core-v3-capability-head code{color:var(--core-light-purple);font-weight:700}
+html[data-theme="light"] .core-public-page .core-v3-capability-family{border-top-color:var(--core-light-border)}
+html[data-theme="light"] .core-public-page .core-v3-capability-family:last-child{border-bottom-color:var(--core-light-border)}
+html[data-theme="light"] .core-public-page .core-v3-capability-family summary{color:var(--core-light-ink);padding:1rem .35rem}
+html[data-theme="light"] .core-public-page .core-v3-capability-family summary:hover{background:rgba(24,24,31,.025)}
+html[data-theme="light"] .core-public-page .core-v3-capability-family summary strong{color:var(--core-light-muted);opacity:1}
+
+/* Roadmap and directory surfaces. */
+html[data-theme="light"] .core-public-page .core-roadmap span,
+html[data-theme="light"] .core-public-page .core-roadmap-principle span,
+html[data-theme="light"] .core-public-page .core-roadmap-grid article,
+html[data-theme="light"] .core-public-page .core-roadmap-order span{
+  background:#fff;
+  border-color:var(--core-light-border);
+  color:var(--core-light-ink-2);
+}
+html[data-theme="light"] .core-public-page .core-roadmap-principle span{color:var(--core-light-accent)}
+html[data-theme="light"] .core-public-page .core-roadmap-principle b{color:var(--core-light-ink)}
+html[data-theme="light"] .core-public-page .core-roadmap-order{color:var(--core-light-dim)}
+html[data-theme="light"] .core-public-page .core-structure-directory{background:rgba(255,255,255,.92);border-color:var(--core-light-border)}
+html[data-theme="light"] .core-public-page .core-structure-directory summary small{color:var(--core-light-dim)}
+html[data-theme="light"] .core-public-page .core-structure-links{background:var(--core-light-border-soft);border-top-color:var(--core-light-border-soft)}
+html[data-theme="light"] .core-public-page .core-structure-links a{background:#fff;color:var(--core-light-muted)}
+html[data-theme="light"] .core-public-page .core-structure-links a:hover,
+html[data-theme="light"] .core-public-page .core-structure-links a.active{background:#f9edef;color:var(--core-light-ink)}
+
+/* Mobile disclosure remains strong enough in light mode. */
+html[data-theme="light"] .core-public-page .core-mobile-disclosure-toggle{
+  background:#fff;
+  color:var(--core-light-ink);
+  border-color:#cfc8bf;
+  box-shadow:0 7px 20px rgba(35,28,25,.04);
+}
+html[data-theme="light"] .core-public-page .core-mobile-disclosure-toggle b{background:#fff}
+
+/* High-contrast users receive even firmer edges. */
+@media(prefers-contrast:more){
+  html[data-theme="light"] .core-public-page{
+    --core-light-border:#aaa39a;
+    --core-light-border-soft:#c8c1b8;
+    --core-light-muted:#343239;
+    --core-light-dim:#4d4b52;
+  }
+}
+
+/* R8 completeness: navigation, statuses, code chips and usage panels. */
+html[data-theme="light"] .core-public-page .core-product-nav{
+  background:rgba(250,249,246,.94);
+  border-bottom-color:var(--core-light-border-soft);
+  box-shadow:0 6px 22px rgba(35,28,25,.035);
+}
+html[data-theme="light"] .core-public-page .core-product-nav a{color:var(--core-light-dim)}
+html[data-theme="light"] .core-public-page .core-product-nav a:hover,
+html[data-theme="light"] .core-public-page .core-product-nav a.active{
+  color:var(--core-light-ink);
+  background:rgba(24,24,31,.035);
+  border-bottom-color:var(--core-light-accent);
+}
+html[data-theme="light"] .core-public-page .core-product-nav a span{color:var(--core-light-accent)}
+html[data-theme="light"] .core-public-page .core-product-status{font-weight:800}
+html[data-theme="light"] .core-public-page .core-product-status.live{color:#176b3a;border-color:#9bc8aa;background:#f1faf4}
+html[data-theme="light"] .core-public-page .core-product-status.readonly{color:#765600;border-color:#cdbd7b;background:#fff9df}
+html[data-theme="light"] .core-public-page .core-product-status.foundation{color:#6849a9;border-color:#b7a7d7;background:#f7f3ff}
+html[data-theme="light"] .core-public-page .core-product-page code,
+html[data-theme="light"] .core-public-page .core-model-targets span{
+  color:var(--core-light-ink-2);
+  opacity:1;
+}
+html[data-theme="light"] .core-public-page .core-model-targets span{
+  background:#f1ede7;
+  border-color:#cfc8bf;
+}
+html[data-theme="light"] .core-public-page .core-usage-grid,
+html[data-theme="light"] .core-public-page .core-public-metrics{
+  background:#fff;
+  border-color:var(--core-light-border);
+}
+html[data-theme="light"] .core-public-page .core-usage-grid article,
+html[data-theme="light"] .core-public-page .core-public-metrics article{border-color:var(--core-light-border-soft)}
+html[data-theme="light"] .core-public-page .core-usage-grid :is(span,small),
+html[data-theme="light"] .core-public-page .core-public-metrics :is(span,small){color:var(--core-light-dim)}
+html[data-theme="light"] .core-public-page .core-usage-grid strong,
+html[data-theme="light"] .core-public-page .core-public-metrics strong{color:var(--core-light-ink)}
+html[data-theme="light"] .core-public-page .core-section-nav a[aria-current="location"]{
+  color:var(--core-light-ink);
+  border-color:var(--core-light-accent);
+  background:#f9edef;
+}
+html[data-theme="light"] .core-public-page .core-public-loading{color:var(--core-light-muted);border-color:var(--core-light-border);background:#fff}
+html[data-theme="light"] .core-public-page .core-public-error{color:#a51632;border-color:#e3a4b1;background:#fff3f5}
+html[data-theme="light"] .core-public-page .footer a:hover{color:var(--core-light-ink)}
+
+/* R9 light-theme accessibility hardening: model target code chips. */
+html[data-theme="light"] .core-public-page .core-model-targets span > code{
+  color:#17171b !important;
+  opacity:1 !important;
+  font-weight:700;
+  text-shadow:none;
+}
+
+/* ========================================================================== 
+   PUBLIC CORE · LIGHT THEME COMPLETE CONTRAST SWEEP R12
+   One-pass safety net for hashes, code tokens, inherited hero copy and microtext.
+   ========================================================================== */
+html[data-theme="light"] .core-public-page .core-public-lead{
+  color:var(--core-light-muted) !important;
+  opacity:1 !important;
+  text-shadow:none !important;
+}
+html[data-theme="light"] .core-public-page .core-public-lead strong{
+  color:var(--core-light-ink) !important;
+}
+
+/* Code is data, not decoration. Every hash/role/tool/policy token must stay readable. */
+html[data-theme="light"] .core-public-page code{
+  color:var(--core-light-ink-2) !important;
+  opacity:1 !important;
+  text-shadow:none !important;
+  -webkit-text-fill-color:currentColor;
+}
+html[data-theme="light"] .core-public-page :is(
+  .core-receipt-demo,
+  .core-workspace-public-grid,
+  .core-tool-grid,
+  .core-model-grid,
+  .core-public-agent-card,
+  .core-public-orchestra-card,
+  .core-public-policy-row,
+  .core-v3-shell,
+  .core-platform-grid
+) code{
+  color:#343239 !important;
+}
+html[data-theme="light"] .core-public-page :is(.core-public-agent-head,.core-public-orchestra-head)>code{
+  color:#56388f !important;
+  background:#f2eef9;
+  border:1px solid #d4cae8;
+  border-radius:5px;
+  padding:.15rem .35rem;
+  font-weight:700;
+}
+html[data-theme="light"] .core-public-page .core-receipt-demo code{
+  color:#28262c !important;
+  background:#efebe5;
+  border-radius:4px;
+  padding:.08rem .28rem;
+  font-weight:700;
+}
+html[data-theme="light"] .core-public-page .core-workspace-public-grid strong code{
+  color:#2f2c33 !important;
+  background:#f1ede7;
+  border:1px solid #d7d1c8;
+  border-radius:5px;
+  padding:.14rem .34rem;
+  line-height:1.55;
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+}
+html[data-theme="light"] .core-public-page .core-tool-grid small code,
+html[data-theme="light"] .core-public-page .core-model-grid small code{
+  color:#433f47 !important;
+  background:#f1ede7;
+  border-radius:4px;
+  padding:.05rem .22rem;
+  font-weight:700;
+}
+
+/* Microcopy must never inherit dark-theme translucency. */
+html[data-theme="light"] .core-public-page :is(
+  .core-receipt-demo small,
+  .core-receipt-demo dt,
+  .core-public-agent-card small,
+  .core-public-orchestra-card small,
+  .core-tool-grid small,
+  .core-model-grid small,
+  .core-workspace-public-grid small,
+  .core-platform-grid small,
+  .core-v3-shell small,
+  .core-public-policy-row,
+  .core-public-policy-row span,
+  .core-agent-search-empty
+){
+  color:var(--core-light-dim) !important;
+  opacity:1 !important;
+  text-shadow:none !important;
+}
+html[data-theme="light"] .core-public-page :is(
+  .core-receipt-demo p,
+  .core-receipt-demo li,
+  .core-run-boundary li,
+  .core-tool-grid p,
+  .core-model-grid p,
+  .core-workspace-public-grid p,
+  .core-public-agent-card p,
+  .core-public-orchestra-card p
+){
+  color:var(--core-light-muted) !important;
+  opacity:1 !important;
+}
+
+/* Explicit light surfaces for areas that previously relied on dark translucent panels. */
+html[data-theme="light"] .core-public-page .core-receipt-demo,
+html[data-theme="light"] .core-public-page .core-run-boundary{
+  background:#fff !important;
+  border-color:var(--core-light-border) !important;
+}
+html[data-theme="light"] .core-public-page .core-receipt-demo dl{
+  background:var(--core-light-border-soft) !important;
+}
+html[data-theme="light"] .core-public-page .core-receipt-demo dl>div{
+  background:#fff !important;
+}
+html[data-theme="light"] .core-public-page .core-receipt-top{
+  border-bottom-color:var(--core-light-border-soft) !important;
+}
+
+/* Labels and status text: preserve semantics with darker accents. */
+html[data-theme="light"] .core-public-page .core-boundary-label.public{color:#176b3a !important;border-color:#8fc2a0;background:#f1faf4}
+html[data-theme="light"] .core-public-page .core-boundary-label.private{color:#a51632 !important;border-color:#dda0ad;background:#fff3f5}
+html[data-theme="light"] .core-public-page .core-deny{color:#a51632 !important}
+html[data-theme="light"] .core-public-page .core-tool-state{color:#765600 !important}
+html[data-theme="light"] .core-public-page .core-tool-grid article[data-risk="critical"] .core-tool-state,
+html[data-theme="light"] .core-public-page .core-tool-grid article[data-risk="high"] .core-tool-state{color:#8f142c !important}
+
+/* Final inheritance guard for ordinary readable text inside light Core cards. */
+html[data-theme="light"] .core-public-page :is(
+  .core-public-stage,
+  .core-public-agent-card,
+  .core-public-orchestra-card,
+  .core-receipt-demo,
+  .core-run-boundary,
+  .core-boundary-grid article,
+  .core-tool-grid article,
+  .core-model-grid article,
+  .core-workspace-public-grid article,
+  .core-platform-grid article,
+  .core-v3-shell
+) :is(p,li,dd){
+  text-shadow:none !important;
+  opacity:1 !important;
+}
+
+
+/* Lighthouse application model · public Core */
+.core-lighthouse-model{
+  position:relative;
+  overflow:hidden;
+}
+.core-lighthouse-model::before{
+  content:"";
+  position:absolute;
+  inset:-12rem -8rem auto auto;
+  width:28rem;
+  height:28rem;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(111,65,148,.12),transparent 68%);
+  pointer-events:none;
+}
+.core-lighthouse-mode-grid{
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.core-lighthouse-mode-grid article{
+  min-width:0;
+  padding:20px;
+  border:1px solid var(--color-border-subtle);
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(75,43,101,.08),rgba(255,255,255,.012));
+}
+.core-lighthouse-mode-grid article>span{
+  display:block;
+  margin-bottom:8px;
+  color:#a786bf;
+  font-size:var(--font-size-meta);
+  font-weight:800;
+  letter-spacing:.16em;
+}
+.core-lighthouse-mode-grid h4{margin:.15rem 0 .55rem}
+.core-lighthouse-mode-grid p{margin:0;color:var(--color-text-secondary);line-height:1.55}
+.core-lighthouse-mode-grid a{
+  display:inline-flex;
+  margin-top:15px;
+  color:var(--color-text);
+  font-weight:760;
+  text-decoration:none;
+}
+.core-lighthouse-mode-grid a:hover{text-decoration:underline}
+.core-concept-chain{
+  display:flex;
+  align-items:stretch;
+  gap:8px;
+  margin-top:16px;
+  padding:12px;
+  border:1px solid var(--color-border-subtle);
+  border-radius:15px;
+  background:rgba(0,0,0,.12);
+  overflow-x:auto;
+}
+.core-concept-chain:focus-visible{
+  outline:2px solid #a982c8;
+  outline-offset:3px;
+}
+.core-concept-chain>span{
+  flex:1 0 128px;
+  display:grid;
+  gap:3px;
+  min-width:0;
+  padding:10px 12px;
+  border:1px solid var(--color-border-subtle);
+  border-radius:11px;
+  background:rgba(255,255,255,.018);
+}
+.core-concept-chain b{font-size:.92rem}
+.core-concept-chain small{color:var(--color-text-tertiary);font-size:var(--font-size-meta)}
+.core-concept-chain i{
+  align-self:center;
+  color:#8e709f;
+  font-style:normal;
+  font-weight:800;
+}
+.core-roadmap-phase.current{
+  border-color:rgba(133,88,171,.28);
+  background:linear-gradient(180deg,rgba(89,49,120,.08),rgba(255,255,255,.01));
+}
+.core-roadmap-phase.current>header>span{color:#a982c8}
+
+@media(max-width:720px){
+  .core-lighthouse-mode-grid{grid-template-columns:1fr}
+  .core-concept-chain{gap:6px;padding:9px}
+}

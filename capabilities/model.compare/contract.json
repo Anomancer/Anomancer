@@ -1,0 +1,17 @@
+{
+  "format": "anomancer-capability-contract/v1",
+  "capabilityId": "model.compare",
+  "summary": "Vertaa useiden kielimallien vastauksia saman tehtävän yli. Odottaa ensemble-runtimea.",
+  "inputs": [
+    "user_text",
+    "workspace_context"
+  ],
+  "outputs": [
+    "model_comparison"
+  ],
+  "guarantees": [
+    "Ei väitä käyttäneensä lähteitä tai dataa joita runtime ei toimittanut.",
+    "Ei suorita ulkoisia sivuvaikutuksia.",
+    "Pitää olennaisen epävarmuuden näkyvänä."
+  ]
+}

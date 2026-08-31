@@ -1,0 +1,340 @@
+/* Lighthouse owns the application chrome. Workspace accents remain workspace-specific. */
+.admin-boot,
+.login-shell{
+  background:
+    radial-gradient(circle at 50% 34%,rgba(123,74,168,.20),transparent 28rem),
+    #08050d;
+}
+.login-card{
+  border-color:#342345;
+  background:rgba(14,8,22,.96);
+  box-shadow:0 40px 120px rgba(0,0,0,.72),inset 0 1px 0 rgba(255,255,255,.025);
+}
+.login-card .kicker,
+.admin-boot-card .kicker,
+.admin-boot-mark{color:#a982c8}
+.login-card input:focus{border-color:#765096;box-shadow:0 0 0 3px rgba(126,82,166,.16)}
+.login-card button{background:#4d2a6c;border-color:#765095}
+.login-card button:hover{background:#5b337d;border-color:#9169ad}
+
+.core-shell{
+  border-bottom-color:#2d2039;
+  background:linear-gradient(180deg,rgba(18,10,29,.985),rgba(11,7,17,.975));
+  box-shadow:0 8px 32px rgba(0,0,0,.26),inset 0 -1px 0 rgba(143,96,181,.04);
+}
+.core-shell-mark{
+  border-color:#4a345f;
+  background:#150c21;
+  color:#aa82cb;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.core-shell-brand strong{color:#f0eaf5}
+.core-shell-brand small{color:#a293ad}
+.core-shell-nav{gap:6px}
+.core-shell-nav button:hover,
+.core-shell-nav button.active{
+  border-color:#443057;
+  background:#1a1026;
+}
+.core-shell-nav button.active{box-shadow:inset 0 -2px 0 #8a61ab}
+.lighthouse-shell-mode-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:var(--tap-target);
+  padding:7px 10px;
+  border:1px solid #45305a;
+  border-radius:8px;
+  background:#140c1e;
+  color:#b9a8c6;
+  text-decoration:none;
+  font-size:var(--font-size-ui);
+  font-weight:750;
+  white-space:nowrap;
+}
+.lighthouse-shell-mode-link:hover{
+  border-color:#6d4d88;
+  background:#1c102a;
+  color:#f2edf6;
+}
+body[data-workspace-template="editorial-platform"] .workspace-local-context>span,
+body[data-workspace-template="editorial-platform"] .kicker{
+  /* Anomancer workspace keeps its editorial accent. */
+}
+
+
+
+/* Focus Layers: default desktop surface shows the work before its control plane. */
+body[data-workspace-template="editorial-platform"] .editor-tabs{display:none}
+body[data-workspace-template="editorial-platform"] .workspace-context-actions .workspace-switcher:not(.orchestra-switcher){display:none}
+body[data-workspace-template="editorial-platform"] .workspace-context-actions .orchestra-switcher{display:none}
+body[data-workspace-template="editorial-platform"][data-editor-view="agents"] .workspace-context-actions .orchestra-switcher{display:grid}
+body[data-workspace-template="editorial-platform"] .form-panel{padding-top:18px}
+body[data-workspace-template="editorial-platform"] .meta-grid{grid-template-columns:minmax(0,1fr)}
+body[data-workspace-template="editorial-platform"] .meta-grid>.wide{grid-column:1}
+body[data-workspace-template="editorial-platform"] #publishingSettings{margin-top:2px}
+body[data-workspace-template="editorial-platform"] .body-head{margin-top:14px}
+.focus-advanced-disclosure,.focus-contract-disclosure,.evidence-secondary-disclosure,.core-secondary-disclosure{margin-top:10px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.018)}
+.focus-advanced-disclosure>summary,.focus-contract-disclosure>summary,.evidence-secondary-disclosure>summary,.core-secondary-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:10px 12px;cursor:pointer;color:var(--muted);font-weight:760;list-style:none}
+.focus-advanced-disclosure>summary::-webkit-details-marker,.focus-contract-disclosure>summary::-webkit-details-marker,.evidence-secondary-disclosure>summary::-webkit-details-marker,.core-secondary-disclosure>summary::-webkit-details-marker{display:none}
+.focus-advanced-disclosure>summary::after,.focus-contract-disclosure>summary::after,.evidence-secondary-disclosure>summary::after,.core-secondary-disclosure>summary::after{content:"+";color:#a982c8;font-size:1rem}
+.focus-advanced-disclosure[open]>summary::after,.focus-contract-disclosure[open]>summary::after,.evidence-secondary-disclosure[open]>summary::after,.core-secondary-disclosure[open]>summary::after{content:"−"}
+.focus-advanced-disclosure>summary small,.focus-contract-disclosure>summary small,.evidence-secondary-disclosure>summary small,.core-secondary-disclosure>summary small{margin-left:auto;color:var(--dim);font-size:var(--font-size-meta);font-weight:600}
+.focus-contract-disclosure>p{margin:0;padding:0 12px 12px}
+.evidence-secondary-disclosure>.citation-mode,.evidence-secondary-disclosure>.citation-status,.evidence-secondary-disclosure>.source-raw{margin-left:11px;margin-right:11px}
+.evidence-secondary-disclosure>.visualization-editor{margin:0 11px 11px}
+.core-secondary-disclosure>.archive-curator,.core-secondary-disclosure>.nanomancer-lab{margin:0 11px 11px}
+.orchestra-log-disclosure .orchestra-terminal-shell{margin:0 11px 11px}
+
+
+/* 1.24.3 · Stable House: compact density without deleting capability. */
+ :root{--workspace-nav-width:188px}
+.core-shell{padding-block:6px;padding-inline:14px}
+.workspace-context-bar{padding:7px 16px;gap:14px}
+.workspace-local-sidebar{padding:13px 9px 24px}
+.workspace-local-nav{gap:12px}
+.workspace-local-group button{min-height:var(--tap-target);padding:7px 9px}
+body[data-workspace-template="editorial-platform"] .form-panel{padding:14px 18px 30px}
+.core-surface{padding:18px 22px 48px}
+.core-surface-head{gap:18px;padding:5px 0 14px;margin-bottom:12px}
+.core-surface-head h1{font-size:clamp(1.45rem,1.8vw,2rem)}
+.workspace-home-grid .workspace-home-card{min-height:0;padding:15px}
+#coreMachineHost .core-hero{padding:14px}
+#coreMachineHost .core-metrics article{padding:9px}
+.core-machine-disclosure{margin:8px 0;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.015);overflow:clip}
+.core-machine-disclosure>summary{display:flex;align-items:center;gap:12px;min-height:46px;padding:10px 13px;cursor:pointer;list-style:none;color:#ddd6e3;font-weight:780}
+.core-machine-disclosure>summary::-webkit-details-marker{display:none}
+.core-machine-disclosure>summary::after{content:"+";margin-left:auto;color:#a982c8;font-size:1rem}
+.core-machine-disclosure[open]>summary::after{content:"−"}
+.core-machine-disclosure>summary small{margin-left:auto;color:var(--dim);font-size:var(--font-size-meta);font-weight:600}
+.core-machine-disclosure[open]>summary{border-bottom:1px solid var(--line);background:rgba(130,86,166,.045)}
+.core-machine-disclosure>.core-section{margin:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+
+
+/* 1.24.5 · Lighthouse Workbench Visual Unification
+   Same product language as /lighthouse, tuned for dense operational work. */
+:root{
+  --lh-canvas:#06030c;
+  --lh-canvas-soft:#09040f;
+  --lh-panel:#0d0713;
+  --lh-panel-raised:#130a1c;
+  --lh-panel-soft:#170d21;
+  --lh-input:#0b0611;
+  --lh-border:rgba(190,143,251,.16);
+  --lh-border-strong:rgba(204,162,255,.28);
+  --lh-violet:#a777d7;
+  --lh-violet-bright:#c79cff;
+  --lh-pink:#ff4b78;
+  --lh-pink-soft:rgba(255,75,120,.14);
+  --lh-text:#f4effa;
+  --lh-muted:#b9a8c7;
+  --lh-dim:#82758e;
+  --lh-shadow:0 20px 56px rgba(0,0,0,.30);
+  --lh-glow:0 0 30px rgba(160,94,212,.10);
+  --lh-radius:12px;
+  --lh-radius-lg:16px;
+}
+html,body{background:var(--lh-canvas)}
+body{
+  background:
+    radial-gradient(circle at 50% -8%,rgba(112,51,158,.15),transparent 34rem),
+    linear-gradient(180deg,var(--lh-canvas-soft),var(--lh-canvas) 34rem);
+}
+::selection{background:rgba(167,119,215,.34);color:#fff}
+:focus-visible{outline-color:var(--lh-violet-bright);box-shadow:0 0 0 3px rgba(167,119,215,.18)}
+
+/* Lighthouse chrome */
+.core-shell{
+  border-color:var(--lh-border);
+  background:linear-gradient(180deg,rgba(20,10,29,.97),rgba(10,6,15,.975));
+  box-shadow:0 10px 34px rgba(0,0,0,.32),inset 0 -1px 0 rgba(206,164,255,.035);
+}
+.core-shell-brand{gap:9px}
+.core-shell-mark{
+  display:grid;
+  place-items:center;
+  width:34px;
+  height:34px;
+  padding:5px;
+  border:1px solid var(--lh-border-strong);
+  border-radius:10px;
+  background:linear-gradient(180deg,rgba(53,28,72,.78),rgba(23,12,33,.86));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 0 22px rgba(163,105,210,.10);
+}
+.core-shell-mark img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 6px rgba(255,76,120,.20))}
+.core-shell-brand strong{color:var(--lh-text);letter-spacing:.13em;font-size:.76rem}
+.core-shell-brand small{color:var(--lh-dim);letter-spacing:.06em}
+.core-shell-nav{
+  gap:4px;
+  padding:3px;
+  border:1px solid rgba(190,143,251,.10);
+  border-radius:11px;
+  background:rgba(255,255,255,.018);
+}
+.core-shell-nav button{
+  border-color:transparent;
+  background:transparent;
+  color:var(--lh-muted);
+  border-radius:8px;
+}
+.core-shell-nav button:hover{border-color:var(--lh-border);background:rgba(167,119,215,.08);color:var(--lh-text)}
+.core-shell-nav button.active{
+  border-color:rgba(184,126,226,.20);
+  background:linear-gradient(90deg,rgba(255,75,120,.10),rgba(148,88,201,.16));
+  color:#f7f1fb;
+  box-shadow:inset 0 -2px 0 rgba(189,139,230,.72),inset 0 0 0 1px rgba(255,255,255,.015);
+}
+.lighthouse-shell-mode-link{
+  min-height:var(--tap-target);
+  padding:6px 10px;
+  border-color:var(--lh-border);
+  border-radius:9px;
+  background:rgba(36,17,49,.62);
+  color:#cbb9d9;
+}
+.lighthouse-shell-mode-link:hover{border-color:var(--lh-border-strong);background:rgba(55,29,73,.72);color:#fff}
+.core-settings-button{border-color:var(--lh-border);background:rgba(255,255,255,.018);color:var(--lh-muted)}
+.core-settings-button:hover{border-color:var(--lh-border-strong);background:rgba(167,119,215,.08);color:var(--lh-text)}
+.connection-state{color:var(--lh-dim)}
+
+.login-lighthouse-mark{display:block;width:44px;height:44px;margin:0 auto 14px;filter:drop-shadow(0 0 16px rgba(255,75,120,.18))}
+.login-light-link{display:inline-flex;margin-top:12px;color:#bca8cb;text-decoration:none;font-size:var(--font-size-ui)}
+.login-light-link:hover{color:#fff;text-decoration:underline}
+.icon-label-button{display:inline-flex;align-items:center;gap:7px}
+.icon-label-button svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.light-work-handoff{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:12px 18px 0;padding:13px 15px;border:1px solid var(--lh-border-strong);border-radius:12px;background:linear-gradient(90deg,rgba(255,75,120,.07),rgba(147,89,201,.10))}
+.light-work-handoff>div:first-child{display:grid;gap:3px;min-width:0}.light-work-handoff span{color:#b889d9;font:800 var(--font-size-meta)/1.2 var(--font-mono);letter-spacing:.08em}.light-work-handoff strong{color:var(--lh-text)}.light-work-handoff p{margin:0;max-width:68ch;overflow:hidden;color:var(--lh-muted);font-size:var(--font-size-ui);text-overflow:ellipsis;white-space:nowrap}.light-work-handoff-actions{display:flex;align-items:center;gap:7px;flex:none}.light-work-handoff-actions a{display:inline-flex;align-items:center;min-height:var(--tap-target);padding:7px 10px;border:1px solid var(--lh-border);border-radius:8px;color:var(--lh-muted);text-decoration:none}
+.mobile-action-strip{display:none}
+button:disabled,.primary:disabled,.secondary:disabled,.ghost:disabled{cursor:not-allowed;opacity:.46;filter:saturate(.5);box-shadow:none}
+
+/* Workspace context and local wayfinding */
+.workspace-context-bar{
+  border-bottom:1px solid rgba(190,143,251,.10);
+  background:rgba(8,5,13,.93);
+  backdrop-filter:blur(18px);
+  box-shadow:0 8px 24px rgba(0,0,0,.14);
+}
+.editor-title strong{color:var(--lh-text)}
+.editor-title small{color:var(--lh-dim)}
+.workspace-local-sidebar{
+  border-right-color:rgba(190,143,251,.10);
+  background:linear-gradient(180deg,rgba(13,7,19,.96),rgba(7,4,11,.985));
+}
+.workspace-local-context{border-color:var(--lh-border);background:rgba(255,255,255,.018);border-radius:10px}
+.workspace-local-context>span,.workspace-local-group>span{color:#8f7b9e}
+.workspace-local-group button{
+  border-color:transparent;
+  background:transparent;
+  color:#a99ab5;
+  border-radius:9px;
+}
+.workspace-local-group button:hover{border-color:var(--lh-border);background:rgba(167,119,215,.06);color:#eee8f5}
+.workspace-local-group button.active{
+  border-color:rgba(188,136,228,.22);
+  background:linear-gradient(90deg,rgba(255,75,120,.09),rgba(139,75,201,.14));
+  color:#f5effa;
+  box-shadow:inset 2px 0 0 rgba(201,150,239,.74);
+}
+
+/* Operational surfaces */
+.workspace-content,.form-panel,.core-surface,.mancer-workspace,.narramancer-workspace{background:transparent}
+.workspace-home-card,
+.core-section,
+.core-machine-disclosure,
+.mancer-section,
+.mancer-panel,
+.narramancer-panel,
+.archive-browser,
+.archive-inspector,
+.archive-curator,
+.nanomancer-lab,
+.evidence-workbench,
+.agent-desk,
+.orchestra-desk,
+.machine-room,
+.focus-advanced-disclosure,
+.focus-contract-disclosure,
+.evidence-secondary-disclosure,
+.core-secondary-disclosure{
+  border-color:var(--lh-border);
+  background:linear-gradient(180deg,rgba(19,10,28,.82),rgba(10,6,15,.88));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.018);
+}
+.workspace-home-card:hover{border-color:var(--lh-border-strong);background:linear-gradient(180deg,rgba(26,13,37,.88),rgba(12,7,18,.92))}
+.core-hero{
+  border-color:rgba(179,129,226,.22);
+  background:radial-gradient(circle at top right,rgba(142,78,198,.10),transparent 40%),linear-gradient(180deg,rgba(18,10,27,.84),rgba(10,6,15,.90));
+}
+.core-version,.orchestra-lock{border-color:rgba(185,138,226,.28);color:#c9a9e2;background:rgba(167,119,215,.05)}
+.core-metrics article,.core-usage-strip article,.artifact-grid article{
+  border-color:rgba(190,143,251,.12);
+  background:rgba(255,255,255,.018);
+}
+.core-machine-disclosure>summary,.focus-advanced-disclosure>summary,.focus-contract-disclosure>summary,.evidence-secondary-disclosure>summary,.core-secondary-disclosure>summary{color:#d8cde1}
+.core-machine-disclosure>summary::after,.focus-advanced-disclosure>summary::after,.focus-contract-disclosure>summary::after,.evidence-secondary-disclosure>summary::after,.core-secondary-disclosure>summary::after{color:var(--lh-violet-bright)}
+.core-machine-disclosure[open]>summary{border-bottom-color:var(--lh-border);background:rgba(167,119,215,.05)}
+
+/* Controls share one Lighthouse language. Destructive actions keep their warning identity. */
+button:not(.danger),
+.secondary,
+.ghost,
+.public-open,
+.layout-menu>summary{
+  border-color:rgba(190,143,251,.17);
+  background:rgba(28,16,38,.58);
+  color:#ddd3e6;
+}
+button:not(.danger):hover,.secondary:hover,.ghost:hover,.public-open:hover,.layout-menu>summary:hover{
+  border-color:rgba(203,159,246,.30);
+  background:rgba(46,25,61,.72);
+  color:#fff;
+}
+.primary,
+button.primary,
+.agent-run,
+.orchestra-run{
+  border-color:rgba(180,121,222,.38);
+  background:linear-gradient(180deg,#513167,#382046);
+  color:#f7f1fb;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 8px 22px rgba(0,0,0,.16);
+}
+.primary:hover,button.primary:hover,.agent-run:hover,.orchestra-run:hover{
+  border-color:rgba(211,167,249,.44);
+  background:linear-gradient(180deg,#604078,#432653);
+}
+.danger{border-color:rgba(255,92,120,.38);background:rgba(93,24,42,.34);color:#ffb2c0}
+.danger:hover{border-color:rgba(255,115,140,.56);background:rgba(119,28,51,.48);color:#ffd4dc}
+:is(input,select,textarea,.body-editor){border-color:rgba(190,143,251,.16);background:var(--lh-input);color:var(--lh-text)}
+:is(input,select,textarea,.body-editor):focus{border-color:rgba(199,156,255,.50);box-shadow:0 0 0 3px rgba(167,119,215,.10)}
+
+/* Dialogs and popovers */
+dialog,
+.core-settings-dialog,
+.core-system-dialog,
+.install-help-dialog{
+  border-color:var(--lh-border-strong);
+  background:linear-gradient(180deg,rgba(19,10,28,.99),rgba(8,5,13,.995));
+  box-shadow:0 34px 100px rgba(0,0,0,.58),0 0 44px rgba(120,69,162,.08);
+}
+dialog::backdrop,.core-settings-dialog::backdrop,.core-system-dialog::backdrop,.install-help-dialog::backdrop{background:rgba(3,1,7,.76);backdrop-filter:blur(6px)}
+.core-settings-head,.core-system-dialog-head,.dialog-head,.publish-dialog header{
+  border-bottom-color:var(--lh-border);
+  background:rgba(14,8,21,.96);
+}
+.layout-popover,.workspace-mobile-sheet{
+  border-color:var(--lh-border-strong);
+  background:linear-gradient(180deg,rgba(20,11,29,.98),rgba(10,6,15,.99));
+  box-shadow:var(--lh-shadow);
+}
+
+/* Preview and utility drawers */
+.sidebar{
+  border-right-color:var(--lh-border);
+  background:linear-gradient(180deg,#0d0713,#07040b);
+}
+.post-item{border-color:rgba(190,143,251,.12);background:rgba(255,255,255,.018)}
+.post-item:hover{border-color:var(--lh-border-strong);background:rgba(167,119,215,.055)}
+.preview-panel{border-color:var(--lh-border);background:#09050f}
+.preview-head{border-bottom-color:var(--lh-border);background:rgba(16,9,23,.96)}
+.preview{background:#09050f}
+.system-feedback-center>*{border-color:var(--lh-border);background:rgba(17,9,24,.96)}

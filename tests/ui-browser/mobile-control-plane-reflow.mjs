@@ -8,7 +8,7 @@ const controlCss=fs.readFileSync('admin-responsive.css','utf8');
 const js=fs.readFileSync('admin.js','utf8');
 let ok=0;const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`)};
 
-const mobile=controlCss.slice(controlCss.indexOf('MOBILE CONTROL PLANE REFLOW'));
+const mobile=controlCss;
 
 test('Lisää-komentopinta elää body-tason portaalissa',()=>{
   assert.match(html,/id="mobileCommandPortal"/);
@@ -18,7 +18,7 @@ test('Lisää-komentopinta elää body-tason portaalissa',()=>{
 });
 
 test('yhteinen responsive-omistaja sisältää control-plane mobiilicascaden',()=>{
-  assert.ok(mobile.length>1000);
+  assert.equal([...controlCss.matchAll(/@media\(max-width:760px\)/g)].length,1);
   assert.match(mobile,/@media\(max-width:760px\)/);
   assert.match(html,/href="\/admin\.css"/);assert.doesNotMatch(html,/href="\/admin-control-plane\.css"/);
 });
@@ -56,4 +56,4 @@ test('viewportin vaakavuoto katkaistaan control-plane-juuresta',()=>{
   assert.match(mobile,/\.app,\.workspace\{width:100%;overflow-x:clip\}/);
 });
 
-console.log(`\n${ok}/${ok} MOBILE CONTROL PLANE REFLOW 16.3.3 -testiä läpi`);
+console.log(`\n${ok}/${ok} MOBILE CONTROL PLANE REFLOW 1.25 -testiä läpi`);

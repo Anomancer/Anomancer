@@ -1,0 +1,1 @@
+{"format":"anomancer-mancer-catalog/v1","status":"construction","entries":[{"id":"codemancer","kind":"workspace","implemented":true},{"id":"romancer","kind":"workspace","implemented":"legacy"},{"id":"source-mancer","kind":"specialist","implemented":false},{"id":"trend-mancer","kind":"sensor","implemented":false}]}

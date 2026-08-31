@@ -3,8 +3,33 @@
   "id": "codemancer/artifact-boundary/1.0.0",
   "workspaceIsolation": true,
   "store": "mancer/package-artifact-store/v1",
-  "read": ["workspace-package-artifact", "workspace-runs", "granted-archive-context"],
-  "write": ["workspace-package-artifact", "isolated-operation-branch", "operation-audit-record"],
-  "forbidden": ["public-content", "other-workspace-artifact", "ungranted-archive-context", "automatic-release", "direct-default-branch-write", "automatic-pr-merge", "arbitrary-command-execution", "secret-exposure"],
-  "humanApprovalRequired": ["apply-code", "repository-write-plan", "workflow-dispatch", "pull-request-create", "production-deploy", "repository-rollback", "deployment-rollback", "archive-approved-artifact", "release"]
+  "read": [
+    "workspace-package-artifact",
+    "workspace-runs",
+    "granted-archive-context"
+  ],
+  "write": [
+    "workspace-package-artifact",
+    "local-project-change-set",
+    "operation-audit-record"
+  ],
+  "forbidden": [
+    "public-content",
+    "other-workspace-artifact",
+    "ungranted-archive-context",
+    "automatic-release",
+    "arbitrary-command-execution",
+    "secret-exposure",
+    "automatic-production-deploy",
+    "release-gate-bypass"
+  ],
+  "humanApprovalRequired": [
+    "apply-code",
+    "repository-write-plan",
+    "production-deploy",
+    "deployment-rollback",
+    "archive-approved-artifact",
+    "release",
+    "local-project-apply"
+  ]
 }

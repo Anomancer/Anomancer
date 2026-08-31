@@ -46,3 +46,9 @@ html,body{overflow-x:clip}
 .workspace-mobile-more-nav button,.workspace-mobile-command-grid button{min-width:0;min-height:48px;padding:10px 12px;text-align:left;font-size:var(--font-size-ui)}
 .mobile-ui-backdrop.is-open,.sidebar-backdrop.is-open{opacity:1;pointer-events:auto}
 body.workspace-sheet-open{overflow:hidden}
+
+/* 1.24.3 · modal stability: the foreground owns the scroll while open. */
+body:has(dialog[open]){overflow:hidden}
+dialog[open],dialog[open] :is(.core-system-dialog-body,.archive-object-form,.core-run-detail,.core-agent-contract-grid){overscroll-behavior:contain}
+.sidebar,.preview-panel,.workspace-mobile-sheet{overscroll-behavior:contain}
+.preview{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}

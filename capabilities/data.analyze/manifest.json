@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "data.analyze",
+  "name": "Data-analyysi",
+  "version": "1.0.0",
+  "purpose": "Analysoi annetun aineiston rakenteita, suhteita ja olennaisia havaintoja.",
+  "providerClass": "data",
+  "mode": "compute",
+  "routing": "compute",
+  "availability": "ready"
+}

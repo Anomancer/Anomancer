@@ -91,6 +91,7 @@
 }
   </script>
 <meta name="theme-color" content="#040408" />
+<script>(function(){try{var k='anomancer-public-theme',t=localStorage.getItem(k);if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.dataset.theme=t}catch(e){}})();</script>
 
 
 
@@ -111,7 +112,7 @@
         <a href="#work">Reitit</a>
         <a href="#contact">Yhteys</a>
       </nav>
-      <div class="lang-switch" aria-label="Kieli"><a class="active" href="/" lang="fi">FI</a><span>/</span><a href="/en" lang="en">EN</a></div>
+      <button class="theme-toggle" type="button" data-theme-toggle data-light-label="Vaalea" data-dark-label="Tumma" data-light-aria="Vaihda vaaleaan teemaan" data-dark-aria="Vaihda tummaan teemaan" aria-label="Vaihda vaaleaan teemaan"><span class="theme-toggle-icon" aria-hidden="true">◐</span><span class="theme-toggle-label">Vaalea</span></button><div class="lang-switch" aria-label="Kieli"><a class="active" href="/" lang="fi">FI</a><span>/</span><a href="/en" lang="en">EN</a></div>
     </div>
   </header>
 
@@ -251,7 +252,7 @@
       <a href="#about">Kuka?</a>
       <a href="#work">Reitit</a>
       <a href="#contact">Yhteys</a>
-      <a class="footer-admin-link" href="/admin">Admin</a>
+      <a class="footer-admin-link" href="/lighthouse/login">Lighthouse</a>
     </nav>
     <div class="footer-meta">
       <a href="mailto:alakhapositu@proton.me">alakhapositu@proton.me</a>
@@ -259,20 +260,6 @@
     </div>
   </footer>
 
-  <script>
-    const button = document.querySelector('.menu-toggle');
-    const menu = document.querySelector('#header-menu');
-    button?.addEventListener('click', () => {
-      const open = menu.classList.toggle('is-open');
-      button.setAttribute('aria-expanded', String(open));
-      button.setAttribute('aria-label', open ? 'Sulje valikko' : 'Avaa valikko');
-    });
-    menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-      menu.classList.remove('is-open');
-      button?.setAttribute('aria-expanded', 'false');
-      button?.setAttribute('aria-label', 'Avaa valikko');
-    }));
-  </script>
 
   <script>
     (() => {
@@ -328,5 +315,6 @@
       });
     })();
   </script>
+  <script type="module" src="/site.js"></script>
 </body>
 </html>

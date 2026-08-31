@@ -1,0 +1,29 @@
+{
+  "format": "anomancer-mancer-approval-model/v1",
+  "id": "toimituskone/editorial-human-gate/1.0.0",
+  "humanFinalAuthority": true,
+  "gates": [
+    {
+      "id": "draft",
+      "label": "Luonnos",
+      "requiresHuman": false
+    },
+    {
+      "id": "evidence-review",
+      "label": "Evidenssin tarkistus",
+      "requiresHuman": true,
+      "evidenceRequired": true
+    },
+    {
+      "id": "editorial-review",
+      "label": "Toimituksellinen tarkistus",
+      "requiresHuman": true
+    },
+    {
+      "id": "publish",
+      "label": "Julkaisu",
+      "requiresHuman": true,
+      "evidenceRequired": true
+    }
+  ]
+}

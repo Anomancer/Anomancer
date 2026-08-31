@@ -37,8 +37,8 @@
       "evidenceRequired": true
     },
     {
-      "id": "pull-request",
-      "label": "Pull request ja CI",
+      "id": "release-gate",
+      "label": "Release gate ja tuotantovalmius",
       "requiresHuman": true,
       "evidenceRequired": true
     },

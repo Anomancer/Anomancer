@@ -29,7 +29,7 @@ function readPolicyStore(){try{const value=JSON.parse(localStorage.getItem(polic
 function appendPolicyDecision(decision){if(!decision?.decisionId)return;const store=readPolicyStore();if(store.entries.some(item=>item?.decisionId===decision.decisionId))return;store.entries.push(decision);store.entries=store.entries.slice(-100);localStorage.setItem(policyKey(),JSON.stringify(store));render();}
 function policyEvents(receipts=[]){const fromRuns=receipts.flatMap(receipt=>Array.isArray(receipt?.toolPolicy)?receipt.toolPolicy:[]);const blocked=readPolicyStore().entries||[];const map=new Map();for(const item of [...fromRuns,...blocked])if(item?.decisionId)map.set(item.decisionId,item);return [...map.values()].sort((a,b)=>String(b.decidedAt||'').localeCompare(String(a.decidedAt||'')));}
 
-function storeModeFi(value){return({memory:'muisti',"github-tag":'GitHub-tagi',unavailable:'ei saatavilla'}[String(value||'').toLowerCase()]||'palvelin');}
+function storeModeFi(value){return({memory:'muisti',local:'paikallinen',blob:'Vercel Blob',unconfigured:'ei konfiguroitu',unavailable:'ei saatavilla'}[String(value||'').toLowerCase()]||'palvelin');}
 function statusFi(value){return({completed:'Valmis',degraded:'Heikentynyt',failed:'Epäonnistui',aborted:'Keskeytetty',stopped:'Pysäytetty',checkpoint:'Tarkistuspiste',running:'Ajossa',pending:'Odottaa',approved:'Hyväksytty',rejected:'Hylätty'}[String(value||'').toLowerCase()]||String(value||'—'));}
 function outcomeFi(value){return({allow:'SALLI',deny:'ESTÄ',human_required:'IHMINEN VAADITAAN'}[String(value||'').toLowerCase()]||String(value||'').toUpperCase());}
 function actorFi(value){return value==='human'?'ihminen':'agentti';}

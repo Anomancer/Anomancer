@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "source.crosscheck",
+  "name": "Lähteiden ristiintarkistus",
+  "version": "1.0.0",
+  "purpose": "Vertaa lähteitä keskenään ja nostaa esiin yhtenevät sekä ristiriitaiset havainnot.",
+  "providerClass": "source",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

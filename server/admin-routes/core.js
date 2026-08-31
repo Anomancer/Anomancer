@@ -18,7 +18,15 @@ function resourceOf(req){
   catch{return 'core';}
 }
 function publicWorkspaceState(state){return{format:state.format,coreVersion:state.coreVersion,revision:state.revision,updatedAt:state.updatedAt};}
-function workspacePayload(data){return{builtins:data.builtins,custom:data.custom,all:data.all,state:publicWorkspaceState(data.state),store:workspaceStoreStatus(),templates:listWorkspaceTemplates(),constitutions:listConstitutions(),artifactBoundaries:Object.fromEntries(data.all.map(workspace=>[workspace.id,artifactBoundaryForWorkspace(workspace)])),mancerPackages:listMancerPackageHealth()};}
+function userVisibleTemplate(item){return item?.mancerPackage?.id!=='toimituskone';}
+function userVisiblePackage(item){return item?.manifest?.id!=='toimituskone';}
+function workspacePayload(data){return{
+  builtins:data.builtins,custom:data.custom,all:data.all,state:publicWorkspaceState(data.state),store:workspaceStoreStatus(),
+  templates:listWorkspaceTemplates().filter(userVisibleTemplate),
+  constitutions:listConstitutions(),
+  artifactBoundaries:Object.fromEntries(data.all.map(workspace=>[workspace.id,artifactBoundaryForWorkspace(workspace)])),
+  mancerPackages:listMancerPackageHealth().filter(userVisiblePackage)
+};}
 
 async function workspaceHandler(req,res){
   if(req.method==='GET'){

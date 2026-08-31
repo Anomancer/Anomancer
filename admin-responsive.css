@@ -1,138 +1,5 @@
-/* Single responsive owner for private Core surfaces */
-/* admin.css · Base shell and legacy editor primitives */
-
-
-/* admin.css · Base shell and legacy editor primitives */
-
-
-/* admin.css · Base shell and legacy editor primitives */
-
-
-/* admin.css · Media and cover controls */
-
-
-/* admin.css · Agent execution panel */
-
-
-/* admin.css · Orchestrator recovery and checkpoints */
-
-
-/* admin.css · Orchestrator recovery and checkpoints */
-
-
-/* admin.css · Editorial views, source review and safety gates */
-
-
-/* admin.css · Core foundation */
-
-
-/* admin.css · Core foundation */
-
-
-/* admin.css · Agent runtime controls */
-
-
-/* admin.css · Tool broker and policy controls */
-
-
-/* admin.css · Tool broker and policy controls */
-
-
-/* admin.css · Custom orchestra builder */
-
-
-/* admin.css · Run explorer and usage metering */
-
-
-/* admin.css · Run explorer and usage metering */
-
-
-/* admin.css · Workspace controls */
-
-
-/* admin.css · Editor semantics */
-
-
-/* admin.css · Viewport containment */
-
-
-/* admin.css · Surgical UX pass: focus, drawers and adjustable panes */
-
-
-/* admin.css · Surgical UX pass: focus, drawers and adjustable panes */
-
-
-/* admin.css · Mobile command surface Phone UI is a purpose-built workspace, not a squeezed desktop shell. */
-
-
-/* admin.css · Mobile command surface Phone UI is a purpose-built workspace, not a squeezed desktop shell. */
-
-
-/* admin.css · LAHETYSKONE APP SPLIT */
-
-
-/* admin.css · LAHETYSKONE APP SPLIT */
-
-
-/* admin.css · Narramancer Vertical Slice */
-
-
-/* admin.css · Navigation Shell / Information Architecture Rebuild */
-
-
-/* admin.css · Navigation Shell / Information Architecture Rebuild */
-
-
-/* admin.css · Navigation Shell / Information Architecture Rebuild */
-
-
-/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
-
-
-/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
-
-
-/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
-
-
-/* admin.css · Navigation Shell Visual Hardening Information architecture stays unchanged. This block fixes the old .app two-column grid leaking into the Core Shell and establishes the final desktop/mobile visual hierarchy. */
-
-
-/* admin.css · Core shell semantics and isolated workspace home */
-
-
-/* admin.css · Narramancer Authoring Maturity */
-
-
-/* admin.css · Narramancer Authoring Maturity */
-
-
-/* admin.css · Evidence Interaction */
-
-
-/* admin-control-plane.css · responsive orchestra flow */
-
-
-/* admin-control-plane.css · responsive orchestra flow */
-
-
-/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
-
-
-/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
-
-
-/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
-
-
-/* admin-control-plane.css · Living Machine Room: observable execution, private reasoning */
-
-
-/* admin-control-plane.css · MOBILE CONTROL PLANE REFLOW */
-
-
-/* admin-control-plane.css · MOBILE CONTROL PLANE REFLOW */
-
+/* ANOMANCER 1.25 · canonical responsive owner
+   Viewport media queries live here. Components own their intrinsic layout; this file owns only cross-surface reflow. */
 
 /* Interaction floors: release-wide pointer and keyboard target contract. */
 .app button,.login-shell button{min-width:var(--tap-target);min-height:var(--tap-target)}
@@ -240,21 +107,21 @@ body[data-workspace-template="narrative-authoring"] .topbar { grid-template-colu
   .layout-popover{position:fixed;top:auto;right:12px;bottom:12px;left:12px;width:auto;max-height:70dvh;overflow:auto}
   .advanced-grid{grid-template-columns:1fr}.advanced-grid>*{grid-column:1}
   .editor-disclosure>summary small,.desk-disclosure>summary small,.orchestra-options>summary small{display:none}
-:root{--mobile-dock-h:62px;--mobile-safe-bottom:env(safe-area-inset-bottom,0px)}
+:root{--mobile-dock-h:var(--mobile-dock-height);--mobile-safe-bottom:var(--safe-area-bottom);--core-shell-height:var(--shell-height-mobile);--workspace-bar-height:var(--workspace-bar-height-mobile);--mobile-action-h:var(--mobile-action-height)}
   html{scroll-padding-bottom:calc(var(--mobile-dock-h) + 18px)}
   body{overflow-x:hidden}
   .app{padding-bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom))}
   body.library-open,body.mobile-more-open,body.mobile-preview-open{overflow:hidden}
 
   /* Compact header. Desktop controls become a bottom sheet behind “Lisää”. */
-  .topbar{min-height:54px;display:flex;align-items:center;gap:8px;padding:8px 12px;position:sticky;top:0;z-index:20}
+  .topbar{min-height:54px;display:flex;align-items:center;gap:8px;padding:8px 12px;position:sticky;top:0;z-index:var(--layer-sticky)}
   .editor-title{width:100%;min-width:0;gap:0}
   .editor-title>.sidebar-toggle{display:none}
   .editor-title>div{min-width:0;display:grid;gap:2px}
   .editor-title .kicker{font-size:var(--font-size-meta);letter-spacing:.14em}
   .editor-title strong{display:block;max-width:calc(100vw - 32px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--font-size-ui)}
 
-  .top-actions{display:none;position:fixed;z-index:72;left:10px;right:10px;bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom) + 8px);max-height:min(72dvh,620px);overflow:auto;padding:14px;border:1px solid #3a3a46;border-radius:16px;background:rgba(10,10,16,.985);box-shadow:0 -22px 70px var(--color-overlay-soft);backdrop-filter:blur(20px)}
+  .top-actions{display:none;position:fixed;z-index:calc(var(--layer-overlay) + 2);left:10px;right:10px;bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom) + 8px);max-height:min(72dvh,620px);overflow:auto;padding:14px;border:1px solid #3a3a46;border-radius:16px;background:rgba(10,10,16,.985);box-shadow:0 -22px 70px var(--color-overlay-soft);backdrop-filter:blur(20px)}
   body.mobile-more-open .top-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;align-items:stretch}
   .mobile-quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;grid-column:1/-1;padding-bottom:12px;margin-bottom:2px;border-bottom:1px solid var(--line)}
   .mobile-quick-actions button{min-height:44px;padding:9px 10px}
@@ -287,7 +154,7 @@ body[data-workspace-template="narrative-authoring"] .topbar { grid-template-colu
   .body-editor{min-height:58dvh;max-height:none;font-size:16px;line-height:1.55;resize:vertical}
   .media-toolbar{display:grid;grid-template-columns:1fr;margin-bottom:6px}
   .media-toolbar span{display:none}
-  .media-toolbar button{width:100%;min-height:42px}
+  .media-toolbar button{width:100%;min-height:var(--tap-target)}
 
   /* Existing sticky publish rail would fight the new dock. */
   .actions{position:static;margin:18px 0 0;padding:0;border:0;background:transparent;backdrop-filter:none}
@@ -296,35 +163,35 @@ body[data-workspace-template="narrative-authoring"] .topbar { grid-template-colu
   .status{margin:8px 2px 0;padding-bottom:4px}
 
   /* Phone drawer: full-height, generous hit targets, no 340px squeeze. */
-  .sidebar{z-index:74;width:min(92vw,390px);height:100dvh;padding:14px 12px calc(18px + var(--mobile-safe-bottom));border-bottom:0}
+  .sidebar{z-index:calc(var(--layer-overlay) + 4);width:min(92vw,390px);height:100dvh;padding:14px 12px calc(18px + var(--mobile-safe-bottom));border-bottom:0}
   .side-head{position:sticky;top:-14px;z-index:2;margin:-14px -12px 0;padding:14px 12px 10px;background:rgba(7,7,12,.98);backdrop-filter:blur(14px)}
   .sidebar-close{display:inline-flex;width:42px;height:42px;padding:0;font-size:1.35rem}
-  .side-actions #newBtn{min-height:42px}
+  .side-actions #newBtn{min-height:var(--tap-target)}
   .filters{position:sticky;top:62px;z-index:2;margin:0 -12px 10px;padding:8px 12px;background:rgba(7,7,12,.98)}
-  .filters button{min-height:38px;flex:1}
+  .filters button{min-height:var(--tap-target);flex:1}
   .post-list{gap:7px;padding-bottom:30px}
   .post-item{min-height:58px;padding:11px}
   .post-item strong{font-size:.88rem}
   .post-item span{font-size:var(--font-size-meta);line-height:1.35}
-  .sidebar-backdrop{z-index:73}
+  .sidebar-backdrop{z-index:calc(var(--layer-overlay) + 3)}
 
   /* Bottom navigation. Thin, safe-area aware and always thumb-reachable. */
-  .mobile-dock{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;z-index:80;left:0;right:0;bottom:0;height:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom));padding:4px 6px calc(4px + var(--mobile-safe-bottom));border-top:1px solid rgba(255,255,255,.1);background:rgba(5,5,10,.965);box-shadow:0 -12px 32px rgba(0,0,0,.46);backdrop-filter:blur(18px)}
+  .mobile-dock{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;z-index:var(--layer-dock);left:0;right:0;bottom:0;height:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom));padding:4px 6px calc(4px + var(--mobile-safe-bottom));border-top:1px solid rgba(255,255,255,.1);background:rgba(5,5,10,.965);box-shadow:0 -12px 32px rgba(0,0,0,.46);backdrop-filter:blur(18px)}
   .mobile-dock button{min-width:0;min-height:52px;display:grid;place-items:center;align-content:center;gap:2px;padding:4px 2px;border:0;border-radius:9px;background:transparent;color:#96919e}
   .mobile-dock button>span{font:800 1rem/1 ui-sans-serif,system-ui,sans-serif}
   .mobile-dock button>small{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--font-size-meta);font-weight:750;letter-spacing:.01em}
   .mobile-dock button.active,.mobile-dock button[aria-expanded="true"]{color:var(--color-text-strong);background:rgba(255,22,61,.1);box-shadow:inset 0 0 0 1px rgba(255,88,116,.22)}
   .mobile-dock button.active>span,.mobile-dock button[aria-expanded="true"]>span{color:#ff6a83}
 
-  .mobile-ui-backdrop{display:block;position:fixed;z-index:70;inset:0 0 calc(var(--mobile-dock-h) + var(--mobile-safe-bottom)) 0;border:0;border-radius:0;padding:0;background:rgba(0,0,0,.56);opacity:0;pointer-events:none;backdrop-filter:blur(2px);transition:opacity .16s ease}
+  .mobile-ui-backdrop{display:block;position:fixed;z-index:var(--layer-overlay);inset:0 0 calc(var(--mobile-dock-h) + var(--mobile-safe-bottom)) 0;border:0;border-radius:0;padding:0;background:rgba(0,0,0,.56);opacity:0;pointer-events:none;backdrop-filter:blur(2px);transition:opacity .16s ease}
   body.mobile-more-open .mobile-ui-backdrop,body.mobile-preview-open .mobile-ui-backdrop{opacity:1;pointer-events:auto}
 
   /* Preview is an actual mobile view instead of another giant panel under the editor. */
-  .preview-panel{display:none;position:fixed;z-index:76;inset:8px 8px calc(var(--mobile-dock-h) + var(--mobile-safe-bottom) + 8px);max-height:none;border:1px solid #33333f;border-radius:16px;background:var(--color-surface-preview);box-shadow:0 24px 90px #000;overflow:hidden}
+  .preview-panel{display:none;position:fixed;z-index:calc(var(--layer-overlay) + 6);inset:8px 8px calc(var(--mobile-dock-h) + var(--mobile-safe-bottom) + 8px);max-height:none;border:1px solid #33333f;border-radius:16px;background:var(--color-surface-preview);box-shadow:0 24px 90px #000;overflow:hidden}
   body.mobile-preview-open .preview-panel{display:flex}
   .preview-head{flex:0 0 auto;padding:10px 12px}
   .preview-head-actions{gap:7px}
-  .mobile-preview-close{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;padding:0;font-size:1.2rem}
+  .mobile-preview-close{display:inline-flex;align-items:center;justify-content:center;width:var(--tap-target);height:var(--tap-target);padding:0;font-size:1.2rem}
   .preview{flex:1;min-height:0;max-height:none;padding:22px 16px 40px;overscroll-behavior:contain}
   .preview h1{font-size:clamp(1.8rem,9vw,2.6rem)}
 
@@ -352,7 +219,7 @@ body[data-workspace-template="narrative-authoring"] .topbar { grid-template-colu
   .core-section{padding:12px}
   .core-section-head{gap:8px}
   .core-section-actions{width:100%}
-  .core-section-actions button{width:100%;min-height:42px}
+  .core-section-actions button{width:100%;min-height:var(--tap-target)}
 
   dialog{width:calc(100vw - 16px);max-width:none;max-block-size:calc(100dvh - var(--mobile-dock-h) - 22px);margin:8px auto calc(var(--mobile-dock-h) + 8px);padding:14px;border-radius:14px}
   .publish-dialog .dialog-actions{display:grid;grid-template-columns:1fr;gap:8px}
@@ -360,16 +227,16 @@ body[data-workspace-template="narrative-authoring"] .topbar { grid-template-colu
 .connection-state{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--color-glass-soft)}
   .install-app-button{width:100%}
   .install-help-dialog{padding:18px;margin:auto}
-:root{--core-shell-height:58px;--workspace-bar-height:56px}.app{padding-bottom:calc(var(--mobile-dock-h,62px) + var(--mobile-safe-bottom,0px))}.core-shell{grid-template-columns:auto minmax(0,1fr) auto;min-height:var(--core-shell-height);padding:7px 9px;gap:6px}.core-shell-brand small{display:none}.core-shell-brand strong{font-size:var(--font-size-meta)}.core-shell-mark{width:32px;height:32px}.core-shell-nav{justify-content:flex-start;overflow-x:auto;scrollbar-width:none}.core-shell-nav::-webkit-scrollbar{display:none}.core-shell-nav button{flex:0 0 auto;padding:8px 8px;font-size:var(--font-size-meta)}.core-shell-nav button[data-shell-route="artifacts"]{display:none}.core-settings-button{width:36px;height:36px;padding:0;overflow:hidden;font-size:0}.core-settings-button::before{content:"⚙";font-size:1rem}.workspace-context-bar{top:var(--core-shell-height);min-height:var(--workspace-bar-height);padding:7px 10px}.editor-title small{display:none}.workspace-context-actions{display:none}.workspace-stage{display:block;min-height:0}.workspace-local-sidebar{position:sticky;top:calc(var(--core-shell-height) + var(--workspace-bar-height));z-index:45;height:auto;max-height:none;overflow-x:auto;overflow-y:hidden;padding:6px 8px;border-right:0;border-bottom:1px solid var(--line);background:rgba(8,8,13,.98)}.workspace-local-context{display:none}.workspace-local-nav{display:flex;gap:12px;min-width:max-content}.workspace-local-group{display:flex;align-items:center;gap:5px}.workspace-local-group>span{padding:0 4px;font-size:var(--font-size-meta)}.workspace-local-group button{width:auto;min-height:38px;padding:7px 9px}.workspace-local-group button.active{box-shadow:inset 0 -2px 0 var(--red)}.workspace-content{grid-column:auto}.core-surface{padding:14px 12px 90px;min-height:0}.core-surface-head{display:grid;gap:14px;padding-top:6px}.core-surface-head h1{font-size:1.45rem}.workspace-home-grid{grid-template-columns:1fr}.workspace-home-grid .workspace-home-card{min-height:0;padding:14px}.artifact-grid{grid-template-columns:1fr}.artifact-hero{align-items:flex-start;flex-direction:column}.settings-layout-grid{grid-template-columns:1fr}.core-settings-actions{display:grid;grid-template-columns:1fr}.core-settings-actions>*{width:100%;justify-content:center}.core-settings-actions .danger{margin-left:0}.narramancer-workspace{padding:8px 10px 90px}.narramancer-run-progress{align-items:flex-start;flex-direction:column}
+.app{padding-bottom:calc(var(--mobile-dock-h,62px) + var(--mobile-safe-bottom,0px))}.core-shell{grid-template-columns:auto minmax(0,1fr) auto;min-height:var(--core-shell-height);padding:7px 9px;gap:6px}.core-shell-brand small{display:none}.core-shell-brand strong{font-size:var(--font-size-meta)}.core-shell-mark{width:32px;height:32px}.core-shell-nav{justify-content:flex-start;overflow-x:auto;scrollbar-width:none}.core-shell-nav::-webkit-scrollbar{display:none}.core-shell-nav button{flex:0 0 auto;padding:8px 8px;font-size:var(--font-size-meta)}.core-shell-nav button[data-shell-route="artifacts"]{display:none}.core-settings-button{width:var(--tap-target);height:var(--tap-target);padding:0;overflow:hidden;font-size:0}.core-settings-button::before{content:"⚙";font-size:1rem}.workspace-context-bar{top:var(--core-shell-height);min-height:var(--workspace-bar-height);padding:7px 10px}.editor-title small{display:none}.workspace-context-actions{display:none}.workspace-stage{display:block;min-height:0}.workspace-local-sidebar{position:sticky;top:calc(var(--core-shell-height) + var(--workspace-bar-height));z-index:var(--layer-local-nav);height:auto;max-height:none;overflow-x:auto;overflow-y:hidden;padding:6px 8px;border-right:0;border-bottom:1px solid var(--line);background:rgba(8,8,13,.98)}.workspace-local-context{display:none}.workspace-local-nav{display:flex;gap:12px;min-width:max-content}.workspace-local-group{display:flex;align-items:center;gap:5px}.workspace-local-group>span{padding:0 4px;font-size:var(--font-size-meta)}.workspace-local-group button{width:auto;min-height:var(--tap-target);padding:7px 9px}.workspace-local-group button.active{box-shadow:inset 0 -2px 0 var(--red)}.workspace-content{grid-column:auto}.core-surface{padding:14px 12px 90px;min-height:0}.core-surface-head{display:grid;gap:14px;padding-top:6px}.core-surface-head h1{font-size:1.45rem}.workspace-home-grid{grid-template-columns:1fr}.workspace-home-grid .workspace-home-card{min-height:0;padding:14px}.artifact-grid{grid-template-columns:1fr}.artifact-hero{align-items:flex-start;flex-direction:column}.settings-layout-grid{grid-template-columns:1fr}.core-settings-actions{display:grid;grid-template-columns:1fr}.core-settings-actions>*{width:100%;justify-content:center}.core-settings-actions .danger{margin-left:0}.narramancer-workspace{padding:8px 10px 90px}.narramancer-run-progress{align-items:flex-start;flex-direction:column}
 body:not([data-workspace-template="narrative-authoring"]) .workspace-local-sidebar{display:none}
-:root{--core-shell-height:58px;--workspace-bar-height:58px}
+
   .app{grid-template-columns:minmax(0,1fr);padding-bottom:calc(var(--mobile-dock-h,62px) + var(--mobile-safe-bottom,0px))}
   .core-shell{grid-column:1;grid-template-columns:auto minmax(0,1fr) auto;min-height:var(--core-shell-height);gap:6px;padding:7px 9px}
-  .core-shell-brand{min-height:42px;gap:7px}.core-shell-brand strong{font-size:var(--font-size-meta)}.core-shell-mark{width:32px;height:32px}
+  .core-shell-brand{min-height:var(--tap-target);gap:7px}.core-shell-brand strong{font-size:var(--font-size-meta)}.core-shell-mark{width:32px;height:32px}
   .core-shell-nav{padding:2px;border:0;background:transparent;border-radius:0}
-  .core-shell-nav button{min-height:38px;padding:7px 8px;font-size:var(--font-size-meta)}
+  .core-shell-nav button{min-height:var(--tap-target);padding:7px 8px;font-size:var(--font-size-meta)}
   .core-shell-nav button.active{box-shadow:inset 0 -2px 0 var(--red)}
-  .core-settings-button{width:36px;height:36px;min-height:36px;padding:0;overflow:hidden;font-size:0}
+  .core-settings-button{width:var(--tap-target);height:var(--tap-target);min-height:var(--tap-target);padding:0;overflow:hidden;font-size:0}
   .core-settings-button::before{content:"⚙";font-size:1rem}
   .workspace{grid-column:1}
   .workspace-context-bar{grid-template-columns:minmax(0,1fr);min-height:var(--workspace-bar-height);padding:7px 10px}
@@ -389,7 +256,7 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
   .blank-workspace-grid{grid-template-columns:1fr}
   .blank-workspace-grid article{min-height:0;padding:17px}
   .blank-workspace-actions{display:grid;grid-template-columns:1fr}
-:root{--mobile-dock-h:66px}
+
   html{scroll-padding-bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom,0px) + 16px)}
   .app{padding-bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom,0px))}
 
@@ -447,7 +314,7 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
   .narramancer-diff-list article{grid-template-columns:minmax(0,1fr)}
   .narramancer-diff-list article>div p{font-size:var(--font-size-ui)}
   .narramancer-undo{position:sticky;bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom,0px));z-index:65}
-.evidence-readiness{grid-template-columns:1fr}.evidence-section-head{align-items:flex-start}.evidence-section-head button{min-height:42px}.source-composer{grid-template-columns:1fr}.source-composer .wide{grid-column:auto}.source-composer button{width:100%;min-height:44px}.claim-card-head{align-items:flex-start;flex-direction:column}.claim-card-head select{width:100%;min-height:44px}.claim-source-option{min-height:44px}.evidence-workbench{padding:11px}
+.evidence-readiness{grid-template-columns:1fr}.evidence-section-head{align-items:flex-start}.evidence-section-head button{min-height:var(--tap-target)}.source-composer{grid-template-columns:1fr}.source-composer .wide{grid-column:auto}.source-composer button{width:100%;min-height:44px}.claim-card-head{align-items:flex-start;flex-direction:column}.claim-card-head select{width:100%;min-height:44px}.claim-source-option{min-height:44px}.evidence-workbench{padding:11px}
 /* The control-plane stylesheet is loaded after admin.css, so its mobile
      rules must live here after the desktop component declarations. */
   html,body{max-width:100%;overflow-x:clip}
@@ -538,7 +405,7 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
   .core-run-stage{grid-template-columns:32px minmax(0,1fr);gap:8px}
   .core-run-stage-meta,.core-run-stage-flags{grid-column:2}
   .core-run-stage-flags{justify-content:flex-start}
-:root{--core-shell-height:56px;--workspace-bar-height:54px}
+
   .core-shell{padding:5px 9px}
   .workspace-context-bar{padding:5px 10px}
 .archive-boundary-banner{align-items:flex-start;flex-direction:column;gap:5px}.archive-layout{grid-template-columns:1fr;min-height:0}.archive-browser{max-height:none}.archive-object-list{max-height:420px}.archive-inspector{padding:16px}.archive-inspector-head{flex-direction:column}.archive-object-meta{grid-template-columns:1fr}.archive-object-meta.archive-object-meta>div{border-left:0}.archive-object-meta>div+div{border-top:1px solid var(--line)}.archive-provenance-grid{grid-template-columns:1fr}.archive-grant-form{grid-template-columns:1fr}.archive-store-meta{align-items:flex-start;flex-direction:column;gap:4px}.archive-object-form{grid-template-columns:1fr;padding:14px}.archive-object-form .wide{grid-column:auto}.archive-provenance-fields{grid-template-columns:1fr}.archive-toolbar{grid-template-columns:1fr}.archive-toolbar label:first-child{grid-column:auto}
@@ -613,6 +480,133 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
   .operation-actions{align-items:stretch;flex-direction:column}.operation-actions button{width:100%;min-height:44px}
   .operation-files li{align-items:flex-start;flex-direction:column}.operation-files li span{white-space:normal}
   .operation-audit li{grid-template-columns:1fr}.operation-audit li code{overflow-wrap:anywhere}
+
+  /* Lighthouse shell mode control */
+  .lighthouse-shell-mode-link{
+    min-height:var(--tap-target);
+    padding:7px 8px;
+    font-size:var(--font-size-meta);
+  }
+
+  /* Focus Layers: one global escape hatch, one local mobile dock. */
+  .core-shell-nav button[data-shell-route]{display:none}
+  .core-shell-nav{justify-content:flex-end;overflow:visible}
+  .lighthouse-shell-mode-link{min-width:62px}
+  .mobile-dock:not([hidden]),body[data-workspace-template="narrative-authoring"] .mobile-dock:not([hidden]){grid-template-columns:repeat(5,minmax(0,1fr))}
+  body.mobile-preview-open .editor-grid.preview-hidden .preview-panel{display:flex}
+  .focus-advanced-disclosure>summary small,.focus-contract-disclosure>summary small,.evidence-secondary-disclosure>summary small,.core-secondary-disclosure>summary small{display:none}
+  .focus-advanced-disclosure,.focus-contract-disclosure,.evidence-secondary-disclosure,.core-secondary-disclosure{border-radius:9px}
+
+  /* 1.24.3 · mobile wayfinding */
+  .mobile-dock button.active,.mobile-dock button[aria-expanded="true"]{
+    color:#eee8f2;
+    background:rgba(127,83,157,.16);
+    box-shadow:inset 0 0 0 1px rgba(169,130,200,.30);
+  }
+  .mobile-dock button.active>span,.mobile-dock button[aria-expanded="true"]>span{color:#b99acb}
+  .workspace-mobile-sheet-section>span{color:#b99acb}
+
+
+  /* 1.24.3 · Stable House mobile geometry */
+  
+  .core-shell{min-height:var(--core-shell-height);padding:4px 8px}
+  .core-shell-brand{min-height:44px}
+  .workspace-context-bar{min-height:var(--workspace-bar-height);padding:5px 9px}
+  .form-panel{padding:10px 10px 22px}
+  .core-surface{padding:12px 10px 86px}
+  .core-surface-head{gap:10px;margin-bottom:8px;padding-top:2px}
+  .core-surface-head h1{font-size:1.28rem}
+  .workspace-home-grid .workspace-home-card{padding:12px}
+
+  /* Drawers and preview live below the Lighthouse chrome instead of underneath it. */
+  .sidebar{
+    top:var(--core-shell-height);
+    bottom:0;
+    inset-inline-start:0;
+    width:min(92vw,390px);
+    height:calc(100dvh - var(--core-shell-height));
+    max-height:none;
+    padding-top:10px;
+    overscroll-behavior:contain;
+  }
+  .side-head{top:-10px;margin:-10px -12px 0;padding-top:10px}
+  .preview-panel{
+    top:calc(var(--core-shell-height) + var(--workspace-bar-height) + 6px);
+    right:6px;
+    bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom) + 6px);
+    left:6px;
+    inset-inline:6px;
+    height:auto;
+    max-height:none;
+    overscroll-behavior:contain;
+  }
+  .preview-head{padding:8px 10px}
+  .preview{padding:18px 13px 30px;overscroll-behavior:contain}
+  .preview h1{font-size:clamp(1.55rem,8vw,2.25rem)}
+
+  /* Machine room starts as a compact map, details open only on demand. */
+  #coreMachineHost .core-hero{padding:11px}
+  #coreMachineHost .core-metrics{gap:5px}
+  #coreMachineHost .core-metrics article{padding:8px}
+  .core-machine-disclosure{margin:6px 0;border-radius:9px}
+  .core-machine-disclosure>summary{min-height:44px;padding:8px 10px}
+  .core-machine-disclosure>summary small{display:none}
+  .core-machine-disclosure>.core-section{padding:10px}
+
+
+  /* 1.24.5 · Lighthouse Workbench Visual Unification */
+  .core-shell{
+      border-bottom-color:var(--lh-border);
+      background:linear-gradient(180deg,rgba(20,10,29,.985),rgba(9,5,14,.985));
+      box-shadow:0 8px 24px rgba(0,0,0,.32);
+    }
+    .core-shell-mark{width:30px;height:30px;padding:4px;border-radius:9px}
+    .core-shell-brand strong{letter-spacing:.09em}
+    .lighthouse-shell-mode-link{min-height:34px;padding:6px 8px;border-radius:9px}
+    .workspace-context-bar{border-bottom:1px solid rgba(190,143,251,.09);background:rgba(8,5,13,.95)}
+    .mobile-dock{
+      border-top-color:rgba(190,143,251,.18);
+      background:linear-gradient(180deg,rgba(17,9,24,.97),rgba(8,5,13,.985));
+      box-shadow:0 -14px 36px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.02);
+    }
+    .mobile-dock button{color:#9888a5;border-radius:11px}
+    .mobile-dock button.active,.mobile-dock button[aria-expanded="true"]{
+      color:#f2eaf7;
+      background:linear-gradient(180deg,rgba(153,91,199,.18),rgba(85,44,112,.18));
+      box-shadow:inset 0 0 0 1px rgba(196,147,235,.24);
+    }
+    .mobile-dock button.active>span,.mobile-dock button[aria-expanded="true"]>span{color:#c7a0e2}
+    .workspace-mobile-sheet{
+      border-color:var(--lh-border-strong);
+      background:linear-gradient(180deg,rgba(20,11,29,.99),rgba(9,5,14,.995));
+    }
+    .workspace-mobile-sheet-section>span{color:#c09ddd}
+    .sidebar{border-right-color:var(--lh-border);background:linear-gradient(180deg,#0d0713,#07040b)}
+    .side-head,.filters{background:rgba(13,7,19,.985)}
+    .preview-panel{border-color:var(--lh-border-strong);background:#09050f;box-shadow:0 24px 90px rgba(0,0,0,.64)}
+    .preview-head{background:rgba(16,9,23,.98)}
+    dialog{border-color:var(--lh-border-strong)}
+
+  /* 1.24.6 · audited mobile context, action hierarchy and complete labels. */
+  
+  .app{padding-bottom:calc(var(--mobile-dock-h) + var(--mobile-action-h) + var(--mobile-safe-bottom,0px))}
+  .mobile-action-strip:not([hidden]){display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));align-items:center;gap:5px;position:fixed;z-index:var(--layer-overlay-control);right:0;bottom:calc(var(--mobile-dock-h) + var(--mobile-safe-bottom,0px));left:0;min-height:var(--mobile-action-h);padding:4px 7px;border-top:1px solid rgba(190,143,251,.14);background:rgba(10,6,15,.975);box-shadow:0 -8px 24px rgba(0,0,0,.26)}
+  .mobile-action-strip button{min-width:0;min-height:44px;padding:6px 8px;font-size:var(--font-size-meta)}
+  .mobile-action-strip[data-editorial="false"]{grid-template-columns:auto minmax(120px,1fr)}
+  .mobile-action-state{max-width:98px;overflow:hidden;color:#a991b9;font:800 var(--font-size-meta)/1.1 var(--font-mono);text-overflow:ellipsis;white-space:nowrap}
+  .mobile-action-state[data-state*="tallentamaton"]{color:#e0b46f}
+  .mobile-dock button>small{overflow:visible;text-overflow:clip;white-space:normal;line-height:1.05}
+  .system-feedback-center{bottom:calc(var(--mobile-dock-h,66px) + var(--mobile-action-h) + var(--mobile-safe-bottom,0px) + 10px)}
+  .light-work-handoff{align-items:stretch;flex-direction:column;margin:8px 10px 0;padding:11px}
+  .light-work-handoff p{white-space:normal}
+  .light-work-handoff-actions{display:grid;grid-template-columns:1fr 1fr}
+  .light-work-handoff-actions .primary{grid-column:1/-1;grid-row:1}
+  .light-work-handoff-actions>*{justify-content:center;min-height:44px}
+  .login-card{min-width:0;padding:clamp(22px,7vw,36px)}
+  .login-runtime{align-items:stretch;flex-wrap:wrap}
+  .login-runtime>span{flex:1 1 190px;white-space:normal}
+  .login-runtime>.install-app-button{flex:0 1 auto}
+  .core-settings-button::before{content:"";width:18px;height:18px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm7.4-3.5a7.6 7.6 0 0 0-.1-1l2-1.6-2-3.4-2.5 1a8 8 0 0 0-1.7-1L14.7 3h-4L10.3 6a8 8 0 0 0-1.7 1L6.1 6l-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2L4 14.6l2 3.4 2.5-1a8 8 0 0 0 1.7 1l.4 3h4l.4-3a8 8 0 0 0 1.7-1l2.5 1 2-3.4-2-1.6c.1-.3.2-.7.2-1Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm7.4-3.5a7.6 7.6 0 0 0-.1-1l2-1.6-2-3.4-2.5 1a8 8 0 0 0-1.7-1L14.7 3h-4L10.3 6a8 8 0 0 0-1.7 1L6.1 6l-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2L4 14.6l2 3.4 2.5-1a8 8 0 0 0 1.7 1l.4 3h4l.4-3a8 8 0 0 0 1.7-1l2.5 1 2-3.4-2-1.6c.1-.3.2-.7.2-1Z'/%3E%3C/svg%3E") center/contain no-repeat}
 }
 
 /* consolidated from 1 block */
@@ -636,6 +630,10 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
 /* consolidated from 1 block */
 @media(max-width:520px){
 .core-system-dialog{width:calc(100vw - 16px);max-height:calc(100dvh - 16px)}.core-system-dialog-head,.core-system-dialog-body{padding-left:15px;padding-right:15px}.core-system-dialog-actions{padding:12px 15px 15px}.core-system-dialog-actions button{min-height:44px;flex:1}
+
+  /* Lighthouse shell mode control */
+  .lighthouse-shell-mode-link{font-size:0;padding-inline:8px}
+  .lighthouse-shell-mode-link::after{content:"Kevyt";font-size:var(--font-size-meta)}
 }
 
 /* consolidated from 1 block */
@@ -650,7 +648,11 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
   .core-builder-agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .archive-metrics{grid-template-columns:1fr 1fr;gap:7px}.archive-metrics article{min-height:74px;padding:11px}.archive-view .core-surface-head{gap:14px}.archive-head-actions{width:100%}.archive-head-actions>*{flex:1 1 140px}.archive-object-card{min-height:132px;padding:13px}.archive-inspector{padding:13px}.archive-content-text,.archive-content-json{font-size:12px}.archive-object-dialog{width:calc(100vw - 12px)}
 .archive-curator{padding:13px}.archive-curator-metrics{grid-template-columns:1fr 1fr}.archive-curator-controls button{width:100%}
-.core-shell{grid-template-columns:minmax(0,1fr) auto}.core-shell-brand{display:none}.core-shell-nav{min-width:0}.core-shell-nav button{padding-inline:7px}.mancer-section-kind{align-self:flex-start}
+.mancer-section-kind{align-self:flex-start}
+  .core-shell{grid-template-columns:auto minmax(62px,1fr) auto}
+  .core-shell-brand{display:flex}
+  .core-shell-brand .core-shell-mark{display:grid}
+  .core-shell-nav{min-width:0;justify-content:center}
 
   .core-shell-nav button[data-short-label]{font-size:0;min-width:0;padding-inline:7px}
   .core-shell-nav button[data-short-label]::after{content:attr(data-short-label);font-size:var(--font-size-meta)}
@@ -658,13 +660,11 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
 
 /* consolidated from 4 blocks */
 @media(max-width:390px){
-.mobile-dock button>small{font-size:var(--font-size-meta)}
-  .form-panel{padding-inline:10px}
+.form-panel{padding-inline:10px}
   .agent-actions,.orchestra-actions{grid-template-columns:1fr}
   .orchestra-actions .orchestra-run{grid-column:auto}
   .core-metrics{grid-template-columns:1fr 1fr}
 .core-shell-brand .core-shell-mark{display:none}
-  .core-shell-nav button{padding-inline:7px}
   #coreMachineHost .core-metrics{grid-template-columns:1fr 1fr}
 .core-shell-nav button{padding-inline:6px}
   .mobile-dock button>small{font-size:var(--font-size-meta)}
@@ -677,6 +677,15 @@ body[data-workspace-template="blank-private"] .app{padding-bottom:0}
 @media(display-mode:standalone){
 .topbar{padding-top:max(12px,env(safe-area-inset-top))}
   .login-shell{padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom))}
+}
+
+@media(max-width:360px){
+  .core-shell-brand small{display:none}
+  .core-shell-brand strong{font-size:var(--font-size-meta)}
+  .core-shell-mark{width:28px;height:28px}
+  .mobile-action-strip:not([hidden]){grid-template-columns:auto repeat(3,minmax(0,1fr));padding-inline:4px}
+  .mobile-action-state{max-width:75px;font-size:var(--font-size-meta)}
+  .mobile-action-strip button{padding-inline:4px}
 }
 
 /* consolidated from 2 blocks */

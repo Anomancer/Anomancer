@@ -18,3 +18,8 @@ IP_PRIVATE/
 /public/
 /dist/
 /test-results/
+node_modules/
+.vercel/
+.anomancer/
+test-results/
+*.log

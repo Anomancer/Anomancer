@@ -13,18 +13,21 @@ const shell=read('admin-shell.js');
 const css=readAdminCss();
 const admin=read('admin.js');
 const workspaces=read('admin-workspaces.js');
-const worker=read('lahetyskone-sw.js');
+const worker=read('lighthouse-sw.js');
 
 await test('Julkaisu ja Core ovat 16.8.4',()=>{
-  assert.equal(pkg.version,'1.18.7');
+  assert.match(pkg.version,/^1\.25\./);
   assert.equal(CORE_VERSION,'1.18.7');
-  assert.match(worker,/anomancer-lahetyskone-v1\.18\.7/);
+  const releaseVersion=pkg.version.match(/^(\d+\.\d+\.\d+)/)?.[1];
+  assert.ok(releaseVersion,'package semver missing');
+  const cacheVersionPattern=new RegExp(`anomancer-lighthouse-v${releaseVersion.replace(/\./g,'\\.')}-[a-z0-9]+`);
+  assert.match(worker,cacheVersionPattern);
 });
 
 await test('Globaali Core Shell sisältää vain globaalit kohteet',()=>{
   const routes=[...html.matchAll(/<button[^>]+data-shell-route="([^"]+)"/g)].map(match=>match[1]);
   assert.deepEqual(routes,['workspaces','workspace','archive','machine']);
-  assert.match(html,/>Työtilat</);
+  assert.match(html,/>Mancerit</);
   assert.match(html,/>Nykyinen työ</);
   assert.match(html,/>Arkisto</);
   assert.match(html,/>Konehuone</);
@@ -70,9 +73,9 @@ await test('Aineisto ja ulostulo pysyvät valitun työtilan paikallisena pintana
 await test('Julkaisunumero on siirretty työpinnasta järjestelmätietoihin',()=>{
   for(const legacy of ['16.2 ·','16.3 ·','16.7 ·','navigation shell'])assert.doesNotMatch(html,new RegExp(legacy.replace('.','\\.'),'i'));
   assert.match(html,/Järjestelmätiedot/);
-  assert.match(html,/id="systemCoreVersion">1\.18\.7/);
-  assert.match(html,/Työtilamalli \+ perustuslaki/);
-  assert.match(html,/Yksityinen työpöytä/);
+  assert.match(html,/id="systemCoreVersion">—<\/dd>/);
+  assert.match(html,/Lighthouse → Mancer → Orkesteri → Agentti → Kyvykkyys/);
+  assert.match(html,/\/lighthouse\/workbench/);
 });
 
 await test('Selaintilan avaimet siirtyvät 16.8:aan jatkuvuusmigraatiolla',()=>{
@@ -83,11 +86,11 @@ await test('Selaintilan avaimet siirtyvät 16.8:aan jatkuvuusmigraatiolla',()=>{
 });
 
 await test('Dokumentti-identiteetti erottaa Core-työpöydän työtiloista',()=>{
-  assert.match(html,/<title>Anomancer Core · Työpöytä<\/title>/);
-  assert.match(shell,/:'Lähetyskone'/);
+  assert.match(html,/<title>Anomancer Lighthouse · Työpöytä<\/title>/);
+  assert.match(shell,/:'Anomancer'/);
   assert.match(shell,/if\(isNarrative\(\)\)\{runtime\.service\('narramancer'\)\?\.refreshDocumentTitle/);
-  assert.match(shell,/document\.title=`Anomancer Core · \$\{name\}`/);
-  assert.match(html,/ANOMANCER CORE · YKSITYINEN/);
+  assert.match(shell,/document\.title=`Lighthouse · \$\{name\}`/);
+  assert.match(html,/LIGHTHOUSE · YKSITYINEN/);
 });
 
 await test('Admin HTML:ssa ei ole päällekkäisiä id-arvoja',()=>{

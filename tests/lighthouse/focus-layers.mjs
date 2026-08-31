@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {ANOMANCER_TEMPLATE_ID,getWorkspaceTemplate} from '../../server/workspace-templates.js';
+const html=fs.readFileSync('admin.html','utf8');
+const admin=fs.readFileSync('admin.js','utf8');
+const shellCss=fs.readFileSync('lighthouse-workbench.css','utf8');
+const responsive=fs.readFileSync('admin-responsive.css','utf8');
+const lightHtml=fs.readFileSync('app/lighthouse/lab.html','utf8');
+const lightCss=fs.readFileSync('app/lighthouse/lab.css','utf8');
+const shell=fs.readFileSync('admin-shell.js','utf8');
+const workspaces=fs.readFileSync('admin-workspaces.js','utf8');
+const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
+let ok=0;const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`)};
+test('release tunnistaa Wayfinding-vaiheen',()=>assert.match(pkg.version,/^1\.25\./));
+test('desktopin esikatselu on opt-in eikä oletus',()=>{assert.match(admin,/preview:false/);assert.match(admin,/layout\.preview=layout\.preview===true/);assert.doesNotMatch(html,/checked[^>]*id="previewToggle"/);});
+test('Anomancer ei näytä kahta rinnakkaista editorinavigaatiota desktopilla',()=>assert.match(shellCss,/editorial-platform.*\.editor-tabs\{display:none\}/));
+test('orkesterivalinta näkyy vasta agentti- ja orkesterityössä',()=>{assert.match(admin,/dataset\.editorView=name/);assert.match(shellCss,/data-editor-view="agents"/);});
+test('julkaisumetadata asuu disclosure-kerroksessa',()=>{const start=html.indexOf('id="publishingSettings"'),end=html.indexOf('</details>',start),part=html.slice(start,end);for(const id of ['lang','date','category','slug'])assert.match(part,new RegExp(`id="${id}"`));});
+test('syvät toimituskerrokset ovat oletuksena suljettuja',()=>{assert.match(html,/id="machineRoomDisclosure"/);assert.match(html,/evidence-secondary-disclosure/);assert.match(html,/orchestra-log-disclosure/);});
+test('Arkistonhoitaja ja Nanomancer avautuvat pyynnöstä',()=>{assert.match(html,/archive-curator-disclosure/);assert.match(html,/nanomancer-disclosure/);});
+test('mobiilissa orkesteri siirtyy Lisää-pintaan',()=>{const items=getWorkspaceTemplate(ANOMANCER_TEMPLATE_ID).editorDefinition.navigation.mobilePrimary;assert.deepEqual(items.map(x=>x.id),['write','evidence','preview']);assert.match(responsive,/grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);assert.match(responsive,/core-shell-nav button\[data-shell-route\]\{display:none\}/);});
+
+test('chatin Jatka-toiminto on rauhallinen violetti eikä kirkas valkoinen',()=>{assert.match(lightCss,/#go,#continueButton\{/);assert.match(lightCss,/background:#49305b/);assert.match(lightHtml,/id="q"[\s\S]*?rows="5"/);assert.match(lightHtml,/id="continueInput"[\s\S]*?rows="3"/);});
+test('Romancer-paketti saa yksityisen artefaktin luku-, kirjoitus- ja vientioikeudet',()=>{const t=getWorkspaceTemplate('romancer/story-studio/1.0.0');for(const cap of ['artifact.private.read','artifact.private.write','artifact.export'])assert.ok(t.capabilities.includes(cap));assert.equal(t.defaultOrchestraId,'narramancer');assert.deepEqual(t.editorDefinition.sections.map(x=>x.id),['project','world','characters','plot','chapters','timeline','canon','orchestra','export']);});
+test('mobiilidokki säilyy myös globaaleissa näkymissä',()=>{assert.match(shell,/const globalDock=\(\)=>/);assert.match(shell,/\['workspaces','◇','Mancerit'\]/);assert.match(shell,/\['workspace','✎','Työ'\]/);assert.match(shell,/\['archive','▤','Arkisto'\]/);assert.match(shell,/\['machine','⚙','Kone'\]/);});
+test('työtilakorttien fallback käyttää kanonista Lighthouse-reittiä',()=>assert.match(workspaces,/href=`\/lighthouse\/workbench\?workspace=/));
+console.log(`\n${ok}/${ok} LIGHTHOUSE FOCUS + WAYFINDING -testiä läpi`);

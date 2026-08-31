@@ -1,6 +1,6 @@
 import { getSession, requireCsrf } from '../auth.js';
 import { json, readJson, sameOrigin } from '../http.js';
-import { listPosts, putFile, deleteFile } from '../github.js';
+import { listPosts, putFile, deleteFile } from '../content-store.js';
 import { parseMarkdown, serializePost, validatePost, newPostPath } from '../content.js';
 import { editorialQualityReport } from '../editorial-quality.js';
 import { requireWorkspace, workspaceIdFromRequest } from '../workspace-store.js';
@@ -36,7 +36,7 @@ export default async function handler(req,res){
         catch(e){return {path:f.path,sha:f.sha,parseError:e.message,title:f.path,lang:f.path.includes('/en/')?'en':'fi',draft:true};}
       }).sort((a,b)=>Number(Boolean(b.pinned))-Number(Boolean(a.pinned))||String(b.date||'').localeCompare(String(a.date||''))||String(a.title).localeCompare(String(b.title)));
       return json(res,200,{ok:true,workspace,artifact,posts});
-    }catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'GITHUB',message:e.message});}
+    }catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'CONTENT_STORE',message:e.message});}
   }
   if(req.method==='POST'){
     if(!auth(req,res,true)) return;

@@ -1,37 +1,37 @@
 # Anomancer roadmap
 
-Tämä tiedosto on päätöspinta, ei julkaisu- tai muutoshistoria. Toteutettu historia on arkistoitu tiedostoon [`history/roadmap-through-1.18.5.md`](history/roadmap-through-1.18.5.md), ja julkaistut muutokset kirjataan lisäksi `CHANGELOG.md`:hen.
+Tämä tiedosto on päätöspinta, ei muutoshistoria. Julkaistut muutokset kirjataan `CHANGELOG.md`:hen.
 
-## Nyt
+## Nyt · 1.24 Lighthouse convergence
 
-- 1.18.6 — senior-auditin sulkeminen
-  - jäljitettävä lähdevarmennus, saavutettavuusmatriisi ja lukittu julkaisuportti
-- 1.18.7 — julkisen UI/UX:n viimeistely
-  - evidenssi oletuksena kiinni ja lähdestatukset neutraalissa pinnassa
-  - hillitympi Core-typografia ja ajantasainen roadmap
-  - tiiviimpi Lähetykset-hakemisto, Admin-footer-linkit ja varmennettu Codemancer-avaus
-- Nykyinen periaate: ihmisen hyväksyntä, artefaktiraja ja työkalutoimivalta pysyvät erillisinä.
+- Lighthouse on yksityisen järjestelmän kanoninen sovelluskuori.
+- `/lighthouse` = Kevyt tila, `/lighthouse/workbench` = Työpöytä, `/lighthouse/login` = kirjautuminen.
+- Anomancer on toimitus- ja julkaisumancer, ei koko yksityisen sovelluksen nimi.
+- Vanha Lähetyskone/Toimituskone säilyy vain sisäisenä yhteensopivuuskerroksena migraation ajan.
+- Lighthouse → Mancer → Orkesteri → Agentti → Kyvykkyys on käyttäjälle näkyvä käsitemalli.
+- Vercel-direct on kehitys- ja tuotantopolku: `npm run check` → `vercel --prod`.
 
-## Seuraavaksi
+## Seuraavaksi · 1.24.x
 
-- 1.19 — Auditomancer: auditit rakenteisiksi löydöksiksi ja ihmisen hyväksymiksi tehtäviksi.
-- 1.20 — Datamancer: rajattu aineiston tuonti, profiilit, laatutarkistus ja alkuperäketju.
-- 1.21 — Stylemancer: hyväksyttyjen tyylipolitiikkojen tarkistus ilman kirjoittajan äänen automaattista korvaamista.
-- 1.22 — Teachmancer: oppimistavoite, taso, harjoitus ja arviointiraja samassa työmaailmassa.
-- 1.23 — Ecomancer: liiketoiminnan aineisto- ja toimenpiderajat ennen automaatiota.
-- 1.24 — Cybomancer: uhkamallinnus ja puolustava analyysi eristetyillä työkaluilla.
+- Pura Anomancerin nykyinen toimituseditori asteittain natiiveiksi Lighthouse Workbench -moduuleiksi ilman kertarysäyksen rewritea.
+- Erota toimitustyö julkaisukohteesta Publishing Target -adapterilla. Nykyinen anomancer.com on ensimmäinen target, ei pysyvä oletusarkkitehtuuri.
+- Yhtenäistä Kevyen tilan ja Työpöydän työ-/run-konteksti, jotta työ voidaan avata syvempään näkymään ilman kontekstin häviämistä.
+- Viimeistele Mancer-valinta, työtilakohtainen navigaatio ja Mancer Package -sopimus niin, että uusi Mancer ei vaadi Lighthouse-shellin kovakoodausta.
 
-## Myöhemmin
+## Sen jälkeen
 
-- 1.25–1.30 — Orkesterirekisteri V2, Context Gateway, Archive Graph, monimalliajo, työkaluhiekkalaatikko ja hallittu itsekehityssilmukka.
-- 1.31–1.35 — työmaailmojen väliset hyväksytyt artefaktit, yleishaku, observability, policy inspector ja palautettava varmuuskopiointi.
-- 1.4x — henkilökohtaisen Coren kovennus ennen käyttäjälaajennusta.
-- 2.0 — monen käyttäjän Core vain, jos käyttöoikeus-, eristys-, auditointi- ja palautusrajat ovat valmiit.
+- 1.25–1.30 — Orchestra Registry V2, Context Gateway, Archive Graph, monimalliajo, Tool Sandbox ja hallittu itsekehityssilmukka.
+- Uudet Mancerit lisätään vasta Lighthouse-rungon päälle: Auditomancer, Datamancer, Stylemancer, Teachmancer, Ecomancer, Cybomancer ja muut domain-paketit.
+- 1.31–1.35 — Mancerien väliset hyväksytyt artefaktit, yleishaku, observability, policy inspector sekä export/restore.
+- 1.4x — henkilökohtaisen järjestelmän pitkä stressitesti.
+- 2.0? — monen käyttäjän Core vasta tenant-eristyksen, roolien, secret/budget-eristyksen, auditoinnin ja palautusrajojen jälkeen.
 
 ## Päätösperiaatteet
 
-1. Kyvykkyys ei ole lupa eikä toimivalta.
-2. Työmaailmat vaihtavat kontekstia, eivät Coren turvallisuusrajoja.
-3. Agentti voi ehdottaa; ihminen hyväksyy pysyvät tai ulkoiset vaikutukset.
-4. Arkisto on jäljitettävä muistikerros, ei automaattinen mallimuisti.
-5. Uusi vaihe alkaa vasta, kun edellisen vaiheen julkaisuportti on vihreä.
+1. Lighthouse on kuori, ei Mancer.
+2. Mancer rajaa tehtäväkentän ja työtilan, ei ohita Coren turvallisuusrajoja.
+3. Kyvykkyys ei ole lupa eikä toimivalta.
+4. Agentti voi ehdottaa; ihminen hyväksyy pysyvät tai ulkoiset vaikutukset.
+5. Orkesteri on jäljitettävä työnkulku, ei maaginen agenttiparvi.
+6. Julkaisukanava on adapteri, ei toimitustyön sisään kovakoodattu kohde.
+7. Uusi vaihe alkaa vasta, kun edellisen vaiheen release gate on vihreä.

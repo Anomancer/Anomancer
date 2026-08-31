@@ -1,0 +1,14 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';
+const read=p=>fs.readFileSync(new URL(`../../${p}`,import.meta.url),'utf8');
+const pkg=JSON.parse(read('package.json')),html=read('admin.html'),shell=read('admin-shell.js'),responsive=read('admin-responsive.css'),workbench=read('lighthouse-workbench.css'),overlays=read('admin-workspace.css'),mancer=read('admin-mancer.js'),workspaces=read('admin-workspaces.js'),admin=read('admin.js');
+let n=0;const test=(name,fn)=>{fn();n++;console.log(`✓ ${name}`)};
+test('release tunnistaa Stability-vaiheen',()=>assert.match(pkg.version,/^1\.25\./));
+test('Romancer ei käynnistä geneeristä Mancer-rendereriä rinnalle',()=>assert.match(mancer,/template\?\.kind!=='narrative-authoring'/));
+test('workspace CAS -konflikti saa yhden hallitun retry-yrityksen',()=>{assert.match(workspaces,/WORKSPACE_WRITE_CONFLICT/);assert.match(workspaces,/save\(\{retry:true\}\)/)});
+test('konehuoneen agentit ja muut tekniset rekisterit ovat disclosure-kerroksissa',()=>{assert.ok((html.match(/class="core-machine-disclosure"/g)||[]).length>=6);assert.match(html,/<summary><span>Agentit<\/span>/)});
+test('mobiilipreview varaa sticky-headerien korkeuden',()=>assert.match(responsive,/\.preview-panel\{[^}]*top:calc\(var\(--core-shell-height\) \+ var\(--workspace-bar-height\)/s));
+test('lähetysdrawer alkaa Lighthouse-headerin alapuolelta',()=>assert.match(responsive,/\.sidebar\{[^}]*top:var\(--core-shell-height\)/s));
+test('dialogit estävät scroll chainingin ja taustasivun vierityksen',()=>{assert.match(overlays,/body:has\(dialog\[open\]\)/);assert.match(overlays,/overscroll-behavior:contain/)});
+test('preview-rerender on debounceattu kirjoittamisen aikana',()=>{assert.match(admin,/schedulePreviewRefresh/);assert.match(admin,/setTimeout\(\(\)=>\{previewRefreshTimer=0;refreshPreview\(\);\},110\)/)});
+test('konehuoneen disclosureilla on kompakti visuaalinen omistaja',()=>assert.match(workbench,/\.core-machine-disclosure/));
+console.log(`\n${n}/${n} LIGHTHOUSE STABLE HOUSE -testiä läpi`);

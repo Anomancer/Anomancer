@@ -1,0 +1,54 @@
+{
+  "format": "anomancer-mancer-orchestra-registry/v1",
+  "orchestras": [
+    {
+      "id": "editorial-workflow",
+      "name": "Toimituksellinen työ",
+      "executable": false,
+      "stages": [
+        "brief",
+        "draft",
+        "claims",
+        "evidence",
+        "editorial-review",
+        "human-apply"
+      ],
+      "approvalGates": [
+        "editorial-review",
+        "human-apply"
+      ]
+    },
+    {
+      "id": "editorial-review",
+      "name": "Toimituksellinen katselmus",
+      "executable": false,
+      "stages": [
+        "structure",
+        "claims",
+        "evidence",
+        "contradictions",
+        "quality",
+        "human-review"
+      ],
+      "approvalGates": [
+        "human-review"
+      ]
+    },
+    {
+      "id": "publication-readiness",
+      "name": "Julkaisuvalmius",
+      "executable": false,
+      "stages": [
+        "claims",
+        "evidence",
+        "quality",
+        "package",
+        "human-publish"
+      ],
+      "approvalGates": [
+        "human-publish"
+      ]
+    }
+  ],
+  "runtimeNote": "Lighthouse käyttää orkestereita menetelmäkontekstina. Julkaisu ei käynnisty ilman ihmisen hyväksymää porttia."
+}

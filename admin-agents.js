@@ -126,7 +126,7 @@ if(box){
     }
     if(a==='writer'||a==='audience'||a==='voice'){
       if(!r.body)return setStatus('Agentin vastauksessa ei ollut tekstikenttää.','err');
-      if(!await window.anomancerDialogs.confirm('Korvataanko editorin nykyinen Markdown tällä agentin versiolla?',{title:'Sovella agentin tekstiversio',details:'Muutosta ei vielä tallenneta GitHubiin. Tarkista teksti ennen tallennusta.',confirmLabel:'Korvaa editorissa'}))return;
+      if(!await window.anomancerDialogs.confirm('Korvataanko editorin nykyinen Markdown tällä agentin versiolla?',{title:'Sovella agentin tekstiversio',details:'Muutosta ei vielä tallenneta pysyvään sisältösäilöön. Tarkista teksti ennen tallennusta.',confirmLabel:'Korvaa editorissa'}))return;
       q('#body').value=r.body;fire(q('#body'));
       if(a==='writer'){
         if(typeof r.description==='string'&&r.description){q('#description').value=r.description.slice(0,220);fire(q('#description'));}

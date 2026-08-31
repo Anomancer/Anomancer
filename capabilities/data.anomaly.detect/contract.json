@@ -1,0 +1,18 @@
+{
+  "format": "anomancer-capability-contract/v1",
+  "capabilityId": "data.anomaly.detect",
+  "summary": "Tunnistaa aineistosta poikkeavia havaintoja ja mahdollisia datalaatuongelmia.",
+  "inputs": [
+    "user_text",
+    "workspace_materials",
+    "work_history"
+  ],
+  "outputs": [
+    "anomaly_candidates"
+  ],
+  "guarantees": [
+    "Ei väitä käyttäneensä lähteitä tai dataa joita runtime ei toimittanut.",
+    "Ei suorita ulkoisia sivuvaikutuksia.",
+    "Pitää olennaisen epävarmuuden näkyvänä."
+  ]
+}

@@ -17,7 +17,7 @@ const created=await upsertWorkspace({name:'Workbench Browser Lab',templateId:'co
 const data=await listWorkspaces({includeArchived:true});
 const payload={builtins:data.builtins,custom:data.custom,all:data.all,state:{format:data.state.format,coreVersion:data.state.coreVersion,revision:data.state.revision,updatedAt:data.state.updatedAt},store:workspaceStoreStatus(),templates:listWorkspaceTemplates(),constitutions:listConstitutions(),artifactBoundaries:Object.fromEntries(data.all.map(w=>[w.id,artifactBoundaryForWorkspace(w)])),mancerPackages:listMancerPackageHealth()};
 const artifact=await loadMancerArtifact({workspace:created.workspace});
-artifact.data.project={...artifact.data.project,name:'Workbench Lab',repository:'~/GitHub/Workbench',branch:'feature/workbench',goal:'Capability renderer vertical slice'};
+artifact.data.project={...artifact.data.project,name:'Workbench Lab',repository:'~/Anomancer/Workbench',branch:'feature/workbench',goal:'Capability renderer vertical slice'};
 artifact.data.code=[
  {id:'code-a',path:'src/core.js',language:'javascript',content:'export const core = true;\n',notes:'Core entry'},
  {id:'code-b',path:'src/ui.js',language:'javascript',content:'export function render(){\n  return "ui";\n}\n',notes:'UI renderer'}
@@ -42,7 +42,7 @@ const __WB_WORKSPACES=${safe(payload)};let __WB_ARTIFACT=${safe(artifact)};
 const __wbWorkspace=id=>__WB_WORKSPACES.all.find(w=>w.id===id)||__WB_WORKSPACES.all.find(w=>w.id==='default');
 const __wbJson=(data,status=200)=>Promise.resolve(new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json'}}));
 window.fetch=(input,init={})=>{const raw=typeof input==='string'?input:input?.url||'',url=new URL(raw,'https://anomancer.local/'),method=String(init.method||'GET').toUpperCase(),headers=new Headers(init.headers||{}),wid=headers.get('X-Anomancer-Workspace')||'default',resource=url.searchParams.get('resource');
- if(url.pathname==='/api/admin/auth')return __wbJson({ok:true,authenticated:true,csrf:'wb-csrf',github:{configured:false}});
+ if(url.pathname==='/api/admin/auth')return __wbJson({ok:true,authenticated:true,csrf:'wb-csrf',storage:{mode:'memory',configured:true,durable:false}});
  if(url.pathname==='/api/admin/content'&&resource==='posts')return __wbJson({ok:true,posts:[],workspace:__wbWorkspace(wid),artifact:__WB_WORKSPACES.artifactBoundaries[wid]});
  if(url.pathname==='/api/admin/content'&&resource==='mancer-artifact'){const workspace=__wbWorkspace(wid);if(method==='GET')return __wbJson({ok:true,workspace,boundary:__WB_WORKSPACES.artifactBoundaries[workspace.id],state:structuredClone(__WB_ARTIFACT),store:{configured:true,durable:false},humanFinalAuthority:true});const body=JSON.parse(String(init.body||'{}'));__WB_ARTIFACT={...__WB_ARTIFACT,revision:__WB_ARTIFACT.revision+1,data:structuredClone(body.data||{})};return __wbJson({ok:true,workspace,state:structuredClone(__WB_ARTIFACT),store:{configured:true,durable:false},saved:true,humanFinalAuthority:true});}
  if(url.pathname==='/api/admin/core'&&resource==='workspaces')return __wbJson({ok:true,...structuredClone(__WB_WORKSPACES)});

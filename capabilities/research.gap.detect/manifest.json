@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "research.gap.detect",
+  "name": "Tutkimusaukkojen tunnistus",
+  "version": "1.0.0",
+  "purpose": "Tunnistaa mitä aineistosta vielä puuttuu ennen vahvaa johtopäätöstä.",
+  "providerClass": "research",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

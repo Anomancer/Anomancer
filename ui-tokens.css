@@ -48,7 +48,33 @@
   --focus-ring:0 0 0 3px rgba(255,22,61,.25);
   --motion-fast:140ms;
   --motion-base:220ms;
+  --motion-ease-standard:ease;
+  --control-height-sm:38px;
+  --control-height-md:44px;
+  --control-height-lg:52px;
+  --shell-height-desktop:72px;
+  --workspace-bar-height-desktop:76px;
+  --shell-height-mobile:52px;
+  --workspace-bar-height-mobile:50px;
+  --mobile-dock-height:66px;
+  --mobile-action-height:52px;
+  --safe-area-top:env(safe-area-inset-top,0px);
+  --safe-area-right:env(safe-area-inset-right,0px);
+  --safe-area-bottom:env(safe-area-inset-bottom,0px);
+  --safe-area-left:env(safe-area-inset-left,0px);
+  --layer-base:0;
+  --layer-content:10;
+  --layer-sticky:20;
+  --layer-local-nav:45;
+  --layer-workspace-bar:60;
+  --layer-overlay:70;
+  --layer-overlay-control:79;
+  --layer-dock:80;
+  --layer-shell:90;
+  --layer-feedback:320;
+  --layer-dialog:400;
   --font-size-ui:.875rem;
+  --font-size-section:1.08rem;
   --font-size-meta:.8125rem;
   --font-size-dock:.75rem;
   --line-height-ui:1.45;
@@ -76,7 +102,7 @@
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-height) + 1rem);scrollbar-gutter:stable}
 body{font-family:var(--font-body);text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
 ::selection{background:rgba(255,22,61,.34);color:#fff}
-a,button,input,select,textarea{transition:border-color var(--motion-fast) ease,background-color var(--motion-fast) ease,color var(--motion-fast) ease,box-shadow var(--motion-fast) ease,opacity var(--motion-fast) ease}
+a,button,input,select,textarea{transition:border-color var(--motion-fast) var(--motion-ease-standard),background-color var(--motion-fast) var(--motion-ease-standard),color var(--motion-fast) var(--motion-ease-standard),box-shadow var(--motion-fast) var(--motion-ease-standard),opacity var(--motion-fast) var(--motion-ease-standard)}
 button,input,select,textarea{font:inherit}
 button,[role="button"],input[type="button"],input[type="submit"],select{min-height:var(--tap-target)}
 :focus-visible{outline:2px solid var(--color-accent);outline-offset:3px;box-shadow:var(--focus-ring)}

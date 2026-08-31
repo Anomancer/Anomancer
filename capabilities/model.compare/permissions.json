@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-permissions/v1",
+  "capabilityId": "model.compare",
+  "writesExternalState": false,
+  "requiresHumanApproval": false,
+  "dataEgress": "configured-provider",
+  "allowedScopes": [
+    "user_text",
+    "workspace_context"
+  ]
+}

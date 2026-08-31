@@ -1,0 +1,18 @@
+{
+  "format": "anomancer-capability-contract/v1",
+  "capabilityId": "data.profile",
+  "summary": "Jäsentää aineiston rakenteen, kentät, tyypit, puutteet ja perusjakaumat.",
+  "inputs": [
+    "user_text",
+    "workspace_materials",
+    "work_history"
+  ],
+  "outputs": [
+    "data_profile"
+  ],
+  "guarantees": [
+    "Ei väitä käyttäneensä lähteitä tai dataa joita runtime ei toimittanut.",
+    "Ei suorita ulkoisia sivuvaikutuksia.",
+    "Pitää olennaisen epävarmuuden näkyvänä."
+  ]
+}

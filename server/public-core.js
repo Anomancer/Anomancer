@@ -8,8 +8,9 @@ import {
 } from './core-registry.js';
 import { listInstalledMancerPackages } from './mancer-registry.js';
 import { listCapabilityPlugins } from './capability-registry.js';
+import { createPublicArchitectureView } from './public-architecture.js';
 
-export const PUBLIC_CORE_FORMAT='anomancer-core-public/v2';
+export const PUBLIC_CORE_FORMAT='anomancer-core-public/v3';
 export const PUBLIC_BOUNDARY_VERSION='1.0';
 
 const clone=value=>JSON.parse(JSON.stringify(value));
@@ -17,6 +18,7 @@ const clone=value=>JSON.parse(JSON.stringify(value));
 export function createPublicCoreView(){
   const mancerPackages=listInstalledMancerPackages();
   const capabilities=listCapabilityPlugins();
+  const architecture=createPublicArchitectureView();
   return {
     format:PUBLIC_CORE_FORMAT,
     version:CORE_VERSION,
@@ -27,6 +29,7 @@ export function createPublicCoreView(){
       privateByDefault:true,
     },
     humanFinalAuthority:true,
+    architecture,
     platform:{
       workspaceRuntime:{format:'anomancer-workspace/v2',installed:true},
       mancerRuntime:{

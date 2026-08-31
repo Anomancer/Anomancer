@@ -12,13 +12,13 @@ const shell=read('admin-shell.js');
 const workspaces=read('admin-workspaces.js');
 const narramancer=read('admin-narramancer.js');
 const build=read('scripts/build-blog.mjs');
-const worker=read('lahetyskone-sw.js');
+const worker=read('lighthouse-sw.js');
 const installer=read('INSTALL_TO_CURRENT.sh');
 
 await test('Core ja paketti rakentavat 16.8.4:n 16.7 Navigation Shell -arkkitehtuurille',()=>{
-  assert.equal(pkg.version,'1.18.7');
+  assert.match(pkg.version,/^1\.25\./);
   assert.equal(CORE_VERSION,'1.18.7');
-  assert.match(html,/ANOMANCER CORE/);
+  assert.match(html,/<strong>LIGHTHOUSE<\/strong><small>Työpöytä<\/small>/);
   assert.doesNotMatch(html,/navigation shell/i);
 });
 
@@ -93,11 +93,16 @@ await test('16.7 shell stageataan buildiin ja PWA-cacheen',()=>{
   assert.match(html,/admin-shell\.js/);
   assert.match(build,/admin-shell\.js/);
   assert.match(worker,/admin-shell\.js/);
-  assert.match(worker,/v1\.18\.7/);
+  const releaseVersion=pkg.version.match(/^(\d+\.\d+\.\d+)/)?.[1];
+  assert.ok(releaseVersion,'package semver missing');
+  const cacheVersionPattern=new RegExp(`anomancer-lighthouse-v${releaseVersion.replace(/\./g,'\\.')}-[a-z0-9]+`);
+  assert.match(worker,cacheVersionPattern);
 });
 
 await test('Content-safe asennus ei koske julkaistuihin lähteisiin tai generoituun sisältöön',()=>{
-  for(const path of ['content/','media/','public/','lahetykset/','dispatches/'])assert.match(installer,new RegExp(`--exclude='${path.replace('/','\\/')}'`));
+  for(const path of ['content/','media/','lahetykset/','dispatches/'])assert.match(installer,new RegExp(`--exclude='${path}'`));
+  assert.match(installer,/--exclude='\/public\/'/);
+  assert.doesNotMatch(installer,/--exclude='public\/'/);
   assert.match(installer,/content_fingerprint/);
   assert.match(installer,/CONTENT_BEFORE/);
   assert.match(installer,/CONTENT_AFTER/);

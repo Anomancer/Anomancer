@@ -3,11 +3,12 @@ import fs from 'node:fs';
 
 let passed=0;
 const read=file=>fs.readFileSync(file,'utf8');
+const pkg=JSON.parse(read('package.json'));
 const css=read('admin-mancer.css');
 const responsive=read('admin-responsive.css');
 const html=read('admin.html');
-const sw=read('lahetyskone-sw.js');
-const pwa=read('lahetyskone-pwa.js');
+const sw=read('lighthouse-sw.js');
+const pwa=read('lighthouse-pwa.js');
 const mancer=read('admin-mancer.js');
 const installer=read('INSTALL_TO_CURRENT.sh');
 async function test(name,fn){try{await fn();passed++;console.log(`✓ ${name}`);}catch(error){console.error(`✗ ${name}`);throw error;}}
@@ -25,7 +26,7 @@ await test('Workbenchin dynaamisilla toiminnoilla on delegoidut action-handlerit
 });
 
 await test('kapea Core-nav käyttää lyhyitä semanttisia label-varianteja ilman DOM-duplikaattia',()=>{
-  for(const pair of [['workspaces','Työtilat'],['workspace','Työ'],['archive','Arkisto'],['machine','Kone']]){
+  for(const pair of [['workspaces','Mancerit'],['workspace','Työ'],['archive','Arkisto'],['machine','Kone']]){
     assert.match(html,new RegExp(`data-shell-route="${pair[0]}"[^>]+data-short-label="${pair[1]}"`));
   }
   assert.match(responsive,/@media\(max-width:420px\)[\s\S]*?\.core-shell-nav button\[data-short-label\]/);
@@ -33,7 +34,10 @@ await test('kapea Core-nav käyttää lyhyitä semanttisia label-varianteja ilma
 });
 
 await test('PWA shell käyttää network-firstia eikä vanhaa cache-first split-brainia',()=>{
-  assert.match(sw,/CACHE_NAME = 'anomancer-lahetyskone-v1\.18\.7-p3'/);
+  const releaseVersion=pkg.version.match(/^(\d+\.\d+\.\d+)/)?.[1];
+  assert.ok(releaseVersion,'package semver missing');
+  const cacheVersionPattern=new RegExp(`anomancer-lighthouse-v${releaseVersion.replace(/\./g,'\\.')}-[a-z0-9]+`);
+  assert.match(sw,cacheVersionPattern);
   assert.match(sw,/if \(!SHELL_URLS\.includes\(url\.pathname\)\) return;[\s\S]*?fetch\(request\)[\s\S]*?\.catch\(\(\) => caches\.match\(request\)\)/);
   assert.doesNotMatch(sw,/caches\.match\(request\)\.then\(cached => cached \|\| fetch\(request\)/);
 });
@@ -63,12 +67,14 @@ await test('PWA:n feedback-pinta käyttää olemassa olevaa yhteistä feedback-k
   assert.match(read('admin-feedback.js'),/window\.anomancerFeedback/);
 });
 
-await test('content-safe installer rakentaa public-peilit ennen regressioporttia',()=>{
-  for(const asset of ['admin-mancer.css','lahetyskone-pwa.js','lahetyskone-sw.js']) assert.ok(installer.includes(asset),asset);
-  const installPos=installer.indexOf('npm install');
-  const buildPos=installer.indexOf('npm run build');
+await test('content-safe installer synkronoi lähdepuun ja ajaa regressioportin',()=>{
+  assert.match(installer,/rsync -a --delete/);
+  assert.match(installer,/--exclude='content\/'/);
+  assert.match(installer,/--exclude='media\/'/);
+  const installMatch=installer.match(/npm\s+(?:ci|install)(?:\s+--include=dev)?/);
+  const installPos=installMatch?.index ?? -1;
   const checkPos=installer.indexOf('npm run check');
-  assert.ok(installPos >= 0 && buildPos > installPos && checkPos > buildPos, 'installer order must be npm install -> build -> check');
+  assert.ok(installPos >= 0 && checkPos > installPos, 'installer order must be npm ci/install -> check');
 });
 
 console.log(`\n${passed}/9 INTERACTION + CSS HOTFIX 1.18.4 checks passed.`);

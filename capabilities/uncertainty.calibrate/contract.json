@@ -1,0 +1,17 @@
+{
+  "format": "anomancer-capability-contract/v1",
+  "capabilityId": "uncertainty.calibrate",
+  "summary": "Kalibroi lopputuloksen epävarmuutta mallien, lähteiden ja aineiston erimielisyyden perusteella. Ensemble-tuki tulossa.",
+  "inputs": [
+    "model_outputs",
+    "source_assessments"
+  ],
+  "outputs": [
+    "calibrated_uncertainty"
+  ],
+  "guarantees": [
+    "Ei väitä käyttäneensä lähteitä tai dataa joita runtime ei toimittanut.",
+    "Ei suorita ulkoisia sivuvaikutuksia.",
+    "Pitää olennaisen epävarmuuden näkyvänä."
+  ]
+}

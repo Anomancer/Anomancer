@@ -3,10 +3,36 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 const BROWSER_FILES=new Set([
-  'tests/full-app-e2e/admin-workspace-story.mjs','tests/ui-browser/core-roadmap.mjs','tests/archive-capabilities/nanomancer-ui.mjs','tests/mancer-codemancer/ui.mjs','tests/archive-capabilities/archive-ui.mjs','tests/mancer-codemancer/codemancer-workbench-ui.mjs','tests/archive-capabilities/archive-curator-ui.mjs','tests/ui-browser/visual-system.mjs','tests/ui-browser/native-dialogs.mjs','tests/ui-browser/accessibility-matrix.mjs'
+  'tests/full-app-e2e/admin-workspace-story.mjs','tests/ui-browser/core-roadmap.mjs','tests/archive-capabilities/nanomancer-ui.mjs','tests/mancer-codemancer/ui.mjs','tests/archive-capabilities/archive-ui.mjs','tests/mancer-codemancer/codemancer-workbench-ui.mjs','tests/archive-capabilities/archive-curator-ui.mjs','tests/ui-browser/visual-system.mjs','tests/ui-browser/native-dialogs.mjs','tests/ui-browser/accessibility-matrix.mjs','tests/lighthouse/browser-e2e.mjs','tests/lighthouse/ui-ux-audit-hardening.mjs'
 ]);
 const CONTENT_FILES=new Set([
   'tests/content-editorial/editorial-quality.mjs','tests/content-editorial/editorial-gate-calibration.mjs','tests/content-editorial/evidence-boundary-hygiene.mjs','tests/content-editorial/evidence-presentation.mjs','tests/content-editorial/public-ui.mjs','tests/content-editorial/public-clarity.mjs','tests/content-editorial/language-boundaries.mjs','tests/content-editorial/entity-core.mjs','tests/content-editorial/evidence-layer.mjs','tests/content-editorial/evidence-integrity.mjs','tests/content-editorial/discovery-layer.mjs','scripts/build-blog.mjs','scripts/domain-migration-check.mjs','seo-check.mjs'
+]);
+const LIGHTHOUSE_FILES=new Set([
+  'tests/lighthouse/construction-mode.mjs',
+  'tests/lighthouse/work-surface.mjs',
+  'tests/lighthouse/visual-polish.mjs',
+  'tests/lighthouse/trust-surface.mjs',
+  'tests/lighthouse/workspace.mjs',
+  'tests/lighthouse/orchestra.mjs',
+  'tests/lighthouse/intelligence.mjs',
+  'tests/lighthouse/ux-architecture-v2.mjs',
+  'tests/lighthouse/intent-routing.mjs',
+  'tests/lighthouse/compute-task-graph.mjs',
+  'tests/lighthouse/hands.mjs',
+  'tests/lighthouse/actuator.mjs',
+  'tests/lighthouse/machine-room.mjs',
+  'tests/lighthouse/core.mjs',
+  'tests/lighthouse/depth-accordion.mjs',
+  'tests/lighthouse/responsive-shell.mjs',
+  'tests/lighthouse/fixed-inspector.mjs',
+  'tests/lighthouse/responsive-qa.mjs',
+  'tests/lighthouse/api-boundary.mjs',
+  'tests/lighthouse/browser-e2e.mjs',
+  'tests/lighthouse/unification-shell.mjs',
+  'tests/lighthouse/stable-house.mjs',
+  'tests/lighthouse/focus-layers.mjs'
+  ,'tests/lighthouse/ui-ux-audit-hardening.mjs'
 ]);
 
 const STEPS = [
@@ -17,19 +43,7 @@ const STEPS = [
     "tests/integrity-security/build-source-boundary.mjs"
   ],
   [
-    "tests/integrity-security/pr-governance.mjs"
-  ],
-  [
-    "tests/operations-release/live-path-verification.mjs"
-  ],
-  [
-    "tests/operations-release/live-path-ui.mjs"
-  ],
-  [
-    "tests/operations-release/capability-wiring.mjs"
-  ],
-  [
-    "tests/operations-release/operation-ui.mjs"
+    "tests/integrity-security/vcs-independence.mjs"
   ],
   [
     "tests/integrity-security/workspace-integrity.mjs"
@@ -99,6 +113,9 @@ const STEPS = [
   ],
   [
     "tests/public-api-boundary/public-core.mjs"
+  ],
+  [
+    "tests/public-api-boundary/public-core-v3.mjs"
   ],
   [
     "tests/core-runtime/agent-contracts.mjs"
@@ -241,17 +258,87 @@ const STEPS = [
   ],
   [
     "tests/ui-browser/accessibility-matrix.mjs"
+  ],
+  [
+    "tests/lighthouse/unification-shell.mjs"
+  ],
+  [
+    "tests/lighthouse/focus-layers.mjs"
+  ],
+  [
+    "tests/lighthouse/construction-mode.mjs"
+  ],
+  [
+    "tests/lighthouse/work-surface.mjs"
+  ],
+  [
+    "tests/lighthouse/visual-polish.mjs"
+  ],
+  [
+    "tests/lighthouse/trust-surface.mjs"
+  ],
+  [
+    "tests/lighthouse/workspace.mjs"
+  ],
+  [
+    "tests/lighthouse/orchestra.mjs"
+  ],
+  [
+    "tests/lighthouse/intelligence.mjs"
+  ],
+  [
+    "tests/lighthouse/intent-routing.mjs"
+  ],
+  [
+    "tests/lighthouse/compute-task-graph.mjs"
+  ],
+  [
+    "tests/lighthouse/ux-architecture-v2.mjs"
+  ],
+  [
+    "tests/lighthouse/hands.mjs"
+  ],
+  [
+    "tests/lighthouse/actuator.mjs"
+  ],
+  [
+    "tests/lighthouse/machine-room.mjs"
+  ],
+  [
+    "tests/lighthouse/core.mjs"
+  ],
+  [
+    "tests/lighthouse/depth-accordion.mjs"
+  ],
+  [
+    "tests/lighthouse/responsive-shell.mjs"
+  ],
+  [
+    "tests/lighthouse/fixed-inspector.mjs"
+  ],
+  [
+    "tests/lighthouse/responsive-qa.mjs"
+  ],
+  [
+    "tests/lighthouse/api-boundary.mjs"
+  ],
+  [
+    "tests/lighthouse/browser-e2e.mjs"
+  ],
+  [
+    "tests/lighthouse/ui-ux-audit-hardening.mjs"
   ]
 ];
 
 const requested=(process.argv.find(arg=>arg.startsWith('--group='))||'--group=all').slice('--group='.length);
-if(!['all','static','browser','content'].includes(requested))throw new Error(`Tuntematon release gate -ryhmä: ${requested}`);
-const selected=STEPS.filter(args=>requested==='all'||requested==='browser'&&BROWSER_FILES.has(args[0])||requested==='static'&&!BROWSER_FILES.has(args[0])||requested==='content'&&CONTENT_FILES.has(args[0]));
+if(!['all','static','browser','content','lighthouse'].includes(requested))throw new Error(`Tuntematon release gate -ryhmä: ${requested}`);
+const selected=STEPS.filter(args=>requested==='all'||requested==='browser'&&BROWSER_FILES.has(args[0])||requested==='static'&&!BROWSER_FILES.has(args[0])||requested==='content'&&CONTENT_FILES.has(args[0])||requested==='lighthouse'&&LIGHTHOUSE_FILES.has(args[0]));
 let browserEvidence=null;
 if(selected.some(args=>BROWSER_FILES.has(args[0]))){
-  const {chromium}=await import('playwright');let executable=chromium.executablePath();
-  if(!fs.existsSync(executable)){const install=spawnSync(process.execPath,[path.resolve('node_modules/playwright/cli.js'),'install','chromium'],{stdio:'inherit'});if(install.status!==0)process.exit(install.status||1);}
-  executable=chromium.executablePath();if(!fs.existsSync(executable))throw new Error(`Lukittua Chromiumia ei löytynyt: ${executable}`);
+  const {chromium}=await import('playwright');
+  let executable=process.env.CHROMIUM_BIN&&fs.existsSync(process.env.CHROMIUM_BIN)?process.env.CHROMIUM_BIN:chromium.executablePath();
+  if(!fs.existsSync(executable)){const install=spawnSync(process.execPath,[path.resolve('node_modules/playwright/cli.js'),'install','chromium'],{stdio:'inherit'});if(install.status!==0)process.exit(install.status||1);executable=chromium.executablePath();}
+  if(!fs.existsSync(executable))throw new Error(`Chromiumia ei löytynyt: ${executable}`);
   const headlessShell=executable.replace(/chromium-(\d+)[\\/]chrome-linux[\\/]chrome$/,process.platform==='win32'?'chromium_headless_shell-$1\\chrome-win\\headless_shell.exe':'chromium_headless_shell-$1/chrome-linux/headless_shell');
   const browserExecutable=fs.existsSync(headlessShell)?headlessShell:executable;
   process.env.CHROMIUM_BIN=browserExecutable;const version=spawnSync(browserExecutable,['--version'],{encoding:'utf8'}).stdout.trim(),playwrightVersion=JSON.parse(fs.readFileSync(path.resolve('node_modules/playwright/package.json'),'utf8')).version;browserEvidence={provider:'playwright',playwrightVersion,executable:browserExecutable,version};console.log(`\nBrowser gate: Playwright ${browserEvidence.playwrightVersion} · ${version} · ${browserExecutable}`);

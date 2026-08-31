@@ -42,11 +42,15 @@ for(const [name,width,height,features] of matrix){
   const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false},sessionId);const buf=Buffer.from(shot.data,'base64');assert.ok(buf.length>5000,`${name}: kuvakaappaus liian pieni`);fs.writeFileSync(path.join(outDir,`${name}.png`),buf);passed++;console.log(`✓ ${name} · ${width}×${height} · sha256 ${crypto.createHash('sha256').update(buf).digest('hex').slice(0,12)}…`);
 }
 const css=readAdminCss();
+const tokens=fs.readFileSync('ui-tokens.css','utf8');
 const manifest=fs.readFileSync('admin.css','utf8');
 const responsive=fs.readFileSync('admin-responsive.css','utf8');
 const componentFiles=ADMIN_STYLE_FILES.filter(f=>f!=='ui-tokens.css'&&f!=='admin-responsive.css');
 const componentCss=componentFiles.map(f=>fs.readFileSync(f,'utf8')).join('\n');
 assert.equal((componentCss.match(/@media/g)||[]).length,0,'Komponenttien media queryt kuuluvat responsive-omistajalle');
+for(const token of ['--shell-height-desktop','--workspace-bar-height-desktop','--shell-height-mobile','--workspace-bar-height-mobile','--mobile-dock-height','--mobile-action-height','--safe-area-bottom','--layer-shell','--layer-feedback'])assert.match(tokens,new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+':'),'Kanoninen UI-token puuttuu: '+token);
+assert.match(responsive,/--mobile-dock-h:var\(--mobile-dock-height\)/);
+assert.doesNotMatch(responsive,/:root\{--core-shell-height:(?:52|56|58)px/,'Mobiilishellin korkeus ei saa enää elää breakpointin raakaarvona');
 assert.ok((responsive.match(/@media/g)||[]).length>=12,'Responsive-kerroksen kanoniset breakpointit puuttuvat');
 assert.equal([...css.matchAll(/font-size\s*:\s*(\.?\d+(?:\.\d+)?)(rem|px)/g)].filter(m=>(m[2]==='rem'?Number(m[1])*16:Number(m[1]))<12).length,0,'Alle 12px suora font-size löytyi');
 assert.equal([...css.matchAll(/font\s*:[^;{}]*?(\.?\d+(?:\.\d+)?)(rem|px)\//g)].filter(m=>(m[2]==='rem'?Number(m[1])*16:Number(m[1]))<12).length,0,'Alle 12px font-shorthand löytyi');

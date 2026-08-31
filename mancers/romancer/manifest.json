@@ -1,0 +1,37 @@
+{
+  "format": "anomancer-mancer-package/v1",
+  "id": "romancer",
+  "templateId": "romancer/story-studio/1.0.0",
+  "name": "Romancer",
+  "version": "1.0.0",
+  "kind": "narrative-authoring",
+  "instancePolicy": "multiple",
+  "description": "Yksityinen tarina- ja käsikirjoitustyötila.",
+  "purpose": "Kehitä tarinaa ja proosaa ihmisen tekijyyden, kaanonin ja lopullisen soveltamisvallan alaisena.",
+  "constitutionId": "romancer/story-constitution/1.0.0",
+  "artifactStoreId": "mancer/package-artifact-store/v1",
+  "contentAdapterId": "romancer/story-project-json/v1",
+  "outputAdapterId": "romancer/human-approved-local-export/v1",
+  "uiProfileId": "mancer/schema-workbench-ui/v1",
+  "capabilities": [
+    "artifact.export",
+    "artifact.private.write",
+    "artifact.private.read",
+    "story.plan",
+    "story.world",
+    "story.character",
+    "story.plot",
+    "story.draft",
+    "story.continuity",
+    "story.voice",
+    "story.canon",
+    "story.export",
+    "runtime.manage",
+    "orchestra.custom",
+    "runs.read"
+  ],
+  "builtInOrchestraIds": [
+    "narramancer"
+  ],
+  "defaultOrchestraId": "narramancer"
+}

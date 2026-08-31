@@ -1,0 +1,136 @@
+{
+  "format": "anomancer-mancer-ui-schema/v1",
+  "renderer": "schema-workbench",
+  "navigation": {
+    "mobilePrimary": [
+      {
+        "id": "project",
+        "label": "Projekti",
+        "icon": "⌂",
+        "target": "section"
+      },
+      {
+        "id": "chapters",
+        "label": "Luvut",
+        "icon": "≡",
+        "target": "section"
+      },
+      {
+        "id": "continuity",
+        "label": "Jatkuvuus",
+        "icon": "◈",
+        "target": "section"
+      },
+      {
+        "id": "export",
+        "label": "Vienti",
+        "icon": "⇩",
+        "target": "section"
+      }
+    ],
+    "groups": [
+      {
+        "id": "build",
+        "label": "Rakenna",
+        "items": [
+          "project"
+        ]
+      },
+      {
+        "id": "write",
+        "label": "Kirjoita",
+        "items": [
+          "chapters",
+          "continuity"
+        ]
+      },
+      {
+        "id": "out",
+        "label": "Ulos",
+        "items": [
+          "export"
+        ]
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "project",
+      "label": "Projekti",
+      "kind": "form",
+      "fields": [
+        {
+          "path": "project.title",
+          "label": "Nimi",
+          "type": "text",
+          "maxLength": 220
+        },
+        {
+          "path": "project.premise",
+          "label": "Premissi",
+          "type": "textarea",
+          "rows": 8,
+          "maxLength": 20000
+        }
+      ]
+    },
+    {
+      "id": "chapters",
+      "label": "Luvut",
+      "kind": "collection",
+      "renderer": "document-preview",
+      "itemLabel": "Luku",
+      "fields": [
+        {
+          "path": "title",
+          "label": "Otsikko",
+          "type": "text",
+          "maxLength": 240
+        },
+        {
+          "path": "body",
+          "label": "Teksti",
+          "type": "textarea",
+          "rows": 18,
+          "maxLength": 180000
+        }
+      ]
+    },
+    {
+      "id": "continuity",
+      "label": "Jatkuvuus",
+      "kind": "form",
+      "renderer": "approval-review",
+      "fields": [
+        {
+          "path": "continuity.issues",
+          "label": "Avoimet jatkuvuusasiat",
+          "type": "textarea",
+          "rows": 8,
+          "maxLength": 30000
+        }
+      ]
+    },
+    {
+      "id": "export",
+      "label": "Vienti",
+      "kind": "form",
+      "renderer": "release-gate",
+      "notice": "Romancer ei vie tai julkaise mitään ilman ihmisen nimenomaista toimintoa.",
+      "fields": [
+        {
+          "path": "export.notes",
+          "label": "Vientimuistiinpanot",
+          "type": "textarea",
+          "rows": 8,
+          "maxLength": 30000
+        }
+      ]
+    }
+  ],
+  "rendererCapabilities": [
+    "document-preview",
+    "approval-review",
+    "release-gate"
+  ]
+}

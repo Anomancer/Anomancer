@@ -1,0 +1,32 @@
+{
+  "format": "anomancer-mancer-approval-model/v1",
+  "id": "romancer/author-human-gate/1.0.0",
+  "humanFinalAuthority": true,
+  "gates": [
+    {
+      "id": "proposal",
+      "label": "Tarinallinen ehdotus",
+      "requiresHuman": false
+    },
+    {
+      "id": "continuity-review",
+      "label": "Jatkuvuuden tarkistus",
+      "requiresHuman": false
+    },
+    {
+      "id": "canon-apply",
+      "label": "Kaanonin muuttaminen",
+      "requiresHuman": true
+    },
+    {
+      "id": "story-apply",
+      "label": "Tekstin soveltaminen",
+      "requiresHuman": true
+    },
+    {
+      "id": "export",
+      "label": "Vienti",
+      "requiresHuman": true
+    }
+  ]
+}

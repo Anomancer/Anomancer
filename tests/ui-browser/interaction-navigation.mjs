@@ -69,9 +69,9 @@ test('safe-area viewport ja juuri/public-peilaus kuuluvat P2-sopimukseen',()=>{
 
 test('P2-runtime kuuluu buildiin, PWA-kuoreen ja myöhäinen Mancer saa nykyisen workspace-kontekstin',()=>{
   assert.match(read('scripts/build-blog.mjs'),/admin-feedback\.js/);
-  assert.match(read('lahetyskone-sw.js'),/\/admin-feedback\.js/);
+  assert.match(read('lighthouse-sw.js'),/\/admin-feedback\.js/);
   assert.match(read('admin-mancer.js'),/if\(window\.anomancerWorkspaces\?\.current\?\.\(\)\)applyWorkspace/);
-  assert.match(read('INSTALL_TO_CURRENT.sh'),/PUBLIC_RUNTIME_ASSETS=/);
+  assert.match(read('INSTALL_TO_CURRENT.sh'),/rsync -a --delete/);
 });
 
 test('full-app admin story alkaa oikeasta kirjautumisesta ennen työtilapolkua',()=>{

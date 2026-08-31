@@ -1,11 +1,24 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "git": {
+    "deploymentEnabled": false
+  },
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
     {
       "source": "/admin",
-      "destination": "/lahetyskone",
+      "destination": "/lighthouse/workbench",
+      "permanent": false
+    },
+    {
+      "source": "/lahetyskone",
+      "destination": "/lighthouse/workbench",
+      "permanent": false
+    },
+    {
+      "source": "/lab",
+      "destination": "/lighthouse",
       "permanent": false
     }
   ],
@@ -48,7 +61,7 @@
       ]
     },
     {
-      "source": "/admin",
+      "source": "/api/lab/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -57,35 +70,6 @@
         {
           "key": "X-Robots-Tag",
           "value": "noindex, nofollow, noarchive"
-        },
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
-        },
-        {
-          "key": "Cross-Origin-Resource-Policy",
-          "value": "same-origin"
-        }
-      ]
-    },
-    {
-      "source": "/lahetyskone",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "private, no-store, max-age=0"
-        },
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow, noarchive"
-        },
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
-        },
-        {
-          "key": "Service-Worker-Allowed",
-          "value": "/lahetyskone"
         },
         {
           "key": "Cross-Origin-Resource-Policy",
@@ -157,6 +141,103 @@
           "value": "same-origin"
         }
       ]
+    },
+    {
+      "source": "/lighthouse",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store, max-age=0"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        }
+      ]
+    },
+    {
+      "source": "/lighthouse/login",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store, max-age=0"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+        },
+        {
+          "key": "Service-Worker-Allowed",
+          "value": "/lighthouse"
+        }
+      ]
+    },
+    {
+      "source": "/lighthouse/workbench",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store, max-age=0"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+        },
+        {
+          "key": "Service-Worker-Allowed",
+          "value": "/lighthouse"
+        }
+      ]
+    },
+    {
+      "source": "/lighthouse/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store, max-age=0"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        }
+      ]
+    },
+    {
+      "source": "/lighthouse-sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Service-Worker-Allowed",
+          "value": "/lighthouse"
+        }
+      ]
     }
   ],
   "outputDirectory": "public",
@@ -166,6 +247,40 @@
     },
     "api/admin/content.js": {
       "includeFiles": "mancers/**"
+    },
+    "api/lab/intent.js": {
+      "includeFiles": "mancers/**"
+    },
+    "api/lab/preview.js": {
+      "includeFiles": "mancers/**"
+    },
+    "api/public/dispatches.js": {
+      "includeFiles": "{content/**,entity-core.json,discovery-policy.json,site/pages/**,media/brand/**}"
+    },
+    "api/public/media.js": {
+      "includeFiles": "media/uploads/**"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/media/uploads/:path*",
+      "destination": "/api/public/media?path=media/uploads/:path*"
+    },
+    {
+      "source": "/lahetykset",
+      "destination": "/api/public/dispatches?lang=fi"
+    },
+    {
+      "source": "/lahetykset/:slug",
+      "destination": "/api/public/dispatches?lang=fi&slug=:slug"
+    },
+    {
+      "source": "/dispatches",
+      "destination": "/api/public/dispatches?lang=en"
+    },
+    {
+      "source": "/dispatches/:slug",
+      "destination": "/api/public/dispatches?lang=en&slug=:slug"
+    }
+  ]
 }

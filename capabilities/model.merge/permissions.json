@@ -1,0 +1,10 @@
+{
+  "format": "anomancer-capability-permissions/v1",
+  "capabilityId": "model.merge",
+  "writesExternalState": false,
+  "requiresHumanApproval": false,
+  "dataEgress": "configured-provider",
+  "allowedScopes": [
+    "model_outputs"
+  ]
+}

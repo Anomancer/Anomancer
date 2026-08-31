@@ -1,0 +1,7 @@
+{
+  "format": "anomancer-capability-adapter/v1",
+  "capabilityId": "source.bias.inspect",
+  "kind": "reasoning-proxy",
+  "executionCapability": "llm.reasoning",
+  "runtimeAdapter": null
+}
