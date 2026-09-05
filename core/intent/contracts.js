@@ -1,4 +1,5 @@
 import {normalizeWorkspaceContext} from '../workspace/contracts.js';
+import {normalizeSignal} from '../signal/signal-service.js';
 
 export const INTENT_FORMAT='anomancer-intent/v1';
 export const RESULT_FORMAT='anomancer-work-result/v1';
@@ -30,11 +31,12 @@ function cleanArray(value,{maxItems=8,maxLength=600}={}){
 }
 
 export function normalizeIntent(v={}){
+  const signal=v?.signal&&typeof v.signal==='object'?normalizeSignal(v.signal):null;
   const text=String(v.text||'').trim().slice(0,12000);
 
-  if(!text){
+  if(!text&&!signal){
     throw Object.assign(
-      new Error('Kerro mitä haluat saada aikaan.'),
+      new Error('Kerro mitä haluat saada aikaan tai anna käsiteltävä signaali.'),
       {statusCode:400,code:'LIGHTHOUSE_INTENT_EMPTY'}
     );
   }
@@ -47,6 +49,7 @@ export function normalizeIntent(v={}){
   return {
     format:INTENT_FORMAT,
     text,
+    signal,
     locale:String(v.locale||'fi').slice(0,16),
     history,
     workspace:normalizeWorkspaceContext(v.workspace||{})

@@ -1,3 +1,11 @@
+# v1.29.0 · Signal → Lähetys
+
+- Added normalized Signal input (`anomancer-signal/v1`).
+- Signals can become Lighthouse intents without bypassing authority or approval boundaries.
+- Supported signal types: user, URL, RSS, trend, GitHub, web and system.
+- Signal metadata is preserved in runtime output for traceability.
+- Existing capability routing and Task Graph execution remain the execution layer.
+
 # Changelog
 
 ## v1.28.0 · Orchestrator / Task Graph Runtime

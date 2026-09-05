@@ -21,3 +21,13 @@ The UI orchestrator maintains explicit stage state, checkpoints and resumable/de
 Orchestration organizes work. It does not grant publication, repository-write or production authority. Those remain separate approval-gated capabilities.
 
 Historical lineage incorporated from `CUSTOM_ORCHESTRAS.md` and `ORCHESTRATOR.md`.
+
+## Signal → Intent
+
+Lighthouse may receive a normalized `anomancer-signal/v1` object alongside or instead of free-form intent text. The signal layer only normalizes and contextualizes the incoming signal. It does not grant external authority, write access or publication rights.
+
+The resulting flow is:
+
+`signal → intent → problem model → capability route → task graph → bounded executor → evidence → approval → publish`
+
+Signal metadata is retained in runtime output so a later run explorer can show what triggered a task without exposing internal model reasoning.

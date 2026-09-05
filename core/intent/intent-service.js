@@ -16,6 +16,7 @@ import {
 import {createMachineSnapshot} from '../runtime/lighthouse-machine.js';
 import {buildCapabilityRoute} from '../runtime/capability-router.js';
 import {buildTaskGraph} from '../runtime/task-graph.js';
+import {signalToIntent,signalIntentMetadata} from '../signal/signal-service.js';
 import {MUTATION_PROPOSAL_SYSTEM,MUTATION_RUNTIME_FORMAT,normalizeMutationProposal} from '../mutation/proposal.js';
 import {
   createCoreSnapshot,
@@ -133,13 +134,22 @@ function routeForIntent(intent,{availability={}}={}){
 }
 
 export function previewIntent(input,{availability={}}={}){
-  const intent=normalizeIntent(input);
+  const rawIntent=normalizeIntent(input);
+  const intent=rawIntent.signal
+    ?normalizeIntent(signalToIntent(rawIntent.signal,{
+        text:rawIntent.text,
+        locale:rawIntent.locale,
+        history:rawIntent.history,
+        workspace:rawIntent.workspace
+      }))
+    :rawIntent;
   const route=routeForIntent(intent,{availability});
 
   return {
     intent:{
       format:intent.format,
-      locale:intent.locale
+      locale:intent.locale,
+      signal:rawIntent.signal?signalIntentMetadata(rawIntent.signal):null
     },
     problem:route.problem,
     capabilities:route.capabilities,
@@ -331,7 +341,15 @@ function retryableWorkError(error){
 }
 
 export async function runIntent(input,{reasoner,availability={},capabilityExecutor}={}){
-  const intent=normalizeIntent(input);
+  const rawIntent=normalizeIntent(input);
+  const intent=rawIntent.signal
+    ?normalizeIntent(signalToIntent(rawIntent.signal,{
+        text:rawIntent.text,
+        locale:rawIntent.locale,
+        history:rawIntent.history,
+        workspace:rawIntent.workspace
+      }))
+    :rawIntent;
 
   if(typeof reasoner!=='function'){
     throw Object.assign(
@@ -521,7 +539,7 @@ UUSINTAYRITYS: Palauta vain pyydetty JSON-rakenne. Pidä vastaus tiiviinä ja v�
   });
 
   return {
-    intent,
+    intent:{...intent,signal:rawIntent.signal?signalIntentMetadata(rawIntent.signal):null},
     result,
     runtime:{
       capability:'llm.reasoning',
@@ -530,6 +548,7 @@ UUSINTAYRITYS: Palauta vain pyydetty JSON-rakenne. Pidä vastaus tiiviinä ja v�
       durationMs,
       searchedWeb:responseMeta.searchedWeb===true,
       route:{
+        signal:rawIntent.signal?signalIntentMetadata(rawIntent.signal):null,
         problem:route.problem,
         capabilities:route.capabilities,
         recommendation:route.recommendation,
