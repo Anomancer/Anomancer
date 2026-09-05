@@ -583,3 +583,44 @@ body::before{
   .runtime-tech-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(prefers-reduced-motion:reduce){.runtime-raccoon[data-state="WORKING"],.runtime-raccoon[data-state="WAITING"],.runtime-raccoon[data-state="ALERT"]{animation:none}.runtime-progress>span{transition:none}}
+
+/* 1.32.0 · One Room, One Machine */
+.one-room-shell .lighthouse-mode-switch{display:none}
+.one-room-heading{
+  width:min(100%,560px);
+  margin:0 auto 24px;
+  display:flex;
+  align-items:baseline;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+}
+.one-room-kicker{
+  color:#f1e9f6;
+  font-size:.72rem;
+  font-weight:800;
+}
+.one-room-note{
+  color:#9e91aa;
+  font-size:.68rem;
+  letter-spacing:.08em;
+  text-transform:none;
+}
+.one-room-shell .work-nav-modes a:first-child{display:none}
+.one-room-shell .work-nav-modes a.workbench-handoff{
+  opacity:.78;
+  font-size:var(--lh-font-meta);
+}
+.one-room-shell [data-one-room-secondary]{
+  scroll-margin-top:20px;
+}
+.one-room-shell .door-dock{
+  border-color:rgba(190,143,251,.13);
+}
+.one-room-shell .lighthouse-dock .door-dock-button:not(#doorNew){opacity:.86}
+@media(max-width:560px){
+  .one-room-heading{margin-bottom:18px;gap:7px}
+  .one-room-note{font-size:.62rem;text-align:center}
+}

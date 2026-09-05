@@ -10,7 +10,7 @@
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="stylesheet" href="/lighthouse/lab.css">
 </head>
-<body>
+<body class="one-room-shell">
   <main id="door" class="door">
     <section class="door-panel" aria-labelledby="doorTitle">
       <div class="brand-lockup lighthouse-brand-lockup" aria-label="Lighthouse">
@@ -18,10 +18,10 @@
         <h1 id="doorTitle" class="sr-only">Lighthouse</h1>
       </div>
 
-      <nav class="lighthouse-mode-switch" aria-label="Lighthouse-tila">
-        <a class="mode-chip active" href="/lighthouse" aria-current="page"><span><strong>Kevyt tila</strong><small>Kerro tavoite</small></span></a>
-        <a class="mode-chip" href="/lighthouse/workbench"><span><strong>Työpöytä</strong><small>Hallitut työtilat</small></span></a>
-      </nav>
+      <div class="one-room-heading" aria-label="Lighthouse-työtila">
+        <span class="one-room-kicker">LÄHETYSKONE</span>
+        <span class="one-room-note">Yksi huone. Yksi aktiivinen lähetys.</span>
+      </div>
 
       <p class="lead lighthouse-question">Mitä haluat saada aikaan?</p>
       <div class="lead-diamond" aria-hidden="true"></div>
@@ -334,7 +334,7 @@
         </div>
       </details>
 
-      <details id="workspaceDetails" class="workspace-surface">
+      <details id="workspaceDetails" class="workspace-surface" data-one-room-secondary>
         <summary>
           <span>Työtila</span>
           <span class="workspace-depth">D3 · TYÖTILA</span>
@@ -410,7 +410,7 @@
         </div>
       </details>
 
-      <details id="orchestraDetails" class="orchestra-surface">
+      <details id="orchestraDetails" class="orchestra-surface" data-one-room-secondary>
         <summary>
           <span>Miten työ järjestettiin?</span>
           <span class="orchestra-depth">D4 · ORKESTRA</span>
@@ -473,7 +473,7 @@
         </div>
       </details>
 
-      <details id="machineDetails" class="machine-surface">
+      <details id="machineDetails" class="machine-surface" data-one-room-secondary>
         <summary>
           <span>Konehuone</span>
           <span class="machine-depth">D5 · KONE</span>
@@ -560,7 +560,7 @@
         </div>
       </details>
 
-      <details id="coreDetails" class="core-surface">
+      <details id="coreDetails" class="core-surface" data-one-room-secondary>
         <summary>
           <span>Perusta</span>
           <span class="core-depth">D6 · CORE</span>

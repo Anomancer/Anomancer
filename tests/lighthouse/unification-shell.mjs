@@ -22,7 +22,7 @@ const packageManifest=json('mancers/toimituskone/manifest.json');
 const build=read('scripts/build-lighthouse.mjs');
 const adminRoute=read('server/admin-routes/core.js');
 
-assert.match(pkg.version,/^1\.27\./);
+assert.match(pkg.version,/^1\.32\./);
 assert.equal(lighthouseAppAllowed({VERCEL_ENV:'production'}),true);
 assert.equal(lighthouseLabAllowed({VERCEL_ENV:'preview'}),true);
 assert.equal(lighthouseAppAllowed({VERCEL_ENV:'production',ANOMANCER_LIGHTHOUSE_APP:'0'}),false);
@@ -49,7 +49,8 @@ assert.equal(manifest.start_url,'/lighthouse');
 assert.equal(manifest.scope,'/lighthouse');
 assert.equal(manifest.theme_color,'#160d26');
 
-assert.match(light,/lighthouse-mode-switch/);
+assert.match(light,/class="one-room-shell"/);
+assert.doesNotMatch(light,/class="lighthouse-mode-switch"/);
 assert.match(light,/href="\/lighthouse\/workbench"/);
 assert.match(light,/Kirjaudu Lighthouseen/);
 assert.match(light,/Mikä Lighthouse on\?/);
@@ -81,14 +82,14 @@ assert.match(adminRoute,/filter\(userVisiblePackage\)/);
 assert.match(adminRoute,/item\?\.manifest\?\.id!==['"]toimituskone['"]/);
 
 assert.match(build,/public['"],['"]lighthouse\.html|LIGHTHOUSE_HTML/);
-assert.match(build,/M2 · Lighthouse Unification/);
+assert.match(build,/M3 · One Room, One Machine/);
 assert.match(build,/id:'anomancer'/);
 assert.match(build,/filter\(pkg=>pkg\.manifest\.id!==['"]toimituskone['"]\)/);
 
 if(fs.existsSync('public/lighthouse.html')){
   const built=read('public/lighthouse.html');
   assert.doesNotMatch(built,/__LIGHTHOUSE_BOOTSTRAP__/);
-  assert.match(built,/M2 · Lighthouse Unification/);
+  assert.match(built,/M3 · One Room, One Machine/);
 }
 
 console.log('✓ Lighthouse 1.24 unification · routes, modes, taxonomy, privacy and compatibility boundary');

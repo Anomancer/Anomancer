@@ -1,6 +1,6 @@
 {
   "name": "anomancer-lahetyskone",
-  "version": "1.31.0",
+  "version": "1.32.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -108,7 +108,8 @@
     "visual:workbench:verify": "ANOMANCER_VISUAL_BASELINE_MODE=verify node tests/full-app-e2e/admin-workspace-story.mjs",
     "test:github-storage": "node tests/core-runtime/github-storage-config.mjs",
     "test:signal": "node tests/core-runtime/signal-intent.mjs",
-    "test:evidence-claim-graph": "node tests/content-editorial/evidence-claim-graph.mjs"
+    "test:evidence-claim-graph": "node tests/content-editorial/evidence-claim-graph.mjs",
+    "test:lighthouse:one-room": "node tests/lighthouse/one-room.mjs"
   },
   "devDependencies": {
     "axe-core": "4.10.3",

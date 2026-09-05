@@ -38,10 +38,10 @@ const bootstrap={
   format:'anomancer-lighthouse-bootstrap/v1',
   lighthouseVersion:String(packageJson.version||''),
   coreVersion:String(CORE_VERSION||''),
-  milestone:'M2 · Lighthouse Unification',
+  milestone:'M3 · One Room, One Machine',
   capabilities:listCapabilities(),
   concepts:{
-    lighthouse:'Sovelluskuori. Kevyt tila reitittää työn, Työpöytä avaa hallitun työympäristön.',
+    lighthouse:'Yksi Lighthouse-työtila: signaali, ajo, evidenssi, hyväksyntä ja julkaisu samassa huoneessa.',
     mancer:'Rajattu työtila tai työtilatyyppi tiettyä tehtäväkenttää varten.',
     orchestra:'Työnkulku, joka järjestää agentit, kyvykkyydet, tarkistukset ja ihmisen hyväksynnät.',
     agent:'Rajattu rooli, jolla on oma tehtävä, luku- ja kirjoitusrajat sekä työkaluluvat.',
