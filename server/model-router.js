@@ -12,6 +12,7 @@ export const MODEL_PROVIDER_REGISTRY=Object.freeze([
   {id:'openai',label:'OpenAI',kind:'responses-api',supports:['json','web_search'],keyEnv:'OPENAI_API_KEY'},
   {id:'anthropic',label:'Anthropic',kind:'messages-api',supports:['json'],keyEnv:'ANTHROPIC_API_KEY'},
   {id:'gemini',label:'Google Gemini',kind:'generate-content',supports:['json','web_search'],keyEnv:'GEMINI_API_KEY'},
+  {id:'qwen-local',label:'Qwen Local',kind:'openai-compatible-local',supports:['json'],keyEnv:null},
 ]);
 
 const providerById=new Map(MODEL_PROVIDER_REGISTRY.map(item=>[item.id,item]));
@@ -31,6 +32,9 @@ function targetDefinitions(){
     {id:'gemini.research',provider:'gemini',route:'research',model:modelEnv('GEMINI_RESEARCH_MODEL','GEMINI_MODEL'),capabilities:['json','web_search'],configured:Boolean(env('GEMINI_API_KEY')&&modelEnv('GEMINI_RESEARCH_MODEL','GEMINI_MODEL'))},
     {id:'gemini.writer',provider:'gemini',route:'writer',model:modelEnv('GEMINI_WRITER_MODEL','GEMINI_MODEL'),capabilities:['json'],configured:Boolean(env('GEMINI_API_KEY')&&modelEnv('GEMINI_WRITER_MODEL','GEMINI_MODEL'))},
     {id:'gemini.critic',provider:'gemini',route:'critic',model:modelEnv('GEMINI_CRITIC_MODEL','GEMINI_MODEL'),capabilities:['json'],configured:Boolean(env('GEMINI_API_KEY')&&modelEnv('GEMINI_CRITIC_MODEL','GEMINI_MODEL'))},
+    {id:'qwen-local.research',provider:'qwen-local',route:'research',model:modelEnv('QWEN_LOCAL_RESEARCH_MODEL','QWEN_LOCAL_MODEL')||'qwen3',capabilities:['json'],configured:Boolean(env('QWEN_LOCAL_BASE_URL'))},
+    {id:'qwen-local.writer',provider:'qwen-local',route:'writer',model:modelEnv('QWEN_LOCAL_WRITER_MODEL','QWEN_LOCAL_MODEL')||'qwen3',capabilities:['json'],configured:Boolean(env('QWEN_LOCAL_BASE_URL'))},
+    {id:'qwen-local.critic',provider:'qwen-local',route:'critic',model:modelEnv('QWEN_LOCAL_CRITIC_MODEL','QWEN_LOCAL_MODEL')||'qwen3',capabilities:['json'],configured:Boolean(env('QWEN_LOCAL_BASE_URL'))},
   ].map(item=>Object.freeze(item));
 }
 
@@ -135,11 +139,23 @@ async function callGemini({target,system,user,maxTokens,schema,webSearch=false,s
   return {result,meta:{provider:'gemini',model:data?.modelVersion||target.model,usage,searchedWeb:webSearch,structured:parsed.ok,outputTokens:usage.output_tokens,reasoningTokens:Number(raw.thoughtsTokenCount||0),maxOutputTokens:maxTokens,finishReason:finish,runId:data?.responseId||`gemini-${crypto.randomUUID()}`}};
 }
 
+async function callQwenLocal({target,system,user,maxTokens,signal}){
+  const base=env('QWEN_LOCAL_BASE_URL')||'http://127.0.0.1:11434/v1';
+  const body={model:target.model,messages:[{role:'system',content:system},{role:'user',content:user}],temperature:0.2,max_tokens:maxTokens,response_format:{type:'json_object'}};
+  const data=await apiFetch(`${base.replace(/\/$/,'')}/chat/completions`,{provider:'Qwen Local',signal,body});
+  const choice=data?.choices?.[0];
+  const visible=clean(choice?.message?.content);
+  const parsed=parseJsonText(visible);
+  const usage=data?.usage||{};
+  return {result:parsed.value,meta:{provider:'qwen-local',model:data?.model||target.model,usage,modelTarget:target.id,searchedWeb:false,structured:true,outputTokens:Number(usage.completion_tokens||0),reasoningTokens:Number(usage.completion_tokens_details?.reasoning_tokens||0),maxOutputTokens:maxTokens,finishReason:choice?.finish_reason||'',runId:data?.id||`qwen-local-${crypto.randomUUID()}`}};
+}
+
 async function callTarget(target,{system,user,schema,maxTokens,thinking=true,webSearch=false,signal}){
   if(target.provider==='deepseek')return webSearch?deepseekWebSearchJson({system,user,schema,maxTokens,signal}):deepseekChatJson({system,user,model:target.model,maxTokens,thinking,signal});
   if(target.provider==='openai')return callOpenAI({target,system,user,maxTokens,schema,webSearch,signal});
   if(target.provider==='anthropic'){if(webSearch)throw Object.assign(new Error('Anthropic-target ei tue tämän Coren web-search-reittiä.'),{statusCode:503,code:'MODEL_CAPABILITY_MISMATCH',retryable:true});return callAnthropic({target,system,user,maxTokens,signal});}
   if(target.provider==='gemini')return callGemini({target,system,user,maxTokens,schema,webSearch,signal});
+  if(target.provider==='qwen-local'){if(webSearch)throw Object.assign(new Error('Qwen Local ei tue tämän reitin web-searchia.'),{statusCode:503,code:'MODEL_CAPABILITY_MISMATCH',retryable:true});return callQwenLocal({target,system,user,maxTokens,signal});}
   throw Object.assign(new Error('Tuntematon malliprovider.'),{statusCode:500,code:'MODEL_PROVIDER_UNKNOWN',retryable:false});
 }
 

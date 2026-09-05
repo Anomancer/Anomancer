@@ -21,8 +21,8 @@ export const digest=value=>crypto.createHash('sha256').update(stable(value)).dig
 
 
 const RAW_MODEL_ROUTES=[
-  {id:'research',label:'Research route',defaultTarget:'deepseek.research',allowedTargets:['deepseek.research','openai.research','gemini.research'],requires:['json','web_search']},
-  {id:'writer',label:'Writer route',defaultTarget:'deepseek.writer',allowedTargets:['deepseek.writer','openai.writer','anthropic.writer','gemini.writer'],requires:['json']},
+  {id:'research',label:'Research route',defaultTarget:'deepseek.research',allowedTargets:['deepseek.research','openai.research','gemini.research','qwen-local.research'],requires:['json','web_search']},
+  {id:'writer',label:'Writer route',defaultTarget:'deepseek.writer',allowedTargets:['deepseek.writer','openai.writer','anthropic.writer','gemini.writer','qwen-local.writer'],requires:['json']},
   {id:'critic',label:'Critic route',defaultTarget:'deepseek.critic',allowedTargets:['deepseek.critic','openai.critic','anthropic.critic','gemini.critic'],requires:['json']}
 ];
 function finalizeModelRoute(input){const route={format:MODEL_ROUTE_FORMAT,coreVersion:CORE_VERSION,...clone(input)};route.routeHash=digest(route);return deepFreeze(route);}

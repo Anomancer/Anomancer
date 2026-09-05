@@ -1,3 +1,10 @@
+## 1.30.0 - Local Model Layer
+
+- Added `qwen-local` Model Router targets for research, writer, and critic routes.
+- Added OpenAI-compatible local `/v1/chat/completions` transport.
+- Added environment-based local model configuration.
+- Preserved human approval as the publication boundary.
+
 # v1.29.0 · Signal → Lähetys
 
 - Added normalized Signal input (`anomancer-signal/v1`).
