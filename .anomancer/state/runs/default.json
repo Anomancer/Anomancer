@@ -1,0 +1,218 @@
+{
+  "format": "anomancer-run-store/v2",
+  "coreVersion": "1.18.7",
+  "workspaceId": "default",
+  "revision": 1,
+  "updatedAt": "2026-09-05T18:01:10.100Z",
+  "chainHead": "GENESIS",
+  "runs": [
+    {
+      "format": "anomancer-run-record/v2",
+      "coreVersion": "1.18.7",
+      "workspaceId": "default",
+      "id": "6d13a1bd-7514-4a9b-aba8-548f2b47cb11",
+      "orchestraRunId": "6d13a1bd-7514-4a9b-aba8-548f2b47cb11",
+      "orchestra": {
+        "id": "editorial",
+        "name": "Anomancer Editorial",
+        "orchestraHash": "4ea599224d820827847b72ceb3f97b88c710c0756d78afc4fcc8ae360a254656"
+      },
+      "status": "checkpoint",
+      "humanApproval": {
+        "required": true,
+        "status": "pending",
+        "appliedAt": ""
+      },
+      "startedAt": "2026-09-05T17:53:28.813Z",
+      "finishedAt": "",
+      "updatedAt": "2026-09-05T18:01:10.100Z",
+      "degradedStages": [],
+      "disabledStages": [],
+      "error": {
+        "code": "AGENT_HTTP_ERROR",
+        "message": "HTTP 504"
+      },
+      "receipts": [
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-cfa34f87f8311f071c8a",
+          "workspaceId": "default",
+          "orchestraRunId": "6d13a1bd-7514-4a9b-aba8-548f2b47cb11",
+          "stageIndex": 0,
+          "agent": {
+            "id": "source",
+            "label": "Lähdeagentti",
+            "version": "1.0.0",
+            "contractHash": "e7ab9b185c2b2518e01247098029b0adc172fe68c734900df10ceab910a618c4",
+            "role": "research-source-scout"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "research",
+            "target": "deepseek.research"
+          },
+          "routing": {
+            "route": "research",
+            "requestedTarget": "deepseek.research",
+            "selectedTarget": "deepseek.research",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.research",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 25000,
+            "modelTarget": "deepseek.research"
+          },
+          "usage": {
+            "inputTokens": 75130,
+            "outputTokens": 6076,
+            "totalTokens": 81206,
+            "reasoningTokens": 2292,
+            "maxOutputTokens": 25000,
+            "costEuro": null
+          },
+          "tools": [
+            "web.search"
+          ],
+          "toolPolicy": [
+            {
+              "format": "anomancer-tool-policy/v1",
+              "decisionId": "policy-6e3aa5434891d142341a",
+              "policyHash": "5a13255b07b63c1df92a8cbd0bb9e253060b6824000bf81d66a1338db9336072",
+              "agentId": "source",
+              "toolId": "web.search",
+              "outcome": "allow",
+              "reason": "CONTRACT_ALLOW",
+              "risk": "medium",
+              "kind": "external-read",
+              "decidedAt": "2026-09-05T17:53:29.634Z",
+              "requestContext": {
+                "workspaceId": "default",
+                "orchestraRunId": "6d13a1bd-7514-4a9b-aba8-548f2b47cb11",
+                "stageIndex": 0
+              }
+            }
+          ],
+          "status": "completed",
+          "inputHash": "c0fea9069f77d38f7c3d0cbc2695379ae366da5a3ba4449ecf093eaefd10dd7f",
+          "outputHash": "0b7c22c58ecc813bf814948238ed821d84b7fbdf64cc0498e7fe058edf5ccfbf",
+          "startedAt": "2026-09-05T17:53:29.634Z",
+          "finishedAt": "2026-09-05T17:54:32.887Z",
+          "durationMs": 63253,
+          "humanApprovalRequired": true
+        },
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-291c070c6b41d6e2a570",
+          "workspaceId": "default",
+          "orchestraRunId": "6d13a1bd-7514-4a9b-aba8-548f2b47cb11",
+          "stageIndex": 1,
+          "agent": {
+            "id": "structure",
+            "label": "Rakenneagentti",
+            "version": "1.0.0",
+            "contractHash": "0598309a18351b827038e268fe623e47d2fae00fb3685d499141a3c67cd05456",
+            "role": "editorial-structure"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "writer",
+            "target": "deepseek.writer"
+          },
+          "routing": {
+            "route": "writer",
+            "requestedTarget": "deepseek.writer",
+            "selectedTarget": "deepseek.writer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.writer",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 24000,
+            "modelTarget": "deepseek.writer"
+          },
+          "usage": {
+            "inputTokens": 8729,
+            "outputTokens": 10072,
+            "totalTokens": 18801,
+            "reasoningTokens": 7824,
+            "maxOutputTokens": 24000,
+            "costEuro": null
+          },
+          "tools": [],
+          "toolPolicy": [],
+          "status": "completed",
+          "inputHash": "23a26c5f13d79c97a32899ebdad7ba27bd30396830f3ad12510dc67dc3f42593",
+          "outputHash": "80e5cf6f39789e143e12b8d7488c20ac20c4991ce525bfd9a51e2b75f57c6317",
+          "startedAt": "2026-09-05T17:54:33.966Z",
+          "finishedAt": "2026-09-05T17:56:06.843Z",
+          "durationMs": 92877,
+          "humanApprovalRequired": true
+        }
+      ],
+      "usage": {
+        "runs": 0,
+        "inputTokens": 83859,
+        "outputTokens": 16148,
+        "totalTokens": 100007,
+        "reasoningTokens": 10116,
+        "durationMs": 156130,
+        "estimatedCostEuro": 0,
+        "pricedReceipts": 0,
+        "fallbacks": 0,
+        "toolAllows": 1,
+        "toolDenies": 0,
+        "toolHumanRequired": 0,
+        "providers": {
+          "deepseek": 100007
+        },
+        "agents": {
+          "source": 81206,
+          "structure": 18801
+        },
+        "orchestras": {}
+      },
+      "receiptCount": 2,
+      "previousRunHash": "",
+      "runHash": "",
+      "counted": false
+    }
+  ],
+  "lifetime": {
+    "runs": 0,
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "totalTokens": 0,
+    "reasoningTokens": 0,
+    "durationMs": 0,
+    "estimatedCostEuro": 0,
+    "pricedReceipts": 0,
+    "fallbacks": 0,
+    "toolAllows": 0,
+    "toolDenies": 0,
+    "toolHumanRequired": 0,
+    "providers": {},
+    "agents": {},
+    "orchestras": {}
+  }
+}
