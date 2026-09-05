@@ -30,7 +30,7 @@ test('Työpöytähandoff ei ole enää päätilan identiteetti',()=>{
 });
 
 test('Version ja milestone ovat One Room -linjassa',()=>{
-  assert.match(pkg.version,/^1\.32\./);
+  assert.match(pkg.version,/^1\.33\./);
   assert.match(build,/M3 · One Room, One Machine/);
 });
 

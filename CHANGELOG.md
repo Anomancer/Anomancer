@@ -1,3 +1,8 @@
+## 1.33.0 · Production Hardening
+
+- Added bounded runtime recovery, checkpoint envelopes, deterministic idempotency keys, failure classification, and tamper-evident audit chains.
+- Recovery never crosses the human approval boundary.
+
 ## 1.31.0 - Evidence / Claim Graph
 
 - Added first-class Evidence / Claim Graph runtime objects for published articles.

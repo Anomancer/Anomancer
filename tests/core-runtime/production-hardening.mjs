@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import { classifyRuntimeFailure,createIdempotencyKey,createCheckpoint,buildRecoveryPlan,appendAuditEvent,verifyAuditChain,auditEnvelope } from '../../core/runtime/production-hardening.js';
+let ok=0;const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`)};
+test('transient-virhe on retryable',()=>{assert.equal(classifyRuntimeFailure({code:'TASK_TIMEOUT'}).class,'transient');assert.equal(classifyRuntimeFailure({code:'TASK_TIMEOUT'}).retryable,true)});
+test('permanent-virhe blokkaa automaattisen palautuksen',()=>{assert.equal(classifyRuntimeFailure({code:'VALIDATION_FAILED'}).class,'permanent');assert.equal(classifyRuntimeFailure({code:'VALIDATION_FAILED'}).retryable,false)});
+test('cancelled ei muutu retry-loopiksi',()=>{assert.equal(classifyRuntimeFailure({code:'CANCELLED'}).class,'cancelled')});
+test('idempotency-avain on deterministinen',()=>{assert.equal(createIdempotencyKey('r1','task-a',2),createIdempotencyKey('r1','task-a',2))});
+test('checkpoint sisältää vain rajatun runtime-stateen',()=>{const cp=createCheckpoint({runId:'r1',completed:['a'],outputs:{a:'ok'},metas:{a:{durationMs:1}},failedStage:'b'});assert.equal(cp.failedStage,'b');assert.deepEqual(cp.completed,['a'])});
+test('recovery-plan palauttaa retry-or-resume',()=>{const cp=createCheckpoint({runId:'r1',failedStage:'b'});assert.equal(buildRecoveryPlan(cp,[{code:'TASK_TIMEOUT'}]).action,'retry-or-resume')});
+test('permanent failure vaatii human reviewin',()=>{const cp=createCheckpoint({runId:'r1',failedStage:'b'});assert.equal(buildRecoveryPlan(cp,[{code:'VALIDATION_FAILED'}]).action,'human-review')});
+test('audit chain säilyttää järjestyksen ja hashin',()=>{let chain=[];chain=appendAuditEvent(chain,{runId:'r1',type:'RUN_STARTED',status:'working'});chain=appendAuditEvent(chain,{runId:'r1',type:'STAGE_COMPLETED',taskId:'b',status:'completed'});assert.equal(verifyAuditChain(chain).valid,true);chain[1].status='tampered';assert.equal(verifyAuditChain(chain).valid,false)});
+test('audit envelope ei myönnä publish-oikeutta',()=>{const text=auditEnvelope({runId:'r1',events:[{type:'RUN_COMPLETED',status:'completed'}]});assert.match(text,/'publicationApproved':?false|publicationApproved\\?"?:false/)});
+console.log(`\n${ok}/${ok} PRODUCTION HARDENING -testiä läpi`);
