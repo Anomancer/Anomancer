@@ -14,9 +14,12 @@
     }
   },
   "privatePaths": [
+    "/lighthouse",
+    "/lighthouse/",
     "/admin",
     "/lahetyskone",
-    "/api/admin/"
+    "/api/admin/",
+    "/api/lab/"
   ],
   "machineEndpoints": {
     "sitemap": "/sitemap.xml",

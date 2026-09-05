@@ -20,7 +20,7 @@ function clear(){
   if(!host)return;
   host.hidden=true;
   host.textContent='';
-  host.dataset.tone='';
+  host.dataset.tone='';host.dataset.state='neutral';
   lastKey='';
 }
 function show(message,{tone='info',source='',timeout}={}){
@@ -28,11 +28,12 @@ function show(message,{tone='info',source='',timeout}={}){
   const text=cleanMessage(message);
   if(!text){clear();return;}
   const normalized=toneName(tone),key=`${normalized}|${source}|${text}`;
+  if(normalized==='ok'){clear();return;}
   if(key===lastKey&&host.hidden===false)return;
   lastKey=key;
   clearTimeout(dismissTimer);
   host.hidden=false;
-  host.dataset.tone=normalized;
+  host.dataset.tone=normalized;host.dataset.state=normalized==='ok'?'success':normalized==='warning'?'warning':normalized==='error'?'error':'neutral';
   host.replaceChildren();
   const body=document.createElement('div');
   body.className='system-feedback-body';

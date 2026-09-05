@@ -1,8 +1,8 @@
 import { getSession, requireCsrf } from '../auth.js';
 import { json, readJson, sameOrigin } from '../http.js';
-import { publicCoreSnapshot } from '../core-registry.js';
+import { CORE_VERSION, publicCoreSnapshot } from '../core-registry.js';
 import { modelRouterStatus } from '../model-router.js';
-import { listWorkspaces, upsertWorkspace, archiveWorkspace, workspaceStoreStatus } from '../workspace-store.js';
+import { DEFAULT_WORKSPACE, WORKSPACE_STORE_FORMAT, listWorkspaces, upsertWorkspace, archiveWorkspace, workspaceStoreStatus } from '../workspace-store.js';
 import { listWorkspaceTemplates, listConstitutions } from '../workspace-templates.js';
 import { artifactBoundaryForWorkspace } from '../artifact-boundary.js';
 import { listMancerPackageHealth } from '../mancer-registry.js';
@@ -18,7 +18,15 @@ function resourceOf(req){
   catch{return 'core';}
 }
 function publicWorkspaceState(state){return{format:state.format,coreVersion:state.coreVersion,revision:state.revision,updatedAt:state.updatedAt};}
-function workspacePayload(data){return{builtins:data.builtins,custom:data.custom,all:data.all,state:publicWorkspaceState(data.state),store:workspaceStoreStatus(),templates:listWorkspaceTemplates(),constitutions:listConstitutions(),artifactBoundaries:Object.fromEntries(data.all.map(workspace=>[workspace.id,artifactBoundaryForWorkspace(workspace)])),mancerPackages:listMancerPackageHealth()};}
+function userVisibleTemplate(item){return item?.mancerPackage?.id!=='toimituskone';}
+function userVisiblePackage(item){return item?.manifest?.id!=='toimituskone';}
+function workspacePayload(data){return{
+  builtins:data.builtins,custom:data.custom,all:data.all,state:publicWorkspaceState(data.state),store:workspaceStoreStatus(),
+  templates:listWorkspaceTemplates().filter(userVisibleTemplate),
+  constitutions:listConstitutions(),
+  artifactBoundaries:Object.fromEntries(data.all.map(workspace=>[workspace.id,artifactBoundaryForWorkspace(workspace)])),
+  mancerPackages:listMancerPackageHealth().filter(userVisiblePackage)
+};}
 
 async function workspaceHandler(req,res){
   if(req.method==='GET'){
@@ -26,7 +34,11 @@ async function workspaceHandler(req,res){
     try{
       const data=await listWorkspaces({includeArchived:true});
       return json(res,200,{ok:true,...workspacePayload(data)});
-    }catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'WORKSPACE_STORE',message:e.message,store:workspaceStoreStatus()});}
+    }catch(e){
+      console.error('workspace store read degraded; serving built-in workspace fallback',e);
+      const builtin=structuredClone(DEFAULT_WORKSPACE),fallback={builtins:[builtin],custom:[],all:[builtin],state:{format:WORKSPACE_STORE_FORMAT,coreVersion:CORE_VERSION,revision:0,updatedAt:''}};
+      return json(res,200,{ok:true,degraded:true,degradedReason:e.code||'WORKSPACE_STORE',...workspacePayload(fallback)});
+    }
   }
   if(req.method==='POST'||req.method==='PUT'){
     if(!auth(req,res,true))return;

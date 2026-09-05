@@ -1,0 +1,16 @@
+{
+  "format": "anomancer-capability-contract/v1",
+  "capabilityId": "source.search",
+  "summary": "Etsii julkisesta verkosta tehtävään liittyviä lähde-ehdokkaita.",
+  "inputs": [
+    "user_text"
+  ],
+  "outputs": [
+    "candidate_sources"
+  ],
+  "guarantees": [
+    "Ei väitä käyttäneensä lähteitä tai dataa joita runtime ei toimittanut.",
+    "Ei suorita ulkoisia sivuvaikutuksia.",
+    "Pitää olennaisen epävarmuuden näkyvänä."
+  ]
+}

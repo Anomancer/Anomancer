@@ -1,0 +1,300 @@
+/* LIGHTHOUSE D6 CORE START */
+
+.core-surface{
+  border-top:1px solid var(--lh-border-panel);
+  margin-top:22px;
+  padding-top:18px;
+  color:#9c93a1;
+}
+
+.core-surface>summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  cursor:pointer;
+  color:var(--lh-text-muted);
+  font-size:.84rem;
+}
+
+.core-depth{
+  color:#6c5778;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.13em;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.core-content{
+  margin-top:20px;
+  padding-top:20px;
+  border-top:1px solid var(--lh-border-subtle);
+}
+
+.core-authority{
+  padding:0 0 22px;
+}
+
+.core-kicker{
+  margin:0 0 7px;
+  color:#725c7e;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.12em;
+  font-weight:700;
+}
+
+.core-authority-line{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.core-authority-line strong{
+  color:#dad7dc;
+  font-size:1.05rem;
+  font-weight:650;
+}
+
+.core-authority>p:last-child{
+  max-width:68ch;
+  margin:8px 0 0;
+  color:#846a93;
+  font-size:.82rem;
+  line-height:1.52;
+}
+
+.core-badge{
+  flex:none;
+  border:1px solid #3e3244;
+  border-radius:999px;
+  background:var(--lh-bg-field);
+  color:var(--lh-text-muted);
+  padding:5px 9px;
+  font-size:var(--lh-font-meta);
+}
+
+.core-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 28px;
+  border-top:1px solid var(--lh-border-subtle);
+}
+
+.core-section{
+  padding:20px 0;
+  border-top:1px solid var(--lh-border-subtle);
+}
+
+.core-grid .core-section{
+  border-top:0;
+}
+
+.core-section-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:12px;
+}
+
+.core-section-heading h2{
+  margin:0;
+  color:#938998;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.core-status-list,
+.core-contracts,
+.core-trace{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.core-status-list li{
+  padding:10px 0;
+  border-top:1px solid #261c2c;
+}
+
+.core-status-list li:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.core-status-list li>div{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.core-status-list strong{
+  color:var(--lh-text-soft);
+  font-size:.8rem;
+  font-weight:550;
+}
+
+.core-status-list span{
+  color:#745e81;
+  font-size:var(--lh-font-meta);
+}
+
+.core-status-list li[data-status="on"] span{
+  color:#9b92a0;
+}
+
+.core-status-list p{
+  margin:4px 0 0;
+  color:#745e81;
+  font-size:.75rem;
+  line-height:1.45;
+}
+
+.core-list{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:7px 18px;
+  margin:0;
+}
+
+.core-list dt{
+  color:#7c6489;
+  font-size:.78rem;
+}
+
+.core-list dd{
+  margin:0;
+  color:#beb8c1;
+  font-size:.78rem;
+  text-align:right;
+}
+
+.core-note{
+  margin:12px 0 0;
+  color:#6b5777;
+  font-size:var(--lh-font-meta);
+  line-height:1.45;
+}
+
+.core-contracts li{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:14px;
+  padding:10px 0;
+  border-top:1px solid #261c2c;
+}
+
+.core-contracts li:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.core-contracts span{
+  color:#836992;
+  font-size:.77rem;
+}
+
+.core-contracts code{
+  color:#c0bac3;
+  font:inherit;
+  font-size:.75rem;
+  overflow-wrap:anywhere;
+  text-align:right;
+}
+
+.core-count{
+  min-width:26px;
+  border:1px solid var(--lh-border-control);
+  border-radius:999px;
+  padding:4px 8px;
+  text-align:center;
+  color:var(--lh-accent-soft);
+  font-size:var(--lh-font-meta);
+}
+
+.core-trace li{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:9px 0;
+  border-top:1px solid #261c2c;
+}
+
+.core-trace li:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.core-trace span{
+  color:#836992;
+  font-size:.8rem;
+}
+
+.core-trace strong{
+  color:#755e82;
+  font-size:var(--lh-font-meta);
+  font-weight:500;
+}
+
+.core-trace li[data-present="true"] strong{
+  color:#99909e;
+}
+
+.core-surface+.raw-runtime{
+  margin-top:20px;
+}
+
+.raw-runtime pre{
+  max-height:420px;
+  overflow:auto;
+  padding:13px;
+  border:1px solid #261c2c;
+  border-radius:10px;
+  background:#0e0a10;
+  color:var(--lh-accent-muted);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  font-size:var(--lh-font-meta);
+  line-height:1.48;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .core-surface>summary:hover{
+    color:var(--lh-text-soft);
+  }
+}
+
+@media (max-width:520px){
+  .core-surface>summary,
+  .core-authority-line{
+    align-items:flex-start;
+  }
+
+  .core-authority-line{
+    flex-direction:column;
+    gap:9px;
+  }
+
+  .core-grid{
+    grid-template-columns:1fr;
+    gap:0;
+  }
+
+  .core-grid .core-section+.core-section{
+    border-top:1px solid var(--lh-border-subtle);
+  }
+
+  .core-contracts li{
+    grid-template-columns:1fr;
+    gap:4px;
+  }
+
+  .core-contracts code{
+    text-align:left;
+  }
+}
+
+/* LIGHTHOUSE D6 CORE END */

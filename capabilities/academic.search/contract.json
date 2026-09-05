@@ -1,0 +1,16 @@
+{
+  "format": "anomancer-capability-contract/v1",
+  "capabilityId": "academic.search",
+  "summary": "Etsii tutkimuspapereita ja akateemisia lähde-ehdokkaita.",
+  "inputs": [
+    "user_text"
+  ],
+  "outputs": [
+    "academic_source_candidates"
+  ],
+  "guarantees": [
+    "Ei väitä käyttäneensä lähteitä tai dataa joita runtime ei toimittanut.",
+    "Ei suorita ulkoisia sivuvaikutuksia.",
+    "Pitää olennaisen epävarmuuden näkyvänä."
+  ]
+}

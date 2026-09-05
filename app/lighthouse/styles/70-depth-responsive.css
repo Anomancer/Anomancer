@@ -1,0 +1,763 @@
+/* LIGHTHOUSE DEPTH ACCORDION START */
+
+/*
+  D2-D6 + raw runtime behave as one vertical depth navigator.
+  Only one deep inspection surface is open at a time.
+*/
+#trustDetails,
+#workspaceDetails,
+#orchestraDetails,
+#machineDetails,
+#coreDetails,
+#rawRuntimeDetails{
+  scroll-margin-top:18px;
+}
+
+#trustDetails[open]>summary,
+#workspaceDetails[open]>summary,
+#orchestraDetails[open]>summary,
+#machineDetails[open]>summary,
+#coreDetails[open]>summary,
+#rawRuntimeDetails[open]>summary{
+  color:#c7c2ca;
+}
+
+/* LIGHTHOUSE DEPTH ACCORDION END */
+
+/* LIGHTHOUSE RESPONSIVE SHELL START */
+
+.mobile-depth-nav,
+.depth-inspector{
+  display:none;
+}
+
+.depth-inspector-header,
+.desktop-depth-tabs,
+.depth-inspector-empty,
+.depth-inspector-body{
+  min-width:0;
+}
+
+/* ---------- DESKTOP: D1 + INSPECTOR ---------- */
+
+@media (min-width:1100px){
+  .work{
+    width:min(100%,1440px);
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(330px,430px);
+    grid-template-rows:auto minmax(0,1fr);
+    gap:0 18px;
+    align-items:start;
+    padding-left:22px;
+    padding-right:22px;
+  }
+
+  .work-nav{
+    grid-column:1/-1;
+    grid-row:1;
+    width:100%;
+    margin-bottom:12px;
+  }
+
+  #resultCard{
+    grid-column:1;
+    grid-row:2;
+    min-width:0;
+  }
+
+  .mobile-depth-nav{
+    display:none!important;
+  }
+
+  .depth-inspector{
+    display:block;
+    grid-column:2;
+    grid-row:2;
+    min-width:0;
+    border:1px solid var(--lh-border-panel);
+    border-radius:18px;
+    background:rgba(16,12,19,.92);
+    overflow:hidden;
+  }
+
+  .depth-inspector-header{
+    display:flex;
+    align-items:center;
+    min-height:66px;
+    padding:16px 18px 13px;
+    border-bottom:1px solid var(--lh-border-subtle);
+  }
+
+  .depth-back{
+    display:none!important;
+  }
+
+  .depth-inspector-kicker{
+    margin:0 0 4px;
+    color:#64516f;
+    font-size:var(--lh-font-meta);
+    letter-spacing:.14em;
+    font-weight:700;
+  }
+
+  #depthInspectorTitle{
+    margin:0;
+    color:#cac5cd;
+    font-size:.9rem;
+    font-weight:600;
+  }
+
+  .desktop-depth-tabs{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    border-bottom:1px solid var(--lh-border-subtle);
+  }
+
+  .desktop-depth-tabs button{
+    min-width:0;
+    border:0;
+    border-right:1px solid #261c2c;
+    background:transparent;
+    color:#755e82;
+    padding:11px 5px 10px;
+    font:inherit;
+    font-size:var(--lh-font-meta);
+    cursor:pointer;
+  }
+
+  .desktop-depth-tabs button:last-child{
+    border-right:0;
+  }
+
+  .desktop-depth-tabs button span{
+    display:block;
+    margin-bottom:3px;
+    color:#5c4a66;
+    font-size:var(--lh-font-meta);
+    letter-spacing:.08em;
+  }
+
+  .desktop-depth-tabs button.is-active{
+    background:var(--lh-bg-panel);
+    color:#d7d3d9;
+  }
+
+  .desktop-depth-tabs button.is-active span{
+    color:#948a9a;
+  }
+
+  .depth-inspector-empty{
+    display:grid;
+    place-items:center;
+    min-height:240px;
+    padding:34px;
+    text-align:center;
+  }
+
+  .depth-inspector-empty[hidden]{
+    display:none;
+  }
+
+  .depth-inspector-empty p{
+    margin:0;
+    color:#948a99;
+    font-size:.86rem;
+  }
+
+  .depth-inspector-empty span{
+    display:block;
+    margin-top:6px;
+    color:#624f6d;
+    font-size:var(--lh-font-meta);
+  }
+
+  .depth-inspector-body{
+    padding:0 18px 18px;
+  }
+
+  /*
+   * Inspector owns the depth navigation chrome.
+   * Individual <details> summaries are redundant on desktop.
+   */
+  .depth-inspector-body>
+  #trustDetails>summary,
+  .depth-inspector-body>
+  #workspaceDetails>summary,
+  .depth-inspector-body>
+  #orchestraDetails>summary,
+  .depth-inspector-body>
+  #machineDetails>summary,
+  .depth-inspector-body>
+  #coreDetails>summary{
+    display:none;
+  }
+
+  .depth-inspector-body>
+  #trustDetails,
+  .depth-inspector-body>
+  #workspaceDetails,
+  .depth-inspector-body>
+  #orchestraDetails,
+  .depth-inspector-body>
+  #machineDetails,
+  .depth-inspector-body>
+  #coreDetails{
+    margin-top:0;
+    padding-top:0;
+    border-top:0;
+  }
+
+  .depth-inspector-body>
+  #trustDetails>.trust-content,
+  .depth-inspector-body>
+  #workspaceDetails>.workspace-content,
+  .depth-inspector-body>
+  #orchestraDetails>.orchestra-content,
+  .depth-inspector-body>
+  #machineDetails>.machine-content,
+  .depth-inspector-body>
+  #coreDetails>.core-content{
+    margin-top:0;
+    padding-top:18px;
+    border-top:0;
+  }
+
+  /*
+   * D3 needs more horizontal room than the other inspection layers.
+   * When D3 is selected, the split becomes approximately 55/45.
+   */
+  .work:has(#workspaceDetails:not([hidden])) {
+    grid-template-columns:minmax(0,1.2fr) minmax(430px,.95fr);
+  }
+
+  .depth-inspector-body .workspace-identity{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .depth-inspector-body .workspace-storage-status{
+    white-space:normal;
+  }
+
+  .depth-inspector-body .trust-content,
+  .depth-inspector-body .orchestra-grid,
+  .depth-inspector-body .machine-grid,
+  .depth-inspector-body .core-grid{
+    grid-template-columns:1fr;
+  }
+
+  .depth-inspector-body .orchestra-grid-section+
+  .orchestra-grid-section,
+  .depth-inspector-body .machine-grid .machine-section+
+  .machine-section,
+  .depth-inspector-body .core-grid .core-section+
+  .core-section{
+    border-top:1px solid var(--lh-border-subtle);
+  }
+
+  .depth-inspector-body .machine-overview{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .depth-inspector-body #rawRuntimeDetails{
+    margin-top:18px;
+  }
+
+  @media (hover:hover) and (pointer:fine){
+    .desktop-depth-tabs button:hover{
+      background:var(--lh-bg-field);
+      color:#c0bac3;
+    }
+  }
+}
+
+/* ---------- COMPACT + MOBILE: PUSH NAVIGATION ---------- */
+
+@media (max-width:1099px){
+  .work{
+    display:block;
+    width:min(100%,900px);
+  }
+
+  .mobile-depth-nav{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:6px;
+    margin:12px 0 0;
+  }
+
+  .mobile-depth-nav button{
+    min-width:0;
+    min-height:52px;
+    border:1px solid #302338;
+    border-radius:11px;
+    background:#110d14;
+    color:var(--lh-accent-muted);
+    padding:8px 5px;
+    font:inherit;
+    cursor:pointer;
+  }
+
+  .mobile-depth-nav span{
+    display:block;
+    color:#8f779d;
+    font-size:var(--lh-font-meta);
+    letter-spacing:.07em;
+  }
+
+  .mobile-depth-nav strong{
+    display:block;
+    margin-top:3px;
+    overflow:hidden;
+    color:#b5aeb9;
+    font-size:var(--lh-font-meta);
+    font-weight:560;
+    text-overflow:ellipsis;
+  }
+
+  .mobile-depth-nav button.is-active{
+    border-color:#4f3f58;
+    background:var(--lh-bg-panel);
+  }
+
+  .depth-inspector{
+    display:none;
+    width:100%;
+  }
+
+  .work.depth-screen-open #resultCard,
+  .work.depth-screen-open .mobile-depth-nav{
+    display:none;
+  }
+
+  .work.depth-screen-open .depth-inspector{
+    display:block;
+  }
+
+  .work.depth-screen-open .work-nav{
+    display:none;
+  }
+
+  .depth-inspector-header{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    margin-bottom:14px;
+  }
+
+  .depth-back{
+    flex:none;
+    min-height:44px;
+    border:1px solid #342a3a;
+    border-radius:999px;
+    background:transparent;
+    color:#beb8c2;
+    padding:9px 13px;
+    font:inherit;
+    font-size:.78rem;
+  }
+
+  .depth-inspector-kicker{
+    margin:0 0 3px;
+    color:#624f6d;
+    font-size:var(--lh-font-meta);
+    letter-spacing:.13em;
+    font-weight:700;
+  }
+
+  #depthInspectorTitle{
+    margin:0;
+    color:#d4d0d7;
+    font-size:.91rem;
+    font-weight:620;
+  }
+
+  .desktop-depth-tabs{
+    display:none;
+  }
+
+  .depth-inspector-empty{
+    display:none!important;
+  }
+
+  .depth-inspector-body>
+  #trustDetails>summary,
+  .depth-inspector-body>
+  #workspaceDetails>summary,
+  .depth-inspector-body>
+  #orchestraDetails>summary,
+  .depth-inspector-body>
+  #machineDetails>summary,
+  .depth-inspector-body>
+  #coreDetails>summary{
+    display:none;
+  }
+
+  .depth-inspector-body>
+  #trustDetails,
+  .depth-inspector-body>
+  #workspaceDetails,
+  .depth-inspector-body>
+  #orchestraDetails,
+  .depth-inspector-body>
+  #machineDetails,
+  .depth-inspector-body>
+  #coreDetails{
+    margin-top:0;
+    padding-top:0;
+    border-top:0;
+  }
+
+  .depth-inspector-body>
+  #trustDetails>.trust-content,
+  .depth-inspector-body>
+  #workspaceDetails>.workspace-content,
+  .depth-inspector-body>
+  #orchestraDetails>.orchestra-content,
+  .depth-inspector-body>
+  #machineDetails>.machine-content,
+  .depth-inspector-body>
+  #coreDetails>.core-content{
+    margin-top:0;
+    padding-top:14px;
+    border-top:1px solid var(--lh-border-subtle);
+  }
+
+  .depth-inspector-body #rawRuntimeDetails{
+    margin-top:20px;
+  }
+}
+
+/* ---------- PHONE ---------- */
+
+@media (max-width:719px){
+  .work{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .mobile-depth-nav{
+    position:relative;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:4px;
+    margin-top:10px;
+  }
+
+  .mobile-depth-nav button{
+    min-height:48px;
+    padding:7px 3px;
+  }
+
+  .mobile-depth-nav strong{
+    font-size:var(--lh-font-meta);
+  }
+
+  .depth-inspector-header{
+    min-height:48px;
+  }
+
+  .depth-inspector-body{
+    min-width:0;
+  }
+
+  /*
+   * Keep the D1 composer compact on a phone.
+   * It remains part of D1 and disappears when a depth screen is pushed.
+   */
+  .continuation textarea{
+    min-height:104px;
+    max-height:190px;
+  }
+
+  .composer-row{
+    gap:9px;
+  }
+
+  .composer-row .primary{
+    min-height:44px;
+  }
+
+  .depth-inspector-body .workspace-section-heading,
+  .depth-inspector-body .machine-permissions li>div,
+  .depth-inspector-body .core-status-list li>div{
+    align-items:flex-start;
+  }
+}
+
+/* ---------- TABLET / COMPACT ---------- */
+
+@media (min-width:720px) and (max-width:1099px){
+  .work{
+    padding-left:22px;
+    padding-right:22px;
+  }
+
+  .mobile-depth-nav{
+    width:min(100%,720px);
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .depth-inspector{
+    width:min(100%,820px);
+    margin:0 auto;
+  }
+}
+
+/* LIGHTHOUSE RESPONSIVE SHELL END */
+
+/* LIGHTHOUSE FIXED DESKTOP INSPECTOR START */
+
+@media (min-width:1100px){
+
+  /*
+   * D2-D6 use one stable physical instrument panel.
+   * Switching semantic depth must not move the D1 work surface.
+   */
+  .work,
+  .work:has(#workspaceDetails:not([hidden])){
+    grid-template-columns:minmax(0,1fr) 430px;
+  }
+
+  .depth-inspector{
+    display:flex;
+    flex-direction:column;
+    width:430px;
+    height:clamp(560px,70dvh,690px);
+    min-height:0;
+    align-self:start;
+  }
+
+  .depth-inspector-header,
+  .desktop-depth-tabs{
+    flex:none;
+  }
+
+  .depth-inspector-empty{
+    flex:1 1 auto;
+    min-height:0;
+  }
+
+  .depth-inspector-body{
+    flex:1 1 auto;
+    min-height:0;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    scrollbar-gutter:stable;
+  }
+
+  /*
+   * All depth surfaces inherit the inspector body's geometry.
+   * Their content may grow, the inspector itself may not.
+   */
+  .depth-inspector-body>
+  #trustDetails,
+  .depth-inspector-body>
+  #workspaceDetails,
+  .depth-inspector-body>
+  #orchestraDetails,
+  .depth-inspector-body>
+  #machineDetails,
+  .depth-inspector-body>
+  #coreDetails{
+    width:100%;
+    min-width:0;
+  }
+}
+
+/* LIGHTHOUSE FIXED DESKTOP INSPECTOR END */
+
+/* LIGHTHOUSE RESPONSIVE QA / MOBILE SURGERY START */
+
+/* Structural overflow hardening. */
+.work,
+#resultCard,
+.depth-inspector,
+.depth-inspector-body,
+.trust-surface,
+.workspace-surface,
+.orchestra-surface,
+.machine-surface,
+.core-surface{
+  min-width:0;
+  max-width:100%;
+}
+
+.result-card,
+.result-card *,
+.depth-inspector-body,
+.depth-inspector-body *,
+.work-chain,
+.work-chain *{
+  overflow-wrap:anywhere;
+}
+
+pre,
+code{
+  max-width:100%;
+}
+
+pre{
+  overflow:auto;
+}
+
+/* All interactive controls keep a visible keyboard focus. */
+.mobile-depth-nav button:focus-visible,
+.desktop-depth-tabs button:focus-visible,
+.depth-back:focus-visible,
+.secondary-action:focus-visible,
+.text-action:focus-visible{
+  outline:2px solid currentColor;
+  outline-offset:3px;
+}
+
+/* Compact + mobile push surfaces own their scroll naturally. */
+@media (max-width:1099px){
+  .depth-inspector,
+  .depth-inspector-body{
+    width:100%;
+    max-width:100%;
+  }
+
+  .depth-inspector-body{
+    overflow-x:hidden;
+  }
+
+  .mobile-depth-nav button{
+    min-height:52px;
+    touch-action:manipulation;
+  }
+
+  .depth-back{
+    min-width:44px;
+    min-height:44px;
+    touch-action:manipulation;
+  }
+}
+
+/* Phone ergonomics. */
+@media (max-width:719px){
+  /*
+   * Prevent mobile browser auto-zoom on form focus.
+   * Applies only to actual editable controls.
+   */
+  input,
+  textarea,
+  select{
+    font-size:16px;
+  }
+
+  button,
+  input[type="button"],
+  input[type="submit"]{
+    min-height:44px;
+  }
+
+  .mobile-depth-nav button{
+    min-height:56px;
+  }
+
+  .depth-inspector-body .machine-list,
+  .depth-inspector-body .core-list{
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:8px 12px;
+  }
+
+  .depth-inspector-body .machine-list dd,
+  .depth-inspector-body .core-list dd{
+    max-width:48vw;
+    overflow-wrap:anywhere;
+  }
+
+  .depth-inspector-body .orchestra-stage{
+    grid-template-columns:24px minmax(0,1fr);
+    gap:9px;
+  }
+
+  .depth-inspector-body .workspace-footer{
+    gap:12px;
+  }
+
+  .raw-runtime pre{
+    max-height:320px;
+  }
+}
+
+/* Very narrow phones: stop D2-D6 nav from becoming five tiny slivers. */
+@media (max-width:420px){
+  .mobile-depth-nav{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .mobile-depth-nav button{
+    min-height:58px;
+  }
+
+  .mobile-depth-nav strong{
+    font-size:var(--lh-font-meta);
+  }
+
+  .work{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .depth-inspector-header{
+    gap:10px;
+  }
+
+  .depth-back{
+    padding-left:11px;
+    padding-right:11px;
+  }
+
+  .depth-inspector-body .machine-overview{
+    grid-template-columns:1fr;
+  }
+
+  .depth-inspector-body .machine-list,
+  .depth-inspector-body .core-list{
+    grid-template-columns:1fr;
+    gap:3px;
+  }
+
+  .depth-inspector-body .machine-list dd,
+  .depth-inspector-body .core-list dd{
+    max-width:none;
+    margin-bottom:8px;
+    text-align:left;
+  }
+
+  .depth-inspector-body .core-trace li,
+  .depth-inspector-body .machine-tools li{
+    align-items:flex-start;
+  }
+}
+
+/* Desktop inspector remains physically stable under long content. */
+@media (min-width:1100px){
+  .depth-inspector-body{
+    overflow-x:hidden;
+  }
+
+  .depth-inspector-body .core-contracts code,
+  .depth-inspector-body .machine-fact strong,
+  .depth-inspector-body .orchestra-capabilities code{
+    overflow-wrap:anywhere;
+    white-space:normal;
+  }
+}
+
+/* Respect users who request less motion. */
+@media (prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    transition-duration:.01ms!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+  }
+}
+
+/* LIGHTHOUSE RESPONSIVE QA / MOBILE SURGERY END */

@@ -1,0 +1,7 @@
+{
+  "format": "anomancer-capability-adapter/v1",
+  "capabilityId": "model.compare",
+  "kind": "runtime-tool",
+  "executionCapability": null,
+  "runtimeAdapter": "model.ensemble.compare"
+}

@@ -1,0 +1,7 @@
+{
+  "format": "anomancer-capability-adapter/v1",
+  "capabilityId": "academic.search",
+  "kind": "runtime-tool",
+  "executionCapability": null,
+  "runtimeAdapter": "search.academic"
+}

@@ -1,12 +1,12 @@
 {
-  "id": "/lahetyskone",
-  "name": "Anomancer Core",
-  "short_name": "Anomancer",
-  "description": "Yksityinen monityötilainen kirjoitus-, agentti-, orkesteri- ja artefaktiympäristö Anomancerille.",
+  "id": "/lighthouse",
+  "name": "Anomancer Lighthouse",
+  "short_name": "Lighthouse",
+  "description": "Yksityinen Mancer-pohjainen työympäristö: kevyt tila, Työpöytä, orkesterit, agentit, ajot ja hallitut julkaisut.",
   "lang": "fi",
   "dir": "ltr",
-  "start_url": "/lahetyskone",
-  "scope": "/lahetyskone",
+  "start_url": "/lighthouse",
+  "scope": "/lighthouse",
   "display": "standalone",
   "display_override": [
     "window-controls-overlay",
@@ -14,11 +14,12 @@
     "minimal-ui"
   ],
   "orientation": "any",
-  "background_color": "#050509",
-  "theme_color": "#09090f",
+  "background_color": "#0b0711",
+  "theme_color": "#160d26",
   "categories": [
     "productivity",
-    "writing"
+    "writing",
+    "developer"
   ],
   "icons": [
     {

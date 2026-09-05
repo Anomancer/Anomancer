@@ -9,13 +9,14 @@ const read=file=>fs.readFileSync(file,'utf8');
 const pkg=JSON.parse(read('package.json'));
 const html=read('admin.html');
 const css=readAdminCss();
-const worker=read('lahetyskone-sw.js');
+const worker=read('lighthouse-sw.js');
 const installer=read('INSTALL_TO_CURRENT.sh');
 
 await test('Core ja paketti ovat 16.8.4 ja säilyttävät 16.7.1 Visual Hardeningin',()=>{
-  assert.equal(pkg.version,'1.18.7');
+  assert.match(pkg.version,/^1\.26\./);
   assert.equal(CORE_VERSION,'1.18.7');
-  assert.match(html,/Yksityinen työpöytä/);
+  assert.match(html,/LIGHTHOUSE · YKSITYINEN/);
+  assert.match(html,/aria-label="Lighthouse"[^>]*>.*<strong>Lighthouse<\/strong>/s);
 });
 
 await test('Vanhan 320px app-gridin vuoto Core Shelliin on eksplisiittisesti nollattu',()=>{
@@ -56,12 +57,17 @@ await test('Mobiilissa shell palaa yhteen sarakkeeseen eikä amputoi asetuksia',
   assert.match(html,/id="mobilePublishBtn"/);
 });
 
-await test('PWA-cache bustataan 1.18.7-p3 hotfix-sukupolveen',()=>{
-  assert.match(worker,/v1\.18\.7-p3/);
+await test('PWA-cache bustataan Lighthouse 1.24 -sukupolveen',()=>{
+  const releaseVersion=pkg.version.match(/^(\d+\.\d+\.\d+)/)?.[1];
+  assert.ok(releaseVersion,'package semver missing');
+  const cacheVersionPattern=new RegExp(`anomancer-lighthouse-v${releaseVersion.replace(/\./g,'\\.')}-[a-z0-9]+`);
+  assert.match(worker,cacheVersionPattern);
 });
 
 await test('Content-safe installer säilyttää sisältö- ja julkaisurajat',()=>{
-  for(const path of ['content/','media/','public/','lahetykset/','dispatches/'])assert.match(installer,new RegExp(`--exclude='${path.replace('/','\\/')}'`));
+  for(const path of ['content/','media/','lahetykset/','dispatches/'])assert.match(installer,new RegExp(`--exclude='${path}'`));
+  assert.match(installer,/--exclude='\/public\/'/);
+  assert.doesNotMatch(installer,/--exclude='public\/'/);
   assert.match(installer,/CONTENT_BEFORE/);
   assert.match(installer,/CONTENT_AFTER/);
 });

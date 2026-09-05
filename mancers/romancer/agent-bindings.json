@@ -1,0 +1,16 @@
+{
+  "format": "anomancer-mancer-agent-bindings/v1",
+  "sharedAgentIds": [
+    "narrative-premise",
+    "narrative-world",
+    "narrative-character",
+    "narrative-plot",
+    "narrative-scene",
+    "narrative-continuity",
+    "narrative-voice",
+    "narrative-critic",
+    "narrative-package"
+  ],
+  "specialistAgents": [],
+  "notes": "Käyttäjänimi on Romancer. narramancer/narrative-* säilyvät legacy-yhteensopivuuden sisäisinä tunnisteina."
+}

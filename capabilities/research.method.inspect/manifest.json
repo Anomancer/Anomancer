@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "research.method.inspect",
+  "name": "Menetelmäarvio",
+  "version": "1.0.0",
+  "purpose": "Arvioi tutkimusasetelman ja menetelmän olennaisia vahvuuksia ja rajoitteita.",
+  "providerClass": "research",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

@@ -1,7 +1,7 @@
 # Codemancer adapters
 
-1.18.4 keeps `mancer/package-artifact-store/v1` and `mancer/schema-workbench-ui/v1` as the artifact and UI adapters, and adds bounded server-side capability adapters behind the Operations contract.
+Codemancer lukee projektipuuta rajatun `project-source`-adapterin kautta. Lähdekoodin kirjoitus on paikallinen, eksplisiittisesti hyväksytty `project.write`-toiminto eikä selaimesta annettu vapaa komentorivi.
 
-Repository writes create only a new `anomancer/op-*` branch from an exact planned base SHA. Tests and Vercel preview/production/rollback use one allowlisted GitHub Actions workflow; the browser cannot provide a command string. Pull requests are never auto-merged. Production and rollback require their own written plan-bound approval and the GitHub `production` environment can require reviewers.
+Vercel-tuotantoruntime ei kirjoita projektipuuta. Julkaisu tapahtuu paikallisen `npm run check` -portin jälkeen suoraan Vercel productioniin komennolla `npm run deploy:prod`.
 
-Secrets stay in server or GitHub Actions configuration. They are never returned to the browser or persisted in operation audit records.
+Salaisuudet pysyvät palvelinympäristössä. Niitä ei palauteta selaimeen eikä tallenneta run-, archive- tai artifact-kuitteihin.

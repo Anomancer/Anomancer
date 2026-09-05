@@ -2,13 +2,14 @@ import {runtime} from './admin-runtime.js';
 const q=s=>document.querySelector(s);
 const qa=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+if(/Firefox\//.test(navigator.userAgent||''))document.documentElement.dataset.browserEngine='firefox';
 
 const ROUTE_KEY='anomancer.core.shell.route.v16.8';
-const VALID_ROUTES=new Set(['workspace','workspaces','archive','materials','machine']);
+const VALID_ROUTES=new Set(['dashboard','workspace','workspaces','archive','materials','runs','publications','settings','machine']);
 function readNavigationState(){try{const url=new URL(location.href),view=url.searchParams.get('view'),section=url.searchParams.get('section'),workspaceId=url.searchParams.get('workspace');return{view:VALID_ROUTES.has(view)?view:'',section:section||'',workspaceId:workspaceId||''};}catch{return{view:'',section:'',workspaceId:''};}}
 const LEGACY_ROUTE=localStorage.getItem('anomancer.core.shell.route.v16.7');
 const URL_ROUTE=readNavigationState().view;
-const storedRoute=URL_ROUTE||localStorage.getItem(ROUTE_KEY)||LEGACY_ROUTE||'workspace';
+const storedRoute=URL_ROUTE||localStorage.getItem(ROUTE_KEY)||LEGACY_ROUTE||'dashboard';
 let route=storedRoute==='artifacts'?'materials':storedRoute==='dispatches'?'workspace':storedRoute;
 let detail=null;
 let editorialView='write';
@@ -24,9 +25,31 @@ const corePanel=q('#corePanel');
 const machineHost=q('#coreMachineHost');
 const settings=q('#coreSettingsDialog');
 const mobileDock=q('#mobileDock');
+const mobileActionStrip=q('#mobileActionStrip');
 const mobileSheet=q('#workspaceMobileSheet');
+const lighthouseMenu=q('#lighthouseMenuDialog');
+const lighthouseMenuButton=q('#lighthouseMenuButton');
+const lighthouseHomeLink=q('#lighthouseHomeLink');
+const runsSurfaceHost=q('#runsSurfaceHost');
+const settingsSurfaceHost=q('#settingsSurfaceHost');
+const THEME_KEY='anomancer.lighthouse.theme.v1';
+function normalizeTheme(value){return value==='light'?'light':'dark';}
+function readTheme(){try{return normalizeTheme(localStorage.getItem(THEME_KEY)||'dark');}catch{return 'dark';}}
+function applyTheme(value,{persist=true}={}){
+  const theme=normalizeTheme(value);
+  document.documentElement.dataset.theme=theme;
+  document.body.dataset.theme=theme;
+  if(persist){try{localStorage.setItem(THEME_KEY,theme);}catch{}}
+  qa('[data-theme-choice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.themeChoice===theme)));
+  const meta=q('meta[name="theme-color"]');if(meta)meta.setAttribute('content',theme==='light'?'#f4f3f0':'#160d26');
+  return theme;
+}
+applyTheme(readTheme(),{persist:false});
 
 if(corePanel&&machineHost){machineHost.appendChild(corePanel);corePanel.hidden=false;}
+const runExplorerDisclosure=q('#coreRuns')?.closest?.('.core-machine-disclosure');
+if(runExplorerDisclosure&&runsSurfaceHost){runExplorerDisclosure.open=true;runsSurfaceHost.appendChild(runExplorerDisclosure);}
+if(settings&&settingsSurfaceHost)settingsSurfaceHost.appendChild(settings);
 
 function template(){return detail?.template||runtime.service('workspaces')?.template?.()||null;}
 function workspace(){return detail?.workspace||runtime.service('workspaces')?.current?.()||null;}
@@ -36,21 +59,41 @@ function isNarrative(){return template()?.kind==='narrative-authoring';}
 function isMancer(){return template()?.mancerPackage?.format==='anomancer-mancer-package/v1';}
 function isBlank(){return template()?.kind==='blank-private';}
 function setDocumentTitle(surface='workspace'){
-  const names={workspaces:'Työtilat',archive:'Arkisto',machine:'Konehuone',materials:'Aineisto & ulostulo'};
-  if(names[surface]){document.title=`Anomancer Core · ${names[surface]}`;return;}
+  const names={dashboard:'Työpöytä',workspaces:'Mancerit',archive:'Arkisto',runs:'Ajot',publications:'Julkaisut',settings:'Asetukset',machine:'Konehuone',materials:'Aineisto & ulostulo'};
+  if(names[surface]){document.title=`Lighthouse · ${names[surface]}`;return;}
   if(isNarrative()){runtime.service('narramancer')?.refreshDocumentTitle?.();return;}
   if(isMancer()){runtime.service('mancer')?.refreshDocumentTitle?.();return;}
-  const name=isBlank()?(workspace()?.name||'Tyhjä työtila'):'Lähetyskone';
-  document.title=`Anomancer Core · ${name}`;
+  const name=isBlank()?(workspace()?.name||'Tyhjä työtila'):'Anomancer';
+  document.title=`Lighthouse · ${name}`;
 }
 
 function setRouteButtons(){
   qa('[data-shell-route]').forEach(el=>{
     const r=el.dataset.shellRoute;
-    const active=(route==='workspace'&&r==='workspace')||r===route;
+    const active=((route==='workspace'&&r==='workspace')||r===route)&&!el.dataset.machineAnchor&&!el.dataset.editorRoute;
     el.classList.toggle('active',active);
     if(el.tagName==='BUTTON')el.setAttribute('aria-pressed',String(active));if(active)el.setAttribute('aria-current','page');else el.removeAttribute('aria-current');
   });
+}
+
+function renderDashboard(){
+  const title=q('#dashboardCurrentTitle'),meta=q('#dashboardCurrentMeta'),mancerCount=q('#dashboardMancerCount'),runCount=q('#dashboardRunCount'),publicationCount=q('#dashboardPublicationCount');
+  const current=workspace(),editing=q('#editingLabel')?.textContent?.trim();
+  if(title)title.textContent=editing&&editing!=='Uusi lähetys'?editing:(current?.name||'Nykyinen työ');
+  if(meta)meta.textContent=current?`${current.name||'Työtila'} · ${template()?.name||template()?.label||'valmis jatkettavaksi'}`:'Valitse työ tai jatka nykyiseen työtilaan.';
+  if(mancerCount){const total=Math.max(0,q('#workspaceSelect')?.options?.length||0);mancerCount.textContent=total?`${total} työtilaa`:'Työmaailmat';}
+  if(runCount){const raw=q('#coreRunCount')?.textContent?.trim()||'0';runCount.textContent=`${raw} ajoa`;}
+  if(publicationCount){const total=q('#publicationList')?.querySelectorAll?.('[data-publication-path]')?.length||0;publicationCount.textContent=total?`${total} julkaisua`:'Julkaisulista';}
+}
+function openMachineAnchor(anchor=''){
+  const target=anchor==='agents'?q('#coreAgents'):anchor==='orchestras'?q('#coreOrchestras'):null;
+  const disclosure=target?.closest?.('.core-machine-disclosure');
+  if(disclosure){disclosure.open=true;requestAnimationFrame(()=>disclosure.scrollIntoView({behavior:'smooth',block:'start'}));}
+}
+function setMenu(open){
+  if(!lighthouseMenu)return;
+  if(open){renderMenuLocalNavigation();if(!lighthouseMenu.open)lighthouseMenu.showModal();lighthouseMenuButton?.setAttribute('aria-expanded','true');}
+  else{if(lighthouseMenu.open)lighthouseMenu.close();lighthouseMenuButton?.setAttribute('aria-expanded','false');}
 }
 
 function showWorkspace(){
@@ -96,6 +139,7 @@ function showCoreView(name){
   setDocumentTitle(name);
   if(name==='materials')renderArtifactHome();
   if(name==='archive')runtime.service('archive')?.activate?.();
+  if(name==='dashboard')renderDashboard();
   renderMobileNavigation();
 }
 
@@ -103,9 +147,14 @@ function navigationUrl(){const url=new URL(location.href),workspaceId=runtime.se
 function writeNavigationState(mode='push'){if(restoringHistory&&mode!=='replace')return false;const url=navigationUrl(),next=url.href,current=location.href;if(next===current)return false;history[mode==='replace'?'replaceState':'pushState']({workspace:url.searchParams.get('workspace'),view:route,section:url.searchParams.get('section')},'',next);return true;}
 function navigate(next='workspace',{history:historyMode='push'}={}){
   runtime.service('overlays')?.close?.('workspace-sheet',{restore:false});
+  setMenu(false);
   route=VALID_ROUTES.has(next)?next:'workspace';
   localStorage.setItem(ROUTE_KEY,route);setRouteButtons();
   if(route==='workspace')showWorkspace();else showCoreView(route);
+  if(route==='workspaces'){
+    const workspaces=runtime.service('workspaces');
+    if(!workspaces?.isLoaded?.())queueMicrotask(()=>workspaces?.load?.({emit:false}).catch(()=>{}));
+  }
   if(historyMode!=='none')writeNavigationState(historyMode);
   return true;
 }
@@ -120,10 +169,18 @@ function localSections(){
 }
 function activeLocalSection(){return route==='materials'?'materials':isNarrative()?runtime.service('narramancer')?.activeSection?.()||'project':isMancer()?runtime.service('mancer')?.activeSection?.()||editorSections()[0]?.id||'project':editorialView;}
 
+function renderMenuLocalNavigation(){
+  const host=q('#lighthouseWorkspaceTools'),nav=q('#lighthouseWorkspaceToolsNav');if(!host||!nav)return;
+  const groups=localSections(),active=activeLocalSection(),visible=route==='workspace'&&!isBlank()&&groups.some(group=>group.sections.length);
+  host.hidden=!visible;
+  nav.innerHTML=visible?groups.flatMap(group=>group.sections).map(section=>`<button type="button" data-menu-local-section="${esc(section.id)}" class="${section.id===active?'active':''}" ${section.id===active?'aria-current="page"':''}><strong>${esc(section.label||section.id)}</strong>${section.id==='publish'?'<small>Ihmisen portti</small>':''}</button>`).join(''):'';
+}
+
 function renderLocalNavigation(){
   const nav=q('#workspaceLocalNav');if(!nav)return;
   const groups=localSections(),active=activeLocalSection();
   nav.innerHTML=groups.map(group=>`<section class="workspace-local-group"><span>${esc(group.label||'Työkalut')}</span>${group.sections.map(section=>`<button type="button" data-local-section="${esc(section.id)}" class="${section.id===active?'active':''}" ${section.id===active?'aria-current="page"':''}><strong>${esc(section.label||section.id)}</strong>${section.id==='publish'?'<small>Ihmisen portti</small>':''}</button>`).join('')}</section>`).join('');
+  renderMenuLocalNavigation();
   renderMobileNavigation();
 }
 
@@ -137,7 +194,7 @@ function openLocalSection(id,{history:historyMode='push'}={}){
       navigate('workspace',{history:'none'});
       runtime.service('narramancer')?.selectSection?.(id);
     }else if(id==='dispatches'){
-      navigate('workspace',{history:'none'});runtime.service('admin')?.selectEditorView?.('write');runtime.service('admin')?.openDispatchLibrary?.();editorialView='dispatches';
+      navigate('publications',{history:'none'});editorialView='dispatches';
     }else if(id==='orchestra'){
       navigate('workspace',{history:'none'});runtime.service('admin')?.openOrchestraRun?.();editorialView='orchestra';
     }else if(id==='publish'){
@@ -154,7 +211,7 @@ function openLocalSection(id,{history:historyMode='push'}={}){
 
 function mobilePrimary(){
   const nav=editorDefinition().navigation||{};
-  return Array.isArray(nav.mobilePrimary)?nav.mobilePrimary.slice(0,4):[];
+  return Array.isArray(nav.mobilePrimary)?nav.mobilePrimary.slice(0,3):[];
 }
 function mobileItemLabel(item){
   const section=editorSections().find(x=>x.id===item.id);
@@ -169,7 +226,7 @@ function renderMobileSheet(){
   if(moreNav)moreNav.innerHTML=mobileSecondary().map(section=>`<button type="button" data-mobile-local="${esc(section.id)}"><strong>${esc(section.label||section.id)}</strong><small>${section.id==='publish'?'Ihmisen julkaisupäätös':'Avaa työtilassa'}</small></button>`).join('')||'<p class="muted">Ei muita työtilatyökaluja.</p>';
   if(commands){
     const saveLabel=isNarrative()?'Tallenna projekti':isMancer()?'Tallenna työtila':'Tallenna luonnos';
-    commands.innerHTML=`<button type="button" data-mobile-command="save"><strong>${saveLabel}</strong><small>Nykyinen työtila</small></button><button type="button" data-mobile-command="workspaces"><strong>Työtilat</strong><small>Vaihda kontekstia</small></button><button type="button" data-mobile-command="archive"><strong>Arkisto</strong><small>Hallittu muistikerros</small></button><button type="button" data-mobile-command="machine"><strong>Konehuone</strong><small>Globaali ohjaustaso</small></button><button type="button" data-mobile-command="settings"><strong>Asetukset</strong><small>Näkymä ja järjestelmä</small></button>`;
+    commands.innerHTML=`<button type="button" data-mobile-command="save"><strong>${saveLabel}</strong><small>Nykyinen työtila</small></button><button type="button" data-mobile-command="workspaces"><strong>Mancerit</strong><small>Vaihda työmaailmaa</small></button><button type="button" data-mobile-command="archive"><strong>Arkisto</strong><small>Hallittu muistikerros</small></button><button type="button" data-mobile-command="machine"><strong>Konehuone</strong><small>Globaali ohjaustaso</small></button><button type="button" data-mobile-command="settings"><strong>Asetukset</strong><small>Näkymä ja järjestelmä</small></button>`;
   }
   if(select){
     const all=(runtime.service('workspaces')?.getAll?.()||[]).filter(w=>w.status!=='archived');
@@ -177,16 +234,35 @@ function renderMobileSheet(){
     select.value=workspace()?.id||'';
   }
 }
+function renderMobileActionStrip(){
+  if(!mobileActionStrip)return;
+  const visible=route==='workspace'&&!isBlank();
+  mobileActionStrip.hidden=!visible;
+  if(!visible){mobileActionStrip.innerHTML='';return;}
+  const editorial=!isNarrative()&&!isMancer();
+  mobileActionStrip.dataset.editorial=editorial?'true':'false';
+  mobileActionStrip.innerHTML=`<button type="button" data-mobile-command="save">Tallenna</button>${editorial?'<button class="primary" type="button" data-mobile-command="publish">Julkaise</button>':''}`;
+}
 function renderMobileNavigation(){
   if(!mobileDock)return;
-  const hide=isBlank()||route!=='workspace'||!template();
-  mobileDock.hidden=hide;
-  if(hide){mobileDock.innerHTML='';return;}
+  const globalDock=()=>[
+    ['workspaces','◇','Mancerit'],
+    ['workspace','✎','Työ'],
+    ['archive','▤','Arkisto'],
+    ['machine','⚙','Kone']
+  ].map(([command,icon,label])=>`<button type="button" data-mobile-command="${command}" class="${route===command||(command==='workspace'&&route==='workspace')?'active':''}" aria-pressed="${route===command||(command==='workspace'&&route==='workspace')?'true':'false'}"><span aria-hidden="true">${icon}</span><small>${label}</small></button>`).join('');
+  renderMobileActionStrip();
+  if(isBlank()){mobileDock.hidden=true;mobileDock.innerHTML='';return;}
+  mobileDock.hidden=false;
+  if(route!=='workspace'||!template()){
+    mobileDock.innerHTML=globalDock()+`<button type="button" data-mobile-command="more" id="mobileMoreBtn" aria-haspopup="dialog" aria-expanded="${runtime.service('overlays')?.active?.()==='workspace-sheet'?'true':'false'}"><span aria-hidden="true">•••</span><small>Lisää</small></button>`;
+    renderMobileSheet();return;
+  }
   const active=activeLocalSection(),items=mobilePrimary();
   mobileDock.innerHTML=items.map(item=>{
     const target=item.target||'section',isActive=target==='section'&&item.id===active;
     return `<button type="button" data-mobile-${target==='command'?'command':'local'}="${esc(item.id)}" data-mobile-target="${esc(target)}" class="${isActive?'active':''}" aria-pressed="${isActive?'true':'false'}"><span aria-hidden="true">${esc(item.icon||'•')}</span><small>${esc(mobileItemLabel(item))}</small></button>`;
-  }).join('')+`<button type="button" data-mobile-command="more" id="mobileMoreBtn" aria-haspopup="dialog" aria-expanded="${runtime.service('overlays')?.active?.()==='workspace-sheet'?'true':'false'}"><span aria-hidden="true">•••</span><small>Lisää</small></button>`;
+  }).join('')+`<button type="button" data-mobile-command="workspaces"><span aria-hidden="true">◇</span><small>Mancerit</small></button><button type="button" data-mobile-command="more" id="mobileMoreBtn" aria-haspopup="dialog" aria-expanded="${runtime.service('overlays')?.active?.()==='workspace-sheet'?'true':'false'}"><span aria-hidden="true">•••</span><small>Lisää</small></button>`;
   renderMobileSheet();
 }
 function setMobileSheet(open,trigger=q('#mobileMoreBtn')){
@@ -201,10 +277,12 @@ function runMobileCommand(command,trigger){
   if(command==='more'){setMobileSheet(true,trigger);return;}
   if(command==='preview'){setMobileSheet(false);runtime.service('admin')?.openPreview?.();return;}
   if(command==='save'){setMobileSheet(false);if(isNarrative())runtime.service('narramancer')?.save?.();else if(isMancer())runtime.service('mancer')?.save?.();else runtime.service('admin')?.saveDraft?.();return;}
+  if(command==='publish'){setMobileSheet(false);runtime.service('admin')?.openPublishReview?.();return;}
+  if(command==='workspace'){setMobileSheet(false);navigate('workspace');return;}
   if(command==='workspaces'){setMobileSheet(false);navigate('workspaces');return;}
   if(command==='archive'){setMobileSheet(false);navigate('archive');return;}
   if(command==='machine'){setMobileSheet(false);navigate('machine');return;}
-  if(command==='settings'){setMobileSheet(false);if(settings&&!settings.open)settings.showModal();}
+  if(command==='settings'){setMobileSheet(false);navigate('settings');return;}
 }
 
 function renderBlankWorkspace(){
@@ -227,28 +305,62 @@ function renderArtifactHome(){
 
 function applyWorkspace(next){
   detail=next||runtime.service('workspaces')?.getDetail?.()||detail;
-  renderLocalNavigation();renderArtifactHome();renderBlankWorkspace();renderMobileSheet();
+  renderLocalNavigation();renderArtifactHome();renderBlankWorkspace();renderMobileSheet();renderDashboard();
   if(route==='workspace')showWorkspace();else if(route==='materials')showCoreView('materials');else renderMobileNavigation();
 }
 
 async function restoreNavigationFromUrl({replace=false}={}){const state=readNavigationState();restoringHistory=true;try{if(state.workspaceId&&runtime.service('workspaces')?.currentId?.()!==state.workspaceId){const changed=await runtime.service('workspaces')?.switchTo?.(state.workspaceId);if(!changed&&runtime.service('workspaces')?.currentId?.()!==state.workspaceId){writeNavigationState('replace');return false;}detail=runtime.service('workspaces')?.getDetail?.()||detail;}navigate(state.view||route,{history:'none'});const rendererPending=route==='workspace'&&state.section&&((isMancer()&&!runtime.service('mancer')?.selectSection)||(isNarrative()&&!runtime.service('narramancer')?.selectSection));if(route==='workspace'&&state.section&&!rendererPending)openLocalSection(state.section,{history:'none'});if(replace&&!rendererPending)writeNavigationState('replace');return !rendererPending;}finally{restoringHistory=false;}}
 
+const LIGHT_WORKSPACE_KEY='anomancer:lighthouse:workspaces:v1';
+function requestedLightWork(){
+  const id=new URL(location.href).searchParams.get('lightWork');if(!id)return null;
+  try{const store=JSON.parse(localStorage.getItem(LIGHT_WORKSPACE_KEY)||'null');return store?.items?.find(item=>item?.id===id)||null;}catch{return null;}
+}
+function clearLightWorkRequest(){const url=new URL(location.href);url.searchParams.delete('lightWork');history.replaceState(history.state,'',url);}
+function renderLightWorkHandoff(){
+  const host=q('#lightWorkHandoff'),item=requestedLightWork();if(!host)return;
+  host.hidden=!item;if(!item)return;
+  const result=item.latestPayload?.result||{};
+  q('#lightWorkHandoffTitle').textContent=result.title||item.title||'Jatka samaa työtä';
+  q('#lightWorkHandoffSummary').textContent=result.answer?`${String(result.answer).replace(/\s+/g,' ').trim().slice(0,220)}${String(result.answer).length>220?'…':''}`:'Työ löytyi selaimen paikallisesta Lighthouse-työtilasta.';
+  q('#lightWorkOpenSource').href='/lighthouse';
+  q('#lightWorkImport').disabled=!item.latestPayload?.result;
+}
+q('#lightWorkImport')?.addEventListener('click',async()=>{const item=requestedLightWork();if(!item)return;const imported=await runtime.service('admin')?.importLightWorkspace?.(item);if(imported){clearLightWorkRequest();q('#lightWorkHandoff').hidden=true;navigate('workspace',{history:'replace'});}});
+q('#lightWorkDismiss')?.addEventListener('click',()=>{clearLightWorkRequest();q('#lightWorkHandoff').hidden=true;});
+
 runtime.service('overlays')?.register?.('workspace-sheet',{kind:'dialog',element:'#workspaceMobileSheet',bodyClass:'workspace-sheet-open',focusSelector:'#workspaceMobileSheetClose'});
 
 q('#workspaceLocalNav')?.addEventListener('click',event=>{const button=event.target.closest?.('[data-local-section]');if(button)openLocalSection(button.dataset.localSection);});
 q('#coreShell')?.addEventListener('click',event=>{const target=event.target.closest?.('[data-shell-route]');if(!target)return;event.preventDefault();navigate(target.dataset.shellRoute);});
-q('#coreSettingsButton')?.addEventListener('click',()=>settings?.showModal());
-q('#coreSettingsClose')?.addEventListener('click',()=>settings?.close());
-settings?.addEventListener('click',event=>{if(event.target===settings)settings.close();});
+lighthouseHomeLink?.addEventListener('click',event=>{event.preventDefault();navigate('dashboard');});
+lighthouseMenuButton?.addEventListener('click',()=>setMenu(true));
+q('#lighthouseMenuClose')?.addEventListener('click',()=>setMenu(false));
+lighthouseMenu?.addEventListener('cancel',()=>setMenu(false));
+lighthouseMenu?.addEventListener('click',event=>{
+  if(event.target===lighthouseMenu){setMenu(false);return;}
+  const local=event.target.closest?.('[data-menu-local-section]');if(local){event.preventDefault();setMenu(false);openLocalSection(local.dataset.menuLocalSection);return;}
+  const target=event.target.closest?.('[data-shell-route]');if(!target)return;
+  event.preventDefault();const next=target.dataset.shellRoute,anchor=target.dataset.machineAnchor,editorRoute=target.dataset.editorRoute;
+  navigate(next);
+  if(anchor)openMachineAnchor(anchor);
+  if(editorRoute==='dispatches'){navigate('publications');editorialView='dispatches';renderLocalNavigation();}
+});
+q('#coreSettingsButton')?.addEventListener('click',()=>navigate('settings'));
+qa('[data-theme-choice]').forEach(button=>button.addEventListener('click',()=>applyTheme(button.dataset.themeChoice)));
+q('#coreSettingsClose')?.addEventListener('click',()=>navigate('dashboard'));
+q('[data-shell-view="dashboard"]')?.addEventListener('click',event=>{const action=event.target.closest?.('[data-dashboard-action]')?.dataset.dashboardAction;if(action)navigate(action);});
+q('#publicationNew')?.addEventListener('click',()=>{navigate('workspace');q('#newBtn')?.click();});
 q('#blankWorkspace')?.addEventListener('click',event=>{const action=event.target.closest?.('[data-blank-action]')?.dataset.blankAction;if(action)navigate(action);});
-q('#artifactHomeActions')?.addEventListener('click',event=>{const action=event.target.closest?.('[data-artifact-action]')?.dataset.artifactAction;if(action==='export'){navigate('workspace');runtime.service('narramancer')?.selectSection?.('export');}if(action==='workspace'||action==='machine'||action==='archive')navigate(action);if(action==='dispatches'){navigate('workspace');runtime.service('admin')?.selectEditorView?.('write');runtime.service('admin')?.openDispatchLibrary?.();editorialView='dispatches';renderLocalNavigation();}});
+q('#artifactHomeActions')?.addEventListener('click',event=>{const action=event.target.closest?.('[data-artifact-action]')?.dataset.artifactAction;if(action==='export'){navigate('workspace');runtime.service('narramancer')?.selectSection?.('export');}if(action==='workspace'||action==='machine'||action==='archive')navigate(action);if(action==='dispatches'){navigate('publications');editorialView='dispatches';renderLocalNavigation();}});
 mobileDock?.addEventListener('click',event=>{
   const local=event.target.closest?.('[data-mobile-local]');if(local){setMobileSheet(false);openLocalSection(local.dataset.mobileLocal);window.scrollTo({top:0,behavior:'smooth'});return;}
   const command=event.target.closest?.('[data-mobile-command]');if(command)runMobileCommand(command.dataset.mobileCommand,command);
 });
+mobileActionStrip?.addEventListener('click',event=>{const command=event.target.closest?.('[data-mobile-command]');if(command)runMobileCommand(command.dataset.mobileCommand,command);});
 q('#workspaceMobileMoreNav')?.addEventListener('click',event=>{const local=event.target.closest?.('[data-mobile-local]');if(local){setMobileSheet(false);openLocalSection(local.dataset.mobileLocal);window.scrollTo({top:0,behavior:'smooth'});}});
 q('#workspaceMobileCommands')?.addEventListener('click',event=>{const command=event.target.closest?.('[data-mobile-command]');if(command)runMobileCommand(command.dataset.mobileCommand,command);});
-q('#workspaceMobileSheetClose')?.addEventListener('click',()=>setMobileSheet(false));
+q('#workspaceMobileSheetClose')?.addEventListener('click',()=>{setMobileSheet(false);if(mobileSheet?.open)mobileSheet.close();});
 q('#mobileWorkspaceSelect')?.addEventListener('change',async event=>{
   const id=event.target.value,before=workspace()?.id||'';
   if(id===before){setMobileSheet(false);navigate('workspace');return;}
@@ -257,14 +369,14 @@ q('#mobileWorkspaceSelect')?.addEventListener('change',async event=>{
 });
 runtime.events.on('overlay-open',event=>{if(event.detail?.name==='workspace-sheet')q('#mobileMoreBtn')?.setAttribute('aria-expanded','true');});
 runtime.events.on('overlay-close',event=>{if(event.detail?.name==='workspace-sheet')q('#mobileMoreBtn')?.setAttribute('aria-expanded','false');});
-runtime.events.on('workspace-ready',async event=>{applyWorkspace(event.detail);if(!navigationBootstrapped){navigationBootstrapped=true;await restoreNavigationFromUrl({replace:true});}});
-runtime.events.on('workspace-change',event=>applyWorkspace(event.detail));
+runtime.events.on('workspace-ready',async event=>{applyWorkspace(event.detail);if(!navigationBootstrapped){navigationBootstrapped=true;await Promise.resolve();await restoreNavigationFromUrl({replace:true});}});
+runtime.events.on('workspace-change',event=>{setMobileSheet(false);runtime.service('admin')?.closePreview?.();applyWorkspace(event.detail);});
 runtime.events.on('narramancer-section-change',()=>{renderLocalNavigation();renderMobileNavigation();if(!sectionNavigation&&!restoringHistory)writeNavigationState('replace');});
 runtime.events.on('mancer-section-change',()=>{renderLocalNavigation();renderMobileNavigation();if(!sectionNavigation&&!restoringHistory)writeNavigationState('replace');});
 runtime.events.on('editor-view-change',event=>{editorialView=event.detail?.view||editorialView;renderLocalNavigation();renderMobileNavigation();if(!sectionNavigation&&!restoringHistory)writeNavigationState('replace');});
-runtime.events.on('shell-route',event=>navigate(event.detail?.route));
+runtime.events.on('shell-route',event=>{setMobileSheet(false);if(event.detail?.route!=='workspace')runtime.service('admin')?.closePreview?.();navigate(event.detail?.route);});
 window.addEventListener('popstate',()=>restoreNavigationFromUrl());
-runtime.events.on('admin-ready',()=>{detail=runtime.service('workspaces')?.getDetail?.()||detail;if(detail){applyWorkspace(detail);navigate(route,{history:'none'});}});
+runtime.events.on('admin-ready',()=>{detail=runtime.service('workspaces')?.getDetail?.()||detail;renderLightWorkHandoff();if(detail){applyWorkspace(detail);navigate(route,{history:'none'});}});
 
 runtime.events.on('runtime-service-ready',async event=>{
   const name=event.detail?.name;if(name!=='mancer'&&name!=='narramancer')return;
@@ -273,7 +385,13 @@ runtime.events.on('runtime-service-ready',async event=>{
   await restoreNavigationFromUrl({replace:true});
 });
 
-runtime.provide('shell',{navigate,openLocalSection,restoreNavigationFromUrl,writeNavigationState,renderLocalNavigation,renderMobileNavigation,setMobileSheet,currentRoute:()=>route,renderArtifactHome,renderBlankWorkspace});
+for(const node of [q('#editingLabel'),q('#coreRunCount'),q('#workspaceSelect'),q('#publicationList')].filter(Boolean))new MutationObserver(renderDashboard).observe(node,{subtree:true,childList:true,characterData:true});
+runtime.events.on('admin-ready',renderDashboard);
+runtime.events.on('workspace-ready',renderDashboard);
+runtime.events.on('workspace-change',renderDashboard);
+
+runtime.provide('shell',{navigate,openLocalSection,restoreNavigationFromUrl,writeNavigationState,renderLocalNavigation,renderMobileNavigation,setMobileSheet,currentRoute:()=>route,renderArtifactHome,renderBlankWorkspace,renderDashboard,applyTheme,currentTheme:readTheme});
 
 setRouteButtons();
+renderLightWorkHandoff();
 if(runtime.service('workspaces')?.current?.()){detail=runtime.service('workspaces').getDetail?.();applyWorkspace(detail);navigate(route,{history:'none'});}

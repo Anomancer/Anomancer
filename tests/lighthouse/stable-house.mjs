@@ -1,0 +1,18 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';
+const read=p=>fs.readFileSync(new URL(`../../${p}`,import.meta.url),'utf8');
+const pkg=JSON.parse(read('package.json')),html=read('admin.html'),shell=read('admin-shell.js'),responsive=read('admin-responsive.css'),workbench=read('lighthouse-workbench.css'),overlays=read('admin-workspace.css'),mancer=read('admin-mancer.js'),workspaces=read('admin-workspaces.js'),core=read('admin-core.js'),orchestras=read('admin-orchestras.js'),nano=read('admin-nanomancer.js'),admin=read('admin.js'),css=read('admin.css');
+let n=0;const test=(name,fn)=>{fn();n++;console.log(`✓ ${name}`)};
+test('release tunnistaa Stability-vaiheen',()=>assert.match(pkg.version,/^1\.26\./));
+test('Romancer ei käynnistä geneeristä Mancer-rendereriä rinnalle',()=>assert.match(mancer,/template\?\.kind!=='narrative-authoring'/));
+test('workspace CAS -konflikti saa yhden hallitun retry-yrityksen',()=>{assert.match(workspaces,/WORKSPACE_WRITE_CONFLICT/);assert.match(workspaces,/save\(\{retry:true\}\)/)});
+test('konehuoneen agentit ja muut tekniset rekisterit ovat disclosure-kerroksissa',()=>{assert.ok((html.match(/class="core-machine-disclosure"/g)||[]).length>=6);assert.match(html,/<summary><span>Agentit<\/span>/)});
+test('mobiilipreview varaa sticky-headerien korkeuden',()=>assert.match(responsive,/\.preview-panel\{[^}]*top:calc\(var\(--core-shell-height\) \+ var\(--workspace-bar-height\)/s));
+test('lähetysdrawer alkaa Lighthouse-headerin alapuolelta',()=>assert.match(responsive,/\.sidebar\{[^}]*top:var\(--core-shell-height\)/s));
+test('dialogit estävät scroll chainingin ja taustasivun vierityksen',()=>{assert.match(overlays,/body:has\(dialog\[open\]\)/);assert.match(overlays,/overscroll-behavior:contain/)});
+test('preview-rerender on debounceattu kirjoittamisen aikana',()=>{assert.match(admin,/schedulePreviewRefresh/);assert.match(admin,/setTimeout\(\(\)=>\{previewRefreshTimer=0;refreshPreview\(\);\},(?:220|260)\)/)});
+test('editorin dirty-tila ei fingerprinttaa koko dokumenttia jokaisella näppäimellä',()=>{assert.match(admin,/function markDirtyFast\(/);assert.match(admin,/addEventListener\('input',[\s\S]*markDirtyFast\(\);refreshEditorCounters\(\);[\s\S]*schedulePreviewRefresh\(\)/);assert.doesNotMatch(admin,/addEventListener\('input',\(\)=>\{schedulePreviewRefresh\(\);updateDirty\(\);\}\)/)});
+test('raskaat rekisterit käynnistyvät admin-ready tapahtumasta vain kerran',()=>{assert.match(workspaces,/events\.on\('admin-ready'/);assert.doesNotMatch(workspaces,/\nload\(\)\.catch/);assert.match(core,/events\.on\('admin-ready',loadCore\)/);assert.doesNotMatch(core,/\nloadCore\(\);\s*$/);assert.match(orchestras,/addEventListener\('anomancer:admin-ready',load\)/);assert.doesNotMatch(orchestras,/\nload\(\);\s*$/);assert.doesNotMatch(nano,/anomancer:admin-ready/)});
+test('workspace URL palautetaan vasta rendererien workspace-ready käsittelyn jälkeen',()=>assert.match(shell,/workspace-ready'[\s\S]*await Promise\.resolve\(\);await restoreNavigationFromUrl/));
+test('Firefox saa compositor-kevyen blur-fallbackin',()=>{assert.match(shell,/dataset\.browserEngine='firefox'/);assert.match(css,/html\[data-browser-engine=\"firefox\"][\s\S]*backdrop-filter:none!important/) });
+test('konehuoneen disclosureilla on kompakti visuaalinen omistaja',()=>assert.match(workbench,/\.core-machine-disclosure/));
+console.log(`\n${n}/${n} LIGHTHOUSE STABLE HOUSE -testiä läpi`);

@@ -1,0 +1,15 @@
+/* ANOMANCER 1.26 · Lighthouse frontend ownership manifest
+   Base -> work surfaces -> depth/runtime -> accessibility policy.
+   Keep feature CSS in its owning module. Do not append release hotfixes here. */
+@import url("./styles/00-base.css");
+@import url("./styles/10-work-surface.css");
+@import url("./styles/20-trust.css");
+@import url("./styles/30-workspace.css");
+@import url("./styles/40-orchestra.css");
+@import url("./styles/50-machine-room.css");
+@import url("./styles/60-core.css");
+@import url("./styles/70-depth-responsive.css");
+@import url("./styles/80-intelligence.css");
+@import url("./styles/90-ux-v2.css");
+@import url("./styles/95-runtime-rails.css");
+@import url("./styles/99-accessibility.css");

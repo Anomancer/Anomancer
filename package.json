@@ -1,20 +1,21 @@
 {
   "name": "anomancer-lahetyskone",
-  "version": "1.18.7",
+  "version": "1.26.4",
   "private": true,
   "type": "module",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "build": "node scripts/build-blog.mjs",
+    "build": "node scripts/build-blog.mjs && node scripts/build-lighthouse.mjs && node scripts/finalize-vercel-output.mjs",
+    "capabilities:sync": "node scripts/sync-capability-packages.mjs",
     "new:post": "node scripts/new-post.mjs",
     "write": "node scripts/editor.mjs",
     "seo:check": "node seo-check.mjs",
-    "check": "node scripts/build-blog.mjs && node tests/release-gate.mjs --group=all",
-    "check:static": "node scripts/build-blog.mjs && node tests/release-gate.mjs --group=static",
-    "check:browser": "node scripts/build-blog.mjs && node tests/release-gate.mjs --group=browser",
-    "check:content": "node scripts/build-blog.mjs && node tests/release-gate.mjs --group=content",
+    "check": "node scripts/build-blog.mjs && node scripts/build-lighthouse.mjs && node tests/release-gate.mjs --group=all",
+    "check:static": "node scripts/build-blog.mjs && node scripts/build-lighthouse.mjs && node tests/release-gate.mjs --group=static",
+    "check:browser": "node scripts/build-blog.mjs && node scripts/build-lighthouse.mjs && node tests/release-gate.mjs --group=browser",
+    "check:content": "node scripts/build-blog.mjs && node scripts/build-lighthouse.mjs && node tests/release-gate.mjs --group=content",
     "check:syntax": "node scripts/check-source.mjs",
     "admin:hash": "node scripts/hash-admin-password.mjs",
     "admin:secret": "node scripts/generate-session-secret.mjs",
@@ -77,15 +78,38 @@
     "test:codemancer-workbench": "node tests/mancer-codemancer/codemancer-workbench.mjs",
     "test:codemancer-workbench-ui": "node tests/mancer-codemancer/codemancer-workbench-ui.mjs",
     "test:hotfix": "node tests/ui-browser/interaction-pwa-regression.mjs",
-    "test:p3-capabilities": "node tests/operations-release/capability-wiring.mjs",
-    "test:p3-operations-ui": "node tests/operations-release/operation-ui.mjs",
-    "test:live-path": "node tests/operations-release/live-path-verification.mjs && node tests/operations-release/live-path-ui.mjs",
-    "live:preflight": "node scripts/live-path-preflight-1185.mjs",
     "export:source": "node scripts/export-bundle.mjs source",
-    "export:deploy": "node scripts/export-bundle.mjs deploy"
+    "export:deploy": "node scripts/export-bundle.mjs deploy",
+    "lab:build": "node scripts/build-lighthouse.mjs",
+    "test:lighthouse": "node scripts/build-lighthouse.mjs && node tests/release-gate.mjs --group=lighthouse",
+    "check:lighthouse": "node scripts/build-lighthouse.mjs && node tests/release-gate.mjs --group=lighthouse",
+    "lab": "vercel dev --listen 3000",
+    "test:lighthouse:work": "node tests/lighthouse/work-surface.mjs",
+    "test:lighthouse:visual": "node tests/lighthouse/visual-polish.mjs",
+    "test:lighthouse:trust": "node tests/lighthouse/trust-surface.mjs",
+    "test:lighthouse:workspace": "node tests/lighthouse/workspace.mjs",
+    "test:lighthouse:orchestra": "node tests/lighthouse/orchestra.mjs",
+    "test:lighthouse:machine": "node tests/lighthouse/machine-room.mjs",
+    "test:lighthouse:core": "node tests/lighthouse/core.mjs",
+    "test:lighthouse:depth": "node tests/lighthouse/depth-accordion.mjs",
+    "test:lighthouse:responsive": "node tests/lighthouse/responsive-shell.mjs",
+    "test:lighthouse:inspector": "node tests/lighthouse/fixed-inspector.mjs",
+    "test:lighthouse:responsive-qa": "node tests/lighthouse/responsive-qa.mjs",
+    "test:lighthouse:intelligence": "node tests/lighthouse/intelligence.mjs",
+    "test:lighthouse:routing": "node tests/lighthouse/intent-routing.mjs",
+    "test:lighthouse:ux": "node tests/lighthouse/ux-architecture-v2.mjs",
+    "test:lighthouse:hands": "node tests/lighthouse/hands.mjs",
+    "test:lighthouse:actuator": "node tests/lighthouse/actuator.mjs",
+    "test:lighthouse:compute": "node scripts/sync-capability-packages.mjs && node tests/lighthouse/compute-task-graph.mjs",
+    "deploy:prod": "npm run check && vercel --prod",
+    "test:lighthouse:unification": "node tests/lighthouse/unification-shell.mjs",
+    "visual:workbench:update": "ANOMANCER_VISUAL_BASELINE_MODE=update node tests/full-app-e2e/admin-workspace-story.mjs",
+    "visual:workbench:verify": "ANOMANCER_VISUAL_BASELINE_MODE=verify node tests/full-app-e2e/admin-workspace-story.mjs",
+    "test:github-storage": "node tests/core-runtime/github-storage-config.mjs"
   },
   "devDependencies": {
     "axe-core": "4.10.3",
-    "playwright": "1.55.0"
-  }
+    "playwright": "^1.55.0"
+  },
+  "description": "Anomancer Lighthouse: kevyt työtila + Mancer-pohjainen työpöytä, Vercel-direct runtime."
 }

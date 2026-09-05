@@ -1,60 +1,17 @@
-# Anomancer
+## 1.26.4 · Functional + Theme Closure
 
-Anomancer is a private, workspace-based orchestration platform with a separate public publishing surface. It separates agent contracts, orchestras, model routing, tools, artifacts, memory/archive and side-effectful operations behind explicit policy and human-approval boundaries.
+Lighthouse Workbenchin vakautuskierros. Tämä julkaisu sulkee jäljellä olevat vaalean teeman tummat saarekkeet ja lisää Blob-häiriöön fail-honest-selainvaratilan eristetyille työtiloille.
 
-Current release: **1.18.7 — Public UI/UX Polish**.
+Keskeiset muutokset:
+- Nanomancer, visualisoinnit, evidenssipinnat ja vanhat capability-kortit noudattavat vaaleaa teemaa.
+- Romancer- ja Codemancer-työtila voidaan luoda selaimeen, jos Vercel Blob palauttaa 403:n. Paikallinen tila merkitään näkyvästi eikä sitä väitetä palvelimella pysyväksi.
+- Paikallisten Mancer/Romancer-artefaktien luonnokset säilyvät selaimen localStoragessa.
+- Uuden orkesterin tallennus ei jää odottamaan rajatta: 12 s aikakatkaisu ja selaimen paikallinen custom-orkesteri toimivat Blob-häiriössä.
+- Runtime snapshot validoi myös selaimesta lähetetyn custom-orkesterin työtilan agenttirajoja vasten.
+- Pinnaa- ja lähdeohjaimet on tiivistetty mobiilissa säilyttäen kosketusalueen.
 
-## Architecture at a glance
+Turvaraja säilyy: ihminen päättää lopullisesti, paikallinen varatila ei avaa julkaisu- tai repository-oikeuksia eikä cross-workspace-lukua.
 
-```text
-Core
-├── Workspaces
-│   ├── Anomancer editorial
-│   ├── Romancer narrative authoring
-│   ├── blank private workspace
-│   └── Mancer package workspaces
-├── Agent + Orchestra contracts
-├── Model Router + Tool Broker
-├── Runtime / Run / Archive stores
-├── Capability Registry
-└── bounded Operations
-    └── plan → written approval → execute → evidence
-```
+Current package: **1.26.4-functional-theme-closure**.
 
-Codemancer is the current reference Mancer package. It proves that a domain workbench can declare its own Constitution, Artifact Boundary, UI schema, approval model, agent bindings and orchestras without the Core hardcoding the workspace name.
-
-## Repository map
-
-- `server/` — server-authoritative Core, stores, registries and domain services
-- `api/` — thin Vercel HTTP entry adapters
-- `mancers/` — package-defined domain workbenches
-- `content/` — editorial Markdown source
-- `media/` — source media
-- `scripts/` — build and development utilities
-- `tests/` — semantically grouped release-gate suites
-- `docs/` — canonical current architecture and release documentation
-- `public/` — generated Vercel static output; not source of truth
-
-See [`docs/README.md`](docs/README.md) and [`docs/development/repository-layout.md`](docs/development/repository-layout.md).
-
-## Build and validation
-
-Requirement: Node.js 20+. The release gate installs the exact Playwright Chromium build on first use when it is missing.
-
-```bash
-npm ci
-npm run build
-npm run check
-```
-
-`npm run check` also bootstraps the build, so generated deployment output does not need to be committed.
-
-## Safety model
-
-The platform deliberately keeps consequential effects separate from model output. Repository writes, tests, pull requests, preview/production deployment and rollback use bounded server-side capabilities with explicit planning, exact written approval and external evidence refresh. Direct default-branch writes and automerge are outside the Codemancer operation contract.
-
-The public Core is an explicit allowlist projection. Private prompts, outputs, workspace state, runtime profiles, provider configuration and operational history remain outside the public architecture snapshot.
-
-## Current release evidence
-
-See [`docs/releases/1.18.7/`](docs/releases/1.18.7/) for the UI/UX-polish release and validation contract. The senior audit closure remains under `docs/releases/1.18.6/`.
+Vercel Blob -vikatilassa Romancer/Codemancer ja mukautetut orkesterit voivat jatkaa tämän selaimen paikallisessa varatilassa. Pysyvä monilaite-/serverless-tallennus vaatii edelleen projektiin liitetyn toimivan private Blob -storen. `REPAIR_VERCEL_BLOB.sh` diagnosoi tilanteen eikä luo uutta storea ilman eksplisiittistä `--create`-valintaa.

@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {getCapability} from '../../core/capabilities/registry.js';
+import {previewIntent} from '../../core/intent/intent-service.js';
+import {TASK_GRAPH_FORMAT,buildTaskGraph} from '../../core/runtime/task-graph.js';
+import {COMPUTE_RUNTIME_FORMAT,createComputeSession,executeComputeCapability} from '../../server/compute-runtime.js';
+import {executeLighthouseHands} from '../../server/lighthouse-hands.js';
+for(const id of ['data.profile','data.analyze','data.compare','data.anomaly.detect','data.visualize','timeseries.analyze','statistics.describe','statistics.uncertainty']){const c=getCapability(id);assert.equal(c?.routing,'compute',`${id} routing`);assert.equal(c?.runtimeAdapter,'compute.tabular.v1');assert.equal(c?.dataEgress,'none');}
+const materials=[{title:'metrics.csv',content:['date,group,value,cost','2026-01-01,A,10,5','2026-01-02,A,12,6','2026-01-03,B,11,5','2026-01-04,B,80,7','2026-01-05,A,13,6'].join('\n')}];
+const session=createComputeSession(materials);assert.equal(session.format,COMPUTE_RUNTIME_FORMAT);assert.equal(session.datasets[0].rows.length,5);
+const p=executeComputeCapability('data.profile',session);assert.equal(p.results[0].rowCount,5);assert.ok(p.results[0].columns.some(c=>c.name==='value'&&c.type==='number'));
+const s=executeComputeCapability('statistics.describe',session);const value=s.results[0].columns.find(c=>c.name==='value');assert.equal(value.mean,25.2);assert.equal(value.max,80);
+assert.ok(Array.isArray(executeComputeCapability('data.anomaly.detect',session).results[0].findings));assert.equal(executeComputeCapability('timeseries.analyze',session).results[0].available,true);assert.equal(executeComputeCapability('data.visualize',session).results[0].rendered,false);
+const preview=previewIntent({text:'Analysoi tämä CSV-data, etsi poikkeamat, tarkista aikasarja ja suunnittele kuvaaja.',workspace:{id:'compute-test',title:'Compute',materials}});assert.equal(preview.problem.domain,'data');assert.equal(preview.taskGraph.format,TASK_GRAPH_FORMAT);for(const id of ['data.profile','data.analyze','data.anomaly.detect','timeseries.analyze','data.visualize'])assert.ok(preview.capabilityRoute.compute.includes(id));assert.ok(preview.taskGraph.stages.length>=2);
+const graph=buildTaskGraph({problem:{domain:'research'},capabilityRoute:{readOnly:['source.search','academic.search','news.search'],compute:[],reasoning:['source.rank','source.crosscheck','research.synthesize'],proposals:[],blocked:[]}});assert.equal(graph.stages[0].parallel,true);assert.deepEqual(new Set(graph.stages[0].capabilityIds),new Set(['source.search','academic.search','news.search']));
+const hands=await executeLighthouseHands({intent:{text:'Analysoi data',workspace:{materials}},route:{problem:preview.problem,recommendation:preview.recommendation},capabilityRoute:preview.capabilityRoute,taskGraph:preview.taskGraph});assert.equal(hands.computeUsed,true);assert.ok(hands.events.some(e=>e.id==='data.profile'&&e.status==='completed'));assert.ok(hands.context.some(b=>b.kind==='compute'&&b.meta?.computed===true));assert.equal(hands.taskGraph?.format,TASK_GRAPH_FORMAT);
+console.log('✓ Lighthouse Compute Runtime + Task Graph · deterministic tabular compute, dependency graph and runtime trace');

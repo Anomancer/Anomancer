@@ -33,110 +33,110 @@ const RAW_AGENTS=[
   {
     id:'source',label:'Lähdeagentti',version:'1.0.0',role:'research-source-scout',description:'Etsii verkosta lähde-ehdokkaita ja tutkimusaukkoja. Ei voi hyväksyä omaa evidenssiään.',
     modelRoute:'research',tools:['web.search'],capabilities:['web.search','source.propose'],
-    authority:{read:['draft','sources','claims','audience'],write:['sourceCandidates','researchMemo'],deny:['source.verify','claims.promote','publish','github.write']},
+    authority:{read:['draft','sources','claims','audience'],write:['sourceCandidates','researchMemo'],deny:['source.verify','claims.promote','publish','project.write']},
     budget:{maxOutputTokens:16000,maxOutputTokensCeiling:32000,timeoutMs:180000},humanApproval:['source.verify','publish']
   },
   {
     id:'structure',label:'Rakenneagentti',version:'1.0.0',role:'editorial-structure',description:'Ehdottaa artikkelin rakennetta valitulle yleisölle muuttamatta evidenssin tilaa.',
     modelRoute:'writer',tools:[],capabilities:['draft.read','structure.propose'],
-    authority:{read:['draft','sourceCandidates','audience'],write:['structure'],deny:['sources.write','claims.write','publish','github.write']},
+    authority:{read:['draft','sourceCandidates','audience'],write:['structure'],deny:['sources.write','claims.write','publish','project.write']},
     budget:{maxOutputTokens:12000,maxOutputTokensCeiling:24000,timeoutMs:180000},humanApproval:['publish']
   },
   {
     id:'writer',label:'Kirjoitusagentti',version:'1.0.0',role:'draft-writer',description:'Kirjoittaa ja järjestää luonnoksen, mutta ei saa nostaa lähde-ehdokasta varmennetuksi tiedoksi.',
     modelRoute:'writer',tools:[],capabilities:['draft.read','draft.propose'],
-    authority:{read:['draft','structure','sources','audience'],write:['body','titleSuggestions','description','answer'],deny:['source.verify','claims.promote','publish','github.write']},
+    authority:{read:['draft','structure','sources','audience'],write:['body','titleSuggestions','description','answer'],deny:['source.verify','claims.promote','publish','project.write']},
     budget:{maxOutputTokens:24000,maxOutputTokensCeiling:48000,timeoutMs:180000},humanApproval:['publish']
   },
   {
     id:'critic',label:'Kriitikko',version:'1.0.0',role:'adversarial-review',description:'Etsii heikot oletukset, ylivarmat väitteet, puuttuvan vastanäytön ja yleisöongelmat.',
     modelRoute:'critic',tools:[],capabilities:['draft.read','critique.propose'],
-    authority:{read:['draft','sources','claims','audience'],write:['critique'],deny:['draft.commit','sources.write','claims.write','publish','github.write']},
+    authority:{read:['draft','sources','claims','audience'],write:['critique'],deny:['draft.commit','sources.write','claims.write','publish','project.write']},
     budget:{maxOutputTokens:12000,maxOutputTokensCeiling:24000,timeoutMs:180000},humanApproval:['publish']
   },
   {
     id:'audience',label:'Yleisöadapteri',version:'1.0.0',role:'audience-adapter',description:'Vaihtaa havaintoposition ja syvyystason muuttamatta tekstin epistemistä ydintä.',
     modelRoute:'writer',tools:[],capabilities:['draft.read','draft.propose','audience.adapt'],
-    authority:{read:['draft','critic','audience','sources'],write:['body','adaptationSummary','audienceFit'],deny:['sources.write','claims.write','source.verify','publish','github.write']},
+    authority:{read:['draft','critic','audience','sources'],write:['body','adaptationSummary','audienceFit'],deny:['sources.write','claims.write','source.verify','publish','project.write']},
     budget:{maxOutputTokens:24000,maxOutputTokensCeiling:48000,timeoutMs:180000},humanApproval:['publish']
   },
   {
     id:'voice',label:'Äänieditori',version:'1.0.0',role:'voice-editor',description:'Poistaa geneeristä mallikieltä ja säilyttää kirjoittajan äänen sekä yleisösopimuksen.',
     modelRoute:'writer',tools:[],capabilities:['draft.read','draft.propose','voice.edit'],
-    authority:{read:['draft','critic','audience'],write:['body','changes','warnings'],deny:['sources.write','claims.write','source.verify','publish','github.write']},
+    authority:{read:['draft','critic','audience'],write:['body','changes','warnings'],deny:['sources.write','claims.write','source.verify','publish','project.write']},
     budget:{maxOutputTokens:24000,maxOutputTokensCeiling:48000,timeoutMs:180000},humanApproval:['publish']
   },
   {
     id:'claims',label:'Väitevahti',version:'1.0.0',role:'claim-auditor',description:'Tarkistaa lopullisen proosan väitteet ja niiden evidenssikytkennät. Ei voi varmentaa lähteitä.',
     modelRoute:'critic',tools:[],capabilities:['draft.read','claims.audit'],
-    authority:{read:['draft','sources','claims'],write:['claims','answer','warnings'],deny:['sources.write','source.verify','publish','github.write']},
+    authority:{read:['draft','sources','claims'],write:['claims','answer','warnings'],deny:['sources.write','source.verify','publish','project.write']},
     budget:{maxOutputTokens:16000,maxOutputTokensCeiling:32000,timeoutMs:180000},humanApproval:['source.verify','publish']
   },
   {
     id:'visualization',label:'Visualisointivahti',version:'1.0.0',role:'evidence-visualization',description:'Ehdottaa varmennetusta, tekstissä näkyvästä datasta deterministisesti renderöitäviä kaavioita. Ei saa keksiä datapisteitä.',
     modelRoute:'critic',tools:[],capabilities:['draft.read','claims.read','visualization.propose'],
-    authority:{read:['draft','claims','sources'],write:['visualizationCandidates'],deny:['body.write','claims.write','sources.write','source.verify','publish','github.write']},
+    authority:{read:['draft','claims','sources'],write:['visualizationCandidates'],deny:['body.write','claims.write','sources.write','source.verify','publish','project.write']},
     budget:{maxOutputTokens:10000,maxOutputTokensCeiling:20000,timeoutMs:180000},humanApproval:['visualization.approve','publish']
   },
   {
     id:'package',label:'Julkaisupaketti',version:'1.1.0',role:'publication-packager',description:'Valmistelee metadataa ja varmennettujen evidenssiviitteiden esityspaikkoja. Evidence Layer ja ihmisen Audience Contract ovat lukittuja.',
     modelRoute:'writer',tools:[],capabilities:['draft.read','package.propose','citation.propose'],
-    authority:{read:['draft','claims','sources','audience'],write:['title','description','slug','answer','category','citationPlacements','notes'],deny:['body.write','claims.write','sources.write','audience.write','source.verify','publish','github.write']},
+    authority:{read:['draft','claims','sources','audience'],write:['title','description','slug','answer','category','citationPlacements','notes'],deny:['body.write','claims.write','sources.write','audience.write','source.verify','publish','project.write']},
     budget:{maxOutputTokens:12000,maxOutputTokensCeiling:24000,timeoutMs:180000},humanApproval:['citation.apply','publish']
   },
 
   {
     id:'narrative-premise',label:'Premissi',version:'1.0.0',role:'narrative-premise-editor',description:'Terävöittää tarinan ydinkysymyksen, lupauksen ja rajauksen muuttamatta tekijän intentiota tallennetuksi totuudeksi.',
     modelRoute:'writer',tools:[],capabilities:['narrative.read','premise.propose'],
-    authority:{read:['project','canon','chapters'],write:['premiseProposal','projectNotes'],deny:['artifact.save','canon.accept','publish','github.write']},
+    authority:{read:['project','canon','chapters'],write:['premiseProposal','projectNotes'],deny:['artifact.save','canon.accept','publish','project.write']},
     budget:{maxOutputTokens:10000,maxOutputTokensCeiling:20000,timeoutMs:180000},humanApproval:['artifact.apply','artifact.save']
   },
   {
     id:'narrative-world',label:'Maailmanrakentaja',version:'1.0.0',role:'narrative-world-builder',description:'Rakentaa maailman sääntöjä, paikkoja ja seurauksia olemassa olevan premissin ja kaanonin ehdoilla.',
     modelRoute:'writer',tools:[],capabilities:['narrative.read','world.propose','canon.propose'],
-    authority:{read:['project','world','characters','plot','canon'],write:['worldPatch','canonCandidates'],deny:['artifact.save','canon.accept','publish','github.write']},
+    authority:{read:['project','world','characters','plot','canon'],write:['worldPatch','canonCandidates'],deny:['artifact.save','canon.accept','publish','project.write']},
     budget:{maxOutputTokens:16000,maxOutputTokensCeiling:32000,timeoutMs:180000},humanApproval:['artifact.apply','canon.accept']
   },
   {
     id:'narrative-character',label:'Hahmoarkkitehti',version:'1.0.0',role:'narrative-character-architect',description:'Syventää hahmojen tavoitteita, ristiriitoja ja ääntä säilyttäen tunnisteet ja jo hyväksytyn kaanonin.',
     modelRoute:'writer',tools:[],capabilities:['narrative.read','characters.propose'],
-    authority:{read:['project','world','characters','plot','canon'],write:['characterUpdates','characterCandidates'],deny:['character.delete','artifact.save','canon.accept','publish','github.write']},
+    authority:{read:['project','world','characters','plot','canon'],write:['characterUpdates','characterCandidates'],deny:['character.delete','artifact.save','canon.accept','publish','project.write']},
     budget:{maxOutputTokens:16000,maxOutputTokensCeiling:32000,timeoutMs:180000},humanApproval:['artifact.apply']
   },
   {
     id:'narrative-plot',label:'Juonisuunnittelija',version:'1.0.0',role:'narrative-plot-architect',description:'Ehdottaa juonen rakennetta, käännekohtia ja lukusuunnitelmaa ilman että olemassa olevia lukuja poistetaan.',
     modelRoute:'writer',tools:[],capabilities:['narrative.read','plot.propose','chapters.plan'],
-    authority:{read:['project','world','characters','plot','chapters','timeline','canon'],write:['plotPatch','chapterPlan'],deny:['chapter.delete','artifact.save','canon.accept','publish','github.write']},
+    authority:{read:['project','world','characters','plot','chapters','timeline','canon'],write:['plotPatch','chapterPlan'],deny:['chapter.delete','artifact.save','canon.accept','publish','project.write']},
     budget:{maxOutputTokens:18000,maxOutputTokensCeiling:36000,timeoutMs:180000},humanApproval:['artifact.apply']
   },
   {
     id:'narrative-scene',label:'Kohtauskirjoittaja',version:'1.0.0',role:'narrative-scene-writer',description:'Kirjoittaa tai jatkaa yhtä valittua lukua käyttäen projektin maailmaa, hahmoja, juonta, aikajanaa ja kaanonia.',
     modelRoute:'writer',tools:[],capabilities:['narrative.read','chapter.propose'],
-    authority:{read:['project','world','characters','plot','chapters','timeline','canon'],write:['chapterBodyProposal','chapterSummaryProposal'],deny:['otherChapter.write','artifact.save','canon.accept','publish','github.write']},
+    authority:{read:['project','world','characters','plot','chapters','timeline','canon'],write:['chapterBodyProposal','chapterSummaryProposal'],deny:['otherChapter.write','artifact.save','canon.accept','publish','project.write']},
     budget:{maxOutputTokens:28000,maxOutputTokensCeiling:56000,timeoutMs:180000},humanApproval:['artifact.apply']
   },
   {
     id:'narrative-continuity',label:'Jatkuvuusvahti',version:'1.0.0',role:'narrative-continuity-auditor',description:'Etsii ristiriidat kaanonin, aikajanan, hahmojen ja lukujen välillä. Ei korjaa niitä hiljaisesti.',
     modelRoute:'critic',tools:[],capabilities:['narrative.read','continuity.audit'],
-    authority:{read:['project','world','characters','plot','chapters','timeline','canon'],write:['continuityIssues','canonConflicts','timelineConflicts'],deny:['chapter.write','canon.write','artifact.save','publish','github.write']},
+    authority:{read:['project','world','characters','plot','chapters','timeline','canon'],write:['continuityIssues','canonConflicts','timelineConflicts'],deny:['chapter.write','canon.write','artifact.save','publish','project.write']},
     budget:{maxOutputTokens:14000,maxOutputTokensCeiling:28000,timeoutMs:180000},humanApproval:['artifact.apply','canon.accept']
   },
   {
     id:'narrative-voice',label:'Äänieditori',version:'1.0.0',role:'narrative-voice-editor',description:'Hioo valitun luvun rytmiä ja ääntä muuttamatta tapahtumia, kaanonia tai hahmojen identiteettiä.',
     modelRoute:'writer',tools:[],capabilities:['narrative.read','chapter.voice.propose'],
-    authority:{read:['project','characters','chapters','canon','continuityIssues'],write:['chapterBodyProposal','voiceChanges'],deny:['plot.write','canon.write','artifact.save','publish','github.write']},
+    authority:{read:['project','characters','chapters','canon','continuityIssues'],write:['chapterBodyProposal','voiceChanges'],deny:['plot.write','canon.write','artifact.save','publish','project.write']},
     budget:{maxOutputTokens:28000,maxOutputTokensCeiling:56000,timeoutMs:180000},humanApproval:['artifact.apply']
   },
   {
     id:'narrative-critic',label:'Kriitikko',version:'1.0.0',role:'narrative-adversarial-critic',description:'Arvioi tarinan jännitettä, rakennetta, hahmologiikkaa, kohtauksen toimivuutta ja selittämisen määrää ilman automaattista uudelleenkirjoitusta.',
     modelRoute:'critic',tools:[],capabilities:['narrative.read','narrative.critique'],
-    authority:{read:['project','world','characters','plot','chapters','timeline','canon','continuityIssues'],write:['critique'],deny:['chapter.write','canon.write','artifact.save','publish','github.write']},
+    authority:{read:['project','world','characters','plot','chapters','timeline','canon','continuityIssues'],write:['critique'],deny:['chapter.write','canon.write','artifact.save','publish','project.write']},
     budget:{maxOutputTokens:14000,maxOutputTokensCeiling:28000,timeoutMs:180000},humanApproval:['artifact.apply']
   },
   {
     id:'narrative-package',label:'Käsikirjoituspaketti',version:'1.0.0',role:'narrative-manuscript-packager',description:'Valmistelee käsikirjoituksen järjestyksen, etumateriaalin ja vientihuomiot. Ei tallenna, julkaise tai vie tiedostoja.',
     modelRoute:'writer',tools:[],capabilities:['narrative.read','manuscript.package.propose'],
-    authority:{read:['project','world','characters','plot','chapters','timeline','canon','critique'],write:['manuscriptPackage'],deny:['chapter.write','canon.write','artifact.save','artifact.export','publish','github.write']},
+    authority:{read:['project','world','characters','plot','chapters','timeline','canon','critique'],write:['manuscriptPackage'],deny:['chapter.write','canon.write','artifact.save','artifact.export','publish','project.write']},
     budget:{maxOutputTokens:12000,maxOutputTokensCeiling:24000,timeoutMs:180000},humanApproval:['artifact.apply','artifact.export']
   }
 ];
@@ -157,8 +157,8 @@ const RAW_TOOLS=[
     risk:'critical',requiredCapability:null,authorityKeys:['publish'],actor:'human',humanApproval:true,sideEffects:true,recordsPolicy:true
   },
   {
-    id:'github.write',label:'GitHub Write',version:'1.0.0',kind:'repository-write',description:'Kirjoittaa sisältöä tai metadataa GitHub-repositorioon.',
-    risk:'critical',requiredCapability:null,authorityKeys:['github.write'],actor:'human',humanApproval:true,sideEffects:true,recordsPolicy:true
+    id:'project.write',label:'Project Write',version:'1.0.0',kind:'project-write',description:'Kirjoittaa hyväksytyn muutoksen paikalliseen projektipuuhun.',
+    risk:'critical',requiredCapability:null,authorityKeys:['project.write'],actor:'human',humanApproval:true,sideEffects:true,recordsPolicy:true
   }
 ];
 function finalizeTool(input){

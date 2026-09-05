@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 import { getSession, requireCsrf } from '../auth.js';
 import { json, readJson, sameOrigin } from '../http.js';
-import { putBase64File } from '../github.js';
+import { putBase64File } from '../content-store.js';
 import { requireWorkspace, workspaceIdFromRequest } from '../workspace-store.js';
 import { requireArtifactCapability } from '../artifact-boundary.js';
 
@@ -42,8 +42,8 @@ export default async function handler(req,res){
     const date=/^\d{4}-\d{2}-\d{2}$/.test(String(body.date||''))?String(body.date):new Date().toISOString().slice(0,10);
     const [year,month]=date.split('-');
     const file=`${slug(body.name)}-${crypto.randomBytes(4).toString('hex')}.${ext}`;
-    const path=`media/${year}/${month}/${file}`;
-    const result=await putBase64File(path,base64,{message:`media: add ${file}`});
+    const path=`media/uploads/${year}/${month}/${file}`;
+    const result=await putBase64File(path,base64,{contentType:mime,message:`media: add ${file}`});
     return json(res,200,{ok:true,workspace,artifact,path,url:`/${path}`,mime,size:bytes.length,commitSha:result.commitSha,htmlUrl:result.htmlUrl});
   }catch(e){return json(res,e.statusCode||500,{ok:false,error:e.code||'MEDIA',message:e.message});}
 }

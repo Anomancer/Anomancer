@@ -22,12 +22,12 @@
     "runs.read",
     "archive.read",
     "archive.write.approved",
-    "repository.write.approved",
+    "project.write.approved",
     "tests.run.approved",
-    "git.pull-request.approved",
-    "deploy.preview.approved",
+    "release-gate.run.approved",
+    "deploy.validation.approved",
     "deploy.production.approved",
-    "repository.rollback.approved",
+    "project.rollback.approved",
     "deploy.rollback.approved"
   ]
 }

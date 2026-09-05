@@ -12,11 +12,14 @@ const shell=read('admin-shell.js');
 const overlays=read('admin-overlays.js');
 const admin=read('admin.js');
 const css=readAdminCss();
-const worker=read('lahetyskone-sw.js');
+const worker=read('lighthouse-sw.js');
 
 await test('16.8.1 kyvykkyydet toimitetaan 16.8.4 full releasessa',()=>{
-  assert.equal(pkg.version,'1.18.7');
-  assert.match(worker,/anomancer-lahetyskone-v1\.18\.7/);
+  assert.match(pkg.version,/^1\.26\./);
+  const releaseVersion=pkg.version.match(/^(\d+\.\d+\.\d+)/)?.[1];
+  assert.ok(releaseVersion,'package semver missing');
+  const cacheVersionPattern=new RegExp(`anomancer-lighthouse-v${releaseVersion.replace(/\./g,'\\.')}-[a-z0-9]+`);
+  assert.match(worker,cacheVersionPattern);
   assert.match(worker,/admin-overlays\.js/);
   assert.match(read('scripts/build-blog.mjs'),/'admin-overlays\.js'/);
 });
@@ -24,11 +27,11 @@ await test('16.8.1 kyvykkyydet toimitetaan 16.8.4 full releasessa',()=>{
 await test('mobiilin ensisijaiset työkalut tulevat Workspace Templatesta',()=>{
   const anomancer=getWorkspaceTemplate(ANOMANCER_TEMPLATE_ID).editorDefinition.navigation.mobilePrimary;
   const narramancer=getWorkspaceTemplate(NARRAMANCER_TEMPLATE_ID).editorDefinition.navigation.mobilePrimary;
-  assert.deepEqual(anomancer.map(x=>x.id),['write','evidence','orchestra','preview']);
+  assert.deepEqual(anomancer.map(x=>x.id),['write','evidence','preview']);
   assert.deepEqual(narramancer.map(x=>x.id),['project','characters','chapters','orchestra']);
   assert.ok(anomancer.length<=4&&narramancer.length<=4);
   assert.match(shell,/navigation\|\|\{\}/);
-  assert.match(shell,/mobilePrimary\.slice\(0,4\)/);
+  assert.match(shell,/mobilePrimary\.slice\(0,3\)/);
 });
 
 await test('sama metadata rakentaa mobiilidokin ja Lisää-pinnan',()=>{
@@ -38,7 +41,9 @@ await test('sama metadata rakentaa mobiilidokin ja Lisää-pinnan',()=>{
   assert.match(html,/id="mobileWorkspaceSelect"/);
   assert.match(shell,/function renderMobileNavigation\(\)/);
   assert.match(shell,/function mobileSecondary\(\)/);
+  assert.match(shell,/data-mobile-command="workspaces"/);
   assert.match(shell,/data-mobile-command="more"/);
+  assert.match(shell,/\['workspaces','◇','Mancerit'\]/);
 });
 
 await test('Narramancerin vanha mobiilipoikkeus yliajetaan yhteisellä dokilla',()=>{
@@ -60,7 +65,7 @@ await test('yhteinen overlay-controller omistaa Escape-, inert- ja fokuspalautuk
 });
 
 await test('mobiilin pakolliset kosketuskohteet ja labelit eivät putoa mikrotekstiksi',()=>{
-  assert.match(css,/--mobile-dock-h:66px/);
+  assert.match(css,/--mobile-dock-h:var\(--mobile-dock-height\)/);
   assert.match(css,/\.mobile-dock button\{min-height:54px;min-width:44px/);
   assert.match(css,/\.mobile-dock button>small\{font-size:var\(--font-size-meta\)/);
   assert.match(css,/\.core-shell-nav button\{min-height:44px;font-size:var\(--font-size-ui\)/);

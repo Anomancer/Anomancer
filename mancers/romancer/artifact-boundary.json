@@ -1,0 +1,26 @@
+{
+  "format": "anomancer-mancer-artifact-boundary/v1",
+  "id": "romancer/artifact-boundary/1.0.0",
+  "workspaceIsolation": true,
+  "store": "mancer/package-artifact-store/v1",
+  "read": [
+    "workspace-story-artifact",
+    "workspace-runs",
+    "granted-archive-context"
+  ],
+  "write": [
+    "workspace-story-artifact"
+  ],
+  "forbidden": [
+    "public-content",
+    "other-workspace-artifact",
+    "automatic-export",
+    "automatic-publication",
+    "silent-canon-write"
+  ],
+  "humanApprovalRequired": [
+    "apply-story-change",
+    "accept-canon",
+    "export"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "format": "anomancer-mancer-agent-bindings/v1",
+  "sharedAgentIds": [
+    "source",
+    "structure",
+    "critic",
+    "claims",
+    "package"
+  ],
+  "specialistAgents": [],
+  "notes": "Käyttää nykyisiä toimituksellisia kyvykkyyksiä. Uusia agentteja ei luoda ilman kyvykkyyssopimusta."
+}

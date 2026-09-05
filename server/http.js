@@ -15,6 +15,13 @@ export async function readJson(req, maxBytes = 1_500_000) {
     if (Buffer.byteLength(encoded) > maxBytes) throw Object.assign(new Error('Payload too large'), { statusCode: 413 });
     return req.body;
   }
+  if (typeof req.body === 'string' || Buffer.isBuffer(req.body)) {
+    const encoded=Buffer.isBuffer(req.body)?req.body.toString('utf8'):req.body;
+    if (Buffer.byteLength(encoded) > maxBytes) throw Object.assign(new Error('Payload too large'), { statusCode: 413 });
+    if (!encoded.trim()) return {};
+    try { return JSON.parse(encoded); }
+    catch { throw Object.assign(new Error('Virheellinen JSON.'), { statusCode: 400 }); }
+  }
   let body = '';
   for await (const chunk of req) {
     body += chunk;

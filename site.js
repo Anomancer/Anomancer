@@ -26,16 +26,68 @@ function labelFor(buttons,dataKey,value){
   return buttons.find(button=>String(button.dataset[dataKey]||'all')===String(value))?.dataset.filterLabel||String(value);
 }
 
+const PUBLIC_THEME_KEY='anomancer-public-theme';
+
+function currentPublicTheme(){
+  const explicit=document.documentElement.dataset.theme;
+  if(explicit==='light'||explicit==='dark')return explicit;
+  return window.matchMedia?.('(prefers-color-scheme: light)').matches?'light':'dark';
+}
+
+function syncThemeControls(root=document){
+  const theme=currentPublicTheme();
+  const next=theme==='light'?'dark':'light';
+  root.querySelectorAll?.('[data-theme-toggle]').forEach(button=>{
+    const label=button.querySelector('.theme-toggle-label');
+    const icon=button.querySelector('.theme-toggle-icon');
+    if(label)label.textContent=next==='light'?(button.dataset.lightLabel||'Light'):(button.dataset.darkLabel||'Dark');
+    if(icon)icon.textContent=theme==='light'?'☾':'☀';
+    button.setAttribute('aria-label',next==='light'?(button.dataset.lightAria||'Switch to light theme'):(button.dataset.darkAria||'Switch to dark theme'));
+    button.setAttribute('aria-pressed',String(theme==='light'));
+  });
+  const meta=document.querySelector('meta[name="theme-color"]');
+  if(meta)meta.setAttribute('content',theme==='light'?'#f5f3ef':'#040408');
+}
+
+function initPublicTheme(root=document){
+  if(typeof window==='undefined'||typeof document==='undefined')return;
+  syncThemeControls(root);
+  root.querySelectorAll?.('[data-theme-toggle]').forEach(button=>button.addEventListener('click',()=>{
+    const next=currentPublicTheme()==='light'?'dark':'light';
+    document.documentElement.dataset.theme=next;
+    try{window.localStorage.setItem(PUBLIC_THEME_KEY,next);}catch{}
+    syncThemeControls(root);
+  }));
+  const media=window.matchMedia?.('(prefers-color-scheme: light)');
+  media?.addEventListener?.('change',()=>{
+    let saved='';try{saved=window.localStorage.getItem(PUBLIC_THEME_KEY)||'';}catch{}
+    if(saved!=='light'&&saved!=='dark'){
+      document.documentElement.dataset.theme=media.matches?'light':'dark';
+      syncThemeControls(root);
+    }
+  });
+}
+
 export function initSiteUi(root=document){
+  initPublicTheme(root);
   const menuButton=root.querySelector('.menu-toggle');
   const menu=root.querySelector('#header-menu');
-  const closeMenu=()=>{menu?.classList.remove('is-open');menuButton?.setAttribute('aria-expanded','false');};
-  menuButton?.addEventListener('click',()=>{
-    const open=menu?.classList.toggle('is-open')||false;
-    menuButton.setAttribute('aria-expanded',String(open));
+  const menuLang=(root.documentElement?.lang||'fi').toLowerCase();
+  const menuLabels=menuLang.startsWith('en')?{open:'Open menu',close:'Close menu'}:{open:'Avaa valikko',close:'Sulje valikko'};
+  const setMenuOpen=open=>{
+    menu?.classList.toggle('is-open',Boolean(open));
+    menuButton?.setAttribute('aria-expanded',String(Boolean(open)));
+    menuButton?.setAttribute('aria-label',open?menuLabels.close:menuLabels.open);
+    document.body?.classList.toggle('site-menu-open',Boolean(open));
+  };
+  const closeMenu=()=>setMenuOpen(false);
+  menuButton?.addEventListener('click',event=>{
+    event.preventDefault();
+    setMenuOpen(!menu?.classList.contains('is-open'));
   });
   menu?.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));
   root.addEventListener?.('keydown',event=>{if(event.key==='Escape')closeMenu();});
+  if(typeof window!=='undefined')window.addEventListener('resize',()=>{if(window.innerWidth>820)closeMenu();},{passive:true});
 
   const categoryButtons=[...root.querySelectorAll('[data-category-filter]')];
   const audienceButtons=[...root.querySelectorAll('[data-audience-filter]')];

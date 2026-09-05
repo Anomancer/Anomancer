@@ -122,18 +122,17 @@ function finalizeTemplate(input){
 const LEGACY_WORKSPACE_TEMPLATE_REGISTRY=[
   finalizeTemplate({
     id:ANOMANCER_TEMPLATE_ID,name:'Anomancer',version:'1.0.0',kind:'editorial-platform',instancePolicy:'singleton-default',
-    description:'Nykyinen Lähetyskone, Anomancer-julkaisut ja toimituksellinen orkesterikerros.',
+    description:'Anomancerin toimitus- ja julkaisutyötila: lähetykset, evidenssi, orkesterit ja hallittu julkaisu.',
     purpose:'Kirjoita, tarkista ja julkaise Anomancerin lähetyksiä.',
     constitutionId:'anomancer/editorial-constitution/1.0.0',
     allowedAgentIds:editorialAgents,builtInOrchestraIds:['editorial'],defaultOrchestraId:'editorial',
-    artifactStoreId:'anomancer/github-markdown-content/v1',contentAdapterId:'anomancer/github-markdown/v1',
+    artifactStoreId:'anomancer/vercel-content/v1',contentAdapterId:'anomancer/vercel-direct-content/v1',
     outputAdapterId:'anomancer/vercel-publication/v1',uiProfileId:'anomancer/editorial-ui/v1',
     editorDefinition:{
       format:'anomancer-workspace-editor-definition/v1',
       navigation:{format:'anomancer-workspace-navigation/v1',mobilePrimary:[
         {id:'write',label:'Kirjoita',icon:'✎',target:'section'},
         {id:'evidence',label:'Evidenssi',icon:'◈',target:'section'},
-        {id:'orchestra',label:'Orkesteri',icon:'⬡',target:'section'},
         {id:'preview',label:'Esikatselu',icon:'▣',target:'command'}
       ],groups:[
         {id:'work',label:'Työ',items:['dispatches','write']},
@@ -178,9 +177,9 @@ function packageTemplateInput(pkg){
   const m=pkg.manifest,bindings=pkg.agentBindings||{},orchestras=pkg.orchestraRegistry?.orchestras||[];
   return{
     id:m.templateId,name:m.name,version:m.version,kind:m.kind,instancePolicy:m.instancePolicy||'multiple',description:m.description,purpose:m.purpose,constitutionId:m.constitutionId,
-    allowedAgentIds:(bindings.sharedAgentIds||[]).filter(id=>allAgents.includes(id)),builtInOrchestraIds:[],defaultOrchestraId:'',
+    allowedAgentIds:(bindings.sharedAgentIds||[]).filter(id=>allAgents.includes(id)),builtInOrchestraIds:Array.isArray(m.builtInOrchestraIds)?[...m.builtInOrchestraIds]:[],defaultOrchestraId:String(m.defaultOrchestraId||''),
     packageOrchestraIds:orchestras.map(x=>x.id),artifactStoreId:m.artifactStoreId,contentAdapterId:m.contentAdapterId,outputAdapterId:m.outputAdapterId,uiProfileId:m.uiProfileId,
-    editorDefinition:{format:'anomancer-workspace-editor-definition/v1',renderer:pkg.uiSchema.renderer,rendererCapabilities:pkg.uiSchema.rendererCapabilities||[],navigation:pkg.uiSchema.navigation,sections:pkg.uiSchema.sections},
+    editorDefinition:m.id==='romancer'?clone(NARRAMANCER_EDITOR_DEFINITION):{format:'anomancer-workspace-editor-definition/v1',renderer:pkg.uiSchema.renderer,rendererCapabilities:pkg.uiSchema.rendererCapabilities||[],navigation:pkg.uiSchema.navigation,sections:pkg.uiSchema.sections},
     capabilities:m.capabilities||[],mancerPackage:{format:MANCER_PACKAGE_FORMAT,id:m.id,version:m.version,contractHash:pkg.contractHash,approvalModel:pkg.approvalModel,artifactBoundary:pkg.artifactBoundary,agentBindings:pkg.agentBindings,orchestraRegistry:pkg.orchestraRegistry,archivePolicy:pkg.archivePolicy}
   };
 }

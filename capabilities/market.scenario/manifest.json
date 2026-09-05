@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "market.scenario",
+  "name": "Markkinaskenaariot",
+  "version": "1.0.0",
+  "purpose": "Rakentaa vaihtoehtoisia markkinaskenaarioita ilman ennustevarmuuden teeskentelyä.",
+  "providerClass": "market",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

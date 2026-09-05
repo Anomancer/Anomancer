@@ -1,0 +1,7 @@
+{
+  "format": "anomancer-capability-adapter/v1",
+  "capabilityId": "data.visualize",
+  "kind": "compute",
+  "executionCapability": null,
+  "runtimeAdapter": "compute.tabular.v1"
+}

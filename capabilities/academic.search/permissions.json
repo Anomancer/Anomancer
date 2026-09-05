@@ -1,0 +1,10 @@
+{
+  "format": "anomancer-capability-permissions/v1",
+  "capabilityId": "academic.search",
+  "writesExternalState": false,
+  "requiresHumanApproval": false,
+  "dataEgress": "public-network",
+  "allowedScopes": [
+    "user_text"
+  ]
+}

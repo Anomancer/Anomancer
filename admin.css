@@ -1,4 +1,6 @@
-/* Stylesheet manifest. Component rules live in one owner file. */
+/* ANOMANCER 1.26.4 · canonical UI ownership manifest
+   Tokens -> shell -> workspace/components -> workspace surfaces -> responsive.
+   Component files do not own viewport breakpoints; admin-responsive.css owns global reflow. */
 @import url("ui-tokens.css");
 @import url("admin-shell.css");
 @import url("admin-workspace.css");
@@ -8,4 +10,22 @@
 @import url("admin-archive.css");
 @import url("admin-nanomancer.css");
 @import url("admin-mancer.css");
+@import url("lighthouse-workbench.css");
+@import url("lighthouse-ui-constitution.css");
 @import url("admin-responsive.css");
+
+/* Lighthouse stability: Firefox/Linux compositor fallback.
+   Sticky/fixed translucent layers stay visually equivalent without live backdrop blurs. */
+html[data-browser-engine="firefox"] .core-shell,
+html[data-browser-engine="firefox"] .topbar,
+html[data-browser-engine="firefox"] .editor-tabs,
+html[data-browser-engine="firefox"] .actions,
+html[data-browser-engine="firefox"] .sidebar .side-head,
+html[data-browser-engine="firefox"] .sidebar .filters,
+html[data-browser-engine="firefox"] dialog::backdrop,
+html[data-browser-engine="firefox"] .sidebar-backdrop,
+html[data-browser-engine="firefox"] .workspace-mobile-sheet::backdrop{
+  backdrop-filter:none!important;
+}
+html[data-browser-engine="firefox"] .core-shell{background:var(--color-surface-deep)!important;}
+html[data-browser-engine="firefox"] .workspace-context-bar{background:transparent!important;}

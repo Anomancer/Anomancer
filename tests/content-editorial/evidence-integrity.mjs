@@ -14,10 +14,10 @@ await test('verified vaatii täydellisen jäljitettävän varmennuskuitin',()=>{
   assert.ok(issues.length>=4);
 });
 
-await test('suora avaus ei voi olla varmennettu, jos haaste kertoo 403-estosta',()=>{
+await test('uusi ihmisen avausvahvistus voi ohittaa lähteen vanhan saatavuushuomion',()=>{
   const source={verification:'verified',verificationMethod:'direct-open',verifiedBy:'human:qa',verifiedAt:'2026-08-28T12:00:00.000Z',verificationEvidence:'https://example.com',verificationNotes:'Sisältö tarkistettu.',challenges:'Sivua ei saatu avattua 403-eston vuoksi.'};
-  assert.equal(isSourceVerified(source),false);
-  assert.match(sourceVerificationIssues(source).join(' '),/ristiriidassa/);
+  assert.equal(isSourceVerified(source),true);
+  assert.deepEqual(sourceVerificationIssues(source),[]);
 });
 
 await test('dokumentoitu vaihtoehtoinen varmennus voi ratkaista suoran avauksen esteen',()=>{

@@ -1,6 +1,5 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
 import { CORE_VERSION, AGENT_REGISTRY, ORCHESTRA_REGISTRY, TOOL_REGISTRY, digest } from './core-registry.js';
 import { publicCoreSchemaHash } from './public-core.js';
 
@@ -11,12 +10,8 @@ function packageVersion(){
   catch{return CORE_VERSION;}
 }
 function sourceRevision(){
-  const env=String(process.env.VERCEL_GIT_COMMIT_SHA||process.env.GITHUB_SHA||'').trim();
-  if(/^[a-f0-9]{7,64}$/i.test(env))return env;
-  try{
-    const value=execFileSync('git',['rev-parse','HEAD'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}).trim();
-    return /^[a-f0-9]{7,64}$/i.test(value)?value:null;
-  }catch{return null;}
+  const env=String(process.env.ANOMANCER_RELEASE_REVISION||process.env.VERCEL_DEPLOYMENT_ID||'').trim();
+  return /^[a-z0-9_-]{7,128}$/i.test(env)?env:null;
 }
 function registryHash(items,hashKey){
   return digest(items.map(item=>({id:item.id,version:item.version,hash:item[hashKey]})));

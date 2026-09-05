@@ -9,7 +9,6 @@ import { getAgentContract, listAgentIds, CORE_VERSION } from '../core-registry.j
 import { createRunReceipt } from '../core-receipt.js';
 import { authorizeAgentTools } from '../tool-broker.js';
 import { getRuntimeProfile, verifyRuntimeSnapshot } from '../runtime-store.js';
-import { appendRunReceipt } from '../run-store.js';
 import { requireWorkspace, workspaceIdFromRequest } from '../workspace-store.js';
 import { getWorkspaceTemplate } from '../workspace-templates.js';
 import { normalizeNarramancerProject } from '../narramancer-project.js';
@@ -44,6 +43,35 @@ function normalizePost(input={}){
     description:cleanString(input.description,220),answer:cleanString(input.answer,1200),slug:cleanString(input.slug,100),
     sources,claims,body,citationMode:normalizeCitationMode(input.citationMode),citationPlacements:normalizeCitationPlacements(input.citationPlacements,{sources,claims,body}),visualizations:normalizeVisualizations(input.visualizations,{sources,claims,body}),
   };
+}
+
+
+function isModelLengthFailure(error){
+  return ['DEEPSEEK_LENGTH','MODEL_LENGTH'].includes(String(error?.code||''));
+}
+function lengthRecoveryUser(agent,user){
+  const specific=agent==='critic'
+    ? 'Return at most 12 issues, at most 8 strengths and at most 8 questions. Keep each excerpt, problem and fix concise. Do not rewrite the article.'
+    : 'Return only the smallest valid JSON object required by the requested schema. Remove repetition and commentary that is not required by the schema.';
+  return `${String(user||'')}
+
+LENGTH RECOVERY MODE:
+The previous model response hit its output token boundary. Preserve the requested semantics, but make this retry materially shorter. ${specific} Do not mention this recovery mode in the JSON.`;
+}
+async function routeAgentWithLengthRecovery(agent,options){
+  try{
+    return await routeAgentJson(options);
+  }catch(error){
+    if(!isModelLengthFailure(error)||options.webSearch||options.thinking===false)throw error;
+    try{
+      const recovered=await routeAgentJson({...options,user:lengthRecoveryUser(agent,options.user),thinking:false});
+      recovered.meta={...(recovered.meta||{}),lengthRecovery:true,lengthRecoveryFrom:String(error?.code||'MODEL_LENGTH')};
+      return recovered;
+    }catch(recoveryError){
+      if(isModelLengthFailure(recoveryError))recoveryError.retryable=false;
+      throw recoveryError;
+    }
+  }
 }
 
 export default async function handler(req,res){
@@ -89,14 +117,14 @@ export default async function handler(req,res){
     const abortController=new AbortController();
     const abort=()=>abortController.abort();
     req.once?.('aborted',abort);
-    let response;try{response=await routeAgentJson({
+    const thinking=!['voice','narrative-voice'].includes(agent),webSearch=!narrative&&agent==='source';
+    let response;try{response=await routeAgentWithLengthRecovery(agent,{
       contract,runtime,system,user,schema:!narrative&&agent==='source'?SOURCE_SCHEMA:null,
-      maxTokens:runtime.maxOutputTokens,thinking:!['voice','narrative-voice'].includes(agent),webSearch:!narrative&&agent==='source',signal:abortController.signal
+      maxTokens:runtime.maxOutputTokens,thinking,webSearch,signal:abortController.signal
     });}finally{req.removeListener?.('aborted',abort);}
     const result=narrative?validateNarrativeAgentResult(agent,response.result,input,{activeChapterId}):validateAgentResult(agent,response.result,input);
     const receipt=createRunReceipt({contract,runtime,post:input,instruction:custom,result,meta:response.meta,toolPolicy,startedAt,finishedAt:new Date(),orchestraRunId,orchestra:snapshotOrchestra,workspace:workspace,stageIndex:Number.isInteger(body.stageIndex)?body.stageIndex:null});
-    let runPersistence={stored:false,error:null};
-    if(orchestraRunId){try{await appendRunReceipt(receipt);runPersistence={stored:true,error:null};}catch(error){runPersistence={stored:false,error:String(error?.code||'RUN_STORE')};}}
+    const runPersistence=orchestraRunId?{stored:false,deferred:true,error:null}:{stored:false,deferred:false,error:null};
     return json(res,200,{ok:true,workspace,coreVersion:CORE_VERSION,agent,contract:{id:contract.id,version:contract.version,contractHash:contract.contractHash,role:contract.role,authority:contract.authority,budget:contract.budget,runtimePolicy:contract.runtimePolicy},runtime,toolPolicy,result,meta:response.meta,receipt,runPersistence,humanApprovalRequired:true});
   }catch(e){
     return json(res,e.statusCode||500,{ok:false,error:e.code||'AGENT_FAILED',message:e.message,retryable:Boolean(e.retryable),retryAfterMs:Number(e.retryAfterMs||0),policyDecision:e.policyDecision||null});

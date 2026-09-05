@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "model.disagreement",
+  "name": "Mallien erimielisyys",
+  "version": "1.0.0",
+  "purpose": "Tunnistaa missä useiden mallien vastaukset eroavat ja miksi ero on käyttäjälle olennainen. Odottaa ensemble-runtimea.",
+  "providerClass": "model",
+  "mode": "runtime-tool",
+  "routing": "read-only",
+  "availability": "disabled"
+}

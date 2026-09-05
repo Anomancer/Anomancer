@@ -1,0 +1,1162 @@
+/* Lighthouse UI Constitution R1 · 1.26.2 mobile cosmetic polish
+   One shell, one spatial rhythm, one component grammar.
+   Global navigation lives in Valikko. Content gets the room.
+   Viewport media queries belong exclusively to admin-responsive.css.
+   Constitution declarations rely on import order, not priority escalation. */
+
+:root{
+  --lhc-bg:#090711;
+  --lhc-bg-deep:#06040b;
+  --lhc-panel:#11101a;
+  --lhc-panel-raised:#15131f;
+  --lhc-panel-soft:#0d0b14;
+  --lhc-border:#252231;
+  --lhc-border-strong:#343044;
+  --lhc-text:#f1eef6;
+  --lhc-muted:#9892a4;
+  --lhc-dim:#6e6878;
+  --lhc-accent:#8d5ab8;
+  --lhc-accent-strong:#a56bd4;
+  --lhc-success:#75c791;
+  --lhc-warning:#e7bf6b;
+  --lhc-error:#e67d8e;
+  --lhc-header-height:54px;
+  --lhc-content-width:1480px;
+  --lhc-radius:8px;
+  --lhc-radius-lg:11px;
+  --lhc-control-height:34px;
+  --lhc-page-gap:18px;
+  --lhc-section-gap:12px;
+  --lhc-font-meta:12px;
+  --lhc-font-ui:13px;
+  --lhc-shadow:0 18px 50px rgba(0,0,0,.22);
+  --lhc-page-inline:32px;
+  --lhc-control-bg:#15121c;
+  --lhc-control-hover:#1a1722;
+  --lhc-input-bg:#0d0b13;
+  --lhc-header-bg:rgba(9,7,17,.94);
+  --lhc-menu-bg:linear-gradient(180deg,#14111c,#0d0b13);
+  --lhc-row-hover:#15121c;
+  color-scheme:dark;
+}
+
+html[data-theme="light"]{
+  --lhc-bg:#f4f3f0;
+  --lhc-bg-deep:#eceae6;
+  --lhc-panel:#ffffff;
+  --lhc-panel-raised:#ffffff;
+  --lhc-panel-soft:#f8f7f4;
+  --lhc-border:#dedbd5;
+  --lhc-border-strong:#c9c5be;
+  --lhc-text:#181719;
+  --lhc-muted:#6b676d;
+  --lhc-dim:#8b868e;
+  --lhc-accent:#6f4b8a;
+  --lhc-accent-strong:#80579e;
+  --lhc-success:#2f9a62;
+  --lhc-warning:#a87524;
+  --lhc-error:#bd5267;
+  --lhc-shadow:0 14px 40px rgba(34,28,24,.08);
+  --lhc-control-bg:#ffffff;
+  --lhc-control-hover:#f4f1f6;
+  --lhc-input-bg:#ffffff;
+  --lhc-header-bg:rgba(250,249,247,.94);
+  --lhc-menu-bg:linear-gradient(180deg,#ffffff,#f7f5f1);
+  --lhc-row-hover:#f6f3f7;
+  color-scheme:light;
+
+  /* Bridge the older workbench tokens into the Constitution theme. */
+  --color-canvas:#f4f3f0;
+  --color-canvas-deep:#eceae6;
+  --color-surface:#ffffff;
+  --color-surface-elevated:#ffffff;
+  --color-surface-input:#ffffff;
+  --color-surface-deep:#f8f7f4;
+  --color-surface-preview:#ffffff;
+  --color-surface-card:#ffffff;
+  --color-surface-subtle:#f7f5f2;
+  --color-control:#ffffff;
+  --color-control-hover:#f4f1f6;
+  --color-text:#181719;
+  --color-text-strong:#111012;
+  --color-text-secondary:#5f5b62;
+  --color-text-tertiary:#817c84;
+  --color-border-subtle:rgba(31,27,34,.08);
+  --color-border:rgba(31,27,34,.13);
+  --color-border-strong:rgba(31,27,34,.22);
+  --color-border-input:#d3cfd6;
+  --color-border-control:#cbc7cf;
+  --color-border-card:#dedadf;
+  --color-border-code:#d8d4dc;
+  --color-accent-border:#a8789a;
+  --color-accent-surface:#f2e8ef;
+  --color-focus-border:#80579e;
+  --color-glass-faint:rgba(20,16,24,.015);
+  --color-glass-soft:rgba(20,16,24,.025);
+  --color-glass-medium:rgba(20,16,24,.04);
+}
+
+
+html,body{background:var(--lhc-bg);color:var(--lhc-text)}
+body{min-height:100dvh;background:radial-gradient(circle at 50% -15%,rgba(112,61,151,.08),transparent 36rem),var(--lhc-bg)}
+.app{min-height:100dvh;background:transparent}
+
+/* Shell */
+.core-shell.lighthouse-app-header{
+  position:sticky;top:0;z-index:80;
+  height:var(--lhc-header-height);min-height:var(--lhc-header-height);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 18px;border:0;border-bottom:1px solid rgba(255,255,255,.045);
+  background:var(--lhc-header-bg);backdrop-filter:blur(18px);
+  box-shadow:none;
+}
+.core-shell-brand{display:flex;align-items:center;gap:11px;min-width:0}
+.core-shell-brand strong{font-size:12px;letter-spacing:.11em;color:var(--lhc-text);font-weight:780}
+.core-shell-mark{width:32px;height:32px;border:0;background:transparent;display:grid;place-items:center;flex:0 0 auto}
+.core-shell-mark img{width:30px;height:30px;object-fit:contain;display:block}
+.lighthouse-menu-trigger,.lighthouse-menu-close{
+  min-height:30px;height:30px;border:1px solid var(--lhc-border);border-radius:6px;
+  background:#100e17;color:#c9c3d2;padding:0 9px;font-size:var(--lhc-font-meta);font-weight:750;
+  box-shadow:none;
+}
+.lighthouse-menu-trigger{display:flex;align-items:center;gap:7px}
+.lighthouse-menu-trigger:hover,.lighthouse-menu-close:hover{border-color:var(--lhc-border-strong);background:#17141f;color:#fff}
+
+/* Global menu */
+.lighthouse-menu-dialog{
+  position:fixed;inset:12px 12px auto auto;margin:0;
+  width:min(304px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;
+  padding:0;border:1px solid var(--lhc-border-strong);border-radius:12px;
+  background:var(--lhc-menu-bg);color:var(--lhc-text);
+  box-shadow:0 30px 90px rgba(0,0,0,.55);
+}
+.lighthouse-menu-dialog::backdrop{background:rgba(3,2,7,.58);backdrop-filter:blur(4px)}
+.lighthouse-menu-head{height:51px;padding:0 13px 0 15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--lhc-border)}
+.lighthouse-menu-head>strong{font-size:var(--lhc-font-meta);letter-spacing:.16em;color:#d9d3e0}
+.lighthouse-menu-close{width:30px;padding:0;font-size:18px;font-weight:400;border-color:transparent;background:transparent}
+.lighthouse-menu-nav{padding:8px}
+.lighthouse-menu-nav section{padding:6px 0 9px;border-bottom:1px solid rgba(255,255,255,.055)}
+.lighthouse-menu-nav section>span{display:block;padding:4px 9px 6px;font-size:var(--lhc-font-meta);letter-spacing:.13em;color:var(--lhc-dim);font-weight:780}
+.lighthouse-menu-nav button{
+  width:100%;height:34px;min-height:34px;padding:0 9px;display:flex;align-items:center;gap:9px;
+  border:1px solid transparent;border-radius:6px;background:transparent;color:#bbb5c5;text-align:left;
+  font-size:var(--lhc-font-meta);font-weight:680;box-shadow:none;
+}
+.lighthouse-menu-nav button>b{width:14px;color:#81778e;text-align:center;font-size:var(--lhc-font-meta);font-weight:500}
+.lighthouse-menu-nav button>strong{font:inherit;color:inherit}
+.lighthouse-menu-nav button:hover{background:#181520;color:#eeeaf2}
+.lighthouse-menu-nav button.active,.lighthouse-menu-nav button[aria-current="page"]{background:#24202e;border-color:#2b2636;color:#f3eff7}
+.lighthouse-menu-settings{border-bottom:0}
+.lighthouse-menu-footer{padding:10px 14px 12px;display:grid;grid-template-columns:1fr auto;gap:7px 10px;align-items:center;color:var(--lhc-dim)}
+.lighthouse-menu-footer .connection-state{font-size:var(--lhc-font-meta);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lighthouse-menu-footer .lighthouse-shell-mode-link{min-height:26px;height:26px;padding:0 8px;border-radius:5px;font-size:var(--lhc-font-meta)}
+.lighthouse-menu-footer small{grid-column:1/-1;font-size:var(--lhc-font-meta);color:#56505f}
+
+/* Main spatial law */
+.workspace{display:block;min-height:calc(100dvh - var(--lhc-header-height));background:transparent}
+.workspace-stage{display:block;min-width:0;background:transparent}
+.workspace-content{width:100%;min-width:0;max-width:none;margin:0;padding:0}
+.core-surface{width:min(var(--lhc-content-width),calc(100% - (var(--lhc-page-inline) * 2)));max-width:var(--lhc-content-width);margin:0 auto;padding:34px 0 70px;background:transparent}
+.core-surface-view{min-width:0}
+.workspace-local-sidebar,.sidebar,.sidebar-backdrop{display:none}
+.workspace-context-bar{
+  width:min(var(--lhc-content-width),calc(100% - (var(--lhc-page-inline) * 2)));max-width:var(--lhc-content-width);margin:0 auto;
+  min-height:76px;padding:19px 0 13px;border:0;background:transparent;box-shadow:none;
+}
+body:not([data-shell-surface="workspace"]) .workspace-context-bar{display:none}
+.workspace-context-bar .sidebar-toggle{display:none}
+.workspace-context-bar .editor-title{min-width:0}
+.workspace-context-bar .editor-title>div{display:grid;gap:2px}
+.workspace-context-bar .editor-title .kicker{font-size:var(--lhc-font-meta);letter-spacing:.13em;color:var(--lhc-dim)}
+.workspace-context-bar #editingLabel{font-size:clamp(17px,2vw,22px);line-height:1.15;color:var(--lhc-text);font-weight:760}
+.workspace-context-bar #workspaceContextPurpose{font-size:var(--lhc-font-meta);color:var(--lhc-muted)}
+.workspace-context-actions{display:flex;align-items:center;gap:7px}
+.workspace-context-actions .workspace-switcher{display:none}
+.workspace-context-actions .workspace-save-indicator{height:28px;display:inline-flex;align-items:center;padding:0 8px;border-radius:6px;border:1px solid rgba(117,199,145,.18);background:rgba(117,199,145,.05);font-size:var(--lhc-font-meta);color:var(--lhc-success)}
+.mobile-quick-actions{display:flex;align-items:center;gap:6px}
+.mobile-quick-actions #mobilePreviewBtn,.mobile-quick-actions #mobileCoreBtn,.mobile-quick-actions #mobileSettingsBtn{display:none}
+.mobile-quick-actions #mobileSaveBtn,.mobile-quick-actions #mobilePublishBtn{display:inline-flex}
+
+/* Page header */
+.core-surface-head,.lighthouse-page-header{
+  min-height:0;margin:0 0 18px;padding:0 0 15px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;
+  border:0;border-bottom:1px solid rgba(255,255,255,.045);background:transparent;
+}
+.core-surface-head .kicker{margin:0 0 7px;font-size:var(--lhc-font-meta);letter-spacing:.14em;color:#756d80}
+.core-surface-head h1{margin:0;font-size:clamp(20px,2.2vw,27px);line-height:1.1;letter-spacing:-.025em;color:var(--lhc-text);font-weight:760}
+.core-surface-head p:not(.kicker){margin:5px 0 0;max-width:650px;color:var(--lhc-muted);font-size:var(--lhc-font-meta);line-height:1.5}
+
+/* Component constitution */
+.lighthouse-panel,.workspace-home-card,.artifact-home article,.blank-workspace-grid article{
+  border:1px solid var(--lhc-border);border-radius:var(--lhc-radius);
+  background:linear-gradient(180deg,var(--lhc-panel-raised),var(--lhc-panel));
+  box-shadow:none;
+}
+button,.secondary,.ghost,.primary,.public-open,input,select,textarea{border-radius:6px}
+button,.secondary,.ghost,.primary,.public-open{min-height:var(--lhc-control-height);height:auto;padding:7px 10px;font-size:var(--lhc-font-meta);font-weight:720;box-shadow:none}
+button:not(.danger),.secondary,.ghost,.public-open{border:1px solid var(--lhc-border);background:var(--lhc-control-bg);color:var(--lhc-muted)}
+button:not(.danger):hover,.secondary:hover,.ghost:hover,.public-open:hover{border-color:var(--lhc-border-strong);background:var(--lhc-control-hover);color:var(--lhc-text)}
+.primary,button.primary,.agent-run,.orchestra-run{border:1px solid #694487;background:#4d2f65;color:#f7f2fb;box-shadow:none}
+.primary:hover,button.primary:hover,.agent-run:hover,.orchestra-run:hover{border-color:#8558a8;background:#5a3874}
+.danger{border:1px solid rgba(230,125,142,.28);background:rgba(107,35,49,.22);color:#efa3af}
+:is(input,select,textarea,.body-editor){min-height:34px;border:1px solid var(--lhc-border);background:var(--lhc-input-bg);color:var(--lhc-text);font-size:var(--lhc-font-meta);box-shadow:none}
+:is(input,select,textarea,.body-editor):focus{outline:none;border-color:#6e4b8a;box-shadow:0 0 0 3px rgba(141,90,184,.08)}
+label{color:var(--lhc-muted);font-size:var(--lhc-font-meta)}
+
+.lighthouse-status,[data-state="success"],[data-state="ok"]{color:var(--lhc-success)}
+.lighthouse-status[data-state="warning"],[data-state="warning"]{color:var(--lhc-warning)}
+.lighthouse-status[data-state="error"],[data-state="err"],[data-state="broken"]{color:var(--lhc-error)}
+.lighthouse-status[data-state="neutral"]{color:var(--lhc-muted)}
+[data-connection-state][data-state="online"]{color:var(--lhc-success)}
+.lighthouse-status{display:inline-flex;align-items:center;gap:5px;font-size:var(--lhc-font-meta);font-weight:720}
+.lighthouse-status::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+.status,.system-feedback-center{border-radius:var(--lhc-radius);font-size:var(--lhc-font-meta)}
+.lighthouse-empty-state{min-height:150px;display:grid;place-items:center;align-content:center;gap:4px;text-align:center;color:var(--lhc-muted)}
+.lighthouse-empty-state strong{color:#d8d2df;font-size:12px}.lighthouse-empty-state p{margin:0;font-size:var(--lhc-font-meta)}
+
+/* Dashboard */
+.lighthouse-dashboard{width:100%;max-width:none;margin:0 auto}
+.lighthouse-current-work{padding:15px 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:10px}
+.lighthouse-current-work h2{margin:4px 0 3px;font-size:14px;color:#e8e3ed}
+.lighthouse-current-work p{margin:0;color:var(--lhc-muted);font-size:var(--lhc-font-meta)}
+.lighthouse-panel-kicker{display:block;font-size:var(--lhc-font-meta);letter-spacing:.12em;color:var(--lhc-muted);font-weight:760}
+.lighthouse-dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lighthouse-dashboard-grid article{min-height:116px;padding:14px;display:grid;grid-template-columns:auto 1fr;grid-template-rows:1fr auto;gap:8px 10px;align-items:start}
+.lighthouse-panel-icon{width:24px;height:24px;display:grid;place-items:center;border-radius:6px;background:#21152c;color:#9b69bf;font-size:12px}
+.lighthouse-dashboard-grid article>div{min-width:0}.lighthouse-dashboard-grid article strong{display:block;margin:5px 0 3px;color:#e0dae7;font-size:12px}.lighthouse-dashboard-grid article p{margin:0;color:var(--lhc-muted);font-size:var(--lhc-font-meta)}.lighthouse-dashboard-grid article button{grid-column:2;justify-self:start}
+.lighthouse-system-strip{margin-top:9px;min-height:38px;padding:7px 10px;display:grid;grid-template-columns:auto auto 1fr auto;align-items:center;gap:7px;border:1px solid #17141e;border-radius:7px;background:#0c0a11;color:var(--lhc-dim);font-size:var(--lhc-font-meta)}
+.lighthouse-system-strip strong{font-size:var(--lhc-font-meta);color:#8f8997}.lighthouse-system-dot{width:5px;height:5px;border-radius:50%;background:var(--lhc-success);box-shadow:0 0 0 3px rgba(117,199,145,.07)}
+.lighthouse-system-strip button{min-height:25px;height:25px;border:0;background:transparent;padding:0 4px;font-size:var(--lhc-font-meta)}
+
+/* Mancerit */
+.workspace-home-state{font-size:var(--lhc-font-meta);color:var(--lhc-muted);margin-bottom:8px}
+.workspace-home-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.workspace-home-grid .workspace-home-card{padding:14px;min-height:128px}
+.workspace-home-card h2,.workspace-home-card h3,.workspace-home-card strong{font-size:12px;color:#e2dce8}
+.workspace-home-card p{font-size:var(--lhc-font-meta);line-height:1.45;color:var(--lhc-muted)}
+.mancer-registry-surface{margin-top:9px;border:0;background:transparent;padding:0}
+.mancer-registry-surface>header{display:none}
+
+/* Current work. One work surface, optional depth only on demand. */
+body[data-shell-surface="workspace"] .workspace-content{width:min(var(--lhc-content-width),calc(100% - (var(--lhc-page-inline) * 2)));max-width:var(--lhc-content-width);margin:0 auto;padding-bottom:70px}
+.editor-grid{display:block;grid-template-columns:1fr;border:0;background:transparent}
+.editor-grid[hidden],.core-surface[hidden],.core-surface-view[hidden],.narramancer-workspace[hidden],.mancer-workspace[hidden],.blank-workspace[hidden]{display:none}
+.editor-resizer,.preview-panel{display:none}
+.form-panel{width:100%;max-width:none;padding:16px;border:1px solid var(--lhc-border);border-radius:var(--lhc-radius);background:var(--lhc-panel-soft);box-shadow:none}
+.body-editor{min-height:430px;line-height:1.65;background:var(--lhc-input-bg)}
+.editor-workflow-stage{border-color:var(--lhc-border);background:var(--lhc-panel);border-radius:7px}
+.editor-stage-copy span,.editor-release-stage-copy .kicker{color:#7b7383}
+.editor-release-stage{margin-top:10px}
+.light-work-handoff{border-radius:var(--lhc-radius);border-color:var(--lhc-border);background:var(--lhc-panel-raised)}
+.narramancer-workspace,.mancer-workspace,.blank-workspace{width:min(var(--lhc-content-width),calc(100% - (var(--lhc-page-inline) * 2)));margin:0 auto 70px;border-radius:var(--lhc-radius);overflow:hidden}
+
+/* Archive: search first, results second. */
+.archive-view .archive-boundary-banner,.archive-view .archive-curator-disclosure{display:none}
+.archive-toolbar{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(140px,.5fr) minmax(140px,.5fr);gap:7px;margin-bottom:8px}
+.archive-toolbar label{gap:4px}.archive-toolbar label>span{font-size:var(--lhc-font-meta);color:var(--lhc-dim)}
+.archive-store-meta{min-height:24px;padding:0 3px;color:var(--lhc-dim);font-size:var(--lhc-font-meta)}
+.archive-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+.archive-browser,.archive-inspector{border:1px solid var(--lhc-border);border-radius:var(--lhc-radius);background:var(--lhc-panel-soft);box-shadow:none}
+.archive-object-list{min-height:180px}.archive-inspector{margin-top:0}
+.archive-receipts{margin:8px;border-color:var(--lhc-border)}
+
+/* Runs: top-level table/timeline, no nested accordion chrome. */
+.lighthouse-runs-view .core-machine-disclosure{margin:0;border:0;background:transparent;overflow:visible}
+.lighthouse-runs-view .core-machine-disclosure>summary{display:none}
+.lighthouse-runs-view .core-machine-disclosure>.core-section{display:block;padding:0;border:0;background:transparent}
+.lighthouse-runs-view .core-section-head{display:none}
+.lighthouse-runs-view .core-usage-strip{grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:0 0 9px}
+.lighthouse-runs-view .core-usage-strip article{padding:9px;border:1px solid var(--lhc-border);border-radius:7px;background:var(--lhc-panel-soft)}
+.lighthouse-runs-view .core-run-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) auto;gap:7px;padding:9px;border:1px solid var(--lhc-border);border-radius:7px;background:var(--lhc-panel-soft);margin-bottom:8px}
+.lighthouse-runs-view .core-run-list{border:1px solid var(--lhc-border);border-radius:var(--lhc-radius);overflow:hidden;background:var(--lhc-panel-soft)}
+.core-run-row{border-color:rgba(255,255,255,.045)}
+
+/* Publications: one calm list. */
+.lighthouse-list-toolbar{display:flex;gap:5px;margin-bottom:8px}
+.lighthouse-list-toolbar button{min-height:29px;height:29px;background:transparent;border-color:transparent;color:var(--lhc-muted)}
+.lighthouse-list-toolbar button.active{background:#1c1824;border-color:var(--lhc-border);color:#e6e1eb}
+.lighthouse-publication-list{overflow:hidden;padding:0}
+.lighthouse-list-row{
+  width:100%;min-height:48px;padding:8px 10px;display:grid;grid-template-columns:minmax(0,2fr) minmax(90px,.7fr) minmax(78px,.5fr) 90px 14px;gap:10px;align-items:center;
+  border:0;border-bottom:1px solid rgba(255,255,255,.045);border-radius:0;background:transparent;color:#aaa4b1;text-align:left;font-size:var(--lhc-font-meta);
+}
+.lighthouse-list-row:last-child{border-bottom:0}.lighthouse-list-row:hover{background:#15121c}.lighthouse-list-primary{display:grid;gap:3px;min-width:0}.lighthouse-list-primary strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#dfd9e5;font-size:var(--lhc-font-meta)}.lighthouse-list-primary small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--lhc-dim);font-size:var(--lhc-font-meta)}.lighthouse-list-row time{color:#77717f}.lighthouse-list-row i{font-style:normal;color:#5f5967}
+
+/* Settings are a page, never a settings modal. */
+.lighthouse-settings-view{width:100%;max-width:1180px;margin:0 auto}
+.lighthouse-settings-page{display:grid;grid-template-columns:180px minmax(0,1fr);gap:8px;width:100%;max-width:none;margin:0;padding:0;border:0;background:transparent;box-shadow:none;position:static;color:inherit}
+.lighthouse-settings-page .core-settings-head{grid-column:1/-1;display:none}
+.lighthouse-settings-page .core-settings-section{margin:0;padding:14px;border:1px solid var(--lhc-border);border-radius:var(--lhc-radius);background:var(--lhc-panel-soft)}
+.lighthouse-settings-page .core-settings-section:first-of-type{grid-column:1/-1}
+.lighthouse-settings-page .core-settings-section h3{margin:0 0 12px;font-size:var(--lhc-font-meta);color:#ddd7e3}
+.settings-layout-grid{gap:12px}.core-settings-actions{gap:7px}.system-info-list{font-size:var(--lhc-font-meta)}
+#coreSettingsClose{display:none}
+
+/* Machine room is intentionally denser, but still obeys the same outer frame. */
+body[data-shell-surface="machine"] .core-surface{--lhc-content-width:1560px}
+.lighthouse-settings-view+ [data-shell-view="machine"]{}
+[data-shell-view="machine"] .nanomancer-disclosure{margin:0 0 8px}
+#coreMachineHost .core-hero{padding:12px;border-radius:var(--lhc-radius);background:var(--lhc-panel-soft);border-color:var(--lhc-border)}
+#coreMachineHost .core-metrics{grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+#coreMachineHost .core-metrics article{padding:8px;border-radius:6px;background:var(--lhc-bg-deep);border-color:#1e1b27}
+#coreMachineHost .core-metrics article span{font-size:var(--lhc-font-meta)}#coreMachineHost .core-metrics article strong{font-size:var(--lhc-font-meta)}
+.core-machine-disclosure{border-color:var(--lhc-border);border-radius:7px;background:var(--lhc-panel-soft)}
+.core-machine-disclosure>summary{min-height:40px;padding:8px 10px;font-size:var(--lhc-font-meta)}
+.core-machine-disclosure>.core-section{padding:10px}
+
+/* Dialogs still exist for destructive or focused transactional actions only. */
+dialog:not(.lighthouse-menu-dialog){border-radius:10px;border-color:var(--lhc-border-strong);background:#100d17;box-shadow:0 30px 90px rgba(0,0,0,.55)}
+dialog:not(.lighthouse-menu-dialog)::backdrop{background:rgba(4,3,8,.66);backdrop-filter:blur(4px)}
+
+/* Global feedback */
+.system-feedback-center{position:fixed;top:calc(var(--lhc-header-height) + 8px);right:12px;z-index:100;width:min(340px,calc(100vw - 24px));padding:9px 10px;border:1px solid var(--lhc-border);background:var(--lhc-panel-raised);color:var(--lhc-text);box-shadow:var(--lhc-shadow)}
+
+/* Mobile: same constitution, narrower bones. */
+
+
+body:not([data-shell-surface="settings"]) .lighthouse-settings-page{display:none}
+body[data-shell-surface="settings"] .lighthouse-settings-page{display:grid}
+
+
+/* P0 · wide shell, true hidden-state semantics and dual-theme surface bridge. */
+html[data-theme="light"] body{
+  background:radial-gradient(circle at 50% -15%,rgba(111,75,138,.055),transparent 36rem),var(--lhc-bg);
+}
+html[data-theme="light"] .core-shell.lighthouse-app-header{border-bottom-color:rgba(32,27,36,.08);box-shadow:0 1px 0 rgba(32,27,36,.02)}
+html[data-theme="light"] .lighthouse-menu-trigger,
+html[data-theme="light"] .lighthouse-menu-close{background:#fff;color:#4e4951;border-color:var(--lhc-border)}
+html[data-theme="light"] .lighthouse-menu-trigger:hover,
+html[data-theme="light"] .lighthouse-menu-close:hover{background:#f5f2f6;color:#181719}
+html[data-theme="light"] .lighthouse-menu-dialog{box-shadow:0 24px 70px rgba(42,34,29,.16)}
+html[data-theme="light"] .lighthouse-menu-dialog::backdrop{background:rgba(44,38,34,.18);backdrop-filter:blur(4px)}
+html[data-theme="light"] .lighthouse-menu-nav button{color:#625d65}
+html[data-theme="light"] .lighthouse-menu-nav button>b{color:#8d858f}
+html[data-theme="light"] .lighthouse-menu-nav button:hover{background:#f4f1f5;color:#19171b}
+html[data-theme="light"] .lighthouse-menu-nav button.active,
+html[data-theme="light"] .lighthouse-menu-nav button[aria-current="page"]{background:#eeebef;border-color:#ddd8df;color:#171519}
+html[data-theme="light"] .core-surface-head,
+html[data-theme="light"] .lighthouse-page-header{border-bottom-color:rgba(31,27,34,.08)}
+html[data-theme="light"] .core-surface-head .kicker{color:#746b79}
+html[data-theme="light"] .lighthouse-panel-kicker{color:var(--lhc-muted)}
+html[data-theme="light"] .lighthouse-current-work h2,
+html[data-theme="light"] .lighthouse-dashboard-grid article strong,
+html[data-theme="light"] .workspace-home-card h2,
+html[data-theme="light"] .workspace-home-card h3,
+html[data-theme="light"] .workspace-home-card strong,
+html[data-theme="light"] .lighthouse-list-primary strong,
+html[data-theme="light"] .lighthouse-settings-page .core-settings-section h3{color:var(--lhc-text)}
+html[data-theme="light"] .lighthouse-panel-icon{background:#eee7f2;color:#754f8f}
+html[data-theme="light"] .lighthouse-system-strip{border-color:#e4e0dc;background:#faf9f7;color:var(--lhc-muted)}
+html[data-theme="light"] .lighthouse-system-strip strong{color:#6d676f}
+html[data-theme="light"] .lighthouse-list-toolbar button.active{background:#eeeaf0;border-color:var(--lhc-border);color:var(--lhc-text)}
+html[data-theme="light"] .lighthouse-list-row{border-bottom-color:rgba(31,27,34,.08);color:var(--lhc-muted)}
+html[data-theme="light"] .lighthouse-list-row:hover{background:var(--lhc-row-hover)}
+html[data-theme="light"] .lighthouse-list-primary small,
+html[data-theme="light"] .lighthouse-list-row time,
+html[data-theme="light"] .lighthouse-list-row i{color:var(--lhc-dim)}
+html[data-theme="light"] .core-run-row{border-color:rgba(31,27,34,.08)}
+html[data-theme="light"] .primary,
+html[data-theme="light"] button.primary,
+html[data-theme="light"] .agent-run,
+html[data-theme="light"] .orchestra-run{border-color:#6f4b8a;background:#6f4b8a;color:#fff}
+html[data-theme="light"] .primary:hover,
+html[data-theme="light"] button.primary:hover,
+html[data-theme="light"] .agent-run:hover,
+html[data-theme="light"] .orchestra-run:hover{border-color:#5e3f75;background:#5e3f75;color:#fff}
+html[data-theme="light"] .danger{border-color:rgba(189,82,103,.25);background:#fff5f6;color:#a64255}
+html[data-theme="light"] dialog:not(.lighthouse-menu-dialog){border-color:var(--lhc-border-strong);background:#fff;color:var(--lhc-text);box-shadow:0 28px 80px rgba(42,34,29,.18)}
+html[data-theme="light"] dialog:not(.lighthouse-menu-dialog)::backdrop{background:rgba(44,38,34,.22)}
+html[data-theme="light"] .system-feedback-center{background:#fff;color:var(--lhc-text)}
+html[data-theme="light"] ::selection{background:rgba(111,75,138,.2);color:#171519}
+
+.lighthouse-appearance-section{grid-column:1/-1}
+.lighthouse-theme-picker{display:grid;grid-template-columns:minmax(100px,.35fr) minmax(220px,.65fr);gap:8px 16px;align-items:center}
+.lighthouse-theme-picker>span{font-size:var(--lhc-font-meta);color:var(--lhc-muted);font-weight:720}
+.lighthouse-theme-options{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.lighthouse-theme-options button{width:100%;justify-content:center}
+.lighthouse-theme-options button[aria-pressed="true"]{border-color:var(--lhc-accent);background:color-mix(in srgb,var(--lhc-accent) 12%,var(--lhc-panel));color:var(--lhc-text)}
+.lighthouse-theme-picker>small{grid-column:2;color:var(--lhc-dim);font-size:var(--lhc-font-meta)}
+
+
+/* P1 · hierarchy and rhythm amendment.
+   One page header, one card rhythm, one dashboard hierarchy. */
+:root{
+  --lhc-radius:10px;
+  --lhc-radius-lg:14px;
+  --lhc-page-gap:24px;
+  --lhc-section-gap:14px;
+}
+
+/* Top-level pages breathe the same way. */
+.core-surface{padding:38px 0 76px}
+.core-surface-view{width:100%;min-width:0}
+.core-surface-head,.lighthouse-page-header{
+  margin:0 0 var(--lhc-page-gap);
+  padding:0 0 18px;
+  min-height:70px;
+  align-items:flex-end;
+}
+.core-surface-head>div:first-child,.lighthouse-page-header>div:first-child{min-width:0}
+.core-surface-head .kicker,.lighthouse-page-header .kicker{margin:0 0 8px}
+.core-surface-head h1,.lighthouse-page-header h1{font-size:clamp(24px,2.3vw,32px);line-height:1.06}
+.core-surface-head p:not(.kicker),.lighthouse-page-header p:not(.kicker){margin-top:7px;max-width:720px;font-size:var(--lhc-font-meta);line-height:1.55}
+.core-surface-head>button,.core-surface-head>div:last-child:not(:first-child){flex:0 0 auto}
+
+/* Panels are solid surfaces. Accent belongs to actions and state, not decoration. */
+.lighthouse-panel,.workspace-home-card,.artifact-home article,.blank-workspace-grid article{
+  background:var(--lhc-panel);
+}
+
+/* Dashboard: one focal work surface, then three equal next-step cards. */
+.lighthouse-dashboard{display:block}
+.lighthouse-current-work{
+  min-height:168px;
+  margin:0 0 var(--lhc-section-gap);
+  padding:24px 26px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:24px;
+}
+.lighthouse-current-work-copy{min-width:0;max-width:880px}
+.lighthouse-current-work h2{margin:8px 0 7px;font-size:clamp(22px,2vw,29px);line-height:1.08;letter-spacing:-.025em;color:var(--lhc-text)}
+.lighthouse-current-work p{max-width:760px;font-size:var(--lhc-font-meta);line-height:1.55}
+.lighthouse-current-work>.primary{min-width:112px;justify-content:center}
+.lighthouse-panel-kicker{font-size:var(--lhc-font-meta);letter-spacing:.14em}
+
+.lighthouse-dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.lighthouse-dashboard-grid article{
+  min-height:158px;
+  padding:18px;
+  grid-template-columns:32px minmax(0,1fr);
+  grid-template-rows:1fr auto;
+  gap:12px 13px;
+}
+.lighthouse-panel-icon{width:32px;height:32px;border-radius:8px;font-size:14px;background:color-mix(in srgb,var(--lhc-accent) 14%,var(--lhc-panel));color:var(--lhc-accent-strong)}
+.lighthouse-dashboard-grid article strong{margin:7px 0 5px;font-size:15px;line-height:1.2;color:var(--lhc-text)}
+.lighthouse-dashboard-grid article p{font-size:var(--lhc-font-meta);line-height:1.5}
+.lighthouse-dashboard-grid article button{align-self:end}
+.lighthouse-system-strip{
+  min-height:44px;
+  margin-top:var(--lhc-section-gap);
+  padding:8px 12px;
+  border-color:var(--lhc-border);
+  background:var(--lhc-panel-soft);
+  font-size:var(--lhc-font-meta);
+}
+.lighthouse-system-strip strong{font-size:var(--lhc-font-meta);color:var(--lhc-muted)}
+.lighthouse-system-strip button{min-height:28px;height:28px;font-size:var(--lhc-font-meta)}
+
+/* Mancer cards obey the same card geometry as dashboard cards. */
+.workspace-home-state{margin:0 0 10px;font-size:var(--lhc-font-meta)}
+.workspace-home-grid{gap:12px}
+.workspace-home-grid .workspace-home-card{min-height:154px;padding:18px}
+.workspace-home-card h2,.workspace-home-card h3,.workspace-home-card strong{font-size:14px;line-height:1.2}
+.workspace-home-card p{font-size:var(--lhc-font-meta);line-height:1.55}
+.mancer-registry-surface{margin-top:var(--lhc-section-gap)}
+
+/* The other top-level surfaces follow the same spacing cadence. */
+.archive-toolbar{gap:10px;margin-bottom:12px}
+.archive-store-meta{min-height:28px;margin-bottom:6px}
+.archive-layout{gap:12px}
+.archive-browser,.archive-inspector{border-radius:var(--lhc-radius)}
+
+.lighthouse-runs-view .core-usage-strip{gap:10px;margin-bottom:12px}
+.lighthouse-runs-view .core-usage-strip article{padding:12px;border-radius:var(--lhc-radius)}
+.lighthouse-runs-view .core-run-filters{gap:10px;padding:12px;margin-bottom:12px;border-radius:var(--lhc-radius)}
+
+.lighthouse-list-toolbar{gap:6px;margin-bottom:12px}
+.lighthouse-publication-list{border-radius:var(--lhc-radius)}
+.lighthouse-list-row{min-height:58px;padding:10px 14px;gap:12px}
+.lighthouse-list-primary strong{font-size:var(--lhc-font-meta)}.lighthouse-list-primary small{font-size:var(--lhc-font-meta)}
+
+.lighthouse-settings-page{gap:12px}
+.lighthouse-settings-page .core-settings-section{padding:18px}
+.lighthouse-settings-page .core-settings-section h3{margin-bottom:14px;font-size:12px}
+
+[data-shell-view="machine"] .nanomancer-disclosure{margin-bottom:12px}
+.core-machine-disclosure{margin-bottom:10px}
+
+
+/* P2 · state and absence grammar.
+   Status and empty states use one semantic language across top-level views. */
+
+/* Canonical status pill. Text is mandatory; color is only reinforcement. */
+.lighthouse-status{
+  --lhc-state-color:var(--lhc-muted);
+  --lhc-state-bg:color-mix(in srgb,var(--lhc-state-color) 9%,transparent);
+  --lhc-state-border:color-mix(in srgb,var(--lhc-state-color) 26%,transparent);
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  max-width:100%;
+  gap:6px;
+  min-height:22px;
+  padding:3px 7px;
+  border:1px solid var(--lhc-state-border);
+  border-radius:999px;
+  background:var(--lhc-state-bg);
+  color:var(--lhc-state-color);
+  font-size:var(--lhc-font-meta);
+  font-weight:780;
+  line-height:1.1;
+  letter-spacing:.02em;
+  white-space:nowrap;
+}
+.lighthouse-status::before{
+  content:"";
+  width:5px;
+  height:5px;
+  flex:0 0 auto;
+  border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 0 3px color-mix(in srgb,currentColor 8%,transparent);
+}
+.lighthouse-status[data-state="success"]{--lhc-state-color:var(--lhc-success)}
+.lighthouse-status[data-state="warning"]{--lhc-state-color:var(--lhc-warning)}
+.lighthouse-status[data-state="error"]{--lhc-state-color:var(--lhc-error)}
+.lighthouse-status[data-state="neutral"]{--lhc-state-color:var(--lhc-muted)}
+
+/* Long-form status text uses the same semantics without forcing a pill. */
+.status[data-state="success"]{color:var(--lhc-success)}
+.status[data-state="warning"]{color:var(--lhc-warning)}
+.status[data-state="error"]{color:var(--lhc-error)}
+.status[data-state="neutral"]{color:var(--lhc-muted)}
+.workspace-context-actions .workspace-save-indicator.lighthouse-status{
+  height:26px;
+  min-height:26px;
+  padding:0 8px;
+  border-color:var(--lhc-state-border);
+  background:var(--lhc-state-bg);
+  color:var(--lhc-state-color);
+}
+
+/* Global feedback follows the same four-state vocabulary. */
+.system-feedback-center{
+  border-color:var(--lhc-border);
+  background:var(--lhc-panel-raised);
+}
+.system-feedback-center[data-state="success"]{border-color:color-mix(in srgb,var(--lhc-success) 35%,var(--lhc-border))}
+.system-feedback-center[data-state="warning"]{border-color:color-mix(in srgb,var(--lhc-warning) 38%,var(--lhc-border))}
+.system-feedback-center[data-state="error"]{border-color:color-mix(in srgb,var(--lhc-error) 42%,var(--lhc-border))}
+.system-feedback-center[data-state="neutral"]{border-color:var(--lhc-border)}
+.system-feedback-center[data-state="success"] .system-feedback-body strong{color:var(--lhc-success)}
+.system-feedback-center[data-state="warning"] .system-feedback-body strong{color:var(--lhc-warning)}
+.system-feedback-center[data-state="error"] .system-feedback-body strong{color:var(--lhc-error)}
+.system-feedback-center[data-state="neutral"] .system-feedback-body strong{color:var(--lhc-text)}
+
+/* Canonical Empty state. The containing surface owns the card chrome. */
+.lighthouse-empty-state{
+  width:100%;
+  min-height:188px;
+  padding:26px 20px;
+  display:grid;
+  place-items:center;
+  align-content:center;
+  gap:7px;
+  text-align:center;
+  color:var(--lhc-muted);
+}
+.lighthouse-empty-state--compact{min-height:124px;padding:20px 16px}
+.lighthouse-empty-icon{
+  width:30px;
+  height:30px;
+  margin-bottom:2px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--lhc-border);
+  border-radius:9px;
+  background:var(--lhc-panel-soft);
+  color:var(--lhc-dim);
+  font-size:12px;
+  font-style:normal;
+}
+.lighthouse-empty-state strong{color:var(--lhc-text);font-size:12px;line-height:1.25}
+.lighthouse-empty-state p{max-width:430px;margin:0;color:var(--lhc-muted);font-size:var(--lhc-font-meta);line-height:1.55}
+.lighthouse-empty-state[data-empty-context="archive-error"] .lighthouse-empty-icon{border-color:color-mix(in srgb,var(--lhc-error) 30%,var(--lhc-border));color:var(--lhc-error)}
+#workspaceHomeCards>.lighthouse-empty-state,#mancerRegistryCards>.lighthouse-empty-state{grid-column:1/-1;border:1px solid var(--lhc-border);border-radius:var(--lhc-radius);background:var(--lhc-panel-soft)}
+.archive-browser .lighthouse-empty-state,.archive-inspector .lighthouse-empty-state{min-height:220px}
+.lighthouse-publication-list>.lighthouse-empty-state{min-height:220px}
+.lighthouse-runs-view .core-run-list>.lighthouse-empty-state{min-height:160px}
+
+/* Mancerit: remove dark-only metadata chrome. */
+.workspace-home-card,.mancer-registry-card{color:var(--lhc-text)}
+.workspace-home-card-main{min-width:0;display:grid;align-content:start;gap:6px}
+.workspace-home-card-main>span{color:var(--lhc-dim);font-size:var(--lhc-font-meta);letter-spacing:.12em}
+.workspace-home-card-main>small{color:var(--lhc-dim);font-size:var(--lhc-font-meta);line-height:1.45}
+.workspace-home-card .workspace-tech-details,.mancer-registry-card .workspace-tech-details{
+  margin-top:5px;
+  padding-top:8px;
+  border-top:1px solid var(--lhc-border);
+  color:var(--lhc-dim);
+}
+.workspace-home-card .workspace-tech-details summary,.mancer-registry-card .workspace-tech-details summary{color:var(--lhc-muted);font-size:var(--lhc-font-meta);cursor:pointer}
+.workspace-home-card .workspace-tech-details code,.workspace-home-card .workspace-tech-details span,
+.mancer-registry-card .workspace-tech-details code,.mancer-registry-card .workspace-tech-details span{color:var(--lhc-dim);font-size:var(--lhc-font-meta)}
+.workspace-home-card-actions{align-self:end}
+
+/* Ajot: one list grammar, semantic status, theme-safe rows. */
+.lighthouse-runs-view .core-usage-strip article,
+.lighthouse-runs-view .core-run-filters,
+.lighthouse-runs-view .core-run-list{background:var(--lhc-panel);border-color:var(--lhc-border)}
+.lighthouse-runs-view .core-run-list{display:grid;gap:0}
+.lighthouse-runs-view .core-run-row{
+  min-height:56px;
+  padding:10px 12px;
+  border:0;
+  border-bottom:1px solid var(--lhc-border);
+  border-radius:0;
+  background:transparent;
+  color:var(--lhc-muted);
+}
+.lighthouse-runs-view .core-run-row:last-child{border-bottom:0}
+.lighthouse-runs-view .core-run-row:hover{background:var(--lhc-row-hover)}
+.lighthouse-runs-view .core-run-row strong{color:var(--lhc-text);font-size:var(--lhc-font-meta)}
+.lighthouse-runs-view .core-run-row span:not(.lighthouse-status),
+.lighthouse-runs-view .core-run-row time{color:var(--lhc-dim);font-size:var(--lhc-font-meta)}
+.lighthouse-runs-view .core-run-status{font-family:inherit;text-transform:none}
+.lighthouse-runs-view .core-run-row[data-status]{border-left:0}
+.lighthouse-runs-view .core-run-detail-grid article{border-color:var(--lhc-border);background:var(--lhc-panel-soft)}
+.lighthouse-runs-view .core-run-detail-grid .lighthouse-status{margin-top:5px}
+.lighthouse-runs-view .core-run-stage{border-color:var(--lhc-border);background:var(--lhc-panel-soft)}
+
+/* Julkaisut: same row and status grammar in both themes. */
+.lighthouse-publication-list{border-color:var(--lhc-border);background:var(--lhc-panel)}
+.lighthouse-list-toolbar button.active{background:var(--lhc-control-hover);border-color:var(--lhc-border);color:var(--lhc-text)}
+.lighthouse-list-row{border-bottom-color:var(--lhc-border);color:var(--lhc-muted)}
+.lighthouse-list-row:hover{background:var(--lhc-row-hover)}
+.lighthouse-list-primary strong{color:var(--lhc-text)}
+.lighthouse-list-primary small,.lighthouse-list-row time,.lighthouse-list-row i{color:var(--lhc-dim)}
+
+/* Archive primary result status follows the same system. */
+.archive-store-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#archiveStatus.lighthouse-status,#archiveCuratorStatus.lighthouse-status{min-height:20px;padding:2px 6px}
+.archive-inspector-empty.lighthouse-empty-state{display:grid;padding:26px 20px}
+
+
+/* P2.2 · shell geometry + freeze hardening.
+   Remove the ghost grid column, make settings linear, and keep heavy context optional. */
+.app{
+  display:block;
+  grid-template-columns:minmax(0,1fr);
+  width:100%;
+}
+.workspace{width:100%;min-width:0}
+
+/* The old dispatch library is not a permanent surface under the Constitution. */
+.sidebar:not(.is-open),.sidebar-backdrop:not(.is-open){display:none}
+
+/* Settings are one clear page, not a two-column remnant of the old modal. */
+.lighthouse-settings-view{max-width:1480px}
+.lighthouse-settings-page{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:12px;
+}
+.lighthouse-settings-page .core-settings-section{
+  grid-column:1/-1;
+  width:100%;
+}
+.lighthouse-settings-page .settings-layout-grid{
+  display:block;
+}
+.lighthouse-settings-page .settings-layout-grid>label:not(.layout-check),
+.lighthouse-settings-page #layoutReset{
+  display:none;
+}
+.lighthouse-settings-page .settings-layout-grid .layout-check{
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--lhc-text);
+}
+.lighthouse-settings-page .core-settings-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.lighthouse-settings-page .system-info-list{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+.lighthouse-settings-page .system-info-list>div{
+  min-width:0;
+  border:1px solid var(--lhc-border);
+  border-radius:8px;
+  background:var(--lhc-panel-soft);
+  padding:11px 12px;
+}
+
+/* Preview is a genuinely optional context panel. Hidden means zero render surface. */
+.editor-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(360px,.58fr);
+  gap:12px;
+  align-items:start;
+}
+.editor-grid.preview-hidden{grid-template-columns:minmax(0,1fr)}
+.editor-grid.preview-hidden .preview-panel{display:none}
+.editor-resizer{display:none}
+.preview-panel{
+  display:flex;
+  position:sticky;
+  top:calc(var(--lhc-header-height) + 12px);
+  max-height:calc(100dvh - var(--lhc-header-height) - 24px);
+  border:1px solid var(--lhc-border);
+  border-radius:var(--lhc-radius);
+  background:var(--lhc-panel);
+  overflow:hidden;
+}
+
+
+/* P2.4 · visual polish + resilient navigation.
+   Brand is home, editor aligns to the shell, light mode owns every surface,
+   archive defaults to search/results, and loading states fail visibly. */
+.lighthouse-home-link{
+  display:inline-flex;
+  align-items:center;
+  gap:11px;
+  min-width:0;
+  padding:3px 7px 3px 0;
+  border-radius:7px;
+  color:var(--lhc-text);
+  text-decoration:none;
+  outline:none;
+}
+.lighthouse-home-link:hover{background:var(--lhc-control-hover);color:var(--lhc-text)}
+.lighthouse-home-link:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--lhc-accent) 22%,transparent)}
+.core-shell-mark{width:36px;height:36px}
+.core-shell-mark img{width:36px;height:36px}
+
+/* The editor is a first-class page and obeys the same content edges as every other view. */
+.editor-grid{
+  width:min(var(--lhc-content-width),calc(100% - (var(--lhc-page-inline) * 2)));
+  max-width:var(--lhc-content-width);
+  margin:0 auto 72px;
+}
+.editor-grid.preview-hidden .form-panel{
+  width:100%;
+  max-width:none;
+  margin:0;
+}
+.form-panel{min-width:0}
+.editor-tabs{
+  border-color:var(--lhc-border);
+  background:var(--lhc-panel-soft);
+  backdrop-filter:none;
+  box-shadow:none;
+}
+.editor-tabs button{
+  border:1px solid var(--lhc-border);
+  background:var(--lhc-control-bg);
+  color:var(--lhc-muted);
+}
+.editor-tabs button:hover{background:var(--lhc-control-hover);color:var(--lhc-text)}
+.editor-tabs button[aria-selected="true"]{
+  border-color:var(--lhc-accent);
+  background:color-mix(in srgb,var(--lhc-accent) 13%,var(--lhc-panel));
+  color:var(--lhc-text);
+}
+html[data-theme="light"] .body-editor,
+html[data-theme="light"] .meta-grid input,
+html[data-theme="light"] .meta-grid select,
+html[data-theme="light"] .meta-grid textarea{box-shadow:none}
+
+/* Settings controls inherit the theme instead of the old dark modal palette. */
+.lighthouse-settings-page .core-settings-actions a{
+  border-color:var(--lhc-border);
+  background:var(--lhc-control-bg);
+  color:var(--lhc-muted);
+}
+.lighthouse-settings-page .core-settings-actions a:hover{
+  border-color:var(--lhc-border-strong);
+  background:var(--lhc-control-hover);
+  color:var(--lhc-text);
+}
+
+/* Archive default = search + results. Secondary machinery stays out of the primary view. */
+.archive-view .archive-boundary-banner,
+.archive-view .archive-curator-disclosure,
+.archive-view .archive-metrics,
+.archive-view .archive-receipts{display:none}
+.archive-layout{min-height:0}
+.archive-browser{min-height:0;background:var(--lhc-panel)}
+.archive-object-list{min-height:0;max-height:none;background:transparent}
+.archive-browser .lighthouse-empty-state{min-height:154px;padding:22px 18px;background:transparent}
+.archive-inspector[hidden]{display:none}
+
+/* Workspace loading must never look frozen. */
+.workspace-home-state{
+  min-height:34px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--lhc-muted);
+}
+.workspace-home-state[data-state="error"]{color:var(--lhc-error)}
+.workspace-home-state[data-state="warning"]{color:var(--lhc-warning)}
+.workspace-home-state [data-workspace-retry]{min-height:28px;height:28px;padding:4px 8px;font-size:var(--lhc-font-meta)}
+
+
+/* P2.5 · header/action/theme cleanup.
+   Workspace identity is a normal page header, success is quiet, and light mode owns every editor surface. */
+
+/* Workspace header belongs to document flow. It must never float over editor content. */
+.workspace-context-bar{
+  position:relative;
+  top:auto;
+  z-index:1;
+  min-height:0;
+  padding:22px 0 12px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:end;
+  gap:18px;
+  border:0;
+  border-bottom:1px solid color-mix(in srgb,var(--lhc-border) 72%,transparent);
+  background:transparent;
+  box-shadow:none;
+  backdrop-filter:none;
+}
+.workspace-context-bar .editor-title{align-items:flex-start;min-width:0}
+.workspace-context-bar .editor-title>div{gap:3px}
+.workspace-context-bar #editingLabel{font-size:clamp(19px,2vw,25px);letter-spacing:-.02em}
+.workspace-context-bar #workspaceContextPurpose{font-size:var(--lhc-font-meta);line-height:1.45}
+.workspace-context-actions{align-self:end;justify-self:end;gap:6px}
+.mobile-quick-actions{gap:6px}
+
+/* Success is the default, so it stays quiet. Dirty/warning/error states may still surface. */
+.workspace-save-indicator[data-state="success"],
+#archiveStatus[data-state="success"],
+#archiveCuratorStatus[data-state="success"],
+.system-feedback-center[data-state="success"]{display:none}
+
+/* Compact desktop actions. Mobile keeps the 44 px interaction contract below. */
+
+
+/* Archive status belongs inline, never as persistent green chrome. */
+.archive-store-meta{min-height:18px;color:var(--lhc-dim)}
+.archive-store-meta #archiveStatus:empty{display:none}
+.archive-toolbar{margin-top:4px}
+.archive-browser{border-radius:var(--lhc-radius)}
+.archive-browser .lighthouse-empty-state{min-height:132px;padding:18px}
+
+/* Theme parity: every visible workbench surface inherits Constitution tokens. */
+html[data-theme="light"] .workspace-context-bar,
+html[data-theme="light"] .workspace-home-card,
+html[data-theme="light"] .mancer-registry-card,
+html[data-theme="light"] .form-panel,
+html[data-theme="light"] .editor-panel,
+html[data-theme="light"] .editor-workflow-stage,
+html[data-theme="light"] .evidence-editor,
+html[data-theme="light"] .evidence-workbench,
+html[data-theme="light"] .source-card,
+html[data-theme="light"] .claim-card,
+html[data-theme="light"] .source-raw,
+html[data-theme="light"] .editor-disclosure,
+html[data-theme="light"] .desk-disclosure,
+html[data-theme="light"] .orchestra-options,
+html[data-theme="light"] .core-machine-disclosure,
+html[data-theme="light"] .archive-browser,
+html[data-theme="light"] .archive-inspector,
+html[data-theme="light"] .lighthouse-settings-page .core-settings-section,
+html[data-theme="light"] .lighthouse-publication-list,
+html[data-theme="light"] .lighthouse-runs-view .core-run-filters,
+html[data-theme="light"] .lighthouse-runs-view .core-run-list{
+  border-color:var(--lhc-border);
+  background:var(--lhc-panel);
+  color:var(--lhc-text);
+  box-shadow:none;
+}
+html[data-theme="light"] .editor-tabs,
+html[data-theme="light"] .archive-object-list,
+html[data-theme="light"] .lighthouse-list-toolbar{
+  background:var(--lhc-panel-soft);
+  border-color:var(--lhc-border);
+}
+html[data-theme="light"] .app input[type="text"],
+html[data-theme="light"] .app input[type="search"],
+html[data-theme="light"] .app input[type="url"],
+html[data-theme="light"] .app input[type="date"],
+html[data-theme="light"] .app input[type="password"],
+html[data-theme="light"] .app input[type="number"],
+html[data-theme="light"] .app select,
+html[data-theme="light"] .app textarea{
+  border-color:var(--lhc-border-strong);
+  background:var(--lhc-input-bg);
+  color:var(--lhc-text);
+  box-shadow:none;
+}
+html[data-theme="light"] .app input::placeholder,
+html[data-theme="light"] .app textarea::placeholder{color:var(--lhc-dim);opacity:1}
+html[data-theme="light"] .body-editor,
+html[data-theme="light"] .archive-content-text,
+html[data-theme="light"] .archive-content-json,
+html[data-theme="light"] .orchestra-terminal,
+html[data-theme="light"] .agent-output,
+html[data-theme="light"] pre{
+  border-color:var(--lhc-border);
+  background:var(--lhc-panel-soft);
+  color:var(--lhc-text);
+}
+html[data-theme="light"] .source-actions a,
+html[data-theme="light"] .source-actions button,
+html[data-theme="light"] .claim-card-head select,
+html[data-theme="light"] .audience-depth-field select{
+  border-color:var(--lhc-border);
+  background:var(--lhc-control-bg);
+  color:var(--lhc-text);
+}
+html[data-theme="light"] .evidence-editor,
+html[data-theme="light"] .evidence-workbench,
+html[data-theme="light"] .visualization-card,
+html[data-theme="light"] .citation-mode label,
+html[data-theme="light"] .claim-source-option,
+html[data-theme="light"] .audience-contract-note{
+  background:var(--lhc-panel-soft);
+}
+html[data-theme="light"] .editor-stage-copy span,
+html[data-theme="light"] .body-head,
+html[data-theme="light"] .field-help,
+html[data-theme="light"] .source-card p,
+html[data-theme="light"] .claim-card>label,
+html[data-theme="light"] .evidence-section-head span,
+html[data-theme="light"] .archive-store-meta,
+html[data-theme="light"] .count{color:var(--lhc-muted)}
+html[data-theme="light"] .source-card-head,
+html[data-theme="light"] .source-url,
+html[data-theme="light"] .claim-card-head>span,
+html[data-theme="light"] .claim-source-option small{color:var(--lhc-dim)}
+
+/* Preview intentionally remains a dark content surface in light mode. */
+html[data-theme="light"] .preview{color:#f4effa}
+html[data-theme="light"] .preview h1,
+html[data-theme="light"] .preview h2,
+html[data-theme="light"] .preview h3,
+html[data-theme="light"] .preview strong{color:#f4effa}
+html[data-theme="light"] .preview p,
+html[data-theme="light"] .preview li{color:#d1cdd3}
+html[data-theme="light"] .audience-options span{border-color:var(--lhc-border);background:var(--lhc-control-bg);color:var(--lhc-muted)}
+html[data-theme="light"] .audience-options input:checked+span{border-color:color-mix(in srgb,var(--lhc-accent) 48%,var(--lhc-border));background:color-mix(in srgb,var(--lhc-accent) 12%,#fff);color:var(--lhc-text)}
+
+/* Theme-safe buttons and links, including settings actions. */
+html[data-theme="light"] button:not(.primary):not(.danger),
+html[data-theme="light"] .secondary,
+html[data-theme="light"] .ghost,
+html[data-theme="light"] .public-open,
+html[data-theme="light"] .lighthouse-settings-page .core-settings-actions a{
+  border-color:var(--lhc-border);
+  background:var(--lhc-control-bg);
+  color:var(--lhc-muted);
+}
+html[data-theme="light"] button:not(.primary):not(.danger):hover,
+html[data-theme="light"] .secondary:hover,
+html[data-theme="light"] .ghost:hover,
+html[data-theme="light"] .public-open:hover,
+html[data-theme="light"] .lighthouse-settings-page .core-settings-actions a:hover{
+  border-color:var(--lhc-border-strong);
+  background:var(--lhc-control-hover);
+  color:var(--lhc-text);
+}
+
+/* ANOMANCER 1.26.3 · Mobile consistency hotfix
+   Light theme owns every visible workbench surface. Dark-only islands are
+   reserved for content preview, not control-plane cards or runtime dialogs. */
+html[data-theme="light"] .orchestra-desk,
+html[data-theme="light"] .agent-desk,
+html[data-theme="light"] .machine-room,
+html[data-theme="light"] .core-agent-card,
+html[data-theme="light"] .core-tool-policy-grid article,
+html[data-theme="light"] .core-orchestra-card,
+html[data-theme="light"] .core-orchestra-custom-card,
+html[data-theme="light"] .core-workspace-card,
+html[data-theme="light"] .core-run-row,
+html[data-theme="light"] .core-metrics article,
+html[data-theme="light"] .core-usage-strip article,
+html[data-theme="light"] .core-run-detail-grid article,
+html[data-theme="light"] .core-run-hashes,
+html[data-theme="light"] .core-run-stage,
+html[data-theme="light"] .core-run-replay,
+html[data-theme="light"] .orchestra-terminal-shell,
+html[data-theme="light"] .orchestra-result,
+html[data-theme="light"] .core-toggle-row,
+html[data-theme="light"] .core-token-control,
+html[data-theme="light"] .core-runtime-notice,
+html[data-theme="light"] .core-agent-contract-grid section{
+  border-color:var(--lhc-border);
+  background:var(--lhc-panel);
+  color:var(--lhc-text);
+  box-shadow:none;
+}
+html[data-theme="light"] .orchestra-desk :is(h2,h3,h4,strong),
+html[data-theme="light"] .agent-desk :is(h2,h3,h4,strong),
+html[data-theme="light"] .machine-room :is(h2,h3,h4,strong),
+html[data-theme="light"] .core-agent-card strong,
+html[data-theme="light"] .core-tool-policy-grid article strong,
+html[data-theme="light"] .core-orchestra-card strong,
+html[data-theme="light"] .core-orchestra-custom-card strong,
+html[data-theme="light"] .core-workspace-card strong,
+html[data-theme="light"] .core-run-row strong,
+html[data-theme="light"] .core-metrics strong,
+html[data-theme="light"] .core-usage-strip strong,
+html[data-theme="light"] .core-toggle-row strong,
+html[data-theme="light"] .core-token-control strong{
+  color:var(--lhc-text);
+}
+html[data-theme="light"] .orchestra-desk :is(p,label,small),
+html[data-theme="light"] .agent-desk :is(p,label,small),
+html[data-theme="light"] .machine-room :is(p,small),
+html[data-theme="light"] .core-agent-card :is(p,dt,dd,code),
+html[data-theme="light"] .core-tool-policy-grid article :is(p,dt,dd,code),
+html[data-theme="light"] .core-orchestra-card :is(p,code),
+html[data-theme="light"] .core-orchestra-custom-card :is(p,small,code),
+html[data-theme="light"] .core-workspace-card :is(p,span,small),
+html[data-theme="light"] .core-run-row :is(span,small,time,code),
+html[data-theme="light"] .core-run-stage :is(span,small),
+html[data-theme="light"] .core-toggle-row small,
+html[data-theme="light"] .core-token-control small{
+  color:var(--lhc-muted);
+}
+html[data-theme="light"] .core-agent-card dl,
+html[data-theme="light"] .core-agent-card dl div,
+html[data-theme="light"] .core-tool-policy-grid dl,
+html[data-theme="light"] .core-tool-policy-grid dl div,
+html[data-theme="light"] .orchestra-stages span,
+html[data-theme="light"] .core-run-stage-flags i,
+html[data-theme="light"] .orchestra-terminal-bar,
+html[data-theme="light"] .orchestra-terminal,
+html[data-theme="light"] .orchestra-result pre{
+  border-color:var(--lhc-border);
+  background:var(--lhc-panel-soft);
+  color:var(--lhc-text);
+}
+html[data-theme="light"] .orchestra-lock,
+html[data-theme="light"] .core-version{
+  border-color:#dbcbe8;
+  background:#f5eef9;
+  color:#6f4b8a;
+}
+html[data-theme="light"] .focus-contract-disclosure>summary,
+html[data-theme="light"] .focus-advanced-disclosure>summary,
+html[data-theme="light"] .evidence-secondary-disclosure>summary,
+html[data-theme="light"] .core-secondary-disclosure>summary,
+html[data-theme="light"] .core-machine-disclosure>summary,
+html[data-theme="light"] .orchestra-options>summary{
+  color:var(--lhc-text);
+}
+html[data-theme="light"] .focus-contract-disclosure>summary small,
+html[data-theme="light"] .focus-advanced-disclosure>summary small,
+html[data-theme="light"] .evidence-secondary-disclosure>summary small,
+html[data-theme="light"] .core-secondary-disclosure>summary small,
+html[data-theme="light"] .core-machine-disclosure>summary small,
+html[data-theme="light"] .orchestra-options>summary small{
+  color:var(--lhc-muted);
+}
+
+/* Runtime dialogs are fully light in light mode instead of half-light/half-dark. */
+html[data-theme="light"] .core-agent-dialog,
+html[data-theme="light"] .core-workspace-dialog,
+html[data-theme="light"] .core-orchestra-dialog,
+html[data-theme="light"] .core-run-dialog{
+  border-color:var(--lhc-border-strong);
+  background:var(--lhc-panel);
+  color:var(--lhc-text);
+}
+html[data-theme="light"] .core-agent-dialog-head,
+html[data-theme="light"] .core-agent-dialog-actions{
+  border-color:var(--lhc-border);
+  background:var(--lhc-panel-raised);
+  color:var(--lhc-text);
+  backdrop-filter:none;
+}
+html[data-theme="light"] .core-agent-dialog-head h2,
+html[data-theme="light"] .core-agent-dialog-head h3{color:var(--lhc-text)}
+html[data-theme="light"] .core-agent-dialog-head .core-agent-dialog-id{color:#735888}
+html[data-theme="light"] .core-agent-dialog-description{color:var(--lhc-muted)}
+html[data-theme="light"] .core-token-control input{
+  border-color:var(--lhc-border-strong);
+  background:var(--lhc-input-bg);
+  color:var(--lhc-text);
+}
+html[data-theme="light"] .core-runtime-notice{border-left-color:#8e6aa8;color:var(--lhc-muted)}
+
+/* Boot state follows the selected theme but keeps Lighthouse contrast. */
+html[data-theme="light"] .admin-boot{
+  background:radial-gradient(circle at 50% 40%,rgba(111,75,138,.12),transparent 24rem),var(--lhc-bg);
+}
+html[data-theme="light"] .admin-boot-card,
+html[data-theme="light"] .admin-boot-card h1{color:var(--lhc-text)}
+html[data-theme="light"] .admin-boot-card .kicker,
+html[data-theme="light"] .admin-boot-mark{color:#875da3}
+html[data-theme="light"] .admin-boot-status{color:var(--lhc-muted)}
+
+
+/* 1.26.4 · FUNCTIONAL + THEME CLOSURE
+   Light theme owns the remaining Nanomancer, visualization and control-plane
+   surfaces instead of leaving dark islands inside the light workbench. */
+html[data-theme="light"] .nanomancer-disclosure,
+html[data-theme="light"] .core-secondary-disclosure,
+html[data-theme="light"] .evidence-secondary-disclosure,
+html[data-theme="light"] .nanomancer-lab,
+html[data-theme="light"] .nanomancer-source,
+html[data-theme="light"] .nanomancer-metrics article,
+html[data-theme="light"] .nanomancer-comparison,
+html[data-theme="light"] .nanomancer-empty,
+html[data-theme="light"] .nanomancer-finding,
+html[data-theme="light"] .visualization-editor,
+html[data-theme="light"] .visualization-review,
+html[data-theme="light"] .visualization-card,
+html[data-theme="light"] .preview-chart,
+html[data-theme="light"] .agent-visual article,
+html[data-theme="light"] .agent-summary,
+html[data-theme="light"] .citation-mode,
+html[data-theme="light"] .citation-mode label,
+html[data-theme="light"] .source-composer,
+html[data-theme="light"] .source-card,
+html[data-theme="light"] .claim-card,
+html[data-theme="light"] .claim-source-picker,
+html[data-theme="light"] .claim-source-option,
+html[data-theme="light"] .evidence-readiness>div{
+  border-color:var(--lhc-border);
+  background:var(--lhc-panel-soft);
+  color:var(--lhc-text);
+  box-shadow:none;
+}
+html[data-theme="light"] .nanomancer-lab :is(h2,h3,h4,strong),
+html[data-theme="light"] .visualization-card :is(h3,h4,strong),
+html[data-theme="light"] .agent-visual article :is(h3,h4,strong),
+html[data-theme="light"] .agent-summary :is(h3,h4,strong){color:var(--lhc-text)}
+html[data-theme="light"] .nanomancer-lab :is(p,label,legend,small,span),
+html[data-theme="light"] .visualization-card :is(p,small),
+html[data-theme="light"] .agent-visual article :is(p,small),
+html[data-theme="light"] .agent-summary :is(p,small){color:var(--lhc-muted)}
+html[data-theme="light"] .nanomancer-readonly{
+  border-color:#63b885;
+  background:#f1faf4;
+  color:#267449;
+}
+html[data-theme="light"] .nanomancer-contract span{
+  border-color:var(--lhc-border);
+  background:var(--lhc-control-bg);
+  color:var(--lhc-muted);
+}
+html[data-theme="light"] .nanomancer-controls :is(input,select,textarea),
+html[data-theme="light"] .nanomancer-source :is(input,select,textarea){
+  border-color:var(--lhc-border-strong);
+  background:var(--lhc-input-bg);
+  color:var(--lhc-text);
+}
+html[data-theme="light"] .nanomancer-change-table th,
+html[data-theme="light"] .nanomancer-change-table td{border-bottom-color:var(--lhc-border)}
+html[data-theme="light"] .visualization-card svg,
+html[data-theme="light"] .preview-chart svg{color:#714e88}
+
+/* Compact secondary editorial controls. The surrounding label/card remains
+   comfortably tappable while the visual control stops dominating the phone UI. */
+html[data-theme="light"] .pin-field{
+  border-color:var(--lhc-border);
+  background:var(--lhc-panel-soft);
+  color:var(--lhc-text);
+}

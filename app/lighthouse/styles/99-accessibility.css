@@ -1,0 +1,10 @@
+/* Lighthouse frontend policy · shared interaction/accessibility contract. */
+:where(button,a,input,textarea,select,[role="button"]):focus-visible{
+  outline:2px solid #a56bd4;
+  outline-offset:3px;
+}
+@media (hover:none) and (pointer:coarse){
+  :where(button,[role="button"],input[type="button"],input[type="submit"],select){
+    min-height:44px;
+  }
+}

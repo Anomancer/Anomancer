@@ -1,0 +1,306 @@
+/* LIGHTHOUSE D1 VISUAL POLISH START */
+
+/* Työpinnan kokonaisrytmi */
+.work{
+  width:min(100%,860px);
+  padding-top:max(18px,env(safe-area-inset-top));
+}
+
+.work-nav{
+  width:calc(100% - 8px);
+  margin:0 auto 14px;
+  padding:0 2px;
+  min-height:38px;
+}
+
+.work-nav>span{
+  color:#7f668d;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.16em;
+  font-weight:700;
+}
+
+.work-nav .quiet{
+  padding:8px 13px;
+  border-color:#352b3b;
+  color:#a69eaa;
+  font-size:.78rem;
+  transition:border-color .16s ease,color .16s ease,background .16s ease;
+}
+
+/* Varsinainen työpinta */
+.result-card{
+  border-color:var(--lh-border-panel);
+  border-radius:20px;
+  background:linear-gradient(
+    180deg,
+    rgba(19,14,21,.97) 0%,
+    rgba(16,12,19,.96) 100%
+  );
+  padding:clamp(26px,5vw,46px);
+  box-shadow:
+    0 18px 60px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.015);
+}
+
+.result-heading{
+  padding-bottom:4px;
+}
+
+.result-heading .eyebrow{
+  color:#988f9d;
+}
+
+.result-card h1{
+  max-width:18ch;
+  margin-top:10px;
+  margin-bottom:20px;
+  letter-spacing:-.018em;
+  overflow-wrap:normal;
+  word-break:normal;
+  hyphens:auto;
+}
+
+.answer{
+  max-width:68ch;
+  color:#eae9eb;
+  font-size:1.02rem;
+}
+
+/* Tilat ovat näkyviä mutta eivät huuda */
+.state-pill{
+  margin-top:1px;
+  padding:5px 9px;
+  border-color:var(--lh-border-control);
+  background:#150f18;
+  color:#a69eaa;
+  font-size:var(--lh-font-meta);
+}
+
+.state-pill[data-state="needs_input"]{
+  border-style:solid;
+  border-color:#45384d;
+}
+
+.state-pill[data-state="blocked"]{
+  border-color:#553d3d;
+  background:#171111;
+}
+
+.state-pill[data-state="needs_approval"]{
+  border-color:#504731;
+  background:#17150f;
+}
+
+/* Lisäkysymykset */
+.questions{
+  margin-top:24px;
+  padding:16px 18px;
+  border-color:#332939;
+  border-radius:14px;
+  background:var(--lh-bg-field);
+}
+
+.questions h2{
+  margin-bottom:8px;
+}
+
+/* Jatkaminen on selvästi työpinnan seuraava toiminto */
+.continuation{
+  margin-top:32px;
+  padding-top:24px;
+  border-top-color:var(--lh-border-panel);
+}
+
+.continuation-heading{
+  margin-bottom:10px;
+}
+
+.continuation-heading h2{
+  margin:0;
+  color:#dad6dc;
+  font-size:.84rem;
+  letter-spacing:.01em;
+}
+
+.turn-count{
+  color:#6d587a;
+}
+
+.continuation textarea{
+  min-height:108px;
+  border-radius:14px;
+  border-color:#382d3f;
+  background:#130e15;
+  padding:16px 17px;
+}
+
+.continuation textarea:focus{
+  border-color:#695475;
+  box-shadow:0 0 0 3px rgba(144,134,149,.09);
+}
+
+.composer-row{
+  margin-top:9px;
+}
+
+.composer-row .composer-meta{
+  color:#6a5576;
+  font-size:var(--lh-font-meta);
+}
+
+.composer-row .primary{
+  min-width:104px;
+  padding:9px 18px;
+  border-color:#d0ccd2;
+  background:#ebe9ec;
+  color:#150f18;
+}
+
+.primary{
+  transition:
+    transform .12s ease,
+    background .16s ease,
+    border-color .16s ease,
+    opacity .16s ease;
+}
+
+/* Työketju erotetaan chatista */
+.work-chain{
+  margin-top:26px;
+  padding-top:18px;
+  border-top-color:var(--lh-border-panel);
+}
+
+.work-chain summary{
+  color:#9a91a0;
+  font-size:.83rem;
+}
+
+.chain-summary{
+  color:#6c5779;
+  font-size:var(--lh-font-meta);
+}
+
+.work-chain ol{
+  margin-top:14px;
+}
+
+.chain-turn{
+  grid-template-columns:26px minmax(0,1fr);
+  gap:11px;
+  padding:13px 0;
+  border-top-color:var(--lh-border-subtle);
+}
+
+.chain-index{
+  color:#5c4a66;
+  font-size:var(--lh-font-meta);
+}
+
+.chain-user{
+  color:#d0ccd2;
+  font-size:.91rem;
+  font-weight:520;
+}
+
+.chain-result{
+  margin-top:4px;
+  color:#846a93;
+  font-size:.84rem;
+  line-height:1.48;
+}
+
+/* Konepellin luukku pysyy tarkoituksella taka-alalla */
+.runtime{
+  margin-top:24px;
+  padding-top:17px;
+  border-top-color:var(--lh-border-subtle);
+  color:var(--lh-accent-muted);
+  font-size:.8rem;
+}
+
+.runtime summary{
+  color:var(--lh-accent-muted);
+}
+
+/* Virhetilat */
+.error-box{
+  border-radius:12px;
+}
+
+/* Näppäimistö- ja hover-laatu */
+button:focus-visible,
+textarea:focus-visible,
+summary:focus-visible{
+  outline:2px solid #8f8495;
+  outline-offset:3px;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .work-nav .quiet:hover{
+    color:#dad7dc;
+    border-color:#51425a;
+    background:var(--lh-bg-field);
+  }
+
+  .primary:not(:disabled):hover{
+    transform:translateY(-1px);
+    background:#f6f5f6;
+  }
+
+  .work-chain summary:hover,
+  .runtime summary:hover{
+    color:#b1aab6;
+  }
+}
+
+@media (max-width:520px){
+  .work{
+    padding-top:max(12px,env(safe-area-inset-top));
+  }
+
+  .work-nav{
+    width:100%;
+    margin-bottom:10px;
+  }
+
+  .result-card{
+    border-radius:17px;
+    padding:24px 17px 25px;
+  }
+
+  .result-card h1{
+    max-width:none;
+    font-size:clamp(1.55rem,8vw,2.15rem);
+  }
+
+  .answer{
+    font-size:.98rem;
+  }
+
+  .continuation{
+    margin-top:28px;
+    padding-top:21px;
+  }
+
+  .continuation textarea{
+    min-height:124px;
+  }
+
+  .composer-row{
+    align-items:center;
+  }
+
+  .composer-row .composer-meta{
+    max-width:132px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .primary,
+  .work-nav .quiet{
+    transition:none;
+  }
+}
+/* LIGHTHOUSE D1 VISUAL POLISH END */

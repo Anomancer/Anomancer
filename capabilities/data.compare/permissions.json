@@ -1,0 +1,12 @@
+{
+  "format": "anomancer-capability-permissions/v1",
+  "capabilityId": "data.compare",
+  "writesExternalState": false,
+  "requiresHumanApproval": false,
+  "dataEgress": "none",
+  "allowedScopes": [
+    "user_text",
+    "workspace_materials",
+    "work_history"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "data.compare",
+  "name": "Datavertailu",
+  "version": "1.0.0",
+  "purpose": "Vertaa aineistoryhmiä tai mittareita keskenään ja erottaa olennaiset erot.",
+  "providerClass": "data",
+  "mode": "compute",
+  "routing": "compute",
+  "availability": "ready"
+}

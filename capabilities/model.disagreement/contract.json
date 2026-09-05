@@ -1,0 +1,16 @@
+{
+  "format": "anomancer-capability-contract/v1",
+  "capabilityId": "model.disagreement",
+  "summary": "Tunnistaa missä useiden mallien vastaukset eroavat ja miksi ero on käyttäjälle olennainen. Odottaa ensemble-runtimea.",
+  "inputs": [
+    "model_outputs"
+  ],
+  "outputs": [
+    "model_disagreement"
+  ],
+  "guarantees": [
+    "Ei väitä käyttäneensä lähteitä tai dataa joita runtime ei toimittanut.",
+    "Ei suorita ulkoisia sivuvaikutuksia.",
+    "Pitää olennaisen epävarmuuden näkyvänä."
+  ]
+}

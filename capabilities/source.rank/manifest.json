@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "source.rank",
+  "name": "Lähteiden järjestäminen",
+  "version": "1.0.0",
+  "purpose": "Järjestää lähteitä relevanssin, laadun ja käyttökelpoisuuden perusteella.",
+  "providerClass": "source",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

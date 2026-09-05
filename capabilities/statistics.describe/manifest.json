@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "statistics.describe",
+  "name": "Kuvailevat tilastot",
+  "version": "1.0.0",
+  "purpose": "Tulkitsee aineiston keskeisiä jakaumia ja tunnuslukuja käytettävissä olevasta datasta.",
+  "providerClass": "data",
+  "mode": "compute",
+  "routing": "compute",
+  "availability": "ready"
+}

@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#14091f">
+  <title>Lighthouse</title>
+  <link rel="icon" href="/lighthouse/assets/favicon.png" type="image/png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/lighthouse/lab.css">
+</head>
+<body>
+  <main id="door" class="door">
+    <section class="door-panel" aria-labelledby="doorTitle">
+      <div class="brand-lockup lighthouse-brand-lockup" aria-label="Lighthouse">
+        <img class="brand-wordmark lighthouse-wordmark" src="/lighthouse/assets/hero-logo.png" alt="Lighthouse">
+        <h1 id="doorTitle" class="sr-only">Lighthouse</h1>
+      </div>
+
+      <nav class="lighthouse-mode-switch" aria-label="Lighthouse-tila">
+        <a class="mode-chip active" href="/lighthouse" aria-current="page"><span><strong>Kevyt tila</strong><small>Kerro tavoite</small></span></a>
+        <a class="mode-chip" href="/lighthouse/workbench"><span><strong>Työpöytä</strong><small>Hallitut työtilat</small></span></a>
+      </nav>
+
+      <p class="lead lighthouse-question">Mitä haluat saada aikaan?</p>
+      <div class="lead-diamond" aria-hidden="true"></div>
+
+      <form id="f" class="door-form">
+        <label for="q" class="sr-only">Kerro mitä haluat saada aikaan</label>
+        <textarea
+          id="q"
+          maxlength="12000"
+          rows="5"
+          required
+          placeholder="Kirjoita ongelma, tavoite tai asia jonka haluat selvittää."></textarea>
+
+        <div class="door-tools" aria-label="Syöttötavat">
+          <button id="voiceInput" type="button" class="door-tool" hidden>
+            <span class="door-tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Zm6-3a6 6 0 0 1-12 0M12 18v3M9 21h6"/></svg></span><span data-voice-label>Puhu</span>
+          </button>
+          <label class="door-tool attachment-tool" for="attachmentInput">
+            <span class="door-tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m20 12.5-7.6 7.6a6 6 0 0 1-8.5-8.5l8.3-8.3a4 4 0 0 1 5.7 5.7l-8.4 8.4a2 2 0 1 1-2.8-2.8l7.7-7.7"/></svg></span><span>Lisää aineisto</span>
+          </label>
+          <input
+            id="attachmentInput"
+            class="sr-only"
+            type="file"
+            multiple
+            accept=".txt,.md,.json,.csv,text/*,application/json">
+        </div>
+
+        <p id="attachmentSummary" class="attachment-summary" hidden></p>
+
+        <div class="composer-meta">
+          <span>Ctrl/⌘ + Enter jatkaa</span>
+        </div>
+
+        <div class="door-actions">
+          <button id="go" type="submit" class="primary">Jatka</button>
+        </div>
+
+        <section id="intentPreview" class="intent-preview" aria-live="polite" hidden>
+          <p class="intent-preview-kicker">Ymmärsin tehtävän näin</p>
+          <h2 id="previewTitle"></h2>
+          <p id="previewSummary"></p>
+          <p id="previewEstimate" class="intent-preview-estimate"></p>
+          <ul id="previewLimitations" class="intent-preview-limitations" hidden></ul>
+          <p id="previewAuthority" class="intent-preview-authority"></p>
+          <div class="intent-preview-actions">
+            <button id="previewEdit" type="button" class="quiet">Muokkaa</button>
+            <button id="previewStart" type="button" class="primary">Käynnistä</button>
+          </div>
+        </section>
+
+        <div class="door-mark" aria-hidden="true">
+          <img class="brand-mark-footer" src="/lighthouse/assets/lighthouse-mark-48.png" alt="">
+        </div>
+
+        <div id="doorProgress" class="progress-zone" hidden>
+          <p id="status" class="status" role="status" aria-live="polite"></p>
+          <p id="doorRaccoon" class="raccoon-line" aria-hidden="true"></p>
+        </div>
+
+        <div id="doorError" class="error-box" role="alert" hidden>
+          <p id="doorErrorText"></p>
+          <div class="error-actions">
+            <button id="doorLogin" type="button" class="retry auth-login" hidden>Kirjaudu</button>
+            <button id="doorRetry" type="button" class="retry">Yritä uudelleen</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+  </main>
+
+<dialog id="lighthouseLoginDialog" class="door-sheet auth-sheet" aria-labelledby="lighthouseLoginTitle">
+  <form id="lighthouseLoginForm" method="dialog">
+    <header class="door-sheet-header">
+      <div>
+        <p class="door-sheet-kicker">YKSITYINEN ISTUNTO</p>
+        <h2 id="lighthouseLoginTitle">Kirjaudu Lighthouseen</h2>
+        <p>Yksi suojattu istunto avaa sekä kevyen tilan että Työpöydän. Anomancer on Työpöydän toimitus- ja julkaisutyötila.</p>
+      </div>
+      <button id="lighthouseLoginClose" type="button" class="door-sheet-close" aria-label="Sulje">×</button>
+    </header>
+
+    <div class="door-sheet-body auth-sheet-body">
+      <label class="auth-sheet-label" for="lighthousePassword">Salasana</label>
+      <input
+        id="lighthousePassword"
+        class="auth-sheet-password"
+        type="password"
+        autocomplete="current-password"
+        required>
+
+      <p id="lighthouseLoginError" class="auth-sheet-error" role="alert" hidden></p>
+
+      <div class="auth-sheet-actions">
+        <button id="lighthouseLoginCancel" type="button" class="quiet">Peruuta</button>
+        <button id="lighthouseLoginSubmit" type="submit" class="primary">Kirjaudu Lighthouseen</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<script id="lighthouseBootstrap" type="application/json">__LIGHTHOUSE_BOOTSTRAP__</script>
+    <nav id="doorDock" class="door-dock lighthouse-dock" aria-label="Lighthouse-valikko">
+      <button id="doorNew" type="button" class="door-dock-button is-active" aria-current="page"><span class="dock-icon dock-new" aria-hidden="true"></span><span>Uusi</span></button>
+      <button id="kyvytOpen" type="button" class="door-dock-button" aria-controls="kyvytDialog"><span class="dock-icon dock-capabilities" aria-hidden="true"></span><span>Kyvyt</span></button>
+      <button id="workOpen" type="button" class="door-dock-button" aria-controls="recentWorkDetails"><span class="dock-icon dock-work" aria-hidden="true"></span><span>Työt</span></button>
+      <button id="infoOpen" type="button" class="door-dock-button" aria-controls="infoDialog"><span class="dock-icon dock-info" aria-hidden="true"></span><span>Info</span></button>
+    </nav>
+    <dialog id="kyvytDialog" class="door-sheet" aria-labelledby="kyvytTitle">
+      <header class="door-sheet-header"><div><p class="door-sheet-kicker">KONEEN TYÖKALUPAKKI</p><h2 id="kyvytTitle">Kyvyt</h2><p>Kyvykkyydet valitaan automaattisesti tehtävän mukaan.</p></div><button type="button" class="door-sheet-close" data-close-dialog aria-label="Sulje">×</button></header>
+      <div class="door-sheet-body"><section><h3>Core</h3><div id="kykyCatalog" class="capability-catalog"></div></section><section><h3>Mancerit</h3><div id="mancerCatalog" class="mancer-catalog"></div></section></div>
+    </dialog>
+    <dialog id="recentWorkDetails" class="door-sheet" aria-labelledby="recentWorkTitle">
+      <header class="door-sheet-header"><div><p class="door-sheet-kicker">PAIKALLINEN TYÖHISTORIA</p><h2 id="recentWorkTitle">Työt</h2><p>Työt säilyvät tämän selaimen paikallisessa tallennustilassa.</p></div><button type="button" class="door-sheet-close" data-close-dialog aria-label="Sulje">×</button></header>
+      <div class="door-sheet-body"><div id="recentWorkList" class="recent-work-list"></div></div>
+    </dialog>
+    <dialog id="infoDialog" class="door-sheet" aria-labelledby="infoTitle">
+      <header class="door-sheet-header"><div><p class="door-sheet-kicker">PIKAOHJE</p><h2 id="infoTitle">Mikä Lighthouse on?</h2></div><button type="button" class="door-sheet-close" data-close-dialog aria-label="Sulje">×</button></header>
+      <div class="door-sheet-body info-body">
+        <p><strong>Lighthouse</strong> on sovelluskuori. Kevyt tila ottaa vastaan tavoitteen ja reitittää työn. Työpöytä näyttää koneiston silloin, kun haluat valita työtilan, orkesterin, agentin tai ajon itse.</p>
+        <div class="concept-stack" aria-label="Lighthousen käsitteet">
+          <article><span>1</span><div><strong>Mancer</strong><p>Rajattu työtila tai työtilatyyppi tiettyä tehtäväkenttää varten. Anomancer on toimitus- ja julkaisutyötila.</p></div></article>
+          <article><span>2</span><div><strong>Orkesteri</strong><p>Työnkulku, joka järjestää agentit, kyvykkyydet, tarkistukset ja hyväksynnät.</p></div></article>
+          <article><span>3</span><div><strong>Agentti</strong><p>Rajattu rooli. Agentilla on tehtävä, käyttöoikeudet, kiellot ja työkalut.</p></div></article>
+          <article><span>4</span><div><strong>Kyvykkyys</strong><p>Yksittäinen sallittu toiminto, jonka agentti tai orkesteri voi käyttää.</p></div></article>
+        </div>
+        <p>Kone saa analysoida ja ehdottaa. Ulkoiset sivuvaikutukset pysyvät erillisten ihmisen hyväksyntäporttien takana.</p>
+        <dl class="info-version-grid"><div><dt>Core</dt><dd id="infoCoreVersion">—</dd></div><div><dt>Lighthouse</dt><dd id="infoLighthouseVersion">—</dd></div><div><dt>Milestone</dt><dd id="infoMilestone">—</dd></div><div><dt>Tila</dt><dd>Kehitysvaihe · Vercel Direct</dd></div></dl>
+        <p class="info-principle">Lighthouse → Mancer → Orkesteri → Agentti → Kyvykkyys. Ihminen säilyttää päätösvallan.</p>
+      </div>
+    </dialog>
+
+
+
+  <main id="work" class="work" hidden>
+    <nav class="work-nav">
+      <button id="back" type="button" class="quiet">← Uusi työ</button>
+      <div class="work-nav-modes" aria-label="Lighthouse-tila">
+        <a href="/lighthouse" aria-current="page">Kevyt tila</a>
+        <a id="workbenchHandoff" class="workbench-handoff" href="/lighthouse/workbench">Avaa tämä työ Työpöydällä</a>
+      </div>
+    </nav>
+
+    <article id="resultCard" class="result-card" aria-live="polite">
+      <header class="result-heading">
+        <div>
+          <p class="eyebrow" id="resultEyebrow">TÄSSÄ ON OLENNAISIN</p>
+          <h1 id="title"></h1>
+        </div>
+        <span class="state-pill" id="statePill" hidden></span>
+      </header>
+
+      <div id="answer" class="answer"></div>
+
+      <section id="questions" class="questions" hidden>
+        <h2>Tarvitsen vielä</h2>
+        <ul id="questionList"></ul>
+      </section>
+
+      <section id="next" class="result-section" hidden>
+        <h2>Seuraavaksi</h2>
+        <ul id="steps"></ul>
+      </section>
+
+      <section id="unc" class="uncertainty" hidden>
+        <h2>Epävarmuus</h2>
+        <p id="uncText"></p>
+      </section>
+
+      <section id="mutationPanel" class="mutation-panel" aria-labelledby="mutationTitle" hidden>
+        <header class="mutation-heading">
+          <div>
+            <p class="mutation-kicker">RAJATTU MUUTOSEHDOTUS</p>
+            <h2 id="mutationTitle">Tarkista ennen kuin mikään muuttuu</h2>
+          </div>
+          <span id="mutationRisk" class="mutation-risk"></span>
+        </header>
+        <p id="mutationSummary" class="mutation-summary"></p>
+        <div id="mutationFiles" class="mutation-files"></div>
+        <section id="mutationVerificationBlock" class="mutation-verification" hidden>
+          <h3>Tarkistus suunnitelman jälkeen</h3>
+          <ul id="mutationVerification"></ul>
+        </section>
+        <div id="mutationApproval" class="mutation-approval" hidden>
+          <p id="mutationBoundary" class="mutation-boundary"></p>
+          <p>Kirjoita täsmälleen <code id="mutationPhrase"></code></p>
+          <label for="mutationConfirmation" class="sr-only">Mutation hyväksyntälause</label>
+          <input id="mutationConfirmation" type="text" autocomplete="off" spellcheck="false" maxlength="160">
+          <button id="mutationExecute" type="button" class="primary mutation-execute">Hyväksy ja kirjoita projektitiedostot</button>
+        </div>
+        <div id="mutationMessage" class="mutation-message" role="status" aria-live="polite"></div>
+        <div id="mutationReceipt" class="mutation-receipt" hidden></div>
+      </section>
+
+      <section class="continuation" aria-labelledby="continueTitle">
+        <div class="continuation-heading">
+          <h2 id="continueTitle">Jatka tästä</h2>
+          <span id="turnCount" class="turn-count"></span>
+        </div>
+
+        <form id="continueForm">
+          <label for="continueInput" class="sr-only">Jatka nykyistä työtä</label>
+          <textarea
+            id="continueInput"
+            rows="3"
+            maxlength="12000"
+            placeholder="Kirjoita jatko, tarkennus tai uusi kysymys tästä työstä."></textarea>
+
+          <div class="composer-row">
+            <span class="composer-meta">Ctrl/⌘ + Enter lähettää</span>
+            <button id="continueButton" type="submit" class="primary">Jatka</button>
+          </div>
+
+          <div id="workProgress" class="progress-zone" hidden>
+            <p id="workStatus" class="status" role="status" aria-live="polite"></p>
+            <p id="workRaccoon" class="raccoon-line" aria-hidden="true"></p>
+          </div>
+
+          <div id="workError" class="error-box" role="alert" hidden>
+            <p id="workErrorText"></p>
+            <button id="workRetry" type="button" class="retry">Yritä uudelleen</button>
+          </div>
+        </form>
+      </section>
+
+      <details id="chainDetails" class="work-chain" hidden>
+        <summary>
+          <span>Työketju</span>
+          <span id="chainSummary" class="chain-summary"></span>
+        </summary>
+        <ol id="chainList"></ol>
+      </details>
+
+      <details id="trustDetails" class="trust-surface">
+        <summary>
+          <span>Miksi tämä vastaus?</span>
+          <span class="trust-depth">D2 · LUOTTAMUS</span>
+        </summary>
+
+        <div class="trust-content">
+          <section class="trust-block">
+            <h2>Perustuu</h2>
+            <ul id="trustBasis"></ul>
+          </section>
+
+          <section class="trust-block">
+            <h2>Lähteet</h2>
+            <ul id="trustSources"></ul>
+            <p id="trustNoSources" class="trust-empty" hidden>
+              Ei ulkoisia lähteitä tässä ajossa.
+            </p>
+          </section>
+
+          <section class="trust-block">
+            <h2>Oletukset</h2>
+            <ul id="trustAssumptions"></ul>
+            <p id="trustNoAssumptions" class="trust-empty" hidden>
+              Ei olennaisia oletuksia ilmoitettu.
+            </p>
+          </section>
+
+          <section class="trust-confidence">
+            <div class="trust-confidence-heading">
+              <h2>Luottamustaso</h2>
+              <span id="trustConfidenceLevel" class="confidence-pill"></span>
+            </div>
+            <p id="trustConfidenceReason"></p>
+          </section>
+        </div>
+      </details>
+
+      <details id="workspaceDetails" class="workspace-surface">
+        <summary>
+          <span>Työtila</span>
+          <span class="workspace-depth">D3 · TYÖTILA</span>
+        </summary>
+
+        <div class="workspace-content">
+          <section class="workspace-identity">
+            <div>
+              <label for="workspaceTitle">Työn nimi</label>
+              <input id="workspaceTitle" type="text" maxlength="180">
+            </div>
+            <p id="workspaceStorageStatus" class="workspace-storage-status"></p>
+          </section>
+
+          <section class="workspace-section">
+            <div class="workspace-section-heading">
+              <div>
+                <h2>Aineistot</h2>
+                <p>Lisätty aineisto otetaan mukaan seuraavaan ajoon.</p>
+              </div>
+              <span id="materialCount" class="workspace-count"></span>
+            </div>
+
+            <form id="materialForm" class="material-form">
+              <label for="materialTitle" class="sr-only">Aineiston nimi</label>
+              <input id="materialTitle" type="text" maxlength="160"
+                placeholder="Aineiston nimi, valinnainen">
+
+              <label for="materialContent" class="sr-only">Aineiston sisältö</label>
+              <textarea id="materialContent" rows="4" maxlength="8000"
+                placeholder="Liitä tähän teksti, muistiinpano tai muu taustatieto."></textarea>
+
+              <div class="workspace-actions">
+                <button type="submit" class="secondary-action">Lisää aineisto</button>
+              </div>
+            </form>
+
+            <ul id="materialList" class="material-list"></ul>
+            <p id="materialEmpty" class="workspace-empty">Ei lisättyä aineistoa.</p>
+          </section>
+
+          <section class="workspace-section">
+            <div class="workspace-section-heading">
+              <div>
+                <h2>Versiot</h2>
+                <p>Tallenna työn tämänhetkinen tulos tarkistuspisteeksi.</p>
+              </div>
+              <span id="versionCount" class="workspace-count"></span>
+            </div>
+
+            <div class="version-create">
+              <label for="versionLabel" class="sr-only">Version nimi</label>
+              <input id="versionLabel" type="text" maxlength="120"
+                placeholder="Version nimi, valinnainen">
+              <button id="saveVersion" type="button" class="secondary-action">
+                Tallenna versio
+              </button>
+            </div>
+
+            <ol id="versionList" class="version-list"></ol>
+            <p id="versionEmpty" class="workspace-empty">Ei tallennettuja versioita.</p>
+          </section>
+
+          <footer class="workspace-footer">
+            <p>
+              Tämä paikallinen kevyt työtila tallentuu vain tämän selaimen
+              paikalliseen tallennustilaan.
+            </p>
+            <button id="leaveWorkspace" type="button" class="text-action">
+              Sulje työtila
+            </button>
+          </footer>
+        </div>
+      </details>
+
+      <details id="orchestraDetails" class="orchestra-surface">
+        <summary>
+          <span>Miten työ järjestettiin?</span>
+          <span class="orchestra-depth">D4 · ORKESTRA</span>
+        </summary>
+
+        <div class="orchestra-content">
+          <header class="orchestra-header">
+            <div>
+              <p class="orchestra-kicker">TYÖTAPA</p>
+              <h2 id="orchestraName">Suora työpolku</h2>
+              <p id="orchestraSummary"></p>
+            </div>
+            <span id="orchestraMode" class="orchestra-mode">Suora</span>
+          </header>
+
+          <section class="orchestra-intelligence" aria-labelledby="orchestraIntelligenceTitle">
+            <div class="orchestra-section-heading">
+              <h2 id="orchestraIntelligenceTitle">Älyprofiili</h2>
+              <span id="orchestraPasses" class="orchestra-count"></span>
+            </div>
+            <dl class="orchestra-intelligence-grid">
+              <div><dt>Tehtävä</dt><dd id="orchestraTaskType"></dd></div>
+              <div><dt>Vaativuus</dt><dd id="orchestraComplexity"></dd></div>
+              <div><dt>Strategia</dt><dd id="orchestraStrategy"></dd></div>
+            </dl>
+          </section>
+
+          <section class="orchestra-section">
+            <div class="orchestra-section-heading">
+              <h2>Vaiheet</h2>
+              <span id="orchestraStageCount" class="orchestra-count"></span>
+            </div>
+            <ol id="orchestraStages" class="orchestra-stages"></ol>
+          </section>
+
+          <div class="orchestra-grid">
+            <section class="orchestra-section orchestra-grid-section">
+              <div class="orchestra-section-heading">
+                <h2>Kyvykkyydet</h2>
+              </div>
+              <ul id="orchestraCapabilities" class="orchestra-capabilities"></ul>
+            </section>
+
+            <section class="orchestra-section orchestra-grid-section">
+              <div class="orchestra-section-heading">
+                <h2>Mancerit</h2>
+              </div>
+              <ul id="orchestraMancers" class="orchestra-mancers"></ul>
+              <p id="orchestraNoMancers" class="orchestra-empty"></p>
+            </section>
+          </div>
+
+          <section class="orchestra-decision">
+            <div class="orchestra-section-heading">
+              <h2>Reitityspäätös</h2>
+              <span id="orchestraRouterMode" class="orchestra-router-mode"></span>
+            </div>
+            <p id="orchestraRouterReason"></p>
+          </section>
+        </div>
+      </details>
+
+      <details id="machineDetails" class="machine-surface">
+        <summary>
+          <span>Konehuone</span>
+          <span class="machine-depth">D5 · KONE</span>
+        </summary>
+
+        <div class="machine-content">
+          <section class="machine-overview">
+            <div class="machine-fact">
+              <span>Provider</span>
+              <strong id="machineProvider"></strong>
+            </div>
+
+            <div class="machine-fact">
+              <span>Malli</span>
+              <strong id="machineModel"></strong>
+            </div>
+
+            <div class="machine-fact">
+              <span>Kyvykkyys</span>
+              <strong id="machineCapability"></strong>
+            </div>
+
+            <div class="machine-fact">
+              <span>Viive</span>
+              <strong id="machineLatency"></strong>
+            </div>
+          </section>
+
+          <section class="machine-section machine-reasoning-section">
+            <div class="machine-section-heading">
+              <h2>Päättelypolku</h2>
+              <span id="machineReasoningCount" class="machine-count"></span>
+            </div>
+            <dl id="machineReasoning" class="machine-list"></dl>
+            <ol id="machineReasoningPasses" class="machine-reasoning-passes"></ol>
+          </section>
+
+          <div class="machine-grid">
+            <section class="machine-section">
+              <h2>Tokenit</h2>
+              <dl id="machineUsage" class="machine-list"></dl>
+              <p id="machineUsageEmpty" class="machine-empty" hidden>
+                Provider ei palauttanut usage-dataa tästä ajosta.
+              </p>
+            </section>
+
+            <section class="machine-section">
+              <h2>Kustannus</h2>
+              <p id="machineCost" class="machine-value"></p>
+            </section>
+          </div>
+
+          <section class="machine-section machine-hands-section">
+            <div class="machine-section-heading">
+              <h2>Kädet</h2>
+              <span id="machineHandsCount" class="machine-count"></span>
+            </div>
+            <ol id="machineHands" class="machine-reasoning-passes machine-hands"></ol>
+            <p id="machineNoHands" class="machine-empty"></p>
+          </section>
+
+          <section class="machine-section">
+            <div class="machine-section-heading">
+              <h2>Yhteydet ja data</h2>
+            </div>
+            <ul id="machinePermissions" class="machine-permissions"></ul>
+          </section>
+
+          <section class="machine-section">
+            <div class="machine-section-heading">
+              <h2>Datavirta</h2>
+            </div>
+            <dl id="machineDataFlow" class="machine-list"></dl>
+          </section>
+
+          <section class="machine-section">
+            <div class="machine-section-heading">
+              <h2>Työkalut</h2>
+              <span id="machineToolCount" class="machine-count"></span>
+            </div>
+            <ul id="machineTools" class="machine-tools"></ul>
+            <p id="machineNoTools" class="machine-empty"></p>
+          </section>
+        </div>
+      </details>
+
+      <details id="coreDetails" class="core-surface">
+        <summary>
+          <span>Perusta</span>
+          <span class="core-depth">D6 · CORE</span>
+        </summary>
+
+        <div class="core-content">
+          <section class="core-authority">
+            <p class="core-kicker">MÄÄRÄYSVALTA</p>
+            <div class="core-authority-line">
+              <strong>Ihminen päättää.</strong>
+              <span id="coreAuthorityBadge" class="core-badge">Human final authority</span>
+            </div>
+            <p id="coreAuthorityNote"></p>
+          </section>
+
+          <div class="core-grid">
+            <section class="core-section">
+              <div class="core-section-heading">
+                <h2>Politiikka</h2>
+                <span id="coreEnvironment" class="core-badge"></span>
+              </div>
+              <ul id="corePolicy" class="core-status-list"></ul>
+            </section>
+
+            <section class="core-section">
+              <div class="core-section-heading">
+                <h2>Tallennus</h2>
+              </div>
+              <dl id="coreStorage" class="core-list"></dl>
+              <p id="coreStorageNote" class="core-note"></p>
+            </section>
+          </div>
+
+          <section class="core-section">
+            <div class="core-section-heading">
+              <h2>Sopimukset</h2>
+              <span id="coreContractCount" class="core-count"></span>
+            </div>
+            <ul id="coreContracts" class="core-contracts"></ul>
+          </section>
+
+          <section class="core-section">
+            <div class="core-section-heading">
+              <h2>Rajat</h2>
+            </div>
+            <dl id="coreBoundaries" class="core-list"></dl>
+          </section>
+
+          <section class="core-section">
+            <div class="core-section-heading">
+              <h2>Provenienssi</h2>
+            </div>
+            <ul id="coreProvenance" class="core-trace"></ul>
+          </section>
+        </div>
+      </details>
+
+      <details id="rawRuntimeDetails" class="runtime raw-runtime">
+        <summary>Raaka runtime</summary>
+        <pre id="runtime"></pre>
+      </details>
+    </article>
+
+    <nav id="mobileDepthNav" class="mobile-depth-nav" aria-label="Työn lisätiedot">
+      <button type="button" data-depth-target="trustDetails">
+        <span aria-hidden="true">?</span>
+        <strong>Miksi?</strong>
+      </button>
+      <button type="button" data-depth-target="workspaceDetails">
+        <span aria-hidden="true">▣</span>
+        <strong>Aineisto</strong>
+      </button>
+      <button id="moreDepthButton" type="button" aria-expanded="false" aria-controls="moreDepthMenu">
+        <span aria-hidden="true">•••</span>
+        <strong>Lisää</strong>
+      </button>
+    </nav>
+
+    <div id="moreDepthMenu" class="more-depth-menu" hidden>
+      <div class="more-depth-sheet" role="dialog" aria-modal="true" aria-labelledby="moreDepthTitle">
+        <div class="more-depth-heading">
+          <h2 id="moreDepthTitle">Syvemmälle työhön</h2>
+          <button id="moreDepthClose" type="button" class="quiet" aria-label="Sulje">Sulje</button>
+        </div>
+        <button type="button" data-depth-target="orchestraDetails">
+          <strong>Miten tämä tehtiin?</strong>
+          <span>Työvaiheet ja menetelmä</span>
+        </button>
+        <button type="button" data-depth-target="machineDetails">
+          <strong>Konehuone</strong>
+          <span>Mallit, työkalut ja oikeudet</span>
+        </button>
+        <button type="button" data-depth-target="coreDetails">
+          <strong>Core</strong>
+          <span>Sopimukset, rajat ja provenienssi</span>
+        </button>
+      </div>
+    </div>
+
+    <aside id="depthInspector" class="depth-inspector" aria-label="Tarkastelukerros">
+      <header class="depth-inspector-header">
+        <button id="depthBack" type="button" class="depth-back">← Työhön</button>
+
+        <div>
+          <p class="depth-inspector-kicker">TYÖN TAUSTA</p>
+          <h1 id="depthInspectorTitle">Valitse lisätieto</h1>
+        </div>
+      </header>
+
+      <nav id="desktopDepthTabs" class="desktop-depth-tabs" aria-label="Syvyyskerrokset">
+        <button type="button" data-depth-target="trustDetails">
+          <span>D2</span> Luottamus
+        </button>
+        <button type="button" data-depth-target="workspaceDetails">
+          <span>D3</span> Työtila
+        </button>
+        <button type="button" data-depth-target="orchestraDetails">
+          <span>D4</span> Orkesteri
+        </button>
+        <button type="button" data-depth-target="machineDetails">
+          <span>D5</span> Kone
+        </button>
+        <button type="button" data-depth-target="coreDetails">
+          <span>D6</span> Core
+        </button>
+      </nav>
+
+      <div id="depthInspectorEmpty" class="depth-inspector-empty">
+        <p>Valitse mitä haluat tarkistaa työstä.</p>
+        <span>Varsinainen tulos pysyy desktopilla näkyvissä koko ajan.</span>
+      </div>
+
+      <div id="depthInspectorBody" class="depth-inspector-body"></div>
+    </aside>
+  </main>
+
+  <script type="module" src="/lighthouse/lab.js"></script>
+</body>
+</html>

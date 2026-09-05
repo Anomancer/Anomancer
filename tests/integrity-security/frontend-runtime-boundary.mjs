@@ -30,6 +30,6 @@ test('keskeiset providerit rekisteröityvät runtimeen',()=>{
 
 test('build stageaa runtime-moduulin public-outputiin',()=>{assert.match(read('scripts/build-blog.mjs'),/'admin-runtime\.js'/);});
 
-test('offline shell cacheaa runtime-moduulin ja installer tunnistaa sen',()=>{assert.match(read('lahetyskone-sw.js'),/\/admin-runtime\.js/);assert.match(read('INSTALL_TO_CURRENT.sh'),/^\s*admin-runtime\.js$/m);});
+test('offline shell cacheaa runtime-moduulin ja installer kopioi koko lähdepuun',()=>{assert.match(read('lighthouse-sw.js'),/\/admin-runtime\.js/);const installer=read('INSTALL_TO_CURRENT.sh');assert.match(installer,/rsync -a --delete/);assert.doesNotMatch(installer,/--exclude='admin-runtime\.js'/);});
 
 console.log('\n'+passed+'/'+passed+' FRONTEND RUNTIME BOUNDARY -porttia läpi');

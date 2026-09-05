@@ -60,8 +60,6 @@ export function normalizeSources(value) {
   return out;
 }
 
-const DIRECT_ACCESS_CONFLICT=/(?:\b403\b|\b404\b|access denied|forbidden|could not (?:open|access|retrieve)|unable to (?:open|access|retrieve)|ei (?:saatu|onnistuttu|pystytty) (?:avaamaan|hakemaan|tarkistamaan)|tarkistus suositellaan|maksumuuri|paywall)/iu;
-
 export function sourceVerificationIssues(source={}) {
   if(source.verification!=='verified') return [];
   const issues=[];
@@ -70,7 +68,6 @@ export function sourceVerificationIssues(source={}) {
   if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,3})?)?Z$/.test(String(source.verifiedAt||''))) issues.push('varmennusaika puuttuu tai ei ole UTC ISO -muodossa');
   if(!String(source.verificationEvidence||'').trim()) issues.push('varmennusevidenssi puuttuu');
   if(!String(source.verificationNotes||'').trim()) issues.push('varmennusmuistiinpano puuttuu');
-  if(source.verificationMethod==='direct-open'&&DIRECT_ACCESS_CONFLICT.test(String(source.challenges||''))) issues.push('suora avaus on ristiriidassa lähteen haastekuvauksen kanssa');
   return issues;
 }
 

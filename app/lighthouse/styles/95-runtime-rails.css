@@ -1,0 +1,450 @@
+/* Lighthouse 1.22 · human-approved mutation rail */
+.mutation-panel{margin:1.25rem 0;padding:1rem;border:1px solid rgba(255,96,96,.4);border-radius:18px;background:linear-gradient(180deg,rgba(118,18,18,.16),rgba(18,18,22,.72));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.mutation-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}.mutation-heading h2{margin:.2rem 0 0;font-size:1.08rem}.mutation-kicker{margin:0;font-size:var(--lh-font-meta);letter-spacing:.13em;font-weight:800;color:var(--muted)}
+.mutation-risk{flex:0 0 auto;padding:.3rem .55rem;border:1px solid currentColor;border-radius:999px;font-size:var(--lh-font-meta);font-weight:800;text-transform:uppercase}.mutation-risk[data-risk="high"]{color:#ff9b9b}.mutation-risk[data-risk="medium"]{color:#ffd27b}.mutation-risk[data-risk="low"]{color:#c5b7cd}
+.mutation-summary,.mutation-boundary,.mutation-message{color:var(--muted);line-height:1.55}.mutation-files{display:grid;gap:.75rem;margin-top:1rem}.mutation-file{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:rgba(0,0,0,.16)}
+.mutation-file header{display:flex;justify-content:space-between;gap:1rem;padding:.7rem .8rem;border-bottom:1px solid var(--line)}.mutation-file strong{overflow-wrap:anywhere}.mutation-file .mutation-delta{color:var(--muted);font-size:.76rem;white-space:nowrap}.mutation-file p{margin:.65rem .8rem;color:var(--muted);font-size:.86rem}
+.mutation-diff{margin:0;padding:.8rem;max-height:28rem;overflow:auto;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;background:rgba(0,0,0,.28);border:0;color:inherit}
+.mutation-verification{margin-top:1rem}.mutation-verification h3{font-size:.9rem;margin:0 0 .45rem}.mutation-verification ul{margin:.35rem 0 0;padding-left:1.2rem}
+.mutation-approval{display:grid;gap:.65rem;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,96,96,.25)}.mutation-approval p{margin:0}.mutation-approval code{font-weight:800}.mutation-approval input{width:100%;box-sizing:border-box}.mutation-execute{justify-self:start}.mutation-message:empty{display:none}
+.mutation-receipt{margin-top:1rem;padding:.85rem;border:1px solid rgba(170,149,182,.35);border-radius:14px;background:rgba(83,50,102,.12)}.mutation-receipt strong{display:block;margin-bottom:.35rem}.mutation-receipt a{overflow-wrap:anywhere}
+@media(max-width:720px){.mutation-heading{display:grid}.mutation-execute{width:100%}.mutation-diff{max-height:20rem}}
+
+/* LIGHTHOUSE D0 DOCK / MOBILE WIDTH GUARD START */
+.door{padding-bottom:max(112px,calc(env(safe-area-inset-bottom) + 96px))}
+.door-dock{position:fixed;z-index:45;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;width:min(520px,calc(100vw - 24px));max-width:calc(100vw - 24px);padding:5px;border:1px solid #352a3b;border-radius:18px;background:rgba(16,12,19,.94);box-shadow:0 18px 52px rgba(0,0,0,.38);backdrop-filter:blur(16px)}
+.door-dock-button{min-width:0;min-height:44px;padding:8px 6px;border:0;border-radius:13px;background:transparent;color:#a198a6;font-size:.78rem;font-weight:650}
+.door-dock-button:hover,.door-dock-button:focus-visible,.door-dock-button[aria-current="page"]{background:#201825;color:#ebeaec;outline:none}
+.door-sheet{width:min(640px,calc(100vw - 24px));max-width:calc(100vw - 24px);max-height:min(78dvh,760px);margin:auto;padding:0;overflow:hidden;border:1px solid #3d3144;border-radius:20px;background:#130e15;color:#f0eff1;box-shadow:0 28px 100px rgba(0,0,0,.58)}
+.door-sheet::backdrop{background:rgba(4,3,5,.72);backdrop-filter:blur(5px)}
+.door-sheet-header{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;min-width:0;padding:20px;border-bottom:1px solid #2f2236}
+.door-sheet-header>div{min-width:0}.door-sheet-header h2{margin:3px 0 5px}.door-sheet-header p{margin:0;color:#908696;font-size:.82rem;line-height:1.5;overflow-wrap:anywhere}
+.door-sheet-kicker{color:#6e597a!important;font-size:var(--lh-font-meta)!important;font-weight:750;letter-spacing:.14em}
+.door-sheet-close{flex:none;width:40px;height:40px;border:1px solid #3d3144;border-radius:999px;background:#161019;color:#c2bcc5;font-size:1.25rem}
+.door-sheet-body{min-width:0;max-width:100%;max-height:calc(min(78dvh,760px) - 100px);overflow:auto;overflow-x:hidden;padding:18px 20px 22px}
+.door-sheet-body section+section{margin-top:26px}.door-sheet-body h3{color:#b6afba;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em}
+.capability-catalog,.mancer-catalog,.recent-work-list{display:grid;min-width:0;max-width:100%;gap:8px}
+.capability-card,.mancer-card{min-width:0;max-width:100%;overflow:hidden;padding:13px 14px;border:1px solid #302338;border-radius:14px;background:var(--lh-bg-panel);text-align:left}
+.capability-card-top{display:flex;align-items:center;justify-content:space-between;min-width:0;gap:12px}.capability-card strong,.mancer-card strong{overflow-wrap:anywhere}
+.capability-card code{display:block;margin-top:5px;color:#80678e;font-size:var(--lh-font-meta);overflow-wrap:anywhere}.capability-card p,.mancer-card p{margin:7px 0 0;color:#8e769c;font-size:.78rem;line-height:1.5;overflow-wrap:anywhere}
+.capability-state{flex:none;padding:4px 7px;border:1px solid #3e3245;border-radius:999px;color:var(--lh-text-muted);font-size:var(--lh-font-meta)}.capability-state[data-state="ready"]{border-color:#45384d;color:#bab2bf}.capability-state[data-state="approval"]{border-color:#5a4e34;color:#d3c291}.capability-state[data-state="runtime"]{border-color:#354b5a;color:#a9c7d5}
+.mancer-capabilities{display:flex;flex-wrap:wrap;min-width:0;gap:5px;margin-top:10px}.mancer-capabilities code{max-width:100%;padding:4px 7px;border:1px solid #332939;border-radius:999px;color:#9a91a0;font-size:var(--lh-font-meta);overflow-wrap:anywhere}.mancer-orchestras{color:#725c7f!important}
+.recent-work{display:none!important}.recent-work-item{min-width:0!important;max-width:100%!important;overflow:hidden}.recent-work-item strong,.recent-work-item span{max-width:100%;overflow-wrap:anywhere;word-break:break-word}.door-sheet-empty{color:#826990;font-size:.84rem}
+.info-body>p,.info-body li{color:#b1aab5;line-height:1.65}.info-version-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:20px 0}.info-version-grid div{min-width:0;padding:12px;border:1px solid #302736;border-radius:12px;background:var(--lh-bg-panel)}.info-version-grid dt{color:#745e81;font-size:var(--lh-font-meta);text-transform:uppercase}.info-version-grid dd{margin:4px 0 0;color:#dad6dc;font-size:.82rem;overflow-wrap:anywhere}.info-principle{padding-top:16px;border-top:1px solid #302337;color:#dcd9de!important;font-weight:650}
+@media(max-width:520px){html,body{max-width:100%;overflow-x:hidden}.door{width:100%;max-width:100vw;overflow-x:clip;padding-left:14px;padding-right:14px;padding-bottom:max(104px,calc(env(safe-area-inset-bottom) + 92px))}.door-panel,.door-form{min-width:0;max-width:100%}.door-dock,.door-sheet{width:calc(100vw - 20px);max-width:calc(100vw - 20px)}.door-dock{bottom:max(8px,env(safe-area-inset-bottom))}.door-sheet{max-height:82dvh;border-radius:17px}.door-sheet-header{padding:17px 16px 14px}.door-sheet-body{width:100%;min-width:0;max-width:100%;padding:15px 16px 18px;overflow-x:hidden}.info-version-grid{grid-template-columns:1fr}.recent-work-item{width:100%!important;min-width:0!important;max-width:100%!important}}
+@supports not (overflow:clip){@media(max-width:520px){.door{overflow-x:hidden}}}
+/* LIGHTHOUSE D0 DOCK / MOBILE WIDTH GUARD END */
+
+
+/* LIGHTHOUSE AUTH RETURN UX START */
+.error-actions{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.auth-login{
+  border-color:#ccc7cf;
+  background:#e8e6ea;
+  color:var(--lh-bg-field);
+  font-weight:700;
+}
+.auth-login:hover,
+.auth-login:focus-visible{
+  background:#f2f1f3;
+  color:#100c13;
+  outline:none;
+}
+/* LIGHTHOUSE AUTH RETURN UX END */
+
+
+/* LIGHTHOUSE INLINE AUTH UX START */
+.auth-sheet{
+  width:min(440px,calc(100vw - 24px));
+}
+.auth-sheet-body{
+  display:grid;
+  gap:12px;
+}
+.auth-sheet-label{
+  color:#b0a9b5;
+  font-size:.78rem;
+  font-weight:650;
+}
+.auth-sheet-password{
+  width:100%;
+  min-width:0;
+  min-height:48px;
+  padding:11px 13px;
+  border:1px solid #3d3144;
+  border-radius:12px;
+  background:#0e0b10;
+  color:#f0eef1;
+  font:inherit;
+}
+.auth-sheet-password:focus{
+  outline:2px solid #8f8495;
+  outline-offset:2px;
+}
+.auth-sheet-error{
+  margin:0;
+  padding:10px 12px;
+  border:1px solid #67413f;
+  border-radius:10px;
+  background:#211413;
+  color:#e9b5af;
+  font-size:.8rem;
+}
+.auth-sheet-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:4px;
+}
+/* LIGHTHOUSE INLINE AUTH UX END */
+
+
+/* Lighthouse M2 · identity + mode architecture */
+.lighthouse-mode-switch{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  width:min(100%,520px);
+  margin:0 auto 24px;
+  padding:5px;
+  border:1px solid #35244a;
+  border-radius:18px;
+  background:rgba(18,9,29,.72);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.mode-chip{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-height:54px;
+  padding:10px 14px;
+  border:1px solid transparent;
+  border-radius:13px;
+  color:#a79db1;
+  text-decoration:none;
+  text-align:left;
+}
+.mode-chip span{font-weight:760;color:#d8d1df}
+.mode-chip small{font-size:.75rem;color:#82758e}
+.mode-chip:hover{border-color:#4a3562;background:#160d23}
+.mode-chip.active{
+  border-color:#654884;
+  background:linear-gradient(180deg,#241337,#190e29);
+  box-shadow:0 10px 28px rgba(7,3,12,.22),inset 0 1px 0 rgba(255,255,255,.035);
+}
+.mode-chip.active span{color:#f1ebf7}
+.mode-chip.active small{color:#a994bb}
+
+.work-nav-modes{display:flex;align-items:center;gap:7px}
+.work-nav-modes a{
+  min-height:34px;
+  display:inline-flex;
+  align-items:center;
+  padding:6px 10px;
+  border:1px solid #342448;
+  border-radius:999px;
+  color:#9f94aa;
+  text-decoration:none;
+  font-size:.78rem;
+  font-weight:700;
+}
+.work-nav-modes a[aria-current="page"]{border-color:#60467c;background:#1a1028;color:#eee7f5}
+
+.concept-stack{display:grid;gap:8px;margin:18px 0}
+.concept-stack article{
+  display:grid;
+  grid-template-columns:30px minmax(0,1fr);
+  gap:10px;
+  align-items:start;
+  padding:12px;
+  border:1px solid #332344;
+  border-radius:14px;
+  background:#100918;
+}
+.concept-stack article>span{
+  display:grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  border:1px solid #5d4379;
+  border-radius:9px;
+  background:#1d102d;
+  color:#c7b7d5;
+  font:700 var(--lh-font-meta)/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.concept-stack strong{color:#eee8f3}
+.concept-stack p{margin:3px 0 0;color:#9e92aa;line-height:1.45}
+
+@media(max-width:560px){
+  .lighthouse-mode-switch{margin-bottom:18px}
+  .mode-chip{padding:9px 11px}
+  .work-nav{gap:10px;align-items:flex-start}
+  .work-nav-modes{margin-left:auto}
+  .work-nav-modes a{font-size:var(--lh-font-meta);padding:5px 8px}
+}
+
+
+/* 1.24.3 · calmer composer */
+#q{min-height:136px}
+.continuation textarea{min-height:88px}
+#go,#continueButton{
+  border-color:#6b4b7c;
+  background:#49305b;
+  color:#eee7f2;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 8px 24px rgba(0,0,0,.16);
+}
+#go:not(:disabled):hover,#continueButton:not(:disabled):hover{
+  border-color:#806091;
+  background:#563969;
+}
+#go:focus-visible,#continueButton:focus-visible{
+  outline:2px solid #b391c5;
+  outline-offset:3px;
+}
+@media(max-width:760px){
+  #q{min-height:118px}
+  .continuation textarea{min-height:82px;max-height:150px}
+}
+
+/* 1.24.4 · Lighthouse Visual Identity · mockup-aligned entry surface */
+body{
+  background:
+    radial-gradient(circle at 50% 17%,rgba(111,47,156,.30),transparent 38rem),
+    radial-gradient(circle at 50% 82%,rgba(133,8,38,.22),transparent 32rem),
+    #06030c;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;
+  background:
+    repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 44px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.02) 0 1px,transparent 1px 44px),
+    radial-gradient(circle at 50% 46%,transparent 0 34%,rgba(255,255,255,.05) 34.15%,transparent 34.45%);
+}
+.door-panel{width:min(100%,900px);position:relative;z-index:1}
+.lighthouse-brand-lockup{margin-bottom:4px}
+.lighthouse-wordmark{width:min(100%,660px);filter:drop-shadow(0 0 34px rgba(206,174,255,.16))}
+.lighthouse-subtitle{margin:0;color:#d3c4e1;font-size:1.02rem}
+.hero-spark{width:88px;height:6px;margin:14px auto 20px;background:linear-gradient(90deg,transparent,rgba(255,54,99,.75),transparent);box-shadow:0 0 16px rgba(255,54,99,.28)}
+.lighthouse-mode-switch{width:min(100%,560px);margin:0 auto 30px;padding:2px;border-radius:999px;background:rgba(18,9,27,.64);border:1px solid rgba(190,143,251,.18)}
+.mode-chip{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 22px;border-radius:999px}
+.mode-chip>span:last-child{text-align:left}.mode-chip strong{display:block}.mode-chip small{display:block;margin-top:2px}
+.mode-chip-glyph{width:26px;height:26px;display:grid;place-items:center;color:#fff}
+.mode-chip.active{background:linear-gradient(90deg,rgba(255,69,113,.26),rgba(139,75,201,.28));box-shadow:inset 0 0 0 1px rgba(255,72,116,.35),0 0 30px rgba(198,78,155,.18)}
+.lighthouse-question{font-size:clamp(.92rem,2vw,1.04rem);letter-spacing:.32em;text-transform:uppercase;font-weight:750;color:#f4effb;margin-bottom:0}
+.lead-diamond{width:8px;height:8px;margin:13px auto 15px;background:#ff365f;transform:rotate(45deg);box-shadow:0 0 16px rgba(255,54,95,.55)}
+.door-form textarea{min-height:176px;border-radius:18px;border-color:rgba(190,143,251,.23);background:linear-gradient(180deg,rgba(24,12,32,.92),rgba(12,7,18,.94));box-shadow:0 22px 72px rgba(0,0,0,.28)}
+.door-form textarea:focus{border-color:rgba(255,79,120,.5);box-shadow:0 0 0 3px rgba(255,79,120,.08),0 22px 72px rgba(0,0,0,.28)}
+.door-tool{border-color:rgba(190,143,251,.2);background:rgba(28,14,38,.62)}
+#go{min-width:180px;border-radius:18px;background:linear-gradient(180deg,#f7f2ff,#e9e0f6);color:#211428;border:1px solid rgba(255,255,255,.68);box-shadow:0 12px 36px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.65)}
+.door-mark{margin-top:14px}.brand-mark-footer{width:28px;filter:drop-shadow(0 0 10px rgba(255,54,95,.28))}
+.lighthouse-dock{width:min(calc(100% - 32px),760px);grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:10px 14px;border-radius:24px;background:linear-gradient(180deg,rgba(25,12,34,.92),rgba(15,8,21,.96));border-color:rgba(190,143,251,.16)}
+.lighthouse-dock .door-dock-button{display:flex;align-items:center;justify-content:center;gap:10px;min-height:66px;border-radius:16px;text-transform:uppercase;letter-spacing:.14em;font-size:.83rem}
+.lighthouse-dock .door-dock-button.is-active{background:linear-gradient(180deg,rgba(78,38,98,.46),rgba(45,20,58,.62))}
+.dock-icon{width:48px;height:48px;flex:none;background:center/contain no-repeat}
+.dock-new{background-image:url('/lighthouse/assets/dock-new.png')}.dock-capabilities{background-image:url('/lighthouse/assets/dock-capabilities.png')}.dock-work{background-image:url('/lighthouse/assets/dock-work.png')}.dock-info{background-image:url('/lighthouse/assets/dock-info.png')}
+@media(max-width:760px){
+  .lighthouse-wordmark{width:min(100%,560px)}
+  .lighthouse-mode-switch{border-radius:22px}
+  .lighthouse-question{letter-spacing:.19em}
+  .door-form textarea{min-height:150px}
+  .lighthouse-dock{width:calc(100% - 14px);padding:8px;gap:4px}
+  .lighthouse-dock .door-dock-button{min-height:62px;gap:4px;flex-direction:column;font-size:var(--lh-font-meta);letter-spacing:.1em;padding:6px 3px}
+  .dock-icon{width:36px;height:36px}
+}
+
+/* 1.24.4 R4 · Lighthouse entry optical polish */
+.door{
+  place-items:start center;
+  padding-top:clamp(30px,5.2vh,58px);
+}
+.door-panel{width:min(100%,980px)}
+.lighthouse-brand-lockup{margin-bottom:2px}
+.lighthouse-wordmark{
+  width:min(100%,720px);
+  filter:drop-shadow(0 0 28px rgba(206,174,255,.13));
+}
+.lighthouse-subtitle{
+  margin-top:2px;
+  font-size:1rem;
+  color:#c7b5d6;
+}
+.hero-spark{margin:10px auto 14px}
+.lighthouse-mode-switch{
+  width:min(100%,540px);
+  margin-bottom:22px;
+}
+.mode-chip{min-height:58px;padding:12px 20px}
+.lighthouse-question{font-size:.98rem;letter-spacing:.29em}
+.lead-diamond{margin:10px auto 16px}
+.door-form{
+  width:min(100%,820px);
+  margin-inline:auto;
+}
+.door-form textarea{
+  min-height:178px;
+  padding:20px 22px;
+  border-radius:17px;
+}
+.door-tools{margin-top:13px}
+.door-form>.composer-meta{display:none}
+.door-actions{margin-top:14px}
+#go{
+  min-width:172px;
+  min-height:48px;
+  padding:12px 30px;
+  border-radius:16px;
+  border-color:#8e75a1;
+  background:linear-gradient(180deg,#846f96 0,#665176 100%);
+  color:#fff9ff;
+  text-shadow:0 1px 1px rgba(20,8,28,.3);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 9px 24px rgba(0,0,0,.24),0 0 18px rgba(118,74,143,.12);
+}
+#go:not(:disabled):hover{
+  border-color:#a58bb8;
+  background:linear-gradient(180deg,#927ba5 0,#725b83 100%);
+}
+.door-mark{margin-top:11px}
+.brand-mark-footer{width:24px;opacity:.82}
+.lighthouse-dock{
+  bottom:max(18px,env(safe-area-inset-bottom));
+  width:min(calc(100% - 32px),760px);
+  padding:8px 12px;
+  gap:6px;
+}
+.lighthouse-dock .door-dock-button{
+  min-height:64px;
+  gap:9px;
+  padding:8px 9px;
+  font-size:.8rem;
+  letter-spacing:.12em;
+}
+.lighthouse-dock .door-dock-button.is-active{
+  background:linear-gradient(90deg,rgba(96,42,91,.52),rgba(57,27,75,.64));
+  box-shadow:inset 0 0 0 1px rgba(255,73,116,.08),0 0 22px rgba(120,44,86,.1);
+}
+.dock-icon{width:43px;height:43px}
+
+@media(max-width:760px){
+  .door{padding-top:max(18px,env(safe-area-inset-top))}
+  .door-panel{width:100%}
+  .lighthouse-wordmark{width:min(100%,570px)}
+  .lighthouse-subtitle{font-size:.92rem}
+  .hero-spark{margin:8px auto 11px}
+  .lighthouse-mode-switch{margin-bottom:17px}
+  .mode-chip{min-height:52px;padding:10px 12px;gap:8px}
+  .lighthouse-question{font-size:.86rem;letter-spacing:.18em}
+  .lead-diamond{margin:8px auto 12px}
+  .door-form{width:100%}
+  .door-form textarea{min-height:142px;padding:17px 17px}
+  .door-tools{margin-top:10px}
+  .door-actions{margin-top:11px}
+  #go{min-width:154px;min-height:46px;padding:11px 24px}
+  .door-mark{margin-top:9px}
+  .lighthouse-dock{bottom:max(8px,env(safe-area-inset-bottom));padding:7px 7px;gap:3px}
+  .lighthouse-dock .door-dock-button{min-height:58px;padding:5px 3px;gap:3px;font-size:var(--lh-font-meta);letter-spacing:.09em}
+  .dock-icon{width:35px;height:35px}
+}
+
+@media(max-height:760px) and (min-width:761px){
+  .door{padding-top:22px;padding-bottom:96px}
+  .lighthouse-wordmark{width:min(100%,620px)}
+  .hero-spark{margin:7px auto 10px}
+  .lighthouse-mode-switch{margin-bottom:14px}
+  .lead-diamond{margin:7px auto 11px}
+  .door-form textarea{min-height:146px}
+  .door-tools{margin-top:9px}
+  .door-actions{margin-top:9px}
+  .door-mark{margin-top:7px}
+}
+
+
+/* 1.24.4 R5 — tighten Lighthouse hero */
+.lighthouse-brand-lockup{margin-bottom:18px}
+.lighthouse-subtitle,.hero-spark{display:none!important}
+.lighthouse-mode-switch{
+  width:min(100%,560px);
+  margin:0 auto 22px;
+  padding:2px;
+  border-radius:999px;
+}
+.mode-chip{
+  min-height:46px;
+  padding:8px 18px;
+  gap:10px;
+}
+.mode-chip strong{font-size:.96rem;line-height:1.02}
+.mode-chip small{font-size:var(--lh-font-meta);line-height:1.02;margin-top:1px}
+.mode-chip-glyph{width:20px;height:20px;font-size:.9rem}
+@media (max-width:760px){
+  .lighthouse-brand-lockup{margin-bottom:14px}
+  .lighthouse-mode-switch{margin-bottom:18px;border-radius:18px;padding:3px}
+  .mode-chip{min-height:42px;padding:8px 12px;gap:8px}
+  .mode-chip strong{font-size:.92rem}
+  .mode-chip small{font-size:var(--lh-font-meta)}
+  .mode-chip-glyph{width:18px;height:18px;font-size:.82rem}
+}
+@media (max-width:460px){
+  .lighthouse-mode-switch{margin-bottom:14px;border-radius:16px}
+  .mode-chip{min-height:38px;padding:7px 10px;gap:7px}
+  .mode-chip strong{font-size:.88rem}
+  .mode-chip small{font-size:var(--lh-font-meta)}
+  .mode-chip-glyph{width:16px;height:16px;font-size:.76rem}
+}
+
+
+/* 1.24.5 R2 — remove decorative mode icons and tighten selector */
+.mode-chip-glyph{display:none!important}
+.mode-chip{gap:0;min-height:44px;padding:8px 16px}
+.mode-chip>span:last-child{text-align:center}
+.mode-chip strong{font-size:.94rem;line-height:1}
+.mode-chip small{font-size:var(--lh-font-meta);line-height:1;margin-top:2px}
+@media (max-width:760px){
+  .mode-chip{min-height:44px;padding:7px 10px}
+  .mode-chip strong{font-size:.9rem}
+  .mode-chip small{font-size:var(--lh-font-meta)}
+}
+@media (max-width:460px){
+  .mode-chip{min-height:44px;padding:7px 8px}
+  .mode-chip strong{font-size:.87rem}
+  .mode-chip small{font-size:var(--lh-font-meta)}
+}
+
+/* 1.24.6 · audit hardening: readable text, exact icons and intent-first depth. */
+.door-tool{display:inline-flex;align-items:center;gap:7px}
+.door-tool-icon{display:inline-grid;place-items:center;width:18px;height:18px;flex:none}
+.door-tool-icon svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.workbench-handoff{border-color:rgba(184,126,226,.34)!important;color:#e8daf3!important}
+.trust-depth,.workspace-depth,.orchestra-depth,.machine-depth,.core-depth{display:none}
+@media (hover:none) and (pointer:coarse){.composer-meta{display:none!important}}
+@media (min-width:1100px){
+  .work{position:relative}
+  .work:not(:has(.desktop-depth-tabs .is-active)){
+    grid-template-columns:minmax(0,1fr);
+  }
+  .work:not(:has(.desktop-depth-tabs .is-active)) .depth-inspector{
+    position:absolute;
+    z-index:3;
+    top:54px;
+    right:22px;
+    width:auto;
+    border:0;
+    background:transparent;
+    overflow:visible;
+  }
+  .work:not(:has(.desktop-depth-tabs .is-active)) .depth-inspector-header,
+  .work:not(:has(.desktop-depth-tabs .is-active)) .depth-inspector-empty{display:none}
+  .work:not(:has(.desktop-depth-tabs .is-active)) .desktop-depth-tabs{
+    width:390px;
+    border:1px solid var(--lh-border-panel);
+    border-radius:12px;
+    overflow:hidden;
+    background:rgba(16,12,19,.92);
+  }
+  .desktop-depth-tabs button>span{display:none}
+}

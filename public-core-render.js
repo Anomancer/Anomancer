@@ -32,7 +32,7 @@ const ORCHESTRA={
   editorial:{fi:['Anomancer Toimitus','Sisäänrakennettu toimitusorkesteri.'],en:['Anomancer Editorial','Built-in editorial orchestra.']},
   narramancer:{fi:['Romancer-tarinaorkesteri','Sisäänrakennettu tarinaorkesteri premissistä käsikirjoituspakettiin.'],en:['Romancer Story Orchestra','Built-in story orchestra from premise to manuscript package.']}
 };
-const toolNames={'web.search':{fi:'Verkkohaku',en:'Web Search'},'source.verify':{fi:'Lähteen varmennus',en:'Verify Source'},'publication.publish':{fi:'Julkaisu',en:'Publish'},'github.write':{fi:'GitHub-kirjoitus',en:'GitHub Write'}};
+const toolNames={'web.search':{fi:'Verkkohaku',en:'Web Search'},'source.verify':{fi:'Lähteen varmennus',en:'Verify Source'},'publication.publish':{fi:'Julkaisu',en:'Publish'},'project.write':{fi:'Projektikirjoitus',en:'Project Write'}};
 const routeNames={research:{fi:'tutkimus',en:'research'},writer:{fi:'kirjoitus',en:'writer'},critic:{fi:'kritiikki',en:'critic'}};
 const tr=(map,key,lang,fallback=key)=>map?.[key]?.[lang]||fallback;
 const agentLabel=(a,lang)=>AGENT[a?.id]?.[lang]?.[0]||a?.label||a?.id||'';

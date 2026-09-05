@@ -6,6 +6,7 @@ import { normalizeSources as normalizeContentSources, normalizeClaims as normali
 import { createPublicCoreView } from '../server/public-core.js';
 import { createReleaseProvenance } from '../server/release-provenance.js';
 import { renderPublicCore } from '../public-core-render.js';
+import { renderPublicCoreV3 } from '../public-core-v3-render.js';
 
 const ROOT = path.resolve(process.cwd());
 const SOURCE_PAGES = path.join(ROOT,'site','pages');
@@ -219,16 +220,16 @@ function pageHead({lang,title,description,url,type='website',alternates=[],jsonL
   const locale=lang==='fi'?'fi_FI':'en_US';
   const altLocale=lang==='fi'?'en_US':'fi_FI';
   const articleMeta=type==='article'?`${published?`<meta property="article:published_time" content="${escAttr(published)}" />\n`:''}${modified?`<meta property="article:modified_time" content="${escAttr(modified)}" />\n`:''}<meta property="article:author" content="${escAttr(AUTHOR_URL)}" />\n`:'';
-  return `<!doctype html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8" />\n<meta name="viewport" content="width=device-width, initial-scale=1" />\n<meta name="description" content="${escAttr(description)}" />\n<meta name="author" content="${escAttr(AUTHOR)}" />\n<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />\n<link rel="canonical" href="${escAttr(url)}" />\n<link rel="author" href="${escAttr(AUTHOR_URL)}" />\n${alternates.map(a=>`<link rel="alternate" hreflang="${a.lang}" href="${escAttr(a.url)}" />`).join('\n')}\n<meta property="og:site_name" content="${escAttr(SITE_NAME)}" />\n<meta property="og:type" content="${type}" />\n<meta property="og:title" content="${escAttr(title)}" />\n<meta property="og:description" content="${escAttr(description)}" />\n<meta property="og:url" content="${escAttr(url)}" />\n${image?`<meta property="og:image" content="${escAttr(image)}" />\n`:``}${articleMeta}<meta property="og:locale" content="${locale}" />\n<meta property="og:locale:alternate" content="${altLocale}" />\n<meta name="twitter:card" content="${image?'summary_large_image':'summary'}" />\n<meta name="twitter:title" content="${escAttr(title)}" />\n<meta name="twitter:description" content="${escAttr(description)}" />\n${image?`<meta name="twitter:image" content="${escAttr(image)}" />\n`:``}${rss?`<link rel="alternate" type="application/rss+xml" title="${escAttr(SITE_NAME)}" href="${rss}" />`:''}\n<title>${esc(title)}</title>\n${jsonLd?`<script type="application/ld+json">${jsonLd}</script>`:''}\n<meta name="theme-color" content="#040408" />\n<link rel="icon" href="/media/brand/anomancer-mark.png" type="image/png" />\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">\n<link rel="stylesheet" href="/styles.css" />\n</head>`;
+  return `<!doctype html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8" />\n<meta name="viewport" content="width=device-width, initial-scale=1" />\n<meta name="description" content="${escAttr(description)}" />\n<meta name="author" content="${escAttr(AUTHOR)}" />\n<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />\n<link rel="canonical" href="${escAttr(url)}" />\n<link rel="author" href="${escAttr(AUTHOR_URL)}" />\n${alternates.map(a=>`<link rel="alternate" hreflang="${a.lang}" href="${escAttr(a.url)}" />`).join('\n')}\n<meta property="og:site_name" content="${escAttr(SITE_NAME)}" />\n<meta property="og:type" content="${type}" />\n<meta property="og:title" content="${escAttr(title)}" />\n<meta property="og:description" content="${escAttr(description)}" />\n<meta property="og:url" content="${escAttr(url)}" />\n${image?`<meta property="og:image" content="${escAttr(image)}" />\n`:``}${articleMeta}<meta property="og:locale" content="${locale}" />\n<meta property="og:locale:alternate" content="${altLocale}" />\n<meta name="twitter:card" content="${image?'summary_large_image':'summary'}" />\n<meta name="twitter:title" content="${escAttr(title)}" />\n<meta name="twitter:description" content="${escAttr(description)}" />\n${image?`<meta name="twitter:image" content="${escAttr(image)}" />\n`:``}${rss?`<link rel="alternate" type="application/rss+xml" title="${escAttr(SITE_NAME)}" href="${rss}" />`:''}\n<title>${esc(title)}</title>\n${jsonLd?`<script type="application/ld+json">${jsonLd}</script>`:''}\n<meta name="theme-color" content="#040408" />\n<script>(function(){try{var k='anomancer-public-theme',t=localStorage.getItem(k);if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.dataset.theme=t}catch(e){}})();</script>\n<link rel="icon" href="/media/brand/anomancer-mark.png" type="image/png" />\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">\n<link rel="stylesheet" href="/styles.css" />\n</head>`;
 }
-function header(lang, blog=false, langTargets={}, unavailableLang=''){ const c=copy[lang]; const fiHref=langTargets.fi||copy.fi.blogPath, enHref=langTargets.en||copy.en.blogPath; const labels=lang==='fi'?{menu:'Avaa valikko',nav:'Päänavigaatio',language:'Kieli'}:{menu:'Open menu',nav:'Main navigation',language:'Language'};const unavailableAttrs=code=>unavailableLang===code?` data-translation-unavailable="true" title="${escAttr(c.unavailableTranslation)}" aria-label="${escAttr(c.unavailableTranslation)}"`:''; return `<header class="site-header"><a class="brand brand-image-link" href="${c.home}" aria-label="Anomancer"><img class="brand-wordmark brand-wordmark-anomancer" src="/media/brand/anomancer-wordmark.png" width="1200" height="142" alt="" decoding="async" /></a><button class="menu-toggle" type="button" aria-label="${labels.menu}" aria-controls="header-menu" aria-expanded="false"><span></span><span></span><span></span></button><div class="header-right" id="header-menu"><nav class="main-nav" aria-label="${labels.nav}"><a href="${c.home}">${c.homeLabel}</a>${!blog?`<a href="${c.blogPath}">${c.title}</a>`:''}<a href="${c.corePath}">${c.core}</a></nav><div class="lang-switch" aria-label="${labels.language}"><a class="${lang==='fi'?'active':''}" href="${fiHref}"${unavailableAttrs('fi')}>FI</a><span>/</span><a class="${lang==='en'?'active':''}" href="${enHref}"${unavailableAttrs('en')}>EN</a></div></div></header>`; }
+function header(lang, blog=false, langTargets={}, unavailableLang=''){ const c=copy[lang]; const fiHref=langTargets.fi||copy.fi.blogPath, enHref=langTargets.en||copy.en.blogPath; const labels=lang==='fi'?{menu:'Avaa valikko',nav:'Päänavigaatio',language:'Kieli',light:'Vaalea',dark:'Tumma',lightAria:'Vaihda vaaleaan teemaan',darkAria:'Vaihda tummaan teemaan'}:{menu:'Open menu',nav:'Main navigation',language:'Language',light:'Light',dark:'Dark',lightAria:'Switch to light theme',darkAria:'Switch to dark theme'};const unavailableAttrs=code=>unavailableLang===code?` data-translation-unavailable="true" title="${escAttr(c.unavailableTranslation)}" aria-label="${escAttr(c.unavailableTranslation)}"`:''; return `<header class="site-header"><a class="brand brand-image-link" href="${c.home}" aria-label="Anomancer"><img class="brand-wordmark brand-wordmark-anomancer" src="/media/brand/anomancer-wordmark.png" width="1200" height="142" alt="" decoding="async" /></a><button class="menu-toggle" type="button" aria-label="${labels.menu}" aria-controls="header-menu" aria-expanded="false"><span></span><span></span><span></span></button><div class="header-right" id="header-menu"><nav class="main-nav" aria-label="${labels.nav}"><a href="${c.home}">${c.homeLabel}</a>${!blog?`<a href="${c.blogPath}">${c.title}</a>`:''}<a href="${c.corePath}">${c.core}</a></nav><button class="theme-toggle" type="button" data-theme-toggle data-light-label="${labels.light}" data-dark-label="${labels.dark}" data-light-aria="${labels.lightAria}" data-dark-aria="${labels.darkAria}" aria-label="${labels.lightAria}"><span class="theme-toggle-icon" aria-hidden="true">◐</span><span class="theme-toggle-label">${labels.light}</span></button><div class="lang-switch" aria-label="${labels.language}"><a class="${lang==='fi'?'active':''}" href="${fiHref}"${unavailableAttrs('fi')}>FI</a><span>/</span><a class="${lang==='en'?'active':''}" href="${enHref}"${unavailableAttrs('en')}>EN</a></div></div></header>`; }
 function menuScript(){ return `<script type="module" src="/site.js"></script>`; }
 function blogJsonLd(lang){ const c=copy[lang],url=`${SITE}${c.blogPath}`; const blog={'@type':'Blog','@id':`${url}#blog`,url,name:`${SITE_NAME} — ${c.title}`,description:c.description,inLanguage:lang,isPartOf:{'@id':WEBSITE_ID},author:{'@id':PERSON_ID},publisher:{'@id':PERSON_ID}}; const page=webpageNode({url,name:`${c.title[0]}${c.title.slice(1).toLowerCase()} | ${SITE_NAME}`,description:c.description,lang}); page['@type']='CollectionPage'; page.mainEntity={'@id':blog['@id']}; return graphJson([websiteNode(),personNode(),page,blog]); }
 function categoryButtons(lang, published){ const c=copy[lang]; const active=categoryOrder.map(id=>[id,published.filter(p=>p.category===id).length]).filter(([,count])=>count>0); return `<button type="button" class="category-filter is-active" data-category-filter="all" data-filter-label="${escAttr(c.all)}" aria-pressed="true">${c.all}<span>${published.length}</span></button>${active.map(([id,count])=>`<button type="button" class="category-filter" data-category-filter="${id}" data-filter-label="${escAttr(categories[id][lang])}" aria-pressed="false">${categories[id][lang]}<span>${count}</span></button>`).join('')}`; }
 function audienceButtons(lang, published){ const c=copy[lang]; const visible=audienceOrder.filter(id=>id!=='all'&&published.some(p=>(p.audience||['all']).includes(id))); const count=id=>published.filter(p=>(p.audience||['all']).includes(id)).length; return [`<button type="button" class="audience-filter is-active" data-audience-filter="all" data-filter-label="${escAttr(c.all)}" aria-pressed="true">${c.all}<span>${published.length}</span></button>`,...visible.map(id=>`<button type="button" class="audience-filter" data-audience-filter="${id}" data-filter-label="${escAttr(audiences[id][lang])}" aria-pressed="false">${audiences[id][lang]}<span>${count(id)}</span></button>`)].join(''); }
 function audienceTags(p,lang){ const ids=(p.audience||['all']); return `<div class="audience-tags">${ids.map(id=>`<span class="audience-tag">${esc(audiences[id]?.[lang]||id)}</span>`).join('')}</div>`; }
 function postCard(p,lang,{featured=false,headingLevel=2}={}){ const href=`${copy[lang].articleBase}/${p.slug}`; const cover=p.coverImage?`<a class="dispatch-cover" href="${href}" aria-label="${escAttr(p.title)}"><img src="${escAttr(p.coverImage)}" alt="${escAttr(p.coverAlt||'')}" loading="lazy" decoding="async"></a>`:''; const aud=(p.audience||['all']).join(' '); const pinned=p.pinned?`<span class="pinned-tag">${copy[lang].pinned}</span>`:''; return `<article class="dispatch-card${featured?' featured':''}${p.coverImage?' has-cover':''}${p.pinned?' is-pinned':''}" data-category="${p.category}" data-audience="${escAttr(aud)}">${cover}<div class="dispatch-card-top"><div class="dispatch-card-labels"><span class="category-tag">${categories[p.category][lang]}</span>${pinned}</div><time datetime="${p.date}">${humanDate(p.date,lang)}</time></div><h${headingLevel}><a href="${href}">${esc(p.title)}</a></h${headingLevel}><p>${esc(p.description)}</p>${audienceTags(p,lang)}<div class="dispatch-card-foot"><span>${readingMinutes(p.body)} ${copy[lang].minRead}</span><a href="${href}">${copy[lang].read}</a></div></article>`; }
-function renderIndex(lang, posts){
+export function renderIndex(lang, posts){
   const c=copy[lang];
   const pub=posts.filter(p=>p.lang===lang&&!p.draft).sort((a,b)=>Number(Boolean(b.pinned))-Number(Boolean(a.pinned))||String(b.date).localeCompare(String(a.date))||a.title.localeCompare(b.title));
   const sparseTranslation=lang==='en'&&pub.length<3;
@@ -265,7 +266,7 @@ function evidenceBlocks(p){
   const evidence=`<details class="article-evidence"><summary><span><strong>${esc(c.evidenceToggle)}</strong><small>${claims.length} ${esc(c.claimCount)} · ${sources.length} ${esc(c.sourceCount)}</small></span><span class="article-evidence-toggle" aria-hidden="true">+</span></summary><div class="article-evidence-body"><h2 id="article-evidence-title">${esc(c.evidence)}</h2>${claimHtml}${sourceHtml}</div></details>`;
   return {answer,evidence};
 }
-function renderArticle(p,all){
+export function renderArticle(p,all){
   const lang=p.lang,c=copy[lang],trans=findTranslation(p,all);
   const ownUrl=articleUrl(p);
   const fiPost=lang==='fi'?p:(trans?.lang==='fi'?trans:null);
@@ -286,7 +287,7 @@ function renderArticle(p,all){
   return `${pageHead({lang,title:`${p.title} | ${SITE_NAME}`,description:p.description,url:ownUrl,type:'article',alternates:alts,jsonLd:articleJsonLd(p),rss:lang==='fi'?`${SITE}/rss.xml`:`${SITE}/rss-en.xml`,image,published:p.date,modified:p.updated||p.date})}<body><a class="skip-link" href="#main-content">${skip}</a>${header(lang,true,langTargets,trans?'':otherLang)}<main id="main-content" class="article-shell"><article class="article"><a class="article-back" href="${c.blogPath}">${c.back}</a><div class="article-meta"><span class="category-tag">${categories[p.category][lang]}</span><time datetime="${p.date}">${humanDate(p.date,lang)}</time><span>${readingMinutes(body)} ${c.minRead}</span></div>${audienceTags(p,lang)}<h1>${esc(p.title)}</h1><p class="article-deck">${esc(p.description)}</p><p class="article-byline">${c.byline} <a rel="author" href="${escAttr(AUTHOR_PATH)}">${esc(AUTHOR)}</a></p>${evidence.answer}${cover}<div class="article-body">${markdown(displayBody)}</div>${visualizationBlocks(p)}${evidence.evidence}<div class="article-end"><a href="${c.corePath}">${c.deeper}</a></div></article>${related.length?`<aside class="related"><p class="eyebrow">${c.related}</p><div class="related-grid">${related.map(x=>postCard(x,lang,{headingLevel:3})).join('')}</div></aside>`:''}</main><footer class="footer"><span class="footer-brand"><img src="/media/brand/anomancer-wordmark.png" width="1200" height="142" alt="" aria-hidden="true" loading="lazy" decoding="async"><small>${c.footer}</small></span><a href="${c.blogPath}">${c.back}</a></footer>${menuScript()}</body></html>`;
 }
 
-function renderAliasRedirect(p,alias){
+export function renderAliasRedirect(p,alias){
   const target=`${copy[p.lang].articleBase}/${p.slug}`;
   const absolute=`${SITE}${target}`;
   const message=p.lang==='fi'?'Artikkeli on siirtynyt. Jatka uuteen osoitteeseen.':'This article has moved. Continue to the new address.';
@@ -384,8 +385,8 @@ function ensureDir(p){ fs.mkdirSync(p,{recursive:true}); }
 function write(rel,data){ const target=outputPath(rel); ensureDir(path.dirname(target)); fs.writeFileSync(target,data); }
 function renderPublicCoreFallback(rel,lang,core){
   const file=sourcePagePath(rel);if(!fs.existsSync(file))throw new Error(`${rel}: source template puuttuu`);
-  const view=renderPublicCore(core,lang);let html=fs.readFileSync(file,'utf8');
-  const replacements={AGENT_COUNT:String(view.agentCount),ORCHESTRA_COUNT:String(view.orchestraCount),PLATFORM:view.platformHtml,AGENTS:view.agentsHtml,ORCHESTRAS:view.orchestrasHtml,MODELS:view.modelsHtml,TOOLS:view.toolsHtml,WORKSPACES:view.workspacesHtml};
+  const view=renderPublicCore(core,lang);const v3=renderPublicCoreV3(core,lang);let html=fs.readFileSync(file,'utf8');
+  const replacements={ARCHITECTURE:v3.architectureHtml,CAPABILITIES:v3.capabilitiesHtml,AGENT_COUNT:String(view.agentCount),ORCHESTRA_COUNT:String(view.orchestraCount),PLATFORM:view.platformHtml,AGENTS:view.agentsHtml,ORCHESTRAS:view.orchestrasHtml,MODELS:view.modelsHtml,TOOLS:view.toolsHtml,WORKSPACES:view.workspacesHtml};
   for(const [key,value] of Object.entries(replacements)){
     const rx=new RegExp(`(<!-- CORE_FALLBACK:${key}:START -->)[\\s\\S]*?(<!-- CORE_FALLBACK:${key}:END -->)`);
     if(!rx.test(html))throw new Error(`${rel}: fallback-marker puuttuu: ${key}`);
@@ -394,65 +395,78 @@ function renderPublicCoreFallback(rel,lang,core){
   return html;
 }
 
-fs.rmSync(PUBLIC,{recursive:true,force:true});
-ensureDir(PUBLIC);
-write('index.html',renderStaticHome('index.html','fi'));
-write('en.html',renderStaticHome('en.html','en'));
-const posts=readPosts();
-write('lahetykset.html',renderIndex('fi',posts));
-write('dispatches.html',renderIndex('en',posts));
-for (const p of posts.filter(p=>!p.draft)) {
-  write(`${copy[p.lang].articleBase.slice(1)}/${p.slug}.html`,renderArticle(p,posts));
-  for(const alias of p.aliases||[]) write(`${copy[p.lang].articleBase.slice(1)}/${alias}.html`,renderAliasRedirect(p,alias));
-}
-write('rss.xml',rss(posts,'fi'));
-write('rss-en.xml',rss(posts,'en'));
-write('sitemap.xml',sitemap(posts));
-write('robots.txt',robotsTxt());
-const published=posts.filter(p=>!p.draft);
-const draftCount=posts.filter(p=>p.draft).length;
-// Julkinen manifesti sisältää vain julkaistut tekstit. Luonnosten metadata ei kuulu public-outputtiin.
-const manifest={generatedAt:new Date().toISOString(),entity:{siteName:SITE_NAME,author:AUTHOR,authorId:PERSON_ID,authorUrl:AUTHOR_URL,websiteId:WEBSITE_ID},published:published.map(p=>({lang:p.lang,slug:p.slug,title:p.title,description:p.description,answer:p.answer||'',category:p.category,audience:p.audience||['all'],audienceDepth:p.audienceDepth||'general',pinned:Boolean(p.pinned),date:p.date,updated:p.updated||p.date,url:articleUrl(p),articleId:`${articleUrl(p)}#article`,authorId:PERSON_ID,coverImage:p.coverImage||'',evidence:{sourceCount:(p.sources||[]).length,claimCount:(p.claims||[]).length,supported:(p.claims||[]).filter(x=>x.status==='supported').length,interpretation:(p.claims||[]).filter(x=>x.status==='interpretation').length,open:(p.claims||[]).filter(x=>x.status==='open').length}}))};
-write('content-manifest.json',JSON.stringify(manifest,null,2)+'\n');
-const evidenceManifest={version:'anomancer.evidence/v2',generatedAt:manifest.generatedAt,verification:{statuses:['candidate','verified','rejected'],verifiedRequires:['verifiedBy','verifiedAt','verificationMethod','verificationEvidence','verificationNotes']},articles:published.map(p=>({articleId:`${articleUrl(p)}#article`,url:articleUrl(p),title:p.title,lang:p.lang,answer:p.answer||'',claims:p.claims||[],sources:p.sources||[],citationMode:p.citationMode||'inline',citationPlacements:p.citationPlacements||[],visualizations:p.visualizations||[]}))};
-write('evidence-manifest.json',JSON.stringify(evidenceManifest,null,2)+'\n');
-write('llms.txt',llmsTxt(posts));
-const discoveryManifestData=discoveryManifest(posts,manifest.generatedAt);
-write('discovery-manifest.json',JSON.stringify(discoveryManifestData,null,2)+'\n');
-const publicCore=createPublicCoreView();
-write('core-public.json',JSON.stringify(publicCore,null,2)+'\n');
-write('core.html',renderPublicCoreFallback('core.html','fi',publicCore));
-write('en/core.html',renderPublicCoreFallback('core-en.html','en',publicCore));
-const apiFunctionCount=fs.readdirSync(path.join(ROOT,'api'),{recursive:true}).filter(name=>String(name).endsWith('.js')).length;
-const releaseProvenance=createReleaseProvenance({publicCore,apiFunctionCount,builtAt:manifest.generatedAt});
-write('release-provenance.json',JSON.stringify(releaseProvenance,null,2)+'\n');
-const digest=crypto.createHash('sha256').update(JSON.stringify(manifest.published)).digest('hex');
-console.log(`✓ Lähetyskone build: ${manifest.published.length} julkaistua · ${draftCount} luonnosta · manifest sha256 ${digest.slice(0,16)}…`);
-
-// Vercel-projektin Output Directory on public. Phase 5:ssa build kirjoittaa vain public/-rajan sisään.
-// API-funktiot jäävät projektin /api-hakemistoon Vercelin serverless-funktioiksi.
-const staticFiles = [
-  'admin.html',
-  'ui-tokens.css','styles.css','core.css','admin.css','admin-shell.css','admin-workspace.css','admin-editorial.css','admin-narrative.css','admin-control-plane.css','admin-archive.css','admin-nanomancer.css','admin-mancer.css','admin-responsive.css','admin-runtime.js','admin.js','admin-workspaces.js','admin-archive.js','admin-nanomancer.js','admin-mancer.js','admin-operations.js','admin-shell.js','admin-overlays.js','admin-feedback.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-machine-room.js','admin-orchestrator.js','admin-narramancer.js','narramancer-export.js','lahetyskone-pwa.js','lahetyskone-sw.js','manifest.webmanifest','favicon.svg',
-  'icons/lahetyskone.svg','icons/lahetyskone-192.png','icons/lahetyskone-512.png','icons/lahetyskone-maskable-512.png',
-  'site.js','public-core-render.js','core-public.js'
-];
-for (const rel of staticFiles) {
-  const src=projectPath(rel);
-  if (fs.existsSync(src)) { const target=outputPath(rel);ensureDir(path.dirname(target));fs.copyFileSync(src,target); }
-}
-const appShellSrc=projectPath('admin.html');
-if (fs.existsSync(appShellSrc)) fs.copyFileSync(appShellSrc,outputPath('lahetyskone.html'));
-const MEDIA=path.join(ROOT,'media');
-if (fs.existsSync(MEDIA)) fs.cpSync(MEDIA,path.join(PUBLIC,'media'),{recursive:true});
-console.log(`✓ Vercel public-output: ${PUBLIC}`);
-
-if (process.argv.includes('--check')) {
+export async function buildBlog(){
+  fs.rmSync(PUBLIC,{recursive:true,force:true});
+  ensureDir(PUBLIC);
+  write('index.html',renderStaticHome('index.html','fi'));
+  write('en.html',renderStaticHome('en.html','en'));
+  const posts=readPosts();
+  write('lahetykset.html',renderIndex('fi',posts));
+  write('dispatches.html',renderIndex('en',posts));
   for (const p of posts.filter(p=>!p.draft)) {
-    const out=outputPath(`${copy[p.lang].articleBase.slice(1)}/${p.slug}.html`);
-    if(!fs.existsSync(out)) throw new Error(`Build puuttuu: ${out}`);
-    const refs=[p.coverImage,...[...p.body.matchAll(/!\[[^\]]*\]\((\/media\/[^\s)]+)(?:\s+"[^"]*")?\)/g)].map(m=>m[1])].filter(Boolean);
-    for(const ref of refs){const src=projectPath(ref.replace(/^\//,''));if(!fs.existsSync(src))throw new Error(`Media puuttuu: ${ref} (${p.title})`);}
+    write(`${copy[p.lang].articleBase.slice(1)}/${p.slug}.html`,renderArticle(p,posts));
+    for(const alias of p.aliases||[]) write(`${copy[p.lang].articleBase.slice(1)}/${alias}.html`,renderAliasRedirect(p,alias));
   }
-  console.log('✓ Content + media check OK');
+  write('rss.xml',rss(posts,'fi'));
+  write('rss-en.xml',rss(posts,'en'));
+  write('sitemap.xml',sitemap(posts));
+  write('robots.txt',robotsTxt());
+  const published=posts.filter(p=>!p.draft);
+  const draftCount=posts.filter(p=>p.draft).length;
+  // Julkinen manifesti sisältää vain julkaistut tekstit. Luonnosten metadata ei kuulu public-outputtiin.
+  const manifest={generatedAt:new Date().toISOString(),entity:{siteName:SITE_NAME,author:AUTHOR,authorId:PERSON_ID,authorUrl:AUTHOR_URL,websiteId:WEBSITE_ID},published:published.map(p=>({lang:p.lang,slug:p.slug,title:p.title,description:p.description,answer:p.answer||'',category:p.category,audience:p.audience||['all'],audienceDepth:p.audienceDepth||'general',pinned:Boolean(p.pinned),date:p.date,updated:p.updated||p.date,url:articleUrl(p),articleId:`${articleUrl(p)}#article`,authorId:PERSON_ID,coverImage:p.coverImage||'',evidence:{sourceCount:(p.sources||[]).length,claimCount:(p.claims||[]).length,supported:(p.claims||[]).filter(x=>x.status==='supported').length,interpretation:(p.claims||[]).filter(x=>x.status==='interpretation').length,open:(p.claims||[]).filter(x=>x.status==='open').length}}))};
+  write('content-manifest.json',JSON.stringify(manifest,null,2)+'\n');
+  const evidenceManifest={version:'anomancer.evidence/v2',generatedAt:manifest.generatedAt,verification:{statuses:['candidate','verified','rejected'],verifiedRequires:['verifiedBy','verifiedAt','verificationMethod','verificationEvidence','verificationNotes']},articles:published.map(p=>({articleId:`${articleUrl(p)}#article`,url:articleUrl(p),title:p.title,lang:p.lang,answer:p.answer||'',claims:p.claims||[],sources:p.sources||[],citationMode:p.citationMode||'inline',citationPlacements:p.citationPlacements||[],visualizations:p.visualizations||[]}))};
+  write('evidence-manifest.json',JSON.stringify(evidenceManifest,null,2)+'\n');
+  write('llms.txt',llmsTxt(posts));
+  const discoveryManifestData=discoveryManifest(posts,manifest.generatedAt);
+  write('discovery-manifest.json',JSON.stringify(discoveryManifestData,null,2)+'\n');
+  const publicCore=createPublicCoreView();
+  write('core-public.json',JSON.stringify(publicCore,null,2)+'\n');
+  write('core.html',renderPublicCoreFallback('core.html','fi',publicCore));
+  write('en/core.html',renderPublicCoreFallback('core-en.html','en',publicCore));
+  const apiFunctionCount=fs.readdirSync(path.join(ROOT,'api'),{recursive:true}).filter(name=>String(name).endsWith('.js')).length;
+  const releaseProvenance=createReleaseProvenance({publicCore,apiFunctionCount,builtAt:manifest.generatedAt});
+  write('release-provenance.json',JSON.stringify(releaseProvenance,null,2)+'\n');
+  const digest=crypto.createHash('sha256').update(JSON.stringify(manifest.published)).digest('hex');
+  console.log(`✓ Anomancer public build: ${manifest.published.length} julkaistua · ${draftCount} luonnosta · manifest sha256 ${digest.slice(0,16)}…`);
+
+  // Vercel-projektin Output Directory on public. Phase 5:ssa build kirjoittaa vain public/-rajan sisään.
+  // API-funktiot jäävät projektin /api-hakemistoon Vercelin serverless-funktioiksi.
+  const staticFiles = [
+    'admin.html',
+    'ui-tokens.css','styles.css','core.css','admin.css','admin-shell.css','admin-workspace.css','admin-editorial.css','admin-narrative.css','admin-control-plane.css','admin-archive.css','admin-nanomancer.css','admin-mancer.css','admin-responsive.css','lighthouse-workbench.css','lighthouse-ui-constitution.css','admin-runtime.js','admin.js','admin-workspaces.js','admin-archive.js','admin-nanomancer.js','admin-mancer.js','admin-shell.js','admin-overlays.js','admin-feedback.js','admin-core.js','admin-agents.js','admin-orchestras.js','admin-machine-room.js','admin-orchestrator.js','admin-narramancer.js','narramancer-export.js','lighthouse-pwa.js','lighthouse-sw.js','lahetyskone-pwa.js','lahetyskone-sw.js','manifest.webmanifest','favicon.svg',
+    'icons/lahetyskone.svg','icons/lahetyskone-192.png','icons/lahetyskone-512.png','icons/lahetyskone-maskable-512.png',
+    'site.js','public-core-render.js','public-core-v3-render.js','core-public.js'
+  ];
+  for (const rel of staticFiles) {
+    const src=projectPath(rel);
+    if (fs.existsSync(src)) { const target=outputPath(rel);ensureDir(path.dirname(target));fs.copyFileSync(src,target); }
+  }
+  const appShellSrc=projectPath('admin.html');
+  if (fs.existsSync(appShellSrc)) {
+    fs.copyFileSync(appShellSrc,outputPath('lahetyskone.html'));
+    for (const rel of ['lighthouse/login.html','lighthouse/workbench.html']) {
+      const target=outputPath(rel);
+      ensureDir(path.dirname(target));
+      fs.copyFileSync(appShellSrc,target);
+    }
+  }
+  const MEDIA=path.join(ROOT,'media');
+  if (fs.existsSync(MEDIA)) fs.cpSync(MEDIA,path.join(PUBLIC,'media'),{recursive:true});
+  console.log(`✓ Vercel public-output: ${PUBLIC}`);
+
+  if (process.argv.includes('--check')) {
+    for (const p of posts.filter(p=>!p.draft)) {
+      const out=outputPath(`${copy[p.lang].articleBase.slice(1)}/${p.slug}.html`);
+      if(!fs.existsSync(out)) throw new Error(`Build puuttuu: ${out}`);
+      const refs=[p.coverImage,...[...p.body.matchAll(/!\[[^\]]*\]\((\/media\/[^\s)]+)(?:\s+"[^"]*")?\)/g)].map(m=>m[1])].filter(Boolean);
+      for(const ref of refs){const src=projectPath(ref.replace(/^\//,''));if(!fs.existsSync(src))throw new Error(`Media puuttuu: ${ref} (${p.title})`);}
+    }
+    console.log('✓ Content + media check OK');
+  }
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname)) {
+  await buildBlog();
 }

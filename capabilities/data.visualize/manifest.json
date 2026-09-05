@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "data.visualize",
+  "name": "Visualisointisuunnitelma",
+  "version": "1.0.0",
+  "purpose": "Suunnittelee aineistolle tarkoituksenmukaisen kuvaajan tai visualisointirakenteen. Ei vielä renderöi kuvaa.",
+  "providerClass": "data",
+  "mode": "compute",
+  "routing": "compute",
+  "availability": "ready"
+}

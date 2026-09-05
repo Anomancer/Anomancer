@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "market.snapshot",
+  "name": "Markkinatilanne",
+  "version": "1.0.0",
+  "purpose": "Kokoaa markkinan tilannekuvan vain annetun tai runtime-haetun aineiston perusteella.",
+  "providerClass": "market",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

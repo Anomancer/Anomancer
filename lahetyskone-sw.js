@@ -19,7 +19,6 @@ const SHELL_URLS = [
   '/admin-archive.js',
   '/admin-nanomancer.js',
   '/admin-mancer.js',
-  '/admin-operations.js',
   '/admin-shell.js',
   '/admin-overlays.js',
   '/admin-feedback.js',

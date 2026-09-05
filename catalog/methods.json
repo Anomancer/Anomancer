@@ -1,0 +1,8 @@
+{
+  "format": "anomancer-method-catalog/v1",
+  "methods": [
+    {"id":"direct","taskTypes":["general","write","transform"],"label":"Suora työ"},
+    {"id":"planned","taskTypes":["plan","research"],"label":"Suunniteltu työ"},
+    {"id":"reviewed","taskTypes":["debug","audit","compare"],"label":"Tarkistettu työ"}
+  ]
+}

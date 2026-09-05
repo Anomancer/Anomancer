@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "source.bias.inspect",
+  "name": "Lähdevinouman tarkistus",
+  "version": "1.0.0",
+  "purpose": "Tunnistaa lähteen näkökulmaan, valikoitumiseen ja intresseihin liittyviä vinoumariskejä.",
+  "providerClass": "source",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

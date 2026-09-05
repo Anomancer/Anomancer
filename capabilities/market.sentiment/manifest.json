@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "market.sentiment",
+  "name": "Markkinasentimentti",
+  "version": "1.0.0",
+  "purpose": "Arvioi lähdeaineistossa näkyvää markkinatunnelmaa erottamatta sitä faktaksi.",
+  "providerClass": "market",
+  "mode": "reasoning-proxy",
+  "routing": "reasoning",
+  "availability": "ready"
+}

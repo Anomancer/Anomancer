@@ -1,0 +1,266 @@
+/* LIGHTHOUSE D4 ORCHESTRA START */
+
+.orchestra-surface{
+  border-top:1px solid var(--lh-border-panel);
+  margin-top:22px;
+  padding-top:18px;
+  color:#9c93a1;
+}
+
+.orchestra-surface>summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  cursor:pointer;
+  color:var(--lh-text-muted);
+  font-size:.84rem;
+}
+
+.orchestra-depth{
+  color:#6c5778;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.13em;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.orchestra-content{
+  margin-top:20px;
+  padding-top:20px;
+  border-top:1px solid var(--lh-border-subtle);
+}
+
+.orchestra-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:22px;
+  padding-bottom:20px;
+}
+
+.orchestra-kicker{
+  margin:0 0 6px;
+  color:#725c7e;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.12em;
+  font-weight:700;
+}
+
+.orchestra-header h2{
+  margin:0;
+  color:#d5d1d7;
+  font-size:1rem;
+  font-weight:650;
+}
+
+#orchestraSummary{
+  max-width:62ch;
+  margin:7px 0 0;
+  color:#846a93;
+  font-size:.83rem;
+  line-height:1.5;
+}
+
+.orchestra-mode{
+  flex:none;
+  border:1px solid #3c3143;
+  border-radius:999px;
+  background:var(--lh-bg-field);
+  color:var(--lh-text-muted);
+  padding:5px 9px;
+  font-size:var(--lh-font-meta);
+}
+
+.orchestra-section,
+.orchestra-decision{
+  padding:20px 0;
+  border-top:1px solid var(--lh-border-subtle);
+}
+
+.orchestra-section-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:12px;
+}
+
+.orchestra-section-heading h2{
+  margin:0;
+  color:#938998;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.orchestra-count{
+  min-width:26px;
+  border:1px solid var(--lh-border-control);
+  border-radius:999px;
+  padding:4px 8px;
+  text-align:center;
+  color:var(--lh-accent-soft);
+  font-size:var(--lh-font-meta);
+}
+
+.orchestra-stages{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.orchestra-stage{
+  display:grid;
+  grid-template-columns:28px minmax(0,1fr);
+  gap:12px;
+  padding:13px 0;
+  border-top:1px solid #261c2c;
+}
+
+.orchestra-stage:first-child{
+  border-top:0;
+}
+
+.orchestra-stage-index{
+  padding-top:2px;
+  color:#5e4c69;
+  font-size:var(--lh-font-meta);
+}
+
+.orchestra-stage-top{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.orchestra-stage-top strong{
+  color:#c9c4cb;
+  font-size:.85rem;
+  font-weight:570;
+}
+
+.orchestra-stage-status{
+  flex:none;
+  color:#765f83;
+  font-size:var(--lh-font-meta);
+}
+
+.orchestra-stage[data-status="completed"] .orchestra-stage-status{
+  color:#9d95a2;
+}
+
+.orchestra-stage[data-status="skipped"]{
+  opacity:.67;
+}
+
+.orchestra-stage-body p{
+  max-width:64ch;
+  margin:4px 0 0;
+  color:#7c648a;
+  font-size:.79rem;
+  line-height:1.48;
+}
+
+.orchestra-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 28px;
+  border-top:1px solid var(--lh-border-subtle);
+}
+
+.orchestra-grid-section{
+  border-top:0;
+}
+
+.orchestra-capabilities,
+.orchestra-mancers{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.orchestra-capabilities li{
+  padding:10px 0;
+  border-top:1px solid #261c2c;
+}
+
+.orchestra-capabilities li:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.orchestra-capabilities code{
+  color:#bfb9c2;
+  font:inherit;
+  font-size:.8rem;
+}
+
+.orchestra-capabilities p{
+  margin:4px 0 0;
+  color:#796287;
+  font-size:.78rem;
+  line-height:1.45;
+}
+
+.orchestra-mancers li{
+  color:#bfb9c2;
+  font-size:.82rem;
+}
+
+.orchestra-empty{
+  margin:0;
+  color:#745e81;
+  font-size:.79rem;
+  line-height:1.5;
+}
+
+.orchestra-decision{
+  padding-bottom:4px;
+}
+
+.orchestra-router-mode{
+  color:#6e597a;
+  font-size:var(--lh-font-meta);
+}
+
+#orchestraRouterReason{
+  max-width:68ch;
+  margin:0;
+  color:#856b94;
+  font-size:.82rem;
+  line-height:1.52;
+}
+
+.orchestra-surface+.runtime{
+  margin-top:20px;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .orchestra-surface>summary:hover{
+    color:var(--lh-text-soft);
+  }
+}
+
+@media (max-width:520px){
+  .orchestra-surface>summary,
+  .orchestra-header{
+    align-items:flex-start;
+  }
+
+  .orchestra-grid{
+    grid-template-columns:1fr;
+    gap:0;
+  }
+
+  .orchestra-grid-section+.orchestra-grid-section{
+    border-top:1px solid var(--lh-border-subtle);
+  }
+
+  .orchestra-stage-top{
+    align-items:flex-start;
+  }
+}
+
+/* LIGHTHOUSE D4 ORCHESTRA END */

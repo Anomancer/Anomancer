@@ -1,0 +1,17 @@
+{
+  "format": "anomancer-mancer-archive-policy/v1",
+  "id": "romancer/archive-policy/1.0.0",
+  "defaultReadScope": "workspace-owned",
+  "crossWorkspaceRead": "explicit-human-grant",
+  "automaticModelMemory": false,
+  "archiveOnApprovalOnly": true,
+  "allowedArchiveTypes": [
+    "story-plan",
+    "world-note",
+    "character-note",
+    "plot-plan",
+    "chapter-draft",
+    "continuity-report",
+    "canon-note"
+  ]
+}

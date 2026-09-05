@@ -1,0 +1,234 @@
+/* LIGHTHOUSE UX ARCHITECTURE V2 START */
+.door-tools{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:12px;
+}
+
+.door-tool{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:44px;
+  border:1px solid #362b3c;
+  border-radius:999px;
+  background:transparent;
+  color:#b5aeb9;
+  padding:8px 14px;
+  font:inherit;
+  font-size:.8rem;
+  cursor:pointer;
+}
+
+.attachment-tool:focus-within,
+.door-tool:focus-visible{
+  outline:2px solid #8e769b;
+  outline-offset:3px;
+}
+
+.attachment-summary{
+  margin:9px 0 0;
+  color:#978e9c;
+  font-size:.75rem;
+  text-align:center;
+}
+
+.intent-preview{
+  margin:18px auto 0;
+  width:min(100%,560px);
+  border:1px solid #3d3144;
+  border-radius:18px;
+  background:#110d14;
+  padding:19px 20px;
+  text-align:left;
+  box-shadow:0 20px 70px rgba(0,0,0,.24);
+}
+
+.intent-preview-kicker{
+  margin:0 0 7px;
+  color:#897097;
+  font-size:var(--lh-font-meta);
+  font-weight:700;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
+
+.intent-preview h2{
+  margin:0;
+  color:#f1eff2;
+  font-size:1.08rem;
+  line-height:1.3;
+}
+
+.intent-preview>p:not(.intent-preview-kicker){
+  margin:8px 0 0;
+  color:#b5aeb9;
+  font-size:.86rem;
+  line-height:1.52;
+}
+
+.intent-preview .intent-preview-estimate{
+  color:#8c739a;
+  font-size:.75rem;
+}
+
+.intent-preview-limitations{
+  margin:12px 0 0;
+  padding-left:18px;
+  color:#c0aaa6;
+  font-size:.78rem;
+  line-height:1.45;
+}
+
+.intent-preview .intent-preview-authority{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid var(--lh-border-subtle);
+  color:#928898;
+  font-size:.75rem;
+}
+
+.intent-preview-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:9px;
+  margin-top:16px;
+}
+
+.more-depth-menu{
+  position:fixed;
+  inset:0;
+  z-index:800;
+  display:grid;
+  align-items:end;
+  background:rgba(6,4,7,.72);
+  padding:18px max(12px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+}
+
+.more-depth-sheet{
+  width:min(100%,620px);
+  margin:0 auto;
+  border:1px solid var(--lh-border-control);
+  border-radius:20px;
+  background:#100c13;
+  padding:14px;
+  box-shadow:0 24px 80px rgba(0,0,0,.46);
+}
+
+.more-depth-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:2px 3px 11px;
+}
+
+.more-depth-heading h2{
+  margin:0;
+  font-size:.95rem;
+  font-weight:620;
+  color:#dddadf;
+}
+
+.more-depth-sheet>button:not(.quiet){
+  display:block;
+  width:100%;
+  min-height:58px;
+  border:0;
+  border-top:1px solid var(--lh-border-subtle);
+  background:transparent;
+  color:#d7d3d9;
+  padding:12px 4px;
+  text-align:left;
+  font:inherit;
+}
+
+.more-depth-sheet>button strong,
+.more-depth-sheet>button span{
+  display:block;
+}
+
+.more-depth-sheet>button strong{
+  font-size:.84rem;
+  font-weight:620;
+}
+
+.more-depth-sheet>button span{
+  margin-top:3px;
+  color:#7f668d;
+  font-size:var(--lh-font-meta);
+}
+
+body.depth-menu-open{
+  overflow:hidden;
+}
+
+@media (max-width:1099px){
+  .mobile-depth-nav{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media (max-width:719px){
+  .door{
+    align-items:start;
+    padding-top:max(46px,env(safe-area-inset-top));
+  }
+
+  .door-panel{
+    width:100%;
+  }
+
+  .brand-lockup{
+    margin-bottom:13px;
+  }
+
+  .lead{
+    margin-bottom:18px;
+  }
+
+  .door-form textarea{
+    min-height:150px;
+  }
+
+  .door-tools{
+    justify-content:flex-start;
+  }
+
+  .door-form>.composer-meta{
+    display:none;
+  }
+
+  .door-actions{
+    justify-content:stretch;
+  }
+
+  .door-actions .primary{
+    width:100%;
+    min-height:48px;
+  }
+
+  .intent-preview{
+    padding:17px 16px;
+  }
+
+  .intent-preview-actions{
+    display:grid;
+    grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);
+  }
+
+  .intent-preview-actions button{
+    width:100%;
+    min-height:46px;
+  }
+
+  .mobile-depth-nav{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+/* LIGHTHOUSE UX ARCHITECTURE V2 END */

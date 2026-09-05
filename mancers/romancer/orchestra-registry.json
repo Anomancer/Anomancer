@@ -1,0 +1,55 @@
+{
+  "format": "anomancer-mancer-orchestra-registry/v1",
+  "orchestras": [
+    {
+      "id": "story-development",
+      "name": "Tarinan kehitys",
+      "executable": false,
+      "stages": [
+        "premise",
+        "world",
+        "characters",
+        "plot",
+        "continuity",
+        "human-apply"
+      ],
+      "approvalGates": [
+        "continuity",
+        "human-apply"
+      ]
+    },
+    {
+      "id": "chapter-draft",
+      "name": "Luvun kirjoitus",
+      "executable": false,
+      "stages": [
+        "chapter-intent",
+        "scene-draft",
+        "voice",
+        "continuity",
+        "human-apply"
+      ],
+      "approvalGates": [
+        "continuity",
+        "human-apply"
+      ]
+    },
+    {
+      "id": "continuity-review",
+      "name": "Jatkuvuuskatselmus",
+      "executable": false,
+      "stages": [
+        "canon",
+        "timeline",
+        "character-knowledge",
+        "world-rules",
+        "contradictions",
+        "human-review"
+      ],
+      "approvalGates": [
+        "human-review"
+      ]
+    }
+  ],
+  "runtimeNote": "Romancerin orkesterit ovat M1:ssä menetelmäkontekstia. Agentti ei tallenna, hyväksy kaanonia tai vie käsikirjoitusta omin luvin."
+}

@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "model.compare",
+  "name": "Mallivertailu",
+  "version": "1.0.0",
+  "purpose": "Vertaa useiden kielimallien vastauksia saman tehtävän yli. Odottaa ensemble-runtimea.",
+  "providerClass": "model",
+  "mode": "runtime-tool",
+  "routing": "read-only",
+  "availability": "disabled"
+}

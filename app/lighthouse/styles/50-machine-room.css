@@ -1,0 +1,265 @@
+/* LIGHTHOUSE D5 MACHINE ROOM START */
+
+.machine-surface{
+  border-top:1px solid var(--lh-border-panel);
+  margin-top:22px;
+  padding-top:18px;
+  color:#9c93a1;
+}
+
+.machine-surface>summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  cursor:pointer;
+  color:var(--lh-text-muted);
+  font-size:.84rem;
+}
+
+.machine-depth{
+  color:#6c5778;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.13em;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.machine-content{
+  margin-top:20px;
+  padding-top:20px;
+  border-top:1px solid var(--lh-border-subtle);
+}
+
+.machine-overview{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  padding-bottom:20px;
+}
+
+.machine-fact{
+  min-width:0;
+  padding:12px 13px;
+  border:1px solid #2f2236;
+  border-radius:11px;
+  background:#110d14;
+}
+
+.machine-fact span{
+  display:block;
+  color:#6b5777;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.07em;
+  text-transform:uppercase;
+}
+
+.machine-fact strong{
+  display:block;
+  margin-top:5px;
+  overflow:hidden;
+  color:#cac5cd;
+  font-size:.79rem;
+  font-weight:570;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.machine-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 28px;
+  border-top:1px solid var(--lh-border-subtle);
+}
+
+.machine-section{
+  padding:20px 0;
+  border-top:1px solid var(--lh-border-subtle);
+}
+
+.machine-grid .machine-section{
+  border-top:0;
+}
+
+.machine-section h2{
+  margin:0 0 11px;
+  color:#938998;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.machine-section-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+
+.machine-section-heading h2{
+  margin-bottom:0;
+}
+
+.machine-list{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:7px 18px;
+  margin:0;
+}
+
+.machine-list dt{
+  color:var(--lh-accent-muted);
+  font-size:.79rem;
+}
+
+.machine-list dd{
+  margin:0;
+  color:var(--lh-text-soft);
+  font-size:.79rem;
+  text-align:right;
+}
+
+.machine-value{
+  margin:0;
+  color:#b1aab6;
+  font-size:.82rem;
+  line-height:1.5;
+}
+
+.machine-empty{
+  margin:0;
+  color:#725c7f;
+  font-size:.79rem;
+  line-height:1.5;
+}
+
+.machine-permissions,
+.machine-tools{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.machine-permissions li{
+  padding:11px 0;
+  border-top:1px solid #261c2c;
+}
+
+.machine-permissions li:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.machine-permissions li>div{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:16px;
+}
+
+.machine-permissions strong{
+  color:#c4bfc7;
+  font-size:.82rem;
+  font-weight:560;
+}
+
+.machine-permissions span{
+  color:#715b7e;
+  font-size:var(--lh-font-meta);
+}
+
+.machine-permissions li[data-status="used"] span{
+  color:#978e9c;
+}
+
+.machine-permissions p{
+  max-width:68ch;
+  margin:4px 0 0;
+  color:#7b6389;
+  font-size:.78rem;
+  line-height:1.48;
+}
+
+.machine-tools li{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:9px 0;
+  border-top:1px solid #261c2c;
+}
+
+.machine-tools li:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.machine-tools code{
+  color:#bfb9c2;
+  font:inherit;
+  font-size:.8rem;
+}
+
+.machine-tools span{
+  color:#81688f;
+  font-size:var(--lh-font-meta);
+}
+
+.machine-count{
+  min-width:26px;
+  border:1px solid var(--lh-border-control);
+  border-radius:999px;
+  padding:4px 8px;
+  text-align:center;
+  color:var(--lh-accent-soft);
+  font-size:var(--lh-font-meta);
+}
+
+.raw-runtime{
+  margin-top:20px;
+  padding-top:16px;
+  border-top-color:#261c2c;
+  color:#6b5677;
+  font-size:.76rem;
+}
+
+.raw-runtime summary{
+  color:#6e597a;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .machine-surface>summary:hover{
+    color:var(--lh-text-soft);
+  }
+}
+
+@media (max-width:720px){
+  .machine-overview{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:520px){
+  .machine-surface>summary{
+    align-items:flex-start;
+  }
+
+  .machine-grid{
+    grid-template-columns:1fr;
+    gap:0;
+  }
+
+  .machine-grid .machine-section+.machine-section{
+    border-top:1px solid var(--lh-border-subtle);
+  }
+
+  .machine-overview{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .machine-fact{
+    padding:11px;
+  }
+}
+
+/* LIGHTHOUSE D5 MACHINE ROOM END */

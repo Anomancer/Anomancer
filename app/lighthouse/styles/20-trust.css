@@ -1,0 +1,145 @@
+/* LIGHTHOUSE D2 TRUST SURFACE START */
+
+.trust-surface{
+  border-top:1px solid var(--lh-border-panel);
+  margin-top:26px;
+  padding-top:18px;
+  color:#9c93a1;
+}
+
+.trust-surface>summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  cursor:pointer;
+  color:var(--lh-text-muted);
+  font-size:.84rem;
+}
+
+.trust-depth{
+  color:#6c5778;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.13em;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.trust-content{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 28px;
+  margin-top:20px;
+  padding:20px 0 4px;
+  border-top:1px solid var(--lh-border-subtle);
+}
+
+.trust-block{
+  min-width:0;
+  padding:0 0 18px;
+}
+
+.trust-block h2,
+.trust-confidence h2{
+  margin:0 0 9px;
+  color:#938998;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.trust-block ul{
+  margin:0;
+  padding-left:1.05rem;
+  color:#c8c3cb;
+  font-size:.88rem;
+  line-height:1.55;
+}
+
+.trust-block li+li{
+  margin-top:5px;
+}
+
+.trust-empty{
+  margin:0;
+  color:#7c6489;
+  font-size:.86rem;
+  line-height:1.5;
+}
+
+.trust-confidence{
+  grid-column:1/-1;
+  padding-top:17px;
+  border-top:1px solid var(--lh-border-subtle);
+}
+
+.trust-confidence-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+
+.trust-confidence-heading h2{
+  margin-bottom:0;
+}
+
+.confidence-pill{
+  border:1px solid #3e3244;
+  border-radius:999px;
+  padding:5px 9px;
+  color:#b0a9b5;
+  background:var(--lh-bg-field);
+  font-size:var(--lh-font-meta);
+}
+
+.confidence-pill[data-level="high"]{
+  border-color:#46384e;
+  color:#c5bec9;
+}
+
+.confidence-pill[data-level="low"]{
+  border-color:#54403d;
+  color:#d2b8b3;
+}
+
+#trustConfidenceReason{
+  max-width:68ch;
+  margin:10px 0 0;
+  color:#90799e;
+  font-size:.86rem;
+  line-height:1.55;
+}
+
+.trust-surface+.runtime{
+  margin-top:20px;
+  color:#745e81;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .trust-surface>summary:hover{
+    color:var(--lh-text-soft);
+  }
+}
+
+@media (max-width:520px){
+  .trust-surface{
+    margin-top:24px;
+  }
+
+  .trust-surface>summary{
+    align-items:flex-start;
+  }
+
+  .trust-content{
+    grid-template-columns:1fr;
+    gap:0;
+    padding-top:17px;
+  }
+
+  .trust-confidence{
+    grid-column:auto;
+  }
+}
+
+/* LIGHTHOUSE D2 TRUST SURFACE END */

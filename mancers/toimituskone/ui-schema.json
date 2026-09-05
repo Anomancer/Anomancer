@@ -1,0 +1,135 @@
+{
+  "format": "anomancer-mancer-ui-schema/v1",
+  "renderer": "schema-workbench",
+  "navigation": {
+    "mobilePrimary": [
+      {
+        "id": "brief",
+        "label": "Brief",
+        "icon": "⌂",
+        "target": "section"
+      },
+      {
+        "id": "draft",
+        "label": "Teksti",
+        "icon": "✎",
+        "target": "section"
+      },
+      {
+        "id": "review",
+        "label": "Tarkistus",
+        "icon": "✓",
+        "target": "section"
+      },
+      {
+        "id": "publication",
+        "label": "Julkaisu",
+        "icon": "◈",
+        "target": "section"
+      }
+    ],
+    "groups": [
+      {
+        "id": "work",
+        "label": "Työ",
+        "items": [
+          "brief",
+          "draft"
+        ]
+      },
+      {
+        "id": "verify",
+        "label": "Tarkista",
+        "items": [
+          "review"
+        ]
+      },
+      {
+        "id": "out",
+        "label": "Ulos",
+        "items": [
+          "publication"
+        ]
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "brief",
+      "label": "Brief",
+      "kind": "form",
+      "fields": [
+        {
+          "path": "brief.topic",
+          "label": "Aihe",
+          "type": "text",
+          "maxLength": 300
+        },
+        {
+          "path": "brief.goal",
+          "label": "Tavoite",
+          "type": "textarea",
+          "rows": 6,
+          "maxLength": 12000
+        }
+      ]
+    },
+    {
+      "id": "draft",
+      "label": "Teksti",
+      "kind": "form",
+      "renderer": "document-preview",
+      "fields": [
+        {
+          "path": "draft.title",
+          "label": "Otsikko",
+          "type": "text",
+          "maxLength": 300
+        },
+        {
+          "path": "draft.body",
+          "label": "Luonnos",
+          "type": "textarea",
+          "rows": 18,
+          "maxLength": 150000
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "label": "Tarkistus",
+      "kind": "form",
+      "renderer": "approval-review",
+      "fields": [
+        {
+          "path": "review.summary",
+          "label": "Yhteenveto",
+          "type": "textarea",
+          "rows": 8,
+          "maxLength": 30000
+        }
+      ]
+    },
+    {
+      "id": "publication",
+      "label": "Julkaisu",
+      "kind": "form",
+      "renderer": "release-gate",
+      "notice": "Julkaisu on erillinen ihmisen hyväksymä ulkoinen toiminto.",
+      "fields": [
+        {
+          "path": "publication.notes",
+          "label": "Julkaisumuistiinpanot",
+          "type": "textarea",
+          "rows": 8,
+          "maxLength": 30000
+        }
+      ]
+    }
+  ],
+  "rendererCapabilities": [
+    "document-preview",
+    "approval-review",
+    "release-gate"
+  ]
+}

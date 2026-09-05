@@ -1,0 +1,11 @@
+{
+  "format": "anomancer-capability-package/v1",
+  "id": "source.search",
+  "name": "Yleinen lähdehaku",
+  "version": "1.0.0",
+  "purpose": "Etsii julkisesta verkosta tehtävään liittyviä lähde-ehdokkaita.",
+  "providerClass": "source",
+  "mode": "runtime-tool",
+  "routing": "read-only",
+  "availability": "runtime"
+}
