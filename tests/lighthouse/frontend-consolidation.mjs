@@ -31,4 +31,4 @@ assert.match(fs.readFileSync('ui-tokens.css','utf8'),/--mobile-action-height:48p
 assert.match(constitution,/html\[data-theme="light"\] \.preview h1[\s\S]*color:#f4effa/);
 assert.match(responsive,/\.workspace-context-bar\{[\s\S]*?padding:8px 0 7px/);
 assert.match(responsive,/\.lighthouse-menu-footer \.lighthouse-shell-mode-link::after\{content:none\}/);
-console.log('✓ Lighthouse 1.26.4 frontend consolidation · modular CSS + canonical breakpoints + zero-!important Constitution');
+console.log('✓ Lighthouse frontend consolidation · modular CSS + canonical breakpoints + zero-!important Constitution');

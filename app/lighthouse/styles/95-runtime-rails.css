@@ -448,3 +448,138 @@ body::before{
   }
   .desktop-depth-tabs button>span{display:none}
 }
+
+/* LIGHTHOUSE V1.27 · PESUKARHU RUNTIME */
+.runtime-panel{
+  margin:24px 0 28px;
+  padding:20px;
+  border:1px solid rgba(190,143,251,.16);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 92% 10%,rgba(190,143,251,.10),transparent 35%),
+    linear-gradient(180deg,rgba(22,11,30,.96),rgba(12,7,18,.98));
+  box-shadow:0 18px 60px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.03);
+}
+.runtime-panel-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+}
+.runtime-kicker{
+  margin:0 0 5px;
+  color:#75627f;
+  font-size:var(--lh-font-meta);
+  letter-spacing:.13em;
+  font-weight:760;
+}
+.runtime-panel h2{
+  margin:0;
+  color:#f0ebf4;
+  font-size:clamp(1.15rem,2vw,1.45rem);
+}
+.runtime-summary{
+  margin:6px 0 0;
+  color:#a79dae;
+  line-height:1.5;
+  font-size:.86rem;
+}
+.runtime-raccoon{
+  width:62px;
+  height:62px;
+  display:grid;
+  place-items:center;
+  flex:none;
+  border:1px solid rgba(190,143,251,.18);
+  border-radius:18px;
+  background:rgba(12,7,18,.7);
+  font-size:2rem;
+  box-shadow:0 0 28px rgba(190,143,251,.08);
+}
+.runtime-raccoon[data-state="WORKING"]{animation:runtimeRaccoonWork 1.35s ease-in-out infinite}
+.runtime-raccoon[data-state="WAITING"]{animation:runtimeRaccoonWait 1.8s ease-in-out infinite}
+.runtime-raccoon[data-state="ALERT"]{animation:runtimeRaccoonAlert .8s ease-in-out infinite}
+.runtime-raccoon[data-state="ERROR"]{transform:rotate(-7deg)}
+.runtime-raccoon[data-state="COMPLETED"],.runtime-raccoon[data-state="APPROVAL"]{filter:drop-shadow(0 0 12px rgba(216,193,255,.24))}
+.runtime-status-row{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:18px;
+  margin-top:18px;
+}
+.runtime-state-wrap{display:flex;align-items:baseline;gap:10px;min-width:0}
+.runtime-state{
+  display:inline-flex;
+  padding:5px 8px;
+  border-radius:8px;
+  background:rgba(255,255,255,.05);
+  color:#ddd4e4;
+  font-size:var(--lh-font-meta);
+  font-weight:800;
+  letter-spacing:.12em;
+}
+.runtime-state[data-state="WORKING"]{color:#eadcff}
+.runtime-state[data-state="WAITING"]{color:#d7c4e3}
+.runtime-state[data-state="ALERT"],.runtime-state[data-state="ERROR"]{color:#ffd5df}
+.runtime-state[data-state="COMPLETED"],.runtime-state[data-state="APPROVAL"],.runtime-state[data-state="PUBLISHED"]{color:#e4ffeb}
+.runtime-active-label,.runtime-progress-text{color:#958a9c;font-size:.79rem}
+.runtime-progress{height:7px;margin-top:10px;border-radius:99px;background:rgba(255,255,255,.05);overflow:hidden}
+.runtime-progress>span{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,#7e58a1,#d8baff);transition:width .35s ease}
+.runtime-stages{display:grid;gap:8px;margin:15px 0 0;padding:0;list-style:none}
+.runtime-stage{
+  display:grid;
+  grid-template-columns:34px minmax(0,1fr) auto;
+  gap:11px;
+  align-items:start;
+  padding:10px 11px;
+  border:1px solid rgba(190,143,251,.09);
+  border-radius:13px;
+  background:rgba(255,255,255,.018);
+}
+.runtime-stage[aria-current="step"]{border-color:rgba(216,186,255,.28);background:rgba(141,92,172,.08)}
+.runtime-stage-marker{font-size:.76rem;color:#796982;font-variant-numeric:tabular-nums}
+.runtime-stage-main{min-width:0}
+.runtime-stage-button{
+  width:100%;
+  padding:0;
+  border:0;
+  background:none;
+  color:inherit;
+  text-align:left;
+  cursor:pointer;
+}
+.runtime-stage-title{display:block;color:#d8d1dd;font-size:.84rem;font-weight:650}
+.runtime-stage-status{display:block;margin-top:3px;color:#86798e;font-size:var(--lh-font-meta);letter-spacing:.05em}
+.runtime-stage[data-status="running"] .runtime-stage-status{color:#e2ccf0}
+.runtime-stage[data-status="completed"] .runtime-stage-status,.runtime-stage[data-status="done"] .runtime-stage-status{color:#b8cbbd}
+.runtime-stage[data-status="failed"] .runtime-stage-status,.runtime-stage[data-status="error"] .runtime-stage-status{color:#e5a9b4}
+.runtime-stage-chevron{color:#675a6e;font-size:.85rem;transition:transform .18s ease}
+.runtime-stage[data-open="true"] .runtime-stage-chevron{transform:rotate(90deg)}
+.runtime-stage-detail{grid-column:2 / -1;margin:3px 0 0;padding-top:7px;border-top:1px solid rgba(255,255,255,.05);color:#978c9e;font-size:.77rem;line-height:1.45}
+.runtime-comment{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  margin-top:13px;
+  padding:12px 13px;
+  border-radius:13px;
+  background:rgba(255,255,255,.025);
+}
+.runtime-comment-mark{font-size:1.05rem}
+.runtime-comment p{margin:0;color:#b9afc0;font-size:.84rem;line-height:1.45}
+.runtime-tech{margin-top:10px;border-top:1px solid rgba(255,255,255,.06);padding-top:10px}
+.runtime-tech summary{cursor:pointer;color:#85798c;font-size:var(--lh-font-meta);letter-spacing:.08em;text-transform:uppercase}
+.runtime-tech-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0 0}
+.runtime-tech-grid div{min-width:0;padding:9px 10px;border:1px solid rgba(190,143,251,.08);border-radius:10px;background:rgba(255,255,255,.018)}
+.runtime-tech-grid dt{color:#726577;font-size:var(--lh-font-meta);text-transform:uppercase;letter-spacing:.06em}
+.runtime-tech-grid dd{margin:4px 0 0;color:#c8becd;font-size:.76rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@keyframes runtimeRaccoonWork{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-2px) rotate(-4deg)}}
+@keyframes runtimeRaccoonWait{0%,100%{transform:translateY(0)}50%{transform:translateY(2px)}}
+@keyframes runtimeRaccoonAlert{0%,100%{transform:rotate(0)}50%{transform:rotate(7deg)}}
+@media(max-width:700px){
+  .runtime-panel{padding:16px;border-radius:16px}
+  .runtime-raccoon{width:54px;height:54px;font-size:1.7rem;border-radius:15px}
+  .runtime-tech-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(prefers-reduced-motion:reduce){.runtime-raccoon[data-state="WORKING"],.runtime-raccoon[data-state="WAITING"],.runtime-raccoon[data-state="ALERT"]{animation:none}.runtime-progress>span{transition:none}}

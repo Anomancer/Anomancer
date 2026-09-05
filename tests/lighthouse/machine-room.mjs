@@ -9,6 +9,19 @@ const html=fs.readFileSync('app/lighthouse/lab.html','utf8');
 const js=fs.readFileSync('app/lighthouse/lab.js','utf8');
 const css=readLighthouseCss();
 
+assert.match(html,/id="runtimePanel"/);
+assert.match(html,/id="runtimeRaccoon"/);
+assert.match(html,/id="runtimeStages"/);
+assert.match(html,/id="runtimeComment"/);
+assert.match(html,/id="runtimeProvider"/);
+assert.match(html,/id="runtimeModel"/);
+assert.match(html,/id="runtimeTokens"/);
+assert.match(js,/function runtimeStateFor\(/);
+assert.match(js,/function renderRuntime\(/);
+assert.match(js,/runtimeStateFor\(orchestration,result\)/);
+assert.match(js,/Koneellinen työ on valmis\. Julkaisu pysyy ihmisen päätöksen takana\./);
+assert.match(css,/LIGHTHOUSE V1\.27 · PESUKARHU RUNTIME/);
+
 for(const id of [
   'machineDetails',
   'machineProvider',

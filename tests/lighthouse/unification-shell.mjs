@@ -22,7 +22,7 @@ const packageManifest=json('mancers/toimituskone/manifest.json');
 const build=read('scripts/build-lighthouse.mjs');
 const adminRoute=read('server/admin-routes/core.js');
 
-assert.match(pkg.version,/^1\.26\./);
+assert.match(pkg.version,/^1\.27\./);
 assert.equal(lighthouseAppAllowed({VERCEL_ENV:'production'}),true);
 assert.equal(lighthouseLabAllowed({VERCEL_ENV:'preview'}),true);
 assert.equal(lighthouseAppAllowed({VERCEL_ENV:'production',ANOMANCER_LIGHTHOUSE_APP:'0'}),false);

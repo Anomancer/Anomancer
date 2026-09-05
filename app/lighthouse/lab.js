@@ -44,6 +44,21 @@ const previewStart=$('#previewStart');
 const continueForm=$('#continueForm');
 const continueInput=$('#continueInput');
 const continueButton=$('#continueButton');
+const runtimePanel=$('#runtimePanel');
+const runtimeTitle=$('#runtimeTitle');
+const runtimeSummary=$('#runtimeSummary');
+const runtimeRaccoon=$('#runtimeRaccoon');
+const runtimeState=$('#runtimeState');
+const runtimeActiveLabel=$('#runtimeActiveLabel');
+const runtimeProgressText=$('#runtimeProgressText');
+const runtimeProgress=$('.runtime-progress');
+const runtimeProgressBar=$('#runtimeProgressBar');
+const runtimeStages=$('#runtimeStages');
+const runtimeComment=$('#runtimeComment');
+const runtimeProvider=$('#runtimeProvider');
+const runtimeModel=$('#runtimeModel');
+const runtimeLatency=$('#runtimeLatency');
+const runtimeTokens=$('#runtimeTokens');
 
 const doorProgress=$('#doorProgress');
 const status=$('#status');
@@ -819,6 +834,115 @@ async function executeCurrentMutation(){
   }
 }
 
+function runtimeStateFor(orchestration={},result={}){
+  const stages=Array.isArray(orchestration?.stages)?orchestration.stages:[];
+  if(stages.some(x=>['failed','error'].includes(String(x?.status||'').toLowerCase())))return 'ERROR';
+  if(stages.some(x=>String(x?.status||'').toLowerCase()==='degraded'))return 'ALERT';
+  if(stages.length&&stages.every(x=>['completed','done','skipped'].includes(String(x?.status||'').toLowerCase())))return 'APPROVAL';
+  if(stages.some(x=>String(x?.status||'').toLowerCase()==='running'))return 'WORKING';
+  return stages.length?'WAITING':'IDLE';
+}
+
+function runtimeStatusLabel(status='pending'){
+  return ({running:'käynnissä',completed:'valmis',done:'valmis',skipped:'ohitettu',failed:'virhe',error:'virhe',degraded:'heikentynyt',pending:'odottaa'}[String(status).toLowerCase()]||'odottaa');
+}
+
+function runtimeStateCopy(state){
+  return ({IDLE:'Odottaa ajoa',STARTING:'Ajo käynnistyy',WORKING:'Koneisto työskentelee',WAITING:'Odottaa seuraavaa vaihetta',ALERT:'Tarkistus vaatii huomiota',ERROR:'Ajo pysähtyi virheeseen',COMPLETED:'Koneellinen ajo valmis',APPROVAL:'Ihmisen päätös',PUBLISHED:'Julkaistu'}[state]||'Ajo');
+}
+
+function formatRuntimeTokens(machine={}){
+  const total=Number(machine?.usage?.totalTokens);
+  return Number.isFinite(total)&&total>0?total.toLocaleString('fi-FI'):'Ei ilmoitettu';
+}
+
+function renderRuntime(runtime={},result={}){
+  if(!runtimePanel)return;
+  const orchestration=runtime?.orchestration||{};
+  const stages=Array.isArray(orchestration?.stages)?orchestration.stages:[];
+  const machine=runtime?.machine||{};
+  if(!stages.length){runtimePanel.hidden=true;return;}
+  runtimePanel.hidden=false;
+
+  const state=runtimeStateFor(orchestration,result);
+  const completed=stages.filter(x=>['completed','done','skipped'].includes(String(x?.status||'').toLowerCase())).length;
+  const active=stages.find(x=>String(x?.status||'').toLowerCase()==='running')||stages.find(x=>!['completed','done','skipped'].includes(String(x?.status||'').toLowerCase()));
+
+  runtimeState.textContent=state;
+  runtimeState.dataset.state=state;
+  runtimeActiveLabel.textContent=state==='APPROVAL'?'Ihmisen hyväksyntä vaaditaan':runtimeStateCopy(state);
+  runtimeProgressText.textContent=`${completed} / ${stages.length}`;
+  runtimeProgressBar.style.width=`${Math.round((completed/Math.max(stages.length,1))*100)}%`;
+  runtimeProgress.setAttribute('aria-valuemax',String(stages.length));
+  runtimeProgress.setAttribute('aria-valuenow',String(completed));
+  runtimeRaccoon.dataset.state=state;
+  runtimeRaccoon.setAttribute('aria-label',runtimeStateCopy(state));
+  runtimeTitle.textContent=orchestration.name||'Lähetysajo';
+  runtimeSummary.textContent=state==='APPROVAL'
+    ?'Koneellinen työ on valmis. Julkaisu pysyy ihmisen päätöksen takana.'
+    :String(orchestration.summary||'Koneiston tila näkyy toteutuneen runtime-jäljen perusteella.');
+  runtimeComment.textContent=state==='ERROR'?'Pesukarhu pysähtyi. Tarkistuspiste säilyy.'
+    :state==='ALERT'?'Jokin vaatii tarkistuksen ennen seuraavaa päätöstä.'
+    :state==='APPROVAL'?'Sinä päätät mitä tästä seuraa.'
+    :active?`${active.label||'Vaihe'} on ajon näkyvä tila.`:'Ajo on käsitelty.';
+
+  runtimeStages.replaceChildren(...stages.map((stage,index)=>{
+    const li=document.createElement('li');
+    const status=String(stage?.status||'pending').toLowerCase();
+    li.className='runtime-stage';
+    li.dataset.status=status;
+    li.dataset.open='false';
+    if(active===stage)li.setAttribute('aria-current','step');
+
+    const marker=document.createElement('span');
+    marker.className='runtime-stage-marker';
+    marker.textContent=String(index+1).padStart(2,'0');
+
+    const main=document.createElement('div');
+    main.className='runtime-stage-main';
+
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='runtime-stage-button';
+    button.setAttribute('aria-expanded','false');
+
+    const title=document.createElement('span');
+    title.className='runtime-stage-title';
+    title.textContent=stage?.label||stage?.id||'Vaihe';
+
+    const stat=document.createElement('span');
+    stat.className='runtime-stage-status';
+    stat.textContent=runtimeStatusLabel(status);
+    button.append(title,stat);
+
+    const chevron=document.createElement('span');
+    chevron.className='runtime-stage-chevron';
+    chevron.setAttribute('aria-hidden','true');
+    chevron.textContent='›';
+
+    const detail=document.createElement('div');
+    detail.className='runtime-stage-detail';
+    detail.hidden=true;
+    const parts=[stage?.detail,Number.isFinite(Number(stage?.durationMs))&&Number(stage.durationMs)>0?`${(Number(stage.durationMs)/1000).toFixed(1)} s`:null].filter(Boolean);
+    detail.textContent=parts.join(' · ')||'Ei lisätietoa tästä vaiheesta.';
+
+    main.append(button,detail);
+    li.append(marker,main,chevron);
+    button.addEventListener('click',()=>{
+      const open=li.dataset.open==='true';
+      li.dataset.open=String(!open);
+      button.setAttribute('aria-expanded',String(!open));
+      detail.hidden=open;
+    });
+    return li;
+  }));
+
+  runtimeProvider.textContent=machine?.execution?.provider||runtime.provider||'—';
+  runtimeModel.textContent=machine?.execution?.model||runtime.model||'—';
+  runtimeLatency.textContent=machine?.execution?.latencyMs?`${Number(machine.execution.latencyMs).toLocaleString('fi-FI')} ms`:'—';
+  runtimeTokens.textContent=formatRuntimeTokens(machine);
+}
+
 function renderResult(payload,{initial=false}={}){
   const result=payload.result||{};
   const runtime=payload.runtime||{};
@@ -849,6 +973,7 @@ function renderResult(payload,{initial=false}={}){
   continueInput.placeholder=presentation.placeholder;
 
   renderMutation(runtime.mutation||{});
+  renderRuntime(runtime,result);
   renderTrust(result.trust||{});
   renderOrchestration(runtime.orchestration||{});
   renderMachine(runtime.machine||{});

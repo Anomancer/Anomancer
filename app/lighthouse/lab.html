@@ -177,6 +177,46 @@
 
       <div id="answer" class="answer"></div>
 
+      <section id="runtimePanel" class="runtime-panel" aria-labelledby="runtimeTitle" hidden>
+        <header class="runtime-panel-header">
+          <div>
+            <p class="runtime-kicker">LÄHETYSKONE · PESUKARHU RUNTIME</p>
+            <h2 id="runtimeTitle">Ajo</h2>
+            <p id="runtimeSummary" class="runtime-summary">Koneiston tila näkyy tässä ajossa toteutuneen runtime-jäljen perusteella.</p>
+          </div>
+          <div id="runtimeRaccoon" class="runtime-raccoon" role="img" aria-label="Pesukarhu seuraa ajoa">🦝</div>
+        </header>
+
+        <div class="runtime-status-row">
+          <div class="runtime-state-wrap">
+            <span id="runtimeState" class="runtime-state" data-state="IDLE">IDLE</span>
+            <span id="runtimeActiveLabel" class="runtime-active-label">Odottaa ajoa</span>
+          </div>
+          <span id="runtimeProgressText" class="runtime-progress-text">0 / 0</span>
+        </div>
+
+        <div class="runtime-progress" role="progressbar" aria-label="Lähetysajon eteneminen" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0">
+          <span id="runtimeProgressBar"></span>
+        </div>
+
+        <ol id="runtimeStages" class="runtime-stages"></ol>
+
+        <div class="runtime-comment" aria-live="polite">
+          <span class="runtime-comment-mark">🦝</span>
+          <p id="runtimeComment">Sinä päätät mitä tästä seuraa.</p>
+        </div>
+
+        <details class="runtime-tech">
+          <summary>Tekniset tiedot</summary>
+          <dl class="runtime-tech-grid">
+            <div><dt>Provider</dt><dd id="runtimeProvider">—</dd></div>
+            <div><dt>Malli</dt><dd id="runtimeModel">—</dd></div>
+            <div><dt>Viive</dt><dd id="runtimeLatency">—</dd></div>
+            <div><dt>Tokenit</dt><dd id="runtimeTokens">—</dd></div>
+          </dl>
+        </details>
+      </section>
+
       <section id="questions" class="questions" hidden>
         <h2>Tarvitsen vielä</h2>
         <ul id="questionList"></ul>

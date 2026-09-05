@@ -1,3 +1,10 @@
+## 1.27.0 · Pesukarhu Runtime
+
+- Lisätty Lighthouseen toteutuneeseen orkestrointitilaan perustuva Pesukarhu Runtime -visualisointi.
+- Ajon vaiheet, tila, eteneminen ja ihmisen hyväksyntä näytetään samassa Lähetyskone-pinnassa.
+- Vaiheiden tekniset yksityiskohdat avautuvat tarvittaessa ilman erillistä työtilaa.
+- Ei uutta runtime-backendiä, ei uutta Mancer-näkymää, eikä julkaisupäätöksen muuttamista.
+
 ## 1.26.4 · Functional + Theme Closure
 
 - Light-theme closure: Nanomancer, visualizations, evidence/source/claim surfaces.
