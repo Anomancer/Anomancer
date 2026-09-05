@@ -340,7 +340,7 @@ dialog::backdrop,.core-settings-dialog::backdrop,.core-system-dialog::backdrop,.
 .system-feedback-center>*{border-color:var(--lh-border);background:rgba(17,9,24,.96)}
 
 
-/* v1.35 · WORKBENCH 2.0 / visual reset
+/* v1.36 · WORKBENCH 2.0 / visual reset
    The work surface is the product. Navigation, implementation details and
    system anatomy remain available, but no longer occupy permanent space. */
 
@@ -503,24 +503,3 @@ body[data-workspace-template="editorial-platform"] .editor-save-stage .editor-st
   font-weight:700;
 }
 
-@media (max-width:719px){
-  body[data-workspace-template="editorial-platform"] .editor-grid{
-    width:100%;
-  }
-  body[data-workspace-template="editorial-platform"] .form-panel{
-    padding:14px 14px 30px!important;
-  }
-  body[data-workspace-template="editorial-platform"] .body-editor{
-    min-height:56vh!important;
-  }
-  .lighthouse-dashboard{
-    width:100%;
-    padding-inline:14px;
-  }
-  .lighthouse-dashboard .lighthouse-page-header{
-    padding-top:28px;
-  }
-  .lighthouse-current-work{
-    padding:22px 20px;
-  }
-}

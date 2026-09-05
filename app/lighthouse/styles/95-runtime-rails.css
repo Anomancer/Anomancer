@@ -624,3 +624,97 @@ body::before{
   .one-room-heading{margin-bottom:18px;gap:7px}
   .one-room-note{font-size:.62rem;text-align:center}
 }
+
+
+/* v1.36 · MOBILE FIRST RESET
+   Phone is a focused work surface, not a compressed control plane. */
+@media (max-width:719px){
+  .one-room-shell .lighthouse-mode-switch,
+  .one-room-shell .door-form > .composer-meta,
+  .one-room-shell .door-mark{display:none!important}
+
+  .one-room-shell .door{
+    padding-top:max(12px,env(safe-area-inset-top));
+    padding-bottom:max(86px,calc(env(safe-area-inset-bottom) + 74px));
+  }
+  .one-room-shell .door-panel{width:min(100%,560px)}
+  .one-room-shell .lighthouse-brand-lockup{margin-bottom:12px}
+  .one-room-shell .lighthouse-wordmark{width:min(100%,470px)}
+  .one-room-shell .one-room-heading{gap:5px}
+  .one-room-shell .one-room-note{font-size:var(--lh-font-meta)}
+  .one-room-shell .lighthouse-question{
+    margin-top:14px;
+    font-size:.82rem;
+    letter-spacing:.14em;
+  }
+  .one-room-shell .lead-diamond{margin:7px auto 10px}
+  .one-room-shell .door-form textarea{
+    min-height:132px;
+    padding:15px 15px;
+    border-radius:15px;
+  }
+  .one-room-shell .door-tools{margin-top:8px;justify-content:center}
+  .one-room-shell .door-tool{min-height:40px;padding:7px 11px}
+  .one-room-shell .door-actions{margin-top:9px}
+  .one-room-shell #go{min-width:144px;min-height:44px;padding:10px 20px;border-radius:14px}
+
+  .one-room-shell .lighthouse-dock{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    width:calc(100% - 16px);
+    padding:6px;
+    gap:3px;
+    border-radius:18px;
+  }
+  .one-room-shell .lighthouse-dock #kyvytOpen,
+  .one-room-shell .lighthouse-dock #infoOpen{display:none!important}
+  .one-room-shell .lighthouse-dock .door-dock-button{
+    min-height:54px;
+    flex-direction:row;
+    gap:7px;
+    padding:5px 7px;
+    border-radius:13px;
+    font-size:var(--lh-font-meta);
+    letter-spacing:.08em;
+  }
+  .one-room-shell .lighthouse-dock .dock-icon{width:27px;height:27px}
+
+  .one-room-shell .work-nav-modes{display:none!important}
+  .one-room-shell .work-nav{margin-bottom:10px;min-height:36px}
+  .one-room-shell .work-nav .quiet{min-height:40px;padding:8px 11px}
+  .one-room-shell .work{padding:10px 10px max(24px,env(safe-area-inset-bottom))}
+  .one-room-shell .result-card{padding:18px 15px;border-radius:16px}
+  .one-room-shell .result-card h1{max-width:none;margin:6px 0 13px;font-size:clamp(1.35rem,6vw,1.7rem)}
+  .one-room-shell .answer{font-size:.98rem;line-height:1.58}
+
+  .one-room-shell .mobile-depth-nav{
+    grid-template-columns:minmax(0,1fr);
+    gap:6px;
+    margin:8px 0 0;
+  }
+  .one-room-shell .mobile-depth-nav button[data-depth-target="trustDetails"],
+  .one-room-shell .mobile-depth-nav button[data-depth-target="workspaceDetails"]{display:none!important}
+  .one-room-shell .mobile-depth-nav #moreDepthButton{
+    min-height:44px;
+    border:1px solid var(--lh-border-control);
+    border-radius:12px;
+    background:rgba(18,12,22,.72);
+    color:var(--lh-text-soft);
+  }
+
+  .one-room-shell .runtime-panel{margin-top:16px;padding:14px}
+  .one-room-shell .runtime-panel-header{gap:10px}
+  .one-room-shell .runtime-panel-header h2{font-size:1.02rem}
+  .one-room-shell .runtime-raccoon{width:42px;height:42px;font-size:1.35rem}
+  .one-room-shell .runtime-stages{max-height:260px;overflow:auto;padding-right:2px}
+  .one-room-shell .runtime-comment{padding:9px 10px}
+  .one-room-shell .depth-inspector{border-radius:15px}
+}
+
+@media (max-width:420px){
+  .one-room-shell .one-room-heading{display:none}
+  .one-room-shell .lighthouse-brand-lockup{margin-bottom:10px}
+  .one-room-shell .lighthouse-wordmark{width:min(100%,410px)}
+  .one-room-shell .door-form textarea{min-height:124px}
+  .one-room-shell .door-tool{font-size:var(--lh-font-meta)}
+  .one-room-shell .lighthouse-dock .door-dock-button{min-height:52px}
+}

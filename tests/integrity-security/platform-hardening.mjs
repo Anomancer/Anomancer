@@ -43,7 +43,7 @@ await test('roadmap on semanttinen, natiivisti avattava ja oletuksena suljettu m
     assert.match(html,/<summary><span><small>ROADMAP/);
     assert.match(html,/class="core-roadmap-toggle" aria-hidden="true">\+<\/span>/);
     assert.match(html,/Lighthouse(?:-yhdistyminen| convergence)/);
-    for(const marker of ['1.24','Publishing Target','BACKLOG','1.25','1.26','1.27','1.28','1.29','1.30','1.31','1.32','1.33','1.34','1.35','1.4x','2.0']) assert.match(html,new RegExp(marker.replace('.','\\.')));
+    for(const marker of ['1.24','Publishing Target','BACKLOG','1.25','1.26','1.27','1.28','1.29','1.30','1.31','1.32','1.33','1.34','1.35','1.36','1.4x','2.0']) assert.match(html,new RegExp(marker.replace('.','\\.')));
   }
 });
 

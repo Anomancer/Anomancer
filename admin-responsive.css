@@ -1136,3 +1136,52 @@ html[data-machine-mode] #orchestraStages [data-stage][data-state="running"]::bef
 
 
 /* Mobile light-theme parity for bottom navigation surfaces. */
+
+/* Moved from lighthouse-workbench.css: responsive ownership remains here. */
+@media (max-width:719px){
+  body[data-workspace-template="editorial-platform"] .editor-grid{width:100%;}
+  body[data-workspace-template="editorial-platform"] .form-panel{padding:14px 14px 30px!important;}
+  body[data-workspace-template="editorial-platform"] .body-editor{min-height:56vh!important;}
+  .lighthouse-dashboard{width:100%;padding-inline:14px;}
+  .lighthouse-dashboard .lighthouse-page-header{padding-top:28px;}
+  .lighthouse-current-work{padding:22px 20px;}
+}
+
+/* v1.36 · MOBILE WORKBENCH MINIMAL MODE */
+@media (max-width:719px){
+  body[data-workspace-template="editorial-platform"] .core-shell-nav,
+  body[data-workspace-template="editorial-platform"] .core-shell .connection-state{
+    display:none!important;
+  }
+  body[data-workspace-template="editorial-platform"] .core-shell{
+    min-height:52px!important;
+    padding:7px 10px!important;
+  }
+  body[data-workspace-template="editorial-platform"] .core-shell-brand{gap:8px;min-height:40px}
+  body[data-workspace-template="editorial-platform"] .core-shell-mark{width:32px;height:32px}
+  body[data-workspace-template="editorial-platform"] .workspace-context-bar{
+    min-height:48px!important;
+    padding:6px 11px!important;
+  }
+  body[data-workspace-template="editorial-platform"] .workspace-context-bar .top-actions a:not(.light-work-handoff){display:none!important}
+  body[data-workspace-template="editorial-platform"] .editor-tabs{
+    position:static;
+    margin:8px 0 0;
+    padding:4px;
+    border-radius:11px;
+  }
+  body[data-workspace-template="editorial-platform"] .editor-tabs button[aria-selected="false"]{display:none!important}
+  body[data-workspace-template="editorial-platform"] .editor-tabs button[aria-selected="true"]{min-height:42px}
+  body[data-workspace-template="editorial-platform"] .editor-grid{width:calc(100% - 20px)!important}
+  body[data-workspace-template="editorial-platform"] .form-panel{padding:10px 0 24px!important}
+  body[data-workspace-template="editorial-platform"] .body-head{margin-top:8px!important}
+  body[data-workspace-template="editorial-platform"] .body-editor{
+    min-height:52vh!important;
+    max-height:62vh;
+    border-radius:12px!important;
+    font-size:.93rem!important;
+  }
+  body[data-workspace-template="editorial-platform"] .actions{gap:7px;margin-top:10px}
+  body[data-workspace-template="editorial-platform"] .actions .primary{min-height:44px}
+}
+

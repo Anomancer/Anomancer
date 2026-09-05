@@ -13,7 +13,7 @@ const worker=read('lighthouse-sw.js');
 const installer=read('INSTALL_TO_CURRENT.sh');
 
 await test('Core ja paketti ovat 16.8.4 ja säilyttävät 16.7.1 Visual Hardeningin',()=>{
-  assert.match(pkg.version,/^1\.35\./);
+  assert.match(pkg.version,/^1\.36\./);
   assert.equal(CORE_VERSION,'1.18.7');
   assert.match(html,/LIGHTHOUSE · YKSITYINEN/);
   assert.match(html,/aria-label="Lighthouse"[^>]*>.*<strong>Lighthouse<\/strong>/s);
@@ -57,7 +57,7 @@ await test('Mobiilissa shell palaa yhteen sarakkeeseen eikä amputoi asetuksia',
   assert.match(html,/id="mobilePublishBtn"/);
 });
 
-await test('PWA-cache bustataan Lighthouse 1.24 -sukupolveen',()=>{
+await test('PWA-cache bustataan nykyiseen Lighthouse-releaseen',()=>{
   const releaseVersion=pkg.version.match(/^(\d+\.\d+\.\d+)/)?.[1];
   assert.ok(releaseVersion,'package semver missing');
   const cacheVersionPattern=new RegExp(`anomancer-lighthouse-v${releaseVersion.replace(/\./g,'\\.')}-[a-z0-9]+`);

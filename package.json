@@ -1,6 +1,6 @@
 {
   "name": "anomancer-lahetyskone",
-  "version": "1.35.0",
+  "version": "1.36.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -110,7 +110,8 @@
     "test:signal": "node tests/core-runtime/signal-intent.mjs",
     "test:evidence-claim-graph": "node tests/content-editorial/evidence-claim-graph.mjs",
     "test:lighthouse:one-room": "node tests/lighthouse/one-room.mjs",
-    "test:production-hardening": "node tests/core-runtime/production-hardening.mjs"
+    "test:production-hardening": "node tests/core-runtime/production-hardening.mjs",
+    "test:mobile-first-reset": "node tests/ui-browser/mobile-first-reset.mjs"
   },
   "devDependencies": {
     "axe-core": "4.10.3",
