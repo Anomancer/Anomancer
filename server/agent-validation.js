@@ -25,7 +25,8 @@ function normalizeClaims(value,post){
       const warning=post.lang==='en'?'Agent evidence still needs human verification.':'Agentin evidenssi odottaa ihmisen tarkistusta.';
       note=[note,warning].filter(Boolean).join(' ').slice(0,800);
     }
-    return {status,text:text(raw.text,600),evidence,note};
+    const contradictions=[...new Set(list(raw.contradictions,8).map(x=>text(x,600)).filter(Boolean))];
+    return {status,text:text(raw.text,600),evidence,note,contradictions};
   }).filter(claim=>claim.text);
 }
 

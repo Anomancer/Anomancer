@@ -1,3 +1,4 @@
+import { buildEvidenceGraph } from '../server/evidence-graph.js';
 import fs from 'node:fs';
 import { normalizeCitationMode, normalizeCitationPlacements, normalizeVisualizations } from '../server/content.js';
 import path from 'node:path';
@@ -416,7 +417,7 @@ export async function buildBlog(){
   // Julkinen manifesti sisältää vain julkaistut tekstit. Luonnosten metadata ei kuulu public-outputtiin.
   const manifest={generatedAt:new Date().toISOString(),entity:{siteName:SITE_NAME,author:AUTHOR,authorId:PERSON_ID,authorUrl:AUTHOR_URL,websiteId:WEBSITE_ID},published:published.map(p=>({lang:p.lang,slug:p.slug,title:p.title,description:p.description,answer:p.answer||'',category:p.category,audience:p.audience||['all'],audienceDepth:p.audienceDepth||'general',pinned:Boolean(p.pinned),date:p.date,updated:p.updated||p.date,url:articleUrl(p),articleId:`${articleUrl(p)}#article`,authorId:PERSON_ID,coverImage:p.coverImage||'',evidence:{sourceCount:(p.sources||[]).length,claimCount:(p.claims||[]).length,supported:(p.claims||[]).filter(x=>x.status==='supported').length,interpretation:(p.claims||[]).filter(x=>x.status==='interpretation').length,open:(p.claims||[]).filter(x=>x.status==='open').length}}))};
   write('content-manifest.json',JSON.stringify(manifest,null,2)+'\n');
-  const evidenceManifest={version:'anomancer.evidence/v2',generatedAt:manifest.generatedAt,verification:{statuses:['candidate','verified','rejected'],verifiedRequires:['verifiedBy','verifiedAt','verificationMethod','verificationEvidence','verificationNotes']},articles:published.map(p=>({articleId:`${articleUrl(p)}#article`,url:articleUrl(p),title:p.title,lang:p.lang,answer:p.answer||'',claims:p.claims||[],sources:p.sources||[],citationMode:p.citationMode||'inline',citationPlacements:p.citationPlacements||[],visualizations:p.visualizations||[]}))};
+  const evidenceManifest={version:'anomancer.evidence/v2',generatedAt:manifest.generatedAt,verification:{statuses:['candidate','verified','rejected'],verifiedRequires:['verifiedBy','verifiedAt','verificationMethod','verificationEvidence','verificationNotes']},articles:published.map(p=>({articleId:`${articleUrl(p)}#article`,url:articleUrl(p),title:p.title,lang:p.lang,answer:p.answer||'',claims:p.claims||[],sources:p.sources||[],evidenceGraph:buildEvidenceGraph(p),citationMode:p.citationMode||'inline',citationPlacements:p.citationPlacements||[],visualizations:p.visualizations||[]}))};
   write('evidence-manifest.json',JSON.stringify(evidenceManifest,null,2)+'\n');
   write('llms.txt',llmsTxt(posts));
   const discoveryManifestData=discoveryManifest(posts,manifest.generatedAt);

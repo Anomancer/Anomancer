@@ -1,3 +1,12 @@
+## 1.31.0 - Evidence / Claim Graph
+
+- Added first-class Evidence / Claim Graph runtime objects for published articles.
+- Added deterministic claim IDs and claim-to-source `supported-by` relations.
+- Added derived claim verification states: `verified`, `partial` and `unverified`.
+- Added provenance fields for source verification records without changing the human approval boundary.
+- Added fail-closed `publicationReady` diagnostics; the graph never publishes content.
+- Added regression coverage for the graph and kept the public graph limited to published articles.
+
 ## 1.30.0 - Local Model Layer
 
 - Added `qwen-local` Model Router targets for research, writer, and critic routes.

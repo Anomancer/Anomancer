@@ -84,7 +84,8 @@ export function normalizeClaims(value, sources=[]) {
     const text=String(src.text||'').trim();
     const note=String(src.note||'').trim();
     const evidence=[...new Set((Array.isArray(src.evidence)?src.evidence:[]).map(cleanHttpUrl).filter(Boolean))];
-    return {status,text,evidence:evidence.filter(url=>allowed.has(url)),note};
+    const contradictions=[...new Set((Array.isArray(src.contradictions)?src.contradictions:[]).map(x=>String(x||'').trim().slice(0,600)).filter(Boolean))].slice(0,8);
+    return {status,text,evidence:evidence.filter(url=>allowed.has(url)),note,contradictions};
   }).filter(x=>x.text);
 }
 
