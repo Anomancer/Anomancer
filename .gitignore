@@ -18,3 +18,4 @@ IP_PRIVATE/
 /public/
 /dist/
 /test-results/
+.env*
