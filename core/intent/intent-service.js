@@ -275,6 +275,7 @@ function aggregateMeta(passes=[],hands={}){
     computeUsed:hands.computeUsed===true,
     computeArtifacts:Array.isArray(hands.computeArtifacts)?hands.computeArtifacts.length:0,
     capabilityEvents:Array.isArray(hands.events)?hands.events:[],
+    taskGraphRun:hands.taskGraphRun||null,
     mancers:Array.isArray(hands.mancers)?hands.mancers:[],
     capabilityFailures:Array.isArray(hands.failures)?hands.failures:[],
     handsDurationMs:Number(hands.durationMs)||0,

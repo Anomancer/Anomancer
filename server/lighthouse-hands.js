@@ -5,6 +5,7 @@ import {getProjectFile,projectSourceStatus} from './project-source.js';
 import {getMancerPackage} from './mancer-registry.js';
 import {getCapability,listCapabilities} from '../core/capabilities/registry.js';
 import {createComputeSession,executeComputeCapability} from './compute-runtime.js';
+import {executeTaskGraph} from '../core/runtime/task-graph-executor.js';
 
 export const HANDS_EXECUTION_FORMAT='anomancer-hands-execution/v1';
 
@@ -231,7 +232,7 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
   let computeUsed=false;
   const computeArtifacts=[];
 
-  async function run(id,fn,{adapter=id,external=false}={}){
+  async function run(id,fn,{adapter=id,external=false,swallow=true}={}){
     const start=Date.now();
     try{
       const value=await fn();
@@ -240,108 +241,69 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
       return value;
     }catch(error){
       const failure={id,status:'failed',adapter,external,durationMs:Date.now()-start,error:String(error.code||error.message||'failed').slice(0,180)};
-      events.push(failure);failures.push(failure);return null;
+      events.push(failure);failures.push(failure);
+      if(!swallow)throw Object.assign(error,{lighthouseCapabilityEvent:failure});
+      return null;
     }
   }
 
   const requested=new Set(capabilityRoute.readOnly||[]);
   const computeRequested=[...new Set(capabilityRoute.compute||[])];
-
-  if(requested.has('document.read')&&intent.workspace?.materials?.length){
-    await run('document.read',async()=>{
-      // Workspace material is already present in the canonical user context.
-      // This event records the read capability without duplicating the material into the prompt.
-      return intent.workspace.materials.length;
-    },{adapter:'workspace-context',external:false});
-  }
-
+  const executable=new Set([...requested,...computeRequested]);
+  let computeSession=null;
+  let computeSessionError=null;
   if(computeRequested.length){
-    let session=null,error=null;
-    try{session=createComputeSession(intent.workspace?.materials||[]);}catch(cause){error=cause;}
-    for(const id of computeRequested){
-      await run(id,async()=>{
-        if(error)throw error;
-        const artifact=executeComputeCapability(id,session);
-        computeArtifacts.push({capabilityId:artifact.capabilityId,adapter:artifact.adapter,deterministic:true,datasetCount:artifact.datasetCount});
-        context.push(contextBlock('compute',`Compute · ${id}`,JSON.stringify(artifact),{capabilityId:id,adapter:artifact.adapter,computed:true,untrusted:true}));
-        computeUsed=true;
-        return artifact;
-      },{adapter:'compute.tabular.v1',external:false});
-    }
+    try{computeSession=createComputeSession(intent.workspace?.materials||[]);}catch(error){computeSessionError=error;}
   }
 
-  if(requested.has('web.fetch')){
-    const urls=extractUrls(intent.text);
-    if(urls.length){
-      await run('web.fetch',async()=>{
-        for(const raw of urls){
-          const item=await fetchPublicText(raw);
-          sources.push({type:'web-page',title:item.title,url:item.url});
-          context.push(contextBlock('web',item.title,item.text,{url:item.url,untrusted:true}));
-        }
-        webFetchUsed=true;
-      },{adapter:'public-web-read/v1',external:true});
-    }
-  }
-
-  if(requested.has('research.search')){
-    searchQuerySent=true;
-    await run('research.search',async()=>{
+  const handlers={
+    'document.read':async()=>{
+      if(!intent.workspace?.materials?.length)return 0;
+      return intent.workspace.materials.length;
+    },
+    'compute':async id=>{
+      if(computeSessionError)throw computeSessionError;
+      const artifact=executeComputeCapability(id,computeSession);
+      computeArtifacts.push({capabilityId:artifact.capabilityId,adapter:artifact.adapter,deterministic:true,datasetCount:artifact.datasetCount});
+      context.push(contextBlock('compute',`Compute · ${id}`,JSON.stringify(artifact),{capabilityId:id,adapter:artifact.adapter,computed:true,untrusted:true}));
+      computeUsed=true;
+      return artifact;
+    },
+    'web.fetch':async()=>{
+      const urls=extractUrls(intent.text);
+      if(!urls.length)return null;
+      for(const raw of urls){
+        const item=await fetchPublicText(raw);
+        sources.push({type:'web-page',title:item.title,url:item.url});
+        context.push(contextBlock('web',item.title,item.text,{url:item.url,untrusted:true}));
+      }
+      webFetchUsed=true;
+      return urls.length;
+    },
+    'research.search':async()=>{
+      searchQuerySent=true;
       const results=await braveSearch(intent.text);
       searchedWeb=true;
       for(const item of results){
         sources.push({type:'search-result',title:item.title,url:item.url});
         context.push(contextBlock('search',item.title,item.text,{url:item.url,untrusted:true}));
       }
-    },{adapter:'brave-search/v1',external:true});
-  }
-
-  for(const id of requested){
-    const capability=getCapability(id);
-    const adapter=String(capability?.runtimeAdapter||'');
-    if(!PACKAGE_SEARCH_ADAPTERS.has(adapter))continue;
-
-    const searchRequest=runtimeSearchRequest(adapter,intent.text);
-    if(!searchRequest)continue;
-
-    searchQuerySent=true;
-    await run(id,async()=>{
-      const results=await braveSearch(searchRequest.query,{freshness:searchRequest.freshness});
-      searchedWeb=true;
-      for(const item of results){
-        sources.push({
-          type:'search-result',
-          capabilityId:id,
-          title:item.title,
-          url:item.url
-        });
-        context.push(contextBlock(
-          'search',
-          item.title,
-          item.text,
-          {url:item.url,capabilityId:id,untrusted:true}
-        ));
+      return results.length;
+    },
+    'repository.read':async()=>{
+      const paths=extractRepoPaths(intent.text);
+      if(!paths.length)return null;
+      for(const path of paths){
+        const file=await getProjectFile(path);
+        sources.push({type:'repository-file',title:file.path,url:file.htmlUrl||'',path:file.path,sha:file.sha,ref:file.ref||repository.ref});
+        context.push(contextBlock('repository',file.path,file.content,{path:file.path,url:file.htmlUrl||'',sha:file.sha,ref:file.ref||repository.ref,untrusted:true}));
       }
-    },{adapter,external:true});
-  }
-
-  if(requested.has('repository.read')){
-    const paths=extractRepoPaths(intent.text);
-    if(paths.length){
-      await run('repository.read',async()=>{
-        for(const path of paths){
-          const file=await getProjectFile(path);
-          sources.push({type:'repository-file',title:file.path,url:file.htmlUrl||'',path:file.path,sha:file.sha,ref:file.ref||repository.ref});
-          context.push(contextBlock('repository',file.path,file.content,{path:file.path,url:file.htmlUrl||'',sha:file.sha,ref:file.ref||repository.ref,untrusted:true}));
-        }
-        repositoryReadUsed=true;
-      },{adapter:'local-project-read/v1',external:false});
-    }
-  }
-
-  const workspaceId=route.recommendation?.workspace?.id;
-  if(requested.has('mancer.activate')&&workspaceId){
-    await run('mancer.activate',async()=>{
+      repositoryReadUsed=true;
+      return paths.length;
+    },
+    'mancer.activate':async()=>{
+      const workspaceId=route.recommendation?.workspace?.id;
+      if(!workspaceId)return null;
       const pkg=getMancerPackage(workspaceId);
       if(!pkg)throw Object.assign(new Error('Suositeltua Mancer-pakettia ei löytynyt.'),{code:'LIGHTHOUSE_MANCER_NOT_FOUND'});
       const orchestra=selectMancerOrchestra(pkg,route.problem||{});
@@ -359,7 +321,32 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
         [`Tarkoitus: ${mancer.purpose}`,orchestra?`Työmenetelmä: ${orchestra.name}`:'',orchestra?`Vaiheet: ${orchestra.stages.join(', ')}`:'',orchestra?.approvalGates?.length?`Hyväksymisportit: ${orchestra.approvalGates.join(', ')}`:''].filter(Boolean).join('\n'),
         {trustedInternal:true,contractHash:mancer.contractHash}
       ));
-    },{adapter:'mancer-package-registry/v1',external:false});
+      return mancer.id;
+    }
+  };
+
+  function handlerFor(id){
+    if(computeRequested.includes(id))return()=>handlers.compute(id);
+    return handlers[id];
+  }
+
+  const taskGraphRun=await executeTaskGraph(taskGraph||{format:'anomancer-task-graph/v1',nodes:[],stages:[]},{
+    concurrency:4,
+    timeoutMs:20_000,
+    retry:1,
+    shouldRun:node=>executable.has(node.id),
+    runner:async node=>{
+      const id=String(node.id);
+      const handler=handlerFor(id);
+      if(typeof handler!=='function')return {skipped:true,reason:'no-runtime-adapter'};
+      return run(id,handler,{adapter:id==='document.read'?'workspace-context':id.startsWith('data.')||id.startsWith('statistics.')||id.startsWith('timeseries.')?'compute.tabular.v1':String(getCapability(id)?.runtimeAdapter||id),external:['web.fetch','research.search'].includes(id),swallow:false});
+    }
+  });
+
+  if(taskGraphRun.failed&&failures.length===0){
+    for(const item of taskGraphRun.results.filter(item=>item.status==='failed')){
+      failures.push({id:item.id,status:'failed',adapter:String(getCapability(item.id)?.runtimeAdapter||item.id),external:false,durationMs:item.durationMs,error:item.error});
+    }
   }
 
   return {
@@ -377,6 +364,7 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
     computeUsed,
     computeArtifacts,
     taskGraph,
+    taskGraphRun,
     repositoryRef:repository.ref,
     repositoryRefSource:repository.refSource,
     externalReadUsed:events.some(event=>event.external&&event.status==='completed'),

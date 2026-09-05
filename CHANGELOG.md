@@ -1,9 +1,13 @@
-## 1.27.0 · Pesukarhu Runtime
+# Changelog
 
-- Lisätty Lighthouseen toteutuneeseen orkestrointitilaan perustuva Pesukarhu Runtime -visualisointi.
-- Ajon vaiheet, tila, eteneminen ja ihmisen hyväksyntä näytetään samassa Lähetyskone-pinnassa.
-- Vaiheiden tekniset yksityiskohdat avautuvat tarvittaessa ilman erillistä työtilaa.
-- Ei uutta runtime-backendiä, ei uutta Mancer-näkymää, eikä julkaisupäätöksen muuttamista.
+## v1.28.0 · Orchestrator / Task Graph Runtime
+
+- Task Graph siirtyi scheduler-sopimuksesta oikeaksi bounded executoriksi.
+- Riippumattomat read-only- ja compute-kyvyt voidaan ajaa rinnakkain rajatulla concurrencyllä.
+- Executor tukee timeout- ja retry-käytäntöjä sekä stage-kohtaista runtime-jälkeä.
+- Lighthouse Hands käyttää Task Graphia suoritusjärjestyksen lähteenä.
+- Runtime-vastauksessa säilytetään `taskGraphRun` diagnostiikkaa varten.
+- Human authority / external side-effect -raja pysyy ennallaan.
 
 ## 1.26.4 · Functional + Theme Closure
 

@@ -1,6 +1,6 @@
 {
   "name": "anomancer-lahetyskone",
-  "version": "1.27.0",
+  "version": "1.28.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -101,6 +101,7 @@
     "test:lighthouse:hands": "node tests/lighthouse/hands.mjs",
     "test:lighthouse:actuator": "node tests/lighthouse/actuator.mjs",
     "test:lighthouse:compute": "node scripts/sync-capability-packages.mjs && node tests/lighthouse/compute-task-graph.mjs",
+    "test:task-graph-executor": "node tests/lighthouse/compute-task-graph.mjs",
     "deploy:prod": "npm run check && vercel --prod",
     "test:lighthouse:unification": "node tests/lighthouse/unification-shell.mjs",
     "visual:workbench:update": "ANOMANCER_VISUAL_BASELINE_MODE=update node tests/full-app-e2e/admin-workspace-story.mjs",

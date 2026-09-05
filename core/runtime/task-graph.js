@@ -34,7 +34,9 @@ export function taskGraphPublicProfile(){
     dependencyAware:true,
     topologicalStages:true,
     parallelStageHints:true,
-    schedulerMode:'bounded-hint',
+    retriesSupported:true,
+    timeoutSupported:true,
+    schedulerMode:'bounded-executor',
     routings:['read-only','compute','reasoning','proposal','approval'],
     externalSideEffectsAllowed:false,
     finalAuthority:'human'
