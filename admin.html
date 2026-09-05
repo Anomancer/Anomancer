@@ -25,7 +25,7 @@
 <img class="login-lighthouse-mark" src="/lighthouse/assets/lighthouse-mark-48.png" alt="" aria-hidden="true"/>
 <p class="kicker">LIGHTHOUSE · YKSITYINEN</p>
 <h1>Kirjaudu Lighthouseen</h1>
-<p class="muted">Työpöydällä Mancerit ovat erillisiä työtiloja. Anomancer on toimitus- ja julkaisutyötila. Avaimet pysyvät palvelimella.</p>
+<p class="muted">Lighthouse kokoaa työn yhteen työpintaan. Tekniset työkalut avautuvat vain tarvittaessa. Avaimet pysyvät palvelimella.</p>
 <label>Salasana<input autocomplete="current-password" id="password" required="" type="password"/></label>
 <button type="submit">Kirjaudu sisään</button>
 <div class="login-runtime"><span data-connection-state>Yhteyttä tarkistetaan…</span><button class="ghost install-app-button" data-install-app type="button">Asennusohje</button></div>
@@ -45,8 +45,7 @@
     <section><span>TYÖ</span>
       <button type="button" data-shell-route="dashboard"><b aria-hidden="true">⌂</b><strong>Työpöytä</strong></button>
       <button type="button" data-shell-route="workspace" data-short-label="Työ"><b aria-hidden="true">▤</b><strong>Nykyinen työ</strong></button>
-      <button type="button" data-shell-route="workspaces" data-short-label="Mancerit">Mancerit</button>
-      <button type="button" data-shell-route="archive" data-short-label="Arkisto"><b aria-hidden="true">□</b><strong>Arkisto</strong></button>
+            <button type="button" data-shell-route="archive" data-short-label="Arkisto"><b aria-hidden="true">□</b><strong>Arkisto</strong></button>
     </section>
     <section class="lighthouse-menu-workspace-tools" id="lighthouseWorkspaceTools" hidden><span>NYKYISEN TYÖN TYÖKALUT</span><div id="lighthouseWorkspaceToolsNav"></div></section>
     <details class="lighthouse-menu-advanced">
@@ -65,7 +64,7 @@
       <button class="core-settings-button" id="coreSettingsButton" type="button" data-shell-route="settings"><b aria-hidden="true">⚙</b><strong>Asetukset</strong></button>
     </section>
   </nav>
-  <footer class="lighthouse-menu-footer"><span class="connection-state" data-connection-state>Yhteyttä tarkistetaan…</span><a class="lighthouse-shell-mode-link" href="/lighthouse">Kevyt tila</a><small>Lighthouse v1.26.4</small></footer>
+  <footer class="lighthouse-menu-footer"><span class="connection-state" data-connection-state>Yhteyttä tarkistetaan…</span><a class="lighthouse-shell-mode-link" href="/lighthouse">Lighthouse</a><small>Workbench 2.0 · v1.35.0</small></footer>
 </dialog>
 <div class="system-feedback-center" id="systemFeedbackCenter" role="status" aria-live="polite" aria-atomic="true" hidden></div>
 <aside class="sidebar" id="sidebar">
@@ -97,17 +96,17 @@
 </section>
 <section class="core-surface" id="coreSurface" hidden>
   <section class="core-surface-view lighthouse-dashboard" data-shell-view="dashboard" hidden>
-    <header class="core-surface-head lighthouse-page-header"><div><p class="kicker">LIGHTHOUSE</p><h1>Työpöytä</h1><p>Yksi työ, yksi näkymä. Kaikki muu avautuu vasta kun sitä tarvitaan.</p></div></header>
+    <header class="core-surface-head lighthouse-page-header"><div><p class="kicker">LIGHTHOUSE</p><h1>Työpöytä</h1><p>Yksi työpinta. Yksi aktiivinen työ. Koneisto avautuu vain, kun sitä tarvitset.</p></div></header>
     <section class="lighthouse-current-work lighthouse-panel" aria-labelledby="dashboardCurrentTitle">
       <div class="lighthouse-current-work-copy"><span class="lighthouse-panel-kicker">NYKYINEN TYÖ</span><h2 id="dashboardCurrentTitle">Työtila valmis</h2><p id="dashboardCurrentMeta">Valitse työ tai jatka nykyiseen työtilaan.</p></div>
-      <button class="primary" type="button" data-dashboard-action="workspace">Jatka työtä</button>
+      <button class="primary" type="button" data-dashboard-action="workspace">Avaa nykyinen työ</button>
     </section>
     <div class="lighthouse-dashboard-grid" aria-label="Työpöydän pikanäkymät">
       <article class="lighthouse-panel"><span class="lighthouse-panel-icon" aria-hidden="true">◇</span><div><span class="lighthouse-panel-kicker">MANCERIT</span><strong id="dashboardMancerCount">Työmaailmat</strong><p>Valitse tai luo rajattu työmaailma.</p></div><button class="ghost" type="button" data-dashboard-action="workspaces">Avaa Mancerit</button></article>
       <article class="lighthouse-panel"><span class="lighthouse-panel-icon" aria-hidden="true">◷</span><div><span class="lighthouse-panel-kicker">AJOT</span><strong id="dashboardRunCount">0 ajoa</strong><p id="dashboardRunMeta">Ajohistoria, tila ja käyttö.</p></div><button class="ghost" type="button" data-dashboard-action="runs">Avaa ajot</button></article>
       <article class="lighthouse-panel"><span class="lighthouse-panel-icon" aria-hidden="true">↗</span><div><span class="lighthouse-panel-kicker">JULKAISUT</span><strong id="dashboardPublicationCount">Julkaisulista</strong><p>Luonnokset, julkaistut ja niiden tila.</p></div><button class="ghost" type="button" data-dashboard-action="publications">Avaa julkaisut</button></article>
     </div>
-    <div class="lighthouse-system-strip"><span class="lighthouse-system-dot" aria-hidden="true"></span><strong id="dashboardSystemStatus">Järjestelmä</strong><span data-connection-state>Yhteyttä tarkistetaan…</span><button class="ghost" type="button" data-dashboard-action="machine">Avaa Konehuone →</button></div>
+    <div class="lighthouse-system-strip"><span class="lighthouse-system-dot" aria-hidden="true"></span><strong id="dashboardSystemStatus">Järjestelmä</strong><span data-connection-state>Yhteyttä tarkistetaan…</span><button class="ghost" type="button" data-dashboard-action="machine">Konepellin alle →</button></div>
   </section>
   <section class="core-surface-view" data-shell-view="workspaces" hidden>
     <header class="core-surface-head lighthouse-page-header"><div><p class="kicker">LIGHTHOUSE / MANCERIT</p><h1>Mancerit</h1><p>Valitse työmaailma tai luo uusi.</p></div><button class="primary" id="workspaceHomeNew" type="button">+ Uusi Mancer-työtila</button></header>
@@ -510,7 +509,7 @@
 <section class="core-settings-section lighthouse-appearance-section"><h3>Ulkoasu</h3><div class="lighthouse-theme-picker" role="group" aria-label="Lighthousen teema"><span>Teema</span><div class="lighthouse-theme-options"><button class="ghost" id="themeDark" type="button" data-theme-choice="dark" aria-pressed="true">Tumma</button><button class="ghost" id="themeLight" type="button" data-theme-choice="light" aria-pressed="false">Vaalea</button></div><small>Teema tallennetaan vain tähän selaimeen.</small></div></section>
 <section class="core-settings-section"><h3>Näkymä</h3><div class="settings-layout-grid"><label>Editorin leveys <output id="editorWidthValue">56 %</output><input id="editorWidth" max="72" min="42" step="1" type="range" value="56"/></label><label>Lähetysvalikon leveys <output id="libraryWidthValue">320 px</output><input id="libraryWidth" max="460" min="260" step="10" type="range" value="320"/></label><label class="layout-check"><input id="previewToggle" type="checkbox"/><span>Näytä esikatselu</span></label><button class="ghost" id="layoutReset" type="button">Palauta oletusasettelu</button></div></section>
 <section class="core-settings-section"><h3>Sovellus</h3><div class="core-settings-actions"><button class="ghost install-app-button" data-install-app type="button">Asennusohje</button><a href="/lahetykset" rel="noopener noreferrer" target="_blank">Julkiset lähetykset ↗</a><button class="danger" id="logoutBtn" type="button">Kirjaudu ulos</button></div></section>
-<section class="core-settings-section"><h3>Järjestelmätiedot</h3><dl class="system-info-list"><div><dt>Lighthouse</dt><dd>1.26.4</dd></div><div><dt>Core</dt><dd id="systemCoreVersion">—</dd></div><div><dt>Sopimusmalli</dt><dd>Lighthouse → Mancer → Orkesteri → Agentti → Kyvykkyys</dd></div><div><dt>Yksityinen reitti</dt><dd><code>/lighthouse/workbench</code></dd></div></dl></section>
+<section class="core-settings-section"><h3>Järjestelmätiedot</h3><dl class="system-info-list"><div><dt>Lighthouse</dt><dd>1.35.0</dd></div><div><dt>Core</dt><dd id="systemCoreVersion">—</dd></div><div><dt>Sopimusmalli</dt><dd>Lighthouse → Mancer → Orkesteri → Agentti → Kyvykkyys</dd></div><div><dt>Yksityinen reitti</dt><dd><code>/lighthouse/workbench</code></dd></div></dl></section>
 </section>
 
 <dialog aria-labelledby="archiveObjectDialogTitle" class="core-agent-dialog archive-object-dialog" id="archiveObjectDialog">

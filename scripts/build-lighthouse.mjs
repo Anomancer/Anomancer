@@ -38,7 +38,7 @@ const bootstrap={
   format:'anomancer-lighthouse-bootstrap/v1',
   lighthouseVersion:String(packageJson.version||''),
   coreVersion:String(CORE_VERSION||''),
-  milestone:'M3 · One Room, One Machine',
+  milestone:'M5 · Workbench 2.0',
   capabilities:listCapabilities(),
   concepts:{
     lighthouse:'Yksi Lighthouse-työtila: signaali, ajo, evidenssi, hyväksyntä ja julkaisu samassa huoneessa.',

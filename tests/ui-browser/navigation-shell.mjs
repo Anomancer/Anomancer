@@ -16,7 +16,7 @@ const worker=read('lighthouse-sw.js');
 const installer=read('INSTALL_TO_CURRENT.sh');
 
 await test('Core ja paketti rakentavat nykyisen Navigation Shell -arkkitehtuurin',()=>{
-  assert.match(pkg.version,/^1\.34\./);
+  assert.match(pkg.version,/^1\.35\./);
   assert.equal(CORE_VERSION,'1.18.7');
   assert.match(html,/aria-label="Lighthouse"[^>]*>.*<strong>Lighthouse<\/strong>/s);
   assert.doesNotMatch(html,/<small>Työpöytä<\/small>/);
@@ -24,7 +24,7 @@ await test('Core ja paketti rakentavat nykyisen Navigation Shell -arkkitehtuurin
 });
 
 await test('Core Shell on pysyvä globaali navigaatiokerros',()=>{
-  for(const route of ['workspaces','workspace','machine'])assert.match(html,new RegExp(`data-shell-route="${route}"`));
+  for(const route of ['workspace','archive','machine'])assert.match(html,new RegExp(`data-shell-route="${route}"`));
   assert.doesNotMatch(html,/data-shell-route="(?:dispatches|artifacts|materials)"/);
   assert.match(html,/id="coreSettingsButton"/);
   assert.match(html,/id="workspaceContextKicker"/);

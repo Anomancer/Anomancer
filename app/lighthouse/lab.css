@@ -1,4 +1,4 @@
-/* ANOMANCER 1.26 · Lighthouse frontend ownership manifest
+/* ANOMANCER 1.35 · Lighthouse frontend ownership manifest
    Base -> work surfaces -> depth/runtime -> accessibility policy.
    Keep feature CSS in its owning module. Do not append release hotfixes here. */
 @import url("./styles/00-base.css");

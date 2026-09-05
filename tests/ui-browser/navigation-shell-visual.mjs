@@ -13,7 +13,7 @@ const worker=read('lighthouse-sw.js');
 const installer=read('INSTALL_TO_CURRENT.sh');
 
 await test('Core ja paketti ovat 16.8.4 ja säilyttävät 16.7.1 Visual Hardeningin',()=>{
-  assert.match(pkg.version,/^1\.34\./);
+  assert.match(pkg.version,/^1\.35\./);
   assert.equal(CORE_VERSION,'1.18.7');
   assert.match(html,/LIGHTHOUSE · YKSITYINEN/);
   assert.match(html,/aria-label="Lighthouse"[^>]*>.*<strong>Lighthouse<\/strong>/s);

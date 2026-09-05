@@ -338,3 +338,189 @@ dialog::backdrop,.core-settings-dialog::backdrop,.core-system-dialog::backdrop,.
 .preview-head{border-bottom-color:var(--lh-border);background:rgba(16,9,23,.96)}
 .preview{background:#09050f}
 .system-feedback-center>*{border-color:var(--lh-border);background:rgba(17,9,24,.96)}
+
+
+/* v1.35 · WORKBENCH 2.0 / visual reset
+   The work surface is the product. Navigation, implementation details and
+   system anatomy remain available, but no longer occupy permanent space. */
+
+/* One visible workspace: no permanent left rail inside the editorial work. */
+body[data-workspace-template="editorial-platform"] .workspace-stage{
+  grid-template-columns:minmax(0,1fr)!important;
+}
+body[data-workspace-template="editorial-platform"] .workspace-local-sidebar{
+  display:none!important;
+}
+body[data-workspace-template="editorial-platform"] .workspace-content{
+  grid-column:1!important;
+  width:100%;
+}
+body[data-workspace-template="editorial-platform"] .light-work-handoff{
+  display:none!important;
+}
+
+/* The header identifies the work. It does not become a control panel. */
+body[data-workspace-template="editorial-platform"] .workspace-context-bar{
+  padding:8px clamp(14px,2.5vw,28px)!important;
+  min-height:58px!important;
+}
+body[data-workspace-template="editorial-platform"] .workspace-context-bar .editor-title{
+  gap:12px;
+}
+body[data-workspace-template="editorial-platform"] .workspace-context-bar .editor-title .kicker{
+  display:none;
+}
+body[data-workspace-template="editorial-platform"] .workspace-context-bar #editingLabel{
+  font-size:1rem;
+  letter-spacing:.01em;
+}
+body[data-workspace-template="editorial-platform"] .workspace-context-bar #workspaceContextPurpose{
+  display:none;
+}
+body[data-workspace-template="editorial-platform"] .sidebar-toggle{
+  min-height:38px;
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:.76rem;
+}
+
+/* One column by default. Preview is an explicit mode, not half the product. */
+body[data-workspace-template="editorial-platform"] .editor-grid{
+  width:min(1120px,calc(100% - 32px));
+  margin:0 auto;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  min-height:auto!important;
+}
+body[data-workspace-template="editorial-platform"] .form-panel{
+  width:100%;
+  max-width:980px;
+  margin:0 auto;
+  padding:22px 0 44px!important;
+}
+body[data-workspace-template="editorial-platform"] .preview-panel{
+  display:none;
+}
+body[data-workspace-template="editorial-platform"] .editor-resizer{
+  display:none;
+}
+
+/* Editorial metadata is secondary information. Keep it available without
+   turning the first screen into a form dashboard. */
+body[data-workspace-template="editorial-platform"] .meta-grid{
+  gap:10px;
+}
+body[data-workspace-template="editorial-platform"] .meta-grid>label:not(.wide){
+  display:none;
+}
+body[data-workspace-template="editorial-platform"] .meta-grid>.wide:not(:first-child){
+  display:none;
+}
+body[data-workspace-template="editorial-platform"] .meta-grid>label:first-child{
+  margin:0 0 2px;
+}
+body[data-workspace-template="editorial-platform"] .meta-grid>label:first-child input{
+  min-height:48px;
+  font-size:1.05rem;
+}
+
+/* The writing surface gets the majority of the screen immediately. */
+body[data-workspace-template="editorial-platform"] .body-head{
+  margin-top:12px!important;
+  margin-bottom:7px!important;
+}
+body[data-workspace-template="editorial-platform"] .body-editor{
+  min-height:min(66vh,680px)!important;
+  border-radius:14px!important;
+  font-size:.95rem!important;
+  line-height:1.65!important;
+}
+body[data-workspace-template="editorial-platform"] .media-toolbar{
+  border-radius:10px;
+}
+
+/* Save/publish stays visible, but reads as one completion rail. */
+body[data-workspace-template="editorial-platform"] .editor-save-stage{
+  margin-top:12px;
+  border-top:1px solid rgba(255,255,255,.07);
+  padding-top:14px;
+}
+body[data-workspace-template="editorial-platform"] .editor-save-stage .editor-stage-copy small{
+  display:none;
+}
+
+/* The dashboard is a landing surface, not an analytics wall. */
+.lighthouse-dashboard{
+  width:min(980px,calc(100% - 32px));
+  margin:0 auto;
+}
+.lighthouse-dashboard .lighthouse-page-header{
+  padding-top:clamp(44px,9vh,100px);
+  border-bottom:0;
+  margin-bottom:24px;
+  text-align:center;
+}
+.lighthouse-dashboard .lighthouse-page-header .kicker{
+  letter-spacing:.18em;
+}
+.lighthouse-dashboard .lighthouse-page-header h1{
+  font-size:clamp(2rem,5vw,3.6rem);
+  margin-top:9px;
+}
+.lighthouse-current-work{
+  max-width:760px;
+  margin:0 auto;
+  padding:28px 30px;
+  border-radius:20px;
+}
+.lighthouse-current-work-copy .lighthouse-panel-kicker{
+  display:block;
+  margin-bottom:7px;
+}
+.lighthouse-current-work-copy h2{
+  font-size:clamp(1.25rem,2vw,1.7rem);
+}
+.lighthouse-current-work-copy p{
+  max-width:60ch;
+}
+.lighthouse-current-work .primary{
+  min-height:46px;
+  padding-inline:18px;
+}
+.lighthouse-dashboard .lighthouse-system-strip{
+  max-width:760px;
+  margin:14px auto 0;
+  opacity:.72;
+}
+
+/* Menu is the only persistent secondary navigation surface. */
+.lighthouse-menu-dialog .lighthouse-menu-nav>section:first-child button[data-shell-route="workspace"],
+.lighthouse-menu-dialog .lighthouse-menu-nav>section:first-child button[data-shell-route="dashboard"]{
+  min-height:48px;
+}
+.lighthouse-menu-dialog .lighthouse-menu-nav>section:first-child button[data-shell-route="workspace"],
+.lighthouse-menu-dialog .lighthouse-menu-nav>section:first-child button[data-shell-route="dashboard"]{
+  font-weight:700;
+}
+
+@media (max-width:719px){
+  body[data-workspace-template="editorial-platform"] .editor-grid{
+    width:100%;
+  }
+  body[data-workspace-template="editorial-platform"] .form-panel{
+    padding:14px 14px 30px!important;
+  }
+  body[data-workspace-template="editorial-platform"] .body-editor{
+    min-height:56vh!important;
+  }
+  .lighthouse-dashboard{
+    width:100%;
+    padding-inline:14px;
+  }
+  .lighthouse-dashboard .lighthouse-page-header{
+    padding-top:28px;
+  }
+  .lighthouse-current-work{
+    padding:22px 20px;
+  }
+}

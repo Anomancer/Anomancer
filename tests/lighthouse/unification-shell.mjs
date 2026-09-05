@@ -22,7 +22,7 @@ const packageManifest=json('mancers/toimituskone/manifest.json');
 const build=read('scripts/build-lighthouse.mjs');
 const adminRoute=read('server/admin-routes/core.js');
 
-assert.match(pkg.version,/^1\.32\./);
+assert.match(pkg.version,/^1\.35\./);
 assert.equal(lighthouseAppAllowed({VERCEL_ENV:'production'}),true);
 assert.equal(lighthouseLabAllowed({VERCEL_ENV:'preview'}),true);
 assert.equal(lighthouseAppAllowed({VERCEL_ENV:'production',ANOMANCER_LIGHTHOUSE_APP:'0'}),false);
@@ -58,7 +58,8 @@ assert.match(light,/Lighthouse → Mancer → Orkesteri → Agentti → Kyvykkyy
 assert.match(lightCss,/#160d23|#160d26|#241337|#654884/);
 
 assert.match(workbench,/aria-label="Lighthouse"[^>]*>.*<strong>Lighthouse<\/strong>/s);
-assert.match(workbench,/data-short-label="Mancerit">Mancerit<\/button>/);
+assert.doesNotMatch(workbench,/data-shell-route="workspaces"[^>]*>Mancerit/);
+assert.match(workbench,/Konepellin alla/);
 assert.match(workbench,/Mancer \/ työtila/);
 assert.match(workbench,/TYÖTILA \/ ANOMANCER/);
 assert.match(workbench,/Kirjaudu Lighthouseen/);
@@ -66,6 +67,7 @@ assert.match(workbenchCss,/#150c21|#4d2a6c|#8a61ab|#a982c8/);
 assert.match(workbench,/lighthouse-mark-48\.png/);
 assert.match(workbenchCss,/--lh-panel:/);
 assert.match(workbenchCss,/Lighthouse Workbench Visual Unification/);
+assert.match(workbenchCss,/body\[data-workspace-template=\"editorial-platform\"\] \.workspace-local-sidebar/);
 
 for(const page of [homeFi,homeEn])assert.match(page,/href="\/lighthouse\/login">Lighthouse<\/a>/);
 for(const page of [coreFi,coreEn]){
@@ -82,14 +84,14 @@ assert.match(adminRoute,/filter\(userVisiblePackage\)/);
 assert.match(adminRoute,/item\?\.manifest\?\.id!==['"]toimituskone['"]/);
 
 assert.match(build,/public['"],['"]lighthouse\.html|LIGHTHOUSE_HTML/);
-assert.match(build,/M3 · One Room, One Machine/);
+assert.match(build,/M5 · Workbench 2.0/);
 assert.match(build,/id:'anomancer'/);
 assert.match(build,/filter\(pkg=>pkg\.manifest\.id!==['"]toimituskone['"]\)/);
 
 if(fs.existsSync('public/lighthouse.html')){
   const built=read('public/lighthouse.html');
   assert.doesNotMatch(built,/__LIGHTHOUSE_BOOTSTRAP__/);
-  assert.match(built,/M3 · One Room, One Machine/);
+  assert.match(built,/M5 · Workbench 2.0/);
 }
 
 console.log('✓ Lighthouse 1.24 unification · routes, modes, taxonomy, privacy and compatibility boundary');

@@ -24,14 +24,20 @@ test('Edistyneet pinnat ovat edelleen progressiivisesti avattavia',()=>{
   assert.match(html,/id="depthInspector"/);
 });
 
+test('Workbench 2.0 tekee työstä yhden näkyvän pääpinnan',()=>{
+  const wb=read('lighthouse-workbench.css');
+  assert.match(wb,/body\[data-workspace-template=\"editorial-platform\"\] \.workspace-local-sidebar\{\s*display:none!important/);
+  assert.match(wb,/grid-template-columns:minmax\(0,1fr\)!important/);
+});
+
 test('Työpöytähandoff ei ole enää päätilan identiteetti',()=>{
   assert.match(css,/\.one-room-shell \.work-nav-modes a:first-child\{display:none\}/);
   assert.match(css,/\.one-room-shell \.work-nav-modes a\.workbench-handoff/);
 });
 
 test('Version ja milestone ovat One Room -linjassa',()=>{
-  assert.match(pkg.version,/^1\.33\./);
-  assert.match(build,/M3 · One Room, One Machine/);
+  assert.match(pkg.version,/^1\.35\./);
+  assert.match(build,/M5 · Workbench 2.0/);
 });
 
-console.log(`\n${passed}/4 ONE ROOM -testiä läpi.`);
+console.log(`\n${passed}/5 ONE ROOM -testiä läpi.`);
