@@ -15,7 +15,7 @@ const css=readAdminCss();
 const worker=read('lighthouse-sw.js');
 
 await test('16.8.1 kyvykkyydet toimitetaan 16.8.4 full releasessa',()=>{
-  assert.match(pkg.version,/^1\.26\./);
+  assert.match(pkg.version,/^1\.34\./);
   const releaseVersion=pkg.version.match(/^(\d+\.\d+\.\d+)/)?.[1];
   assert.ok(releaseVersion,'package semver missing');
   const cacheVersionPattern=new RegExp(`anomancer-lighthouse-v${releaseVersion.replace(/\./g,'\\.')}-[a-z0-9]+`);

@@ -49,12 +49,15 @@
       <button type="button" data-shell-route="archive" data-short-label="Arkisto"><b aria-hidden="true">□</b><strong>Arkisto</strong></button>
     </section>
     <section class="lighthouse-menu-workspace-tools" id="lighthouseWorkspaceTools" hidden><span>NYKYISEN TYÖN TYÖKALUT</span><div id="lighthouseWorkspaceToolsNav"></div></section>
-    <section><span>KONEHUONE</span>
-      <button type="button" data-shell-route="runs"><b aria-hidden="true">◷</b><strong>Ajot</strong></button>
-      <button type="button" data-shell-route="machine" data-machine-anchor="agents"><b aria-hidden="true">◉</b><strong>Agentit</strong></button>
-      <button type="button" data-shell-route="machine" data-machine-anchor="orchestras"><b aria-hidden="true">⌘</b><strong>Orkesterit</strong></button>
-      <button type="button" data-shell-route="machine" data-short-label="Kone"><b aria-hidden="true">◇</b><strong>Konehuone</strong></button>
-    </section>
+    <details class="lighthouse-menu-advanced">
+      <summary>Konepellin alla</summary>
+      <div class="lighthouse-menu-advanced-body">
+        <button type="button" data-shell-route="runs"><b aria-hidden="true">◷</b><strong>Ajot</strong></button>
+        <button type="button" data-shell-route="machine" data-machine-anchor="agents"><b aria-hidden="true">◉</b><strong>Agentit</strong></button>
+        <button type="button" data-shell-route="machine" data-machine-anchor="orchestras"><b aria-hidden="true">⌘</b><strong>Orkesterit</strong></button>
+        <button type="button" data-shell-route="machine" data-short-label="Kone"><b aria-hidden="true">◇</b><strong>Konehuone</strong></button>
+      </div>
+    </details>
     <section><span>JULKAISU</span>
       <button type="button" data-shell-route="publications"><b aria-hidden="true">♨</b><strong>Julkaisut</strong></button>
     </section>
@@ -94,7 +97,7 @@
 </section>
 <section class="core-surface" id="coreSurface" hidden>
   <section class="core-surface-view lighthouse-dashboard" data-shell-view="dashboard" hidden>
-    <header class="core-surface-head lighthouse-page-header"><div><p class="kicker">LIGHTHOUSE</p><h1>Työpöytä</h1><p>Jatka nykyistä työtä tai siirry suoraan seuraavaan olennaiseen näkymään.</p></div></header>
+    <header class="core-surface-head lighthouse-page-header"><div><p class="kicker">LIGHTHOUSE</p><h1>Työpöytä</h1><p>Yksi työ, yksi näkymä. Kaikki muu avautuu vasta kun sitä tarvitaan.</p></div></header>
     <section class="lighthouse-current-work lighthouse-panel" aria-labelledby="dashboardCurrentTitle">
       <div class="lighthouse-current-work-copy"><span class="lighthouse-panel-kicker">NYKYINEN TYÖ</span><h2 id="dashboardCurrentTitle">Työtila valmis</h2><p id="dashboardCurrentMeta">Valitse työ tai jatka nykyiseen työtilaan.</p></div>
       <button class="primary" type="button" data-dashboard-action="workspace">Jatka työtä</button>

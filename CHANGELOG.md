@@ -1,3 +1,11 @@
+## 1.34.0 · Workbench UX Reset
+
+- Make the authenticated Lighthouse workbench the primary surface.
+- Reduce persistent header controls to task identity and save state.
+- Move machine-room navigation under an explicit “Konepellin alla” disclosure.
+- Remove the dashboard card wall from the primary work path while retaining its data/services.
+- Keep legacy machine, Mancer, orchestration and archive routes reachable without making them compete with the active task.
+
 ## 1.33.0 · Production Hardening
 
 - Added bounded runtime recovery, checkpoint envelopes, deterministic idempotency keys, failure classification, and tamper-evident audit chains.

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'anomancer-lighthouse-v1.26.4-functional-theme-closure';
+const CACHE_NAME = 'anomancer-lighthouse-v1.34.0-workbench-ux-reset';
 const APP_PATH = '/lighthouse/workbench';
 const SHELL_URLS = [
   APP_PATH,

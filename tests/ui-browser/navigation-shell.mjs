@@ -15,8 +15,8 @@ const build=read('scripts/build-blog.mjs');
 const worker=read('lighthouse-sw.js');
 const installer=read('INSTALL_TO_CURRENT.sh');
 
-await test('Core ja paketti rakentavat 16.8.4:n 16.7 Navigation Shell -arkkitehtuurille',()=>{
-  assert.match(pkg.version,/^1\.26\./);
+await test('Core ja paketti rakentavat nykyisen Navigation Shell -arkkitehtuurin',()=>{
+  assert.match(pkg.version,/^1\.34\./);
   assert.equal(CORE_VERSION,'1.18.7');
   assert.match(html,/aria-label="Lighthouse"[^>]*>.*<strong>Lighthouse<\/strong>/s);
   assert.doesNotMatch(html,/<small>Työpöytä<\/small>/);

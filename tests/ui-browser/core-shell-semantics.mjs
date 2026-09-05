@@ -16,7 +16,7 @@ const workspaces=read('admin-workspaces.js');
 const worker=read('lighthouse-sw.js');
 
 await test('Julkaisu ja Core ovat 16.8.4',()=>{
-  assert.match(pkg.version,/^1\.26\./);
+  assert.match(pkg.version,/^1\.34\./);
   assert.equal(CORE_VERSION,'1.18.7');
   const releaseVersion=pkg.version.match(/^(\d+\.\d+\.\d+)/)?.[1];
   assert.ok(releaseVersion,'package semver missing');

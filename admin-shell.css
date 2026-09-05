@@ -301,3 +301,47 @@ body[data-workspace-template="blank-private"] .workspace-save-indicator{display:
 .admin-boot-card button{min-height:44px;margin-top:12px}
 /* Workspace cards use resilient deep links; JS enhances them without removing the fallback. */
 .workspace-open-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border:1px solid var(--color-border-control);border-radius:8px;color:var(--color-text-strong);font-weight:800;text-decoration:none}.workspace-open-link:hover{border-color:#666673}.workspace-open-link.ghost{background:transparent}
+
+
+/* v1.34 · WORKBENCH UX RESET
+   One room means the working surface stays primary. Secondary system anatomy
+   remains reachable, but no longer competes with the user's task. */
+.lighthouse-menu-dialog .lighthouse-menu-advanced{
+  margin-top:8px;
+  border-top:1px solid rgba(255,255,255,.07);
+  padding-top:8px;
+}
+.lighthouse-menu-dialog .lighthouse-menu-advanced summary{
+  list-style:none;
+  cursor:pointer;
+  padding:10px 12px;
+  border-radius:9px;
+  color:#8f8995;
+  font-size:var(--font-size-meta);
+  font-weight:800;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.lighthouse-menu-dialog .lighthouse-menu-advanced summary::-webkit-details-marker{display:none}
+.lighthouse-menu-dialog .lighthouse-menu-advanced summary::after{content:'＋';float:right;color:#6f6975}
+.lighthouse-menu-dialog .lighthouse-menu-advanced[open] summary::after{content:'−'}
+.lighthouse-menu-dialog .lighthouse-menu-advanced-body{display:grid;gap:4px;margin-top:4px}
+.lighthouse-menu-dialog .lighthouse-menu-advanced-body button{width:100%}
+
+/* The editor already keeps the live workspace in the center. Do not spend
+   its header on controls that are rarely changed. The selectors remain in
+   the DOM for JS/API compatibility and are available through the menu. */
+.workspace-context-actions .workspace-switcher{display:none}
+.workspace-context-actions .workspace-save-indicator{margin-left:auto}
+.workspace-context-bar{grid-template-columns:minmax(0,1fr) auto}
+.workspace-context-bar .editor-title{min-width:0}
+.workspace-context-bar .editor-title>div{min-width:0}
+.workspace-context-bar #editingLabel{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Dashboard becomes a continuation point, not an application launcher wall. */
+.lighthouse-dashboard .lighthouse-dashboard-grid{display:none}
+.lighthouse-dashboard .lighthouse-system-strip{margin-top:12px}
+
+/* The machine is still available, but visually subordinate to the work. */
+body[data-shell-surface="workspace"] .workspace{background:var(--bg)}
+body[data-shell-surface="workspace"] .workspace-content{padding-bottom:34px}
