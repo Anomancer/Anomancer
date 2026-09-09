@@ -47,14 +47,6 @@ Kesä on toinen juttu. Jos järjestelmään ei ole rakennettu minkäänlaista vu
 
 Ilmalämpöpumppu on energiatehokkaampi tapa lämmittää, koska se siirtää ulkoilman lämpöä sisään eikä keksi sitä vastuksella. Sillä on kuitenkin yksi kohtalokas heikkous: se ei osaa ajaa paikallista kielimallia. Siinä kohtaa optimointifunktio vaihtuu.
 
-| Muuttuja | Voittaja |
-|---|---|
-| Energiatehokkuus | Ilmalämpöpumppu |
-| Laskentateho ja paikallinen tekoäly | GPU-farmi |
-| Datan ja mallien omistus | GPU-farmi |
-| Olohuoneen lämpötila | riippuu kuormasta |
-| Järjenmukaisuus | ei määritelty |
-
 ## Hetkinen: tämä on jo tehty
 
 Kirjoitin koko ajatuksen puhtaana absurdismina. Sitten huomasin, ettei idea ole edes uusi. Julkisuudessa on kuvattu palvelinratkaisuja, joissa laskenta on rakennettu osaksi lämmitystä: palvelimia on upotettu lämmityskattiloihin, vedenlämmittimiin ja rakennusten lämmitysjärjestelmiin. Ranskalainen Qarnot on upottanut palvelimia boileriratkaisuihin, ja brittiläinen Heata puolestaan myy laitteita, joissa palvelin lämmittää käyttövesivaraajaa. Joissakin malleissa yritys jopa maksaa sähkön itse, koska sen liiketoiminta on laskentatehossa, ei lämmössä.
