@@ -2,8 +2,8 @@
   "format": "anomancer-run-store/v2",
   "coreVersion": "1.18.7",
   "workspaceId": "default",
-  "revision": 11,
-  "updatedAt": "2026-09-09T14:58:41.931Z",
+  "revision": 12,
+  "updatedAt": "2026-09-09T17:46:02.894Z",
   "chainHead": "6721808f60970e00f01c657935d2c026fa523e24ce3fd51331aab61e60e07969",
   "runs": [
     {
@@ -2077,6 +2077,138 @@
       "previousRunHash": "4e4f31f763d23bdf6c3d8af7ea17f8bdd5ff42e80b97adb0e6c282847dbba64c",
       "runHash": "6721808f60970e00f01c657935d2c026fa523e24ce3fd51331aab61e60e07969",
       "counted": true
+    },
+    {
+      "format": "anomancer-run-record/v2",
+      "coreVersion": "1.18.7",
+      "workspaceId": "default",
+      "id": "751fe0ee-cdef-45ba-9494-765bbd6a27ca",
+      "orchestraRunId": "751fe0ee-cdef-45ba-9494-765bbd6a27ca",
+      "orchestra": {
+        "id": "editorial",
+        "name": "Anomancer Editorial",
+        "orchestraHash": "4ea599224d820827847b72ceb3f97b88c710c0756d78afc4fcc8ae360a254656"
+      },
+      "status": "checkpoint",
+      "humanApproval": {
+        "required": true,
+        "status": "pending",
+        "appliedAt": ""
+      },
+      "startedAt": "2026-09-09T17:42:00.687Z",
+      "finishedAt": "",
+      "updatedAt": "2026-09-09T17:46:02.894Z",
+      "degradedStages": [],
+      "disabledStages": [],
+      "error": {
+        "code": "DEEPSEEK_JSON",
+        "message": "DeepSeek-vastaus ei ollut kelvollista JSONia."
+      },
+      "receipts": [
+        {
+          "format": "anomancer-run-receipt/v1",
+          "id": "run-ff9789e41f4674e4ea90",
+          "workspaceId": "default",
+          "orchestraRunId": "751fe0ee-cdef-45ba-9494-765bbd6a27ca",
+          "stageIndex": 0,
+          "agent": {
+            "id": "source",
+            "label": "Lähdeagentti",
+            "version": "1.0.0",
+            "contractHash": "e7ab9b185c2b2518e01247098029b0adc172fe68c734900df10ceab910a618c4",
+            "role": "research-source-scout"
+          },
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "route": "research",
+            "target": "deepseek.research"
+          },
+          "routing": {
+            "route": "research",
+            "requestedTarget": "deepseek.research",
+            "selectedTarget": "deepseek.research",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "fallbackUsed": false,
+            "attempts": [
+              {
+                "targetId": "deepseek.research",
+                "provider": "deepseek",
+                "model": "deepseek-v4-flash",
+                "status": "ok"
+              }
+            ]
+          },
+          "runtime": {
+            "active": true,
+            "maxOutputTokens": 25000,
+            "modelTarget": "deepseek.research"
+          },
+          "usage": {
+            "inputTokens": 116530,
+            "outputTokens": 6234,
+            "totalTokens": 122764,
+            "reasoningTokens": 3093,
+            "maxOutputTokens": 25000,
+            "costEuro": null
+          },
+          "tools": [
+            "web.search"
+          ],
+          "toolPolicy": [
+            {
+              "format": "anomancer-tool-policy/v1",
+              "decisionId": "policy-f577ef4fc743ce508e29",
+              "policyHash": "31dea296182a34ded03f09629e58d3d69c1775a0f18ea5da850bf29398f58964",
+              "agentId": "source",
+              "toolId": "web.search",
+              "outcome": "allow",
+              "reason": "CONTRACT_ALLOW",
+              "risk": "medium",
+              "kind": "external-read",
+              "decidedAt": "2026-09-09T17:42:01.508Z",
+              "requestContext": {
+                "workspaceId": "default",
+                "orchestraRunId": "751fe0ee-cdef-45ba-9494-765bbd6a27ca",
+                "stageIndex": 0
+              }
+            }
+          ],
+          "status": "completed",
+          "inputHash": "76d4f5a02b8ef86116b93484398ca5634fde54aa1bf9fece0757000e66347b6c",
+          "outputHash": "6e341d1a06a4e791cbb8ab182debb7c545567b35354199607521f2eaf751a89b",
+          "startedAt": "2026-09-09T17:42:01.508Z",
+          "finishedAt": "2026-09-09T17:43:13.907Z",
+          "durationMs": 72399,
+          "humanApprovalRequired": true
+        }
+      ],
+      "usage": {
+        "runs": 0,
+        "inputTokens": 116530,
+        "outputTokens": 6234,
+        "totalTokens": 122764,
+        "reasoningTokens": 3093,
+        "durationMs": 72399,
+        "estimatedCostEuro": 0,
+        "pricedReceipts": 0,
+        "fallbacks": 0,
+        "toolAllows": 1,
+        "toolDenies": 0,
+        "toolHumanRequired": 0,
+        "providers": {
+          "deepseek": 122764
+        },
+        "agents": {
+          "source": 122764
+        },
+        "orchestras": {}
+      },
+      "receiptCount": 1,
+      "previousRunHash": "",
+      "runHash": "",
+      "counted": false
     }
   ],
   "lifetime": {
