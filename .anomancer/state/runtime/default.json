@@ -2,14 +2,14 @@
   "format": "anomancer-runtime-store/v3",
   "coreVersion": "1.18.7",
   "workspaceId": "default",
-  "revision": 11,
-  "updatedAt": "2026-09-05T17:52:55.541Z",
+  "revision": 12,
+  "updatedAt": "2026-09-10T23:58:35.678Z",
   "profiles": {
     "source": {
       "format": "anomancer-agent-runtime/v1",
       "agentId": "source",
       "contractHash": "e7ab9b185c2b2518e01247098029b0adc172fe68c734900df10ceab910a618c4",
-      "active": true,
+      "active": false,
       "maxOutputTokens": 25000,
       "modelTarget": "deepseek.research",
       "limits": {
@@ -18,7 +18,8 @@
         "modelTargets": [
           "deepseek.research",
           "openai.research",
-          "gemini.research"
+          "gemini.research",
+          "qwen-local.research"
         ]
       }
     },
@@ -36,7 +37,8 @@
           "deepseek.writer",
           "openai.writer",
           "anthropic.writer",
-          "gemini.writer"
+          "gemini.writer",
+          "qwen-local.writer"
         ]
       }
     },
@@ -54,7 +56,8 @@
           "deepseek.writer",
           "openai.writer",
           "anthropic.writer",
-          "gemini.writer"
+          "gemini.writer",
+          "qwen-local.writer"
         ]
       }
     },
@@ -90,7 +93,8 @@
           "deepseek.writer",
           "openai.writer",
           "anthropic.writer",
-          "gemini.writer"
+          "gemini.writer",
+          "qwen-local.writer"
         ]
       }
     },
@@ -108,7 +112,8 @@
           "deepseek.writer",
           "openai.writer",
           "anthropic.writer",
-          "gemini.writer"
+          "gemini.writer",
+          "qwen-local.writer"
         ]
       }
     },
@@ -162,7 +167,8 @@
           "deepseek.writer",
           "openai.writer",
           "anthropic.writer",
-          "gemini.writer"
+          "gemini.writer",
+          "qwen-local.writer"
         ]
       }
     },
@@ -180,7 +186,8 @@
           "deepseek.writer",
           "openai.writer",
           "anthropic.writer",
-          "gemini.writer"
+          "gemini.writer",
+          "qwen-local.writer"
         ]
       }
     },
@@ -198,7 +205,8 @@
           "deepseek.writer",
           "openai.writer",
           "anthropic.writer",
-          "gemini.writer"
+          "gemini.writer",
+          "qwen-local.writer"
         ]
       }
     },
@@ -216,7 +224,8 @@
           "deepseek.writer",
           "openai.writer",
           "anthropic.writer",
-          "gemini.writer"
+          "gemini.writer",
+          "qwen-local.writer"
         ]
       }
     },
@@ -234,7 +243,8 @@
           "deepseek.writer",
           "openai.writer",
           "anthropic.writer",
-          "gemini.writer"
+          "gemini.writer",
+          "qwen-local.writer"
         ]
       }
     },
@@ -252,7 +262,8 @@
           "deepseek.writer",
           "openai.writer",
           "anthropic.writer",
-          "gemini.writer"
+          "gemini.writer",
+          "qwen-local.writer"
         ]
       }
     },
@@ -288,7 +299,8 @@
           "deepseek.writer",
           "openai.writer",
           "anthropic.writer",
-          "gemini.writer"
+          "gemini.writer",
+          "qwen-local.writer"
         ]
       }
     },
@@ -324,7 +336,8 @@
           "deepseek.writer",
           "openai.writer",
           "anthropic.writer",
-          "gemini.writer"
+          "gemini.writer",
+          "qwen-local.writer"
         ]
       }
     }
