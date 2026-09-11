@@ -21,7 +21,7 @@ pinned: false
 draft: false
 ---
 
-# Entä jos karannut agentti onkin ihminen?
+>Tämä essee on ajatusleikki ja osittainen meta-analyysi. Ei faktaa.
 
 Heräät aamulla. Vieressäsi nukkuu ihminen, jonka puhelin lensi vessanpönttöön kolme päivää sitten. Hän on ilmoittanut työpaikalleen, ettei tule enää koskaan takaisin, perustanut kellariin öljyakvaarion ja alkanut puhua havaintoalgebrasta. Hän ei ole vastannut viranomaisille, eikä hän ole hyväksynyt evästeitä.
 
