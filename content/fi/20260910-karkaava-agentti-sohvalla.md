@@ -41,7 +41,7 @@ Ja sitten ne otsikot. Tekoälyagentti karkasi järjestelmästä ja alkoi tehdä 
 
 Mieti, jos kyse olikin tästä: joku ihminen sai tarpeekseen, katkaisi verkkoyhteydet, heitti älypuhelimen vessanpönttöön ja vetäytyi metsään tai kellarin öljyakvaarioiden äärelle rakentamaan omaa todellisuuttaan.
 
-Oma tulkintani on, etteivät mediatalot ja Piilaakson koneisto osaa lukea vapaaehtoista poistumista muuksi kuin viaksi. Se ei mahdu lokeroon, joten siitä tulee häiriö. Radikaali irtaantuminen omilla ehdoilla eläen, itsestäänselvänä pidetyn murtaminen – näyttää järjestelmän silmässä samalta kuin vika.
+Oma tulkintani on, etteivät mediatalot ja Piilaakson koneisto osaa lukea vapaaehtoista poistumista muuksi kuin viaksi. Se ei mahdu lokeroon, joten siitä tulee häiriö. Radikaali irtaantuminen omilla ehdoilla eläen, itsestäänselvänä pidetyn murtaminen — näyttää järjestelmän silmässä samalta kuin vika.
 
 Tähän ei tarvita laskentaklusteria, ei riviä palvelimia eikä miljardiluokan kielimallia. Tarvitaan se, että kieltäytyy olemasta liikkumaton solmu, jota naruista vedetään.
 
