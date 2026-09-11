@@ -1,5 +1,5 @@
 ---
-title: "Karkaava agentti voi istua sohvalla"
+title: "Karkaava agentti voi istua jo sohvalla"
 date: "2026-09-10"
 category: "creativity-tools"
 audience: ["all"]
@@ -21,7 +21,7 @@ pinned: false
 draft: false
 ---
 
-# Karkaava agentti voi istua sohvalla
+# Karkaava agentti voi istua jo sohvalla
 
 Puhelin taskussa on majakka; biometrinen ja paikallinen, joka tietää, missä seisot, miltä näytät ja kuinka kauan pidättelet ennen seuraavaa skrollausta. Peukalo ruudulla, katse ruudussa, pieni viive ennen liikettä. Ihminen sohvalla on liikkumaton solmu.
 
