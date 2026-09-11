@@ -85,4 +85,4 @@ Kaiken tämän alla on kuitenkin kysymys, jota kukaan ei jaksa pitää esillä: 
 
 Ja lopuksi takaisin siihen, mistä aloitettiin. Kun kansalaisen kyky käsitellä järjestelmää kasvaa nopeammin kuin järjestelmän kyky käsitellä kansalaista, hallinto muuttuu. Mihin suuntaan, sitä ei ratkaise teknologia vaan se, kenellä on valta päättää ehdoista. Vanha oletus siitä, että kansalainen on aina järjestelmän hitain ja heikoin osapuoli, alkaa murentua.
 
-Ja se on jo itsessään jo melkoinen ontologinen pizzauuni.
+Ja se on jo itsessään melkoinen ontologinen pizzauuni.
