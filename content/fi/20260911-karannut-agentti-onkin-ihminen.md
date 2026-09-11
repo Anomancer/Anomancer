@@ -11,7 +11,7 @@ translationKey: "enta-jos-karannut-agentti-nukkuukin-jo-vieressasi"
 aliases: []
 coverImage: ""
 coverAlt: ""
-answer: "Nykyisessä rungossa ei ole yhtään verified-lähdettä eikä DRAFT CONTEXTissa ole sources-listaa. Siksi yhtäkään väitettä ei voi merkitä supported-tilaan. Teksti rakentuu pääosin tulkinnasta, metaforasta ja normatiivisista ehdotuksista. Faktapremissit – erityisesti muistikuva lausuntopyynnöstä ja tietojen luovuttamisesta vakavan väkivallan uhkan arviointiin sekä historian vertaus kirjoitukseen, painokoneeseen ja internetiin – jäävät open-tilaan ja kaipaavat ihmistarkistusta."
+answer: ""
 sources: []
 claims: []
 citationMode: "inline"
