@@ -233,11 +233,12 @@ try{
 
   await phone.locator('#moreDepthButton').click();
   assert.equal(await phone.locator('#moreDepthMenu').isVisible(),true);
-  await phone.locator('#moreDepthMenu [data-depth-target="trustDetails"]').click();
+  await phone.locator('#moreDepthMenu [data-depth-target="machineDetails"]').click();
   assert.equal(await phone.locator('#depthInspector').isVisible(),true);
   assert.equal(await phone.locator('#resultCard').isVisible(),false);
   assert.equal(await phone.locator('#depthInspector').getAttribute('aria-modal'),null);
-  assert.deepEqual(violations(await axe(phone)),[],'mobile D2 accessibility');
+  assert.match(await phone.locator('#depthInspectorTitle').textContent(),/Konehuone/);
+  assert.deepEqual(violations(await axe(phone)),[],'mobile D5 accessibility');
 
   await phone.locator('#depthBack').click();
   assert.equal(await phone.locator('#resultCard').isVisible(),true);
@@ -248,13 +249,6 @@ try{
     await phone.evaluate(()=>document.activeElement?.id||''),
     'moreDepthButton'
   );
-
-  await phone.locator('#moreDepthButton').click();
-  assert.equal(await phone.locator('#moreDepthMenu').isVisible(),true);
-  await phone.locator('#moreDepthMenu [data-depth-target="machineDetails"]').click();
-  assert.equal(await phone.locator('#depthInspector').isVisible(),true);
-  assert.match(await phone.locator('#depthInspectorTitle').textContent(),/Konehuone/);
-  await phone.locator('#depthBack').click();
 
   const controlHeights=await phone.evaluate(()=>[...document.querySelectorAll('button,input,textarea,select')]
     .filter(node=>{
