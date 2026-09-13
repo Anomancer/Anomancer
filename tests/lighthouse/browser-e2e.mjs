@@ -231,8 +231,9 @@ try{
   assert.ok(width.scroll-width.inner<=1,`Mobiili vuotaa vaakasuunnassa: ${JSON.stringify(width)}`);
   assert.equal(await phone.locator('#statePill').evaluate(node=>getComputedStyle(node).display),'none');
 
-  const depthButton=phone.locator('#mobileDepthNav [data-depth-target="trustDetails"]');
-  await depthButton.click();
+  await phone.locator('#moreDepthButton').click();
+  assert.equal(await phone.locator('#moreDepthMenu').isVisible(),true);
+  await phone.locator('#moreDepthMenu [data-depth-target="trustDetails"]').click();
   assert.equal(await phone.locator('#depthInspector').isVisible(),true);
   assert.equal(await phone.locator('#resultCard').isVisible(),false);
   assert.equal(await phone.locator('#depthInspector').getAttribute('aria-modal'),null);
@@ -241,11 +242,11 @@ try{
   await phone.locator('#depthBack').click();
   assert.equal(await phone.locator('#resultCard').isVisible(),true);
   await phone.waitForFunction(
-    ()=>document.activeElement?.dataset?.depthTarget==='trustDetails'
+    ()=>document.activeElement?.id==='moreDepthButton'
   );
   assert.equal(
-    await phone.evaluate(()=>document.activeElement?.dataset?.depthTarget||''),
-    'trustDetails'
+    await phone.evaluate(()=>document.activeElement?.id||''),
+    'moreDepthButton'
   );
 
   await phone.locator('#moreDepthButton').click();
