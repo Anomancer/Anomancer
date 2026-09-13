@@ -37,28 +37,44 @@
 <div class="app" hidden="" id="appView">
 <header class="core-shell lighthouse-app-header" id="coreShell">
   <a class="core-shell-brand lighthouse-home-link" id="lighthouseHomeLink" href="/lighthouse/workbench?view=dashboard" aria-label="Lighthouse" title="Avaa Työpöytä"><span class="core-shell-mark"><img src="/lighthouse/assets/lighthouse-mark-48.png" alt="" aria-hidden="true"></span><strong>Lighthouse</strong></a>
+  <nav class="lighthouse-depth-nav" aria-label="Lighthouse syvyysnavigaatio">
+    <div class="lighthouse-depth-group" data-depth-group="surface">
+      <span class="lighthouse-depth-label">SURFACE</span>
+      <button type="button" data-shell-route="dashboard">Työpöytä</button>
+      <button type="button" data-shell-route="workspace">Työ</button>
+      <button type="button" data-shell-route="runs">Ajot</button>
+    </div>
+    <div class="lighthouse-depth-group" data-depth-group="workshop">
+      <span class="lighthouse-depth-label">WORKSHOP</span>
+      <button type="button" data-shell-route="workspaces">Mancerit</button>
+      <button type="button" data-shell-route="machine" data-machine-anchor="agents">Agentit</button>
+      <button type="button" data-shell-route="machine" data-machine-anchor="orchestras">Orkesterit</button>
+    </div>
+    <div class="lighthouse-depth-group lighthouse-depth-group-machine" data-depth-group="machine">
+      <span class="lighthouse-depth-label">MACHINE ROOM</span>
+      <button type="button" data-shell-route="machine">Konehuone</button>
+    </div>
+  </nav>
   <button class="lighthouse-menu-trigger" id="lighthouseMenuButton" type="button" aria-haspopup="dialog" aria-controls="lighthouseMenuDialog" aria-expanded="false">Valikko <span aria-hidden="true">☰</span></button>
 </header>
 <dialog class="lighthouse-menu-dialog" id="lighthouseMenuDialog" aria-labelledby="lighthouseMenuTitle">
   <div class="lighthouse-menu-head"><strong id="lighthouseMenuTitle">VALIKKO</strong><button class="lighthouse-menu-close" id="lighthouseMenuClose" type="button" aria-label="Sulje valikko">×</button></div>
-  <nav class="lighthouse-menu-nav" aria-label="Lighthouse Työpöydän päänavigaatio">
-    <section><span>TYÖ</span>
-      <button type="button" data-shell-route="dashboard"><b aria-hidden="true">⌂</b><strong>Työpöytä</strong></button>
-      <button type="button" data-shell-route="workspace" data-short-label="Työ"><b aria-hidden="true">▤</b><strong>Nykyinen työ</strong></button>
-            <button type="button" data-shell-route="archive" data-short-label="Arkisto"><b aria-hidden="true">□</b><strong>Arkisto</strong></button>
+  <nav class="lighthouse-menu-nav" aria-label="Lighthouse syvyysnavigaatio">
+    <section data-menu-depth="surface"><span>SURFACE</span>
+      <button type="button" data-shell-route="dashboard"><b aria-hidden="true">⌂</b><strong>Työpöytä</strong><small>Yleiskuva ja nykyinen työ</small></button>
+      <button type="button" data-shell-route="workspace" data-short-label="Työ"><b aria-hidden="true">▤</b><strong>Työ</strong><small>Työskentele nykyisessä Mancerissa</small></button>
+      <button type="button" data-shell-route="runs"><b aria-hidden="true">◷</b><strong>Ajot</strong><small>Suoritukset ja kuitit</small></button>
+      <button type="button" data-shell-route="publications"><b aria-hidden="true">♨</b><strong>Julkaisut</strong><small>Valmiit ja luonnokset</small></button>
+      <button type="button" data-shell-route="archive" data-short-label="Arkisto"><b aria-hidden="true">□</b><strong>Arkisto</strong><small>Pysyvät artefaktit ja muisti</small></button>
     </section>
-    <section class="lighthouse-menu-workspace-tools" id="lighthouseWorkspaceTools" hidden><span>NYKYISEN TYÖN TYÖKALUT</span><div id="lighthouseWorkspaceToolsNav"></div></section>
-    <details class="lighthouse-menu-advanced">
-      <summary>Konepellin alla</summary>
-      <div class="lighthouse-menu-advanced-body">
-        <button type="button" data-shell-route="runs"><b aria-hidden="true">◷</b><strong>Ajot</strong></button>
-        <button type="button" data-shell-route="machine" data-machine-anchor="agents"><b aria-hidden="true">◉</b><strong>Agentit</strong></button>
-        <button type="button" data-shell-route="machine" data-machine-anchor="orchestras"><b aria-hidden="true">⌘</b><strong>Orkesterit</strong></button>
-        <button type="button" data-shell-route="machine" data-short-label="Kone"><b aria-hidden="true">◇</b><strong>Konehuone</strong></button>
-      </div>
-    </details>
-    <section><span>JULKAISU</span>
-      <button type="button" data-shell-route="publications"><b aria-hidden="true">♨</b><strong>Julkaisut</strong></button>
+    <section data-menu-depth="workshop"><span>WORKSHOP</span>
+      <button type="button" data-shell-route="workspaces"><b aria-hidden="true">◇</b><strong>Mancerit</strong><small>Domain-paketit ja työtilat</small></button>
+      <button type="button" data-shell-route="machine" data-machine-anchor="agents"><b aria-hidden="true">◉</b><strong>Agentit</strong><small>Agentit ja ajoprofiilit</small></button>
+      <button type="button" data-shell-route="machine" data-machine-anchor="orchestras"><b aria-hidden="true">⌘</b><strong>Orkesterit</strong><small>Työketjut ja sopimukset</small></button>
+      <section class="lighthouse-menu-workspace-tools" id="lighthouseWorkspaceTools" hidden><span>NYKYISEN TYÖN TYÖKALUT</span><div id="lighthouseWorkspaceToolsNav"></div></section>
+    </section>
+    <section data-menu-depth="machine"><span>MACHINE ROOM</span>
+      <button type="button" data-shell-route="machine" data-short-label="Kone"><b aria-hidden="true">⚙</b><strong>Konehuone</strong><small>Runtime, käytännöt ja diagnostiikka</small></button>
     </section>
     <section class="lighthouse-menu-settings">
       <button class="core-settings-button" id="coreSettingsButton" type="button" data-shell-route="settings"><b aria-hidden="true">⚙</b><strong>Asetukset</strong></button>
@@ -147,6 +163,16 @@
   </section>
   <section class="core-surface-view" data-shell-view="machine" hidden>
     <header class="core-surface-head lighthouse-page-header"><div><p class="kicker">LIGHTHOUSE / KONEHUONE</p><h1 id="coreShellMachineTitle">Konehuone</h1><p>Järjestelmän tila ja tekninen näkymä.</p></div></header>
+    <nav class="machine-room-nav" aria-label="Konehuoneen navigaatio">
+      <span class="machine-room-nav-label">KONEHUONE</span>
+      <button type="button" data-machine-anchor="runtime">Runtime</button>
+      <button type="button" data-machine-anchor="workspace">Työtilat</button>
+      <button type="button" data-machine-anchor="agents">Agentit</button>
+      <button type="button" data-machine-anchor="policies">Käytännöt</button>
+      <button type="button" data-machine-anchor="models">Mallit</button>
+      <button type="button" data-machine-anchor="orchestras">Orkesterit</button>
+      <button type="button" data-machine-anchor="runs">Ajot</button>
+    </nav>
     <details class="core-secondary-disclosure nanomancer-disclosure"><summary><span>Nanomancer</span><small>deterministinen analyysimikroskooppi</small></summary><section class="nanomancer-lab" id="nanomancerLab" aria-labelledby="nanomancerTitle">
       <header class="nanomancer-head"><div><p class="kicker">KYVYKKYYSPLUGIN / NANOMANCER</p><h2 id="nanomancerTitle">Analyysimikroskooppi</h2><p>Vertaa arkisto-objekteja, saman työtilan ajoja tai rakenteista JSON-dataa. Nanomancer on deterministinen ja vain luku: se ei käytä kielimallia eikä kirjoita tulosta takaisin ilman ihmisen erillistä hyväksyntää.</p></div><span class="nanomancer-readonly">VAIN LUKU</span></header>
       <div class="nanomancer-contract" id="nanomancerContract"><span>Kyvykkyysrekisteriä ladataan…</span></div>
@@ -381,7 +407,7 @@
 </section>
 </section>
 <section aria-labelledby="coreShellMachineTitle" class="core-panel" hidden id="corePanel">
-<div class="core-hero">
+<div class="core-hero" id="coreMachineRuntime">
 <div><p class="kicker">CORE / KONEHUONE</p><h3>Agenttien ohjaustaso</h3><p><strong id="workspaceBadge">Anomancer</strong> · <span id="workspaceTypeBadge">Anomancer</span> · Työtilatyyppi, perustuslakisopimus, orkesterit, ajoprofiilit, ajot ja aineistoraja vaihtuvat yhtenä kontekstina.</p></div>
 </div>
 <div class="core-metrics">
@@ -392,12 +418,12 @@
 <article><span>Tulostokenit</span><strong id="coreOutputCount">0</strong></article>
 <article><span>Käytäntötarkistukset</span><strong id="corePolicyCount">0</strong></article><article><span>Ajoketju</span><strong data-state="ok" id="coreLedgerState">KETJU OK</strong></article>
 </div>
-<details class="core-machine-disclosure"><summary><span>Työtilat ja rajat</span><small>konteksti · perustuslaki · aineistoraja</small></summary><section class="core-section core-workspace-section"><div class="core-section-head"><div><p class="kicker">TYÖTILAREKISTERI</p><h4>Työtilat + sopimusraja</h4></div><div class="core-section-actions"><span id="coreWorkspaceState">ladataan…</span><button class="ghost" id="coreNewWorkspace" type="button">+ Uusi työtila</button></div></div><p class="core-runtime-notice">Agenttisopimukset, työkaluvälittäjä ja mallireititin ovat yhteisiä alustasopimuksia. Työtilatyyppi, perustuslakisopimus, orkesterit, ajoprofiilit, ajot, artefaktisäilö ja ulostuloadapteri kuuluvat valitulle työtilalle. Uusi tyhjä työtila ei näe Anomancerin sisältöä.</p><div class="workspace-contract-summary" id="workspaceContractSummary"></div><div class="core-workspace-list" id="coreWorkspaces"></div></section></details>
-<details class="core-machine-disclosure"><summary><span>Agentit</span><small>roolit · kyvykkyydet · ajoprofiilit</small></summary><section class="core-section"><div class="core-section-head"><div><p class="kicker">AGENTTIREKISTERI</p><h4>Sopimusagentit</h4></div><span>kyvykkyys ≠ lupa ≠ toimivalta ≠ tavoite</span></div><div class="core-agent-grid" id="coreAgents"></div></section></details>
-<details class="core-machine-disclosure"><summary><span>Työkalut ja käytännöt</span><small>broker · luvat · estot</small></summary><section class="core-section"><div class="core-section-head"><div><p class="kicker">TYÖKALUVÄLITTÄJÄ</p><h4>Työkalurekisteri + käytäntöportti</h4></div><span>oletus: estä · implisiittisiä työkaluja = 0 · vain ihmiselle rajattu pysyy ihmisellä</span></div><div class="core-tool-policy-grid" id="coreTools"></div><div class="core-policy-log-head"><strong>Käytäntöloki</strong><span>salli / estä / ihminen vaaditaan · ei raakaa syötettä</span></div><div class="core-policy-log" id="corePolicyLog"></div></section></details>
-<details class="core-machine-disclosure"><summary><span>Mallit ja reititys</span><small>providerit · loogiset reitit</small></summary><section class="core-section"><div class="core-section-head"><div><p class="kicker">MALLIREITITIN</p><h4>Palveluntarjoajat + loogiset reitit</h4></div><span>tutkimus / kirjoitus / kritiikki · varareitti vain sallittuihin mallikohteisiin</span></div><div class="core-model-router-grid" id="coreModelRouter"></div></section></details>
-<details class="core-machine-disclosure"><summary><span>Orkesterit</span><small>työnkulut · mukautetut sopimukset</small></summary><section class="core-section"><div class="core-section-head"><div><p class="kicker">ORKESTERIREKISTERI</p><h4>Orkesterit</h4></div><div class="core-section-actions"><span>sisäänrakennettu + palvelimella validoitu mukautettu</span><button class="ghost" id="coreNewOrchestra" type="button">+ Uusi orkesteri</button></div></div><div id="coreOrchestras"></div><div class="core-policy-log-head"><strong>Mukautettujen orkestereiden varasto</strong><span id="coreOrchestraStoreState">ladataan…</span></div><div class="core-orchestra-custom-list" id="coreCustomOrchestras"></div></section></details>
-<details class="core-machine-disclosure"><summary><span>Ajot ja käyttö</span><small>historia · tokenit · kustannus</small></summary><section class="core-section core-run-explorer-section">
+<details class="core-machine-disclosure" id="coreMachineWorkspace"><summary><span>Työtilat ja rajat</span><small>konteksti · perustuslaki · aineistoraja</small></summary><section class="core-section core-workspace-section"><div class="core-section-head"><div><p class="kicker">TYÖTILAREKISTERI</p><h4>Työtilat + sopimusraja</h4></div><div class="core-section-actions"><span id="coreWorkspaceState">ladataan…</span><button class="ghost" id="coreNewWorkspace" type="button">+ Uusi työtila</button></div></div><p class="core-runtime-notice">Agenttisopimukset, työkaluvälittäjä ja mallireititin ovat yhteisiä alustasopimuksia. Työtilatyyppi, perustuslakisopimus, orkesterit, ajoprofiilit, ajot, artefaktisäilö ja ulostuloadapteri kuuluvat valitulle työtilalle. Uusi tyhjä työtila ei näe Anomancerin sisältöä.</p><div class="workspace-contract-summary" id="workspaceContractSummary"></div><div class="core-workspace-list" id="coreWorkspaces"></div></section></details>
+<details class="core-machine-disclosure" id="coreMachineAgents"><summary><span>Agentit</span><small>roolit · kyvykkyydet · ajoprofiilit</small></summary><section class="core-section"><div class="core-section-head"><div><p class="kicker">AGENTTIREKISTERI</p><h4>Sopimusagentit</h4></div><span>kyvykkyys ≠ lupa ≠ toimivalta ≠ tavoite</span></div><div class="core-agent-grid" id="coreAgents"></div></section></details>
+<details class="core-machine-disclosure" id="coreMachinePolicies"><summary><span>Työkalut ja käytännöt</span><small>broker · luvat · estot</small></summary><section class="core-section"><div class="core-section-head"><div><p class="kicker">TYÖKALUVÄLITTÄJÄ</p><h4>Työkalurekisteri + käytäntöportti</h4></div><span>oletus: estä · implisiittisiä työkaluja = 0 · vain ihmiselle rajattu pysyy ihmisellä</span></div><div class="core-tool-policy-grid" id="coreTools"></div><div class="core-policy-log-head"><strong>Käytäntöloki</strong><span>salli / estä / ihminen vaaditaan · ei raakaa syötettä</span></div><div class="core-policy-log" id="corePolicyLog"></div></section></details>
+<details class="core-machine-disclosure" id="coreMachineModels"><summary><span>Mallit ja reititys</span><small>providerit · loogiset reitit</small></summary><section class="core-section"><div class="core-section-head"><div><p class="kicker">MALLIREITITIN</p><h4>Palveluntarjoajat + loogiset reitit</h4></div><span>tutkimus / kirjoitus / kritiikki · varareitti vain sallittuihin mallikohteisiin</span></div><div class="core-model-router-grid" id="coreModelRouter"></div></section></details>
+<details class="core-machine-disclosure" id="coreMachineOrchestras"><summary><span>Orkesterit</span><small>työnkulut · mukautetut sopimukset</small></summary><section class="core-section"><div class="core-section-head"><div><p class="kicker">ORKESTERIREKISTERI</p><h4>Orkesterit</h4></div><div class="core-section-actions"><span>sisäänrakennettu + palvelimella validoitu mukautettu</span><button class="ghost" id="coreNewOrchestra" type="button">+ Uusi orkesteri</button></div></div><div id="coreOrchestras"></div><div class="core-policy-log-head"><strong>Mukautettujen orkestereiden varasto</strong><span id="coreOrchestraStoreState">ladataan…</span></div><div class="core-orchestra-custom-list" id="coreCustomOrchestras"></div></section></details>
+<details class="core-machine-disclosure" id="coreMachineRuns"><summary><span>Ajot ja käyttö</span><small>historia · tokenit · kustannus</small></summary><section class="core-section core-run-explorer-section">
 <div class="core-section-head"><div><p class="kicker">AJOJEN TARKASTELU</p><h4>Ajot + Käyttömittaus</h4></div><span id="coreRunStoreState">palvelinpuoli · ei raakaa syötettä · ei raakaa tulostetta</span></div>
 <div class="core-usage-strip">
 <article><span>Ajoja yhteensä</span><strong id="coreUsageRuns">0</strong></article>
