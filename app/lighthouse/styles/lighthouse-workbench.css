@@ -1,0 +1,6 @@
+
+/* Lighthouse shell: primary navigation lives in Valikko.
+   Keep the top header visually minimal. */
+.lighthouse-app-header .lighthouse-depth-nav{
+  display:none!important;
+}
