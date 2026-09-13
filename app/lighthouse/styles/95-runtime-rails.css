@@ -680,7 +680,7 @@ body::before{
 
   .one-room-shell .work-nav-modes{display:none!important}
   .one-room-shell .work-nav{margin-bottom:10px;min-height:36px}
-  .one-room-shell .work-nav .quiet{min-height:40px;padding:8px 11px}
+  .one-room-shell .work-nav .quiet{min-height:44px;padding:8px 11px}
   .one-room-shell .work{padding:10px 10px max(24px,env(safe-area-inset-bottom))}
   .one-room-shell .result-card{padding:18px 15px;border-radius:16px}
   .one-room-shell .result-card h1{max-width:none;margin:6px 0 13px;font-size:clamp(1.35rem,6vw,1.7rem)}
