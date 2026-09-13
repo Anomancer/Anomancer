@@ -256,7 +256,14 @@ try{
       return style.display!=='none'&&style.visibility!=='hidden'&&box.width>0&&box.height>0;
     })
     .map(node=>node.getBoundingClientRect().height));
-  assert.ok(Math.min(...controlHeights)>=44);
+  const minControlHeight=Math.min(...controlHeights);
+  console.log('mobile control heights:', minControlHeight, await phone.evaluate(()=>[...document.querySelectorAll('button,input,textarea,select')]
+    .filter(node=>{
+      const style=getComputedStyle(node),box=node.getBoundingClientRect();
+      return style.display!=='none'&&style.visibility!=='hidden'&&box.width>0&&box.height>0;
+    })
+    .map(node=>({id:node.id,className:node.className,tag:node.tagName,height:node.getBoundingClientRect().height}))));
+  assert.ok(minControlHeight>=44);
   await mobile.close();
 
   console.log('✓ Lighthouse browser E2E · D0 → D1 → D2/D3 · desktop + mobile + axe');
