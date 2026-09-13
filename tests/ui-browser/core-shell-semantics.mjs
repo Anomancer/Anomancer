@@ -16,7 +16,7 @@ const workspaces=read('admin-workspaces.js');
 const worker=read('lighthouse-sw.js');
 
 await test('Julkaisu ja Core ovat 16.8.4',()=>{
-  assert.match(pkg.version,/^1\.35\./);
+  assert.match(pkg.version,/^1\.36\./);
   assert.equal(CORE_VERSION,'1.18.7');
   const releaseVersion=pkg.version.match(/^(\d+\.\d+\.\d+)/)?.[1];
   assert.ok(releaseVersion,'package semver missing');
@@ -26,9 +26,9 @@ await test('Julkaisu ja Core ovat 16.8.4',()=>{
 
 await test('Globaali Lighthouse-valikko sisältää kanoniset ylätason kohteet',()=>{
   const routes=[...html.matchAll(/<button[^>]+data-shell-route="([^"]+)"/g)].map(match=>match[1]);
-  assert.deepEqual([...new Set(routes)],['dashboard','workspace','archive','runs','machine','publications','settings']);
+  assert.deepEqual([...new Set(routes)],['dashboard','workspace','runs','workspaces','machine','publications','archive','settings']);
   assert.match(html,/>Mancerit</);
-  assert.match(html,/>Nykyinen työ</);
+  assert.match(html,/>Työ</);
   assert.match(html,/>Arkisto</);
   assert.match(html,/>Konehuone</);
   assert.match(html,/>Työpöytä</);

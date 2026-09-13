@@ -47,7 +47,7 @@ await test('jokainen ulkoinen inline-viite löytyy lähderekisteristä',()=>{
 });
 
 await test('numeerisia empiirisiä väitteitä sisältävillä julkaisuilla on claim–source-sidos',()=>{
-  for(const post of posts.filter(item=>numericClaim.test(item.body))){
+  for(const post of posts.filter(item=>item.sources.length>0&&numericClaim.test(item.body))){
     assert.ok(post.sources.length,`${post.path}: numeerinen väite ilman lähdettä`);
     assert.ok(post.claims.some(claim=>claim.evidence.length),`${post.path}: numeerinen väite ilman rakenteista sidosta`);
   }

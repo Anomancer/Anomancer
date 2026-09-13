@@ -6,6 +6,7 @@ import {getMancerPackage} from './mancer-registry.js';
 import {getCapability,listCapabilities} from '../core/capabilities/registry.js';
 import {createComputeSession,executeComputeCapability} from './compute-runtime.js';
 import {executeTaskGraph} from '../core/runtime/task-graph-executor.js';
+import {buildTaskGraph} from '../core/runtime/task-graph.js';
 
 export const HANDS_EXECUTION_FORMAT='anomancer-hands-execution/v1';
 
@@ -280,15 +281,27 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
       webFetchUsed=true;
       return urls.length;
     },
-    'research.search':async()=>{
+    'source.search':async()=>{
       searchQuerySent=true;
       const results=await braveSearch(intent.text);
       searchedWeb=true;
       for(const item of results){
-        sources.push({type:'search-result',title:item.title,url:item.url});
-        context.push(contextBlock('search',item.title,item.text,{url:item.url,untrusted:true}));
+        sources.push({
+          type:'search-result',
+          capabilityId:'source.search',
+          title:item.title,
+          url:item.url
+        });
+        context.push(contextBlock('search',item.title,item.text,{
+          url:item.url,
+          capabilityId:'source.search',
+          untrusted:true
+        }));
       }
       return results.length;
+    },
+    'research.search':async()=>{
+      return handlers['source.search']();
     },
     'repository.read':async()=>{
       const paths=extractRepoPaths(intent.text);
@@ -330,7 +343,12 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
     return handlers[id];
   }
 
-  const taskGraphRun=await executeTaskGraph(taskGraph||{format:'anomancer-task-graph/v1',nodes:[],stages:[]},{
+  const effectiveTaskGraph=taskGraph||buildTaskGraph({
+    problem:route.problem||{},
+    capabilityRoute
+  });
+
+  const taskGraphRun=await executeTaskGraph(effectiveTaskGraph,{
     concurrency:4,
     timeoutMs:20_000,
     retry:1,
@@ -339,7 +357,7 @@ export async function executeLighthouseHands({intent={},route={},capabilityRoute
       const id=String(node.id);
       const handler=handlerFor(id);
       if(typeof handler!=='function')return {skipped:true,reason:'no-runtime-adapter'};
-      return run(id,handler,{adapter:id==='document.read'?'workspace-context':id.startsWith('data.')||id.startsWith('statistics.')||id.startsWith('timeseries.')?'compute.tabular.v1':String(getCapability(id)?.runtimeAdapter||id),external:['web.fetch','research.search'].includes(id),swallow:false});
+      return run(id,handler,{adapter:id==='document.read'?'workspace-context':id.startsWith('data.')||id.startsWith('statistics.')||id.startsWith('timeseries.')?'compute.tabular.v1':String(getCapability(id)?.runtimeAdapter||id),external:['web.fetch','source.search','research.search'].includes(id),swallow:false});
     }
   });
 
