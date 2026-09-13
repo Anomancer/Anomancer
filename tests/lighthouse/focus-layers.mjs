@@ -12,7 +12,7 @@ const shell=fs.readFileSync('admin-shell.js','utf8');
 const workspaces=fs.readFileSync('admin-workspaces.js','utf8');
 const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
 let ok=0;const test=(name,fn)=>{fn();ok++;console.log(`✓ ${name}`)};
-test('release tunnistaa Wayfinding-vaiheen',()=>assert.match(pkg.version,/^1\.26\./));
+test('release tunnistaa Wayfinding-vaiheen',()=>assert.match(pkg.version,/^1\.36\./));
 test('desktopin esikatselu on opt-in eikä oletus',()=>{assert.match(admin,/preview:false/);assert.match(admin,/layout\.preview=layout\.preview===true/);assert.doesNotMatch(html,/checked[^>]*id="previewToggle"/);});
 test('Anomancer ei näytä kahta rinnakkaista editorinavigaatiota desktopilla',()=>assert.match(shellCss,/editorial-platform.*\.editor-tabs\{display:none\}/));
 test('orkesterivalinta näkyy vasta agentti- ja orkesterityössä',()=>{assert.match(admin,/dataset\.editorView=name/);assert.match(shellCss,/data-editor-view="agents"/);});

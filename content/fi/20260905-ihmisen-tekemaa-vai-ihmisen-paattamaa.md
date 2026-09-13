@@ -12,8 +12,8 @@ aliases: []
 coverImage: ""
 coverAlt: ""
 answer: ""
-sources: []
-claims: []
+sources: [{"id":"src-ihmisentekemaa","title":"Ihmisen tekemää","url":"https://ihmisentekemaa.fi/","publisher":"Ihmisen tekemää","date":"","origin":"source-agent","verification":"candidate","retrievedAt":"","why":"Hankkeen oma sivusto.","supports":"Tukee artikkelin kuvausta Ihmisen tekemää -hankkeen tavoitteista ja sen omasta kuvauksesta.","challenges":"","verifiedBy":"","verifiedAt":"","verificationMethod":"","verificationEvidence":"","verificationNotes":""}]
+claims: [{"status":"open","text":"Ihmisen tekemää -hankkeen omalla sivustolla kuvataan hankkeen tavoitetta ja sen näkemystä synteettisen sisällön vaikutuksesta ihmisen ääneen.","evidence":["https://ihmisentekemaa.fi/"],"note":"Claim kuvaa hankkeen omaa esitystä eikä itsessään vahvista hankkeen väitettä todeksi."}]
 citationMode: "inline"
 citationPlacements: []
 visualizations: []

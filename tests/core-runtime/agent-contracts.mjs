@@ -34,7 +34,10 @@ test('julkaisupaketti ei saa kirjoittaa Evidence Layeria uusiksi tai pudottaa l�
   const result=validateAgentResult('package',{title:'Uusi otsikko',sources:[],claims:[{status:'supported',text:'Keksitty väite',evidence:[verified.url]}]},sourcePost);
   assert.equal(result.title,'Uusi otsikko');
   assert.deepEqual(result.sources,sourcePost.sources);
-  assert.deepEqual(result.claims,sourcePost.claims);
+  assert.deepEqual(result.claims,sourcePost.claims.map(claim=>({
+    ...claim,
+    contradictions:[]
+  })));
 });
 test('julkaisupaketti ei voi keksiä lähdettä tai taksonomiaa',()=>{
   const result=validateAgentResult('package',{category:'made-up',audience:['wizard'],sources:[verified,{title:'Fake',url:'https://fake.example/x'}],claims:[]},post);

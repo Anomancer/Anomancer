@@ -231,29 +231,24 @@ try{
   assert.ok(width.scroll-width.inner<=1,`Mobiili vuotaa vaakasuunnassa: ${JSON.stringify(width)}`);
   assert.equal(await phone.locator('#statePill').evaluate(node=>getComputedStyle(node).display),'none');
 
-  const depthButton=phone.locator('#mobileDepthNav [data-depth-target="trustDetails"]');
-  await depthButton.click();
-  assert.equal(await phone.locator('#depthInspector').isVisible(),true);
-  assert.equal(await phone.locator('#resultCard').isVisible(),false);
-  assert.equal(await phone.locator('#depthInspector').getAttribute('aria-modal'),null);
-  assert.deepEqual(violations(await axe(phone)),[],'mobile D2 accessibility');
-
-  await phone.locator('#depthBack').click();
-  assert.equal(await phone.locator('#resultCard').isVisible(),true);
-  await phone.waitForFunction(
-    ()=>document.activeElement?.dataset?.depthTarget==='trustDetails'
-  );
-  assert.equal(
-    await phone.evaluate(()=>document.activeElement?.dataset?.depthTarget||''),
-    'trustDetails'
-  );
-
   await phone.locator('#moreDepthButton').click();
   assert.equal(await phone.locator('#moreDepthMenu').isVisible(),true);
   await phone.locator('#moreDepthMenu [data-depth-target="machineDetails"]').click();
   assert.equal(await phone.locator('#depthInspector').isVisible(),true);
+  assert.equal(await phone.locator('#resultCard').isVisible(),false);
+  assert.equal(await phone.locator('#depthInspector').getAttribute('aria-modal'),null);
   assert.match(await phone.locator('#depthInspectorTitle').textContent(),/Konehuone/);
+  assert.deepEqual(violations(await axe(phone)),[],'mobile D5 accessibility');
+
   await phone.locator('#depthBack').click();
+  assert.equal(await phone.locator('#resultCard').isVisible(),true);
+  await phone.waitForFunction(
+    ()=>document.activeElement?.id==='moreDepthButton'
+  );
+  assert.equal(
+    await phone.evaluate(()=>document.activeElement?.id||''),
+    'moreDepthButton'
+  );
 
   const controlHeights=await phone.evaluate(()=>[...document.querySelectorAll('button,input,textarea,select')]
     .filter(node=>{
@@ -261,7 +256,14 @@ try{
       return style.display!=='none'&&style.visibility!=='hidden'&&box.width>0&&box.height>0;
     })
     .map(node=>node.getBoundingClientRect().height));
-  assert.ok(Math.min(...controlHeights)>=44);
+  const minControlHeight=Math.min(...controlHeights);
+  console.log('mobile control heights:', minControlHeight, await phone.evaluate(()=>[...document.querySelectorAll('button,input,textarea,select')]
+    .filter(node=>{
+      const style=getComputedStyle(node),box=node.getBoundingClientRect();
+      return style.display!=='none'&&style.visibility!=='hidden'&&box.width>0&&box.height>0;
+    })
+    .map(node=>({id:node.id,className:node.className,tag:node.tagName,height:node.getBoundingClientRect().height}))));
+  assert.ok(minControlHeight>=44);
   await mobile.close();
 
   console.log('✓ Lighthouse browser E2E · D0 → D1 → D2/D3 · desktop + mobile + axe');
